@@ -4,11 +4,11 @@ using System;
 
 namespace OrderElimination
 {
-    public class UnitModel : ISelectable, IMovable
+    public class CharacterModel : ISquadMember
     {
         private Vector2Int _position;
         private readonly List<Ability> _abilites;
-        public int rang { get; private set; } // зависит от характеристик персонажа
+        private int _rang; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         private float _expirience;
         private float _health;
         private float _damage;
@@ -20,7 +20,7 @@ namespace OrderElimination
         public event Action Selected;
         public event Action Unselected;
 
-        public UnitModel()
+        public CharacterModel()
         {
             _abilites = new List<Ability>();
             _position = Vector2Int.zero;
@@ -45,6 +45,11 @@ namespace OrderElimination
         public void Unselect()
         {
             Unselected?.Invoke();
+        }
+
+        public int GetStats()
+        {
+            return _rang;
         }
     }
 }

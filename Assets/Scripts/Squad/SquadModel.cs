@@ -9,33 +9,33 @@ namespace OrderElimination
 {
     public class SquadModel : ISelectable, IMovable
     {
-        private List<Unit> _units;
+        private List<ISquadMember> _units;
         private int _rang;
 
         public int AmountOfUnits => _units.Count;
-        public IReadOnlyList<Unit> Units => _units;
+        public IReadOnlyList<ISquadMember> Units => _units;
 
         public event Action<Vector2Int> Moved;
         public event Action Selected;
         public event Action Unselected;
 
-        public SquadModel(List<Unit> units)
+        public SquadModel(List<ISquadMember> units)
         {
             _units = units;
             _rang = 0;
             foreach (var unit in units)
             {
-                _rang += unit.Rang;
+                _rang += unit.GetStats();
             }
             _rang /= AmountOfUnits;
         }
 
-        public void AddUnit(Unit unit)
+        public void AddUnit(Character unit)
         {
             _units.Add(unit);
         }
 
-        public void RemoveUnit(Unit unit)
+        public void RemoveUnit(Character unit)
         {
             if (!_units.Contains(unit))
                 throw new ArgumentException("No such unit in squad");

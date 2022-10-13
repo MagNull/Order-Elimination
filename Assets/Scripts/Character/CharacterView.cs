@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace OrderElimination
 {
-    public class UnitView
+    public class CharacterView
     {
-        public UnitView()
+        public CharacterView()
         {
 
         }

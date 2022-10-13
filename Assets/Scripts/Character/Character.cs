@@ -3,18 +3,18 @@ using UnityEngine;
 
 namespace OrderElimination
 {
-    public class Unit : MonoBehaviour, ISelectable, IMovable
+    public class Character : MonoBehaviour, ISquadMember
     {
-        private UnitModel _model;
-        private UnitView _view;
-        private UnitPresenter _presenter;
-        public int Rang => _model.rang;
+        private CharacterModel _model;
+        private CharacterView _view;
+        private CharacterPresenter _presenter;
+        public int Rang => _model.GetStats();
 
         private void Awake() 
         {
-            _model = new UnitModel();
-            _view = new UnitView();
-            _presenter = new UnitPresenter(_model, _view);    
+            _model = new CharacterModel();
+            _view = new CharacterView();
+            _presenter = new CharacterPresenter(_model, _view);    
         }
 
         public void Move(Vector2Int position) => _model.Move(position);
@@ -34,5 +34,7 @@ namespace OrderElimination
         {
             _presenter.Unsubscribe();
         }
+
+        public int GetStats() =>_model.GetStats();
     }
 }

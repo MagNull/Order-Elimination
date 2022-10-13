@@ -30,12 +30,12 @@ namespace OrderElimination
             _opponents = opponents;
         }
 
-        public void AddOpponent(Unit unit)
+        public void AddOpponent(Character unit)
         {
             _opponents.AddUnit(unit);
         }
 
-        public void RemoveOpponent(Unit unit)
+        public void RemoveOpponent(Character unit)
         {
             _opponents.RemoveUnit(unit);
         }

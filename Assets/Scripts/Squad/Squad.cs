@@ -12,18 +12,18 @@ namespace OrderElimination
         private SquadPresenter _presenter;
 
         public int AmountOfUnits => _model.AmountOfUnits;
-        public IReadOnlyList<Unit> Units => _model.Units;
+        public IReadOnlyList<ISquadMember> Units => _model.Units;
 
         private void Awake()
         {
-            _model = new SquadModel(new List<Unit>());
+            _model = new SquadModel(new List<ISquadMember>());
             _view = new SquadView();
             _presenter = new SquadPresenter(_model, _view);
         }
 
-        public void AddUnit(Unit unit) => _model.AddUnit(unit);
+        public void AddUnit(Character unit) => _model.AddUnit(unit);
 
-        public void RemoveUnit(Unit unit) => _model.RemoveUnit(unit);
+        public void RemoveUnit(Character unit) => _model.RemoveUnit(unit);
 
         public void Move(Vector2Int position) => _model.Move(position);
 

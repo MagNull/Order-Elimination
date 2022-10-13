@@ -4,11 +4,11 @@ using System;
 
 namespace OrderElimination
 {
-    public class UnitPresenter
+    public class CharacterPresenter
     {
-        private readonly UnitModel _model;
-        private readonly UnitView _view;
-        public UnitPresenter(UnitModel model, UnitView view)
+        private readonly CharacterModel _model;
+        private readonly CharacterView _view;
+        public CharacterPresenter(CharacterModel model, CharacterView view)
         {
             _model = model;
             _view = view;
