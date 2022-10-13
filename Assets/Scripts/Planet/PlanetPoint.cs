@@ -1,43 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using UnityEngine;
 
 namespace OrderElimination
 {
-    //Подумать надо ли
-    enum PointType
+    public class PlanetPoint : MonoBehaviour
     {
-        Base,
-        Hearth,
-        EnemyBase
-    }
+        private PlanetInfo _planetInfo;
+        private PlanetView _planetView;
 
-    public class PlanetPoint
-    {
-        private string _name;
-        private Squad _opponents;
-        private PointType _type;
 
-        public int сhanceOfItems { get; private set; }
-        public int chanceOfFightingBack { get; private set; }
-        public float expirience { get; private set; }
-
-        public PlanetPoint(string name, Squad opponents)
+        public PlanetPoint(Squad squad, Squad opponents)
         {
-            _name = name;
-            _opponents = opponents;
+            _planetInfo = new PlanetInfo(squad, opponents);
+            _planetView = new PlanetView();
         }
 
-        public void AddOpponent(Character unit)
-        {
-            _opponents.AddUnit(unit);
-        }
+        public void MoveSquad(Vector2Int position) => _planetInfo.MoveSquad(position);
 
-        public void RemoveOpponent(Character unit)
+        public void AddOpponent(Character character) => _planetInfo.AddOpponent(character);
+
+        public void RemoveOpponent(Character character) => _planetInfo.RemoveOpponent(character);
+
+        public PlanetInfo GetPlanetInfo()
         {
-            _opponents.RemoveUnit(unit);
+            return _planetInfo;
         }
     }
 }

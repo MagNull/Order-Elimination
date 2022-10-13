@@ -14,7 +14,7 @@ namespace OrderElimination
         public override void Start() { }
         public override void End()
         {
-            base._squad.DistributeExperience(base._target.expirience * amountOfExpirience);
+            base._squad.DistributeExperience(base._target.GetPlanetInfo().expirience * amountOfExpirience);
         }
     }
 }

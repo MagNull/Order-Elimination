@@ -15,7 +15,7 @@ namespace OrderElimination
 
         public override void End()
         {
-            base._squad.DistributeExperience(base._target.expirience);
+            base._squad.DistributeExperience(base._target.GetPlanetInfo().expirience);
             //Смена типа PlanetPoint 
         }
     }

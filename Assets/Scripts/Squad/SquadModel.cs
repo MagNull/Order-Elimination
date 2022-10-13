@@ -9,52 +9,52 @@ namespace OrderElimination
 {
     public class SquadModel : ISelectable, IMovable
     {
-        private List<ISquadMember> _units;
+        private List<ISquadMember> _characters;
         private int _rang;
 
-        public int AmountOfUnits => _units.Count;
-        public IReadOnlyList<ISquadMember> Units => _units;
+        public int AmountOfCharacters => _characters.Count;
+        public IReadOnlyList<ISquadMember> Characters => _characters;
 
         public event Action<Vector2Int> Moved;
         public event Action Selected;
         public event Action Unselected;
 
-        public SquadModel(List<ISquadMember> units)
+        public SquadModel(List<ISquadMember> characters)
         {
-            _units = units;
+            _characters = characters;
             _rang = 0;
-            foreach (var unit in units)
+            foreach (var character in _characters)
             {
-                _rang += unit.GetStats();
+                _rang += character.GetStats();
             }
-            _rang /= AmountOfUnits;
+            _rang /= AmountOfCharacters;
         }
 
-        public void AddUnit(Character unit)
+        public void AddCharacter(Character character)
         {
-            _units.Add(unit);
+            _characters.Add(character);
         }
 
-        public void RemoveUnit(Character unit)
+        public void RemoveCharacter(Character character)
         {
-            if (!_units.Contains(unit))
-                throw new ArgumentException("No such unit in squad");
-            _units.Remove(unit);
+            if (!_characters.Contains(character))
+                throw new ArgumentException("No such character in squad");
+            _characters.Remove(character);
         }
 
         public void DistributeExpirience(float expirience)
         {
-            foreach (var unit in _units)
+            foreach (var character in _characters)
             {
-                unit.RaiseExpirience(expirience / AmountOfUnits);
+                character.RaiseExpirience(expirience / AmountOfCharacters);
             }
         }
         
         public void Move(Vector2Int position)
         {
-            foreach(var unit in _units)
+            foreach(var character in _characters)
             {
-                unit.Move(position);
+                character.Move(position);
             }
             Moved?.Invoke(position);
         }

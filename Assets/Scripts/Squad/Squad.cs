@@ -11,8 +11,8 @@ namespace OrderElimination
         private SquadView _view;
         private SquadPresenter _presenter;
 
-        public int AmountOfUnits => _model.AmountOfUnits;
-        public IReadOnlyList<ISquadMember> Units => _model.Units;
+        public int AmountOfCharacters => _model.AmountOfCharacters;
+        public IReadOnlyList<ISquadMember> Characters => _model.Characters;
 
         private void Awake()
         {
@@ -21,9 +21,9 @@ namespace OrderElimination
             _presenter = new SquadPresenter(_model, _view);
         }
 
-        public void AddUnit(Character unit) => _model.AddUnit(unit);
+        public void AddCharacter(Character character) => _model.AddCharacter(character);
 
-        public void RemoveUnit(Character unit) => _model.RemoveUnit(unit);
+        public void RemoveCharacter(Character character) => _model.RemoveCharacter(character);
 
         public void Move(Vector2Int position) => _model.Move(position);
 
