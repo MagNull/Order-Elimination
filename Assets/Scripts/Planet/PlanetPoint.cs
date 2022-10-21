@@ -23,11 +23,15 @@ namespace OrderElimination
             squad.Move(_planetView.GetPoisitionOnMap());
         }
 
-        public void RemoveSquad(){ }
-
         private void AddSquad(Squad squad)
         {
             _squads.Add(squad);
+        }
+
+        public void RemoveSquad(Squad squad)
+        {
+            if(_squads.Contains(squad))
+                _squads.Remove(squad);
         }
     }
 }
