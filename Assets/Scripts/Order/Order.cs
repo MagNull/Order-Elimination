@@ -1,12 +1,4 @@
-﻿using OrderElimination;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
-
-namespace OrderElimination
+﻿namespace OrderElimination
 {
     public abstract class Order
     {

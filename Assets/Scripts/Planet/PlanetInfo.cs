@@ -9,8 +9,8 @@ namespace OrderElimination
         private Squad _squad;
         private Squad _opponents;
 
-        public int сhanceOfItems { get; private set; }
-        public int chanceOfFighting {get; private set;}
+        public int LootChance { get; private set; }
+        public int FightingChance {get; private set;}
         public int chanceOfFightingBack { get; private set; }
         public float expirience { get; private set; }
         

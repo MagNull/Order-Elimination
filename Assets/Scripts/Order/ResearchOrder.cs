@@ -1,11 +1,4 @@
-﻿using OrderElimination;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OrderElimination
+﻿ namespace OrderElimination
 {
     public class ResearchOrder : Order
     {
@@ -14,7 +7,7 @@ namespace OrderElimination
         public override void Start() { }
         public override void End()
         {
-            base._squad.DistributeExperience(base._target.GetPlanetInfo().expirience * amountOfExpirience);
+            _squad.DistributeExperience(base._target.GetPlanetInfo().expirience * amountOfExpirience);
         }
     }
 }
