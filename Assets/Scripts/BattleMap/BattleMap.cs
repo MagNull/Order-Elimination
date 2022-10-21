@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -59,7 +57,7 @@ public class BattleMap : MonoBehaviour
                 }
             }
         }
-        Debug.Log("Объект не найден на поле!");
+        Debug.LogError("Объект не найден на поле!");
         return new Vector2Int(-1, -1);
     }
 }

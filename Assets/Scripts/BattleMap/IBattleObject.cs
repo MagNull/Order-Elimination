@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface IBattleObject
 {
+    //Rofl
     public void GetView();
 }
