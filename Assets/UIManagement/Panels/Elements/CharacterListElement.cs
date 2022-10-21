@@ -20,46 +20,55 @@ namespace UIManagement.Elements
 
         public string MaintenanceText
         {
-            get => _maintenancePriceText.text;
-            set => _maintenancePriceText.text = value;
+            get => _maintenanceCost.Text;
+            set => _maintenanceCost.Text = value;
         }
 
-        public string MaintenancePrice
+        public string MaintenanceCost
         {
-            get => _maintenancePriceValue.text;
-            set => _maintenancePriceValue.text = value;
+            get => _maintenanceCost.Value;
+            set => _maintenanceCost.Value = value;
         }
 
-        [SerializeField] private RectTransform _statsLayoutHolder;
         [SerializeField] private TextMeshProUGUI _characterName;
-        [SerializeField] private TextMeshProUGUI _maintenancePriceText;
-        [SerializeField] private TextMeshProUGUI _maintenancePriceValue;
-        //[SerializeField] private IconTextValueList _stats;
-        private readonly List<IconTextValueElement> _stats = new List<IconTextValueElement>();
+        [SerializeField] private IconTextValueElement _maintenanceCost;
+        [SerializeField] private IconTextValueList _parametersList;
+        public Character CharacterInfo { get; private set; }
 
-        private void Awake()
+        public bool HasMaintenanceCost
         {
-
+            get => _maintenanceCost.gameObject.activeSelf;
+            set => _maintenanceCost.gameObject.SetActive(value);
         }
 
-        private void Start()
+        public bool HasParameters
         {
-            Setup(new Character());
+            get => _parametersList.gameObject.activeSelf;
+            set => _parametersList.gameObject.SetActive(value);
         }
 
-        private void Setup(Character character)
-        {
-            var battleStats = character.GetBattleStats();
-            var strategyStats = character.GetStrategyStats();
-            CharacterName = character.Name;
-            _maintenancePriceText.text = "Содержание бойца";
-            MaintenancePrice = strategyStats.MaintenanceCost.ToString();
+        public event Action<CharacterListElement> Destroyed;
 
-            _stats.Add(UICommonElementsBuilder.CreateIconTextValueElement(null, "Здоровье", battleStats.HP.ToString(), _statsLayoutHolder));
-            _stats.Add(UICommonElementsBuilder.CreateIconTextValueElement(null, "Урон", battleStats.Attack.ToString(), _statsLayoutHolder));
-            _stats.Add(UICommonElementsBuilder.CreateIconTextValueElement(null, "Броня", battleStats.Armor.ToString(), _statsLayoutHolder));
-            _stats.Add(UICommonElementsBuilder.CreateIconTextValueElement(null, "Уклонение", battleStats.Evasion.ToString(), _statsLayoutHolder));
-            _stats.Add(UICommonElementsBuilder.CreateIconTextValueElement(null, "Точность", battleStats.Accuracy.ToString(), _statsLayoutHolder));
+        public void UpdateCharacterInfo(Character character)
+        {
+            if (character == null)
+                throw new InvalidOperationException();
+            CharacterInfo = character;
+            var battleStats = CharacterInfo.GetBattleStats();
+            var strategyStats = CharacterInfo.GetStrategyStats();
+            CharacterName = CharacterInfo.Name;
+            MaintenanceText = "Содержание бойца";
+            MaintenanceCost = strategyStats.MaintenanceCost.ToString();
+            _parametersList.Add(null, "Здоровье", battleStats.HP.ToString());
+            _parametersList.Add(null, "Урон", battleStats.Attack.ToString());
+            _parametersList.Add(null, "Броня", battleStats.Armor.ToString());
+            _parametersList.Add(null, "Уклонение", battleStats.Evasion.ToString());
+            _parametersList.Add(null, "Точность", battleStats.Accuracy.ToString());
+        }
+
+        private void OnDestroy()
+        {
+            Destroyed?.Invoke(this);
         }
     }
 }

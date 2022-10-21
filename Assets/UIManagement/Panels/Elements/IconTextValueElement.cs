@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sirenix.OdinInspector;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,22 +10,27 @@ using UnityEngine.UI;
 
 namespace UIManagement.Elements
 {
+    [ExecuteInEditMode]
     public class IconTextValueElement: MonoBehaviour
     {
-        [SerializeField] private Image _iconComponent;
-        [SerializeField] private TextMeshProUGUI _textComponent;
-        [SerializeField] private TextMeshProUGUI _valueComponent;
+        [ShowInInspector, ReadOnly] private Image _iconComponent;
+        [ShowInInspector, ReadOnly] private TextMeshProUGUI _textComponent;
+        [ShowInInspector, ReadOnly] private TextMeshProUGUI _valueComponent;
+        public event Action<IconTextValueElement> Destroyed;
 
+        [ShowInInspector]
         public bool HasIcon
         {
             get => _iconComponent.gameObject.activeSelf;
             set => _iconComponent.gameObject.SetActive(value);
         }
+        [ShowInInspector]
         public bool HasText
         {
             get => _textComponent.gameObject.activeSelf;
             set => _textComponent.gameObject.SetActive(value);
         }
+        [ShowInInspector]
         public bool HasValue
         {
             get => _valueComponent.gameObject.activeSelf;
@@ -32,6 +38,7 @@ namespace UIManagement.Elements
         }
 
         private float _iconSize = 54;
+        [ShowInInspector]
         public float IconSize
         {
             get => _iconSize;
@@ -41,23 +48,28 @@ namespace UIManagement.Elements
                 _iconComponent.rectTransform.sizeDelta = Vector2.one * _iconSize;
             }
         }
-
+        [ShowInInspector]
         public Sprite Icon
         {
             get => _iconComponent.sprite;
             set => _iconComponent.sprite = value;
         }
-
+        [ShowInInspector]
         public string Text
         {
             get => _textComponent.text;
             set => _textComponent.text = value;
         }
-
+        [ShowInInspector]
         public string Value
         {
             get => _valueComponent.text;
             set => _valueComponent.text = value;
+        }
+
+        private void OnDestroy()
+        {
+            Destroyed?.Invoke(this);
         }
     }
 }

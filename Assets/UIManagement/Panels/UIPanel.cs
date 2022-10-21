@@ -11,7 +11,7 @@ namespace UIManagement
 {
     public abstract class UIPanel : MonoBehaviour, IUIPanel
     {
-        protected GameObject _gameObject;
+        protected bool _isInitialized = false;
         [SerializeField] protected TextMeshProUGUI _titleText;
 
         public event Action<IUIPanel> Opened;
@@ -22,24 +22,30 @@ namespace UIManagement
 
         public virtual void Close()
         {
-            _gameObject.SetActive(false);
+            gameObject.SetActive(false);
             Closed?.Invoke(this);
         }
 
         public virtual void Open()
         {
-            _gameObject.SetActive(true);
+            gameObject.SetActive(true);
             Opened?.Invoke(this);
         }
         protected virtual void Initialize()
         {
-            _gameObject = gameObject;
-            _titleText.text = Title;
-            name = Title;
+            if (_isInitialized)
+                return;
+            _titleText.text = name = Title;
+            _isInitialized = true;
         }
 
         protected void CallOnClosedEvent() => Closed?.Invoke(this);
 
         protected void CallOnOpenedEvent() => Opened?.Invoke(this);
+
+        protected void OnEnable()
+        {
+            Initialize();
+        }
     }
 }

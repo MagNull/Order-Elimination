@@ -31,10 +31,9 @@ namespace UIManagement
 
         private void Awake()
         {
-            _panels = GetComponentsInChildren<IUIPanel>(true).ToList();
             foreach (Transform p in transform)
                 p.gameObject.SetActive(true);
-            UICommonElementsBuilder.Initialize();
+            _panels = GetComponentsInChildren<IUIPanel>(true).ToList();
         }
 
         private void Start()
@@ -63,6 +62,11 @@ namespace UIManagement
             {
                 HideAllPanels();
                 ShowPanel(PanelType.Order);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                HideAllPanels();
+                ShowPanel(PanelType.SquadList);
             }
         }
         #endregion

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UIManagement.Debugging;
+using UIManagement.Elements;
 using UIManagement.trashToRemove_Mockups;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,25 +14,18 @@ namespace UIManagement
     {
         [SerializeField] private Button _exploreButton;
         [SerializeField] private Button _battleButton;
-        [SerializeField] private TextMeshProUGUI _exploreItemsFindChance;
-        [SerializeField] private TextMeshProUGUI _exploreExperiencePercent;
-        [SerializeField] private TextMeshProUGUI _exploreAmbushChance;
-        [SerializeField] private TextMeshProUGUI _battleItemsFindChance;
-        [SerializeField] private TextMeshProUGUI _battleExperiencePercent;
-        [SerializeField] private TextMeshProUGUI _battleEnemyLevel;
+        [SerializeField] private IconTextValueList _exploreParameters;
+        [SerializeField] private IconTextValueList _battleParameters;
 
         public event Action<OrderPanel> ExploreButtonPressed;
         public event Action<OrderPanel> BattleButtonPressed;
 
         public override PanelType PanelType => PanelType.Order;
 
-        private void Awake()
-        {
-            Initialize();
-        }
-
         protected override void Initialize()
         {
+            if (_isInitialized)
+                return;
             base.Initialize();
             _exploreButton.onClick.AddListener(OnExploreButtonPressed);
             _battleButton.onClick.AddListener(OnBattleButtonPressed);
@@ -57,13 +51,13 @@ namespace UIManagement
 
         public override void Close()
         {
-            _gameObject.SetActive(false);
+            gameObject.SetActive(false);
             CallOnClosedEvent();
         }
 
         public override void Open()
         {
-            _gameObject.SetActive(true);
+            gameObject.SetActive(true);
             CallOnOpenedEvent();
         }
 
@@ -79,12 +73,14 @@ namespace UIManagement
 
         public void UpdateOrderInfo(PlanetPointOrderInfo orderInfo)
         {
-            _exploreItemsFindChance.text = $"{orderInfo.ExploreItemsFindChance}%";
-            _exploreExperiencePercent.text = $"{orderInfo.ExploreExperiencePercent}%";
-            _exploreAmbushChance.text = $"{orderInfo.ExploreAmbushChance}%";
-            _battleItemsFindChance.text = $"{orderInfo.BattleItemsFindChance}%";
-            _battleExperiencePercent.text = $"{orderInfo.BattleExperiencePercent}%";
-            _battleEnemyLevel.text = $"{orderInfo.BattleEnemyLevel}";
+            _exploreParameters.Clear();
+            _exploreParameters.Add(null, "Предметы", $"{orderInfo.ExploreItemsFindChance}%");
+            _exploreParameters.Add(null, "Шанс отпора", $"{orderInfo.ExploreAmbushChance}%");
+            _exploreParameters.Add(null, "Кол-во опыта", $"{orderInfo.ExploreExperiencePercent}%");
+            _battleParameters.Clear();
+            _battleParameters.Add(null, "Предметы", $"{orderInfo.BattleItemsFindChance}%");
+            _battleParameters.Add(null, "Уровень врагов", $"{orderInfo.BattleEnemyLevel}%");
+            _battleParameters.Add(null, "Кол-во опыта", $"{orderInfo.BattleExperiencePercent}%");
         }
 
         #region Debugging

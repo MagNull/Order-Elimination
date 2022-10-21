@@ -42,6 +42,8 @@ namespace UIManagement.trashToRemove_Mockups
         { 
             {PanelType.Pause, "Пауза"}, 
             {PanelType.Order, "Выбор приказа"}, 
+            {PanelType.SquadList, "Список бойцов отряда"}, 
+            {PanelType.ExplorationResult, "Итоги поиска"}, 
         };
 
         public string GetWindowTitleName(PanelType windowType) => _panelTitleNames[windowType];

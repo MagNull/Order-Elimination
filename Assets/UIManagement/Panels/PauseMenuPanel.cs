@@ -39,6 +39,8 @@ namespace UIManagement
 
         protected override void Initialize()
         {
+            if (_isInitialized)
+                return;
             base.Initialize();
             _saveGameButton.onClick.AddListener(OnSaveButtonPressed);
             _loadGameButton.onClick.AddListener(OnLoadButtonPressed);
@@ -49,13 +51,13 @@ namespace UIManagement
 
         public override void Close()
         {
-            _gameObject.SetActive(false);
+            gameObject.SetActive(false);
             CallOnClosedEvent();
         }
 
         public override void Open()
         {
-            _gameObject.SetActive(true);
+            gameObject.SetActive(true);
             _musicSlider.value = MasterVolume.MusicVolume;
             _soundSlider.value = MasterVolume.SoundVolume;
             CallOnOpenedEvent();
