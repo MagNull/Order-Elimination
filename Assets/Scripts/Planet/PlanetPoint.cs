@@ -1,28 +1,33 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
 
 namespace OrderElimination
 {
-    public class PlanetPoint : MonoBehaviour
+    public class PlanetPoint
     {
         private PlanetInfo _planetInfo;
         private PlanetView _planetView;
+        private List<Squad> _squads;
 
-
-        public PlanetPoint(Squad squad, Squad opponents)
+        public PlanetPoint()
         {
-            _planetInfo = new PlanetInfo(squad, opponents);
-            _planetView = new PlanetView();
+            _squads = new List<Squad>();
         }
 
-        public void MoveSquad(Vector2Int position) => _planetInfo.MoveSquad(position);
+        public PlanetInfo GetPlanetInfo() => _planetInfo;
 
-        public void AddOpponent(Character character) => _planetInfo.AddOpponent(character);
-
-        public void RemoveOpponent(Character character) => _planetInfo.RemoveOpponent(character);
-
-        public PlanetInfo GetPlanetInfo()
+        public void MoveSquad(Squad squad)
         {
-            return _planetInfo;
+            if(_squads.Contains(squad))
+                return;
+            AddSquad(squad);
+            squad.Move(_planetView.GetPoisitionOnMap());
+        }
+
+        public void RemoveSquad(){ }
+
+        private void AddSquad(Squad squad)
+        {
+            _squads.Add(squad);
         }
     }
 }

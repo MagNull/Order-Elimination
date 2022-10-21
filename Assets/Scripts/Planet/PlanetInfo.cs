@@ -1,38 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace OrderElimination
 {
-    public class PlanetInfo
+    [CreateAssetMenu(fileName = "PlanetInfo", menuName = "Planet/New PlanetInfo")]
+    public class PlanetInfo : ScriptableObject
     {
-        private Squad _squad;
-        private Squad _opponents;
-
-        public int сhanceOfItems { get; private set; }
-        public int chanceOfFighting {get; private set;}
-        public int chanceOfFightingBack { get; private set; }
-        public float expirience { get; private set; }
+        [SerializeField] private Sprite _spriteIcon;
+        [SerializeField][Range(0, 1)] private float _сhanceOfItems;
+        [SerializeField][Range(0, 1)] private float _chanceOfFighting;
+        [SerializeField][Range(0, 1)] private float _chanceOfFightingBack;
+        [SerializeField][Range(0, float.MaxValue)] private float _expirience;
         
-        public PlanetInfo(Squad squad, Squad opponents)
-        {
-            _squad = squad;
-            _opponents = opponents;
-        }
-
-        public void MoveSquad(Vector2Int position)
-        {
-            _squad.Move(position);
-        }
-
-        public void AddOpponent(Character character)
-        {
-            _opponents.AddCharacter(character);
-        }
-
-        public void RemoveOpponent(Character character)
-        {
-            _opponents.RemoveCharacter(character);
-        }
+        public Sprite SpriteIcon => _spriteIcon;
+        public float ChanceOfItems => _сhanceOfItems;
+        public float ChanceOfFighting => _chanceOfFighting;
+        public float ChanceOfFightingBack => _chanceOfFightingBack;
+        public float Expirience => _expirience;
     }
 }

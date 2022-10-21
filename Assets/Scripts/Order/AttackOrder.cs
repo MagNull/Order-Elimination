@@ -11,12 +11,15 @@ namespace OrderElimination
     {
         public AttackOrder(PlanetPoint target, Squad squad) : base(target, squad) { }
         
-        public override void Start() { }
+        public override void Start()
+        {
+            _target.MoveSquad(_squad);
+        }
 
         public override void End()
         {
-            base._squad.DistributeExperience(base._target.GetPlanetInfo().expirience);
-            //Смена типа PlanetPoint 
+            
+            base._squad.DistributeExperience(base._target.GetPlanetInfo().Expirience);
         }
     }
 }
