@@ -229,7 +229,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7169374671303115291}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -302,14 +302,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1957582809864594987}
     m_Modifications:
-    - target: {fileID: 778782449968442113, guid: 9603a6d28b19179438888399450e63eb, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 778782449968442113, guid: 9603a6d28b19179438888399450e63eb, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1741257829020671795, guid: 9603a6d28b19179438888399450e63eb, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -398,6 +390,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CharacterListScrollView
       objectReference: {fileID: 0}
+    - target: {fileID: 5073826226716976796, guid: 9603a6d28b19179438888399450e63eb, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 5073826226716976796, guid: 9603a6d28b19179438888399450e63eb, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9603a6d28b19179438888399450e63eb, type: 3}
 --- !u!114 &752721596620677080 stripped

@@ -1,4 +1,5 @@
 ﻿using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,27 +14,27 @@ namespace UIManagement.Elements
     [ExecuteInEditMode]
     public class IconTextValueElement: MonoBehaviour
     {
-        [ShowInInspector, ReadOnly] private Image _iconComponent;
-        [ShowInInspector, ReadOnly] private TextMeshProUGUI _textComponent;
-        [ShowInInspector, ReadOnly] private TextMeshProUGUI _valueComponent;
+        [SerializeField] private Image _iconComponent;
+        [SerializeField] private TextMeshProUGUI _textComponent;
+        [SerializeField] private TextMeshProUGUI _valueComponent;
         public event Action<IconTextValueElement> Destroyed;
 
         [ShowInInspector]
         public bool HasIcon
         {
-            get => _iconComponent.gameObject.activeSelf;
+            get => _iconComponent == null ? false : _iconComponent.gameObject.activeSelf;
             set => _iconComponent.gameObject.SetActive(value);
         }
         [ShowInInspector]
         public bool HasText
         {
-            get => _textComponent.gameObject.activeSelf;
+            get => _textComponent == null ? false : _textComponent.gameObject.activeSelf;
             set => _textComponent.gameObject.SetActive(value);
         }
         [ShowInInspector]
         public bool HasValue
         {
-            get => _valueComponent.gameObject.activeSelf;
+            get => _valueComponent == null ? false : _valueComponent.gameObject.activeSelf;
             set => _valueComponent.gameObject.SetActive(value);
         }
 
@@ -51,19 +52,19 @@ namespace UIManagement.Elements
         [ShowInInspector]
         public Sprite Icon
         {
-            get => _iconComponent.sprite;
+            get => _iconComponent == null ? null : _iconComponent.sprite;
             set => _iconComponent.sprite = value;
         }
         [ShowInInspector]
         public string Text
         {
-            get => _textComponent.text;
+            get => _textComponent == null ? null : _textComponent.text;
             set => _textComponent.text = value;
         }
         [ShowInInspector]
         public string Value
         {
-            get => _valueComponent.text;
+            get => _valueComponent == null ? null : _valueComponent.text;
             set => _valueComponent.text = value;
         }
 

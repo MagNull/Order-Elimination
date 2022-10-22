@@ -6,9 +6,9 @@ using UIManagement.trashToRemove_Mockups;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ExplorationResultPanel : UIPanel, IUIPanel
+public class BattleVictoryPanel : UIPanel, IUIPanel
 {
-    public override PanelType PanelType => PanelType.ExplorationResult;
+    public override PanelType PanelType => PanelType.BattleVictory;
     [SerializeField] private IconTextValueElement _primaryCurrency;
     [SerializeField] private IconTextValueElement _specialCurrency;
     [SerializeField] private Button _continueButton;
@@ -19,20 +19,20 @@ public class ExplorationResultPanel : UIPanel, IUIPanel
     [SerializeField] private Transform _powerupsScrollList;
     [SerializeField] private PowerupElement _powerupPrefab;
 
-    public void UpdateExplorationResult(ExplorationResult explorationResult)
+    public void UpdateExplorationResult(BattleResult battleResult)
     {
-        _primaryCurrency.Value = $"+{explorationResult.PrimaryCurrencyRecieved}";
-        _specialCurrency.Value = $"+{explorationResult.SpecialCurrencyRecieved}";
+        _primaryCurrency.Value = $"+{battleResult.PrimaryCurrencyRecieved}";
+        _specialCurrency.Value = $"+{battleResult.SpecialCurrencyRecieved}";
         _characterExperienceList.HasExperienceRecieved = true;
         _characterExperienceList.HasMaintenanceCost = false;
         _characterExperienceList.HasParameters = false;
-        _characterExperienceList.Add(explorationResult.SquadCharacters.ToArray());
+        _characterExperienceList.Add(battleResult.SquadCharacters.ToArray());
         foreach (var c in _characterExperienceList)
         {
-            c.ExperienceRecieved = $"+{explorationResult.ExperienceAmount}";
+            c.ExperienceRecieved = $"+{battleResult.ExperienceAmount}";
             c.IsDead = c.IsDead;
         }
-        foreach (var p in explorationResult.PowerupsRecieved)
+        foreach (var p in battleResult.PowerupsRecieved)
         {
             var powerup = Instantiate(_powerupPrefab, _powerupsScrollList);
         }
@@ -58,7 +58,7 @@ public class ExplorationResultPanel : UIPanel, IUIPanel
     #region ToRemove
     public void Awake()
     {
-        UpdateExplorationResult(new ExplorationResult());
+        UpdateExplorationResult(new BattleResult());
         foreach (var p in _powerupsScrollList.GetComponentsInChildren<PowerupElement>())
         {
             p.ImageComponent.color = Random.ColorHSV(0, 1, 0.8f, 1f, 0.8f, 1f);

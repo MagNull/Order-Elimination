@@ -15,6 +15,7 @@ public class Editor_CharacterList : Editor
     {
         base.OnInspectorGUI();
         CharacterList list = (CharacterList)target;
+        list.HasExperienceRecieved = EditorGUILayout.Toggle("Has experience recieved", list.HasExperienceRecieved);
         list.HasMaintenanceCost = EditorGUILayout.Toggle("Has maintenance cost", list.HasMaintenanceCost);
         list.HasParameters = EditorGUILayout.Toggle("Has parameters", list.HasParameters);
         EditorGUILayout.BeginHorizontal();

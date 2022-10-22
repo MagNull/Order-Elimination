@@ -24,9 +24,9 @@ namespace UIManagement
 
         protected override void Initialize()
         {
-            if (_isInitialized)
-                return;
             base.Initialize();
+            _exploreParameters.HasIcons = _exploreParameters.HasTexts = _exploreParameters.HasValues = true;
+            _battleParameters.HasIcons = _battleParameters.HasTexts = _battleParameters.HasValues = true;
             _exploreButton.onClick.AddListener(OnExploreButtonPressed);
             _battleButton.onClick.AddListener(OnBattleButtonPressed);
         }

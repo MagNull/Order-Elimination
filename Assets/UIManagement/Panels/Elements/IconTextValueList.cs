@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Sirenix.OdinInspector;
+using Sirenix.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,14 +12,16 @@ using UnityEngine.UI;
 namespace UIManagement.Elements
 {
     [ExecuteInEditMode, RequireComponent(typeof(LayoutGroup))]
-    public class IconTextValueList: MonoBehaviour
+    public class IconTextValueList: SerializedMonoBehaviour
     {
         [SerializeField] private IconTextValueElement _elementPrefab;
+        [ListDrawerSettings(IsReadOnly = true), OdinSerialize]
         private readonly List<IconTextValueElement> _elements = new List<IconTextValueElement>();
         public IReadOnlyList<IconTextValueElement> Elements => _elements;
         public int Count => _elements.Count;
 
         private float _iconSize = 64;
+        [ShowInInspector]
         public float IconSize
         {
             get => _iconSize;
@@ -28,8 +32,9 @@ namespace UIManagement.Elements
                     e.IconSize = _iconSize;
             }
         }
-
-        private bool _hasIcons = true;
+        [OdinSerialize, HideInInspector]
+        private bool _hasIcons;
+        [ShowInInspector]
         public bool HasIcons
         {
             get => _hasIcons;
@@ -41,7 +46,9 @@ namespace UIManagement.Elements
             }
         }
 
-        private bool _hasTexts = true;
+        [OdinSerialize, HideInInspector]
+        private bool _hasTexts;
+        [ShowInInspector]
         public bool HasTexts
         {
             get => _hasTexts;
@@ -53,7 +60,9 @@ namespace UIManagement.Elements
             }
         }
 
-        private bool _hasValues = true;
+        [OdinSerialize, HideInInspector]
+        private bool _hasValues;
+        [ShowInInspector]
         public bool HasValues
         {
             get => _hasValues;
@@ -65,18 +74,20 @@ namespace UIManagement.Elements
             }
         }
 
-        public void Add(Sprite icon, string text, string value)
+        [Button]
+        public void Add(Sprite icon = null, string text = "New Text", string value = "0")
         {
             if (_elementPrefab == null)
                 throw new Exception("No given prefab for instancing.");
             var newElement = CreateIconTextValueElement(transform, icon, text, value);
-            _elements.Add(newElement);
+            newElement.HasIcon = HasIcons;
+            newElement.HasText = HasTexts;
+            newElement.HasValue = HasValues;
             newElement.Destroyed += OnElementDestroyed;
+            _elements.Add(newElement);
         }
-
-        public void Add(Sprite icon = null, string text = "New Text", float value = 0)
-            => Add(icon, text, value.ToString());
-
+        
+        [Button]
         public void RemoveAt(int index)
         {
             if (index >= Count || index < 0)
@@ -86,6 +97,7 @@ namespace UIManagement.Elements
             DestroyImmediate(element.gameObject);
         }
 
+        [Button, ShowIf("@Count>0")]
         public void Clear()
         {
             var elementsToRemove = _elements.ToList();
@@ -96,8 +108,9 @@ namespace UIManagement.Elements
             }
         }
 
-        public bool HasForeignChildren => transform.childCount != Count;
+        public bool HasForeignChildren => transform.childCount > Count;
 
+        [Button, ShowIf(nameof(HasForeignChildren))]
         public void DestroyAllChildrenNotInList()
         {
             if (!HasForeignChildren)

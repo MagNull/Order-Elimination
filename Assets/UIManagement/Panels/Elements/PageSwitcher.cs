@@ -22,6 +22,7 @@ namespace UIManagement.Elements
         private readonly List<PageButton> _buttonList = new List<PageButton>();
         private readonly Dictionary<PageButton, Image> _cashedImages = new Dictionary<PageButton, Image>();
         private PageButton _selectedPageButton = null;
+        private IEnumerable<PageButton> AvailablePages => _buttonList.Where(b => b.Button.interactable);
         public int PageCount => _pages.Count;
 
         public void ColorizeTest()
@@ -79,6 +80,46 @@ namespace UIManagement.Elements
 
         public void ShowPage(int index) => ShowPage(_buttonList[index]);
 
+        public bool ShowNextAvailablePage(bool isCycled)
+        {
+            var availablePages = AvailablePages.ToList();
+            var currentPageIndex = availablePages.IndexOf(_selectedPageButton);
+            if (currentPageIndex == -1)
+                throw new InvalidOperationException();
+            var nextPageIndex = currentPageIndex + 1;
+            if (nextPageIndex >= availablePages.Count)
+            {
+                if (isCycled)
+                {
+                    ShowPage(availablePages[nextPageIndex % availablePages.Count]);
+                    return true;
+                }
+                return false;
+            }
+            ShowPage(availablePages[nextPageIndex]);
+            return true;
+        }
+
+        public bool ShowPreviousAvailablePage(bool isCycled)
+        {
+            var availablePages = AvailablePages.ToList();
+            var currentPageIndex = availablePages.IndexOf(_selectedPageButton);
+            if (currentPageIndex == -1)
+                throw new InvalidOperationException();
+            var previousPageIndex = currentPageIndex - 1;
+            if (previousPageIndex < 0)
+            {
+                if (isCycled)
+                {
+                    ShowPage(availablePages[(previousPageIndex + availablePages.Count) % availablePages.Count]);
+                    return true;
+                }
+                return false;
+            }
+            ShowPage(availablePages[previousPageIndex]);
+            return true;
+        }
+
         private void UpdatePageButtonColors()
         {
             foreach (var pageButton in _buttonList)
@@ -93,6 +134,8 @@ namespace UIManagement.Elements
         {
             pageButton.Button.interactable = false;
             _cashedImages[pageButton].color = _disabledColor;
+            if (pageButton == _selectedPageButton)
+                ShowPage(AvailablePages.First());
         }
 
         public void DisablePage(int index) => DisablePage(_buttonList[index]);

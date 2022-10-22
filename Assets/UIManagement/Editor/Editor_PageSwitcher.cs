@@ -10,7 +10,6 @@ public class Editor_PageSwitcher : Editor
     private int _id = 0;
     private int _count = 0;
     private bool _unsafeMode = false;
-    // = new GameObject("New Page", typeof(RectTransform));
 
     public override void OnInspectorGUI()
     {

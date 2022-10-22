@@ -1,3 +1,5 @@
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,13 +14,32 @@ using UnityEngine.UI;
 namespace UIManagement.Elements
 {
     [ExecuteInEditMode]
-    public class CharacterList : MonoBehaviour
+    public class CharacterList : SerializedMonoBehaviour, IEnumerable<CharacterListElement>
     {
         [SerializeField] private CharacterListElement _elementPrefab;
+        [ListDrawerSettings(IsReadOnly = true), OdinSerialize]
         private readonly List<CharacterListElement> _characterList = new List<CharacterListElement>();
         public int CharactersCount => _characterList.Count;
 
-        private bool _hasMaintenanceCost = true;
+        [SerializeField, HideInInspector]
+        private bool _hasExperienceRecieved;
+        [ShowInInspector]
+        public bool HasExperienceRecieved
+        {
+            get => _hasExperienceRecieved;
+            set
+            {
+                _hasExperienceRecieved = value;
+                foreach (var e in _characterList)
+                {
+                    e.HasExperienceRecieved = value;
+                }
+            }
+        }
+
+        [SerializeField, HideInInspector]
+        private bool _hasMaintenanceCost;
+        [ShowInInspector]
         public bool HasMaintenanceCost
         {
             get => _hasMaintenanceCost;
@@ -32,7 +53,9 @@ namespace UIManagement.Elements
             }
         }
 
-        private bool _hasParameters = true;
+        [SerializeField, HideInInspector]
+        private bool _hasParameters;
+        [ShowInInspector]
         public bool HasParameters
         {
             get => _hasParameters;
@@ -46,6 +69,7 @@ namespace UIManagement.Elements
             }
         }
 
+        [Button]
         public void Add(params Character[] charactersInfo)
         {
             if (_elementPrefab == null)
@@ -54,11 +78,15 @@ namespace UIManagement.Elements
             {
                 var newElement = Instantiate(_elementPrefab, transform);
                 newElement.UpdateCharacterInfo(characterInfo);
-                _characterList.Add(newElement);
+                newElement.HasExperienceRecieved = HasExperienceRecieved;
+                newElement.HasMaintenanceCost = HasMaintenanceCost;
+                newElement.HasParameters = HasParameters;
                 newElement.Destroyed += OnElementDestroyed;
+                _characterList.Add(newElement);
             }
         }
 
+        [Button]
         public void RemoveAt(int index)
         {
             if (index >= CharactersCount || index < 0)
@@ -68,6 +96,7 @@ namespace UIManagement.Elements
             DestroyImmediate(element.gameObject);
         }
 
+        [Button, ShowIf("@Count>0")]
         public void Clear()
         {
             var elementsToRemove = _characterList.ToList();
@@ -78,8 +107,9 @@ namespace UIManagement.Elements
             }
         }
 
-        public bool HasForeignChildren => transform.childCount != CharactersCount;
+        public bool HasForeignChildren => transform.childCount > CharactersCount;
 
+        [Button, ShowIf("HasForeignChildren")]
         public void DestroyAllChildrenNotInList()
         {
             if (!HasForeignChildren)
@@ -106,5 +136,9 @@ namespace UIManagement.Elements
             }
             element.Destroyed -= OnElementDestroyed;
         }
+
+        public IEnumerator<CharacterListElement> GetEnumerator() => _characterList.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

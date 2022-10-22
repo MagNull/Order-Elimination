@@ -15,5 +15,19 @@ namespace UIManagement
     {
         [SerializeField] private CharacterList _characterList;
         public override PanelType PanelType => PanelType.SquadList;
+
+        public void UpdateSquadListPanel(List<Character> squadCharacters)
+        {
+            _characterList.HasExperienceRecieved = false;
+            _characterList.HasMaintenanceCost = true;
+            _characterList.HasParameters = true;
+            _characterList.Add(squadCharacters.ToArray());
+        }
+
+        //ToRemove
+        private void Awake()
+        {
+            UpdateSquadListPanel(new ExplorationResult().SquadCharacters);
+        }
     }
 }

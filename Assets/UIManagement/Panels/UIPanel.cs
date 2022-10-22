@@ -33,8 +33,6 @@ namespace UIManagement
         }
         protected virtual void Initialize()
         {
-            if (_isInitialized)
-                return;
             _titleText.text = name = Title;
             _isInitialized = true;
         }
@@ -45,7 +43,8 @@ namespace UIManagement
 
         protected void OnEnable()
         {
-            Initialize();
+            if (!_isInitialized)
+                Initialize();
         }
     }
 }

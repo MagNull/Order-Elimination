@@ -249,9 +249,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 778782449968442113}
+  - component: {fileID: 5073826226716976796}
   - component: {fileID: 3895443353393787958}
   - component: {fileID: 4833934122190015481}
-  - component: {fileID: 5073826226716976796}
   m_Layer: 5
   m_Name: CharacterList
   m_TagString: Untagged
@@ -279,6 +279,44 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
+--- !u!114 &5073826226716976796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4230902842182450199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80cec4e8bde04d54f89cf375098f0055, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _characterList
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[UIManagement.Elements.CharacterListElement,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  _elementPrefab: {fileID: 2674833867100067447, guid: 9ff1281c3602c094e8b61906df9f9251, type: 3}
+  _hasExperienceRecieved: 1
+  _hasMaintenanceCost: 1
+  _hasParameters: 1
 --- !u!114 &3895443353393787958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,19 +357,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
---- !u!114 &5073826226716976796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4230902842182450199}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80cec4e8bde04d54f89cf375098f0055, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _elementPrefab: {fileID: 2674833867100067447, guid: 9ff1281c3602c094e8b61906df9f9251, type: 3}
 --- !u!1 &4702657499591414821
 GameObject:
   m_ObjectHideFlags: 0

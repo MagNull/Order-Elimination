@@ -39,8 +39,6 @@ namespace UIManagement
 
         protected override void Initialize()
         {
-            if (_isInitialized)
-                return;
             base.Initialize();
             _saveGameButton.onClick.AddListener(OnSaveButtonPressed);
             _loadGameButton.onClick.AddListener(OnLoadButtonPressed);

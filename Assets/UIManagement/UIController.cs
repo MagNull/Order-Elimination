@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,19 @@ namespace UIManagement
     public class UIController : MonoBehaviour
     {
         [SerializeField] private List<IUIPanel> _panels = new List<IUIPanel>();
+
+        private PanelType _displayedPanel;
+        [ShowInInspector]
+        public PanelType DispayedPanel
+        {
+            get => _displayedPanel;
+            set
+            {
+                _displayedPanel = value;
+                HideAllPanels();
+                ShowPanel(value);
+            }
+        }
 
         public void ShowPanel(PanelType panel)
         {

@@ -7,6 +7,69 @@ using UnityEngine.UI;
 
 namespace UIManagement.trashToRemove_Mockups
 {
+    public class ExplorationResult
+    {
+        public int PrimaryCurrencyRecieved = Random.Range(0, 500);
+        public int SpecialCurrencyRecieved = Random.Range(0, 20);
+        public int ExperienceAmount = Random.Range(0, 200);
+        public List<Character> SquadCharacters = GetSquadCharacters();
+        public List<Powerup> PowerupsRecieved = GetPowerups();
+
+        private static List<Character> GetSquadCharacters()
+        {
+            var characters = new Character[Random.Range(1, 5)];
+            for (var i = 0; i < characters.Length; i++)
+            {
+                characters[i] = new Character();
+            }
+            return characters.ToList();
+        }
+
+        private static List<Powerup> GetPowerups()
+        {
+            var powerups = new Powerup[Random.Range(1, 5)];
+            for (var i = 0; i < powerups.Length; i++)
+            {
+                powerups[i] = new Powerup();
+            }
+            return powerups.ToList();
+        }
+    }
+
+    public class BattleResult
+    {
+        public int PrimaryCurrencyRecieved = Random.Range(0, 500);
+        public int SpecialCurrencyRecieved = Random.Range(0, 20);
+        public int ExperienceAmount = Random.Range(0, 200);
+        public List<Character> SquadCharacters = GetSquadCharacters();
+        public List<Powerup> PowerupsRecieved = GetPowerups();
+
+        private static List<Character> GetSquadCharacters()
+        {
+            var characters = new Character[Random.Range(1, 5)];
+            for (var i = 0; i < characters.Length; i++)
+            {
+                characters[i] = new Character();
+            }
+            return characters.ToList();
+        }
+
+        private static List<Powerup> GetPowerups()
+        {
+            var powerups = new Powerup[Random.Range(1, 20)];
+            for (var i = 0; i < powerups.Length; i++)
+            {
+                powerups[i] = new Powerup();
+            }
+            return powerups.ToList();
+        }
+    }
+
+    public class Powerup : ScriptableObject
+    {
+        public Sprite Icon;
+    }
+
     #region Character
     public class BattleStats
     {
@@ -27,6 +90,7 @@ namespace UIManagement.trashToRemove_Mockups
     public class Character
     {
         public string Name { get; } = $"Soldier {Random.Range(0, 76)}";
+        public bool IsDead = Random.Range(0, 100) < 20;
         private readonly BattleStats battleStats = new BattleStats();
         private readonly StrategyStats strategyStats = new StrategyStats();
         public BattleStats GetBattleStats() => battleStats;
@@ -44,6 +108,8 @@ namespace UIManagement.trashToRemove_Mockups
             {PanelType.Order, "Выбор приказа"}, 
             {PanelType.SquadList, "Список бойцов отряда"}, 
             {PanelType.ExplorationResult, "Итоги поиска"}, 
+            {PanelType.BattleVictory, "Победа"}, 
+            {PanelType.BattleDefeat, "Поражение"}, 
         };
 
         public string GetWindowTitleName(PanelType windowType) => _panelTitleNames[windowType];
