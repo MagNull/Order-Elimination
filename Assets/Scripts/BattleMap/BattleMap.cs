@@ -1,12 +1,15 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class BattleMap : MonoBehaviour
 {
-    public static event Action<CellView> CellChanged;
+    public event Action<CellView> CellChanged;
 
-    [SerializeField] CellGridGenerator _generator;
-    [SerializeField] PlayerSpawner _spawner;
+    [SerializeField]
+    CellGridGenerator _generator;
+    [SerializeField]
+    PlayerSpawner _spawner;
 
     private CellView[,] _cellGrid;
 
@@ -57,7 +60,29 @@ public class BattleMap : MonoBehaviour
                 }
             }
         }
+
         Debug.LogError("Объект не найден на поле!");
         return new Vector2Int(-1, -1);
+    }
+
+    public IBattleObject[] GetObjectsInRadius(IBattleObject obj, int radius)
+    {
+        Vector2Int objCrd = GetCoordinate(obj);
+        List<IBattleObject> objects = new List<IBattleObject>();
+        for (var i = objCrd.x - radius; i <= objCrd.x + radius; i++)
+        {
+            for (var j = objCrd.y - radius; j <= objCrd.y + radius; j++)
+            {
+                if (i >= 0 && i < _cellGrid.GetLength(0) && j >= 0 && j < _cellGrid.GetLength(1))
+                {
+                    if (_cellGrid[i, j].GetObject() != null)
+                    {
+                        objects.Add(_cellGrid[i, j].GetObject());
+                    }
+                }
+            }
+        }
+
+        return objects.ToArray();
     }
 }

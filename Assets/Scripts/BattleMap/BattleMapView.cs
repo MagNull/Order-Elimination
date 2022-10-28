@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class BattleMapView : MonoBehaviour
 {
+    [SerializeField]
+    private BattleMap _battleMap;
+
+    public BattleMap Map => _battleMap;
+
     public void OnEnable()
     {
-        BattleMap.CellChanged += OnCellChanged;
+        _battleMap.CellChanged += OnCellChanged;
     }
 
     public void OnDisable()
     {
-        BattleMap.CellChanged -= OnCellChanged;
+        _battleMap.CellChanged -= OnCellChanged;
     }
 
     public void LightCellByDistance(int x, int y, int distance)
