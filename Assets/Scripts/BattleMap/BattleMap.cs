@@ -7,23 +7,29 @@ public class BattleMap : MonoBehaviour
 {
     public static event Action<CellView> CellChanged;
 
-    [SerializeField] CellGridGenerator _generator;
-    [SerializeField] PlayerSpawner _spawner;
+    [SerializeField] private CellGridGenerator _generator;
 
     private CellView[,] _cellGrid;
+    private BattleCharacterFactory _characterFactory;
 
     public void Start()
     {
+        // Инициализация
+        _characterFactory = GetComponent<BattleCharacterFactory>();
+
         // Создание игрового поля
         _cellGrid = _generator.GenerateGrid();
 
-        // Спавн тестового персонажа на поле
-        IBattleObject obj = _spawner.Spawn(_cellGrid[0, 0]);
-        // Привязывание персонажа к клетке
-        SetCell(0, 0, obj);
+        // Создание игровых персонажей
+        TestBattleCharacterInfo info = new TestBattleCharacterInfo();
 
-        // Тест перемещения объекта
-        MoveTo(obj, 1, 1);
+        BattleCharacter player = _characterFactory.Create(info, CharacterSide.Player);
+        BattleCharacter enemy_1 = _characterFactory.Create(info, CharacterSide.Enemy);
+        BattleCharacter enemy_2 = _characterFactory.Create(info, CharacterSide.Enemy);
+
+        SetCell(2, 3, player);
+        SetCell(4, 5, enemy_1);
+        SetCell(6, 0, enemy_2);
     }
 
     public CellView GetCell(int x, int y)

@@ -31,7 +31,7 @@ public class BattleMapView : MonoBehaviour
     public void OnCellChanged(CellView cell)
     {
         // IBattleObject -> BattleObject не круто
-        BattleObject obj = cell.GetObject() as BattleObject;
+        BattleCharacter obj = cell.GetObject() as BattleCharacter;
         obj.gameObject.transform.position = cell.transform.position;
         Debug.Log("Произошло событие!");
     }
