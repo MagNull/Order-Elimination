@@ -6,6 +6,26 @@ public class BattleCharacter : MonoBehaviour, IBattleObject
 {
     private List<ITickEffect> _activeEffects;
     private CharacterSide _side;
+    private BattleStats _battleStats;
+
+    public void OnEnable()
+    {
+        BattleCharacterView.BattleCharacterViewClicked += OnClicked;
+    }
+
+    public void OnDisable()
+    {
+        BattleCharacterView.BattleCharacterViewClicked -= OnClicked;
+    }
+
+    public BattleStats GetStats() => _battleStats;
+    public CharacterSide GetSide() => _side;
+
+    public BattleCharacterView GetView()
+    {
+        // Реализовать
+        throw new System.NotImplementedException();
+    }
 
     public void TickEffects()
     {
@@ -15,21 +35,9 @@ public class BattleCharacter : MonoBehaviour, IBattleObject
         }
     }
 
-    public void TakeDamage()
+    public void TakeDamage(int damage)
     {
-
-    }
-
-    public BattleStats GetStats()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public CharacterSide GetSide() => _side;
-
-    public void OnClicked()
-    {
-
+        _battleStats.ChangeHp(-damage);
     }
 
     public void AddTickEffect(ITickEffect effect)
@@ -42,13 +50,16 @@ public class BattleCharacter : MonoBehaviour, IBattleObject
         _activeEffects.Remove(effect);
     }
 
-    public BattleCharacterView GetView()
+    public void OnClicked()
     {
-        throw new System.NotImplementedException();
+        // Пустой пока
+
+        // Тест работоспособности ивентов
+        Debug.Log("Произошло событие класса: BattleCharacter");
     }
 
     public void OnTurnStart()
     {
-        throw new System.NotImplementedException();
+        // Пустой пока
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+// Пора разгрузить метод
 public class BattleMap : MonoBehaviour
 {
     public static event Action<CellView> CellChanged;

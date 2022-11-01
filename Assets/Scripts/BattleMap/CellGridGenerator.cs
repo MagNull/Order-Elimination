@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Временный класс для прототипа
 public class CellGridGenerator : MonoBehaviour
 {
     [SerializeField] public GameObject _parent;

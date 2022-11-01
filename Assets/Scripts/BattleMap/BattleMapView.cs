@@ -22,6 +22,7 @@ public class BattleMapView : MonoBehaviour
             {
                 if (x + i >= 0 && x + i < 8 && y + j >=0 && y + j < 8)
                 {
+                    // Нужен метод подсветки клетки
                     // Клетка[x+i, y+i].Light();
                 }
             }
