@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace OrderElimination
@@ -17,7 +16,7 @@ namespace OrderElimination
             _presenter = new CharacterPresenter(_model, _view);    
         }
 
-        public void Move(Vector2Int position) => _model.Move(position);
+        public void Move(PlanetPoint planetPoint) => _model.Move(planetPoint);
 
         public void Select() => _model.Select();
 

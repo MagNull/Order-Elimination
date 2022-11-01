@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace OrderElimination
 {
     public class CharacterView
@@ -10,7 +7,7 @@ namespace OrderElimination
 
         }
 
-        public void OnMove(Vector2Int position)
+        public void OnMove(PlanetPoint planetPoint)
         {
             
         }

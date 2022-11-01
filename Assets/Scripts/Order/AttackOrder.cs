@@ -18,7 +18,6 @@ namespace OrderElimination
 
         public override void End()
         {
-            _target.RemoveSquad(_squad);
             base._squad.DistributeExperience(base._target.GetPlanetInfo().Expirience);
         }
     }

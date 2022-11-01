@@ -1,16 +1,25 @@
 using UnityEngine;
-using System;
+
 
 namespace OrderElimination
 {
-    public class PlanetView  : MonoBehaviour
+    public class PlanetView
     {
-        private GameObject _planetPoint;
+        private Transform _transform;
 
-        public Vector2Int GetPoisitionOnMap()
+        public PlanetView(Transform transform)
         {
-            Vector3 position = _planetPoint.gameObject.transform.position;
-            return new Vector2Int(Convert.ToInt32(position.x), Convert.ToInt32(position.y));
+            _transform = transform;
+        }
+
+        public void Increase()
+        {
+            _transform.localScale += new Vector3(0.1f, 0.1f, 0);
+        }
+
+        public void Decrease()
+        {
+            _transform.localScale -= new Vector3(0.1f, 0.1f, 0);
         }
     }
 }

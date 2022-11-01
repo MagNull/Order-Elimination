@@ -16,7 +16,7 @@ namespace OrderElimination
         private float _accuracy;
 
         public IReadOnlyList<Ability> Abilites => _abilites;
-        public event Action<Vector2Int> Moved;
+        public event Action<PlanetPoint> Moved;
         public event Action Selected;
         public event Action Unselected;
 
@@ -26,10 +26,10 @@ namespace OrderElimination
             _position = Vector2Int.zero;
         }
 
-        public void Move(Vector2Int position)
+        public void Move(PlanetPoint planetPoint)
         {
-           _position = position;
-           Moved?.Invoke(position);
+           _position = Vector2Int.FloorToInt(planetPoint.transform.position);
+           Moved?.Invoke(planetPoint);
         }
 
         public void RaiseExpirience(float expirience)
