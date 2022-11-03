@@ -16,23 +16,31 @@
         {
             _model.Moved += _view.OnMove;
             _model.Selected += _view.OnSelect;
-            _model.Selected += _planetPoint.ShowPaths;
             _model.Unselected += _view.OnUnselect;
-            _model.Unselected += _planetPoint.HidePaths;
+            if(_planetPoint != null)
+            {
+                _model.Selected += _planetPoint.ShowPaths;
+                _model.Unselected += _planetPoint.HidePaths;
+            }
         }
 
         public void Unsubscribe()
         {
             _model.Moved -= _view.OnMove;
             _model.Selected -= _view.OnSelect;
-            _model.Selected -= _planetPoint.ShowPaths;
             _model.Unselected -= _view.OnUnselect;
-            _model.Unselected -= _planetPoint.HidePaths;
+            if(_planetPoint != null)
+            {
+                _model.Selected -= _planetPoint.ShowPaths;
+                _model.Unselected -= _planetPoint.HidePaths;
+            }
         }
 
         public void UpdatePlanetPoint(PlanetPoint planetPoint)
         {
+            Unsubscribe();
             _planetPoint = planetPoint;
+            Subscribe();
         }
     }
 }

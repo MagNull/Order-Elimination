@@ -9,8 +9,6 @@ namespace OrderElimination
         private SquadModel _model;
         private SquadView _view;
         private SquadPresenter _presenter;
-        
-        [SerializeField] private PlanetPoint _planetPoint;
 
         public int AmountOfCharacters => _model.AmountOfCharacters;
         public IReadOnlyList<ISquadMember> Characters => _model.Characters;
@@ -19,7 +17,7 @@ namespace OrderElimination
         {
             _model = new SquadModel(new List<ISquadMember>());
             _view = new SquadView(transform);
-            _presenter = new SquadPresenter(_model, _view, _planetPoint);
+            _presenter = new SquadPresenter(_model, _view, null);
         }
 
         public void AddCharacter(Character character) => _model.AddCharacter(character);
@@ -28,12 +26,15 @@ namespace OrderElimination
 
         public void Move(PlanetPoint planetPoint)
         {
-            _planetPoint = planetPoint;
-            _presenter.Unsubscribe();
             _presenter.UpdatePlanetPoint(planetPoint);
-            _presenter.Subscribe();
             _model.Move(planetPoint);
         }
+
+        public void SetPlanetPoint(PlanetPoint planetPoint)
+        {
+            _presenter.UpdatePlanetPoint(planetPoint);
+        }
+
         public void Select()
         {
             Squad.LastSelectedSquadName = gameObject.name;
@@ -45,16 +46,15 @@ namespace OrderElimination
             _model.Unselect();
         }
 
-        public void TargetIsSelected()
-        {
-            PlanetPoint target = _planetPoint.GetSelectedPath();
-            Debug.Log(target);
-            if(target != null && Squad.LastSelectedSquadName == gameObject.name)
-            {
-                SquadCommander.CreateResearchOrder(target, this);
-                Move(target);
-            }
-        }
+        // public void TargetIsSelected()
+        // {
+        //     PlanetPoint target = _planetPoint.GetSelectedPath();
+        //     if(target != null && Squad.LastSelectedSquadName == gameObject.name)
+        //     {
+        //         SquadCommander.CreateResearchOrder(target, this);
+        //         Move(target);
+        //     }
+        // }
 
         public void DistributeExperience(float expirience) => _model.DistributeExpirience(expirience);
 
