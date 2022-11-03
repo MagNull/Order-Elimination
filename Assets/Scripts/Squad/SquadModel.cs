@@ -47,14 +47,10 @@ namespace OrderElimination
         
         public void Move(PlanetPoint planetPoint)
         {
-            // foreach(var character in _characters)
-            // {
-            //     character.Move(planetPoint);
-            // }
             Moved?.Invoke(planetPoint);
         }
 
-        public void Select() => Selected?.Invoke();   
+        public void Select() => Selected?.Invoke();
 
         public void Unselect() => Unselected?.Invoke();
     }

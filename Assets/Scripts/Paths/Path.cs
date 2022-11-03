@@ -5,34 +5,29 @@ namespace OrderElimination
 {
     public class Path : MonoBehaviour
     {
-        [SerializeField] List<PlanetPoint> ends;
+        private List<PlanetPoint> _ends;
 
         private void Awake() 
         {
-            gameObject.SetActive(false);
+            _ends = new List<PlanetPoint>();
+        }
+        
+        public void SetEndPoint(PlanetPoint planetPoint)
+        {
+            Debug.Log("SetEndPoint");
+            _ends.Add(planetPoint);
         }
 
         public void IncreaseEndPoint()
         {
-            foreach(var end in ends)
+            foreach(var end in _ends)
                 end.IncreasePoint();
         }
 
         public void DecreaseEndPoint()
         {
-            foreach(var end in ends)
+            foreach(var end in _ends)
                 end.DecreasePoint();
-        }
-
-        public PlanetPoint GetSelectedEndPoint()
-        {
-            foreach(var end in ends)
-            {
-                Debug.Log($"{end.name} {end.isSelected}");
-                if(end.isSelected)
-                    return end;
-            }
-            return null;
         }
     }
 }

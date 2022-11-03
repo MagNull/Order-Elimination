@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace OrderElimination
 {
@@ -9,6 +10,15 @@ namespace OrderElimination
         private SquadModel _model;
         private SquadView _view;
         private SquadPresenter _presenter;
+        private PlanetPoint _planetPoint;
+        
+        public PlanetPoint GetPlanetPoint()
+        {
+            return _planetPoint;
+        }
+            
+        public event Action<Squad> Selected;
+        public event Action<Squad> Unselected;
 
         public int AmountOfCharacters => _model.AmountOfCharacters;
         public IReadOnlyList<ISquadMember> Characters => _model.Characters;
@@ -18,6 +28,7 @@ namespace OrderElimination
             _model = new SquadModel(new List<ISquadMember>());
             _view = new SquadView(transform);
             _presenter = new SquadPresenter(_model, _view, null);
+            _planetPoint = null;
         }
 
         public void AddCharacter(Character character) => _model.AddCharacter(character);
@@ -26,23 +37,27 @@ namespace OrderElimination
 
         public void Move(PlanetPoint planetPoint)
         {
-            _presenter.UpdatePlanetPoint(planetPoint);
+            SetPlanetPoint(planetPoint);
             _model.Move(planetPoint);
         }
 
         public void SetPlanetPoint(PlanetPoint planetPoint)
         {
+            _planetPoint = planetPoint;
             _presenter.UpdatePlanetPoint(planetPoint);
         }
 
         public void Select()
         {
-            Squad.LastSelectedSquadName = gameObject.name;
+            Debug.Log("Select is done");
+            Selected?.Invoke(this);
             _model.Select();
         }
 
         public void Unselect()
         {
+            Debug.Log("Unselect is done");
+            Selected?.Invoke(this);
             _model.Unselect();
         }
 

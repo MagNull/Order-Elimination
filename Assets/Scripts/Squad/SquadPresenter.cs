@@ -1,4 +1,5 @@
-﻿namespace OrderElimination
+﻿using UnityEngine;
+namespace OrderElimination
 {
     public class SquadPresenter
     {

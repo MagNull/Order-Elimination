@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System;
 using UnityEngine;
 
 
@@ -10,12 +10,14 @@ namespace OrderElimination
         private PlanetInfo _planetInfo;
         private PlanetView _planetView;
         public bool isSelected;
-        
-        [SerializeField] private List<Path> _paths;
+        private List<Path> _paths;
+        public event Action<PlanetPoint> Selected;
+        public event Action<PlanetPoint> Unselected;
 
         private void Awake()
         {
             _planetView = new PlanetView(transform);
+            _paths = new List<Path>();
             isSelected = false;
         }
 
@@ -27,6 +29,12 @@ namespace OrderElimination
         public void MoveSquad(Squad squad)
         {
             squad.Move(this);
+        }
+
+        public void SetPath(Path path)
+        {
+            Debug.Log($"SetPath: {path.gameObject.name}");
+            _paths.Add(path);
         }
 
         public void ShowPaths()
@@ -49,27 +57,17 @@ namespace OrderElimination
             } 
         }
 
-        public PlanetPoint GetSelectedPath()
-        {
-            foreach (var path in _paths)
-            {
-                var planetPoint = path.GetSelectedEndPoint();
-                Debug.Log(planetPoint);
-                if (planetPoint != null)
-                    return planetPoint;
-            }
-            return null;
-        }
-
         public void Select()
         {
             Debug.Log($"{this.name}:isSelected = true");
+            Selected?.Invoke(this);
             isSelected = true;
         }
 
         public void Unselect()
         {
             Debug.Log($"{this.name}: isSelected = false");
+            Unselected?.Invoke(this);
             isSelected = false;
         }
     }
