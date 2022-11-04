@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface IBattleObject
 {
+    public BattleObjectSide Side { get; }
     public GameObject GetView();
     public void OnTurnStart();
 }

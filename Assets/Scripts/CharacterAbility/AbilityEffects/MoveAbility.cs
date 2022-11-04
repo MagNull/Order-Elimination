@@ -12,20 +12,11 @@ namespace CharacterAbility.AbilityEffects
             _nextAbility = nextAbility;
         }
 
-        public override async void Use(IBattleObject target, BattleMapView battleMapView)
+        public override void Use(IBattleObject target, BattleMap battleMap)
         {
-            if (target == null)
-            {
-                var availableObjects =
-                    battleMapView.Map.GetEmptyObjectsInRadius(_caster, _caster.GetStats().Movement);
-                Debug.Log(availableObjects.Count);
-                battleMapView.Map.CellSelected += c => target = c.GetObject();
-                await UniTask.WaitUntil(() => target != null && availableObjects.Contains(target));
-            }
-
-            var point = battleMapView.Map.GetCoordinate(target);
-            battleMapView.Map.MoveTo(_caster, point.x, point.y);
-            _nextAbility?.Use(target, battleMapView);
+            var point = battleMap.GetCoordinate(target);
+            battleMap.MoveTo(_caster, point.x, point.y);
+            _nextAbility?.Use(target, battleMap);
         }
     }
 }

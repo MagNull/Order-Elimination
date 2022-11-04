@@ -26,10 +26,9 @@ public class BattleMapView : MonoBehaviour
         {
             for (int j = -distance; j <= distance; j++)
             {
-                if (x + i >= 0 && x + i < 8 && y + j >= 0 && y + j < 8)
+                if (x + i >= 0 && x + i < _battleMap.Width && y + j >= 0 && y + j < _battleMap.Height)
                 {
-                    // Нужен метод подсветки клетки
-                    // Клетка[x+i, y+i].Light();
+                    _battleMap.GetCell(x + i, y + j).Light();
                 }
             }
         }
@@ -39,7 +38,7 @@ public class BattleMapView : MonoBehaviour
     {
         // IBattleObject -> BattleObject не круто
         IBattleObject obj = cell.GetObject();
-        if(obj is NullBattleObject)
+        if (obj is NullBattleObject)
             return;
         obj.GetView().transform.position = cell.transform.position;
         Debug.Log($"Cell {cell.name} changed");

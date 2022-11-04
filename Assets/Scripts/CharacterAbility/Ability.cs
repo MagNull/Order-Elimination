@@ -8,6 +8,6 @@
         {
             _caster = caster;
         }
-        public abstract void Use(IBattleObject target, BattleMapView battleMapView);
+        public abstract void Use(IBattleObject target, BattleMap battleMap);
     }
 }

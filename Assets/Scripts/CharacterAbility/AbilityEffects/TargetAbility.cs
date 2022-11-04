@@ -16,19 +16,12 @@ namespace CharacterAbility.AbilityEffects
             _selfCast = selfCast;
         }
 
-        public override async void Use(IBattleObject target, BattleMapView battleMapView)
+        public override void Use(IBattleObject target, BattleMap battleMap)
         {
-            if (target == null)
-            {
-                var availableObjects =
-                    battleMapView.Map.GetBattleObjectsInRadius(_caster, _distance);
-                battleMapView.Map.CellSelected += c => target = c.GetObject();
-                await UniTask.WaitUntil(() => target != null && availableObjects.Contains(target));
-            }
-            var castPos = battleMapView.Map.GetCoordinate(_caster);
-            battleMapView.LightCellByDistance(castPos.x, castPos.y, _distance);
+            var castPos = battleMap.GetCoordinate(_caster);
+           // battleMap.LightCellByDistance(castPos.x, castPos.y, _distance);
             //await UniTask.WaitUntil(() => Input.); TODO: Ожидание клика по клетке
-            _nextAbility.Use(_selfCast ? _caster : target, battleMapView);
+            _nextAbility.Use(_selfCast ? _caster : target, battleMap);
         }
     }
 }

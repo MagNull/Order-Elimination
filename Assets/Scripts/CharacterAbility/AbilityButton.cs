@@ -9,6 +9,7 @@ namespace CharacterAbility
         
         public void SetAbility(AbilityView abilityView)
         {
+            ResetAbility();
             image.sprite = abilityView.AbilityIcon;
             _abilityView = abilityView;
             interactable = true;
@@ -20,14 +21,14 @@ namespace CharacterAbility
             image.sprite = null;
             _abilityView = null;
             interactable = false;
-            onClick.RemoveListener(_abilityView.Clicked);
+            onClick.RemoveAllListeners();
         }
         
         
         protected override void OnDisable()
         {
             base.OnDisable();
-            onClick.RemoveAllListeners();
+            ResetAbility();
         }
     }
 }

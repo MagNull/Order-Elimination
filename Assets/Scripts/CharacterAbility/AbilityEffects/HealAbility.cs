@@ -13,11 +13,11 @@ namespace CharacterAbility.AbilityEffects
             _healAmount = healAmount;
         }
 
-        public override void Use(IBattleObject target, BattleMapView battleMapView)
+        public override void Use(IBattleObject target, BattleMap battleMap)
         {
             Debug.Log("HealAbility");
             //target.GetView().GetModel().TakeHeal(_healAmount);
-            _nextAbility?.Use(target, battleMapView);
+            _nextAbility?.Use(target, battleMap);
         }
     }
 }

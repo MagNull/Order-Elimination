@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 using OrderElimination;
 using OrderElimination.BattleMap;
 
@@ -12,6 +13,10 @@ public class BattleMap : MonoBehaviour
     public event Action<CellView> CellChanged;
 
     [SerializeField]
+    private int _width;
+    [SerializeField]
+    private int _height;
+    [SerializeField]
     private CellGridGenerator _generator;
     [SerializeField]
     private BattleCharacterFactory _characterFactory;
@@ -20,19 +25,23 @@ public class BattleMap : MonoBehaviour
 
     private CellView[,] _cellGrid;
 
+    public int Width => _width;
+
+    public int Height => _height;
+
     public void Start()
     {
         // Создание игрового поля
-        _cellGrid = _generator.GenerateGrid();
+        _cellGrid = _generator.GenerateGrid(_width, _height);
         foreach (var cellView in _cellGrid)
         {
             cellView.CellClicked += OnCellClicked;
         }
         // Создание игровых персонажей
 
-        IBattleObject player = _characterFactory.Create(_characterInfo, CharacterSide.Player);
-        IBattleObject enemy_1 = _characterFactory.Create(_characterInfo, CharacterSide.Enemy);
-        IBattleObject enemy_2 = _characterFactory.Create(_characterInfo, CharacterSide.Enemy);
+        IBattleObject player = _characterFactory.Create(_characterInfo, BattleObjectSide.Player);
+        IBattleObject enemy_1 = _characterFactory.Create(_characterInfo, BattleObjectSide.Enemy);
+        IBattleObject enemy_2 = _characterFactory.Create(_characterInfo, BattleObjectSide.Enemy);
 
         SetCell(2, 3, player);
         SetCell(4, 5, enemy_1);
@@ -81,16 +90,23 @@ public class BattleMap : MonoBehaviour
         return new Vector2Int(-1, -1);
     }
 
-    public IList<IBattleObject> GetBattleObjectsInRadius(IBattleObject obj, int radius)
+    public IList<IBattleObject> GetBattleObjectsInRadius(IBattleObject obj, int radius, BattleObjectSide side)
     {
-        return GetObjectsInRadius(obj, radius, battleObject => battleObject is not NullBattleObject);
+        return GetObjectsInRadius(obj, radius, battleObject => 
+            battleObject is not NullBattleObject && battleObject.Side == side);
     }
     
+    public IList<IBattleObject> GetBattleObjectsInRadius(IBattleObject obj, int radius)
+    {
+        return GetObjectsInRadius(obj, radius, battleObject => 
+            battleObject is not NullBattleObject);
+    }
+
     public IList<IBattleObject> GetEmptyObjectsInRadius(IBattleObject obj, int radius)
     {
         return GetObjectsInRadius(obj, radius, battleObject => battleObject is NullBattleObject);
     }
-    
+
     private IList<IBattleObject> GetObjectsInRadius(IBattleObject obj, int radius, Predicate<IBattleObject> predicate)
     {
         Vector2Int objCrd = GetCoordinate(obj);
@@ -109,6 +125,7 @@ public class BattleMap : MonoBehaviour
             }
         }
 
+        objects.Remove(obj);
         return objects;
     }
 }

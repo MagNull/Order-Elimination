@@ -13,11 +13,11 @@ namespace CharacterAbility.AbilityEffects
             _damage = damage;
         }
 
-        public override void Use(IBattleObject target, BattleMapView battleMapView)
+        public override void Use(IBattleObject target, BattleMap battleMap)
         {
             Debug.Log("Damage");
             target.GetView().GetComponent<BattleCharacterView>().Model.TakeDamage(_damage);
-            _nextAbility?.Use(target, battleMapView);
+            _nextAbility?.Use(target, battleMap);
         }
     }
 }

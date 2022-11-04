@@ -10,16 +10,16 @@ public class BattleCharacter : IBattleObject
     
     [SerializeField]
     private float _health;
-    
+
     private List<ITickEffect> _activeEffects;
-    private readonly CharacterSide _side;
+    private readonly BattleObjectSide _side;
     private readonly BattleStats _battleStats;
     private BattleCharacterView _view;
 
-    public BattleStats GetStats() => _battleStats;
-    public CharacterSide GetSide() => _side;
-    
-    public BattleCharacter(CharacterSide side, BattleStats battleStats)
+    public BattleObjectSide Side => _side;
+    public BattleStats Stats => _battleStats;
+
+    public BattleCharacter(BattleObjectSide side, BattleStats battleStats)
     {
         _side = side;
         _battleStats = battleStats;
@@ -55,11 +55,6 @@ public class BattleCharacter : IBattleObject
     public void RemoveTickEffect(ITickEffect effect)
     {
         _activeEffects.Remove(effect);
-    }
-
-    public void OnClicked(BattleCharacterView battleCharacterView)
-    {
-        Debug.Log("Произошло событие класса: " + battleCharacterView.name);
     }
 
     public GameObject GetView() => _view.gameObject;

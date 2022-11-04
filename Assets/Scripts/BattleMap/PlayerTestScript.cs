@@ -8,8 +8,8 @@ public class PlayerTestScript : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer sideCircle;
 
-    public void SetSide(CharacterSide side)
+    public void SetSide(BattleObjectSide side)
     {
-        sideCircle.color = side == CharacterSide.Player ? Color.green : Color.red;
+        sideCircle.color = side == BattleObjectSide.Player ? Color.green : Color.red;
     }
 }

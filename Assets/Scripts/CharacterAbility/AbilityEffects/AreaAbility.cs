@@ -11,12 +11,12 @@
             _areaAbility = areaAbility;
         }
 
-        public override void Use(IBattleObject target, BattleMapView battleMapView)
+        public override void Use(IBattleObject target, BattleMap battleMap)
         {
-            var targets = battleMapView.Map.GetBattleObjectsInRadius(target, _radius);
+            var targets = battleMap.GetBattleObjectsInRadius(target, _radius);
             foreach (var battleObject in targets)
             {
-                _areaAbility.Use(battleObject, battleMapView);
+                _areaAbility.Use(battleObject, battleMap);
             }
         }
     }

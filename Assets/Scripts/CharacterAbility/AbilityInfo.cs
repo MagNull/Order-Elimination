@@ -11,6 +11,15 @@ namespace CharacterAbility
         Move,
         Buff
     }
+    
+    public enum TargetType
+    {
+        Self,
+        Enemy,
+        Ally,
+        All,
+        Empty
+    }
 
     [Serializable]
     public struct AbilityEffect
@@ -38,7 +47,13 @@ namespace CharacterAbility
 
         [ShowIf("_hasTarget")]
         [SerializeField]
+        private bool _distanceFromMovement;
+        [ShowIf("@_hasTarget && !_distanceFromMovement")]
+        [SerializeField]
         private int _distance;
+        [ShowIf("_hasTarget")]
+        [SerializeField]
+        private TargetType _targetType;
 
         [ShowIf("_hasTargetEffect")]
         [SerializeField]
@@ -58,9 +73,9 @@ namespace CharacterAbility
 
         #region Properties
         
-
         public bool HasTarget => _hasTarget;
 
+        public TargetType TargetType => _targetType;
         public int Distance => _distance;
 
         public AbilityEffect[] TargetEffects => _targetEffects;
@@ -72,6 +87,8 @@ namespace CharacterAbility
         public bool HasAreaEffect => _hasAreaEffect;
 
         public bool HasTargetEffect => _hasTargetEffect;
+
+        public bool DistanceFromMovement => _distanceFromMovement;
 
         #endregion
 

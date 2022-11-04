@@ -5,6 +5,8 @@ namespace OrderElimination.BattleMap
 {
     public class NullBattleObject : IBattleObject
     {
+        public BattleObjectSide Side => BattleObjectSide.None;
+
         public GameObject GetView()
         {
             Debug.LogError("Try get view form null battle object");

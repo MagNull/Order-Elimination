@@ -4,8 +4,6 @@ using CharacterAbility;
 
 public class BattleCharacterView : MonoBehaviour
 {
-    public event Action<BattleCharacterView> BattleCharacterViewClicked;
-    
     [SerializeField]
     private BattleCharacter _character;
     private AbilityView[] _abilitiesView;
@@ -16,15 +14,14 @@ public class BattleCharacterView : MonoBehaviour
     public void Init(BattleCharacter character, AbilityView[] abilitiesView)
     {
         _character = character;
-        BattleCharacterViewClicked += _character.OnClicked;
         _character.Damaged += OnDamaged;
-        
+
         _abilitiesView = abilitiesView;
     }
 
     public void OnDamaged(int damage)
     {
-        Debug.Log("Damaged");
+        Debug.Log(gameObject.name + " damaged");
     }
 
     public void OnDied()
@@ -35,10 +32,5 @@ public class BattleCharacterView : MonoBehaviour
     public void OnTurnStart()
     {
         throw new NotImplementedException();
-    }
-
-    private void OnMouseDown()
-    {
-        BattleCharacterViewClicked?.Invoke(this);
     }
 }

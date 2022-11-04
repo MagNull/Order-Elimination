@@ -9,21 +9,21 @@ public class CellGridGenerator : MonoBehaviour
     [SerializeField]
     public CellView _cellPrefab;
 
-    public CellView[,] GenerateGrid()
+    public CellView[,] GenerateGrid(int width, int height)
     {
-        CellView[,] cellGrid = new CellView[8, 8];
+        CellView[,] cellGrid = new CellView[width, height];
 
         float x = _cellPrefab.transform.localScale.x;
         float y = _cellPrefab.transform.localScale.y;
 
-        float xStart = -4;
-        float yStart = -4;
+        float xStart = -(float)width / 2;
+        float yStart = -(float)height / 2;
 
         float delta = 0.4f;
 
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < width; i++)
         {
-            for (int j = 0; j < 8; j++)
+            for (int j = 0; j < height; j++)
             {
                 CellView currentObject = Instantiate(_cellPrefab,
                     new Vector3(xStart + i * (x + delta), yStart + j * (y + delta), 0), Quaternion.identity);

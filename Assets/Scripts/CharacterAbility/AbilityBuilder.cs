@@ -9,7 +9,7 @@ namespace CharacterAbility
     {
         [SerializeField]
         private BattleMapView _battleMapView;
-        
+
         public AbilityView Create(AbilityInfo abilityInfo, BattleCharacter caster)
         {
             Ability ability = null;
@@ -18,13 +18,17 @@ namespace CharacterAbility
                 ability = AddEffects(abilityInfo.AreaEffects, ability, caster);
                 ability = new AreaAbility(caster, ability, abilityInfo.AreaRadius);
             }
+
             if (abilityInfo.HasTargetEffect)
             {
                 ability = AddEffects(abilityInfo.TargetEffects, ability, caster);
             }
-            ability = new TargetAbility(caster, ability, abilityInfo.Distance, !abilityInfo.HasTarget);
 
-            return new AbilityView(ability, abilityInfo, _battleMapView);
+            ability = new TargetAbility(caster, ability,
+                abilityInfo.DistanceFromMovement ? caster.Stats.Movement : abilityInfo.Distance,
+                abilityInfo.TargetType == TargetType.Self);
+
+            return new AbilityView(caster, ability, abilityInfo, _battleMapView);
         }
 
         private static Ability AddEffects(AbilityEffect[] effects, Ability ability, BattleCharacter caster)
