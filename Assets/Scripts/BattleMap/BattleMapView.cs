@@ -27,6 +27,7 @@ public class BattleMapView : MonoBehaviour
             {
                 if (x + i >= 0 && x + i < 8 && y + j >=0 && y + j < 8)
                 {
+                    // Нужен метод подсветки клетки
                     // Клетка[x+i, y+i].Light();
                 }
             }
@@ -36,7 +37,7 @@ public class BattleMapView : MonoBehaviour
     public void OnCellChanged(CellView cell)
     {
         // IBattleObject -> BattleObject не круто
-        BattleObject obj = cell.GetObject() as BattleObject;
+        BattleCharacter obj = cell.GetObject() as BattleCharacter;
         obj.gameObject.transform.position = cell.transform.position;
         Debug.Log("Произошло событие!");
     }
