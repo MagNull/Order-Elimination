@@ -1,17 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ability
+namespace CharacterAbility
 {
     public class AbilityButton : Button
     {
-        [SerializeField]
-        private Image _icon;
         private AbilityView _abilityView;
-
+        
         public void SetAbility(AbilityView abilityView)
         {
-            _icon.sprite = abilityView.AbilityIcon;
+            image.sprite = abilityView.AbilityIcon;
             _abilityView = abilityView;
             interactable = true;
             onClick.AddListener(_abilityView.Clicked);
@@ -19,7 +17,7 @@ namespace Ability
         
         public void ResetAbility()
         {
-            _icon.sprite = null;
+            image.sprite = null;
             _abilityView = null;
             interactable = false;
             onClick.RemoveListener(_abilityView.Clicked);
@@ -29,7 +27,7 @@ namespace Ability
         protected override void OnDisable()
         {
             base.OnDisable();
-            onClick.RemoveListener(_abilityView.Clicked);
+            onClick.RemoveAllListeners();
         }
     }
 }

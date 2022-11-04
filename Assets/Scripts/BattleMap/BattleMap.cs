@@ -2,31 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using OrderElimination;
+using OrderElimination.BattleMap;
 
 // Пора разгрузить метод
 public class BattleMap : MonoBehaviour
 {
-    public static event Action<CellView> CellChanged;
+    public event Action<CellView> CellSelected;
+    public event Action<CellView> CellChanged;
 
-    [SerializeField] private CellGridGenerator _generator;
+    [SerializeField]
+    private CellGridGenerator _generator;
+    [SerializeField]
+    private BattleCharacterFactory _characterFactory;
+    [SerializeField]
+    private Character _characterInfo;
 
     private CellView[,] _cellGrid;
-    private BattleCharacterFactory _characterFactory;
 
     public void Start()
     {
-        // Инициализация
-        _characterFactory = GetComponent<BattleCharacterFactory>();
-
         // Создание игрового поля
         _cellGrid = _generator.GenerateGrid();
-
+        foreach (var cellView in _cellGrid)
+        {
+            cellView.CellClicked += OnCellClicked;
+        }
         // Создание игровых персонажей
-        TestBattleCharacterInfo info = new TestBattleCharacterInfo();
 
-        BattleCharacter player = _characterFactory.Create(info, CharacterSide.Player);
-        BattleCharacter enemy_1 = _characterFactory.Create(info, CharacterSide.Enemy);
-        BattleCharacter enemy_2 = _characterFactory.Create(info, CharacterSide.Enemy);
+        IBattleObject player = _characterFactory.Create(_characterInfo, CharacterSide.Player);
+        IBattleObject enemy_1 = _characterFactory.Create(_characterInfo, CharacterSide.Enemy);
+        IBattleObject enemy_2 = _characterFactory.Create(_characterInfo, CharacterSide.Enemy);
 
         SetCell(2, 3, player);
         SetCell(4, 5, enemy_1);
@@ -49,9 +55,13 @@ public class BattleMap : MonoBehaviour
     public void MoveTo(IBattleObject obj, int x, int y)
     {
         Vector2Int objCrd = GetCoordinate(obj);
-        // Не null, а null-object?
-        _cellGrid[objCrd.x, objCrd.y].SetObject(null);
+        _cellGrid[objCrd.x, objCrd.y].SetObject(new NullBattleObject());
         SetCell(x, y, obj);
+    }
+
+    public void OnCellClicked(CellView cellView)
+    {
+        CellSelected?.Invoke(cellView);
     }
 
     public Vector2Int GetCoordinate(IBattleObject obj)
@@ -66,7 +76,39 @@ public class BattleMap : MonoBehaviour
                 }
             }
         }
+
         Debug.Log("Объект не найден на поле!");
         return new Vector2Int(-1, -1);
+    }
+
+    public IList<IBattleObject> GetBattleObjectsInRadius(IBattleObject obj, int radius)
+    {
+        return GetObjectsInRadius(obj, radius, battleObject => battleObject is not NullBattleObject);
+    }
+    
+    public IList<IBattleObject> GetEmptyObjectsInRadius(IBattleObject obj, int radius)
+    {
+        return GetObjectsInRadius(obj, radius, battleObject => battleObject is NullBattleObject);
+    }
+    
+    private IList<IBattleObject> GetObjectsInRadius(IBattleObject obj, int radius, Predicate<IBattleObject> predicate)
+    {
+        Vector2Int objCrd = GetCoordinate(obj);
+        List<IBattleObject> objects = new List<IBattleObject>();
+        for (var i = objCrd.x - radius; i <= objCrd.x + radius; i++)
+        {
+            for (var j = objCrd.y - radius; j <= objCrd.y + radius; j++)
+            {
+                if (i >= 0 && i < _cellGrid.GetLength(0) && j >= 0 && j < _cellGrid.GetLength(1))
+                {
+                    if (predicate(_cellGrid[i, j].GetObject()))
+                    {
+                        objects.Add(_cellGrid[i, j].GetObject());
+                    }
+                }
+            }
+        }
+
+        return objects;
     }
 }

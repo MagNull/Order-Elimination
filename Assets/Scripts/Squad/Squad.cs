@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Sirenix.OdinInspector;
 
 namespace OrderElimination
 {
@@ -10,6 +11,7 @@ namespace OrderElimination
         private SquadModel _model;
         private SquadView _view;
         private SquadPresenter _presenter;
+        [ShowInInspector]
         private PlanetPoint _planetPoint;
         
         public PlanetPoint GetPlanetPoint()

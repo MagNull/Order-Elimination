@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using CharacterAbility;
+using OrderElimination;
 
 public interface IBattleCharacterInfo
 {
-    public BattleStats GetStats();
+    public BattleStats GetBattleStats();
     public BattleCharacterView GetView();
-    public AbilityView[] GetAbilities();
+    public AbilityInfo[] GetAbilityInfos();
 }

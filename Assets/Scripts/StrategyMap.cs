@@ -9,7 +9,6 @@ namespace OrderElimination
     public class StrategyMap : MonoBehaviour
     {
         [SerializeField] private Creator _creator;
-        [SerializeField] private SelectableObjects _selectableObjects;
         private List<PlanetPoint> _planetPoints;
         private List<Squad> _squads;
         private List<Path> _paths;

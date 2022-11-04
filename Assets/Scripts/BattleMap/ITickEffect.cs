@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using OrderElimination;
 
 public interface ITickEffect
 {

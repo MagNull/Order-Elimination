@@ -2,7 +2,7 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Ability
+namespace CharacterAbility
 {
     public enum AbilityEffectType
     {

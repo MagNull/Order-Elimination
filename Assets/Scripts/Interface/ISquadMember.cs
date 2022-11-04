@@ -5,8 +5,8 @@ namespace OrderElimination
 {
     public interface ISquadMember : ISelectable, IMovable
     {
-        public int GetStats();
+        public StrategyStats GetStrategyStats();
 
-        public void RaiseExpirience(float expirience);
+        public void RaiseExperience(float experience);
     }
 }

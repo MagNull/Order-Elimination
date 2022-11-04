@@ -22,7 +22,8 @@ namespace OrderElimination
                 _rang = 0;
                 foreach (var character in _characters)
                 {
-                    _rang += character.GetStats();
+                    //TODO:04.11.22
+                    _rang += 1;
                 }
                 _rang /= AmountOfCharacters;
             }
@@ -41,7 +42,7 @@ namespace OrderElimination
         {
             foreach (var character in _characters)
             {
-                character.RaiseExpirience(expirience / AmountOfCharacters);
+                character.RaiseExperience(expirience / AmountOfCharacters);
             }
         }
         

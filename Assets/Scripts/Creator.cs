@@ -18,21 +18,21 @@ namespace OrderElimination
 
         public PlanetPoint CreatePlanetPoint(Vector3 positionOnMap) 
         {
-            var planetPoint = GameObject.Instantiate(_planetPointPrefab, positionOnMap, Quaternion.identity, _canvas.transform);
+            var planetPoint = Instantiate(_planetPointPrefab, positionOnMap, Quaternion.identity, _canvas.transform);
             Created?.Invoke(planetPoint);
             return planetPoint;
         }
 
         public Squad CreateSquad(Vector3 positionOnMap)
         {
-            var squad = GameObject.Instantiate(_squadPrefab, positionOnMap, Quaternion.identity, _canvas.transform);
+            var squad = Instantiate(_squadPrefab, positionOnMap, Quaternion.identity, _canvas.transform);
             Created?.Invoke(squad); 
             return squad;
         }
 
         public Path CreatePath(Vector3 positionOnMap)
         {
-            var path = GameObject.Instantiate(_pathPrefab, positionOnMap, Quaternion.identity, _canvas.transform);
+            var path = Instantiate(_pathPrefab, positionOnMap, Quaternion.identity, _canvas.transform);
             return path;
         }
     }

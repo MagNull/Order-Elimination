@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using OrderElimination.BattleMap;
 using UnityEngine;
 
 public class BattleMapView : MonoBehaviour
@@ -25,7 +26,7 @@ public class BattleMapView : MonoBehaviour
         {
             for (int j = -distance; j <= distance; j++)
             {
-                if (x + i >= 0 && x + i < 8 && y + j >=0 && y + j < 8)
+                if (x + i >= 0 && x + i < 8 && y + j >= 0 && y + j < 8)
                 {
                     // Нужен метод подсветки клетки
                     // Клетка[x+i, y+i].Light();
@@ -34,11 +35,13 @@ public class BattleMapView : MonoBehaviour
         }
     }
 
-    public void OnCellChanged(CellView cell)
+    private void OnCellChanged(CellView cell)
     {
         // IBattleObject -> BattleObject не круто
-        BattleCharacter obj = cell.GetObject() as BattleCharacter;
-        obj.gameObject.transform.position = cell.transform.position;
-        Debug.Log("Произошло событие!");
+        IBattleObject obj = cell.GetObject();
+        if(obj is NullBattleObject)
+            return;
+        obj.GetView().transform.position = cell.transform.position;
+        Debug.Log($"Cell {cell.name} changed");
     }
 }

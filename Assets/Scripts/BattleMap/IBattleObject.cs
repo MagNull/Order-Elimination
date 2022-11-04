@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IBattleObject
 {
-    public BattleCharacterView GetView();
+    public GameObject GetView();
     public void OnTurnStart();
 }

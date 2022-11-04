@@ -1,10 +1,13 @@
+using OrderElimination.BattleMap;
 using UnityEngine;
 
 // Временный класс для прототипа
 public class CellGridGenerator : MonoBehaviour
 {
-    [SerializeField] public GameObject _parent;
-    [SerializeField] public GameObject _cellPrefab;
+    [SerializeField]
+    public GameObject _parent;
+    [SerializeField]
+    public CellView _cellPrefab;
 
     public CellView[,] GenerateGrid()
     {
@@ -22,11 +25,14 @@ public class CellGridGenerator : MonoBehaviour
         {
             for (int j = 0; j < 8; j++)
             {
-                GameObject currentObject = Instantiate(_cellPrefab, new Vector3(xStart + i * (x + delta), yStart + j * (y + delta), 0), Quaternion.identity);
+                CellView currentObject = Instantiate(_cellPrefab,
+                    new Vector3(xStart + i * (x + delta), yStart + j * (y + delta), 0), Quaternion.identity);
+                currentObject.SetObject(new NullBattleObject());
                 currentObject.transform.parent = _parent.transform;
-                cellGrid[i, j] = currentObject.GetComponent<CellView>();
+                cellGrid[i, j] = currentObject;
             }
         }
+
         return cellGrid;
     }
 }

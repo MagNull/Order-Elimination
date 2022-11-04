@@ -1,33 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
+using CharacterAbility;
 
 public class BattleCharacterView : MonoBehaviour
 {
-    // Action<> - От чего? Что передаёт ивент?
-    public static event Action BattleCharacterViewClicked;
+    public event Action<BattleCharacterView> BattleCharacterViewClicked;
 
     private BattleCharacter _character;
     private AbilityView[] _abilitiesView;
 
-    public BattleCharacter GetModel() => _character;
-    public AbilityView[] GetAbilitiesView() => _abilitiesView;
+    public BattleCharacter Model => _character;
+    public AbilityView[] AbilitiesView => _abilitiesView;
 
     public void Init(BattleCharacter character, AbilityView[] abilitiesView)
     {
         _character = character;
-        // Так работает?
+        BattleCharacterViewClicked += _character.OnClicked;
+        _character.Damaged += OnDamaged;
+        
         _abilitiesView = abilitiesView;
     }
 
-    public void Clicked()
+    public void OnDamaged(int damage)
     {
-        BattleCharacterViewClicked?.Invoke();
+        Debug.Log("Damaged");
     }
 
     public void OnDied()
     {
-        // Пока пустой
+        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    }
+
+    public void OnTurnStart()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnMouseDown()
+    {
+        BattleCharacterViewClicked?.Invoke(this);
     }
 }

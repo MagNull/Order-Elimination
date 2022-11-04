@@ -1,31 +1,29 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using OrderElimination;
 using UnityEngine;
 
-public class BattleCharacter : MonoBehaviour, IBattleObject
+public class BattleCharacter : IBattleObject
 {
+    public event Action<int> Damaged;
     private List<ITickEffect> _activeEffects;
-    private CharacterSide _side;
-    private BattleStats _battleStats;
-
-    public void OnEnable()
-    {
-        BattleCharacterView.BattleCharacterViewClicked += OnClicked;
-    }
-
-    public void OnDisable()
-    {
-        BattleCharacterView.BattleCharacterViewClicked -= OnClicked;
-    }
+    private readonly CharacterSide _side;
+    private readonly BattleStats _battleStats;
+    private BattleCharacterView _view;
+    private float _health;
 
     public BattleStats GetStats() => _battleStats;
     public CharacterSide GetSide() => _side;
-
-    public BattleCharacterView GetView()
+    
+    public BattleCharacter(CharacterSide side, BattleStats battleStats)
     {
-        // Реализовать
-        throw new System.NotImplementedException();
+        _side = side;
+        _battleStats = battleStats;
+        _health = _battleStats.Health;
+        _activeEffects = new List<ITickEffect>();
     }
+    
+    public void SetView(BattleCharacterView view) => _view = view;
 
     public void TickEffects()
     {
@@ -37,7 +35,12 @@ public class BattleCharacter : MonoBehaviour, IBattleObject
 
     public void TakeDamage(int damage)
     {
-        _battleStats.ChangeHp(-damage);
+        _health -= damage;
+        if (_health <= 0)
+        {
+            _health = 0;
+            Debug.Log("Character is dead");
+        }
     }
 
     public void AddTickEffect(ITickEffect effect)
@@ -50,13 +53,12 @@ public class BattleCharacter : MonoBehaviour, IBattleObject
         _activeEffects.Remove(effect);
     }
 
-    public void OnClicked()
+    public void OnClicked(BattleCharacterView battleCharacterView)
     {
-        // Пустой пока
-
-        // Тест работоспособности ивентов
-        Debug.Log("Произошло событие класса: BattleCharacter");
+        Debug.Log("Произошло событие класса: " + battleCharacterView.name);
     }
+
+    public GameObject GetView() => _view.gameObject;
 
     public void OnTurnStart()
     {

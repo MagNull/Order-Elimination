@@ -1,39 +1,47 @@
+﻿using System;
+using CharacterAbility;
 using UnityEngine;
 
 namespace OrderElimination
 {
-    public class Character : MonoBehaviour, ISquadMember
+    [Serializable]
+    public class Character : ISquadMember, IBattleCharacterInfo
     {
-        private CharacterModel _model;
-        private CharacterView _view;
-        private CharacterPresenter _presenter;
-        public int Rang => _model.GetStats();
-
-        private void Awake() 
-        {
-            _model = new CharacterModel();
-            _view = new CharacterView();
-            _presenter = new CharacterPresenter(_model, _view);    
-        }
-
-        public void Move(PlanetPoint planetPoint) => _model.Move(planetPoint);
-
-        public void Select() => _model.Select();
-
-        public void Unselect() => _model.Unselect();
-
-        public void RaiseExpirience(float expirience) => _model.RaiseExpirience(expirience);
-
-        private void OnEnable()
-        {
-            _presenter.Subscribe();
-        }
+        [SerializeField]
+        private AbilityInfo[] _abilities;
+        [SerializeField]
+        private BattleStats _battleStats;
+        private StrategyStats _strategyStats;
         
-        private void OnDisable() 
+        public void Select()
         {
-            _presenter.Unsubscribe();
+            throw new System.NotImplementedException();
         }
 
-        public int GetStats() =>_model.GetStats();
+        public void Unselect()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Move(PlanetPoint planetPoint)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public StrategyStats GetStrategyStats() => _strategyStats;
+
+        public BattleStats GetBattleStats() => _battleStats;
+
+        public BattleCharacterView GetView()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public AbilityInfo[] GetAbilityInfos() => _abilities;
+
+        public void RaiseExperience(float experience)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

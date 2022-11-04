@@ -1,17 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using CharacterAbility;
+using OrderElimination;
 
 public class TestBattleCharacterInfo : IBattleCharacterInfo
 {
-    public AbilityView[] GetAbilities()
+    public AbilityInfo[] GetAbilityInfos()
     {
-        throw new System.NotImplementedException();
+        return new AbilityInfo[] { };
     }
 
-    public BattleStats GetStats()
+    public BattleStats GetBattleStats()
     {
-        throw new System.NotImplementedException();
+        return new BattleStats();
     }
 
     public BattleCharacterView GetView()
