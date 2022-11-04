@@ -6,7 +6,7 @@ namespace OrderElimination
 {
     public class Squad : MonoBehaviour, ISelectable, IMovable
     {
-        static public string LastSelectedSquadName;
+        private SquadInfo _squadInfo; 
         private SquadModel _model;
         private SquadView _view;
         private SquadPresenter _presenter;

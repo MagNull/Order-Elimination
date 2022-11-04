@@ -39,13 +39,8 @@ namespace OrderElimination
 
         private void DeserializePaths()
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<Vector3>));
-            List<Vector3> positiones;
-            using (FileStream fs = new FileStream(Application.dataPath + "/Paths.xml", FileMode.OpenOrCreate))
-            {
-                positiones = serializer.Deserialize(fs) as List<Vector3>;
-            }
-            foreach(var a in positiones)
+            var pathsInfo = Resources.LoadAll<PathInfo>("");
+            foreach(var a in pathsInfo)
             {
                 _paths.Add(_creator.CreatePath(a));
             }
@@ -53,13 +48,8 @@ namespace OrderElimination
 
         private void DeserializePoints()
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<Vector3>));
-            List<Vector3> positiones;
-            using (FileStream fs = new FileStream(Application.dataPath + "/Points.xml", FileMode.OpenOrCreate))
-            {
-                positiones = serializer.Deserialize(fs) as List<Vector3>;
-            }
-            foreach(var a in positiones)
+            var pointsInfo = Resources.LoadAll<PlanetInfo>("");
+            foreach(var a in pointsInfo)
             {
                 _planetPoints.Add(_creator.CreatePlanetPoint(a));
             }
@@ -67,13 +57,8 @@ namespace OrderElimination
 
         private void DeserializeSquads()
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<Vector3>));
-            List<Vector3> positiones;
-            using (FileStream fs = new FileStream(Application.dataPath + "/Squads.xml", FileMode.OpenOrCreate))
-            {
-                positiones = serializer.Deserialize(fs) as List<Vector3>;
-            }
-            foreach(var a in positiones)
+            var squadsInfo = Resources.LoadAll<SquadInfo>("");
+            foreach(var a in squadsInfo)
             {
                 _squads.Add(_creator.CreateSquad(a));
             }

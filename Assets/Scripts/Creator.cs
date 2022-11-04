@@ -16,23 +16,23 @@ namespace OrderElimination
             _canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         }
 
-        public PlanetPoint CreatePlanetPoint(Vector3 positionOnMap) 
+        public PlanetPoint CreatePlanetPoint(PlanetInfo planetInfo) 
         {
-            var planetPoint = GameObject.Instantiate(_planetPointPrefab, positionOnMap, Quaternion.identity, _canvas.transform);
+            var planetPoint = GameObject.Instantiate(_planetPointPrefab, planetInfo.Position, Quaternion.identity, _canvas.transform);
             Created?.Invoke(planetPoint);
             return planetPoint;
         }
 
-        public Squad CreateSquad(Vector3 positionOnMap)
+        public Squad CreateSquad(SquadInfo squadInfo)
         {
-            var squad = GameObject.Instantiate(_squadPrefab, positionOnMap, Quaternion.identity, _canvas.transform);
+            var squad = GameObject.Instantiate(_squadPrefab, squadInfo.Position, Quaternion.identity, _canvas.transform);
             Created?.Invoke(squad); 
             return squad;
         }
 
-        public Path CreatePath(Vector3 positionOnMap)
+        public Path CreatePath(PathInfo pathInfo)
         {
-            var path = GameObject.Instantiate(_pathPrefab, positionOnMap, Quaternion.identity, _canvas.transform);
+            var path = GameObject.Instantiate(_pathPrefab, pathInfo.Positon, Quaternion.identity, _canvas.transform);
             return path;
         }
     }
