@@ -9,16 +9,13 @@ namespace OrderElimination
     {
         private PlanetInfo _planetInfo;
         private PlanetView _planetView;
-        public bool isSelected;
         private List<Path> _paths;
-        public event Action<PlanetPoint> Selected;
-        public event Action<PlanetPoint> Unselected;
+        public event Action<PlanetPoint> Onclick;
 
         private void Awake()
         {
             _planetView = new PlanetView(transform);
             _paths = new List<Path>();
-            isSelected = false;
         }
 
         public PlanetInfo GetPlanetInfo() => _planetInfo;
@@ -37,13 +34,21 @@ namespace OrderElimination
             _paths.Add(path);
         }
 
+        public IReadOnlyList<PlanetPoint> GetNextPoints()
+        {
+            List<PlanetPoint> nextPoints = new List<PlanetPoint>();
+            foreach(var path in _paths)
+                nextPoints.Add(path.End);
+            return nextPoints;
+        }
+
         public void ShowPaths()
         {
             foreach (var path in _paths)
             {
                 Debug.Log($"{gameObject.name}: showPath");
                 path.gameObject.SetActive(true);
-                path.IncreaseEndPoint();
+                path.Increase();
             }
         }
 
@@ -53,22 +58,14 @@ namespace OrderElimination
             {
                 Debug.Log($"{gameObject.name}: hidePath");
                 path.gameObject.SetActive(false);
-                path.DecreaseEndPoint();
+                path.Decrease();
             } 
         }
 
-        public void Select()
-        {
-            Debug.Log($"{this.name}:isSelected = true");
-            Selected?.Invoke(this);
-            isSelected = true;
-        }
+        public void OnClick() => Onclick?.Invoke(this);
 
-        public void Unselect()
-        {
-            Debug.Log($"{this.name}: isSelected = false");
-            Unselected?.Invoke(this);
-            isSelected = false;
-        }
+        public void Select(){}
+
+        public void Unselect(){}
     }
 }

@@ -5,29 +5,33 @@ namespace OrderElimination
 {
     public class Path : MonoBehaviour
     {
-        private List<PlanetPoint> _ends;
+        private PlanetPoint _start;
+        private PlanetPoint _end;
+        public PlanetPoint Start => _start;
+        public PlanetPoint End => _end;
 
-        private void Awake() 
+        public void SetStartPoint(PlanetPoint planetPoint)
         {
-            _ends = new List<PlanetPoint>();
+            Debug.Log("SetStartPoint");
+            _start = planetPoint;
         }
-        
+
         public void SetEndPoint(PlanetPoint planetPoint)
         {
             Debug.Log("SetEndPoint");
-            _ends.Add(planetPoint);
+            _end = planetPoint;
         }
 
-        public void IncreaseEndPoint()
+        public void Increase()
         {
-            foreach(var end in _ends)
-                end.IncreasePoint();
+            _start.IncreasePoint();
+            _end.IncreasePoint();
         }
 
-        public void DecreaseEndPoint()
+        public void Decrease()
         {
-            foreach(var end in _ends)
-                end.DecreasePoint();
+            _start.DecreasePoint();
+            _end.DecreasePoint();
         }
     }
 }

@@ -13,14 +13,13 @@ namespace OrderElimination
         private List<PlanetPoint> _planetPoints;
         private List<Squad> _squads;
         private List<Path> _paths;
-        private List<ISelectable> _selectedObjects;
+        private ISelectable _selectedObject;
 
         private void Awake()
         {
             _planetPoints = new List<PlanetPoint>();
             _squads = new List<Squad>();
             _paths = new List<Path>();
-            _selectedObjects = new List<ISelectable>();
         }
 
         private void Start()
@@ -76,6 +75,7 @@ namespace OrderElimination
             Debug.Log(_paths.Count);
             for(int i = 0; i < _paths.Count; i++)
             {
+                _paths[i].SetStartPoint(_planetPoints[i]);
                 _paths[i].SetEndPoint(_planetPoints[i + 1]);
                 _paths[i].gameObject.SetActive(false);
             }
@@ -88,7 +88,7 @@ namespace OrderElimination
                 if(i != _planetPoints.Count - 1)
                     _planetPoints[i].SetPath(_paths[i]);
                 
-                _planetPoints[i].Selected += AddSelectedObjects;
+                _planetPoints[i].Onclick += PlanetPointClicked;
             }
         }
 
@@ -97,15 +97,35 @@ namespace OrderElimination
             foreach(var squad in _squads)
             {
                 squad.SetPlanetPoint(_planetPoints[0]);
-                squad.Selected += AddSelectedObjects;;
+                squad.Selected += ChangeSelectedObject;
             }
         }
 
-        private void AddSelectedObjects(ISelectable selectedObject)
+        public void ClickOnPanel()
         {
-            if(_selectedObjects.Count == 2)
-                _selectedObjects.Clear();
-            _selectedObjects.Add(selectedObject);
+            ChangeSelectedObject(null);
+        }
+
+        private void ChangeSelectedObject(ISelectable selectedObject)
+        {
+            _selectedObject = selectedObject;
+        }
+
+        private void PlanetPointClicked(PlanetPoint planetPoint)
+        {
+            if(_selectedObject is Squad)
+            {
+                TargetIsClicked((Squad)_selectedObject, planetPoint);
+            }
+        }
+        private void TargetIsClicked(Squad selectedSquad, PlanetPoint selectedPoint)
+        {
+            if(selectedSquad == null || selectedPoint == null)
+                return;
+            foreach(var end in selectedSquad.PlanetPoint.GetNextPoints())
+                if(end == selectedPoint)
+                    selectedSquad.Move(end);
+            _selectedObject = null;
         }
     }
 }
