@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace OrderElimination 
 {
@@ -8,29 +7,28 @@ namespace OrderElimination
     {
         private List<ISquadMember> _characters;
         private int _rang;
-
         public int AmountOfCharacters => _characters.Count;
         public IReadOnlyList<ISquadMember> Characters => _characters;
 
-        public event Action<Vector2Int> Moved;
+        public event Action<PlanetPoint> Moved;
         public event Action Selected;
         public event Action Unselected;
 
         public SquadModel(List<ISquadMember> characters)
         {
-            _characters = characters;
-            _rang = 0;
-            foreach (var character in _characters)
+            if(characters.Count != 0)
             {
-                _rang += character.GetStats();
+                _characters = characters;
+                _rang = 0;
+                foreach (var character in _characters)
+                {
+                    _rang += character.GetStats();
+                }
+                _rang /= AmountOfCharacters;
             }
-            _rang /= AmountOfCharacters;
         }
 
-        public void AddCharacter(Character character)
-        {
-            _characters.Add(character);
-        }
+        public void AddCharacter(Character character) => _characters.Add(character);
 
         public void RemoveCharacter(Character character)
         {
@@ -47,23 +45,13 @@ namespace OrderElimination
             }
         }
         
-        public void Move(Vector2Int position)
+        public void Move(PlanetPoint planetPoint)
         {
-            foreach(var character in _characters)
-            {
-                character.Move(position);
-            }
-            Moved?.Invoke(position);
+            Moved?.Invoke(planetPoint);
         }
 
-        public void Select()
-        {
-            Selected?.Invoke();
-        }
+        public void Select() => Selected?.Invoke();
 
-        public void Unselect()
-        {
-            Unselected?.Invoke();
-        }
+        public void Unselect() => Unselected?.Invoke();
     }
 }
