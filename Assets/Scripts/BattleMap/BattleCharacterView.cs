@@ -5,7 +5,8 @@ using CharacterAbility;
 public class BattleCharacterView : MonoBehaviour
 {
     public event Action<BattleCharacterView> BattleCharacterViewClicked;
-
+    
+    [SerializeField]
     private BattleCharacter _character;
     private AbilityView[] _abilitiesView;
 

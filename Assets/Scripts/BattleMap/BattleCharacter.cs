@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using OrderElimination;
 using UnityEngine;
 
+[Serializable]
 public class BattleCharacter : IBattleObject
 {
     public event Action<int> Damaged;
+    
+    [SerializeField]
+    private float _health;
+    
     private List<ITickEffect> _activeEffects;
     private readonly CharacterSide _side;
     private readonly BattleStats _battleStats;
     private BattleCharacterView _view;
-    private float _health;
 
     public BattleStats GetStats() => _battleStats;
     public CharacterSide GetSide() => _side;
