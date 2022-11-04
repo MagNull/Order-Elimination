@@ -7,18 +7,13 @@ namespace OrderElimination
 {
     public class Squad : MonoBehaviour, ISelectable, IMovable
     {
-        static public string LastSelectedSquadName;
+        private SquadInfo _squadInfo; 
         private SquadModel _model;
         private SquadView _view;
         private SquadPresenter _presenter;
         [ShowInInspector]
         private PlanetPoint _planetPoint;
-        
-        public PlanetPoint GetPlanetPoint()
-        {
-            return _planetPoint;
-        }
-            
+        public PlanetPoint PlanetPoint => _planetPoint;
         public event Action<Squad> Selected;
         public event Action<Squad> Unselected;
 
@@ -39,7 +34,9 @@ namespace OrderElimination
 
         public void Move(PlanetPoint planetPoint)
         {
+            Debug.Log("Squad Move");
             SetPlanetPoint(planetPoint);
+            SquadCommander.CreateResearchOrder(planetPoint, this);
             _model.Move(planetPoint);
         }
 
@@ -48,7 +45,7 @@ namespace OrderElimination
             _planetPoint = planetPoint;
             _presenter.UpdatePlanetPoint(planetPoint);
         }
-
+        
         public void Select()
         {
             Debug.Log("Select is done");
@@ -59,19 +56,9 @@ namespace OrderElimination
         public void Unselect()
         {
             Debug.Log("Unselect is done");
-            Selected?.Invoke(this);
+            Unselected?.Invoke(null);
             _model.Unselect();
         }
-
-        // public void TargetIsSelected()
-        // {
-        //     PlanetPoint target = _planetPoint.GetSelectedPath();
-        //     if(target != null && Squad.LastSelectedSquadName == gameObject.name)
-        //     {
-        //         SquadCommander.CreateResearchOrder(target, this);
-        //         Move(target);
-        //     }
-        // }
 
         public void DistributeExperience(float expirience) => _model.DistributeExpirience(expirience);
 

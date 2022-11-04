@@ -13,6 +13,7 @@ namespace OrderElimination
 
         public void OnMove(PlanetPoint planetPoint)
         {
+            Debug.Log("OnMove");
             _transform.position = planetPoint.transform.position + new Vector3(-20f, 50f);
         }
 

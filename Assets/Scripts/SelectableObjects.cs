@@ -5,18 +5,16 @@ namespace OrderElimination
 {
     public class SelectableObjects : MonoBehaviour
     {   
-        private List<ISelectable> _canBeSelected;
-        static public List<ISelectable> _selectedObjects;
+        private Dictionary<ISelectable, bool> _canBeSelected;
         private void Awake() 
         {
-            _canBeSelected = new List<ISelectable>();
-            _selectedObjects = new List<ISelectable>();
+            _canBeSelected = new Dictionary<ISelectable, bool>();
             Creator.Created += AddSelectableObject;
         }
 
         private void AddSelectableObject(ISelectable selectableObject)
         {
-            _canBeSelected.Add(selectableObject);
+            _canBeSelected.Add(selectableObject, false);
         }
     }
 }
