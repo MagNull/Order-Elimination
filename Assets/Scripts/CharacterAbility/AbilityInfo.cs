@@ -25,7 +25,10 @@ namespace CharacterAbility
     public struct AbilityEffect
     {
         public AbilityEffectType Type;
-        public int Value;
+        [ShowIf("@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal")]
+        public int Amounts;
+        [ShowIf("@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal")]
+        public float AttackScale;
     }
 
     [CreateAssetMenu(fileName = "Ability", menuName = "Ability/Ability Info")]
@@ -96,18 +99,27 @@ namespace CharacterAbility
         private void AddTarget() => _hasTarget = true;
 
         [ShowIf("_hasTarget"), Button]
-        private void RemoveTarget() => _hasTarget = false;
+        private void RemoveTarget()
+        {
+            _hasTarget = false;
+        }
 
         [HideIf("_hasAreaEffect"), Button]
         private void AddAreaEffect() => _hasAreaEffect = true;
 
         [ShowIf("_hasAreaEffect"), Button]
-        private void RemoveAreaEffect() => _hasAreaEffect = false;
-        
+        private void RemoveAreaEffect()
+        {
+            _hasAreaEffect = false;
+        }
+
         [HideIf("_hasTargetEffect"), Button]
         private void AddTargetEffect() => _hasTargetEffect = true;
         
         [ShowIf("_hasTargetEffect"), Button]
-        private void RemoveTargetEffect() => _hasTargetEffect = false;
+        private void RemoveTargetEffect()
+        {
+            _hasTargetEffect = false;
+        }
     }
 }

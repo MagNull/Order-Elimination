@@ -1,33 +1,41 @@
-﻿using UnityEngine;
+﻿using System;
+using Sirenix.OdinInspector;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace CharacterAbility
 {
-    public class AbilityButton : Button
+    [RequireComponent(typeof(Button))]
+    public class AbilityButton : MonoBehaviour
     {
         private AbilityView _abilityView;
-        
+        private Button _button;
+
+        private void Awake()
+        {
+            _button = GetComponent<Button>();
+        }
+
         public void SetAbility(AbilityView abilityView)
         {
             ResetAbility();
-            image.sprite = abilityView.AbilityIcon;
+            _button.image.sprite = abilityView.AbilityIcon;
             _abilityView = abilityView;
-            interactable = true;
-            onClick.AddListener(_abilityView.Clicked);
+            _button.interactable = true;
+            _button.onClick.AddListener(_abilityView.Clicked);
         }
         
-        public void ResetAbility()
+        private void ResetAbility()
         {
-            image.sprite = null;
+            _button.image.sprite = null;
             _abilityView = null;
-            interactable = false;
-            onClick.RemoveAllListeners();
+            _button.interactable = false;
+            _button.onClick.RemoveAllListeners();
         }
         
         
-        protected override void OnDisable()
+        protected void OnDisable()
         {
-            base.OnDisable();
             ResetAbility();
         }
     }

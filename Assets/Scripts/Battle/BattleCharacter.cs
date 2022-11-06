@@ -4,6 +4,7 @@ using OrderElimination;
 using OrderElimination.Battle;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [Serializable]
 public class BattleCharacter : IBattleObject
@@ -53,6 +54,17 @@ public class BattleCharacter : IBattleObject
             _battleStats.Health = 0;
             Debug.Log("Character is dead");
         }
+    }
+
+    //TODO: Strategy pattern in future if needed
+    public void TakeHeal(int heal, int accuracy)
+    {
+        bool isHeal = Random.Range(0, 100) < accuracy;
+        if (!isHeal)
+            return;
+        
+        _battleStats.Health = Mathf.Clamp(_battleStats.Health + heal, 0, _startStats.Health);
+        Debug.Log(GetView().name + " take heal");
     }
 
     public void AddTickEffect(ITickEffect effect)

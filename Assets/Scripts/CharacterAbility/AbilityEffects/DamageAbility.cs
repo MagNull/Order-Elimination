@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace CharacterAbility.AbilityEffects
 {
@@ -6,16 +7,23 @@ namespace CharacterAbility.AbilityEffects
     {
         private readonly Ability _nextAbility;
         private readonly int _damage;
+        private readonly int _damageAmounts;
+        private readonly float _attackScale;
 
-        public DamageAbility(BattleCharacter caster, Ability nextAbility, int damage) : base(caster)
+        public DamageAbility(BattleCharacter caster, Ability nextAbility, int damageAmounts, float attackScale) :
+            base(caster)
         {
+            _attackScale = attackScale;
+            _damageAmounts = damageAmounts;
             _nextAbility = nextAbility;
-            _damage = damage;
         }
 
         public override void Use(IBattleObject target, BattleMap battleMap)
         {
-            target.GetView().GetComponent<BattleCharacterView>().Model.TakeDamage(_damage, _caster.Stats.Accuracy);
+            BattleCharacter targetCharacter = target.GetView().GetComponent<BattleCharacterView>().Model;
+            for (var i = 0; i < _damageAmounts; i++)
+                targetCharacter.TakeDamage((int) (_caster.Stats.Attack * _attackScale), _caster.Stats.Accuracy);
+
             _nextAbility?.Use(target, battleMap);
         }
     }

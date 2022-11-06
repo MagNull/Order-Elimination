@@ -20,7 +20,6 @@ public class CellView : MonoBehaviour
 
     public void Light()
     {
-        Debug.Log("Light");
         _renderer.material.color = Color.red;
     }
 

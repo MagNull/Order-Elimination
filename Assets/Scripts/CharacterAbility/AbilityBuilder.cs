@@ -39,10 +39,10 @@ namespace CharacterAbility
                 switch (effect.Type)
                 {
                     case AbilityEffectType.Damage:
-                        ability = new DamageAbility(caster, ability, effect.Value);
+                        ability = new DamageAbility(caster, ability, effect.Amounts, effect.AttackScale);
                         break;
                     case AbilityEffectType.Heal:
-                        ability = new HealAbility(caster, ability, effect.Value);
+                        ability = new HealAbility(caster, ability, effect.Amounts, effect.AttackScale);
                         break;
                     case AbilityEffectType.Move:
                         ability = new MoveAbility(caster, ability);

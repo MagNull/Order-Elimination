@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CharacterAbility.AbilityEffects;
 using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,9 +11,9 @@ namespace CharacterAbility
 {
     public class AbilityView
     {
-        [SerializeField]
         private readonly Sprite _abilityIcon;
         private readonly BattleCharacter _caster;
+        [ShowInInspector]
         private readonly Ability _ability;
         private readonly BattleMapView _battleMapView;
         private readonly AbilityInfo _abilityInfo;
