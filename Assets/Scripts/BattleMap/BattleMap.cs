@@ -6,7 +6,6 @@ using System.Linq;
 using OrderElimination;
 using OrderElimination.BattleMap;
 
-// Пора разгрузить метод
 public class BattleMap : MonoBehaviour
 {
     public event Action<CellView> CellSelected;
@@ -18,10 +17,10 @@ public class BattleMap : MonoBehaviour
     private int _height;
     [SerializeField]
     private CellGridGenerator _generator;
-    [SerializeField]
-    private BattleCharacterFactory _characterFactory;
-    [SerializeField]
-    private Character _characterInfo;
+    //[SerializeField]
+    //private BattleCharacterFactory _characterFactory;
+    //[SerializeField]
+    //private Character _characterInfo;
 
     private CellView[,] _cellGrid;
 
@@ -29,7 +28,7 @@ public class BattleMap : MonoBehaviour
 
     public int Height => _height;
 
-    public void Start()
+    public void Init()
     {
         // Создание игрового поля
         _cellGrid = _generator.GenerateGrid(_width, _height);
@@ -37,15 +36,6 @@ public class BattleMap : MonoBehaviour
         {
             cellView.CellClicked += OnCellClicked;
         }
-        // Создание игровых персонажей
-
-        IBattleObject player = _characterFactory.Create(_characterInfo, BattleObjectSide.Player);
-        IBattleObject enemy_1 = _characterFactory.Create(_characterInfo, BattleObjectSide.Enemy);
-        IBattleObject enemy_2 = _characterFactory.Create(_characterInfo, BattleObjectSide.Enemy);
-
-        SetCell(2, 3, player);
-        SetCell(4, 5, enemy_1);
-        SetCell(6, 0, enemy_2);
     }
 
     public CellView GetCell(int x, int y)

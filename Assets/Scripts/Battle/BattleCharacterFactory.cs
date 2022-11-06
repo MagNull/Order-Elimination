@@ -39,6 +39,22 @@ public class BattleCharacterFactory : MonoBehaviour
         return character;
     }
 
+    // new
+    public BattleCharacter[] CreatePlayerSquad(IBattleCharacterInfo[] infos) => CreateSquad(infos, BattleObjectSide.Player);
+    // new
+    public BattleCharacter[] CreateEnemySquad(IBattleCharacterInfo[] infos) => CreateSquad(infos, BattleObjectSide.Enemy);
+
+    // new
+    public BattleCharacter[] CreateSquad(IBattleCharacterInfo[] infos, BattleObjectSide side)
+    {
+        var characters = new BattleCharacter[infos.Length];
+        for (var i = 0; i < infos.Length; i++)
+        {
+            characters[i] = Create(infos[i], side);
+        }
+        return characters;
+    }
+
     private AbilityView[] CreateAbilities(AbilityInfo[] abilityInfos, BattleCharacter caster)
     {
         var abilities = new AbilityView[abilityInfos.Length];

@@ -8,6 +8,8 @@ public class BattleMapView : MonoBehaviour
     [SerializeField]
     private BattleMap _battleMap;
 
+    private List<CellView> _lightedCells = new List<CellView>();
+
     public BattleMap Map => _battleMap;
 
     public void OnEnable()
@@ -26,17 +28,29 @@ public class BattleMapView : MonoBehaviour
         {
             for (int j = -distance; j <= distance; j++)
             {
-                if (x + i >= 0 && x + i < _battleMap.Width && y + j >= 0 && y + j < _battleMap.Height)
+                int deltedX = x + i;
+                int deltedY = y + j;
+
+                if (deltedX >= 0 && deltedX < _battleMap.Width && deltedY >= 0 && deltedY < _battleMap.Height)
                 {
-                    _battleMap.GetCell(x + i, y + j).Light();
+                    CellView cell = _battleMap.GetCell(deltedX, deltedY);
+                    cell.Light();
+                    _lightedCells.Add(cell);
                 }
             }
         }
     }
 
+    public void DelightCells()
+    {
+        foreach (var cell in _lightedCells)
+        {
+            cell.Delight();
+        }
+    }
+
     private void OnCellChanged(CellView cell)
     {
-        // IBattleObject -> BattleObject не круто
         IBattleObject obj = cell.GetObject();
         if (obj is NullBattleObject)
             return;
