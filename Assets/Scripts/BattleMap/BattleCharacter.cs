@@ -16,6 +16,7 @@ public class BattleCharacter : IBattleObject
     private readonly BattleStats _battleStats;
     private BattleCharacterView _view;
 
+    public float Health => _health;
     public BattleObjectSide Side => _side;
     public BattleStats Stats => _battleStats;
 

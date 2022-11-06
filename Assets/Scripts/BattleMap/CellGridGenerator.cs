@@ -5,9 +5,9 @@ using UnityEngine;
 public class CellGridGenerator : MonoBehaviour
 {
     [SerializeField]
-    public GameObject _parent;
+    private GameObject _parent;
     [SerializeField]
-    public CellView _cellPrefab;
+    private CellView _cellPrefab;
 
     public CellView[,] GenerateGrid(int width, int height)
     {

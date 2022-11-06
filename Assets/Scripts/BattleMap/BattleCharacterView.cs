@@ -26,7 +26,7 @@ public class BattleCharacterView : MonoBehaviour
 
     public void OnDied()
     {
-        // ���� ������
+        // yet empty
     }
 
     public void OnTurnStart()
