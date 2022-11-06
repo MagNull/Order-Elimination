@@ -23,7 +23,6 @@ namespace OrderElimination
                 _rang = 0;
                 foreach (var character in _characters)
                 {
-                    //TODO:04.11.22
                     _rang += 1;
                 }
                 _rang /= AmountOfCharacters;

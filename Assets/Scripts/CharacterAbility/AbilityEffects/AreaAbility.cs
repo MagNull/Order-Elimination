@@ -5,7 +5,7 @@
         private readonly int _radius;
         private readonly Ability _areaAbility;
 
-        public AreaAbility(BattleCharacter caster, Ability areaAbility, int radius) : base(caster)
+        public AreaAbility(IAbilityCaster caster, Ability areaAbility, int radius) : base(caster)
         {
             _radius = radius;
             _areaAbility = areaAbility;

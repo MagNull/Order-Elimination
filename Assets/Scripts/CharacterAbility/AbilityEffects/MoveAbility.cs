@@ -7,7 +7,7 @@ namespace CharacterAbility.AbilityEffects
     {
         private readonly Ability _nextAbility;
 
-        public MoveAbility(BattleCharacter caster, Ability nextAbility) : base(caster)
+        public MoveAbility(IAbilityCaster caster, Ability nextAbility) : base(caster)
         {
             _nextAbility = nextAbility;
         }

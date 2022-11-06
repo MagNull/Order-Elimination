@@ -6,8 +6,15 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+public enum ActionType
+{
+    Movement,
+    Ability,
+    Free
+}
+
 [Serializable]
-public class BattleCharacter : IBattleObject
+public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like interface for ability
 {
     public event Action<int> Damaged;
 
@@ -19,8 +26,14 @@ public class BattleCharacter : IBattleObject
     private BattleStats _battleStats;
     private BattleStats _startStats;
     private IDamageCalculation _damageCalculation;
+    
+    [ShowInInspector]
+    private readonly List<ActionType> _availableActions;
 
     public BattleObjectSide Side => _side;
+
+    public IReadOnlyList<ActionType> AvailableActions => _availableActions;
+
     public IReadOnlyBattleStats Stats => _battleStats;
 
     public BattleCharacter(BattleObjectSide side, BattleStats battleStats, IDamageCalculation damageCalculation)
@@ -30,6 +43,8 @@ public class BattleCharacter : IBattleObject
         _battleStats = battleStats;
         _startStats = battleStats;
         _activeEffects = new List<ITickEffect>();
+        _availableActions = new List<ActionType>();
+        BattleSimulation.PlayerTurnStart += OnTurnStart;
     }
 
     public void SetView(BattleCharacterView view) => _view = view;
@@ -56,13 +71,13 @@ public class BattleCharacter : IBattleObject
         }
     }
 
-    //TODO: Strategy pattern in future if needed
+//TODO: Strategy pattern in future if needed
     public void TakeHeal(int heal, int accuracy)
     {
         bool isHeal = Random.Range(0, 100) < accuracy;
         if (!isHeal)
             return;
-        
+
         _battleStats.Health = Mathf.Clamp(_battleStats.Health + heal, 0, _startStats.Health);
         Debug.Log(GetView().name + " take heal");
     }
@@ -81,6 +96,23 @@ public class BattleCharacter : IBattleObject
 
     public void OnTurnStart()
     {
-        // Пустой пока
+        RefreshActions();
     }
+
+    private void RefreshActions()
+    {
+        _availableActions.Clear();
+        _availableActions.Add(ActionType.Movement);
+        _availableActions.Add(ActionType.Ability);
+    }
+
+    public bool TrySpendAction(ActionType actionType)
+    {
+        if (!_availableActions.Contains(actionType)) 
+            return false;
+        _availableActions.Remove(actionType);
+        return true;
+    }
+
+    public void AddAction(ActionType actionType) => _availableActions.Add(actionType);
 }

@@ -34,20 +34,22 @@ namespace CharacterAbility
     [CreateAssetMenu(fileName = "Ability", menuName = "Ability/Ability Info")]
     public class AbilityInfo : SerializedScriptableObject
     {
-        [Header("General Parameters")]
+        [Title("General Parameters")]
         [SerializeField]
         private float _coolDown;
 
         [field: SerializeField] public float StartCoolDown { get; private set; }
 
         [field: SerializeField] public Sprite Icon { get; private set; }
+        
+        [field: SerializeField] public ActionType ActionType { get; private set; }
 
         #region Params
-
-        [Header("Type Specific Parameters")]
+        
         private bool _hasTarget;
         private bool _hasTargetEffect;
 
+        [Title("Type Specific Parameters")]
         [ShowIf("_hasTarget")]
         [SerializeField]
         private bool _distanceFromMovement;
@@ -94,6 +96,8 @@ namespace CharacterAbility
         public bool DistanceFromMovement => _distanceFromMovement;
 
         #endregion
+        
+        //TODO: Clear params on remove button
 
         [HideIf("_hasTarget"), Button]
         private void AddTarget() => _hasTarget = true;

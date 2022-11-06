@@ -2,24 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using CharacterAbility;
 using OrderElimination;
+using OrderElimination.BattleMap;
 
 public class BattleSimulation : MonoBehaviour
 {
-    public static event Action OnPlayerTurnStart;
-    public static event Action OnPlayerTurnEnd;
+    public static event Action PlayerTurnStart;
+    public static event Action PlayerTurnEnd;
 
-    public static event Action<BattleOutcome> OnBattleEnded;
+    public static event Action<BattleOutcome> BattleEnded;
 
-    [SerializeField] private BattleCharacterFactory _characterFactory;
-    [SerializeField] private BattleMap _map;
-    [SerializeField] private Character _characterInfo;
+    [SerializeField]
+    private BattleCharacterFactory _characterFactory;
+    [SerializeField]
+    private BattleMap _map;
+    [SerializeField]
+    private Character _characterInfo;
+    [SerializeField]
+    private AbilityButton[] _abilityButtons;
 
-    private BattleObjectSide currentTurn;
-    private BattleOutcome outcome;
+    private BattleObjectSide _currentTurn;
+    private BattleOutcome _outcome;
 
-    private bool isBattleEnded = false;
-    private bool isTurnChanged = true;
+    private bool _isBattleEnded = false;
+    private bool _isTurnChanged = true;
 
     private List<BattleCharacter> _characters;
 
@@ -32,25 +39,25 @@ public class BattleSimulation : MonoBehaviour
 
     public void Update()
     {
-        if (outcome != BattleOutcome.Neither)
+        if (_outcome != BattleOutcome.Neither)
         {
             // По завершении сражения событие отправляется единожды
-            if (!isBattleEnded)
+            if (!_isBattleEnded)
             {
-                OnBattleEnded?.Invoke(outcome);
-                isBattleEnded = true;
-                Debug.LogFormat("Сражение завершено - победил {0}", outcome == BattleOutcome.Victory ? "игрок" : "ИИ");
+                BattleEnded?.Invoke(_outcome);
+                _isBattleEnded = true;
+                Debug.LogFormat("Сражение завершено - победил {0}", _outcome == BattleOutcome.Victory ? "игрок" : "ИИ");
             }
         }
         else
         {
-            if (currentTurn == BattleObjectSide.Player)
+            if (_currentTurn == BattleObjectSide.Player)
             {
                 // Событие начала хода игрока отправляется один раз для каждого хода
-                if (isTurnChanged)
+                if (_isTurnChanged)
                 {
-                    OnPlayerTurnStart?.Invoke();
-                    isTurnChanged = false;
+                    PlayerTurnStart?.Invoke();
+                    _isTurnChanged = false;
                     Debug.Log("Начался ход игрока");
                 }
                 else
@@ -58,12 +65,12 @@ public class BattleSimulation : MonoBehaviour
                     // ?
                 }
             }
-            else if (currentTurn == BattleObjectSide.Enemy)
+            else if (_currentTurn == BattleObjectSide.Enemy)
             {
-                if (isTurnChanged)
+                if (_isTurnChanged)
                 {
-                    OnPlayerTurnEnd?.Invoke();
-                    isTurnChanged = false;
+                    PlayerTurnEnd?.Invoke();
+                    _isTurnChanged = false;
                     Debug.Log("Начался ход противника");
                 }
 
@@ -77,10 +84,9 @@ public class BattleSimulation : MonoBehaviour
         bool isThereAnyAliveAlly = false;
         bool isThereAnyAliveEnemy = false;
 
-        for (int i = 0; i < _characters.Count; i++)
+        foreach (var unit in _characters)
         {
-            BattleCharacter unit = _characters[i];
-            if (unit.Health > 0)
+            if (unit.Stats.Health > 0)
             {
                 if (unit.Side == BattleObjectSide.Player)
                 {
@@ -94,7 +100,9 @@ public class BattleSimulation : MonoBehaviour
             }
         }
 
-        outcome = !isThereAnyAliveAlly ? BattleOutcome.Defeat : (isThereAnyAliveEnemy ? BattleOutcome.Neither : BattleOutcome.Victory); 
+        _outcome = !isThereAnyAliveAlly
+            ? BattleOutcome.Defeat
+            : (isThereAnyAliveEnemy ? BattleOutcome.Neither : BattleOutcome.Victory);
     }
 
     // Вызывается извне класса, например кнопкой на экране
@@ -102,22 +110,37 @@ public class BattleSimulation : MonoBehaviour
     public void EndTurn()
     {
         SwitchTurn();
-        isTurnChanged = true;
+        _isTurnChanged = true;
     }
 
-    public void SwitchTurn() => currentTurn = currentTurn == BattleObjectSide.Player ? BattleObjectSide.Enemy : BattleObjectSide.Player;
+    public void SwitchTurn() => _currentTurn =
+        _currentTurn == BattleObjectSide.Player ? BattleObjectSide.Enemy : BattleObjectSide.Player;
 
     public void InitializeBattlefield()
     {
-        currentTurn = BattleObjectSide.Player;
-        outcome = BattleOutcome.Neither;
+        _currentTurn = BattleObjectSide.Player;
+        _outcome = BattleOutcome.Neither;
 
         _map.Init();
         ArrangeCharacters(GetTestSquad(1), GetTestSquad(3));
+        BindAbilityButtons();
+    }
+
+    private void BindAbilityButtons()
+    {
+        _map.CellSelected += cell =>
+        {
+            if (cell.GetObject() is NullBattleObject ||
+                !cell.GetObject().GetView().TryGetComponent(out BattleCharacterView characterView) ||
+                characterView.Model.Side != BattleObjectSide.Player)
+                return;
+            for(var i = 0; i < characterView.AbilityViews.Length; i++)
+                _abilityButtons[i].SetAbility(characterView.AbilityViews[i]);
+        };
     }
 
     // Расставляет юнитов на игровом поле
-    public void ArrangeCharacters(IBattleCharacterInfo[] alliesInfo, IBattleCharacterInfo[] enemiesInfo)
+    private void ArrangeCharacters(IBattleCharacterInfo[] alliesInfo, IBattleCharacterInfo[] enemiesInfo)
     {
         BattleCharacter[] playerSquad = _characterFactory.CreatePlayerSquad(alliesInfo);
         for (int i = 0; i < playerSquad.Length; i++)
@@ -141,6 +164,7 @@ public class BattleSimulation : MonoBehaviour
         {
             result[i] = _characterInfo;
         }
+
         return result;
     }
 }

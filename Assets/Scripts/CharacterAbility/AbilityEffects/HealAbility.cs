@@ -8,7 +8,7 @@ namespace CharacterAbility.AbilityEffects
         private readonly int _healAmount;
         private readonly float _attackScale;
 
-        public HealAbility(BattleCharacter caster, Ability nextAbility, int healAmount, float attackScale) : base(caster)
+        public HealAbility(IAbilityCaster caster, Ability nextAbility, int healAmount, float attackScale) : base(caster)
         {
             _attackScale = attackScale;
             _nextAbility = nextAbility;

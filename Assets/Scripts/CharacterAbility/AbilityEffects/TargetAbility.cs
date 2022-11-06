@@ -8,7 +8,7 @@ namespace CharacterAbility.AbilityEffects
         private readonly int _distance;
         private readonly bool _selfCast;
 
-        public TargetAbility(BattleCharacter caster, Ability nextAbility, int distance, bool selfCast) 
+        public TargetAbility(IAbilityCaster caster, Ability nextAbility, int distance, bool selfCast) 
             : base(caster)
         {
             _nextAbility = nextAbility;
@@ -18,9 +18,6 @@ namespace CharacterAbility.AbilityEffects
 
         public override void Use(IBattleObject target, BattleMap battleMap)
         {
-            var castPos = battleMap.GetCoordinate(_caster);
-           // battleMap.LightCellByDistance(castPos.x, castPos.y, _distance);
-            //await UniTask.WaitUntil(() => Input.); TODO: Ожидание клика по клетке
             _nextAbility.Use(_selfCast ? _caster : target, battleMap);
         }
     }

@@ -2,9 +2,9 @@
 {
     public abstract class Ability
     {
-        protected BattleCharacter _caster;
+        protected IAbilityCaster _caster;
 
-        protected Ability(BattleCharacter caster)
+        protected Ability(IAbilityCaster caster)
         {
             _caster = caster;
         }

@@ -10,7 +10,7 @@ namespace CharacterAbility.AbilityEffects
         private readonly int _damageAmounts;
         private readonly float _attackScale;
 
-        public DamageAbility(BattleCharacter caster, Ability nextAbility, int damageAmounts, float attackScale) :
+        public DamageAbility(IAbilityCaster caster, Ability nextAbility, int damageAmounts, float attackScale) :
             base(caster)
         {
             _attackScale = attackScale;

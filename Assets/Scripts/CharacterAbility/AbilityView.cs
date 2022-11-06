@@ -1,26 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using CharacterAbility.AbilityEffects;
+using System.Linq;
 using Cysharp.Threading.Tasks;
-using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CharacterAbility
 {
+    [Serializable]
     public class AbilityView
     {
-        private readonly Sprite _abilityIcon;
         private readonly BattleCharacter _caster;
-        [ShowInInspector]
         private readonly Ability _ability;
         private readonly BattleMapView _battleMapView;
         private readonly AbilityInfo _abilityInfo;
         private readonly int _abilityDistance;
 
         private bool _selected;
-        public Sprite AbilityIcon => _abilityIcon;
+        public Sprite AbilityIcon => _abilityInfo.Icon;
 
         public AbilityView(BattleCharacter caster, Ability ability, AbilityInfo info, BattleMapView battleMapView)
         {
@@ -28,14 +24,20 @@ namespace CharacterAbility
             _ability = ability;
             _battleMapView = battleMapView;
             _abilityInfo = info;
-            _abilityIcon = info.Icon;
             _abilityDistance = _abilityInfo.DistanceFromMovement ? _caster.Stats.Movement : _abilityInfo.Distance;
         }
 
         public async void Clicked()
         {
+            
+            if (!_caster.AvailableActions.Contains(_abilityInfo.ActionType))
+            {
+                Debug.LogWarning("Dont enough actions");
+                return;
+            }
             LightTargets();
             await Cast();
+            _battleMapView.DelightCells();
         }
 
         private void LightTargets()
@@ -55,8 +57,12 @@ namespace CharacterAbility
             _battleMapView.Map.CellSelected += cell => target = cell.GetObject();
 
             await UniTask.WaitUntil(() => availableTargets.Contains(target));
-
+            
+            Debug.Log(_abilityInfo.ActionType);
+            if(!_caster.TrySpendAction(_abilityInfo.ActionType))
+                throw new Exception("Dont enough actions");
             _ability.Use(target, _battleMapView.Map);
+            
             _selected = false;
         }
 

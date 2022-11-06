@@ -25,17 +25,6 @@ public class BattleCharacterFactory : MonoBehaviour
         battleCharacterView.Init(character, CreateAbilities(info.GetAbilityInfos(), character));
 
         character.SetView(battleCharacterView);
-        _map.CellSelected += cell =>
-        {
-            if (cell.GetObject() is NullBattleObject ||
-                !cell.GetObject().GetView().TryGetComponent(out BattleCharacterView characterView) ||
-                characterView.Model.Side != BattleObjectSide.Player)
-                return;
-            var move = characterView.AbilitiesView[0];
-            var damage = characterView.AbilitiesView[1];
-            _move.SetAbility(move);
-            _damage.SetAbility(damage);
-        };
         return character;
     }
 
