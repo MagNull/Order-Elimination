@@ -8,7 +8,7 @@ using OrderElimination.BattleMap;
 
 public class BattleSimulation : MonoBehaviour
 {
-    public static event Action PlayerTurnStart;
+    public static event Action RoundStarted;
     public static event Action PlayerTurnEnd;
 
     public static event Action<BattleOutcome> BattleEnded;
@@ -56,7 +56,7 @@ public class BattleSimulation : MonoBehaviour
                 // Событие начала хода игрока отправляется один раз для каждого хода
                 if (_isTurnChanged)
                 {
-                    PlayerTurnStart?.Invoke();
+                    RoundStarted?.Invoke();
                     _isTurnChanged = false;
                     Debug.Log("Начался ход игрока");
                 }

@@ -44,7 +44,7 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
         _startStats = battleStats;
         _activeEffects = new List<ITickEffect>();
         _availableActions = new List<ActionType>();
-        BattleSimulation.PlayerTurnStart += OnTurnStart;
+        BattleSimulation.RoundStarted += OnTurnStart;
     }
 
     public void SetView(BattleCharacterView view) => _view = view;

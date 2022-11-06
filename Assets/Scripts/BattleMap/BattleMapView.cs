@@ -55,6 +55,5 @@ public class BattleMapView : MonoBehaviour
         if (obj is NullBattleObject)
             return;
         obj.GetView().transform.position = cell.transform.position;
-        Debug.Log($"Cell {cell.name} changed");
     }
 }

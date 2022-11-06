@@ -15,6 +15,8 @@ namespace CharacterAbility
         private readonly AbilityInfo _abilityInfo;
         private readonly int _abilityDistance;
 
+        private int _coolDownTimer;
+
         private bool _selected;
         public Sprite AbilityIcon => _abilityInfo.Icon;
 
@@ -25,16 +27,25 @@ namespace CharacterAbility
             _battleMapView = battleMapView;
             _abilityInfo = info;
             _abilityDistance = _abilityInfo.DistanceFromMovement ? _caster.Stats.Movement : _abilityInfo.Distance;
+            _coolDownTimer = _abilityInfo.StartCoolDown;
+
+            BattleSimulation.RoundStarted += OnRoundStart;
         }
 
         public async void Clicked()
         {
-            
             if (!_caster.AvailableActions.Contains(_abilityInfo.ActionType))
             {
                 Debug.LogWarning("Dont enough actions");
                 return;
             }
+            
+            if(_coolDownTimer > 0)
+            {
+                Debug.LogWarning("Ability is on cooldown");
+                return;
+            }
+            
             LightTargets();
             await Cast();
             _battleMapView.DelightCells();
@@ -62,6 +73,8 @@ namespace CharacterAbility
             if(!_caster.TrySpendAction(_abilityInfo.ActionType))
                 throw new Exception("Dont enough actions");
             _ability.Use(target, _battleMapView.Map);
+            
+            _coolDownTimer = _abilityInfo.CoolDown;
             
             _selected = false;
         }
@@ -97,6 +110,11 @@ namespace CharacterAbility
             }
 
             return targets;
+        }
+
+        private void OnRoundStart()
+        {
+            _coolDownTimer--;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace CharacterAbility
         Move,
         Buff
     }
-    
+
     public enum TargetType
     {
         Self,
@@ -36,16 +36,18 @@ namespace CharacterAbility
     {
         [Title("General Parameters")]
         [SerializeField]
-        private float _coolDown;
-
-        [field: SerializeField] public float StartCoolDown { get; private set; }
+        [Range(0, 10)]
+        private int _coolDown;
+        [SerializeField]
+        [Range(0, 10)]
+        private int _startCoolDown;
 
         [field: SerializeField] public Sprite Icon { get; private set; }
-        
+
         [field: SerializeField] public ActionType ActionType { get; private set; }
 
         #region Params
-        
+
         private bool _hasTarget;
         private bool _hasTargetEffect;
 
@@ -77,7 +79,7 @@ namespace CharacterAbility
         #endregion
 
         #region Properties
-        
+
         public bool HasTarget => _hasTarget;
 
         public TargetType TargetType => _targetType;
@@ -95,8 +97,12 @@ namespace CharacterAbility
 
         public bool DistanceFromMovement => _distanceFromMovement;
 
+        public int CoolDown => _coolDown + 1;
+
+        public int StartCoolDown => _startCoolDown + 1;
+
         #endregion
-        
+
         //TODO: Clear params on remove button
 
         [HideIf("_hasTarget"), Button]
@@ -119,7 +125,7 @@ namespace CharacterAbility
 
         [HideIf("_hasTargetEffect"), Button]
         private void AddTargetEffect() => _hasTargetEffect = true;
-        
+
         [ShowIf("_hasTargetEffect"), Button]
         private void RemoveTargetEffect()
         {
