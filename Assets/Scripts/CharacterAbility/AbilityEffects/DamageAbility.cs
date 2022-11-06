@@ -15,8 +15,7 @@ namespace CharacterAbility.AbilityEffects
 
         public override void Use(IBattleObject target, BattleMap battleMap)
         {
-            Debug.Log("Damage");
-            target.GetView().GetComponent<BattleCharacterView>().Model.TakeDamage(_damage);
+            target.GetView().GetComponent<BattleCharacterView>().Model.TakeDamage(_damage, _caster.Stats.Accuracy);
             _nextAbility?.Use(target, battleMap);
         }
     }

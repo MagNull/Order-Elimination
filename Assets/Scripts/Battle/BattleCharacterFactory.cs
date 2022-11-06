@@ -1,4 +1,5 @@
 using CharacterAbility;
+using OrderElimination.Battle;
 using OrderElimination.BattleMap;
 using UnityEngine;
 
@@ -19,7 +20,7 @@ public class BattleCharacterFactory : MonoBehaviour
     public BattleCharacter Create(IBattleCharacterInfo info, BattleObjectSide side)
     {
         BattleCharacterView battleCharacterView = Instantiate(charPrefab);
-        var character = new BattleCharacter(side, info.GetBattleStats());
+        var character = new BattleCharacter(side, info.GetBattleStats(), new SimpleDamageCalculation());
         battleCharacterView.GetComponent<PlayerTestScript>().SetSide(side);
         battleCharacterView.Init(character, CreateAbilities(info.GetAbilityInfos(), character));
 
@@ -27,7 +28,8 @@ public class BattleCharacterFactory : MonoBehaviour
         _map.CellSelected += cell =>
         {
             if (cell.GetObject() is NullBattleObject ||
-                !cell.GetObject().GetView().TryGetComponent(out BattleCharacterView characterView))
+                !cell.GetObject().GetView().TryGetComponent(out BattleCharacterView characterView) ||
+                characterView.Model.Side != BattleObjectSide.Player)
                 return;
             var move = characterView.AbilitiesView[0];
             var damage = characterView.AbilitiesView[1];

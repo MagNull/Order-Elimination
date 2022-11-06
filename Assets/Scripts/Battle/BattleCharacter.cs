@@ -1,32 +1,36 @@
 using System;
 using System.Collections.Generic;
 using OrderElimination;
+using OrderElimination.Battle;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 [Serializable]
 public class BattleCharacter : IBattleObject
 {
     public event Action<int> Damaged;
-    
-    [SerializeField]
-    private float _health;
 
     private List<ITickEffect> _activeEffects;
+    [ShowInInspector]
     private readonly BattleObjectSide _side;
-    private readonly BattleStats _battleStats;
     private BattleCharacterView _view;
+    [SerializeField]
+    private BattleStats _battleStats;
+    private BattleStats _startStats;
+    private IDamageCalculation _damageCalculation;
 
     public BattleObjectSide Side => _side;
-    public BattleStats Stats => _battleStats;
+    public IReadOnlyBattleStats Stats => _battleStats;
 
-    public BattleCharacter(BattleObjectSide side, BattleStats battleStats)
+    public BattleCharacter(BattleObjectSide side, BattleStats battleStats, IDamageCalculation damageCalculation)
     {
+        _damageCalculation = damageCalculation;
         _side = side;
         _battleStats = battleStats;
-        _health = _battleStats.Health;
+        _startStats = battleStats;
         _activeEffects = new List<ITickEffect>();
     }
-    
+
     public void SetView(BattleCharacterView view) => _view = view;
 
     public void TickEffects()
@@ -37,12 +41,16 @@ public class BattleCharacter : IBattleObject
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, int accuracy)
     {
-        _health -= damage;
-        if (_health <= 0)
+        Debug.Log(GetView().name + " take damage");
+        var damageTaken =
+            _damageCalculation.CalculateDamage(damage, _battleStats.Armor, accuracy, _battleStats.Evasion);
+        _battleStats.Armor -= damageTaken.armorDamage;
+        _battleStats.Health -= damageTaken.healtDamage;
+        if (_battleStats.Health <= 0)
         {
-            _health = 0;
+            _battleStats.Health = 0;
             Debug.Log("Character is dead");
         }
     }
