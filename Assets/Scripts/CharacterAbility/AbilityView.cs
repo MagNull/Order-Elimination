@@ -86,20 +86,19 @@ namespace CharacterAbility
             var cellConfirmed = false;
             List<IBattleObject> availableTargets = GetTargets();
             List<CellView> selectedCellViews = new List<CellView>();
-            
-            //TODO: Extract method
-            _battleMapView.Map.CellClicked += cell =>
+
+            void OnCellClicked(CellView cell)
             {
-                selectedCellViews.ForEach(c => c.Deselect());
-                selectedCellViews.Clear();
                 IBattleObject selected = cell.GetObject();
                 if (!availableTargets.Contains(selected))
                 {
                     WrongTargetSelected();
                     return;
                 }
-                
-                
+
+                selectedCellViews.ForEach(c => c.Deselect());
+                selectedCellViews.Clear();
+
                 if (selected == target)
                 {
                     cellConfirmed = true;
@@ -121,11 +120,15 @@ namespace CharacterAbility
 
                 cell.Select();
                 selectedCellViews.Add(cell);
-                
+
                 target = selected;
-            };
+            }
+
+            _battleMapView.Map.CellClicked += OnCellClicked;
 
             await UniTask.WaitUntil(() => cellConfirmed);
+            
+            _battleMapView.Map.CellClicked -= OnCellClicked;
 
             return target;
         }
