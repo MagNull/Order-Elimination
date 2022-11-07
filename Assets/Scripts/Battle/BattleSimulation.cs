@@ -128,7 +128,7 @@ public class BattleSimulation : MonoBehaviour
 
     private void BindAbilityButtons()
     {
-        _map.CellSelected += cell =>
+        _map.CellClicked += cell =>
         {
             if (cell.GetObject() is NullBattleObject ||
                 !cell.GetObject().GetView().TryGetComponent(out BattleCharacterView characterView) ||

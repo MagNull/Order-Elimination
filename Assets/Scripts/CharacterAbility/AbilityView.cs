@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using OrderElimination.BattleMap;
 using UnityEngine;
 
 namespace CharacterAbility
@@ -17,7 +19,9 @@ namespace CharacterAbility
 
         private int _coolDownTimer;
 
-        private bool _selected;
+        private bool _casting;
+
+        private CellView _selectedCell;
         public Sprite AbilityIcon => _abilityInfo.Icon;
 
         public AbilityView(BattleCharacter caster, Ability ability, AbilityInfo info, BattleMapView battleMapView)
@@ -39,13 +43,13 @@ namespace CharacterAbility
                 Debug.LogWarning("Dont enough actions");
                 return;
             }
-            
-            if(_coolDownTimer > 0)
+
+            if (_coolDownTimer > 0)
             {
                 Debug.LogWarning("Ability is on cooldown");
                 return;
             }
-            
+
             LightTargets();
             await Cast();
             _battleMapView.DelightCells();
@@ -59,25 +63,84 @@ namespace CharacterAbility
 
         private async UniTask Cast()
         {
-            if (_ability == null || _selected)
+            if (_casting)
                 return;
-            IBattleObject target = null;
-            _selected = true;
+            _casting = true;
+            IBattleObject target = await SelectTarget();
 
-            var availableTargets = GetTargets();
-            _battleMapView.Map.CellSelected += cell => target = cell.GetObject();
-
-            await UniTask.WaitUntil(() => availableTargets.Contains(target));
-            
             Debug.Log(_abilityInfo.ActionType);
-            if(!_caster.TrySpendAction(_abilityInfo.ActionType))
+            if (!_caster.TrySpendAction(_abilityInfo.ActionType))
                 throw new Exception("Dont enough actions");
             _ability.Use(target, _battleMapView.Map);
-            
+
             _coolDownTimer = _abilityInfo.CoolDown;
-            
-            _selected = false;
+
+            _casting = false;
         }
+
+        private async Task<IBattleObject> SelectTarget()
+        {
+            IBattleObject target = null;
+            _casting = true;
+
+            var cellConfirmed = false;
+            List<IBattleObject> availableTargets = GetTargets();
+            List<CellView> selectedCellViews = new List<CellView>();
+            
+            //TODO: Extract method
+            _battleMapView.Map.CellClicked += cell =>
+            {
+                selectedCellViews.ForEach(c => c.Deselect());
+                selectedCellViews.Clear();
+                IBattleObject selected = cell.GetObject();
+                if (!availableTargets.Contains(selected))
+                {
+                    WrongTargetSelected();
+                    return;
+                }
+                
+                
+                if (selected == target)
+                {
+                    cellConfirmed = true;
+                    selectedCellViews.ForEach(c => c.Deselect());
+                    return;
+                }
+
+                if (_abilityInfo.HasAreaEffect)
+                {
+                    var area = _battleMapView.Map.GetBattleObjectsInRadius(selected, _abilityInfo.AreaRadius);
+                    foreach (var obj in area)
+                    {
+                        var objCoords = _battleMapView.Map.GetCoordinate(obj);
+                        var areaCell = _battleMapView.Map.GetCell(objCoords.x, objCoords.y);
+                        areaCell.Select();
+                        selectedCellViews.Add(areaCell);
+                    }
+                }
+
+                cell.Select();
+                selectedCellViews.Add(cell);
+                
+                target = selected;
+            };
+
+            await UniTask.WaitUntil(() => cellConfirmed);
+
+            return target;
+        }
+
+        private void WrongTargetSelected()
+        {
+            Debug.LogWarning("Wrong target selected");
+        }
+
+        // private void SelectCell(CellView view)
+        // {
+        //     _selectedCell = view;
+        //     _selectedCell.Select();
+        //     
+        // }
 
         private List<IBattleObject> GetTargets()
         {

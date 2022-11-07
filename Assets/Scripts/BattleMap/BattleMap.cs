@@ -8,7 +8,7 @@ using OrderElimination.BattleMap;
 
 public class BattleMap : MonoBehaviour
 {
-    public event Action<CellView> CellSelected;
+    public event Action<CellView> CellClicked;
     public event Action<CellView> CellChanged;
 
     [SerializeField]
@@ -17,10 +17,6 @@ public class BattleMap : MonoBehaviour
     private int _height;
     [SerializeField]
     private CellGridGenerator _generator;
-    //[SerializeField]
-    //private BattleCharacterFactory _characterFactory;
-    //[SerializeField]
-    //private Character _characterInfo;
 
     private CellView[,] _cellGrid;
 
@@ -38,6 +34,7 @@ public class BattleMap : MonoBehaviour
         }
     }
 
+    //TODO(Илья): Убрать возможность получить CellView через BattleMap и перенести в BattleObjectView
     public CellView GetCell(int x, int y)
     {
         return _cellGrid[x, y];
@@ -56,11 +53,6 @@ public class BattleMap : MonoBehaviour
         Vector2Int objCrd = GetCoordinate(obj);
         _cellGrid[objCrd.x, objCrd.y].SetObject(new NullBattleObject());
         SetCell(x, y, obj);
-    }
-
-    public void OnCellClicked(CellView cellView)
-    {
-        CellSelected?.Invoke(cellView);
     }
 
     public Vector2Int GetCoordinate(IBattleObject obj)
@@ -85,7 +77,7 @@ public class BattleMap : MonoBehaviour
         return GetObjectsInRadius(obj, radius, battleObject => 
             battleObject is not NullBattleObject && battleObject.Side == side);
     }
-    
+
     public IList<IBattleObject> GetBattleObjectsInRadius(IBattleObject obj, int radius)
     {
         return GetObjectsInRadius(obj, radius, battleObject => 
@@ -95,6 +87,11 @@ public class BattleMap : MonoBehaviour
     public IList<IBattleObject> GetEmptyObjectsInRadius(IBattleObject obj, int radius)
     {
         return GetObjectsInRadius(obj, radius, battleObject => battleObject is NullBattleObject);
+    }
+
+    private void OnCellClicked(CellView cellView)
+    {
+        CellClicked?.Invoke(cellView);
     }
 
     private IList<IBattleObject> GetObjectsInRadius(IBattleObject obj, int radius, Predicate<IBattleObject> predicate)

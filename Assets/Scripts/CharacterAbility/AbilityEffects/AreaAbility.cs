@@ -10,10 +10,11 @@
             _radius = radius;
             _areaAbility = areaAbility;
         }
-
+        
         public override void Use(IBattleObject target, BattleMap battleMap)
         {
             var targets = battleMap.GetBattleObjectsInRadius(target, _radius);
+            targets.Remove(target);
             foreach (var battleObject in targets)
             {
                 _areaAbility.Use(battleObject, battleMap);
