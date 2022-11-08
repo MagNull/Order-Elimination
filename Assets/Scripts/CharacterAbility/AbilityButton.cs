@@ -16,6 +16,11 @@ namespace CharacterAbility
             _button = GetComponent<Button>();
         }
 
+        private void OnDisable()
+        {
+            ResetAbility();
+        }
+
         public void SetAbility(AbilityView abilityView)
         {
             ResetAbility();
@@ -40,11 +45,6 @@ namespace CharacterAbility
             _abilityView = null;
             _button.interactable = false;
             _button.onClick.RemoveAllListeners();
-        }
-
-        private void OnDisable()
-        {
-            ResetAbility();
         }
     }
 }

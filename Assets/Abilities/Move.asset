@@ -25,6 +25,8 @@ MonoBehaviour:
   _startCoolDown: 0
   <Icon>k__BackingField: {fileID: 21300000, guid: e98c14f881b215d47aa34d5dc556cd10, type: 3}
   <ActionType>k__BackingField: 0
+  _hasTarget: 1
+  _hasTargetEffect: 1
   _distanceFromMovement: 1
   _distance: 0
   _targetType: 4
@@ -32,5 +34,11 @@ MonoBehaviour:
   - Type: 2
     Amounts: 0
     AttackScale: 0
+    Modification: 0
+    ModificationValue: 0
+    OverTimeType: 0
+    Duration: 0
+    TickValue: 0
+  _hasAreaEffect: 0
   _areaRadius: 0
   _areaEffects: []

@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace CharacterAbility
 {
+    [Serializable]
     public enum AbilityEffectType
     {
         Damage,
@@ -18,7 +19,7 @@ namespace CharacterAbility
         Damage,
         Heal,
     }
-    
+
     public enum ModificationType
     {
         Accuracy
@@ -70,7 +71,11 @@ namespace CharacterAbility
 
         #region Params
 
+        [HideInInspector]
+        [SerializeField]
         private bool _hasTarget;
+        [HideInInspector]
+        [SerializeField]
         private bool _hasTargetEffect;
 
         [Title("Type Specific Parameters")]
@@ -88,6 +93,8 @@ namespace CharacterAbility
         [SerializeField]
         private AbilityEffect[] _targetEffects;
 
+        [HideInInspector]
+        [SerializeField]
         private bool _hasAreaEffect;
 
         [ShowIf("_hasAreaEffect")]
@@ -101,8 +108,6 @@ namespace CharacterAbility
         #endregion
 
         #region Properties
-
-        public bool HasTarget => _hasTarget;
 
         public TargetType TargetType => _targetType;
         public int Distance => _distance;
@@ -125,8 +130,6 @@ namespace CharacterAbility
 
         #endregion
 
-        //TODO: Clear params on remove button
-
         [HideIf("_hasTarget"), Button]
         private void AddTarget() => _hasTarget = true;
 
@@ -134,6 +137,7 @@ namespace CharacterAbility
         private void RemoveTarget()
         {
             _hasTarget = false;
+            RemoveTargetEffect();
         }
 
         [HideIf("_hasAreaEffect"), Button]
@@ -143,15 +147,18 @@ namespace CharacterAbility
         private void RemoveAreaEffect()
         {
             _hasAreaEffect = false;
+            _areaEffects = Array.Empty<AbilityEffect>();
+            _areaRadius = 0;
         }
 
-        [HideIf("_hasTargetEffect"), Button]
+        [HideIf("@!_hasTarget || _hasTargetEffect"), Button]
         private void AddTargetEffect() => _hasTargetEffect = true;
 
-        [ShowIf("_hasTargetEffect"), Button]
+        [ShowIf("@_hasTarget && _hasTargetEffect"), Button]
         private void RemoveTargetEffect()
         {
             _hasTargetEffect = false;
+            _targetEffects = Array.Empty<AbilityEffect>();
         }
     }
 }

@@ -54,7 +54,9 @@ namespace CharacterAbility
             }
 
             LightTargets();
-            await Cast();
+            var canceled = await Cast();
+            if (canceled)
+                return;
             _battleMapView.DelightCells();
         }
 
@@ -72,16 +74,16 @@ namespace CharacterAbility
             _battleMapView.LightCellByDistance(casterCoords.x, casterCoords.y, _abilityDistance);
         }
 
-        private async UniTask Cast()
+        private async UniTask<bool> Cast()
         {
             if (_casting)
-                return;
+                return true;
             _casting = true;
             var targetSelection = await SelectTarget()
                 .AttachExternalCancellation(_cancellationTokenSource.Token)
                 .SuppressCancellationThrow();
             if (targetSelection.IsCanceled)
-                return;
+                return true;
 
             IBattleObject target = targetSelection.Result;
 
@@ -92,6 +94,7 @@ namespace CharacterAbility
             _coolDownTimer = _abilityInfo.CoolDown;
 
             _casting = false;
+            return false;
         }
 
         private async UniTask<IBattleObject> SelectTarget()

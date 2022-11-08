@@ -17,7 +17,6 @@ namespace CharacterAbility.AbilityEffects
         {
             _nextAbility = nextAbility;
             _overTimeAbilityType = overTimeAbilityType;
-            Debug.Log(_duration);
             _duration = duration;
             _tickValue = tickValue;
         }
