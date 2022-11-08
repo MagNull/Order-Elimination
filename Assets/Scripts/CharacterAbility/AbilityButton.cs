@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace CharacterAbility
@@ -6,6 +7,7 @@ namespace CharacterAbility
     [RequireComponent(typeof(Button))]
     public class AbilityButton : MonoBehaviour
     {
+        public event Action<AbilityButton> Clicked;
         private AbilityView _abilityView;
         private Button _button;
 
@@ -20,19 +22,28 @@ namespace CharacterAbility
             _button.image.sprite = abilityView.AbilityIcon;
             _abilityView = abilityView;
             _button.interactable = true;
-            _button.onClick.AddListener(_abilityView.Clicked);
+            _button.onClick.AddListener(OnClicked);
         }
-        
-        private void ResetAbility()
+
+        public void CancelAbilityCast() => _abilityView?.CancelCast();
+
+        public void OnClicked()
         {
+            Debug.Log("Clicked");
+            Clicked?.Invoke(this);
+            _abilityView.Clicked();
+        }
+
+        public void ResetAbility()
+        {
+            CancelAbilityCast();
             _button.image.sprite = null;
             _abilityView = null;
             _button.interactable = false;
             _button.onClick.RemoveAllListeners();
         }
-        
-        
-        protected void OnDisable()
+
+        private void OnDisable()
         {
             ResetAbility();
         }

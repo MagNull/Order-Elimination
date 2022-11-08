@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using OrderElimination.BattleMap;
 using UnityEngine;
 
 namespace CharacterAbility
@@ -20,9 +20,9 @@ namespace CharacterAbility
         private int _coolDownTimer;
 
         private bool _casting;
-
-        private CellView _selectedCell;
         public Sprite AbilityIcon => _abilityInfo.Icon;
+
+        private CancellationTokenSource _cancellationTokenSource;
 
         public AbilityView(BattleCharacter caster, Ability ability, AbilityInfo info, BattleMapView battleMapView)
         {
@@ -34,10 +34,13 @@ namespace CharacterAbility
             _coolDownTimer = _abilityInfo.StartCoolDown;
 
             BattleSimulation.RoundStarted += OnRoundStart;
+
+            _cancellationTokenSource = new CancellationTokenSource();
         }
 
         public async void Clicked()
         {
+            _battleMapView.DelightCells();
             if (!_caster.AvailableActions.Contains(_abilityInfo.ActionType))
             {
                 Debug.LogWarning("Dont enough actions");
@@ -55,8 +58,17 @@ namespace CharacterAbility
             _battleMapView.DelightCells();
         }
 
+        public void CancelCast()
+        {
+            _battleMapView.DelightCells();
+            _casting = false;
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource = new CancellationTokenSource();
+        }
+
         private void LightTargets()
         {
+            Debug.Log("Light");
             var casterCoords = _battleMapView.Map.GetCoordinate(_caster);
             _battleMapView.LightCellByDistance(casterCoords.x, casterCoords.y, _abilityDistance);
         }
@@ -66,9 +78,14 @@ namespace CharacterAbility
             if (_casting)
                 return;
             _casting = true;
-            IBattleObject target = await SelectTarget();
+            var targetSelection = await SelectTarget()
+                .AttachExternalCancellation(_cancellationTokenSource.Token)
+                .SuppressCancellationThrow();
+            if (targetSelection.IsCanceled)
+                return;
 
-            Debug.Log(_abilityInfo.ActionType);
+            IBattleObject target = targetSelection.Result;
+
             if (!_caster.TrySpendAction(_abilityInfo.ActionType))
                 throw new Exception("Dont enough actions");
             _ability.Use(target, _battleMapView.Map);
@@ -78,7 +95,7 @@ namespace CharacterAbility
             _casting = false;
         }
 
-        private async Task<IBattleObject> SelectTarget()
+        private async UniTask<IBattleObject> SelectTarget()
         {
             IBattleObject target = null;
             _casting = true;
@@ -126,7 +143,10 @@ namespace CharacterAbility
 
             _battleMapView.Map.CellClicked += OnCellClicked;
 
-            await UniTask.WaitUntil(() => cellConfirmed);
+            await UniTask.WaitUntil(() => cellConfirmed)
+                .AttachExternalCancellation(_cancellationTokenSource.Token)
+                .SuppressCancellationThrow();
+            
             
             _battleMapView.Map.CellClicked -= OnCellClicked;
 
@@ -137,13 +157,6 @@ namespace CharacterAbility
         {
             Debug.LogWarning("Wrong target selected");
         }
-
-        // private void SelectCell(CellView view)
-        // {
-        //     _selectedCell = view;
-        //     _selectedCell.Select();
-        //     
-        // }
 
         private List<IBattleObject> GetTargets()
         {

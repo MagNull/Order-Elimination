@@ -40,7 +40,6 @@ public class CellView : MonoBehaviour
 
     public void Delight()
     {
-        Debug.Log("Light is turned out");
         _renderer.material.color = _basicColor;
     }
 

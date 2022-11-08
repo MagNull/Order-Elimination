@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -6,6 +5,7 @@ using CharacterAbility;
 using OrderElimination;
 using OrderElimination.BattleMap;
 
+//TODO(Илья): Refactor interaction with abilities. Decompose BattlSimualtion
 public class BattleSimulation : MonoBehaviour
 {
     public static event Action RoundStarted;
@@ -21,6 +21,8 @@ public class BattleSimulation : MonoBehaviour
     private Character _characterInfo;
     [SerializeField]
     private AbilityButton[] _abilityButtons;
+    [SerializeField]
+    private AbilityCancel _abilityCancel;
 
     private BattleObjectSide _currentTurn;
     private BattleOutcome _outcome;
@@ -109,6 +111,8 @@ public class BattleSimulation : MonoBehaviour
     // Влияет на Update()
     public void EndTurn()
     {
+        //TODO: todo выше
+        _abilityCancel.ResetAbilityButtons();
         SwitchTurn();
         _isTurnChanged = true;
     }
@@ -122,7 +126,7 @@ public class BattleSimulation : MonoBehaviour
         _outcome = BattleOutcome.Neither;
 
         _map.Init();
-        ArrangeCharacters(GetTestSquad(1), GetTestSquad(3));
+        ArrangeCharacters(GetTestSquad(2), GetTestSquad(3));
         BindAbilityButtons();
     }
 
@@ -132,10 +136,16 @@ public class BattleSimulation : MonoBehaviour
         {
             if (cell.GetObject() is NullBattleObject ||
                 !cell.GetObject().GetView().TryGetComponent(out BattleCharacterView characterView) ||
-                characterView.Model.Side != BattleObjectSide.Player)
+                characterView.Model.Side != BattleObjectSide.Player
+                || _currentTurn != BattleObjectSide.Player)
                 return;
-            for(var i = 0; i < characterView.AbilityViews.Length; i++)
+            for (var i = 0; i < characterView.AbilityViews.Length; i++)
+            {
+                _abilityButtons[i].CancelAbilityCast();
                 _abilityButtons[i].SetAbility(characterView.AbilityViews[i]);
+            }
+            //TODO: Автовыбор перемещения независимо от порядка
+            _abilityButtons[0].OnClicked();
         };
     }
 
@@ -146,7 +156,7 @@ public class BattleSimulation : MonoBehaviour
         for (int i = 0; i < playerSquad.Length; i++)
         {
             _characters.Add(playerSquad[i]);
-            _map.SetCell(0, i, playerSquad[i]);
+            _map.SetCell(0, 2 * i, playerSquad[i]);
         }
 
         BattleCharacter[] enemySquad = _characterFactory.CreateEnemySquad(enemiesInfo);
