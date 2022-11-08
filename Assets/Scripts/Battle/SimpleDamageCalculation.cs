@@ -6,7 +6,6 @@ namespace OrderElimination.Battle
     {
         public (int healtDamage, int armorDamage) CalculateDamage(int attack, int armor, int accuracy, int evasion)
         {
-            Debug.Log(accuracy);
             bool hitRoll = Random.Range(0, 100) <= accuracy;
             if (!hitRoll)
                 return (0, 0);

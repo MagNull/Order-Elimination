@@ -5,6 +5,7 @@ namespace OrderElimination.BattleMap
 {
     public class NullBattleObject : IBattleObject
     {
+        public event Action<int> Damaged;
         public BattleObjectSide Side => BattleObjectSide.None;
 
         public GameObject GetView()
@@ -12,7 +13,7 @@ namespace OrderElimination.BattleMap
             Debug.LogError("Try get view form null battle object");
             throw new NullReferenceException();
         }
-
+        
         public void TakeDamage(int damage, int accuracy)
         {
             Debug.LogError("Try take damage from null battle object");

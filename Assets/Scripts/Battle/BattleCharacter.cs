@@ -49,14 +49,6 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
 
     public void SetView(BattleCharacterView view) => _view = view;
 
-    public void TickEffects()
-    {
-        foreach (ITickEffect effect in _activeEffects)
-        {
-            effect.Tick();
-        }
-    }
-
     public void TakeDamage(int damage, int accuracy)
     {
         var damageTaken =
@@ -72,7 +64,8 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
         }
     }
 
-//TODO: Strategy pattern in future if needed
+    //TODO: Strategy pattern in future if needed
+
     public void TakeHeal(int heal, int accuracy)
     {
         bool isHeal = Random.Range(0, 100) < accuracy;
@@ -97,7 +90,16 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
 
     public void OnTurnStart()
     {
+        TickEffects();
         RefreshActions();
+    }
+
+    private void TickEffects()
+    {
+        for (var i = 0; i < _activeEffects.Count; i++)
+        {
+            _activeEffects[i].Tick();
+        }
     }
 
     private void RefreshActions()

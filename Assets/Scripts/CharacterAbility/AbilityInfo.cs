@@ -9,10 +9,16 @@ namespace CharacterAbility
         Damage,
         Heal,
         Move,
-        Buff,
+        OverTimeEffect,
         Modificator
     }
 
+    public enum OverTimeAbilityType
+    {
+        Damage,
+        Heal,
+    }
+    
     public enum ModificationType
     {
         Accuracy
@@ -39,6 +45,12 @@ namespace CharacterAbility
         public ModificationType Modification;
         [ShowIf("@Type == AbilityEffectType.Modificator")]
         public int ModificationValue;
+        [ShowIf("@Type == AbilityEffectType.OverTimeEffect")]
+        public OverTimeAbilityType OverTimeType;
+        [ShowIf("@Type == AbilityEffectType.OverTimeEffect")]
+        public int Duration;
+        [ShowIf("@Type == AbilityEffectType.OverTimeEffect")]
+        public int TickValue;
     }
 
     [CreateAssetMenu(fileName = "Ability", menuName = "Ability/Ability Info")]
