@@ -1,4 +1,5 @@
-﻿using OrderElimination;
+﻿using System;
+using OrderElimination;
 
 namespace CharacterAbility.AbilityEffects
 {
@@ -24,6 +25,8 @@ namespace CharacterAbility.AbilityEffects
                 case ModificationType.Accuracy:
                     modifiedStats.Accuracy += modifiedStats.Accuracy * _modificatorValue / 100;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             _nextAbility.Use(target, modifiedStats, battleMap);

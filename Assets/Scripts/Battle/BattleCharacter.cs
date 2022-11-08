@@ -24,7 +24,6 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
     private BattleCharacterView _view;
     [SerializeField]
     private BattleStats _battleStats;
-    private BattleStats _startStats;
     private IDamageCalculation _damageCalculation;
     
     [ShowInInspector]
@@ -36,12 +35,12 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
 
     public IReadOnlyBattleStats Stats => _battleStats;
 
+
     public BattleCharacter(BattleObjectSide side, BattleStats battleStats, IDamageCalculation damageCalculation)
     {
         _damageCalculation = damageCalculation;
         _side = side;
         _battleStats = battleStats;
-        _startStats = battleStats;
         _activeEffects = new List<ITickEffect>();
         _availableActions = new List<ActionType>();
         BattleSimulation.RoundStarted += OnTurnStart;
@@ -72,7 +71,7 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
         if (!isHeal)
             return;
 
-        _battleStats.Health = Mathf.Clamp(_battleStats.Health + heal, 0, _startStats.Health);
+        _battleStats.Health = Mathf.Clamp(_battleStats.Health + heal, 0, _battleStats.UnmodifiedHealth);
         Debug.Log(GetView().name + " take heal");
     }
 
@@ -98,7 +97,7 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
     {
         for (var i = 0; i < _activeEffects.Count; i++)
         {
-            _activeEffects[i].Tick();
+            _activeEffects[i].Tick(_battleStats);
         }
     }
 

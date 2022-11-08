@@ -11,8 +11,12 @@ namespace OrderElimination
         private AbilityInfo[] _abilities;
         [SerializeField]
         private BattleStats _battleStats;
+        [SerializeField]
+        private Sprite _image;
         private StrategyStats _strategyStats;
-        
+        public Sprite Image => _image;
+
+
         public void Select()
         {
             throw new System.NotImplementedException();
@@ -32,7 +36,7 @@ namespace OrderElimination
 
         public BattleStats GetBattleStats() => _battleStats;
 
-        public BattleCharacterView GetView()
+        public Sprite GetView()
         {
             throw new System.NotImplementedException();
         }

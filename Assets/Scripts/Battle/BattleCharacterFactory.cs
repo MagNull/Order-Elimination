@@ -9,10 +9,7 @@ public class BattleCharacterFactory : MonoBehaviour
     private BattleCharacterView charPrefab;
     [SerializeField]
     private AbilityBuilder _abilityBuilder;
-    [SerializeField]
-    private AbilityButton _move;
-    [SerializeField]
-    private AbilityButton _damage;
+
 
     [SerializeField]
     private BattleMap _map;
@@ -20,6 +17,7 @@ public class BattleCharacterFactory : MonoBehaviour
     public BattleCharacter Create(IBattleCharacterInfo info, BattleObjectSide side)
     {
         BattleCharacterView battleCharacterView = Instantiate(charPrefab);
+        battleCharacterView.SetImage(info.GetView());
         var character = new BattleCharacter(side, info.GetBattleStats(), new SimpleDamageCalculation());
         battleCharacterView.GetComponent<PlayerTestScript>().SetSide(side);
         battleCharacterView.Init(character, CreateAbilities(info.GetAbilityInfos(), character));

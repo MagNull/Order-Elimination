@@ -16,15 +16,14 @@ namespace CharacterAbility
             _duration = duration;
         }
 
-        public void Tick()
+        public void Tick(IReadOnlyBattleStats stats)
         {
             _target.TakeDamage(_damage, 100);
             _duration--;
-            if(_duration <= 0)
+            if (_duration <= 0)
             {
                 _target.RemoveTickEffect(this);
             }
         }
-        
     }
 }

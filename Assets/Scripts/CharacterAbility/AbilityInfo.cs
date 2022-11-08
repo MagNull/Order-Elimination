@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace CharacterAbility
 {
-    [Serializable]
     public enum AbilityEffectType
     {
         Damage,
@@ -12,6 +11,13 @@ namespace CharacterAbility
         Move,
         OverTimeEffect,
         Modificator
+    }
+
+    public enum AbilityScaleFrom
+    {
+        Attack,
+        Health,
+        Movement
     }
 
     public enum OverTimeAbilityType
@@ -38,14 +44,20 @@ namespace CharacterAbility
     public struct AbilityEffect
     {
         public AbilityEffectType Type;
+        
         [ShowIf("@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal")]
         public int Amounts;
         [ShowIf("@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal")]
-        public float AttackScale;
+        public AbilityScaleFrom ScaleFrom;
+        [ShowIf("@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal")]
+        public float Scale;
+        
         [ShowIf("@Type == AbilityEffectType.Modificator")]
         public ModificationType Modification;
         [ShowIf("@Type == AbilityEffectType.Modificator")]
         public int ModificationValue;
+        
+        
         [ShowIf("@Type == AbilityEffectType.OverTimeEffect")]
         public OverTimeAbilityType OverTimeType;
         [ShowIf("@Type == AbilityEffectType.OverTimeEffect")]
@@ -54,7 +66,7 @@ namespace CharacterAbility
         public int TickValue;
     }
 
-    [CreateAssetMenu(fileName = "Ability", menuName = "Ability/Ability Info")]
+    [CreateAssetMenu(fileName = "AbilityInfo", menuName = "Ability")]
     public class AbilityInfo : SerializedScriptableObject
     {
         [Title("General Parameters")]

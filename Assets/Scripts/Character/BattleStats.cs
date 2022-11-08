@@ -8,25 +8,37 @@ namespace OrderElimination
     {
         [SerializeField]
         private int _health;
+        private int _unmodifiedHealth;
         [SerializeField]
         private int _attack;
+        private int _unmodifiedAttack;
         [SerializeField]
         private int _armor;
+        private int _unmodifiedArmor;
         [SerializeField]
         private int _evasion;
+        private int _unmodifiedEvasion;
         [SerializeField]
         private int _accuracy;
+        private int _unmodifiedAccuracy;
         [SerializeField]
         private int _movement;
+        private int _unmodifiedMovement;
         
         public BattleStats(IReadOnlyBattleStats other)
         {
             _health = other.Health;
+            _unmodifiedHealth = other.Health;
             _attack = other.Attack;
+            _unmodifiedAttack = other.Attack;
             _armor = other.Armor;
+            _unmodifiedArmor = other.Armor;
             _evasion = other.Evasion;
+            _unmodifiedEvasion = other.Evasion;
             _accuracy = other.Accuracy;
+            _unmodifiedAccuracy = other.Accuracy;
             _movement = other.Movement;
+            _unmodifiedMovement = other.Movement;
         }
 
         public int Health
@@ -140,15 +152,133 @@ namespace OrderElimination
                 }
             }
         }
+
+        public int UnmodifiedHealth
+        {
+            get => _unmodifiedHealth;
+            set
+            {
+                if (value < 0)
+                {
+                    Debug.Log("Try set health less than 0");
+                    _unmodifiedHealth = 0;
+                }
+                else
+                {
+                    _unmodifiedHealth = value;
+                }
+            }
+        }
+        
+        public int UnmodifiedAttack
+        {
+            get => _unmodifiedAttack;
+            set
+            {
+                if (value < 0)
+                {
+                    Debug.Log("Try set attack less than 0");
+                    _unmodifiedAttack = 0;
+                }
+                else
+                {
+                    _unmodifiedAttack = value;
+                }
+            }
+        }
+        
+        public int UnmodifiedArmor
+        {
+            get => _unmodifiedArmor;
+            set
+            {
+                if (value < 0)
+                {
+                    Debug.Log("Try set armor less than 0");
+                    _unmodifiedArmor = 0;
+                }
+                else
+                {
+                    _unmodifiedArmor = value;
+                }
+            }
+        }
+        
+        public int UnmodifiedEvasion
+        {
+            get => _unmodifiedEvasion;
+            set
+            {
+                if (value < 0)
+                {
+                    Debug.Log("Try set evasion less than 0");
+                    _unmodifiedEvasion = 0;
+                }
+                else if (value > 100)
+                {
+                    Debug.Log("Try set evasion more than 100");
+                    _unmodifiedEvasion = 100;
+                }
+                else
+                {
+                    _unmodifiedEvasion = value;
+                }
+            }
+        }
+        
+        public int UnmodifiedAccuracy
+        {
+            get => _unmodifiedAccuracy;
+            set
+            {
+                if (value < 0)
+                {
+                    Debug.Log("Try set accuracy less than 0");
+                    _unmodifiedAccuracy = 0;
+                }
+                else if (value > 100)
+                {
+                    Debug.Log("Try set accuracy more than 100");
+                    _unmodifiedAccuracy = 100;
+                }
+                else
+                {
+                    _unmodifiedAccuracy = value;
+                }
+            }
+        }
+        
+        public int UnmodifiedMovement
+        {
+            get => _unmodifiedMovement;
+            set
+            {
+                if (value < 0)
+                {
+                    Debug.Log("Try set movement less than 0");
+                    _unmodifiedMovement = 0;
+                }
+                else
+                {
+                    _unmodifiedMovement = value;
+                }
+            }
+        }
     }
     
     public interface IReadOnlyBattleStats
     {
         int Health { get; }
+        int UnmodifiedHealth { get; }
         int Attack { get; }
+        int UnmodifiedAttack { get; }
         int Armor { get; }
+        int UnmodifiedArmor { get; }
         int Evasion { get; }
+        int UnmodifiedEvasion { get; }
         int Accuracy { get; }
+        int UnmodifiedAccuracy { get; }
         int Movement { get; }
+        int UnmodifiedMovement { get; }
     }
 }

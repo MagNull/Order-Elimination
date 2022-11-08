@@ -7,6 +7,8 @@ public class BattleCharacterView : MonoBehaviour
     [SerializeField]
     private BattleCharacter _character;
     private AbilityView[] _abilityViews;
+    [SerializeField]
+    private SpriteRenderer _renderer;
 
     public BattleCharacter Model => _character;
     public AbilityView[] AbilityViews => _abilityViews;
@@ -23,6 +25,8 @@ public class BattleCharacterView : MonoBehaviour
     {
         Debug.Log(gameObject.name + " damaged");
     }
+
+    public void SetImage(Sprite image) => _renderer.sprite = image;
 
     public void OnDied()
     {

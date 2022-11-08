@@ -4,6 +4,7 @@ using System;
 using CharacterAbility;
 using OrderElimination;
 using OrderElimination.BattleMap;
+using CharacterInfo = OrderElimination.CharacterInfo;
 
 //TODO(Илья): Refactor interaction with abilities. Decompose BattlSimualtion
 public class BattleSimulation : MonoBehaviour
@@ -17,8 +18,10 @@ public class BattleSimulation : MonoBehaviour
     private BattleCharacterFactory _characterFactory;
     [SerializeField]
     private BattleMap _map;
-    [SerializeField]
-    private Character _characterInfo;
+    [SerializeReference]
+    private CharacterInfo[] _alliesInfo;
+    [SerializeReference]
+    private CharacterInfo[] _enemiesInfo;
     [SerializeField]
     private AbilityButton[] _abilityButtons;
     [SerializeField]
@@ -126,7 +129,7 @@ public class BattleSimulation : MonoBehaviour
         _outcome = BattleOutcome.Neither;
 
         _map.Init();
-        ArrangeCharacters(GetTestSquad(2), GetTestSquad(3));
+        ArrangeCharacters(_alliesInfo, _enemiesInfo);
         BindAbilityButtons();
     }
 
@@ -144,7 +147,7 @@ public class BattleSimulation : MonoBehaviour
                 _abilityButtons[i].CancelAbilityCast();
                 _abilityButtons[i].SetAbility(characterView.AbilityViews[i]);
             }
-            //TODO: Автовыбор перемещения независимо от порядка
+            //TODO(Сано): Автовыбор перемещения независимо от порядка
             _abilityButtons[0].OnClicked();
         };
     }
@@ -165,16 +168,5 @@ public class BattleSimulation : MonoBehaviour
             _characters.Add(enemySquad[i]);
             _map.SetCell(_map.Width - 1, i, enemySquad[i]);
         }
-    }
-
-    public IBattleCharacterInfo[] GetTestSquad(int squadMembersCount)
-    {
-        var result = new IBattleCharacterInfo[squadMembersCount];
-        for (int i = 0; i < squadMembersCount; i++)
-        {
-            result[i] = _characterInfo;
-        }
-
-        return result;
     }
 }

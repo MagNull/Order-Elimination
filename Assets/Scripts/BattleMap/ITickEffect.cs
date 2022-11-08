@@ -2,5 +2,5 @@ using OrderElimination;
 
 public interface ITickEffect
 {
-    public void Tick();
+    public void Tick(IReadOnlyBattleStats stats);
 }
