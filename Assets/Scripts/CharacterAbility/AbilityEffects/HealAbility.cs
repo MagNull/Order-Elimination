@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using OrderElimination;
+using UnityEngine;
 
 namespace CharacterAbility.AbilityEffects
 {
@@ -15,13 +16,13 @@ namespace CharacterAbility.AbilityEffects
             _healAmount = healAmount;
         }
 
-        public override void Use(IBattleObject target, BattleMap battleMap)
+        public override void Use(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)
         {
             BattleCharacter targetCharacter = target.GetView().GetComponent<BattleCharacterView>().Model;
-            for(var i = 0; i > _healAmount; i++)
-                targetCharacter.TakeHeal((int) (_caster.Stats.Attack * _attackScale), _caster.Stats.Accuracy);
-            
-            _nextAbility?.Use(target, battleMap);
+            for (var i = 0; i > _healAmount; i++)
+                targetCharacter.TakeHeal((int) (stats.Attack * _attackScale), stats.Accuracy);
+
+            _nextAbility?.Use(target, stats, battleMap);
         }
     }
 }

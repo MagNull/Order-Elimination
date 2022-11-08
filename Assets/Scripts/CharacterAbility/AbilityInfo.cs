@@ -9,7 +9,13 @@ namespace CharacterAbility
         Damage,
         Heal,
         Move,
-        Buff
+        Buff,
+        Modificator
+    }
+
+    public enum ModificationType
+    {
+        Accuracy
     }
 
     public enum TargetType
@@ -29,6 +35,10 @@ namespace CharacterAbility
         public int Amounts;
         [ShowIf("@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal")]
         public float AttackScale;
+        [ShowIf("@Type == AbilityEffectType.Modificator")]
+        public ModificationType Modification;
+        [ShowIf("@Type == AbilityEffectType.Modificator")]
+        public int ModificationValue;
     }
 
     [CreateAssetMenu(fileName = "Ability", menuName = "Ability/Ability Info")]

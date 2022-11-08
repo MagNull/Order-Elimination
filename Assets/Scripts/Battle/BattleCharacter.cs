@@ -59,9 +59,10 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
 
     public void TakeDamage(int damage, int accuracy)
     {
-        Debug.Log(GetView().name + " take damage");
         var damageTaken =
             _damageCalculation.CalculateDamage(damage, _battleStats.Armor, accuracy, _battleStats.Evasion);
+        if(damageTaken.healtDamage > 0 || damageTaken.armorDamage > 0)
+            Debug.Log(GetView().name + " take damage");
         _battleStats.Armor -= damageTaken.armorDamage;
         _battleStats.Health -= damageTaken.healtDamage;
         if (_battleStats.Health <= 0)

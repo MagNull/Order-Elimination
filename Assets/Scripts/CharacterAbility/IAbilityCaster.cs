@@ -3,7 +3,6 @@ using OrderElimination;
 
 public interface IAbilityCaster : IBattleObject
 {
-    IReadOnlyBattleStats Stats { get; }
     public IReadOnlyList<ActionType> AvailableActions { get; }
 
     public bool TrySpendAction(ActionType actionType);

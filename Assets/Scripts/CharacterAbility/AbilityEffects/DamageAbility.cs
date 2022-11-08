@@ -1,4 +1,5 @@
 ﻿using System;
+using OrderElimination;
 using UnityEngine;
 
 namespace CharacterAbility.AbilityEffects
@@ -18,13 +19,13 @@ namespace CharacterAbility.AbilityEffects
             _nextAbility = nextAbility;
         }
 
-        public override void Use(IBattleObject target, BattleMap battleMap)
+        public override void Use(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)
         {
             BattleCharacter targetCharacter = target.GetView().GetComponent<BattleCharacterView>().Model;
             for (var i = 0; i < _damageAmounts; i++)
-                targetCharacter.TakeDamage((int) (_caster.Stats.Attack * _attackScale), _caster.Stats.Accuracy);
+                targetCharacter.TakeDamage((int) (stats.Attack * _attackScale), stats.Accuracy);
 
-            _nextAbility?.Use(target, battleMap);
+            _nextAbility?.Use(target, stats, battleMap);
         }
     }
 }

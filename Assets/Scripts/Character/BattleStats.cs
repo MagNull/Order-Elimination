@@ -18,6 +18,16 @@ namespace OrderElimination
         private int _accuracy;
         [SerializeField]
         private int _movement;
+        
+        public BattleStats(IReadOnlyBattleStats other)
+        {
+            _health = other.Health;
+            _attack = other.Attack;
+            _armor = other.Armor;
+            _evasion = other.Evasion;
+            _accuracy = other.Accuracy;
+            _movement = other.Movement;
+        }
 
         public int Health
         {

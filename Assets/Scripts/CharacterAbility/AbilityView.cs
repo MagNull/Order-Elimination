@@ -68,7 +68,6 @@ namespace CharacterAbility
 
         private void LightTargets()
         {
-            Debug.Log("Light");
             var casterCoords = _battleMapView.Map.GetCoordinate(_caster);
             _battleMapView.LightCellByDistance(casterCoords.x, casterCoords.y, _abilityDistance);
         }
@@ -88,7 +87,7 @@ namespace CharacterAbility
 
             if (!_caster.TrySpendAction(_abilityInfo.ActionType))
                 throw new Exception("Dont enough actions");
-            _ability.Use(target, _battleMapView.Map);
+            _ability.Use(target, _caster.Stats, _battleMapView.Map);
 
             _coolDownTimer = _abilityInfo.CoolDown;
 

@@ -1,4 +1,6 @@
-﻿namespace CharacterAbility.AbilityEffects
+﻿using OrderElimination;
+
+namespace CharacterAbility.AbilityEffects
 {
     public class AreaAbility : Ability
     {
@@ -11,13 +13,13 @@
             _areaAbility = areaAbility;
         }
         
-        public override void Use(IBattleObject target, BattleMap battleMap)
+        public override void Use(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)
         {
             var targets = battleMap.GetBattleObjectsInRadius(target, _radius);
             targets.Remove(target);
             foreach (var battleObject in targets)
             {
-                _areaAbility.Use(battleObject, battleMap);
+                _areaAbility.Use(battleObject, stats, battleMap);
             }
         }
     }

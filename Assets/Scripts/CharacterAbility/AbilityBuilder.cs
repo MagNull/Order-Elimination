@@ -47,6 +47,9 @@ namespace CharacterAbility
                     case AbilityEffectType.Move:
                         ability = new MoveAbility(caster, ability);
                         break;
+                    case AbilityEffectType.Modificator:
+                        ability = new ModificatorAbility(caster, ability, effect.Modification, effect.ModificationValue);
+                        break;
                 }
             }
 

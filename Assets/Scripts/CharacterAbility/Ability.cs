@@ -1,4 +1,6 @@
-﻿namespace CharacterAbility
+﻿using OrderElimination;
+
+namespace CharacterAbility
 {
     public abstract class Ability
     {
@@ -8,6 +10,6 @@
         {
             _caster = caster;
         }
-        public abstract void Use(IBattleObject target, BattleMap battleMap);
+        public abstract void Use(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap);
     }
 }

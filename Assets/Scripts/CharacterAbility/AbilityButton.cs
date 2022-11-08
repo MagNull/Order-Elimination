@@ -29,7 +29,6 @@ namespace CharacterAbility
 
         public void OnClicked()
         {
-            Debug.Log("Clicked");
             Clicked?.Invoke(this);
             _abilityView.Clicked();
         }

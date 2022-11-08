@@ -29,11 +29,20 @@ MonoBehaviour:
   _distance: 7
   _targetType: 1
   _targetEffects:
+  - Type: 4
+    Amounts: 0
+    AttackScale: 0
+    Modification: 0
+    ModificationValue: 200
   - Type: 0
-    Amounts: 2
+    Amounts: 1
     AttackScale: 1
+    Modification: 0
+    ModificationValue: 0
   _areaRadius: 1
   _areaEffects:
   - Type: 0
     Amounts: 1
     AttackScale: 1
+    Modification: 0
+    ModificationValue: 0
