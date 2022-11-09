@@ -1,4 +1,5 @@
 ﻿using System;
+using CharacterAbility.BuffEffects;
 using UnityEngine;
 
 namespace OrderElimination.BattleMap
@@ -37,7 +38,7 @@ namespace OrderElimination.BattleMap
             throw new NullReferenceException();
         }
 
-        public void ClearTickEffects()
+        public void ClearOverEffects()
         {
             throw new NotImplementedException();
         }
@@ -46,6 +47,22 @@ namespace OrderElimination.BattleMap
         { 
             Debug.LogError("Try call OnTurnStart from null battle object");
             throw new NullReferenceException();
+        }
+
+        public IReadOnlyBattleStats Stats { get; }
+        public void AddBuffEffect(IStatsBuffEffect statsBuffEffect)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveBuffEffect(IStatsBuffEffect statsBuffEffect)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ClearBuffEffects()
+        {
+            throw new NotImplementedException();
         }
     }
 }

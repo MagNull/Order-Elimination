@@ -40,6 +40,21 @@ public class BattleMap : MonoBehaviour
         return _cellGrid[x, y];
     }
 
+    public CellView GetCell(IBattleObject battleObject)
+    {
+        for (var i = 0; i < _cellGrid.GetLength(0); i++)
+        {
+            for (var j = 0; j < _cellGrid.GetLength(1); j++)
+            {
+                if (_cellGrid[i, j].GetObject() == battleObject)
+                {
+                    return _cellGrid[i, j];
+                }
+            }
+        }
+        throw new ArgumentException("BattleObject not found");
+    }
+
     public void SetCell(int x, int y, IBattleObject obj)
     {
         // Ставим клетку в точку (x,y)
@@ -53,6 +68,13 @@ public class BattleMap : MonoBehaviour
         Vector2Int objCrd = GetCoordinate(obj);
         _cellGrid[objCrd.x, objCrd.y].SetObject(new NullBattleObject());
         SetCell(x, y, obj);
+    }
+    
+    public int GetDistance(IBattleObject obj1, IBattleObject obj2)
+    {
+        Vector2Int obj1Crd = GetCoordinate(obj1);
+        Vector2Int obj2Crd = GetCoordinate(obj2);
+        return Math.Abs(obj1Crd.x - obj2Crd.x) + Math.Abs(obj1Crd.y - obj2Crd.y) - 1;
     }
 
     public Vector2Int GetCoordinate(IBattleObject obj)

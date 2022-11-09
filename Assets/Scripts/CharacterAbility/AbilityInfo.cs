@@ -9,7 +9,8 @@ namespace CharacterAbility
         Damage,
         Heal,
         Move,
-        OverTimeEffect,
+        OverTime,
+        Buff,
         Modificator
     }
 
@@ -17,7 +18,8 @@ namespace CharacterAbility
     {
         Attack,
         Health,
-        Movement
+        Movement,
+        Distance
     }
 
     public enum OverTimeAbilityType
@@ -26,9 +28,21 @@ namespace CharacterAbility
         Heal,
     }
 
-    public enum ModificationType
+    public enum BuffType
     {
-        Accuracy
+        Attack,
+        Health,
+        Movement,
+        Evasion,
+        IncomingAttack,
+        IncomingAccuracy,
+    }
+
+    public enum ModificatorType
+    {
+        Accuracy,
+        DoubleArmorDamage,
+        DoubleHealthDamage
     }
 
     public enum TargetType
@@ -45,7 +59,7 @@ namespace CharacterAbility
     {
         public AbilityEffectType Type;
         [ShowIf(
-            "@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal || Type == AbilityEffectType.OverTimeEffect")]
+            "@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal || Type == AbilityEffectType.OverTime")]
         public DamageHealType DamageHealType;
 
         [ShowIf("@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal")]
@@ -56,15 +70,19 @@ namespace CharacterAbility
         public float Scale;
 
         [ShowIf("@Type == AbilityEffectType.Modificator")]
-        public ModificationType Modification;
-        [ShowIf("@Type == AbilityEffectType.Modificator")]
-        public int ModificationValue;
+        public ModificatorType Modificator;
+        [ShowIf("@Type == AbilityEffectType.Modificator && Modificator == ModificatorType.Accuracy")]
+        public int ModificatorValue;
 
-        [ShowIf("@Type == AbilityEffectType.OverTimeEffect")]
+        [ShowIf("@Type == AbilityEffectType.OverTime")]
         public OverTimeAbilityType OverTimeType;
-        [ShowIf("@Type == AbilityEffectType.OverTimeEffect")]
+        [ShowIf("@Type == AbilityEffectType.Buff")]
+        public BuffType BuffType;
+        [ShowIf("@Type == AbilityEffectType.Buff")]
+        public int BuffValue;
+        [ShowIf("@Type == AbilityEffectType.OverTime|| Type == AbilityEffectType.Buff")]
         public int Duration;
-        [ShowIf("@Type == AbilityEffectType.OverTimeEffect")]
+        [ShowIf("@Type == AbilityEffectType.OverTime")]
         public int TickValue;
     }
 

@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace CharacterAbility
 {
-    public class DamageOverTimeEffect : ITickEffect
+    public class DamageTickEffect : ITickEffect
     {
         private readonly IBattleObject _target;
         private readonly DamageHealType _damageHealType;
         private readonly int _damage;
         private int _duration;
 
-        public DamageOverTimeEffect(IBattleObject target, DamageHealType damageHealType, int damage, int duration)
+        public DamageTickEffect(IBattleObject target, DamageHealType damageHealType, int damage, int duration)
         {
             _target = target;
             _damageHealType = damageHealType;
@@ -18,7 +18,7 @@ namespace CharacterAbility
             _duration = duration;
         }
 
-        public void Tick(IReadOnlyBattleStats stats)
+        public void Tick()
         {
             _target.TakeDamage(_damage, 100, _damageHealType);
             _duration--;

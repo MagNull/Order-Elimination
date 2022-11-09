@@ -1,10 +1,18 @@
 using System;
 
+//TODO: Refactor Double
+
+public enum AttackType
+{
+    Normal,
+    DoubleArmor,
+    DoubleHealth
+}
 public enum DamageHealType
 {
     Normal,
     OnlyHealth,
-    OnlyArmor
+    OnlyArmor,
 }
 
 public interface IDamageable

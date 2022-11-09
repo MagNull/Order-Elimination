@@ -50,12 +50,15 @@ namespace CharacterAbility
                         ability = new MoveAbility(caster, ability);
                         break;
                     case AbilityEffectType.Modificator:
-                        ability = new ModificatorAbility(caster, ability, effect.Modification,
-                            effect.ModificationValue);
+                        ability = new ModificatorAbility(caster, ability, effect.Modificator,
+                            effect.ModificatorValue);
                         break;
-                    case AbilityEffectType.OverTimeEffect:
+                    case AbilityEffectType.OverTime:
                         ability = new OverTimeAbility(caster, ability, effect.DamageHealType, effect.OverTimeType, effect.Duration,
                             effect.TickValue);
+                        break;
+                    case AbilityEffectType.Buff:
+                        ability = new BuffAbility(caster, ability, effect.BuffType, effect.BuffValue, effect.Duration);
                         break;
                 }
             }

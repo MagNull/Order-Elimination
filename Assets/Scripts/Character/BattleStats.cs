@@ -23,8 +23,10 @@ namespace OrderElimination
         private int _unmodifiedAccuracy;
         [SerializeField]
         private int _movement;
+        [SerializeField]
+        private AttackType _attackType;
         private int _unmodifiedMovement;
-        
+
         public BattleStats(IReadOnlyBattleStats other)
         {
             _health = other.Health;
@@ -39,6 +41,7 @@ namespace OrderElimination
             _unmodifiedAccuracy = other.Accuracy;
             _movement = other.Movement;
             _unmodifiedMovement = other.Movement;
+            _attackType = other.AttackType;
         }
 
         public int Health
@@ -51,7 +54,7 @@ namespace OrderElimination
                     Debug.LogWarning("Try set health less than 0");
                     _health = 0;
                 }
-                else if(value > _unmodifiedHealth)
+                else if (value > _unmodifiedHealth)
                 {
                     Debug.LogWarning("Try set health more than unmodified health");
                     _health = _unmodifiedHealth;
@@ -62,7 +65,7 @@ namespace OrderElimination
                 }
             }
         }
-        
+
         public int Attack
         {
             get => _attack;
@@ -73,7 +76,7 @@ namespace OrderElimination
                     Debug.LogWarning("Try set attack less than 0");
                     _attack = 0;
                 }
-                else if(value > _unmodifiedAttack)
+                else if (value > _unmodifiedAttack)
                 {
                     Debug.LogWarning("Try set attack more than unmodified attack");
                     _attack = _unmodifiedAttack;
@@ -84,7 +87,7 @@ namespace OrderElimination
                 }
             }
         }
-        
+
         public int Armor
         {
             get => _armor;
@@ -101,7 +104,7 @@ namespace OrderElimination
                 }
             }
         }
-        
+
         public int Evasion
         {
             get => _evasion;
@@ -123,7 +126,7 @@ namespace OrderElimination
                 }
             }
         }
-        
+
         public int Accuracy
         {
             get => _accuracy;
@@ -145,7 +148,7 @@ namespace OrderElimination
                 }
             }
         }
-        
+
         public int Movement
         {
             get => _movement;
@@ -179,7 +182,7 @@ namespace OrderElimination
                 }
             }
         }
-        
+
         public int UnmodifiedAttack
         {
             get => _unmodifiedAttack;
@@ -196,7 +199,7 @@ namespace OrderElimination
                 }
             }
         }
-        
+
         public int UnmodifiedArmor
         {
             get => _unmodifiedArmor;
@@ -213,7 +216,7 @@ namespace OrderElimination
                 }
             }
         }
-        
+
         public int UnmodifiedEvasion
         {
             get => _unmodifiedEvasion;
@@ -235,7 +238,7 @@ namespace OrderElimination
                 }
             }
         }
-        
+
         public int UnmodifiedAccuracy
         {
             get => _unmodifiedAccuracy;
@@ -257,7 +260,7 @@ namespace OrderElimination
                 }
             }
         }
-        
+
         public int UnmodifiedMovement
         {
             get => _unmodifiedMovement;
@@ -274,8 +277,10 @@ namespace OrderElimination
                 }
             }
         }
+
+        public AttackType AttackType { get => _attackType; set => _attackType = value; }
     }
-    
+
     public interface IReadOnlyBattleStats
     {
         int Health { get; }
@@ -290,5 +295,7 @@ namespace OrderElimination
         int UnmodifiedAccuracy { get; }
         int Movement { get; }
         int UnmodifiedMovement { get; }
+
+        public AttackType AttackType { get; }
     }
 }

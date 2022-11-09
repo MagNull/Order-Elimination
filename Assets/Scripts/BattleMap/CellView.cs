@@ -11,7 +11,7 @@ public class CellView : MonoBehaviour
     private Color _deselectColor;
     private IBattleObject _object;
     private Color _basicColor;
-
+    
     public void Start()
     {
         _basicColor = _renderer == null ? Color.white : _renderer.material.color;

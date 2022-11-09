@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 712c7d7e8793431d90ef1998c6ea77d7, type: 3}
-  m_Name: "\u041F\u0435\u0440\u0432\u0430\u044F \u043F\u043E\u043C\u043E\u0449\u044C"
+  m_Name: "\u041C\u0435\u0442\u043A\u0430 \u0446\u0435\u043B\u0438"
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,15 +21,15 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _coolDown: 5
-  _startCoolDown: 3
-  <Icon>k__BackingField: {fileID: 21300000, guid: 6d54b2b2bac3e834f8d4f79511498f04, type: 3}
+  _coolDown: 0
+  _startCoolDown: 0
+  <Icon>k__BackingField: {fileID: 21300000, guid: 408ea852436e1554a93e095663f7a38a, type: 3}
   <ActionType>k__BackingField: 1
   _hasTarget: 1
   _hasTargetEffect: 1
   _distanceFromMovement: 0
-  _distance: 0
-  _targetType: 0
+  _distance: 6
+  _targetType: 1
   _targetEffects:
   - Type: 4
     DamageHealType: 0
@@ -37,19 +37,23 @@ MonoBehaviour:
     ScaleFrom: 0
     Scale: 0
     Modification: 0
-    ModificationValue: 100
+    ModificationValue: 0
     OverTimeType: 0
-    Duration: 0
+    BuffType: 5
+    BuffValue: 15
+    Duration: 2
     TickValue: 0
-  - Type: 1
+  - Type: 4
     DamageHealType: 0
-    Amounts: 1
-    ScaleFrom: 1
-    Scale: 0.2
+    Amounts: 0
+    ScaleFrom: 0
+    Scale: 0
     Modification: 0
     ModificationValue: 0
     OverTimeType: 0
-    Duration: 0
+    BuffType: 3
+    BuffValue: -15
+    Duration: 2
     TickValue: 0
   _hasAreaEffect: 0
   _areaRadius: 0

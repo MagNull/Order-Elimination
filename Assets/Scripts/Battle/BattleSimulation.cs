@@ -133,15 +133,22 @@ public class BattleSimulation : MonoBehaviour
         BindAbilityButtons();
     }
 
+    //TODO(137-161)(Илья): Separate into another class
+    private BattleCharacterView _selectedCharacterView;
     private void BindAbilityButtons()
     {
         _map.CellClicked += cell =>
         {
             if (cell.GetObject() is NullBattleObject ||
-                !cell.GetObject().GetView().TryGetComponent(out BattleCharacterView characterView) ||
-                characterView.Model.Side != BattleObjectSide.Player
-                || _currentTurn != BattleObjectSide.Player)
+                !cell.GetObject().GetView().TryGetComponent(out BattleCharacterView characterView)
+                || characterView.Model.Side != BattleObjectSide.Player
+                || _currentTurn != BattleObjectSide.Player
+                || characterView.Selected)
                 return;
+            
+            _selectedCharacterView?.Deselect();
+            _selectedCharacterView = characterView;
+            _selectedCharacterView .Select();
             for (var i = 0; i < characterView.AbilityViews.Length; i++)
             {
                 _abilityButtons[i].CancelAbilityCast();

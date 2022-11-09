@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 712c7d7e8793431d90ef1998c6ea77d7, type: 3}
-  m_Name: "\u041F\u0435\u0440\u0435\u043C\u0435\u0449\u0435\u043D\u0438\u0435"
+  m_Name: "\u0420\u044B\u0432\u043E\u043A"
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -23,26 +23,62 @@ MonoBehaviour:
     SerializationNodes: []
   _coolDown: 0
   _startCoolDown: 0
-  <Icon>k__BackingField: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  <ActionType>k__BackingField: 0
+  <Icon>k__BackingField: {fileID: 21300000, guid: f91d05b69dc93144ca3549f82b1cdb35, type: 3}
+  <ActionType>k__BackingField: 1
   _hasTarget: 1
   _hasTargetEffect: 1
   _distanceFromMovement: 0
-  _distance: 10
-  _targetType: 4
+  _distance: 5
+  _targetType: 1
   _targetEffects:
-  - Type: 2
+  - Type: 5
     DamageHealType: 0
     Amounts: 0
     ScaleFrom: 0
     Scale: 0
-    Modification: 0
-    ModificationValue: 0
+    Modificator: 1
+    ModificatorValue: 0
     OverTimeType: 0
     BuffType: 0
     BuffValue: 0
     Duration: 0
     TickValue: 0
+  - Type: 0
+    DamageHealType: 0
+    Amounts: 1
+    ScaleFrom: 3
+    Scale: 1
+    Modificator: 0
+    ModificatorValue: 0
+    OverTimeType: 0
+    BuffType: 0
+    BuffValue: 0
+    Duration: 0
+    TickValue: 0
+  - Type: 2
+    DamageHealType: 0
+    Amounts: 0
+    ScaleFrom: 0
+    Scale: 0
+    Modificator: 0
+    ModificatorValue: 0
+    OverTimeType: 0
+    BuffType: 0
+    BuffValue: 0
+    Duration: 0
+    TickValue: 0
+  - Type: 3
+    DamageHealType: 0
+    Amounts: 0
+    ScaleFrom: 0
+    Scale: 0
+    Modificator: 0
+    ModificatorValue: 0
+    OverTimeType: 0
+    BuffType: 0
+    BuffValue: 0
+    Duration: 5
+    TickValue: 5
   _hasAreaEffect: 0
   _areaRadius: 0
   _areaEffects: []

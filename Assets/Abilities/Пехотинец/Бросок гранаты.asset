@@ -22,7 +22,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _coolDown: 2
-  _startCoolDown: 4
+  _startCoolDown: 0
   <Icon>k__BackingField: {fileID: 21300000, guid: c4aff6d74b951b446a9c4a0bd68eb2a4, type: 3}
   <ActionType>k__BackingField: 1
   _hasTarget: 1
@@ -39,6 +39,8 @@ MonoBehaviour:
     Modification: 0
     ModificationValue: 0
     OverTimeType: 0
+    BuffType: 0
+    BuffValue: 0
     Duration: 0
     TickValue: 0
   - Type: 3
@@ -49,12 +51,14 @@ MonoBehaviour:
     Modification: 0
     ModificationValue: 0
     OverTimeType: 0
+    BuffType: 0
+    BuffValue: 0
     Duration: 3
     TickValue: 5
   _hasAreaEffect: 1
   _areaRadius: 1
   _areaEffects:
-  - Type: 4
+  - Type: 5
     DamageHealType: 0
     Amounts: 0
     ScaleFrom: 0
@@ -62,6 +66,8 @@ MonoBehaviour:
     Modification: 0
     ModificationValue: 100
     OverTimeType: 0
+    BuffType: 0
+    BuffValue: 0
     Duration: 0
     TickValue: 0
   - Type: 0
@@ -72,6 +78,8 @@ MonoBehaviour:
     Modification: 0
     ModificationValue: 0
     OverTimeType: 0
+    BuffType: 0
+    BuffValue: 0
     Duration: 0
     TickValue: 0
   - Type: 3
@@ -82,5 +90,7 @@ MonoBehaviour:
     Modification: 0
     ModificationValue: 0
     OverTimeType: 0
+    BuffType: 0
+    BuffValue: 0
     Duration: 3
     TickValue: 5

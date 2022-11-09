@@ -10,13 +10,18 @@ public class BattleCharacterView : MonoBehaviour
     [SerializeField]
     private SpriteRenderer _renderer;
 
+    private bool _selected = false;
+
     public BattleCharacter Model => _character;
     public AbilityView[] AbilityViews => _abilityViews;
+
+    public bool Selected => _selected;
 
     public void Init(BattleCharacter character, AbilityView[] abilitiesView)
     {
         _character = character;
         _character.Damaged += OnDamaged;
+        BattleSimulation.RoundStarted += OnRoundStart;
 
         _abilityViews = abilitiesView;
     }
@@ -28,6 +33,10 @@ public class BattleCharacterView : MonoBehaviour
 
     public void SetImage(Sprite image) => _renderer.sprite = image;
 
+    public void Select() => _selected = true;
+    
+    public void Deselect() => _selected = false;
+
     public void OnDied()
     {
         // yet empty
@@ -35,11 +44,12 @@ public class BattleCharacterView : MonoBehaviour
 
     private void OnDisable()
     {
-        _character.ClearTickEffects();
+        _character.ClearOverEffects();
     }
 
-    public void OnTurnStart()
+    private void OnRoundStart()
     {
-        throw new NotImplementedException();
+        Deselect();
+        _character.OnTurnStart();
     }
 }

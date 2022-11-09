@@ -1,5 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
-using OrderElimination;
+﻿using OrderElimination;
+using OrderElimination.BattleMap;
 using UnityEngine;
 
 namespace CharacterAbility.AbilityEffects
@@ -15,8 +15,24 @@ namespace CharacterAbility.AbilityEffects
 
         public override void Use(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)
         {
-            var point = battleMap.GetCoordinate(target);
-            battleMap.MoveTo(_caster, point.x, point.y);
+            Vector2Int targetPosition = battleMap.GetCoordinate(target);
+            if (target is not NullBattleObject)
+            {
+                var availablePositions = battleMap.GetEmptyObjectsInRadius(target, 1);
+                if (availablePositions.Count == 0)
+                    return;
+                var nearestPosition = availablePositions[Random.Range(0, availablePositions.Count)];
+                foreach (var availablePosition in availablePositions)
+                {
+                    if (battleMap.GetDistance(_caster, nearestPosition) >
+                        battleMap.GetDistance(_caster, availablePosition))
+                        nearestPosition = availablePosition;
+                }
+
+                targetPosition = battleMap.GetCoordinate(nearestPosition);
+            }
+
+            battleMap.MoveTo(_caster, targetPosition.x, targetPosition.y);
             _nextAbility?.Use(target, stats, battleMap);
         }
     }
