@@ -24,9 +24,7 @@ namespace CharacterAbility
                 ability = AddEffects(abilityInfo.TargetEffects, ability, caster);
             }
 
-            ability = new TargetAbility(caster, ability,
-                abilityInfo.DistanceFromMovement ? caster.Stats.Movement : abilityInfo.Distance,
-                abilityInfo.TargetType == TargetType.Self);
+            ability = new TargetAbility(caster, ability, abilityInfo.TargetType == TargetType.Self);
 
             return new AbilityView(caster, ability, abilityInfo, _battleMapView);
         }
@@ -44,7 +42,8 @@ namespace CharacterAbility
                             effect.ScaleFrom, effect.Scale);
                         break;
                     case AbilityEffectType.Heal:
-                        ability = new HealAbility(caster, ability, effect.DamageHealType, effect.Amounts, effect.ScaleFrom, effect.Scale);
+                        ability = new HealAbility(caster, ability, effect.DamageHealType, effect.Amounts,
+                            effect.ScaleFrom, effect.Scale);
                         break;
                     case AbilityEffectType.Move:
                         ability = new MoveAbility(caster, ability);
@@ -54,7 +53,8 @@ namespace CharacterAbility
                             effect.ModificatorValue);
                         break;
                     case AbilityEffectType.OverTime:
-                        ability = new OverTimeAbility(caster, ability, effect.DamageHealType, effect.OverTimeType, effect.Duration,
+                        ability = new OverTimeAbility(caster, ability, effect.DamageHealType, effect.OverTimeType,
+                            effect.Duration,
                             effect.TickValue);
                         break;
                     case AbilityEffectType.Buff:

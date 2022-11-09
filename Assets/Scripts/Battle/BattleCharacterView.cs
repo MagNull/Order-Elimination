@@ -21,14 +21,20 @@ public class BattleCharacterView : MonoBehaviour
     {
         _character = character;
         _character.Damaged += OnDamaged;
+        _character.Died += OnDied;
         BattleSimulation.RoundStarted += OnRoundStart;
 
         _abilityViews = abilitiesView;
     }
 
-    public void OnDamaged(int damage)
+    private void OnDamaged(int armorDamage, int healthDamage)
     {
-        Debug.Log(gameObject.name + " damaged");
+        if(armorDamage == 0 && healthDamage == 0)
+        {
+            Debug.Log("Miss" % Colorize.Yellow);
+            return;
+        }
+        Debug.Log(gameObject.name + " get "+ (armorDamage + healthDamage) + " damage " % Colorize.Red );
     }
 
     public void SetImage(Sprite image) => _renderer.sprite = image;
@@ -39,7 +45,7 @@ public class BattleCharacterView : MonoBehaviour
 
     public void OnDied()
     {
-        // yet empty
+        Debug.Log(gameObject.name + " died" % Colorize.DarkRed);
     }
 
     private void OnDisable()

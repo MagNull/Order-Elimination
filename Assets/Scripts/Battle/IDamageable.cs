@@ -17,6 +17,7 @@ public enum DamageHealType
 
 public interface IDamageable
 {
-    event Action<int> Damaged;
+    event Action<int, int> Damaged;
+    event Action Died;
     void TakeDamage(int damage, int accuracy, DamageHealType damageHealType);
 }

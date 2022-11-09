@@ -6,7 +6,9 @@ namespace OrderElimination.BattleMap
 {
     public class NullBattleObject : IBattleObject
     {
-        public event Action<int> Damaged;
+        public event Action<int, int> Damaged;
+        public event Action Died;
+
         public void TakeDamage(int damage, int accuracy, DamageHealType damageHealType)
         {
             throw new NotImplementedException();
