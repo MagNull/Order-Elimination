@@ -12,6 +12,7 @@ public enum ActionType
 {
     Movement,
     Ability,
+    Difficult,
     Free
 }
 
@@ -150,12 +151,30 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
         }
     }
 
+    public bool CanSpendAction(ActionType actionType)
+    {
+        return actionType == ActionType.Free ||
+               (actionType == ActionType.Difficult && _availableActions.Count == 2) ||
+                _availableActions.Contains(actionType);
+    }
+
     public bool TrySpendAction(ActionType actionType)
     {
-        if (!_availableActions.Contains(actionType))
-            return false;
-        _availableActions.Remove(actionType);
-        return true;
+        switch (actionType)
+        {
+            case ActionType.Difficult:
+                if (_availableActions.Count < 2)
+                    return false;
+                _availableActions.Clear();
+                return true;
+            case ActionType.Free:
+                return true;
+            case ActionType.Movement:
+            case ActionType.Ability:
+            default:
+                _availableActions.Remove(actionType);
+                return true;
+        }
     }
 
     public void ClearBuffEffects()

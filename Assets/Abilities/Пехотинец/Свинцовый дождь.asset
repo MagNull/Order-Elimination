@@ -22,7 +22,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _coolDown: 3
-  _startCoolDown: 0
+  _startCoolDown: 1
   <Icon>k__BackingField: {fileID: 21300000, guid: 2a8bb88beb4680b4e95d30a944cfa553, type: 3}
   <ActionType>k__BackingField: 1
   _hasTarget: 1
@@ -36,8 +36,8 @@ MonoBehaviour:
     Amounts: 0
     ScaleFrom: 0
     Scale: 0
-    Modification: 0
-    ModificationValue: -15
+    Modificator: 0
+    ModificatorValue: 0
     OverTimeType: 0
     BuffType: 0
     BuffValue: 0
@@ -48,8 +48,8 @@ MonoBehaviour:
     Amounts: 5
     ScaleFrom: 0
     Scale: 1
-    Modification: 0
-    ModificationValue: 0
+    Modificator: 0
+    ModificatorValue: 0
     OverTimeType: 0
     BuffType: 0
     BuffValue: 0

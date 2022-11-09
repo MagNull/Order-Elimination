@@ -42,9 +42,9 @@ namespace CharacterAbility
         {
             _battleMapView.DelightCells();
 
-            if (!_caster.AvailableActions.Contains(_abilityInfo.ActionType))
+            if (!_caster.CanSpendAction(_abilityInfo.ActionType))
             {
-                Debug.LogWarning("Dont enough actions");
+                NotEnoughActions();
                 return;
             }
 
@@ -59,6 +59,11 @@ namespace CharacterAbility
             if (canceled)
                 return;
             _battleMapView.DelightCells();
+        }
+
+        private static void NotEnoughActions()
+        {
+            Debug.LogWarning("Dont enough actions");
         }
 
         public void CancelCast()
@@ -146,13 +151,13 @@ namespace CharacterAbility
 
             _battleMapView.Map.CellClicked += OnCellClicked;
 
-            if (_abilityInfo.TargetType == TargetType.Self) 
+            if (_abilityInfo.TargetType == TargetType.Self)
                 OnCellClicked(_battleMapView.Map.GetCell(_caster));
 
-            var canceled = await UniTask.WaitUntil(() => cellConfirmed)
+            await UniTask.WaitUntil(() => cellConfirmed)
                 .AttachExternalCancellation(_cancellationTokenSource.Token)
                 .SuppressCancellationThrow();
-            
+
             _battleMapView.Map.CellClicked -= OnCellClicked;
 
             return target;
