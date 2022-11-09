@@ -17,9 +17,13 @@ namespace CharacterAbility.AbilityEffects
         {
             var targets = battleMap.GetBattleObjectsInRadius(target, _radius);
             targets.Remove(target);
+            var aoeStat = new BattleStats(stats)
+            {
+                Accuracy = 100
+            };
             foreach (var battleObject in targets)
             {
-                _areaAbility.Use(battleObject, stats, battleMap);
+                _areaAbility.Use(battleObject, aoeStat, battleMap);
             }
         }
     }

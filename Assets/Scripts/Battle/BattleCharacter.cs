@@ -25,7 +25,7 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
     [SerializeField]
     private BattleStats _battleStats;
     private IDamageCalculation _damageCalculation;
-    
+
     [ShowInInspector]
     private readonly List<ActionType> _availableActions;
 
@@ -34,7 +34,6 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
     public IReadOnlyList<ActionType> AvailableActions => _availableActions;
 
     public IReadOnlyBattleStats Stats => _battleStats;
-
 
     public BattleCharacter(BattleObjectSide side, BattleStats battleStats, IDamageCalculation damageCalculation)
     {
@@ -48,31 +47,45 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
 
     public void SetView(BattleCharacterView view) => _view = view;
 
-    public void TakeDamage(int damage, int accuracy)
+    public GameObject GetView() => _view.gameObject;
+
+    public void TakeDamage(int damage, int accuracy, DamageHealType damageHealType)
     {
         var damageTaken =
-            _damageCalculation.CalculateDamage(damage, _battleStats.Armor, accuracy, _battleStats.Evasion);
-        if(damageTaken.healtDamage > 0 || damageTaken.armorDamage > 0)
+            _damageCalculation.CalculateDamage(damage, _battleStats.Armor, accuracy, _battleStats.Evasion,
+                damageHealType);
+        if (damageTaken.healtDamage > 0 || damageTaken.armorDamage > 0)
             Debug.Log(GetView().name + " take damage");
         _battleStats.Armor -= damageTaken.armorDamage;
         _battleStats.Health -= damageTaken.healtDamage;
         if (_battleStats.Health <= 0)
         {
             _battleStats.Health = 0;
-            Debug.Log("Character is dead");
+            Debug.Log(GetView().name + " is dead");
         }
     }
 
     //TODO: Strategy pattern in future if needed
 
-    public void TakeHeal(int heal, int accuracy)
+    public void TakeRecover(int value, int accuracy, DamageHealType damageHealType)
     {
         bool isHeal = Random.Range(0, 100) < accuracy;
         if (!isHeal)
             return;
 
-        _battleStats.Health = Mathf.Clamp(_battleStats.Health + heal, 0, _battleStats.UnmodifiedHealth);
-        Debug.Log(GetView().name + " take heal");
+        switch (damageHealType)
+        {
+            case DamageHealType.OnlyHealth:
+                _battleStats.Health += value;
+                break;
+            case DamageHealType.OnlyArmor:
+                _battleStats.Armor += value;
+                break;
+            case DamageHealType.Normal:
+            default:
+                _battleStats.Health += value;
+                break;
+        }
     }
 
     public void AddTickEffect(ITickEffect effect)
@@ -85,7 +98,10 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
         _activeEffects.Remove(effect);
     }
 
-    public GameObject GetView() => _view.gameObject;
+    public void ClearTickEffects()
+    {
+        _activeEffects.Clear();
+    }
 
     public void OnTurnStart()
     {
@@ -110,7 +126,7 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
 
     public bool TrySpendAction(ActionType actionType)
     {
-        if (!_availableActions.Contains(actionType)) 
+        if (!_availableActions.Contains(actionType))
             return false;
         _availableActions.Remove(actionType);
         return true;

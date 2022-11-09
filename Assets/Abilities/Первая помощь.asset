@@ -22,7 +22,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _coolDown: 5
-  _startCoolDown: 2
+  _startCoolDown: 3
   <Icon>k__BackingField: {fileID: 21300000, guid: 6d54b2b2bac3e834f8d4f79511498f04, type: 3}
   <ActionType>k__BackingField: 1
   _hasTarget: 1
@@ -31,7 +31,18 @@ MonoBehaviour:
   _distance: 0
   _targetType: 0
   _targetEffects:
+  - Type: 4
+    DamageHealType: 0
+    Amounts: 0
+    ScaleFrom: 0
+    Scale: 0
+    Modification: 0
+    ModificationValue: 100
+    OverTimeType: 0
+    Duration: 0
+    TickValue: 0
   - Type: 1
+    DamageHealType: 0
     Amounts: 1
     ScaleFrom: 1
     Scale: 0.2

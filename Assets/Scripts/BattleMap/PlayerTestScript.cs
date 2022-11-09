@@ -6,10 +6,12 @@ using UnityEngine;
 // - Изменяет внешний вид в зависимости от занимаемой фигурой стороны
 public class PlayerTestScript : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer sideCircle;
+    [SerializeField] private SpriteRenderer _view;
+    [SerializeField] private Sprite _playerSprite;
+    [SerializeField] private Sprite _enemySprite;
 
     public void SetSide(BattleObjectSide side)
     {
-        sideCircle.color = side == BattleObjectSide.Player ? Color.green : Color.red;
+        _view.sprite = side == BattleObjectSide.Player ? _playerSprite : _enemySprite;
     }
 }

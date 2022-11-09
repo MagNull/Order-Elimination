@@ -33,6 +33,11 @@ public class BattleCharacterView : MonoBehaviour
         // yet empty
     }
 
+    private void OnDisable()
+    {
+        _character.ClearTickEffects();
+    }
+
     public void OnTurnStart()
     {
         throw new NotImplementedException();

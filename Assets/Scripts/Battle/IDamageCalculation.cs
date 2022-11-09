@@ -2,6 +2,7 @@
 {
     public interface IDamageCalculation
     {
-        public (int healtDamage, int armorDamage) CalculateDamage(int attack, int armor, int accuracy, int evasion);
+        public (int healtDamage, int armorDamage) CalculateDamage(int attack, int armor, int accuracy, int evasion,
+            DamageHealType damageHealType);
     }
 }

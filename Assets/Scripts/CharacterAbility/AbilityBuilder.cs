@@ -31,6 +31,7 @@ namespace CharacterAbility
             return new AbilityView(caster, ability, abilityInfo, _battleMapView);
         }
 
+        //TODO: Refactor damage heal type semantic
         private static Ability AddEffects(AbilityEffect[] effects, Ability ability, BattleCharacter caster)
         {
             for (var i = effects.Length - 1; i >= 0; i--)
@@ -39,10 +40,11 @@ namespace CharacterAbility
                 switch (effect.Type)
                 {
                     case AbilityEffectType.Damage:
-                        ability = new DamageAbility(caster, ability, effect.Amounts, effect.ScaleFrom, effect.Scale);
+                        ability = new DamageAbility(caster, ability, effect.DamageHealType, effect.Amounts,
+                            effect.ScaleFrom, effect.Scale);
                         break;
                     case AbilityEffectType.Heal:
-                        ability = new HealAbility(caster, ability, effect.Amounts, effect.ScaleFrom, effect.Scale);
+                        ability = new HealAbility(caster, ability, effect.DamageHealType, effect.Amounts, effect.ScaleFrom, effect.Scale);
                         break;
                     case AbilityEffectType.Move:
                         ability = new MoveAbility(caster, ability);
@@ -52,7 +54,7 @@ namespace CharacterAbility
                             effect.ModificationValue);
                         break;
                     case AbilityEffectType.OverTimeEffect:
-                        ability = new OverTimeAbility(caster, ability, effect.OverTimeType, effect.Duration,
+                        ability = new OverTimeAbility(caster, ability, effect.DamageHealType, effect.OverTimeType, effect.Duration,
                             effect.TickValue);
                         break;
                 }

@@ -41,6 +41,12 @@ namespace CharacterAbility
         public async void Clicked()
         {
             _battleMapView.DelightCells();
+            if (_abilityInfo.TargetType == TargetType.Self)
+            {
+                _ability.Use(_caster, _caster.Stats, _battleMapView.Map);
+                return;
+            }
+
             if (!_caster.AvailableActions.Contains(_abilityInfo.ActionType))
             {
                 Debug.LogWarning("Dont enough actions");
@@ -148,8 +154,8 @@ namespace CharacterAbility
             await UniTask.WaitUntil(() => cellConfirmed)
                 .AttachExternalCancellation(_cancellationTokenSource.Token)
                 .SuppressCancellationThrow();
-            
-            
+
+
             _battleMapView.Map.CellClicked -= OnCellClicked;
 
             return target;

@@ -6,6 +6,11 @@ namespace OrderElimination.BattleMap
     public class NullBattleObject : IBattleObject
     {
         public event Action<int> Damaged;
+        public void TakeDamage(int damage, int accuracy, DamageHealType damageHealType)
+        {
+            throw new NotImplementedException();
+        }
+
         public BattleObjectSide Side => BattleObjectSide.None;
 
         public GameObject GetView()
@@ -13,14 +18,8 @@ namespace OrderElimination.BattleMap
             Debug.LogError("Try get view form null battle object");
             throw new NullReferenceException();
         }
-        
-        public void TakeDamage(int damage, int accuracy)
-        {
-            Debug.LogError("Try take damage from null battle object");
-            throw new NullReferenceException();
-        }
 
-        public void TakeHeal(int heal, int accuracy)
+        public void TakeRecover(int value, int accuracy, DamageHealType damageHealType)
         { 
             Debug.LogError("Try take heal from null battle object");
             throw new NullReferenceException();
@@ -36,6 +35,11 @@ namespace OrderElimination.BattleMap
         { 
             Debug.LogError("Try remove tick effect from null battle object");
             throw new NullReferenceException();
+        }
+
+        public void ClearTickEffects()
+        {
+            throw new NotImplementedException();
         }
 
         public void OnTurnStart()

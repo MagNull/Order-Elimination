@@ -16,11 +16,6 @@ namespace CharacterAbility
             _button = GetComponent<Button>();
         }
 
-        private void OnDisable()
-        {
-            ResetAbility();
-        }
-
         public void SetAbility(AbilityView abilityView)
         {
             ResetAbility();

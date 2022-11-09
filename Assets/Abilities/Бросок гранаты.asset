@@ -21,8 +21,8 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _coolDown: 5
-  _startCoolDown: 2
+  _coolDown: 2
+  _startCoolDown: 4
   <Icon>k__BackingField: {fileID: 21300000, guid: c4aff6d74b951b446a9c4a0bd68eb2a4, type: 3}
   <ActionType>k__BackingField: 1
   _hasTarget: 1
@@ -31,16 +31,8 @@ MonoBehaviour:
   _distance: 3
   _targetType: 1
   _targetEffects:
-  - Type: 3
-    Amounts: 0
-    ScaleFrom: 0
-    Scale: 0
-    Modification: 0
-    ModificationValue: 0
-    OverTimeType: 0
-    Duration: 3
-    TickValue: 10
   - Type: 0
+    DamageHealType: 0
     Amounts: 1
     ScaleFrom: 0
     Scale: 2
@@ -49,10 +41,31 @@ MonoBehaviour:
     OverTimeType: 0
     Duration: 0
     TickValue: 0
+  - Type: 3
+    DamageHealType: 1
+    Amounts: 0
+    ScaleFrom: 0
+    Scale: 0
+    Modification: 0
+    ModificationValue: 0
+    OverTimeType: 0
+    Duration: 3
+    TickValue: 5
   _hasAreaEffect: 1
   _areaRadius: 1
   _areaEffects:
+  - Type: 4
+    DamageHealType: 0
+    Amounts: 0
+    ScaleFrom: 0
+    Scale: 0
+    Modification: 0
+    ModificationValue: 100
+    OverTimeType: 0
+    Duration: 0
+    TickValue: 0
   - Type: 0
+    DamageHealType: 0
     Amounts: 1
     ScaleFrom: 0
     Scale: 2
@@ -62,6 +75,7 @@ MonoBehaviour:
     Duration: 0
     TickValue: 0
   - Type: 3
+    DamageHealType: 1
     Amounts: 0
     ScaleFrom: 0
     Scale: 0
@@ -69,4 +83,4 @@ MonoBehaviour:
     ModificationValue: 0
     OverTimeType: 0
     Duration: 3
-    TickValue: 10
+    TickValue: 5

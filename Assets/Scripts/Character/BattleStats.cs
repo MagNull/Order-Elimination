@@ -48,8 +48,13 @@ namespace OrderElimination
             {
                 if (value < 0)
                 {
-                    Debug.Log("Try set health less than 0");
+                    Debug.LogWarning("Try set health less than 0");
                     _health = 0;
+                }
+                else if(value > _unmodifiedHealth)
+                {
+                    Debug.LogWarning("Try set health more than unmodified health");
+                    _health = _unmodifiedHealth;
                 }
                 else
                 {
@@ -65,8 +70,13 @@ namespace OrderElimination
             {
                 if (value < 0)
                 {
-                    Debug.Log("Try set attack less than 0");
+                    Debug.LogWarning("Try set attack less than 0");
                     _attack = 0;
+                }
+                else if(value > _unmodifiedAttack)
+                {
+                    Debug.LogWarning("Try set attack more than unmodified attack");
+                    _attack = _unmodifiedAttack;
                 }
                 else
                 {
@@ -82,7 +92,7 @@ namespace OrderElimination
             {
                 if (value < 0)
                 {
-                    Debug.Log("Try set armor less than 0");
+                    Debug.LogWarning("Try set armor less than 0");
                     _armor = 0;
                 }
                 else
@@ -99,12 +109,12 @@ namespace OrderElimination
             {
                 if (value < 0)
                 {
-                    Debug.Log("Try set evasion less than 0");
+                    Debug.LogWarning("Try set evasion less than 0");
                     _evasion = 0;
                 }
                 else if (value > 100)
                 {
-                    Debug.Log("Try set evasion more than 100");
+                    Debug.LogWarning("Try set evasion more than 100");
                     _evasion = 100;
                 }
                 else
@@ -121,12 +131,12 @@ namespace OrderElimination
             {
                 if (value < 0)
                 {
-                    Debug.Log("Try set accuracy less than 0");
+                    Debug.LogWarning("Try set accuracy less than 0");
                     _accuracy = 0;
                 }
                 else if (value > 100)
                 {
-                    Debug.Log("Try set accuracy more than 100");
+                    Debug.LogWarning("Try set accuracy more than 100");
                     _accuracy = 100;
                 }
                 else
@@ -143,7 +153,7 @@ namespace OrderElimination
             {
                 if (value < 0)
                 {
-                    Debug.Log("Try set movement less than 0");
+                    Debug.LogWarning("Try set movement less than 0");
                     _movement = 0;
                 }
                 else
@@ -160,7 +170,7 @@ namespace OrderElimination
             {
                 if (value < 0)
                 {
-                    Debug.Log("Try set health less than 0");
+                    Debug.LogWarning("Try set health less than 0");
                     _unmodifiedHealth = 0;
                 }
                 else
@@ -177,7 +187,7 @@ namespace OrderElimination
             {
                 if (value < 0)
                 {
-                    Debug.Log("Try set attack less than 0");
+                    Debug.LogWarning("Try set attack less than 0");
                     _unmodifiedAttack = 0;
                 }
                 else
@@ -194,7 +204,7 @@ namespace OrderElimination
             {
                 if (value < 0)
                 {
-                    Debug.Log("Try set armor less than 0");
+                    Debug.LogWarning("Try set armor less than 0");
                     _unmodifiedArmor = 0;
                 }
                 else
@@ -211,12 +221,12 @@ namespace OrderElimination
             {
                 if (value < 0)
                 {
-                    Debug.Log("Try set evasion less than 0");
+                    Debug.LogWarning("Try set evasion less than 0");
                     _unmodifiedEvasion = 0;
                 }
                 else if (value > 100)
                 {
-                    Debug.Log("Try set evasion more than 100");
+                    Debug.LogWarning("Try set evasion more than 100");
                     _unmodifiedEvasion = 100;
                 }
                 else
@@ -233,12 +243,12 @@ namespace OrderElimination
             {
                 if (value < 0)
                 {
-                    Debug.Log("Try set accuracy less than 0");
+                    Debug.LogWarning("Try set accuracy less than 0");
                     _unmodifiedAccuracy = 0;
                 }
                 else if (value > 100)
                 {
-                    Debug.Log("Try set accuracy more than 100");
+                    Debug.LogWarning("Try set accuracy more than 100");
                     _unmodifiedAccuracy = 100;
                 }
                 else
@@ -255,7 +265,7 @@ namespace OrderElimination
             {
                 if (value < 0)
                 {
-                    Debug.Log("Try set movement less than 0");
+                    Debug.LogWarning("Try set movement less than 0");
                     _unmodifiedMovement = 0;
                 }
                 else

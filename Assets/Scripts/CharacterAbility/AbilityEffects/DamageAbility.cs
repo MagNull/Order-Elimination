@@ -7,11 +7,13 @@ namespace CharacterAbility.AbilityEffects
     public class DamageAbility : Ability
     {
         private readonly Ability _nextAbility;
+        private readonly DamageHealType _damageHealType;
         private readonly int _damageAmounts;
         private readonly float _attackScale;
-        private AbilityScaleFrom _scaleFrom;
+        private readonly AbilityScaleFrom _scaleFrom;
 
-        public DamageAbility(IAbilityCaster caster, Ability nextAbility, int damageAmounts, AbilityScaleFrom scaleFrom,
+        public DamageAbility(IAbilityCaster caster, Ability nextAbility, DamageHealType damageHealType, int damageAmounts,
+            AbilityScaleFrom scaleFrom,
             float attackScale) :
             base(caster)
         {
@@ -19,6 +21,7 @@ namespace CharacterAbility.AbilityEffects
             _attackScale = attackScale;
             _damageAmounts = damageAmounts;
             _nextAbility = nextAbility;
+            _damageHealType = damageHealType;
         }
 
         public override void Use(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)
@@ -33,7 +36,7 @@ namespace CharacterAbility.AbilityEffects
             };
 
             for (var i = 0; i < _damageAmounts; i++)
-                targetCharacter.TakeDamage(damage, stats.Accuracy);
+                targetCharacter.TakeDamage(damage, stats.Accuracy, _damageHealType);
 
             _nextAbility?.Use(target, stats, battleMap);
         }

@@ -44,20 +44,22 @@ namespace CharacterAbility
     public struct AbilityEffect
     {
         public AbilityEffectType Type;
-        
+        [ShowIf(
+            "@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal || Type == AbilityEffectType.OverTimeEffect")]
+        public DamageHealType DamageHealType;
+
         [ShowIf("@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal")]
         public int Amounts;
         [ShowIf("@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal")]
         public AbilityScaleFrom ScaleFrom;
         [ShowIf("@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal")]
         public float Scale;
-        
+
         [ShowIf("@Type == AbilityEffectType.Modificator")]
         public ModificationType Modification;
         [ShowIf("@Type == AbilityEffectType.Modificator")]
         public int ModificationValue;
-        
-        
+
         [ShowIf("@Type == AbilityEffectType.OverTimeEffect")]
         public OverTimeAbilityType OverTimeType;
         [ShowIf("@Type == AbilityEffectType.OverTimeEffect")]
