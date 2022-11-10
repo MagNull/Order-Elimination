@@ -20,7 +20,7 @@ public enum ActionType
 public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like interface for ability
 {
     public event Action<int, int> Damaged;
-    public event Action Died;
+    public event Action<BattleCharacter> Died;
 
     private readonly List<ITickEffect> _tickEffects;
     private readonly List<IncomingDebuff> _incomingTickEffects;
@@ -67,7 +67,7 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
         if (_battleStats.Health <= 0)
         {
             _battleStats.Health = 0;
-            Died?.Invoke();
+            Died?.Invoke(this);
         }
     }
 

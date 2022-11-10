@@ -43,13 +43,17 @@ public class BattleCharacterView : MonoBehaviour
     
     public void Deselect() => _selected = false;
 
-    public void OnDied()
+    private void OnDied(BattleCharacter battleCharacter)
     {
         Debug.Log(gameObject.name + " died" % Colorize.DarkRed);
+        Destroy(gameObject);
     }
 
     private void OnDisable()
     {
+        _character.Damaged -= OnDamaged;
+        _character.Died -= OnDied;
+        BattleSimulation.RoundStarted -= OnRoundStart;
         _character.ClearOverEffects();
     }
 

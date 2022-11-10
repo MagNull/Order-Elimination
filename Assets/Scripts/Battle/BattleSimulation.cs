@@ -166,6 +166,7 @@ public class BattleSimulation : MonoBehaviour
         for (int i = 0; i < playerSquad.Length; i++)
         {
             _characters.Add(playerSquad[i]);
+            playerSquad[i].Died += OnCharacterDied;
             _map.SetCell(0, 2 * i, playerSquad[i]);
         }
 
@@ -173,7 +174,15 @@ public class BattleSimulation : MonoBehaviour
         for (int i = 0; i < enemySquad.Length; i++)
         {
             _characters.Add(enemySquad[i]);
+            enemySquad[i].Died += OnCharacterDied;
             _map.SetCell(_map.Width - 1, i, enemySquad[i]);
         }
+    }
+
+    private void OnCharacterDied(BattleCharacter battleObject)
+    {
+        var pos = _map.GetCoordinate(battleObject);
+        _map.SetCell(pos.x, pos.y, new NullBattleObject());
+        battleObject.Died -= OnCharacterDied;
     }
 }
