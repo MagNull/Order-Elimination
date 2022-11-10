@@ -7,7 +7,8 @@ namespace CharacterAbility.AbilityEffects
         private readonly int _radius;
         private readonly Ability _areaAbility;
 
-        public AreaAbility(IAbilityCaster caster, Ability areaAbility, int radius) : base(caster)
+        public AreaAbility(IAbilityCaster caster, Ability areaAbility, int radius, BattleObjectSide filter) : 
+            base(caster, filter)
         {
             _radius = radius;
             _areaAbility = areaAbility;

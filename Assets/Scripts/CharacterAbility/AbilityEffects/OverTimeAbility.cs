@@ -15,7 +15,7 @@ namespace CharacterAbility.AbilityEffects
 
         public OverTimeAbility(IAbilityCaster caster, Ability nextAbility, DamageHealType damageHealType,
             OverTimeAbilityType overTimeAbilityType,
-            int duration, int tickValue) : base(caster)
+            int duration, int tickValue, BattleObjectSide filter) : base(caster, filter)
         {
             _nextAbility = nextAbility;
             _damageHealType = damageHealType;
@@ -26,14 +26,17 @@ namespace CharacterAbility.AbilityEffects
 
         public override void Use(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)
         {
-            var tickEffect = _overTimeAbilityType switch
+            if (_filter == BattleObjectSide.None || target.Side == _filter)
             {
-                OverTimeAbilityType.Damage => new DamageTickEffect(target, _damageHealType, _tickValue, _duration),
-                OverTimeAbilityType.Heal => new DamageTickEffect(target, _damageHealType, _tickValue, _duration),
-                _ => throw new ArgumentOutOfRangeException(nameof(_overTimeAbilityType), _overTimeAbilityType, null)
-            };
-            target.AddTickEffect(tickEffect);
-
+                var tickEffect = _overTimeAbilityType switch
+                {
+                    OverTimeAbilityType.Damage => new DamageTickEffect(target, _damageHealType, _tickValue, _duration),
+                    OverTimeAbilityType.Heal => new DamageTickEffect(target, _damageHealType, _tickValue, _duration),
+                    _ => throw new ArgumentOutOfRangeException(nameof(_overTimeAbilityType), _overTimeAbilityType, null)
+                };
+                target.AddTickEffect(tickEffect);
+            }
+            
             _nextAbility?.Use(target, stats, battleMap);
         }
     }

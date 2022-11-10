@@ -8,8 +8,8 @@ namespace CharacterAbility.AbilityEffects
         private readonly Ability _nextAbility;
         private readonly bool _selfCast;
 
-        public TargetAbility(IAbilityCaster caster, Ability nextAbility, bool selfCast) 
-            : base(caster)
+        public TargetAbility(IAbilityCaster caster, Ability nextAbility, bool selfCast, BattleObjectSide filter) 
+            : base(caster, filter)
         {
             _nextAbility = nextAbility;
             _selfCast = selfCast;

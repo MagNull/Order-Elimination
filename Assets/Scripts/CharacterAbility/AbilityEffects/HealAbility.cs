@@ -1,6 +1,5 @@
 ﻿using System;
 using OrderElimination;
-using UnityEngine;
 
 namespace CharacterAbility.AbilityEffects
 {
@@ -13,7 +12,7 @@ namespace CharacterAbility.AbilityEffects
         private readonly float _scale;
 
         public HealAbility(IAbilityCaster caster, Ability nextAbility, DamageHealType damageHealType, int healAmount,
-            AbilityScaleFrom abilityScaleFrom, float scale) : base(caster)
+            AbilityScaleFrom abilityScaleFrom, float scale, BattleObjectSide filter) : base(caster, filter)
         {
             _scale = scale;
             _nextAbility = nextAbility;
@@ -24,16 +23,19 @@ namespace CharacterAbility.AbilityEffects
 
         public override void Use(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)
         {
-            BattleCharacter targetCharacter = target.GetView().GetComponent<BattleCharacterView>().Model;
-            var heal = _abilityScaleFrom switch
+            if (_filter == BattleObjectSide.None || target.Side == _filter)
             {
-                AbilityScaleFrom.Attack => _healAmount + (int) (stats.Attack * _scale),
-                AbilityScaleFrom.Health => _healAmount + (int) (stats.UnmodifiedHealth * _scale),
-                AbilityScaleFrom.Movement => _healAmount + (int) (stats.UnmodifiedMovement * _scale),
-                _ => throw new ArgumentOutOfRangeException()
-            };
-            for (var i = 0; i < _healAmount; i++)
-                targetCharacter.TakeRecover(heal, stats.Accuracy, _damageHealType);
+                BattleCharacter targetCharacter = target.GetView().GetComponent<BattleCharacterView>().Model;
+                var heal = _abilityScaleFrom switch
+                {
+                    AbilityScaleFrom.Attack => _healAmount + (int) (stats.Attack * _scale),
+                    AbilityScaleFrom.Health => _healAmount + (int) (stats.UnmodifiedHealth * _scale),
+                    AbilityScaleFrom.Movement => _healAmount + (int) (stats.UnmodifiedMovement * _scale),
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+                for (var i = 0; i < _healAmount; i++)
+                    targetCharacter.TakeRecover(heal, stats.Accuracy, _damageHealType);
+            }
 
             _nextAbility?.Use(target, stats, battleMap);
         }

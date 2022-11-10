@@ -58,10 +58,11 @@ namespace CharacterAbility
     public struct AbilityEffect
     {
         public AbilityEffectType Type;
+        [ShowIf("@Type != AbilityEffectType.Move")]
+        public BattleObjectSide Filter;
         [ShowIf(
             "@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal || Type == AbilityEffectType.OverTime")]
         public DamageHealType DamageHealType;
-
         [ShowIf("@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal")]
         public int Amounts;
         [ShowIf("@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal")]

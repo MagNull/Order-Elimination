@@ -192,6 +192,7 @@ namespace CharacterAbility
                 case TargetType.Ally:
                     targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(_caster, _abilityDistance,
                         BattleObjectSide.Ally));
+                    targets.Add(_caster);
                     break;
                 case TargetType.All:
                     targets.AddRange(_battleMapView.Map.GetEmptyObjectsInRadius(_caster, _abilityDistance));

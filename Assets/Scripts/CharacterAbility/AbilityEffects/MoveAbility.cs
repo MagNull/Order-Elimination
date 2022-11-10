@@ -8,7 +8,7 @@ namespace CharacterAbility.AbilityEffects
     {
         private readonly Ability _nextAbility;
 
-        public MoveAbility(IAbilityCaster caster, Ability nextAbility) : base(caster)
+        public MoveAbility(IAbilityCaster caster, Ability nextAbility, BattleObjectSide filter) : base(caster, filter)
         {
             _nextAbility = nextAbility;
         }

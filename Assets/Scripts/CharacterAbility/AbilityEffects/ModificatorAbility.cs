@@ -10,7 +10,7 @@ namespace CharacterAbility.AbilityEffects
         private readonly int _modificatorValue;
 
         public ModificatorAbility(IAbilityCaster caster, Ability nextAbility, ModificatorType modificatorType,
-            int modificatorValue) : base(caster)
+            int modificatorValue, BattleObjectSide filter) : base(caster, filter)
         {
             _modificatorValue = modificatorValue;
             _nextAbility = nextAbility;
@@ -20,19 +20,22 @@ namespace CharacterAbility.AbilityEffects
         public override void Use(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)
         {
             BattleStats modifiedStats = new BattleStats(stats);
-            switch (_modificatorType)
+            if (_filter == BattleObjectSide.None || target.Side == _filter)
             {
-                case ModificatorType.Accuracy:
-                    modifiedStats.Accuracy += modifiedStats.Accuracy * _modificatorValue / 100;
-                    break;
-                case ModificatorType.DoubleArmorDamage:
-                    modifiedStats.AttackType = AttackType.DoubleArmor;
-                    break;
-                case ModificatorType.DoubleHealthDamage:
-                    modifiedStats.AttackType = AttackType.DoubleHealth;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                switch (_modificatorType)
+                {
+                    case ModificatorType.Accuracy:
+                        modifiedStats.Accuracy += modifiedStats.Accuracy * _modificatorValue / 100;
+                        break;
+                    case ModificatorType.DoubleArmorDamage:
+                        modifiedStats.AttackType = AttackType.DoubleArmor;
+                        break;
+                    case ModificatorType.DoubleHealthDamage:
+                        modifiedStats.AttackType = AttackType.DoubleHealth;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
 
             _nextAbility.Use(target, modifiedStats, battleMap);
