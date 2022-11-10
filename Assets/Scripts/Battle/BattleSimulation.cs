@@ -181,8 +181,7 @@ public class BattleSimulation : MonoBehaviour
 
     private void OnCharacterDied(BattleCharacter battleObject)
     {
-        var pos = _map.GetCoordinate(battleObject);
-        _map.SetCell(pos.x, pos.y, new NullBattleObject());
+        _map.DestroyObject(battleObject);
         battleObject.Died -= OnCharacterDied;
     }
 }

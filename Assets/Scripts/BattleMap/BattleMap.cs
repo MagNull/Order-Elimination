@@ -1,9 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Linq;
-using OrderElimination;
 using OrderElimination.BattleMap;
 
 public class BattleMap : MonoBehaviour
@@ -19,6 +16,8 @@ public class BattleMap : MonoBehaviour
     private CellGridGenerator _generator;
 
     private CellView[,] _cellGrid;
+
+    private Dictionary<IBattleObject, Vector2Int> _destroyedObjectsCoordinates = new();
 
     public int Width => _width;
 
@@ -52,24 +51,34 @@ public class BattleMap : MonoBehaviour
                 }
             }
         }
+
         throw new ArgumentException("BattleObject not found");
     }
 
     public void SetCell(int x, int y, IBattleObject obj)
     {
-        // Ставим клетку в точку (x,y)
-        // Вызываем срабатывание ивента
+        if(obj is NullBattleObject or null)
+            throw new ArgumentException($"Try to set null battle object in cell ({x},{y})");
         _cellGrid[x, y].SetObject(obj);
         CellChanged?.Invoke(_cellGrid[x, y]);
     }
 
-    public void MoveTo(IBattleObject obj, int x, int y)
+    public void DestroyObject(IBattleObject battleObject)
+    {
+        var cell = GetCell(battleObject);
+        var boPos = GetCoordinate(battleObject);
+        _destroyedObjectsCoordinates.Add(battleObject, new Vector2Int(boPos.x, boPos.y));
+        cell.SetObject(new NullBattleObject());
+        CellChanged?.Invoke(cell);
+    }
+
+        public void MoveTo(IBattleObject obj, int x, int y)
     {
         Vector2Int objCrd = GetCoordinate(obj);
         _cellGrid[objCrd.x, objCrd.y].SetObject(new NullBattleObject());
         SetCell(x, y, obj);
     }
-    
+
     public int GetDistance(IBattleObject obj1, IBattleObject obj2)
     {
         Vector2Int obj1Crd = GetCoordinate(obj1);
@@ -89,20 +98,22 @@ public class BattleMap : MonoBehaviour
                 }
             }
         }
+        if(_destroyedObjectsCoordinates.TryGetValue(obj, out var coordinates))
+            return coordinates;
 
-        Debug.Log("Объект не найден на поле!");
+        Debug.LogError("Объект не найден на поле!");
         return new Vector2Int(-1, -1);
     }
 
     public IList<IBattleObject> GetBattleObjectsInRadius(IBattleObject obj, int radius, BattleObjectSide side)
     {
-        return GetObjectsInRadius(obj, radius, battleObject => 
+        return GetObjectsInRadius(obj, radius, battleObject =>
             battleObject is not NullBattleObject && battleObject.Side == side);
     }
 
     public IList<IBattleObject> GetBattleObjectsInRadius(IBattleObject obj, int radius)
     {
-        return GetObjectsInRadius(obj, radius, battleObject => 
+        return GetObjectsInRadius(obj, radius, battleObject =>
             battleObject is not NullBattleObject);
     }
 
@@ -111,10 +122,7 @@ public class BattleMap : MonoBehaviour
         return GetObjectsInRadius(obj, radius, battleObject => battleObject is NullBattleObject);
     }
 
-    private void OnCellClicked(CellView cellView)
-    {
-        CellClicked?.Invoke(cellView);
-    }
+    private void OnCellClicked(CellView cellView) => CellClicked?.Invoke(cellView);
 
     private IList<IBattleObject> GetObjectsInRadius(IBattleObject obj, int radius, Predicate<IBattleObject> predicate)
     {
