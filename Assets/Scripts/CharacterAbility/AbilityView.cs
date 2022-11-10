@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace CharacterAbility
@@ -198,6 +199,7 @@ namespace CharacterAbility
                         BattleObjectSide.Enemy));
                     targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(_caster, _abilityDistance,
                         BattleObjectSide.Ally));
+                    targets.Add(_caster);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

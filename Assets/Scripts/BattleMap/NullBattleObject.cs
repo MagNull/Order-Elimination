@@ -11,10 +11,12 @@ namespace OrderElimination.BattleMap
 
         public void TakeDamage(int damage, int accuracy, DamageHealType damageHealType)
         {
-            throw new NotImplementedException();
+            Debug.LogWarning("Try Damage Empty Object");
         }
 
         public BattleObjectSide Side => BattleObjectSide.None;
+
+        public IReadOnlyBattleStats Stats { get; }
 
         public GameObject GetView()
         {
@@ -31,13 +33,11 @@ namespace OrderElimination.BattleMap
         public void AddTickEffect(ITickEffect effect)
         { 
             Debug.LogError("Try add tick effect to null battle object");
-            throw new NullReferenceException();
         }
 
         public void RemoveTickEffect(ITickEffect effect)
         { 
             Debug.LogError("Try remove tick effect from null battle object");
-            throw new NullReferenceException();
         }
 
         public void ClearOverEffects()
@@ -51,20 +51,19 @@ namespace OrderElimination.BattleMap
             throw new NullReferenceException();
         }
 
-        public IReadOnlyBattleStats Stats { get; }
         public void AddBuffEffect(IStatsBuffEffect statsBuffEffect)
         {
-            throw new NotImplementedException();
+            Debug.LogWarning("Try add buff effect to null battle object");
         }
 
         public void RemoveBuffEffect(IStatsBuffEffect statsBuffEffect)
         {
-            throw new NotImplementedException();
+            Debug.LogWarning("Try remove buff effect from null battle object");
         }
 
         public void ClearBuffEffects()
         {
-            throw new NotImplementedException();
+            Debug.LogWarning("Try clear buff effects from null battle object");
         }
     }
 }
