@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 135379821196306245}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.008, y: -0.044, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 2768141630455771626}
   - component: {fileID: 4145147146878873825}
   m_Layer: 0
-  m_Name: PlayerTest
+  m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -131,7 +131,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _view: {fileID: 7729018672302439658}
-  _playerSprite: {fileID: 21300000, guid: e98c14f881b215d47aa34d5dc556cd10, type: 3}
   _enemySprite: {fileID: 21300000, guid: 326dccfbd2f1a704ba8aa4a17d46da73, type: 3}
 --- !u!114 &4145147146878873825
 MonoBehaviour:
@@ -153,4 +152,5 @@ MonoBehaviour:
       _evasion: 0
       _accuracy: 0
       _movement: 0
+      _attackType: 0
   _renderer: {fileID: 7729018672302439658}

@@ -91,6 +91,8 @@ namespace CharacterAbility
     {
         [Title("General Parameters")]
         [SerializeField]
+        private string _name;
+        [SerializeField]
         [Range(0, 10)]
         private int _coolDown;
         [SerializeField]
@@ -159,6 +161,8 @@ namespace CharacterAbility
         public int CoolDown => _coolDown + 1;
 
         public int StartCoolDown => _startCoolDown + 1;
+
+        public string Name => _name;
 
         #endregion
 

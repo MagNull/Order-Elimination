@@ -9,6 +9,6 @@ public class PlayerTestScript : MonoBehaviour
 
     public void SetSide(BattleObjectSide side)
     {
-        _view.sprite = side == BattleObjectSide.Player ? _view.sprite : _enemySprite;
+        _view.sprite = side == BattleObjectSide.Ally ? _view.sprite : _enemySprite;
     }
 }

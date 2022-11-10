@@ -25,10 +25,14 @@ namespace OrderElimination.Battle
             bool hitRoll = Random.Range(0, 100) <= accuracy;
             if (!hitRoll)
                 return (0, 0);
-            bool evasionRoll = Random.Range(0, 100) <= evasion;
-            if (evasionRoll)
-                return (0, 0);
-            int armorDamage =  Mathf.Clamp(damage, 0, armor);
+            if (damageHealType != DamageHealType.OnlyHealth)
+            {
+                bool evasionRoll = Random.Range(0, 100) <= evasion;
+                if (evasionRoll)
+                    return (0, 0);
+            }
+
+            int armorDamage = Mathf.Clamp(damage, 0, armor);
             var healthDamage = damage - armorDamage;
             switch (damageHealType)
             {
@@ -40,6 +44,7 @@ namespace OrderElimination.Battle
                     healthDamage = damage;
                     break;
             }
+
             return (healthDamage, armorDamage);
         }
     }

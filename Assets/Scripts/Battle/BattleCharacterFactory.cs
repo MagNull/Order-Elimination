@@ -29,7 +29,7 @@ public class BattleCharacterFactory : MonoBehaviour
 
     // new
     public BattleCharacter[] CreatePlayerSquad(IBattleCharacterInfo[] infos) =>
-        CreateSquad(infos, BattleObjectSide.Player, "Player");
+        CreateSquad(infos, BattleObjectSide.Ally, "Player");
 
     // new
     public BattleCharacter[] CreateEnemySquad(IBattleCharacterInfo[] infos) =>

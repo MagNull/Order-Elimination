@@ -25,7 +25,7 @@ public class BattleSimulation : MonoBehaviour
     [SerializeField]
     private AbilityButton[] _abilityButtons;
     [SerializeField]
-    private AbilityCancel _abilityCancel;
+    private AbilityPanel _abilityPanel;
 
     private BattleObjectSide _currentTurn;
     private BattleOutcome _outcome;
@@ -56,7 +56,7 @@ public class BattleSimulation : MonoBehaviour
         }
         else
         {
-            if (_currentTurn == BattleObjectSide.Player)
+            if (_currentTurn == BattleObjectSide.Ally)
             {
                 // Событие начала хода игрока отправляется один раз для каждого хода
                 if (_isTurnChanged)
@@ -93,7 +93,7 @@ public class BattleSimulation : MonoBehaviour
         {
             if (unit.Stats.Health > 0)
             {
-                if (unit.Side == BattleObjectSide.Player)
+                if (unit.Side == BattleObjectSide.Ally)
                 {
                     isThereAnyAliveAlly = true;
                 }
@@ -115,17 +115,17 @@ public class BattleSimulation : MonoBehaviour
     public void EndTurn()
     {
         //TODO: todo выше
-        _abilityCancel.ResetAbilityButtons();
+        _abilityPanel.ResetAbilityButtons();
         SwitchTurn();
         _isTurnChanged = true;
     }
 
     public void SwitchTurn() => _currentTurn =
-        _currentTurn == BattleObjectSide.Player ? BattleObjectSide.Enemy : BattleObjectSide.Player;
+        _currentTurn == BattleObjectSide.Ally ? BattleObjectSide.Enemy : BattleObjectSide.Ally;
 
     public void InitializeBattlefield()
     {
-        _currentTurn = BattleObjectSide.Player;
+        _currentTurn = BattleObjectSide.Ally;
         _outcome = BattleOutcome.Neither;
 
         _map.Init();
@@ -141,8 +141,8 @@ public class BattleSimulation : MonoBehaviour
         {
             if (cell.GetObject() is NullBattleObject ||
                 !cell.GetObject().GetView().TryGetComponent(out BattleCharacterView characterView)
-                || characterView.Model.Side != BattleObjectSide.Player
-                || _currentTurn != BattleObjectSide.Player
+                || characterView.Model.Side != BattleObjectSide.Ally
+                || _currentTurn != BattleObjectSide.Ally
                 || characterView.Selected)
                 return;
             

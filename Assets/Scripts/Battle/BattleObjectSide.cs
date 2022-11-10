@@ -6,5 +6,5 @@ public enum BattleObjectSide
 {
     None,
     Enemy,
-    Player
+    Ally
 }

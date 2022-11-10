@@ -21,6 +21,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  _name: "\u041E\u0447\u0435\u0440\u0435\u0434\u044C \u0438\u0437 \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0430"
   _coolDown: 0
   _startCoolDown: 0
   <Icon>k__BackingField: {fileID: 21300000, guid: 752d46f166f66ce4190342f2b6764f66, type: 3}
@@ -32,12 +33,15 @@ MonoBehaviour:
   _targetType: 1
   _targetEffects:
   - Type: 0
+    DamageHealType: 0
     Amounts: 2
     ScaleFrom: 0
     Scale: 0
-    Modification: 0
-    ModificationValue: 0
+    Modificator: 0
+    ModificatorValue: 0
     OverTimeType: 0
+    BuffType: 0
+    BuffValue: 0
     Duration: 0
     TickValue: 0
   _hasAreaEffect: 0

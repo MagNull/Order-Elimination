@@ -142,7 +142,7 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
                 _incomingTickEffects.Remove(incomingDebuff);
                 break;
             case IStatsBuffEffect statsBuffEffect:
-                _buffEffects.Add(statsBuffEffect);
+                _buffEffects.Remove(statsBuffEffect);
                 _battleStats = statsBuffEffect.Remove();
                 break;
             default:

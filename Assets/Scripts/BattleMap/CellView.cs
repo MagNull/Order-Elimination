@@ -8,10 +8,16 @@ public class CellView : MonoBehaviour
     private Renderer _renderer;
     [SerializeField]
     private Color _selectedColor;
+    [SerializeField]
+    private Color _lightColor;
+    [SerializeField]
+    private Color _enemyColor;
+    [SerializeField]
+    private Color _allyColor;
     private Color _deselectColor;
-    private IBattleObject _object;
     private Color _basicColor;
-    
+    private IBattleObject _object;
+
     public void Start()
     {
         _basicColor = _renderer == null ? Color.white : _renderer.material.color;
@@ -31,9 +37,10 @@ public class CellView : MonoBehaviour
     {
         _renderer.material.color = _object.Side switch
         {
-            BattleObjectSide.None => Color.red,
-            BattleObjectSide.Enemy => Color.magenta,
-            _ => Color.blue
+            BattleObjectSide.None => _lightColor,
+            BattleObjectSide.Enemy => _enemyColor,
+            BattleObjectSide.Ally => _allyColor,
+            _ => throw new ArgumentOutOfRangeException()
         };
     }
 

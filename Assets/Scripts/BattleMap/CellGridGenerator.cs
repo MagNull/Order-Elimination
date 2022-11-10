@@ -5,9 +5,11 @@ using UnityEngine;
 public class CellGridGenerator : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _parent;
+    private Transform _parent;
     [SerializeField]
     private CellView _cellPrefab;
+    [SerializeField]
+    private float _spaceBetweenCells;
 
     public CellView[,] GenerateGrid(int width, int height)
     {
@@ -16,19 +18,20 @@ public class CellGridGenerator : MonoBehaviour
         float x = _cellPrefab.transform.localScale.x;
         float y = _cellPrefab.transform.localScale.y;
 
-        float xStart = -(float)width / 2;
-        float yStart = -(float)height / 2;
+        float xStart = -(float) width / 2;
+        float yStart = -(float) height / 2;
 
-        float delta = 0.4f;
 
-        for (int i = 0; i < width; i++)
+        for (var i = 0; i < width; i++)
         {
-            for (int j = 0; j < height; j++)
+            for (var j = 0; j < height; j++)
             {
                 CellView currentObject = Instantiate(_cellPrefab,
-                    new Vector3(xStart + i * (x + delta), yStart + j * (y + delta), 0), Quaternion.identity);
+                    new Vector3(xStart + i * (x + _spaceBetweenCells) + _parent.position.x,
+                        yStart + j * (y + _spaceBetweenCells) + _parent.position.y, 0),
+                    Quaternion.identity,
+                    _parent);
                 currentObject.SetObject(new NullBattleObject());
-                currentObject.transform.parent = _parent.transform;
                 cellGrid[i, j] = currentObject;
             }
         }

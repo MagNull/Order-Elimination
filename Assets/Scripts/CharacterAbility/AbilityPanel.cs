@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace CharacterAbility
 {
-    public class AbilityCancel : MonoBehaviour
+    //TODO(САНО): Refactor
+    public class AbilityPanel : MonoBehaviour
     {
         [SerializeField]
         private AbilityButton[] _abilityButtons;
@@ -13,7 +14,7 @@ namespace CharacterAbility
         {
             foreach (var button in _abilityButtons)
             {
-                button.ResetAbility();
+                button.RemoveAbility();
             }    
         }
         
@@ -22,6 +23,7 @@ namespace CharacterAbility
             foreach(var button in _abilityButtons)
             {
                 button.Clicked += OnAbilityButtonClicked;
+                button.Casted += OnAbilityCasted;
             }
         }
 
@@ -30,6 +32,7 @@ namespace CharacterAbility
             foreach (var button in _abilityButtons)
             {
                 button.Clicked -= OnAbilityButtonClicked;
+                button.Casted -= OnAbilityCasted;
             }
         }
 
@@ -41,6 +44,14 @@ namespace CharacterAbility
                 {
                     button.CancelAbilityCast();
                 }
+            }
+        }
+
+        private void OnAbilityCasted()
+        {
+            foreach(var button in _abilityButtons)
+            {
+                button.CheckUsePossibility();
             }
         }
     }
