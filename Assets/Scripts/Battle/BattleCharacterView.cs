@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using CharacterAbility;
+using OrderElimination.Battle;
 
 public class BattleCharacterView : MonoBehaviour
 {
@@ -27,11 +28,14 @@ public class BattleCharacterView : MonoBehaviour
         _abilityViews = abilitiesView;
     }
 
-    private void OnDamaged(int armorDamage, int healthDamage)
+    private void OnDamaged(int armorDamage, int healthDamage, DamageCancelType damageCancelType)
     {
         if(armorDamage == 0 && healthDamage == 0)
         {
-            Debug.Log("Miss" % Colorize.Yellow);
+            if(damageCancelType == DamageCancelType.Miss)
+                Debug.Log("Miss " % Colorize.Yellow + gameObject.name);
+            else if( damageCancelType == DamageCancelType.Dodge)
+                Debug.Log("Dodge " % Colorize.Green + gameObject.name);
             return;
         }
         Debug.Log(gameObject.name + " get "+ (armorDamage + healthDamage) + " damage " % Colorize.Red );

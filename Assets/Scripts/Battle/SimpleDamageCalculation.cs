@@ -6,8 +6,8 @@ namespace OrderElimination.Battle
 {
     public class SimpleDamageCalculation : IDamageCalculation
     {
-        public (int healtDamage, int armorDamage) CalculateDamage(int damage, int armor, int accuracy, int evasion,
-            DamageHealType damageHealType, List<IncomingDebuff> incomingDebuffs)
+        public (int healtDamage, int armorDamage, DamageCancelType damageCancelType) CalculateDamage(int damage,
+            int armor, int accuracy, int evasion, DamageHealType damageHealType, List<IncomingDebuff> incomingDebuffs)
         {
             foreach (var incomingDebuff in incomingDebuffs)
             {
@@ -24,12 +24,12 @@ namespace OrderElimination.Battle
 
             bool hitRoll = Random.Range(0, 100) <= accuracy;
             if (!hitRoll)
-                return (0, 0);
+                return (0, 0, DamageCancelType.Miss);
             if (damageHealType != DamageHealType.OnlyHealth)
             {
                 bool evasionRoll = Random.Range(0, 100) <= evasion;
                 if (evasionRoll)
-                    return (0, 0);
+                    return (0, 0, DamageCancelType.Dodge);
             }
 
             int armorDamage = Mathf.Clamp(damage, 0, armor);
@@ -45,7 +45,7 @@ namespace OrderElimination.Battle
                     break;
             }
 
-            return (healthDamage, armorDamage);
+            return (healthDamage, armorDamage, DamageCancelType.None);
         }
     }
 }

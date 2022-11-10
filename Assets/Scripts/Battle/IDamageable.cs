@@ -1,4 +1,5 @@
 using System;
+using OrderElimination.Battle;
 
 //TODO: Refactor Double
 
@@ -17,6 +18,6 @@ public enum DamageHealType
 
 public interface IDamageable
 {
-    event Action<int, int> Damaged;
+    event Action<int, int, DamageCancelType> Damaged;
     void TakeDamage(int damage, int accuracy, DamageHealType damageHealType);
 }

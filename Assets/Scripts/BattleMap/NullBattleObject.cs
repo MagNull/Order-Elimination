@@ -1,12 +1,13 @@
 ﻿using System;
 using CharacterAbility.BuffEffects;
+using OrderElimination.Battle;
 using UnityEngine;
 
 namespace OrderElimination.BattleMap
 {
     public class NullBattleObject : IBattleObject
     {
-        public event Action<int, int> Damaged;
+        public event Action<int, int, DamageCancelType> Damaged;
         public event Action Died;
 
         public void TakeDamage(int damage, int accuracy, DamageHealType damageHealType)

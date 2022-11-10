@@ -19,7 +19,7 @@ public enum ActionType
 [Serializable]
 public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like interface for ability
 {
-    public event Action<int, int> Damaged;
+    public event Action<int, int, DamageCancelType> Damaged;
     public event Action<BattleCharacter> Died;
 
     private readonly List<ITickEffect> _tickEffects;
@@ -61,7 +61,7 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
         var damageTaken =
             _damageCalculation.CalculateDamage(damage, _battleStats.Armor, accuracy, _battleStats.Evasion,
                 damageHealType, _incomingTickEffects);
-        Damaged?.Invoke(damageTaken.armorDamage, damageTaken.healtDamage);
+        Damaged?.Invoke(damageTaken.armorDamage, damageTaken.healtDamage, damageTaken.damageCancelType);
         _battleStats.Armor -= damageTaken.armorDamage;
         _battleStats.Health -= damageTaken.healtDamage;
         if (_battleStats.Health <= 0)
