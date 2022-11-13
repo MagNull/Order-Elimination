@@ -14,18 +14,25 @@ namespace OrderElimination
             Disable();
         }
 
-        public void SetActive(Squad squad, PlanetPoint planetPoint)
+        public void SetActive()
         {
             GameObject.Find("OrderCanvas").GetComponent<Canvas>().enabled = true;
-            _selectedSquad = squad;
-            _selectedPoint = planetPoint;
         }
 
         public void Disable() 
         {
             GameObject.Find("OrderCanvas").GetComponent<Canvas>().enabled = false;
+            if(_selectedSquad != null)
+                _selectedSquad.SetOrderButtonCharacteristics(false);
             _selectedSquad = null;
             _selectedPoint = null;
+        }
+
+        public void SetOrder(Squad squad, PlanetPoint planetPoint)
+        {
+            _selectedSquad = squad;
+            _selectedPoint = planetPoint;
+            _selectedSquad.SetOrderButtonCharacteristics(true);
         }
 
         public void ResearchButtonIsClicked()

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+using UnityEngine.UI;
 
 namespace OrderElimination
 {
@@ -58,7 +58,10 @@ namespace OrderElimination
             var squadsInfo = Resources.LoadAll<SquadInfo>("");
             foreach(var a in squadsInfo)
             {
-                _squads.Add(_creator.CreateSquad(a));
+                var squad = _creator.CreateSquad(a);
+                var button = _creator.CreateSquadButton(a.PositionOnOrderPanel);
+                squad.SetOrderButton(button);
+                _squads.Add(squad);
             }
         }
         
@@ -121,7 +124,9 @@ namespace OrderElimination
                 return;
             foreach(var end in selectedSquad.PlanetPoint.GetNextPoints())
                 if(end == selectedPoint)
-                    _orderPanel.SetActive(selectedSquad, end);
+                {
+                    _orderPanel.SetOrder(selectedSquad, end);
+                }
             _selectedObject = null;
         }
     }

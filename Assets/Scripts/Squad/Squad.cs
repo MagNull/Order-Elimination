@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
 namespace OrderElimination
@@ -12,9 +13,9 @@ namespace OrderElimination
         private SquadPresenter _presenter;
         private PlanetPoint _planetPoint;
         private Order _order;
+        private Button _orderOnPanelButton;
         public event Action<Squad> Selected;
         public event Action<Squad> Unselected;
-
         public PlanetPoint PlanetPoint => _planetPoint;
         public int AmountOfCharacters => _model.AmountOfCharacters;
         public IReadOnlyList<ISquadMember> Characters => _model.Characters;
@@ -42,6 +43,15 @@ namespace OrderElimination
         {
             _order = order;
         }
+
+        public void SetOrderButton(Button button)
+        {
+            _orderOnPanelButton = button;
+            _view.SetButtonOnOrder(button);
+        }
+
+        public void SetOrderButtonCharacteristics(bool isActive) 
+            => _view.SetButtonCharacteristics(isActive);
 
         public void SetPlanetPoint(PlanetPoint planetPoint)
         {
