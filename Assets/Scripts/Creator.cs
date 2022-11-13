@@ -13,7 +13,7 @@ namespace OrderElimination
 
         private void Start()
         {
-            _canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+            _canvas = GameObject.Find("StrategyMapCanvas").GetComponent<Canvas>();
         }
 
         public PlanetPoint CreatePlanetPoint(PlanetInfo planetInfo) 

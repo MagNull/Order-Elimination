@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Xml.Serialization;
-using System.IO;
-using System;
+using UnityEditor;
 
 namespace OrderElimination
 {
@@ -10,6 +8,7 @@ namespace OrderElimination
     {
         [SerializeField] private Creator _creator;
         [SerializeField] private SelectableObjects _selectableObjects;
+        [SerializeField] private OrderPanel _orderPanel;
         private List<PlanetPoint> _planetPoints;
         private List<Squad> _squads;
         private List<Path> _paths;
@@ -114,9 +113,7 @@ namespace OrderElimination
         private void PlanetPointClicked(PlanetPoint planetPoint)
         {
             if(_selectedObject is Squad)
-            {
                 TargetIsClicked((Squad)_selectedObject, planetPoint);
-            }
         }
         private void TargetIsClicked(Squad selectedSquad, PlanetPoint selectedPoint)
         {
@@ -124,7 +121,7 @@ namespace OrderElimination
                 return;
             foreach(var end in selectedSquad.PlanetPoint.GetNextPoints())
                 if(end == selectedPoint)
-                    selectedSquad.Move(end);
+                    _orderPanel.SetActive(selectedSquad, end);
             _selectedObject = null;
         }
     }

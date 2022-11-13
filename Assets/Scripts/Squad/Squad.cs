@@ -11,10 +11,11 @@ namespace OrderElimination
         private SquadView _view;
         private SquadPresenter _presenter;
         private PlanetPoint _planetPoint;
-        public PlanetPoint PlanetPoint => _planetPoint;
+        private Order _order;
         public event Action<Squad> Selected;
         public event Action<Squad> Unselected;
 
+        public PlanetPoint PlanetPoint => _planetPoint;
         public int AmountOfCharacters => _model.AmountOfCharacters;
         public IReadOnlyList<ISquadMember> Characters => _model.Characters;
 
@@ -24,6 +25,7 @@ namespace OrderElimination
             _view = new SquadView(transform);
             _presenter = new SquadPresenter(_model, _view, null);
             _planetPoint = null;
+            _order = null;
         }
 
         public void AddCharacter(Character character) => _model.AddCharacter(character);
@@ -32,10 +34,13 @@ namespace OrderElimination
 
         public void Move(PlanetPoint planetPoint)
         {
-            Debug.Log("Squad Move");
             SetPlanetPoint(planetPoint);
-            SquadCommander.CreateResearchOrder(planetPoint, this);
             _model.Move(planetPoint);
+        }
+
+        public void SetOrder(Order order)
+        {
+            _order = order;
         }
 
         public void SetPlanetPoint(PlanetPoint planetPoint)
@@ -46,14 +51,12 @@ namespace OrderElimination
         
         public void Select()
         {
-            Debug.Log("Select is done");
             Selected?.Invoke(this);
             _model.Select();
         }
 
         public void Unselect()
         {
-            Debug.Log("Unselect is done");
             Unselected?.Invoke(null);
             _model.Unselect();
         }
