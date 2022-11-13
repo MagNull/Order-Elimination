@@ -38,14 +38,12 @@ namespace OrderElimination
         public void ResearchButtonIsClicked()
         {
             _selectedSquad.SetOrder(SquadCommander.CreateResearchOrder(_selectedPoint, _selectedSquad));
-            _selectedSquad.Move(_selectedPoint);
             Disable();
         }
 
         public void AttackButtonIsClicked()
         {
             _selectedSquad.SetOrder(SquadCommander.CreateAttackOrder(_selectedPoint, _selectedSquad));
-            _selectedSquad.Move(_selectedPoint);
             Disable();
         }
     }

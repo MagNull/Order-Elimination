@@ -126,6 +126,7 @@ namespace OrderElimination
                 if(end == selectedPoint)
                 {
                     _orderPanel.SetOrder(selectedSquad, end);
+                    selectedSquad.Move(end);
                 }
             _selectedObject = null;
         }
