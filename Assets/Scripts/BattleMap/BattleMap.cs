@@ -5,17 +5,14 @@ using OrderElimination.BattleMap;
 
 public class BattleMap : MonoBehaviour
 {
-    public event Action<CellView> CellClicked;
-    public event Action<CellView> CellChanged;
+    public event Action<CellModel> CellChanged;
 
     [SerializeField]
     private int _width;
     [SerializeField]
     private int _height;
-    [SerializeField]
-    private CellGridGenerator _generator;
 
-    private CellView[,] _cellGrid;
+    private CellModel[,] _cellGrid;
 
     private Dictionary<IBattleObject, Vector2Int> _destroyedObjectsCoordinates = new();
 
@@ -23,23 +20,18 @@ public class BattleMap : MonoBehaviour
 
     public int Height => _height;
 
-    public void Init()
+    public void Init(CellModel[,] modelGrid)
     {
-        // Создание игрового поля
-        _cellGrid = _generator.GenerateGrid(_width, _height);
-        foreach (var cellView in _cellGrid)
-        {
-            cellView.CellClicked += OnCellClicked;
-        }
+        _cellGrid = modelGrid;
     }
 
-    //TODO(Илья): Убрать возможность получить CellView через BattleMap и перенести в BattleObjectView
-    public CellView GetCell(int x, int y)
+    public CellModel GetCell(int x, int y)
     {
         return _cellGrid[x, y];
     }
 
-    public CellView GetCell(IBattleObject battleObject)
+    // нужен ли метод?
+    public CellModel GetCell(IBattleObject battleObject)
     {
         for (var i = 0; i < _cellGrid.GetLength(0); i++)
         {
@@ -72,7 +64,7 @@ public class BattleMap : MonoBehaviour
         CellChanged?.Invoke(cell);
     }
 
-        public void MoveTo(IBattleObject obj, int x, int y)
+    public void MoveTo(IBattleObject obj, int x, int y)
     {
         Vector2Int objCrd = GetCoordinate(obj);
         _cellGrid[objCrd.x, objCrd.y].SetObject(new NullBattleObject());
@@ -122,7 +114,7 @@ public class BattleMap : MonoBehaviour
         return GetObjectsInRadius(obj, radius, battleObject => battleObject is NullBattleObject);
     }
 
-    private void OnCellClicked(CellView cellView) => CellClicked?.Invoke(cellView);
+    //private void OnCellClicked(CellView cellView) => CellClicked?.Invoke(cellView);
 
     private IList<IBattleObject> GetObjectsInRadius(IBattleObject obj, int radius, Predicate<IBattleObject> predicate)
     {
