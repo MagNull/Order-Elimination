@@ -1,7 +1,6 @@
 using OrderElimination.BattleMap;
 using UnityEngine;
 
-// Временный класс для прототипа
 public class CellGridGenerator : MonoBehaviour
 {
     [SerializeField]
@@ -11,9 +10,10 @@ public class CellGridGenerator : MonoBehaviour
     [SerializeField]
     private float _spaceBetweenCells;
 
-    public CellView[,] GenerateGrid(int width, int height)
+    public CellGrid GenerateGrid(int width, int height)
     {
-        CellView[,] cellGrid = new CellView[width, height];
+        CellView[,] viewGrid = new CellView[width, height];
+        CellModel[,] modelGrid = new CellModel[width, height];
 
         float x = _cellPrefab.transform.localScale.x;
         float y = _cellPrefab.transform.localScale.y;
@@ -21,21 +21,24 @@ public class CellGridGenerator : MonoBehaviour
         float xStart = -(float) width / 2;
         float yStart = -(float) height / 2;
 
-
         for (var i = 0; i < width; i++)
         {
             for (var j = 0; j < height; j++)
             {
+                CellModel currentModel = new CellModel();
                 CellView currentObject = Instantiate(_cellPrefab,
                     new Vector3(xStart + i * (x + _spaceBetweenCells) + _parent.position.x,
                         yStart + j * (y + _spaceBetweenCells) + _parent.position.y, 0),
                     Quaternion.identity,
                     _parent);
-                currentObject.SetObject(new NullBattleObject());
-                cellGrid[i, j] = currentObject;
+
+                currentObject.BindModel(currentModel);
+
+                viewGrid[i, j] = currentObject;
+                modelGrid[i, j] = currentModel;
             }
         }
 
-        return cellGrid;
+        return new CellGrid(viewGrid, modelGrid);
     }
 }

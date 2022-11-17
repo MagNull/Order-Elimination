@@ -4,6 +4,7 @@ using UnityEngine;
 public class CellView : MonoBehaviour
 {
     public event Action<CellView> CellClicked;
+
     [SerializeField]
     private Renderer _renderer;
     [SerializeField]
@@ -16,26 +17,27 @@ public class CellView : MonoBehaviour
     private Color _allyColor;
     private Color _deselectColor;
     private Color _basicColor;
-    private IBattleObject _object;
+
+    private CellModel _model;
+
+    public CellModel Model => _model;
 
     public void Start()
     {
         _basicColor = _renderer == null ? Color.white : _renderer.material.color;
     }
 
-    public IBattleObject GetObject()
+    public void BindModel(CellModel model)
     {
-        return _object;
-    }
-
-    public void SetObject(IBattleObject obj)
-    {
-        _object = obj;
+        if (_model == null)
+        {
+            _model = model;
+        }
     }
 
     public void Light()
     {
-        _renderer.material.color = _object.Side switch
+        _renderer.material.color = _model.GetObject().Side switch
         {
             BattleObjectSide.None => _lightColor,
             BattleObjectSide.Enemy => _enemyColor,
