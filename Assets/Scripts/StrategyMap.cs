@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Xml.Serialization;
-using System.IO;
-using System;
+using UnityEngine.UI;
 
 namespace OrderElimination
 {
     public class StrategyMap : MonoBehaviour
     {
         [SerializeField] private Creator _creator;
+        [SerializeField] private SelectableObjects _selectableObjects;
+        [SerializeField] private OrderPanel _orderPanel;
         private List<PlanetPoint> _planetPoints;
         private List<Squad> _squads;
         private List<Path> _paths;
@@ -58,7 +58,10 @@ namespace OrderElimination
             var squadsInfo = Resources.LoadAll<SquadInfo>("");
             foreach(var a in squadsInfo)
             {
-                _squads.Add(_creator.CreateSquad(a));
+                var squad = _creator.CreateSquad(a);
+                var button = _creator.CreateSquadButton(a.PositionOnOrderPanel);
+                squad.SetOrderButton(button);
+                _squads.Add(squad);
             }
         }
         
@@ -113,9 +116,7 @@ namespace OrderElimination
         private void PlanetPointClicked(PlanetPoint planetPoint)
         {
             if(_selectedObject is Squad)
-            {
                 TargetIsClicked((Squad)_selectedObject, planetPoint);
-            }
         }
         private void TargetIsClicked(Squad selectedSquad, PlanetPoint selectedPoint)
         {
@@ -123,7 +124,10 @@ namespace OrderElimination
                 return;
             foreach(var end in selectedSquad.PlanetPoint.GetNextPoints())
                 if(end == selectedPoint)
+                {
+                    _orderPanel.SetOrder(selectedSquad, end);
                     selectedSquad.Move(end);
+                }
             _selectedObject = null;
         }
     }
