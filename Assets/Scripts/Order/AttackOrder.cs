@@ -1,19 +1,27 @@
-﻿using OrderElimination;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UnityEngine;
+using VContainer;
 
 namespace OrderElimination
 {
     public class AttackOrder : Order
     {
-        public AttackOrder(PlanetPoint target, Squad squad) : base(target, squad) { }
+        private readonly IObjectResolver _objectResolver;
+
+        [Inject]
+        public AttackOrder(PlanetPoint target, Squad squad, IObjectResolver objectResolver) : base(target, squad)
+        {
+            _objectResolver = objectResolver;
+        }
         
         public override void Start()
         {
-            _target.MoveSquad(_squad);
+            var battleStatsList = _squad.Members.Cast<IBattleCharacterInfo>().ToList();
+            var charactersMediator = _objectResolver.Resolve<CharactersMediator>();
+            charactersMediator.SetCharacters(battleStatsList);
+            var sceneTransition = _objectResolver.Resolve<SceneTransition>();
+            sceneTransition.LoadBattleMap();
         }
 
         public override void End()

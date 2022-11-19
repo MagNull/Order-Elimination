@@ -1,13 +1,23 @@
+using VContainer;
+
 namespace OrderElimination
 {
     public class SquadCommander
     {
-        static public Order CreateAttackOrder(PlanetPoint target, Squad squad)
+        private readonly IObjectResolver _objectResolver;
+
+        [Inject]
+        public SquadCommander(IObjectResolver objectResolver)
         {
-            return new AttackOrder(target, squad);
+            _objectResolver = objectResolver;
+        }
+        
+        public Order CreateAttackOrder(PlanetPoint target, Squad squad)
+        {
+            return new AttackOrder(target, squad, _objectResolver);
         }
 
-        static public Order CreateResearchOrder(PlanetPoint target, Squad squad)
+        public Order CreateResearchOrder(PlanetPoint target, Squad squad)
         {
             return new ResearchOrder(target, squad);
         }

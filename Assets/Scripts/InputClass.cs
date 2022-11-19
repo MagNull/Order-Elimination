@@ -54,7 +54,7 @@ namespace OrderElimination
         {
             TargetSelected?.Invoke(selectedSquad, end);
             selectedSquad.Unselect();
-            selectedSquad.Move(end);
+            end.MoveSquad(selectedSquad);
         }
     }
 }

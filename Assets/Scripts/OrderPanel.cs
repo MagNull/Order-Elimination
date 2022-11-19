@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using VContainer;
 
 namespace OrderElimination
 {
@@ -8,6 +9,14 @@ namespace OrderElimination
     {
         private Squad _selectedSquad;
         private PlanetPoint _selectedPoint;
+        private SquadCommander _squadCommander;
+
+        [Inject]
+        private void Construct(SquadCommander squadCommander)
+        {
+            _squadCommander = squadCommander;
+        }
+        
         private void Start() 
         {
             InputClass.TargetSelected += SetOrder;
@@ -37,13 +46,13 @@ namespace OrderElimination
 
         public void ResearchButtonIsClicked()
         {
-            _selectedSquad.SetOrder(SquadCommander.CreateResearchOrder(_selectedPoint, _selectedSquad));
+            _selectedSquad.SetOrder(_squadCommander.CreateResearchOrder(_selectedPoint, _selectedSquad));
             Disable();
         }
 
         public void AttackButtonIsClicked()
         {
-            _selectedSquad.SetOrder(SquadCommander.CreateAttackOrder(_selectedPoint, _selectedSquad));
+            _selectedSquad.SetOrder(_squadCommander.CreateAttackOrder(_selectedPoint, _selectedSquad));
             Disable();
         }
     }

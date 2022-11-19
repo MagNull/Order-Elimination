@@ -1,20 +1,26 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using OrderElimination;
 using UnityEngine;
-using CharacterInfo = OrderElimination.CharacterInfo;
+using VContainer;
 
 [Serializable]
 public class CharacterArrangeDirector
 {
-    [SerializeField]
-    private BattleCharacterFactory _characterFactory;
-    [SerializeReference]
-    private CharacterInfo[] _alliesInfo;
-    [SerializeReference]
-    private CharacterInfo[] _enemiesInfo;
+    private readonly BattleCharacterFactory _characterFactory;
+    private readonly List<IBattleCharacterInfo> _enemiesInfo;
 
     private BattleMap _arrangementMap;
+    private CharactersMediator _charactersMediator;
+
+    [Inject]
+    private CharacterArrangeDirector(CharactersMediator charactersMediator, BattleCharacterFactory characterFactory)
+    {
+        _charactersMediator = charactersMediator;
+        _characterFactory = characterFactory;
+        _enemiesInfo = _charactersMediator.GetBattleCharactersInfo();
+    }
 
     public void SetArrangementMap(BattleMap map) => _arrangementMap = map;
 
@@ -22,16 +28,17 @@ public class CharacterArrangeDirector
     {
         var characters = new List<BattleCharacter>();
 
-        BattleCharacter[] playerSquad = _characterFactory.CreatePlayerSquad(_alliesInfo);
-        for (int i = 0; i < playerSquad.Length; i++)
+        List<BattleCharacter> playerSquad =
+            _characterFactory.CreatePlayerSquad(_charactersMediator.GetBattleCharactersInfo());
+        for (int i = 0; i < playerSquad.Count; i++)
         {
             characters.Add(playerSquad[i]);
             playerSquad[i].Died += OnCharacterDied;
             _arrangementMap.SetCell(0, 2 * i, playerSquad[i]);
         }
 
-        BattleCharacter[] enemySquad = _characterFactory.CreateEnemySquad(_enemiesInfo);
-        for (int i = 0; i < enemySquad.Length; i++)
+        List<BattleCharacter> enemySquad = _characterFactory.CreateEnemySquad(_enemiesInfo);
+        for (int i = 0; i < enemySquad.Count; i++)
         {
             characters.Add(enemySquad[i]);
             enemySquad[i].Died += OnCharacterDied;

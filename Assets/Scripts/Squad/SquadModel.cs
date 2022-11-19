@@ -6,16 +6,16 @@ namespace OrderElimination
 {
     public class SquadModel : ISelectable, IMovable
     {
-        private readonly List<ISquadMember> _members;
+        private readonly List<Character> _members;
         private int _rang;
         public int AmountOfMembers => _members.Count;
-        public IReadOnlyList<ISquadMember> Members => _members;
+        public IReadOnlyList<Character> Members => _members;
 
         public event Action<PlanetPoint> Moved;
         public event Action Selected;
         public event Action Unselected;
 
-        public SquadModel(List<ISquadMember> members)
+        public SquadModel(List<Character> members)
         {
             if (members.Count == 0) 
                 return;
@@ -29,9 +29,9 @@ namespace OrderElimination
             _rang /= AmountOfMembers;
         }
 
-        public void Add(ISquadMember member) => _members.Add(member);
+        public void Add(Character member) => _members.Add(member);
 
-        public void RemoveCharacter(ISquadMember member)
+        public void RemoveCharacter(Character member)
         {
             if (!_members.Contains(member))
                 throw new ArgumentException("No such character in squad");

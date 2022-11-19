@@ -4,6 +4,7 @@ using System;
 using CharacterAbility;
 using OrderElimination;
 using OrderElimination.BattleMap;
+using VContainer;
 
 //TODO(Илья): Refactor interaction with abilities. Decompose BattlSimualtion
 public class BattleSimulation : MonoBehaviour
@@ -15,7 +16,6 @@ public class BattleSimulation : MonoBehaviour
 
     [SerializeField]
     private BattleMapDirector _battleMapDirector;
-    [SerializeField]
     private CharacterArrangeDirector _characterArrangeDirector;
     [SerializeField]
     private AbilityViewBinder _abilityViewBinder;
@@ -32,6 +32,12 @@ public class BattleSimulation : MonoBehaviour
     private bool _isTurnChanged = true;
 
     private List<BattleCharacter> _characters;
+
+    [Inject]
+    private void Construct(CharacterArrangeDirector characterArrangeDirector)
+    {
+        _characterArrangeDirector = characterArrangeDirector;
+    }
 
     private void Awake()
     {

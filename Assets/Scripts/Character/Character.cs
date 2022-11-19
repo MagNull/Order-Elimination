@@ -4,7 +4,7 @@ using UnityEngine;
 namespace OrderElimination
 {
     [CreateAssetMenu(fileName = "CharacterInfo", menuName = "Character")]
-    public class CharacterInfo : ScriptableObject, IBattleCharacterInfo, ISquadMember
+    public class Character : ScriptableObject, IBattleCharacterInfo
     {
         [SerializeField]
         private BattleStats _battleStats;

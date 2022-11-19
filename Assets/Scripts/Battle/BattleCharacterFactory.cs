@@ -1,7 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
 using CharacterAbility;
 using OrderElimination;
 using OrderElimination.Battle;
-using OrderElimination.BattleMap;
 using UnityEngine;
 
 public class BattleCharacterFactory : MonoBehaviour
@@ -21,34 +22,35 @@ public class BattleCharacterFactory : MonoBehaviour
         //TODO: Fix stats
         var character = new BattleCharacter(side, new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation());
         battleCharacterView.GetComponent<PlayerTestScript>().SetSide(side);
-        battleCharacterView.Init(character, CreateAbilities(info.GetAbilityInfos(), character));
+        battleCharacterView.Init(character, CreateCharacterAbilities(info.GetAbilityInfos(), character));
 
         character.SetView(battleCharacterView);
         return character;
     }
 
     // new
-    public BattleCharacter[] CreatePlayerSquad(IBattleCharacterInfo[] infos) =>
+    public List<BattleCharacter> CreatePlayerSquad(List<IBattleCharacterInfo> infos) =>
         CreateSquad(infos, BattleObjectSide.Ally, "Player");
 
     // new
-    public BattleCharacter[] CreateEnemySquad(IBattleCharacterInfo[] infos) =>
+    public List<BattleCharacter> CreateEnemySquad(List<IBattleCharacterInfo> infos) =>
         CreateSquad(infos, BattleObjectSide.Enemy, "Enemy");
 
     // new
-    public BattleCharacter[] CreateSquad(IBattleCharacterInfo[] infos, BattleObjectSide side, string name)
+    public List<BattleCharacter> CreateSquad(List<IBattleCharacterInfo> infos, BattleObjectSide side, string name)
     {
-        var characters = new BattleCharacter[infos.Length];
-        for (var i = 0; i < infos.Length; i++)
+        var characters = new List<BattleCharacter>(infos.Count);
+        for (var i = 0; i < infos.Count; i++)
         {
-            characters[i] = Create(infos[i], side);
-            characters[i].GetView().name = name + " " + i;
+            characters.Add(Create(infos[i], side));
+            characters.Last().GetView().name = name + " " + i;
         }
 
         return characters;
     }
 
-    private AbilityView[] CreateAbilities(AbilityInfo[] abilityInfos, BattleCharacter caster)
+    //TODO(ÑÀÍÎ): Move to another response object
+    private AbilityView[] CreateCharacterAbilities(AbilityInfo[] abilityInfos, BattleCharacter caster)
     {
         var abilities = new AbilityView[abilityInfos.Length];
         for (int i = 0; i < abilityInfos.Length; i++)

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 
@@ -7,11 +8,14 @@ namespace OrderElimination
 {
     public class PlanetPoint : MonoBehaviour, ISelectable
     {
+        [ShowInInspector]
+        private int _countSquadOnPoint;
         private PlanetInfo _planetInfo;
         private PlanetView _planetView;
         private List<Path> _paths;
-        public int CountSquadOnPoint;
         public static event Action<PlanetPoint> Onclick;
+
+        public int CountSquadOnPoint => _countSquadOnPoint;
 
         private void Awake()
         {
@@ -27,7 +31,10 @@ namespace OrderElimination
         public void MoveSquad(Squad squad)
         {
             squad.Move(this);
+            _countSquadOnPoint++;
         }
+        
+        public void RemoveSquad() => _countSquadOnPoint--;
 
         public void SetPath(Path path)
         {
@@ -64,9 +71,14 @@ namespace OrderElimination
         }
 
         private void OnMouseDown() => Onclick?.Invoke(this);
+        public void Select()
+        {
+            throw new NotImplementedException();
+        }
 
-        public void Select(){}
-
-        public void Unselect(){}
+        public void Unselect()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

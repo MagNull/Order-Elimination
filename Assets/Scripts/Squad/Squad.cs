@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using System;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using UnityEngine;
+using VContainer;
 
 namespace OrderElimination
 {
@@ -10,7 +12,7 @@ namespace OrderElimination
     {
         [OdinSerialize]
         [ShowInInspector]
-        private List<ISquadMember> _testSquadMembers; 
+        private List<Character> _testSquadMembers; 
         
         private SquadInfo _squadInfo; 
         private SquadModel _model;
@@ -20,11 +22,19 @@ namespace OrderElimination
         private PlanetPoint _planetPoint;
         private Order _order;
         private Button _rectangleOnPanelButton;
+        private CharactersMediator _charactersMediator;
         public static event Action<Squad> Selected;
         public static event Action<Squad> Unselected;
         public PlanetPoint PlanetPoint => _planetPoint;
         public int AmountOfCharacters => _model.AmountOfMembers;
-        public IReadOnlyList<ISquadMember> Members => _model.Members;
+        public IReadOnlyList<Character> Members => _model.Members;
+
+
+        [Inject]
+        private void Construct(CharactersMediator charactersMediator)
+        {
+            _charactersMediator = charactersMediator;
+        }
 
         private void Awake()
         {
@@ -35,12 +45,15 @@ namespace OrderElimination
             _order = null;
         }
 
-        public void Add(ISquadMember member) => _model.Add(member);
+        public void Add(Character member) => _model.Add(member);
 
-        public void Remove(ISquadMember member) => _model.RemoveCharacter(member);
+        public void Remove(Character member) => _model.RemoveCharacter(member);
 
+        
+        //TODO(Иван): Переделать взаимодействие PlanetPoint'ов и Squad'ов (цикличная зависимость)
         public void Move(PlanetPoint planetPoint)
         {
+            _planetPoint?.RemoveSquad();
             SetPlanetPoint(planetPoint);
             _model.Move(planetPoint);
         }
@@ -48,6 +61,7 @@ namespace OrderElimination
         public void SetOrder(Order order)
         {
             _order = order;
+            _order.Start();
         }
 
         public void SetOrderButton(Button image)
@@ -59,11 +73,8 @@ namespace OrderElimination
         public void SetOrderButtonCharacteristics(bool isActive) 
             => _view.SetButtonCharacteristics(isActive);
 
-        public void SetPlanetPoint(PlanetPoint planetPoint)
+        private void SetPlanetPoint(PlanetPoint planetPoint)
         {
-            if(_planetPoint != null)
-                _planetPoint.CountSquadOnPoint--;
-            planetPoint.CountSquadOnPoint++;
             _planetPoint = planetPoint;
             _presenter.UpdatePlanetPoint(planetPoint);
         }

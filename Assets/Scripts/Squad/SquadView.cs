@@ -28,9 +28,11 @@ namespace OrderElimination
             _rectangleOnPanelButton.GetComponentInChildren<Text>().enabled = isActive;
         }
 
+        //TODO(Иван): Magic numbers
         public void OnMove(PlanetPoint planetPoint)
         {
-            _transform.position = planetPoint.transform.position + new Vector3(-50 + (planetPoint.CountSquadOnPoint - 1) * 100f, 60f);
+            _transform.position = planetPoint.transform.position +
+                                  new Vector3(-50 + (planetPoint.CountSquadOnPoint - 1) * 100f, 60f);
         }
 
         public void OnSelect()

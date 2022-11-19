@@ -54,7 +54,6 @@ namespace OrderElimination
             {
                 var squad = _creator.CreateSquad(a);
                 var button = _creator.CreateSquadButton(a.PositionOnOrderPanel);
-                Debug.Log((button == null) + " " + (squad == null));
                 squad.SetOrderButton(button);
                 _squads.Add(squad);
             }
@@ -91,12 +90,9 @@ namespace OrderElimination
         {
             foreach(var squad in _squads)
             {
+                //TODO
                 //Пока задается как первый поинт. Если дальше будет сохранение - поменять
-                squad.SetPlanetPoint(_planetPoints[0]);
-                if(squad.PlanetPoint != null)
-                {
-                    squad.PlanetPoint.CountSquadOnPoint++;
-                }
+                _planetPoints[0].MoveSquad(squad);
             }
         }
 

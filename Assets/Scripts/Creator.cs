@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using VContainer;
+using VContainer.Unity;
 
 namespace OrderElimination
 {
@@ -18,8 +20,15 @@ namespace OrderElimination
         private Button _rectanglePrefab;
 
         private Canvas _canvas;
+        private IObjectResolver _objectResolver;
         public static event Action<ISelectable> Created;
 
+        [Inject]
+        private void Construct(IObjectResolver resolver)
+        {
+            _objectResolver = resolver;
+        }
+        
         private void Start()
         {
             _canvas = GameObject.Find("StrategyMapCanvas").GetComponent<Canvas>();
@@ -34,7 +43,7 @@ namespace OrderElimination
 
         public Squad CreateSquad(SquadInfo squadInfo)
         {
-            var squad = Instantiate(_squadPrefab, squadInfo.Position, Quaternion.identity);
+            var squad = _objectResolver.Instantiate(_squadPrefab, squadInfo.Position, Quaternion.identity);
             Created?.Invoke(squad);
             return squad;
         }
@@ -45,7 +54,7 @@ namespace OrderElimination
             return path;
         }
 
-        //TODO(Иван): Переделать на включение выключение кнопки(без создания новой)
+        //TODO(Иван): Переделать на включение/выключение кнопки(без создания новой)
         public Button CreateSquadButton(Vector3 position)
         {
             Vector3 _position = new Vector3((Screen.width / 100) * 88, position.y, 0);
