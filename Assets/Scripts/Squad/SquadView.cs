@@ -28,7 +28,7 @@ namespace OrderElimination
 
         public void OnMove(PlanetPoint planetPoint)
         {
-            _transform.position = planetPoint.transform.position + new Vector3(-20f, 50f);
+            _transform.position = planetPoint.transform.position + new Vector3(-50, 60f);
         }
 
         public void OnSelect()

@@ -10,7 +10,7 @@ namespace OrderElimination
         private PlanetInfo _planetInfo;
         private PlanetView _planetView;
         private List<Path> _paths;
-        public event Action<PlanetPoint> Onclick;
+        public static event Action<PlanetPoint> Onclick;
 
         private void Awake()
         {
@@ -62,7 +62,7 @@ namespace OrderElimination
             } 
         }
 
-        public void OnClick() => Onclick?.Invoke(this);
+        private void OnMouseDown() => Onclick?.Invoke(this);
 
         public void Select(){}
 

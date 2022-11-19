@@ -8,9 +8,9 @@ namespace OrderElimination
     {
         private Squad _selectedSquad;
         private PlanetPoint _selectedPoint;
-        
         private void Start() 
         {
+            InputClass.TargetSelected += SetOrder;
             Disable();
         }
 
@@ -21,11 +21,11 @@ namespace OrderElimination
 
         public void Disable() 
         {
-            GameObject.Find("OrderCanvas").GetComponent<Canvas>().enabled = false;
             if(_selectedSquad != null)
                 _selectedSquad.SetOrderButtonCharacteristics(false);
             _selectedSquad = null;
             _selectedPoint = null;
+            GameObject.Find("OrderCanvas").GetComponent<Canvas>().enabled = false;
         }
 
         public void SetOrder(Squad squad, PlanetPoint planetPoint)

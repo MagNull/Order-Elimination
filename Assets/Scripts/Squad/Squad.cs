@@ -14,8 +14,8 @@ namespace OrderElimination
         private PlanetPoint _planetPoint;
         private Order _order;
         private Button _orderOnPanelButton;
-        public event Action<Squad> Selected;
-        public event Action<Squad> Unselected;
+        public static event Action<Squad> Selected;
+        public static event Action<Squad> Unselected;
         public PlanetPoint PlanetPoint => _planetPoint;
         public int AmountOfCharacters => _model.AmountOfCharacters;
         public IReadOnlyList<ISquadMember> Characters => _model.Characters;
@@ -27,6 +27,7 @@ namespace OrderElimination
             _presenter = new SquadPresenter(_model, _view, null);
             _planetPoint = null;
             _order = null;
+            
         }
 
         public void AddCharacter(Character character) => _model.AddCharacter(character);
@@ -67,6 +68,7 @@ namespace OrderElimination
 
         public void Unselect()
         {
+            Debug.Log("Unselect");
             Unselected?.Invoke(null);
             _model.Unselect();
         }
@@ -82,5 +84,7 @@ namespace OrderElimination
         {
             _presenter.Unsubscribe();
         }
+
+        private void OnMouseDown() => Select();
     }
 }

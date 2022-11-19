@@ -1,19 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using System;
 
 namespace OrderElimination
 {
     public class StrategyMap : MonoBehaviour
     {
         [SerializeField] private Creator _creator;
-        [SerializeField] private SelectableObjects _selectableObjects;
-        [SerializeField] private OrderPanel _orderPanel;
         private List<PlanetPoint> _planetPoints;
         private List<Squad> _squads;
         private List<Path> _paths;
-        private ISelectable _selectedObject;
-
+        public static event Action Onclick;
         private void Awake()
         {
             _planetPoints = new List<PlanetPoint>();
@@ -89,8 +86,6 @@ namespace OrderElimination
             {
                 if(i != _planetPoints.Count - 1)
                     _planetPoints[i].SetPath(_paths[i]);
-                
-                _planetPoints[i].Onclick += PlanetPointClicked;
             }
         }
 
@@ -99,36 +94,12 @@ namespace OrderElimination
             foreach(var squad in _squads)
             {
                 squad.SetPlanetPoint(_planetPoints[0]);
-                squad.Selected += ChangeSelectedObject;
             }
         }
 
-        public void ClickOnPanel()
+        public void OnMouseDown() 
         {
-            ChangeSelectedObject(null);
-        }
-
-        private void ChangeSelectedObject(ISelectable selectedObject)
-        {
-            _selectedObject = selectedObject;
-        }
-
-        private void PlanetPointClicked(PlanetPoint planetPoint)
-        {
-            if(_selectedObject is Squad)
-                TargetIsClicked((Squad)_selectedObject, planetPoint);
-        }
-        private void TargetIsClicked(Squad selectedSquad, PlanetPoint selectedPoint)
-        {
-            if(selectedSquad == null || selectedPoint == null)
-                return;
-            foreach(var end in selectedSquad.PlanetPoint.GetNextPoints())
-                if(end == selectedPoint)
-                {
-                    _orderPanel.SetOrder(selectedSquad, end);
-                    selectedSquad.Move(end);
-                }
-            _selectedObject = null;
+            Onclick?.Invoke();   
         }
     }
 }
