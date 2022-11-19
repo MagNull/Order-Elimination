@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace OrderElimination
 {
-    public interface ISquadMember : ISelectable, IMovable
+    public interface ISquadMember
     {
         public StrategyStats GetStrategyStats();
 

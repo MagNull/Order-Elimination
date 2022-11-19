@@ -1,13 +1,17 @@
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
 using System;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 
 namespace OrderElimination
 {
-    public class Squad : MonoBehaviour, ISelectable, IMovable
+    public class Squad : SerializedMonoBehaviour, ISelectable, IMovable
     {
+        [OdinSerialize]
+        [ShowInInspector]
+        private List<ISquadMember> _testSquadMembers; 
+        
         private SquadInfo _squadInfo; 
         private SquadModel _model;
         private SquadView _view;
@@ -15,25 +19,25 @@ namespace OrderElimination
         [ShowInInspector]
         private PlanetPoint _planetPoint;
         private Order _order;
-        private Image __rectanglebOnPanelButton;
+        private Button _rectangleOnPanelButton;
         public static event Action<Squad> Selected;
         public static event Action<Squad> Unselected;
         public PlanetPoint PlanetPoint => _planetPoint;
-        public int AmountOfCharacters => _model.AmountOfCharacters;
-        public IReadOnlyList<ISquadMember> Characters => _model.Characters;
+        public int AmountOfCharacters => _model.AmountOfMembers;
+        public IReadOnlyList<ISquadMember> Members => _model.Members;
 
         private void Awake()
         {
-            _model = new SquadModel(new List<ISquadMember>());
+            _model = new SquadModel(_testSquadMembers);
             _view = new SquadView(transform);
             _presenter = new SquadPresenter(_model, _view, null);
             _planetPoint = null;
             _order = null;
         }
 
-        public void AddCharacter(Character character) => _model.AddCharacter(character);
+        public void Add(ISquadMember member) => _model.Add(member);
 
-        public void RemoveCharacter(Character character) => _model.RemoveCharacter(character);
+        public void Remove(ISquadMember member) => _model.RemoveCharacter(member);
 
         public void Move(PlanetPoint planetPoint)
         {
@@ -46,9 +50,9 @@ namespace OrderElimination
             _order = order;
         }
 
-        public void SetOrderButton(Image image)
+        public void SetOrderButton(Button image)
         {
-            __rectanglebOnPanelButton = image;
+            _rectangleOnPanelButton = image;
             _view.SetButtonOnOrder(image);
         }
 

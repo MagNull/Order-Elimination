@@ -4,7 +4,7 @@ using UnityEngine;
 namespace OrderElimination
 {
     [CreateAssetMenu(fileName = "CharacterInfo", menuName = "Character")]
-    public class CharacterInfo : ScriptableObject, IBattleCharacterInfo
+    public class CharacterInfo : ScriptableObject, IBattleCharacterInfo, ISquadMember
     {
         [SerializeField]
         private BattleStats _battleStats;
@@ -20,5 +20,10 @@ namespace OrderElimination
         public Sprite GetView() => _view;
 
         public AbilityInfo[] GetAbilityInfos() => _abilities;
+        public StrategyStats GetStrategyStats() => _strategyStats;
+        public void RaiseExperience(float experience)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

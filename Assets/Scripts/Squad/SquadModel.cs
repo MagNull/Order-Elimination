@@ -2,50 +2,50 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace OrderElimination 
+namespace OrderElimination
 {
     public class SquadModel : ISelectable, IMovable
     {
-        private List<ISquadMember> _characters;
+        private readonly List<ISquadMember> _members;
         private int _rang;
-        public int AmountOfCharacters => _characters.Count;
-        public IReadOnlyList<ISquadMember> Characters => _characters;
+        public int AmountOfMembers => _members.Count;
+        public IReadOnlyList<ISquadMember> Members => _members;
 
         public event Action<PlanetPoint> Moved;
         public event Action Selected;
         public event Action Unselected;
 
-        public SquadModel(List<ISquadMember> characters)
+        public SquadModel(List<ISquadMember> members)
         {
-            if(characters.Count != 0)
+            if (members.Count == 0) 
+                return;
+            _members = members;
+            _rang = 0;
+            foreach (var character in _members)
             {
-                _characters = characters;
-                _rang = 0;
-                foreach (var character in _characters)
-                {
-                    _rang += 1;
-                }
-                _rang /= AmountOfCharacters;
+                _rang += 1;
             }
+
+            _rang /= AmountOfMembers;
         }
 
-        public void AddCharacter(Character character) => _characters.Add(character);
+        public void Add(ISquadMember member) => _members.Add(member);
 
-        public void RemoveCharacter(Character character)
+        public void RemoveCharacter(ISquadMember member)
         {
-            if (!_characters.Contains(character))
+            if (!_members.Contains(member))
                 throw new ArgumentException("No such character in squad");
-            _characters.Remove(character);
+            _members.Remove(member);
         }
 
         public void DistributeExpirience(float expirience)
         {
-            foreach (var character in _characters)
+            foreach (var character in _members)
             {
-                character.RaiseExperience(expirience / AmountOfCharacters);
+                character.RaiseExperience(expirience / AmountOfMembers);
             }
         }
-        
+
         public void Move(PlanetPoint planetPoint)
         {
             Moved?.Invoke(planetPoint);

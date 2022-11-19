@@ -7,24 +7,25 @@ namespace OrderElimination
     {
         public static int count = 0;
         private Transform _transform;
-        private Image __rectanglebOnPanelButton;
+        private Button _rectangleOnPanelButton;
 
         public SquadView(Transform transform)
         {
             _transform = transform;
         }
 
-        public void SetButtonOnOrder(Image image)
+        public void SetButtonOnOrder(Button image)
         {
-            __rectanglebOnPanelButton = image;
+            _rectangleOnPanelButton = image;
             SetButtonCharacteristics(false);
         }
 
         public void SetButtonCharacteristics(bool isActive)
         {
-            __rectanglebOnPanelButton.enabled = isActive;
-            __rectanglebOnPanelButton.GetComponentInChildren<Button>().interactable = isActive;
-            __rectanglebOnPanelButton.GetComponentInChildren<Text>().enabled = isActive;
+            _rectangleOnPanelButton.enabled = isActive;
+            _rectangleOnPanelButton.image.enabled = isActive;
+            _rectangleOnPanelButton.interactable = isActive;
+            _rectangleOnPanelButton.GetComponentInChildren<Text>().enabled = isActive;
         }
 
         public void OnMove(PlanetPoint planetPoint)

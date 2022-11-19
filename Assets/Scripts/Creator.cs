@@ -6,10 +6,16 @@ namespace OrderElimination
 {
     public class Creator : MonoBehaviour
     {
-        [SerializeField] private PlanetPoint _planetPointPrefab;
-        [SerializeField] private Squad _squadPrefab;
-        [SerializeField] private Path _pathPrefab;
-        [SerializeField] private Image _rectanglePrefab;
+        [SerializeField]
+        private OrderPanel _orderPanel;
+        [SerializeField]
+        private PlanetPoint _planetPointPrefab;
+        [SerializeField]
+        private Squad _squadPrefab;
+        [SerializeField]
+        private Path _pathPrefab;
+        [SerializeField]
+        private Button _rectanglePrefab;
 
         private Canvas _canvas;
         public static event Action<ISelectable> Created;
@@ -19,32 +25,33 @@ namespace OrderElimination
             _canvas = GameObject.Find("StrategyMapCanvas").GetComponent<Canvas>();
         }
 
-        public PlanetPoint CreatePlanetPoint(PlanetInfo planetInfo) 
+        public PlanetPoint CreatePlanetPoint(PlanetInfo planetInfo)
         {
-            var planetPoint = GameObject.Instantiate(_planetPointPrefab, planetInfo.Position, Quaternion.identity);
+            var planetPoint = Instantiate(_planetPointPrefab, planetInfo.Position, Quaternion.identity);
             Created?.Invoke(planetPoint);
             return planetPoint;
         }
 
         public Squad CreateSquad(SquadInfo squadInfo)
         {
-            var squad = GameObject.Instantiate(_squadPrefab, squadInfo.Position, Quaternion.identity);
+            var squad = Instantiate(_squadPrefab, squadInfo.Position, Quaternion.identity);
             Created?.Invoke(squad);
             return squad;
         }
 
         public Path CreatePath(PathInfo pathInfo)
         {
-            var path = GameObject.Instantiate(_pathPrefab, pathInfo.Positon, Quaternion.identity);
+            var path = Instantiate(_pathPrefab, pathInfo.Positon, Quaternion.identity);
             return path;
         }
 
-        public Image CreateSquadButton(Vector3 position)
+        //TODO(Иван): Переделать на включение выключение кнопки(без создания новой)
+        public Button CreateSquadButton(Vector3 position)
         {
             Vector3 _position = new Vector3((Screen.width / 100) * 88, position.y, 0);
-            var button = GameObject.Instantiate(_rectanglePrefab, _position, Quaternion.identity, _canvas.transform);
+            var button = Instantiate(_rectanglePrefab, _position, Quaternion.identity, _canvas.transform);
+            button.onClick.AddListener(() => _orderPanel.SetActive());
             return button;
         }
     }
 }
-
