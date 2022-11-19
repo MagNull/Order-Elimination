@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CharacterInfo = OrderElimination.CharacterInfo;
 
-public class CharacterArrangeDirector : MonoBehaviour
+[Serializable]
+public class CharacterArrangeDirector
 {
     [SerializeField]
     private BattleCharacterFactory _characterFactory;

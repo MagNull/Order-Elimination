@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleMapDirector : MonoBehaviour
+[Serializable]
+public class BattleMapDirector 
 {
     [SerializeField] private CellGridGenerator _generator;
     [SerializeField] private BattleMap _battleMap;

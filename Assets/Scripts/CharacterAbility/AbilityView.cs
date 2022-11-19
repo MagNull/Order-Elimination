@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace CharacterAbility
@@ -120,7 +117,7 @@ namespace CharacterAbility
 
             void OnCellClicked(CellView cell)
             {
-                IBattleObject selected = cell.GetObject();
+                IBattleObject selected = cell.Model.GetObject();
                 if (!availableTargets.Contains(selected))
                 {
                     WrongTargetSelected();
@@ -142,8 +139,7 @@ namespace CharacterAbility
                     var area = _battleMapView.Map.GetBattleObjectsInRadius(selected, _abilityInfo.AreaRadius);
                     foreach (var obj in area)
                     {
-                        var objCoords = _battleMapView.Map.GetCoordinate(obj);
-                        var areaCell = _battleMapView.Map.GetCell(objCoords.x, objCoords.y);
+                        var areaCell = _battleMapView.GetCell(obj);
                         areaCell.Select();
                         selectedCellViews.Add(areaCell);
                     }
@@ -155,16 +151,16 @@ namespace CharacterAbility
                 target = selected;
             }
 
-            _battleMapView.Map.CellClicked += OnCellClicked;
+            _battleMapView.CellClicked += OnCellClicked;
 
             if (_abilityInfo.TargetType == TargetType.Self)
-                OnCellClicked(_battleMapView.Map.GetCell(_caster));
+                OnCellClicked(_battleMapView.GetCell(_caster));
 
             await UniTask.WaitUntil(() => cellConfirmed)
                 .AttachExternalCancellation(_cancellationTokenSource.Token)
                 .SuppressCancellationThrow();
 
-            _battleMapView.Map.CellClicked -= OnCellClicked;
+            _battleMapView.CellClicked -= OnCellClicked;
 
             return target;
         }

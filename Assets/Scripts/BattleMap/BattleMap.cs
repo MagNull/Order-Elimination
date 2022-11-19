@@ -5,14 +5,14 @@ using OrderElimination.BattleMap;
 
 public class BattleMap : MonoBehaviour
 {
-    public event Action<CellModel> CellChanged;
+    public event Action<Cell> CellChanged;
 
     [SerializeField]
     private int _width;
     [SerializeField]
     private int _height;
 
-    private CellModel[,] _cellGrid;
+    private Cell[,] _cellGrid;
 
     private Dictionary<IBattleObject, Vector2Int> _destroyedObjectsCoordinates = new();
 
@@ -20,18 +20,18 @@ public class BattleMap : MonoBehaviour
 
     public int Height => _height;
 
-    public void Init(CellModel[,] modelGrid)
+    public void Init(Cell[,] modelGrid)
     {
         _cellGrid = modelGrid;
     }
 
-    public CellModel GetCell(int x, int y)
+    public Cell GetCell(int x, int y)
     {
         return _cellGrid[x, y];
     }
 
     // нужен ли метод?
-    public CellModel GetCell(IBattleObject battleObject)
+    public Cell GetCell(IBattleObject battleObject)
     {
         for (var i = 0; i < _cellGrid.GetLength(0); i++)
         {

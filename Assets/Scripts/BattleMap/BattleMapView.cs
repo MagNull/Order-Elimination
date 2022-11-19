@@ -81,6 +81,12 @@ public class BattleMapView : MonoBehaviour
         cell.Light();
         _lightedCells.Add(cell);
     }
+    
+    public void LightCell(CellView cellView)
+    {
+        cellView.Light();
+        _lightedCells.Add(cellView);
+    }
 
     public void DelightCells()
     {
@@ -92,9 +98,9 @@ public class BattleMapView : MonoBehaviour
 
     private void OnCellClicked(CellView cellView) => CellClicked?.Invoke(cellView);
 
-    private void OnCellChanged(CellModel cellModel)
+    private void OnCellChanged(Cell cell)
     {
-        IBattleObject obj = cellModel.GetObject();
+        IBattleObject obj = cell.GetObject();
         if (obj is NullBattleObject)
             return;
         obj.GetView().transform.position = GetCell(obj).transform.position;

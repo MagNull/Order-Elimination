@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using OrderElimination.BattleMap;
 
-public class CellModel
+public class Cell
 {
     private IBattleObject _object;
 
-    public CellModel()
+    public Cell()
     {
         _object = new NullBattleObject();
     }

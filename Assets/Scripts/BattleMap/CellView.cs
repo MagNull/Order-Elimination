@@ -18,21 +18,18 @@ public class CellView : MonoBehaviour
     private Color _deselectColor;
     private Color _basicColor;
 
-    private CellModel _model;
+    private Cell _model;
 
-    public CellModel Model => _model;
+    public Cell Model => _model;
 
     public void Start()
     {
         _basicColor = _renderer == null ? Color.white : _renderer.material.color;
     }
 
-    public void BindModel(CellModel model)
+    public void BindModel(Cell model)
     {
-        if (_model == null)
-        {
-            _model = model;
-        }
+        _model ??= model;
     }
 
     public void Light()

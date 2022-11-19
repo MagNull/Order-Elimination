@@ -13,7 +13,7 @@ public class CellGridGenerator : MonoBehaviour
     public CellGrid GenerateGrid(int width, int height)
     {
         CellView[,] viewGrid = new CellView[width, height];
-        CellModel[,] modelGrid = new CellModel[width, height];
+        Cell[,] modelGrid = new Cell[width, height];
 
         float x = _cellPrefab.transform.localScale.x;
         float y = _cellPrefab.transform.localScale.y;
@@ -25,17 +25,17 @@ public class CellGridGenerator : MonoBehaviour
         {
             for (var j = 0; j < height; j++)
             {
-                CellModel currentModel = new CellModel();
+                Cell current = new Cell();
                 CellView currentObject = Instantiate(_cellPrefab,
                     new Vector3(xStart + i * (x + _spaceBetweenCells) + _parent.position.x,
                         yStart + j * (y + _spaceBetweenCells) + _parent.position.y, 0),
                     Quaternion.identity,
                     _parent);
 
-                currentObject.BindModel(currentModel);
+                currentObject.BindModel(current);
 
                 viewGrid[i, j] = currentObject;
-                modelGrid[i, j] = currentModel;
+                modelGrid[i, j] = current;
             }
         }
 
