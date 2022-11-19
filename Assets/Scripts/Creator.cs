@@ -9,7 +9,7 @@ namespace OrderElimination
         [SerializeField] private PlanetPoint _planetPointPrefab;
         [SerializeField] private Squad _squadPrefab;
         [SerializeField] private Path _pathPrefab;
-        [SerializeField] private Button _buttonPrefab;
+        [SerializeField] private Image _rectanglePrefab;
 
         private Canvas _canvas;
         public static event Action<ISelectable> Created;
@@ -21,27 +21,28 @@ namespace OrderElimination
 
         public PlanetPoint CreatePlanetPoint(PlanetInfo planetInfo) 
         {
-            var planetPoint = GameObject.Instantiate(_planetPointPrefab, planetInfo.Position, Quaternion.identity, _canvas.transform);
+            var planetPoint = GameObject.Instantiate(_planetPointPrefab, planetInfo.Position, Quaternion.identity);
             Created?.Invoke(planetPoint);
             return planetPoint;
         }
 
         public Squad CreateSquad(SquadInfo squadInfo)
         {
-            var squad = GameObject.Instantiate(_squadPrefab, squadInfo.Position, Quaternion.identity, _canvas.transform);
+            var squad = GameObject.Instantiate(_squadPrefab, squadInfo.Position, Quaternion.identity);
             Created?.Invoke(squad);
             return squad;
         }
 
         public Path CreatePath(PathInfo pathInfo)
         {
-            var path = GameObject.Instantiate(_pathPrefab, pathInfo.Positon, Quaternion.identity, _canvas.transform);
+            var path = GameObject.Instantiate(_pathPrefab, pathInfo.Positon, Quaternion.identity);
             return path;
         }
 
-        public Button CreateSquadButton(Vector3 position)
+        public Image CreateSquadButton(Vector3 position)
         {
-            var button = GameObject.Instantiate(_buttonPrefab, position, Quaternion.identity, _canvas.transform) as Button;
+            Vector3 _position = new Vector3((Screen.width / 100) * 88, position.y, 0);
+            var button = GameObject.Instantiate(_rectanglePrefab, _position, Quaternion.identity, _canvas.transform);
             return button;
         }
     }
