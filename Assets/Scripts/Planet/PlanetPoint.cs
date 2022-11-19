@@ -10,6 +10,7 @@ namespace OrderElimination
         private PlanetInfo _planetInfo;
         private PlanetView _planetView;
         private List<Path> _paths;
+        public int CountSquadOnPoint;
         public static event Action<PlanetPoint> Onclick;
 
         private void Awake()

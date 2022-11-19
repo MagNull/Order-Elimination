@@ -9,7 +9,7 @@ namespace OrderElimination
         [SerializeField] private PlanetPoint _planetPointPrefab;
         [SerializeField] private Squad _squadPrefab;
         [SerializeField] private Path _pathPrefab;
-        [SerializeField] private Button _buttonPrefab;
+        [SerializeField] private Image _rectanglePrefab;
 
         private Canvas _canvas;
         public static event Action<ISelectable> Created;
@@ -39,9 +39,10 @@ namespace OrderElimination
             return path;
         }
 
-        public Button CreateSquadButton(Vector3 position)
+        public Image CreateSquadButton(Vector3 position)
         {
-            var button = GameObject.Instantiate(_buttonPrefab, position, Quaternion.identity, _canvas.transform) as Button;
+            Vector3 _position = new Vector3((Screen.width / 100) * 88, position.y, 0);
+            var button = GameObject.Instantiate(_rectanglePrefab, _position, Quaternion.identity, _canvas.transform);
             return button;
         }
     }

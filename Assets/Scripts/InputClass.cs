@@ -53,9 +53,8 @@ namespace OrderElimination
         private void TargetIsClicked(Squad selectedSquad, PlanetPoint end)
         {
             TargetSelected?.Invoke(selectedSquad, end);
+            selectedSquad.Unselect();
             selectedSquad.Move(end);
         }
     }
 }
-
-

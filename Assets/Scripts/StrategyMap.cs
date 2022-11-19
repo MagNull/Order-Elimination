@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.EventSystems;
 
 namespace OrderElimination
 {
@@ -36,18 +37,14 @@ namespace OrderElimination
         {
             var pathsInfo = Resources.LoadAll<PathInfo>("");
             foreach(var a in pathsInfo)
-            {
                 _paths.Add(_creator.CreatePath(a));
-            }
         }
 
         private void DeserializePoints()
         {
             var pointsInfo = Resources.LoadAll<PlanetInfo>("");
             foreach(var a in pointsInfo)
-            {
                 _planetPoints.Add(_creator.CreatePlanetPoint(a));
-            }
         }
 
         private void DeserializeSquads()
@@ -93,13 +90,18 @@ namespace OrderElimination
         {
             foreach(var squad in _squads)
             {
+                //Пока задается как первый поинт. Если дальше будет сохранение - поменять
                 squad.SetPlanetPoint(_planetPoints[0]);
+                if(squad.PlanetPoint != null)
+                {
+                    squad.PlanetPoint.CountSquadOnPoint++;
+                }
             }
         }
 
-        public void OnMouseDown() 
+        public void OnMouseUp() 
         {
-            Onclick?.Invoke();   
+            Onclick?.Invoke();
         }
     }
 }

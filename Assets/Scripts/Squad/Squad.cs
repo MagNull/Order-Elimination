@@ -13,7 +13,7 @@ namespace OrderElimination
         private SquadPresenter _presenter;
         private PlanetPoint _planetPoint;
         private Order _order;
-        private Button _orderOnPanelButton;
+        private Image __rectanglebOnPanelButton;
         public static event Action<Squad> Selected;
         public static event Action<Squad> Unselected;
         public PlanetPoint PlanetPoint => _planetPoint;
@@ -27,7 +27,6 @@ namespace OrderElimination
             _presenter = new SquadPresenter(_model, _view, null);
             _planetPoint = null;
             _order = null;
-            
         }
 
         public void AddCharacter(Character character) => _model.AddCharacter(character);
@@ -45,10 +44,10 @@ namespace OrderElimination
             _order = order;
         }
 
-        public void SetOrderButton(Button button)
+        public void SetOrderButton(Image image)
         {
-            _orderOnPanelButton = button;
-            _view.SetButtonOnOrder(button);
+            __rectanglebOnPanelButton = image;
+            _view.SetButtonOnOrder(image);
         }
 
         public void SetOrderButtonCharacteristics(bool isActive) 
@@ -56,6 +55,9 @@ namespace OrderElimination
 
         public void SetPlanetPoint(PlanetPoint planetPoint)
         {
+            if(_planetPoint != null)
+                _planetPoint.CountSquadOnPoint--;
+            planetPoint.CountSquadOnPoint++;
             _planetPoint = planetPoint;
             _presenter.UpdatePlanetPoint(planetPoint);
         }
@@ -68,7 +70,6 @@ namespace OrderElimination
 
         public void Unselect()
         {
-            Debug.Log("Unselect");
             Unselected?.Invoke(null);
             _model.Unselect();
         }
