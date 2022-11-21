@@ -20,14 +20,14 @@ public enum ActionType
 public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like interface for ability
 {
     public event Action<int, int, DamageCancelType> Damaged;
+    public event Action<Cell, Cell> Moved;
     public event Action<BattleCharacter> Died;
 
     private readonly List<ITickEffect> _tickEffects;
-    private readonly List<IncomingDebuff> _incomingTickEffects;
+    private readonly List<IncomingBuff> _incomingTickEffects;
     private readonly List<IStatsBuffEffect> _buffEffects;
     [ShowInInspector]
     private readonly BattleObjectSide _side;
-    private BattleCharacterView _view;
     [SerializeField]
     private BattleStats _battleStats;
     private IDamageCalculation _damageCalculation;
@@ -36,6 +36,7 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
     private readonly List<ActionType> _availableActions;
 
     public BattleObjectSide Side => _side;
+    public GameObject View { get; set; }
 
     public IReadOnlyList<ActionType> AvailableActions => _availableActions;
 
@@ -48,13 +49,14 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
         _battleStats = battleStats;
         _tickEffects = new List<ITickEffect>();
         _buffEffects = new List<IStatsBuffEffect>();
-        _incomingTickEffects = new List<IncomingDebuff>();
+        _incomingTickEffects = new List<IncomingBuff>();
         _availableActions = new List<ActionType>();
     }
 
-    public void SetView(BattleCharacterView view) => _view = view;
-
-    public GameObject GetView() => _view.gameObject;
+    public void OnMoving(Cell from, Cell to)
+    {
+        Debug.Log("Move into " + to.GetObject());
+    }
 
     public void TakeDamage(int damage, int accuracy, DamageHealType damageHealType)
     {
@@ -64,18 +66,16 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
         Damaged?.Invoke(damageTaken.armorDamage, damageTaken.healtDamage, damageTaken.damageCancelType);
         _battleStats.Armor -= damageTaken.armorDamage;
         _battleStats.Health -= damageTaken.healtDamage;
-        if (_battleStats.Health <= 0)
-        {
-            _battleStats.Health = 0;
-            Died?.Invoke(this);
-        }
+        
+        if (_battleStats.Health > 0) return;
+        _battleStats.Health = 0;
+        Died?.Invoke(this);
     }
 
     //TODO: Strategy pattern in future if needed
-
     public void TakeRecover(int value, int accuracy, DamageHealType damageHealType)
     {
-        bool isHeal = Random.Range(0, 100) < accuracy;
+        var isHeal = Random.Range(0, 100) < accuracy;
         if (!isHeal)
             return;
 
@@ -93,7 +93,7 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
                 break;
         }
     }
-    
+
     public void ClearOverEffects()
     {
         _tickEffects.Clear();
@@ -109,24 +109,25 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
     {
         for (var i = 0; i < _tickEffects.Count; i++)
         {
-            _tickEffects[i].Tick();
+            _tickEffects[i].Tick(this);
         }
+
         for (var i = 0; i < _buffEffects.Count; i++)
         {
-            _buffEffects[i].Tick();
+            _buffEffects[i].Tick(this);
         }
     }
-    
+
     public void AddTickEffect(ITickEffect effect)
     {
         switch (effect)
         {
-            case IncomingDebuff incomingDebuff:
+            case IncomingBuff incomingDebuff:
                 _incomingTickEffects.Add(incomingDebuff);
                 break;
             case IStatsBuffEffect statsBuffEffect:
                 _buffEffects.Add(statsBuffEffect);
-                _battleStats = statsBuffEffect.Apply();
+                _battleStats = statsBuffEffect.Apply(this);
                 break;
             default:
                 _tickEffects.Add(effect);
@@ -138,12 +139,12 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
     {
         switch (effect)
         {
-            case IncomingDebuff incomingDebuff:
+            case IncomingBuff incomingDebuff:
                 _incomingTickEffects.Remove(incomingDebuff);
                 break;
             case IStatsBuffEffect statsBuffEffect:
                 _buffEffects.Remove(statsBuffEffect);
-                _battleStats = statsBuffEffect.Remove();
+                _battleStats = statsBuffEffect.Remove(this);
                 break;
             default:
                 _tickEffects.Remove(effect);
@@ -155,7 +156,7 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
     {
         return actionType == ActionType.Free ||
                (actionType == ActionType.Difficult && _availableActions.Count == 2) ||
-                _availableActions.Contains(actionType);
+               _availableActions.Contains(actionType);
     }
 
     public bool TrySpendAction(ActionType actionType)
@@ -181,16 +182,19 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
     {
         foreach (var buffEffect in _buffEffects)
         {
-            _battleStats = buffEffect.Remove();
+            _battleStats = buffEffect.Remove(this);
         }
+
         _buffEffects.Clear();
     }
 
     public void AddAction(ActionType actionType) => _availableActions.Add(actionType);
+    
+    public void ClearActions() => _availableActions.Clear();
 
     private void RefreshActions()
     {
-        _availableActions.Clear();
+        ClearActions();
         _availableActions.Add(ActionType.Movement);
         _availableActions.Add(ActionType.Ability);
     }

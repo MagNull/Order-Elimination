@@ -4,7 +4,7 @@ namespace CharacterAbility.BuffEffects
 {
     public interface IStatsBuffEffect : ITickEffect
     {
-        BattleStats Apply();
-        BattleStats Remove();
+        BattleStats Apply(IBattleObject target);
+        BattleStats Remove(IBattleObject target);
     }
 }

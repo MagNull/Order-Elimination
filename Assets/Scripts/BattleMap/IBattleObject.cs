@@ -1,8 +1,9 @@
 using CharacterAbility.BuffEffects;
 using UnityEngine;
 
-public interface IBattleObject : IDamageable, IHealable, ITickTarget, IBuffTarget
+//TODO(Сано): Очистить IBattleObject от кучи интерфейсов
+public interface IBattleObject : IDamageable, IHealable, ITickTarget, IBuffTarget, IMovable
 {
     public BattleObjectSide Side { get; }
-    public GameObject GetView();
+    public GameObject View { get; set; }
 }

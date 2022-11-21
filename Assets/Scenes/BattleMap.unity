@@ -536,9 +536,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charPrefab: {fileID: 4145147146878873825, guid: adfea22cc67a8054695e5bdd39861e6a, type: 3}
-  _abilityBuilder:
-    _battleMapView: {fileID: 246195458}
-  _map: {fileID: 246195459}
 --- !u!4 &221238766
 Transform:
   m_ObjectHideFlags: 0
@@ -1565,10 +1562,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e10bcbaef4f578240bc2712ff04610cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _battleMapDirector:
-    _generator: {fileID: 246195457}
-    _battleMap: {fileID: 246195459}
-    _battleMapView: {fileID: 246195458}
   _abilityButtons:
   - {fileID: 199994802}
   - {fileID: 978741710}
@@ -2287,6 +2280,16 @@ MonoBehaviour:
   autoInjectGameObjects:
   - {fileID: 1136108541}
   _battleCharacterFactory: {fileID: 221238765}
+  _battleMapView: {fileID: 246195458}
+  _battleMapDirector:
+    _generator: {fileID: 246195457}
+    _battleMapView: {fileID: 246195458}
+    _environmentObjects:
+      m_Keys:
+      - {x: 5, y: 5}
+      m_Values:
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+  _environmentPrefab: {fileID: 3350515415389505561, guid: 43c1b81a6e6ed494fba8e0e055489a6f, type: 3}
 --- !u!4 &1455424413
 Transform:
   m_ObjectHideFlags: 0
@@ -2667,7 +2670,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1908500042
 MonoBehaviour:
   m_ObjectHideFlags: 0

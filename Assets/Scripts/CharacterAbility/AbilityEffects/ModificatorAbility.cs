@@ -9,15 +9,15 @@ namespace CharacterAbility.AbilityEffects
         private readonly ModificatorType _modificatorType;
         private readonly int _modificatorValue;
 
-        public ModificatorAbility(IAbilityCaster caster, Ability nextAbility, ModificatorType modificatorType,
-            int modificatorValue, BattleObjectSide filter) : base(caster, filter)
+        public ModificatorAbility(IBattleObject caster, Ability nextAbility, float probability, ModificatorType modificatorType,
+            int modificatorValue, BattleObjectSide filter) : base(caster, nextAbility, filter, probability)
         {
             _modificatorValue = modificatorValue;
             _nextAbility = nextAbility;
             _modificatorType = modificatorType;
         }
 
-        public override void Use(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)
+        protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
             BattleStats modifiedStats = new BattleStats(stats);
             if (_filter == BattleObjectSide.None || target.Side == _filter)
@@ -38,7 +38,7 @@ namespace CharacterAbility.AbilityEffects
                 }
             }
 
-            _nextAbility.Use(target, modifiedStats, battleMap);
+            _nextAbility.Use(target, modifiedStats);
         }
     }
 }

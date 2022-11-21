@@ -11,7 +11,8 @@ namespace CharacterAbility
         Move,
         OverTime,
         Buff,
-        Modificator
+        Modificator,
+        Stun
     }
 
     public enum AbilityScaleFrom
@@ -58,6 +59,9 @@ namespace CharacterAbility
     public struct AbilityEffect
     {
         public AbilityEffectType Type;
+        public bool HasProbability;
+        [ShowIf("HasProbability")]
+        public float Probability;
         [ShowIf("@Type != AbilityEffectType.Move")]
         public BattleObjectSide Filter;
         [ShowIf(

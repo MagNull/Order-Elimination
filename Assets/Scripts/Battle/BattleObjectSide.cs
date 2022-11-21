@@ -5,6 +5,7 @@ using UnityEngine;
 public enum BattleObjectSide 
 {
     None,
+    Environment,
     Enemy,
     Ally,
 }

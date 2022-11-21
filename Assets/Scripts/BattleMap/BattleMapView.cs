@@ -13,7 +13,7 @@ public class BattleMapView : MonoBehaviour
 
     private CellView[,] _cellViewGrid;
 
-    private List<CellView> _lightedCells = new List<CellView>();
+    private readonly List<CellView> _lightedCells = new();
 
     public BattleMap Map => _battleMap;
 
@@ -100,9 +100,9 @@ public class BattleMapView : MonoBehaviour
 
     private void OnCellChanged(Cell cell)
     {
-        IBattleObject obj = cell.GetObject();
+        var obj = cell.GetObject();
         if (obj is NullBattleObject)
             return;
-        obj.GetView().transform.position = GetCell(obj).transform.position;
+        obj.View.transform.position = GetCell(obj).transform.position;
     }
 }

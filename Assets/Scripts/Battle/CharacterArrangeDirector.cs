@@ -34,7 +34,7 @@ public class CharacterArrangeDirector
         {
             characters.Add(playerSquad[i]);
             playerSquad[i].Died += OnCharacterDied;
-            _arrangementMap.SetCell(0, 2 * i, playerSquad[i]);
+            _arrangementMap.MoveTo(playerSquad[i], 0, 2 * i);
         }
 
         List<BattleCharacter> enemySquad = _characterFactory.CreateEnemySquad(_enemiesInfo);
@@ -42,7 +42,7 @@ public class CharacterArrangeDirector
         {
             characters.Add(enemySquad[i]);
             enemySquad[i].Died += OnCharacterDied;
-            _arrangementMap.SetCell(_arrangementMap.Width - 1, i, enemySquad[i]);
+            _arrangementMap.MoveTo(enemySquad[i], _arrangementMap.Width - 1, i);
         }
 
         return characters;

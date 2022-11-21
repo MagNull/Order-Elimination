@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using OrderElimination.BattleMap;
+using UnityEngine.Rendering;
 
 public class BattleMap : MonoBehaviour
 {
@@ -14,7 +15,8 @@ public class BattleMap : MonoBehaviour
 
     private Cell[,] _cellGrid;
 
-    private Dictionary<IBattleObject, Vector2Int> _destroyedObjectsCoordinates = new();
+    private readonly Dictionary<IBattleObject, Vector2Int> _destroyedObjectsCoordinates = new();
+    private readonly Dictionary<Vector2Int, EnvironmentObject> _activeEnvironmentObjects = new();
 
     public int Width => _width;
 
@@ -30,7 +32,6 @@ public class BattleMap : MonoBehaviour
         return _cellGrid[x, y];
     }
 
-    // нужен ли метод?
     public Cell GetCell(IBattleObject battleObject)
     {
         for (var i = 0; i < _cellGrid.GetLength(0); i++)
@@ -47,28 +48,11 @@ public class BattleMap : MonoBehaviour
         throw new ArgumentException("BattleObject not found");
     }
 
-    public void SetCell(int x, int y, IBattleObject obj)
-    {
-        if(obj is NullBattleObject or null)
-            throw new ArgumentException($"Try to set null battle object in cell ({x},{y})");
-        _cellGrid[x, y].SetObject(obj);
-        CellChanged?.Invoke(_cellGrid[x, y]);
-    }
-
     public void DestroyObject(IBattleObject battleObject)
     {
-        var cell = GetCell(battleObject);
         var boPos = GetCoordinate(battleObject);
         _destroyedObjectsCoordinates.Add(battleObject, new Vector2Int(boPos.x, boPos.y));
-        cell.SetObject(new NullBattleObject());
-        CellChanged?.Invoke(cell);
-    }
-
-    public void MoveTo(IBattleObject obj, int x, int y)
-    {
-        Vector2Int objCrd = GetCoordinate(obj);
-        _cellGrid[objCrd.x, objCrd.y].SetObject(new NullBattleObject());
-        SetCell(x, y, obj);
+        SetCell(boPos.x, boPos.y, new NullBattleObject());
     }
 
     public int GetDistance(IBattleObject obj1, IBattleObject obj2)
@@ -90,10 +74,11 @@ public class BattleMap : MonoBehaviour
                 }
             }
         }
-        if(_destroyedObjectsCoordinates.TryGetValue(obj, out var coordinates))
+
+        if (_destroyedObjectsCoordinates.TryGetValue(obj, out var coordinates))
             return coordinates;
 
-        Debug.LogError("Объект не найден на поле!");
+        Debug.LogWarning($"$Объект {obj.View.name} не найден на поле!");
         return new Vector2Int(-1, -1);
     }
 
@@ -114,7 +99,38 @@ public class BattleMap : MonoBehaviour
         return GetObjectsInRadius(obj, radius, battleObject => battleObject is NullBattleObject);
     }
 
-    //private void OnCellClicked(CellView cellView) => CellClicked?.Invoke(cellView);
+    public void MoveTo(IBattleObject obj, int x, int y)
+    {
+        Vector2Int objCoord = GetCoordinate(obj);
+        if (objCoord != new Vector2Int(-1, -1))
+        {
+            obj.OnMoving(GetCell(obj), GetCell(x, y));
+            if (_activeEnvironmentObjects.ContainsKey(objCoord))
+            {
+                SetCell(objCoord.x, objCoord.y, _activeEnvironmentObjects[objCoord]);
+                _activeEnvironmentObjects[objCoord].OnLeave(obj);
+                _activeEnvironmentObjects.Remove(objCoord);
+            }
+            else
+                SetCell(objCoord.x, objCoord.y, new NullBattleObject());
+        }
+        
+        SetCell(x, y, obj);
+    }
+
+    private void SetCell(int x, int y, IBattleObject obj)
+    {
+        if (obj is null)
+            throw new ArgumentException($"Try to set null in cell ({x},{y})");
+        if (_cellGrid[x, y].GetObject() is EnvironmentObject environmentObject)
+        {
+            environmentObject.OnEnter(obj);
+            _activeEnvironmentObjects.Add(new Vector2Int(x, y), environmentObject);
+        }
+
+        _cellGrid[x, y].SetObject(obj);
+        CellChanged?.Invoke(_cellGrid[x, y]);
+    }
 
     private IList<IBattleObject> GetObjectsInRadius(IBattleObject obj, int radius, Predicate<IBattleObject> predicate)
     {
