@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -89,6 +90,10 @@ namespace CharacterAbility
         public int Duration;
         [ShowIf("@Type == AbilityEffectType.OverTime")]
         public int TickValue;
+
+        [Title("Description Flag")]
+        [TextArea]
+        public string DescriptionFlag;
     }
 
     [CreateAssetMenu(fileName = "AbilityInfo", menuName = "Ability")]
@@ -97,6 +102,9 @@ namespace CharacterAbility
         [Title("General Parameters")]
         [SerializeField]
         private string _name;
+        [SerializeField]
+        [TextArea]
+        private string _description;
         [SerializeField]
         [Range(0, 10)]
         private int _coolDown;
@@ -171,6 +179,8 @@ namespace CharacterAbility
 
         #endregion
 
+        #region Buttons
+
         [HideIf("_hasTarget"), Button]
         private void AddTarget() => _hasTarget = true;
 
@@ -201,5 +211,13 @@ namespace CharacterAbility
             _hasTargetEffect = false;
             _targetEffects = Array.Empty<AbilityEffect>();
         }
+
+        #endregion
+
+        public AbilityEffect GetTargetEffectByFlag(string flag) =>
+            _targetEffects.First(x => x.DescriptionFlag == flag);
+
+        public AbilityEffect GetAreaEffectByFlag(string flag) => 
+            _areaEffects.First(x => x.DescriptionFlag == flag);
     }
 }
