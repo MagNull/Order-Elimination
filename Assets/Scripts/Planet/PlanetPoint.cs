@@ -27,14 +27,9 @@ namespace OrderElimination
 
         public void IncreasePoint() => _planetView.Increase();
         public void DecreasePoint() => _planetView.Decrease();
-
-        public void MoveSquad(Squad squad)
-        {
-            squad.Move(this);
-            _countSquadOnPoint++;
-        }
         
         public void RemoveSquad() => _countSquadOnPoint--;
+        public void AddSquad() => _countSquadOnPoint++;
 
         public void SetPath(Path path)
         {
@@ -70,10 +65,10 @@ namespace OrderElimination
             } 
         }
 
-        private void OnMouseDown() => Onclick?.Invoke(this);
+        private void OnMouseDown() => Select(); 
         public void Select()
         {
-            throw new NotImplementedException();
+            Onclick?.Invoke(this);
         }
 
         public void Unselect()
