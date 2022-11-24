@@ -10,7 +10,7 @@ namespace CharacterAbility
     public class AbilityView
     {
         public event Action Casted;
-        private readonly IAbilityCaster _caster;
+        private readonly IActor _caster;
         private readonly Ability _ability;
         private readonly BattleMapView _battleMapView;
         private readonly AbilityInfo _abilityInfo;
@@ -25,9 +25,11 @@ namespace CharacterAbility
 
         public string Name => _abilityInfo.Name;
 
-        private CancellationTokenSource _cancellationTokenSource;
+        public Type AbilityType => _ability.GetType();
 
-        public AbilityView(IAbilityCaster caster, Ability ability, AbilityInfo info, BattleMapView battleMapView)
+        private CancellationTokenSource _castCancelToken;
+        
+        public AbilityView(IActor caster, Ability ability, AbilityInfo info, BattleMapView battleMapView)
         {
             _caster = caster;
             _ability = ability;
@@ -38,7 +40,7 @@ namespace CharacterAbility
 
             BattleSimulation.RoundStarted += OnRoundStart;
 
-            _cancellationTokenSource = new CancellationTokenSource();
+            _castCancelToken = new CancellationTokenSource();
         }
 
         public async void Clicked()
@@ -72,8 +74,8 @@ namespace CharacterAbility
         {
             _battleMapView.DelightCells();
             _casting = false;
-            _cancellationTokenSource.Cancel();
-            _cancellationTokenSource = new CancellationTokenSource();
+            _castCancelToken.Cancel();
+            _castCancelToken = new CancellationTokenSource();
         }
 
         private void LightTargets()
@@ -88,7 +90,7 @@ namespace CharacterAbility
                 return false;
             _casting = true;
             var targetSelection = await SelectTarget()
-                .AttachExternalCancellation(_cancellationTokenSource.Token)
+                .AttachExternalCancellation(_castCancelToken.Token)
                 .SuppressCancellationThrow();
             if (targetSelection.IsCanceled)
                 return true;
@@ -157,7 +159,7 @@ namespace CharacterAbility
                 OnCellClicked(_battleMapView.GetCell(_caster));
 
             await UniTask.WaitUntil(() => cellConfirmed)
-                .AttachExternalCancellation(_cancellationTokenSource.Token)
+                .AttachExternalCancellation(_castCancelToken.Token)
                 .SuppressCancellationThrow();
 
             _battleMapView.CellClicked -= OnCellClicked;

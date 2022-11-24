@@ -8,8 +8,7 @@ namespace CharacterAbility
     {
         [SerializeField]
         private AbilityButton[] _abilityButtons;
-
-
+        
         public void ResetAbilityButtons()
         {
             foreach (var button in _abilityButtons)

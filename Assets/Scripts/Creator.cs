@@ -54,7 +54,6 @@ namespace OrderElimination
             return path;
         }
 
-        //TODO(Иван): Переделать на включение/выключение кнопки(без создания новой)
         public Button CreateSquadButton(Vector3 position)
         {
             Vector3 _position = new Vector3((Screen.width / 100) * 88, position.y, 0);

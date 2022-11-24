@@ -67,7 +67,7 @@ namespace CharacterAbility
         public BattleObjectSide Filter;
         [ShowIf(
             "@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal || Type == AbilityEffectType.OverTime")]
-        public DamageHealType DamageHealType;
+        public DamageHealTarget _damageHealTarget;
         [ShowIf("@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal")]
         public int Amounts;
         [ShowIf("@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal")]

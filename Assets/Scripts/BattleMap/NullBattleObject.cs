@@ -8,7 +8,9 @@ namespace OrderElimination.BattleMap
     public class NullBattleObject : IBattleObject
     {
         public event Action<int, int, DamageCancelType> Damaged;
+
         public event Action<Cell, Cell> Moved;
+
         public event Action Died;
 
         public BattleObjectSide Side => BattleObjectSide.None;
@@ -28,18 +30,14 @@ namespace OrderElimination.BattleMap
         }
 
         public IReadOnlyBattleStats Stats { get; }
-
-        public void TakeDamage(int damage, int accuracy, DamageHealType damageHealType)
-        {
-            Debug.LogWarning("Try Damage Empty Object");
-        }
-
+        
+        
         public void OnMoving(Cell from, Cell to)
         {
             Debug.LogWarning("Try Move Empty Object");
         }
 
-        public void TakeRecover(int value, int accuracy, DamageHealType damageHealType)
+        public void TakeRecover(int value, int accuracy, DamageHealTarget damageHealTarget)
         { 
             Debug.LogError("Try take heal from null battle object");
             throw new NullReferenceException();
@@ -53,6 +51,11 @@ namespace OrderElimination.BattleMap
         public void RemoveTickEffect(ITickEffect effect)
         { 
             Debug.LogWarning("Try remove tick effect from null battle object");
+        }
+
+        public void TakeDamage(int damage, int accuracy, DamageHealTarget damageHealTarget, DamageModificator damageModificator)
+        {
+            Debug.LogWarning("Try Damage Empty Object");
         }
 
         public void ClearOverEffects()

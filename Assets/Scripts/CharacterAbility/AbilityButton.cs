@@ -23,6 +23,8 @@ namespace CharacterAbility
             _button.interactable = false;
         }
 
+        public Type GetAbilityType() => _abilityView.AbilityType;
+
         public void SetAbility(AbilityView abilityView)
         {
             RemoveAbility();

@@ -7,19 +7,19 @@ namespace CharacterAbility.AbilityEffects
     public class OverTimeAbility : Ability
     {
         private readonly Ability _nextAbility;
-        private readonly DamageHealType _damageHealType;
+        private readonly DamageHealTarget _damageHealTarget;
         private readonly OverTimeAbilityType _overTimeAbilityType;
         private readonly int _duration;
         private readonly int _tickValue;
         private ITickEffect _tickEffect;
 
         public OverTimeAbility(IBattleObject caster, Ability nextAbility, float probability,
-            DamageHealType damageHealType,
+            DamageHealTarget damageHealTarget,
             OverTimeAbilityType overTimeAbilityType, int duration, int tickValue, BattleObjectSide filter) : base(caster, nextAbility, filter,
             probability)
         {
             _nextAbility = nextAbility;
-            _damageHealType = damageHealType;
+            _damageHealTarget = damageHealTarget;
             _overTimeAbilityType = overTimeAbilityType;
             _duration = duration;
             _tickValue = tickValue;
@@ -31,8 +31,8 @@ namespace CharacterAbility.AbilityEffects
             {
                 var tickEffect = _overTimeAbilityType switch
                 {
-                    OverTimeAbilityType.Damage => new Damage(_damageHealType, _tickValue, _duration),
-                    OverTimeAbilityType.Heal => new Damage(_damageHealType, _tickValue, _duration),
+                    OverTimeAbilityType.Damage => new DamageOverTimeEffect(_damageHealTarget, _tickValue, _duration),
+                    OverTimeAbilityType.Heal => new DamageOverTimeEffect(_damageHealTarget, _tickValue, _duration),
                     _ => throw new ArgumentOutOfRangeException(nameof(_overTimeAbilityType), _overTimeAbilityType, null)
                 };
                 target.AddTickEffect(tickEffect);

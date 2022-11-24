@@ -1,15 +1,14 @@
 using System;
 using OrderElimination.Battle;
 
-//TODO: Refactor Double
-
-public enum AttackType
+public enum DamageModificator
 {
     Normal,
     DoubleArmor,
     DoubleHealth
 }
-public enum DamageHealType
+
+public enum DamageHealTarget
 {
     Normal,
     OnlyHealth,
@@ -19,5 +18,5 @@ public enum DamageHealType
 public interface IDamageable
 {
     event Action<int, int, DamageCancelType> Damaged;
-    void TakeDamage(int damage, int accuracy, DamageHealType damageHealType);
+    void TakeDamage(int damage, int accuracy, DamageHealTarget damageHealTarget, DamageModificator damageModificator);
 }

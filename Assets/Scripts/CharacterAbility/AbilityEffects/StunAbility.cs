@@ -15,7 +15,7 @@ namespace CharacterAbility
         
         protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
-            if (target is not IAbilityCaster abilityCaster)
+            if (target is not IActor abilityCaster)
                 return;
             abilityCaster.ClearActions();
             _nextAbility?.Use(target, stats);

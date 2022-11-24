@@ -24,7 +24,7 @@ namespace OrderElimination
         [SerializeField]
         private int _movement;
         [SerializeField]
-        private AttackType _attackType;
+        private DamageModificator _damageModificator;
         private int _unmodifiedMovement;
 
         public BattleStats(IReadOnlyBattleStats other)
@@ -41,7 +41,7 @@ namespace OrderElimination
             _unmodifiedAccuracy = other.Accuracy;
             _movement = other.Movement;
             _unmodifiedMovement = other.Movement;
-            _attackType = other.AttackType;
+            _damageModificator = other.DamageModificator;
         }
 
         public int Health
@@ -278,7 +278,7 @@ namespace OrderElimination
             }
         }
 
-        public AttackType AttackType { get => _attackType; set => _attackType = value; }
+        public DamageModificator DamageModificator { get => _damageModificator; set => _damageModificator = value; }
     }
 
     public interface IReadOnlyBattleStats
@@ -296,6 +296,6 @@ namespace OrderElimination
         int Movement { get; }
         int UnmodifiedMovement { get; }
 
-        public AttackType AttackType { get; }
+        public DamageModificator DamageModificator { get; }
     }
 }

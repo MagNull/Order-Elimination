@@ -6,7 +6,6 @@ using OrderElimination;
 using OrderElimination.BattleMap;
 using VContainer;
 
-//TODO(Илья): Refactor interaction with abilities. Decompose BattlSimualtion
 public class BattleSimulation : MonoBehaviour
 {
     public static event Action RoundStarted;
@@ -122,7 +121,6 @@ public class BattleSimulation : MonoBehaviour
     // Влияет на Update()
     public void EndTurn()
     {
-        //TODO: todo выше
         _abilityPanel.ResetAbilityButtons();
         SwitchTurn();
         _isTurnChanged = true;

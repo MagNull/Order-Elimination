@@ -28,10 +28,10 @@ namespace CharacterAbility.AbilityEffects
                         modifiedStats.Accuracy += modifiedStats.Accuracy * _modificatorValue / 100;
                         break;
                     case ModificatorType.DoubleArmorDamage:
-                        modifiedStats.AttackType = AttackType.DoubleArmor;
+                        modifiedStats.DamageModificator = DamageModificator.DoubleArmor;
                         break;
                     case ModificatorType.DoubleHealthDamage:
-                        modifiedStats.AttackType = AttackType.DoubleHealth;
+                        modifiedStats.DamageModificator = DamageModificator.DoubleHealth;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

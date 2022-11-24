@@ -49,7 +49,6 @@ namespace OrderElimination
 
         public void Remove(Character member) => _model.RemoveCharacter(member);
         
-        //TODO(Иван): Переделать взаимодействие PlanetPoint'ов и Squad'ов (цикличная зависимость)
         public void Move(PlanetPoint planetPoint)
         {
             _planetPoint?.RemoveSquad();

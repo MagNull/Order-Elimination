@@ -15,7 +15,7 @@ namespace CharacterAbility.BuffEffects
             _value = value;
         }
 
-        public BattleStats Apply(IBattleObject target)
+        public BattleStats Apply(IBuffTarget target)
         {
             var newStats = new BattleStats(target.Stats)
             {
@@ -24,7 +24,7 @@ namespace CharacterAbility.BuffEffects
             return newStats;
         }
 
-        public BattleStats Remove(IBattleObject target)
+        public BattleStats Remove(IBuffTarget target)
         {
             var newStats = new BattleStats(target.Stats)
             {

@@ -41,12 +41,12 @@ namespace OrderElimination.BattleMap
             Debug.Log(battleObject.View.name + " left " + View.name);
         }
 
-        public void TakeDamage(int damage, int accuracy, DamageHealType damageHealType)
+        public void TakeDamage(int damage, int accuracy, DamageHealTarget damageHealTarget, DamageModificator damageModificator)
         {
             throw new NotImplementedException();
         }
 
-        public void TakeRecover(int value, int accuracy, DamageHealType damageHealType)
+        public void TakeRecover(int value, int accuracy, DamageHealTarget damageHealTarget)
         {
             throw new NotImplementedException();
         }

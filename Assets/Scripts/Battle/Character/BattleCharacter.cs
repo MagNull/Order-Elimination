@@ -17,7 +17,7 @@ public enum ActionType
 }
 
 [Serializable]
-public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like interface for ability
+public class BattleCharacter : IActor
 {
     public event Action<int, int, DamageCancelType> Damaged;
     public event Action<Cell, Cell> Moved;
@@ -33,12 +33,12 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
     private IDamageCalculation _damageCalculation;
 
     [ShowInInspector]
-    private readonly List<ActionType> _availableActions;
+    private readonly ActionBank _actionBank;
 
     public BattleObjectSide Side => _side;
     public GameObject View { get; set; }
 
-    public IReadOnlyList<ActionType> AvailableActions => _availableActions;
+    public IReadOnlyList<ActionType> AvailableActions => _actionBank.AvailableActions;
 
     public IReadOnlyBattleStats Stats => _battleStats;
 
@@ -50,7 +50,7 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
         _tickEffects = new List<ITickEffect>();
         _buffEffects = new List<IStatsBuffEffect>();
         _incomingTickEffects = new List<IncomingBuff>();
-        _availableActions = new List<ActionType>();
+        _actionBank = new ActionBank();
     }
 
     public void OnMoving(Cell from, Cell to)
@@ -58,36 +58,36 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
         Debug.Log("Move into " + to.GetObject());
     }
 
-    public void TakeDamage(int damage, int accuracy, DamageHealType damageHealType)
+    public void TakeDamage(int damage, int accuracy, DamageHealTarget damageHealTarget, DamageModificator damageModificator)
     {
         var damageTaken =
-            _damageCalculation.CalculateDamage(damage, _battleStats.Armor, accuracy, _battleStats.Evasion,
-                damageHealType, _incomingTickEffects);
+            _damageCalculation.CalculateDamage(damage, damageModificator, _battleStats.Armor, accuracy, _battleStats.Evasion,
+                damageHealTarget, _incomingTickEffects);
         Damaged?.Invoke(damageTaken.armorDamage, damageTaken.healtDamage, damageTaken.damageCancelType);
         _battleStats.Armor -= damageTaken.armorDamage;
         _battleStats.Health -= damageTaken.healtDamage;
-        
+
         if (_battleStats.Health > 0) return;
         _battleStats.Health = 0;
         Died?.Invoke(this);
     }
 
     //TODO: Strategy pattern in future if needed
-    public void TakeRecover(int value, int accuracy, DamageHealType damageHealType)
+    public void TakeRecover(int value, int accuracy, DamageHealTarget damageHealTarget)
     {
         var isHeal = Random.Range(0, 100) < accuracy;
         if (!isHeal)
             return;
 
-        switch (damageHealType)
+        switch (damageHealTarget)
         {
-            case DamageHealType.OnlyHealth:
+            case DamageHealTarget.OnlyHealth:
                 _battleStats.Health += value;
                 break;
-            case DamageHealType.OnlyArmor:
+            case DamageHealTarget.OnlyArmor:
                 _battleStats.Armor += value;
                 break;
-            case DamageHealType.Normal:
+            case DamageHealTarget.Normal:
             default:
                 _battleStats.Health += value;
                 break;
@@ -152,6 +152,25 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
         }
     }
 
+    public bool CanSpendAction(ActionType actionType) => _actionBank.CanSpendAction(actionType);
+
+    public bool TrySpendAction(ActionType actionType) => _actionBank.TrySpendAction(actionType);
+
+    public void AddAction(ActionType actionType) => _actionBank.AddAction(actionType);
+
+    public void ClearActions() => _actionBank.ClearActions();
+
+    private void RefreshActions() => _actionBank.RefreshActions();
+}
+
+[Serializable]
+public class ActionBank
+{
+    [ShowInInspector]
+    private readonly List<ActionType> _availableActions;
+    
+    public IReadOnlyList<ActionType> AvailableActions => _availableActions;
+
     public bool CanSpendAction(ActionType actionType)
     {
         return actionType == ActionType.Free ||
@@ -178,21 +197,11 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
         }
     }
 
-    public void ClearBuffEffects()
-    {
-        foreach (var buffEffect in _buffEffects)
-        {
-            _battleStats = buffEffect.Remove(this);
-        }
-
-        _buffEffects.Clear();
-    }
-
     public void AddAction(ActionType actionType) => _availableActions.Add(actionType);
-    
+
     public void ClearActions() => _availableActions.Clear();
 
-    private void RefreshActions()
+    public void RefreshActions()
     {
         ClearActions();
         _availableActions.Add(ActionType.Movement);

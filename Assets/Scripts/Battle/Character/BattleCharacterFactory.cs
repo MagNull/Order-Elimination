@@ -22,7 +22,6 @@ public class BattleCharacterFactory : MonoBehaviour
     {
         BattleCharacterView battleCharacterView = Instantiate(charPrefab);
         battleCharacterView.SetImage(info.GetView());
-        //TODO: Fix stats
         var character = new BattleCharacter(side, new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation());
         //TODO: Fix
         battleCharacterView.GetComponent<PlayerTestScript>().SetSide(side);

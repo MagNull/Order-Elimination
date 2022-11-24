@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using CharacterAbility;
+using CharacterAbility.AbilityEffects;
 using UnityEngine;
 using OrderElimination.BattleMap;
 
@@ -28,8 +30,8 @@ public class AbilityViewBinder
                 abilityButtons[i].CancelAbilityCast();
                 abilityButtons[i].SetAbility(characterView.AbilityViews[i]);
             }
-            //TODO(Сано): Автовыбор перемещения независимо от порядка
-            abilityButtons[0].OnClicked();
+            
+            abilityButtons.First(x => x.GetAbilityType() == typeof(MoveAbility)).OnClicked();
         };
     }
 }
