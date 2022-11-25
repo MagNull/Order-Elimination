@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using OrderElimination;
 
 public interface IAbilityCaster : IBattleObject
 {
@@ -7,5 +6,9 @@ public interface IAbilityCaster : IBattleObject
 
     public bool TrySpendAction(ActionType actionType);
 
+    public bool CanSpendAction(ActionType actionType);
+
     public void AddAction(ActionType actionType);
+
+    public void ClearActions();
 }

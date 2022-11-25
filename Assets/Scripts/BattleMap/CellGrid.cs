@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CellGrid
 {
-    private CellView[,] _cellViewGrid;
-    private Cell[,] _cellModelGrid;
+    private readonly CellView[,] _cellViewGrid;
+    private readonly Cell[,] _cellModelGrid;
 
     public CellView[,] View => _cellViewGrid;
     public Cell[,] Model => _cellModelGrid;

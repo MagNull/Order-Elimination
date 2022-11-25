@@ -13,9 +13,10 @@ namespace CharacterAbility.AbilityEffects
         private readonly int _tickValue;
         private ITickEffect _tickEffect;
 
-        public OverTimeAbility(IAbilityCaster caster, Ability nextAbility, DamageHealType damageHealType,
-            OverTimeAbilityType overTimeAbilityType,
-            int duration, int tickValue, BattleObjectSide filter) : base(caster, filter)
+        public OverTimeAbility(IBattleObject caster, Ability nextAbility, float probability,
+            DamageHealType damageHealType,
+            OverTimeAbilityType overTimeAbilityType, int duration, int tickValue, BattleObjectSide filter) : base(caster, nextAbility, filter,
+            probability)
         {
             _nextAbility = nextAbility;
             _damageHealType = damageHealType;
@@ -24,20 +25,20 @@ namespace CharacterAbility.AbilityEffects
             _tickValue = tickValue;
         }
 
-        public override void Use(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)
+        protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
             if (_filter == BattleObjectSide.None || target.Side == _filter)
             {
                 var tickEffect = _overTimeAbilityType switch
                 {
-                    OverTimeAbilityType.Damage => new DamageTickEffect(target, _damageHealType, _tickValue, _duration),
-                    OverTimeAbilityType.Heal => new DamageTickEffect(target, _damageHealType, _tickValue, _duration),
+                    OverTimeAbilityType.Damage => new Damage(_damageHealType, _tickValue, _duration),
+                    OverTimeAbilityType.Heal => new Damage(_damageHealType, _tickValue, _duration),
                     _ => throw new ArgumentOutOfRangeException(nameof(_overTimeAbilityType), _overTimeAbilityType, null)
                 };
                 target.AddTickEffect(tickEffect);
             }
-            
-            _nextAbility?.Use(target, stats, battleMap);
+
+            _nextAbility?.Use(target, stats);
         }
     }
 }

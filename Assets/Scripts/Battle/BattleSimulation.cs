@@ -13,10 +13,9 @@ public class BattleSimulation : MonoBehaviour
     public static event Action PlayerTurnEnd;
 
     public static event Action<BattleOutcome> BattleEnded;
-
-    [SerializeField]
-    private BattleMapDirector _battleMapDirector;
+    
     private CharacterArrangeDirector _characterArrangeDirector;
+    private BattleMapDirector _battleMapDirector;
     [SerializeField]
     private AbilityViewBinder _abilityViewBinder;
 
@@ -34,8 +33,9 @@ public class BattleSimulation : MonoBehaviour
     private List<BattleCharacter> _characters;
 
     [Inject]
-    private void Construct(CharacterArrangeDirector characterArrangeDirector)
+    private void Construct(CharacterArrangeDirector characterArrangeDirector, BattleMapDirector battleMapDirector)
     {
+        _battleMapDirector = battleMapDirector;
         _characterArrangeDirector = characterArrangeDirector;
     }
 
@@ -71,7 +71,7 @@ public class BattleSimulation : MonoBehaviour
                 {
                     RoundStarted?.Invoke();
                     _isTurnChanged = false;
-                    Debug.Log("Начался ход игрока");
+                    Debug.Log("Начался ход игрока" % Colorize.Green);
                 }
                 else
                 {
@@ -84,7 +84,7 @@ public class BattleSimulation : MonoBehaviour
                 {
                     PlayerTurnEnd?.Invoke();
                     _isTurnChanged = false;
-                    Debug.Log("Начался ход противника");
+                    Debug.Log("Начался ход противника" % Colorize.Red);
                 }
 
                 // Действия ИИ
