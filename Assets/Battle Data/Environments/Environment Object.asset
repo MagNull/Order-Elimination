@@ -29,10 +29,10 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|CharacterAbility.BuffEffects.EvasionStatsBuff, Assembly-CSharp
+      Data: 1|CharacterAbility.BuffEffects.AccuracyStatsBuff, Assembly-CSharp
     - Name: _duration
       Entry: 3
-      Data: 212
+      Data: 100
     - Name: _value
       Entry: 3
       Data: 10
@@ -54,4 +54,4 @@ MonoBehaviour:
     _evasion: 0
     _accuracy: 0
     _movement: 0
-    _attackType: 0
+    _damageModificator: 0
