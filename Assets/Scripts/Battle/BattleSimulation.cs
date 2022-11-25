@@ -41,7 +41,6 @@ public class BattleSimulation : MonoBehaviour
     private void Awake()
     {
         _characters = new List<BattleCharacter>();
-        _abilityViewBinder = new AbilityViewBinder();
     }
 
     public void Start()

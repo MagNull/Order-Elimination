@@ -25,7 +25,7 @@ namespace CharacterAbility
 
         public string Name => _abilityInfo.Name;
 
-        public Type AbilityType => _ability.GetType();
+        public AbilityInfo Info => _abilityInfo;
 
         private CancellationTokenSource _castCancelToken;
         

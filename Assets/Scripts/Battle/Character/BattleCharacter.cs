@@ -55,7 +55,7 @@ public class BattleCharacter : IActor
 
     public void OnMoving(Cell from, Cell to)
     {
-        Debug.Log("Move into " + to.GetObject());
+        //Debug.Log("Move into " + to.GetObject());
     }
 
     public void TakeDamage(int damage, int accuracy, DamageHealTarget damageHealTarget, DamageModificator damageModificator)
@@ -167,7 +167,7 @@ public class BattleCharacter : IActor
 public class ActionBank
 {
     [ShowInInspector]
-    private readonly List<ActionType> _availableActions;
+    private readonly List<ActionType> _availableActions = new();
     
     public IReadOnlyList<ActionType> AvailableActions => _availableActions;
 

@@ -7,8 +7,11 @@ using CharacterAbility.AbilityEffects;
 using UnityEngine;
 using OrderElimination.BattleMap;
 
-public class AbilityViewBinder 
+[Serializable]
+public class AbilityViewBinder
 {
+    [SerializeField]
+    private AbilityInfo _movementInfo;
     private BattleCharacterView _selectedCharacterView;
 
     public void BindAbilityButtons(BattleMapView mapView, AbilityButton[] abilityButtons, BattleObjectSide currentTurn)
@@ -30,8 +33,8 @@ public class AbilityViewBinder
                 abilityButtons[i].CancelAbilityCast();
                 abilityButtons[i].SetAbility(characterView.AbilityViews[i]);
             }
-            
-            abilityButtons.First(x => x.GetAbilityType() == typeof(MoveAbility)).OnClicked();
+
+            abilityButtons.First(abilityButton => abilityButton.GetAbilityInfo() == _movementInfo).OnClicked();
         };
     }
 }
