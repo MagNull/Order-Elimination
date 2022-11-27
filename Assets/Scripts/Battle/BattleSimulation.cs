@@ -6,7 +6,6 @@ using OrderElimination;
 using OrderElimination.BattleMap;
 using VContainer;
 
-//TODO(Илья): Refactor interaction with abilities. Decompose BattlSimualtion
 public class BattleSimulation : MonoBehaviour
 {
     public static event Action RoundStarted;
@@ -52,6 +51,7 @@ public class BattleSimulation : MonoBehaviour
 
     public void Update()
     {
+        CheckBattleOutcome();
         if (_outcome != BattleOutcome.Neither)
         {
             // По завершении сражения событие отправляется единожды
@@ -92,8 +92,17 @@ public class BattleSimulation : MonoBehaviour
         }
     }
 
+    // Тестовые методы
+    public void AwardPlayerVictory() => _outcome = BattleOutcome.Victory;
+    public void AwardPlayerDefeat() => _outcome = BattleOutcome.Defeat;
+
     public void CheckBattleOutcome()
     {
+        if (_outcome != BattleOutcome.Neither)
+        {
+            return;
+        }
+
         bool isThereAnyAliveAlly = false;
         bool isThereAnyAliveEnemy = false;
 
