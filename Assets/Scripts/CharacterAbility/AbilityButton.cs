@@ -77,8 +77,8 @@ namespace CharacterAbility
 
         public void OnHold()
         {
-            Debug.Log("Holded for" + HoldingTimeInSeconds);
             _pressedTime = null;
+            Debug.Log("Holded for" + HoldingTimeInSeconds);
         }
 
         public void SetAbility(AbilityView abilityView)
