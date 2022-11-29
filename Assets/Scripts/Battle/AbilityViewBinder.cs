@@ -29,7 +29,7 @@ public class AbilityViewBinder
                 abilityButtons[i].SetAbility(characterView.AbilityViews[i]);
             }
             //TODO(Сано): Автовыбор перемещения независимо от порядка
-            abilityButtons[0].OnClicked();
+            abilityButtons[0].OnClick();
         };
     }
 }

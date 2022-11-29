@@ -1,26 +1,84 @@
-﻿using System;
+﻿using Cysharp.Threading.Tasks;
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace CharacterAbility
 {
-    [RequireComponent(typeof(Button))]
-    public class AbilityButton : MonoBehaviour
+    // Сериализуемые поля назначать в инспекторе в Debug режиме!!
+    //TODO выделить отдельный класс HoldableButton
+    public class AbilityButton : Button
     {
         public event Action Casted;
-        public event Action<AbilityButton> Clicked;
         private AbilityView _abilityView;
+
+        public event Action<AbilityButton> Clicked;
         [SerializeField]
         private Image _abilityImage;
         [SerializeField]
         private TextMeshProUGUI _abilityName;
-        private Button _button;
-
-        private void Awake()
+        private static readonly int millisecondsToHold = 2000;
+        private static readonly int errorHoldTimeInMilliseconds = Math.Min(10, millisecondsToHold);
+        private float? _pressedTime;
+        public float? HoldingTimeInSeconds
         {
-            _button = GetComponent<Button>();
-            _button.interactable = false;
+            get
+            {
+                if (_pressedTime == null)
+                    return null;
+                if (Time.time < _pressedTime)
+                    throw new Exception();
+                return Time.time - _pressedTime.Value;
+            }
+        }
+
+        private void Start()
+        {
+            interactable = false;
+            print("start");
+        }
+
+        public override void OnPointerDown(PointerEventData eventData)
+        {
+            _pressedTime = Time.time;
+            base.OnPointerDown(eventData);
+            UniTask.Create(WaitUntilHoldTime);
+            Debug.Log("Pressed");
+        }
+
+        protected async UniTask WaitUntilHoldTime()
+        {
+            await UniTask.Delay(millisecondsToHold);
+            if (HoldingTimeInSeconds == null
+                || HoldingTimeInSeconds + errorHoldTimeInMilliseconds < millisecondsToHold / 1000f)
+                return;
+            OnHold();
+        }
+
+        public override void OnPointerUp(PointerEventData eventData)
+        {
+            if (_pressedTime == null)
+                return;
+            base.OnPointerUp(eventData);
+            _pressedTime = null;
+            OnClick();
+            Debug.Log("Released");
+        }
+
+        //TODO make private
+        public void OnClick()
+        {
+            Debug.Log("Clicked");
+            Clicked?.Invoke(this);
+            _abilityView.Clicked();
+        }
+
+        public void OnHold()
+        {
+            _pressedTime = null;
+            Debug.Log("Holded for" + HoldingTimeInSeconds);
         }
 
         public void SetAbility(AbilityView abilityView)
@@ -31,16 +89,9 @@ namespace CharacterAbility
             _abilityView = abilityView;
             _abilityView.Casted += OnCasted;
             CheckUsePossibility();
-            _button.onClick.AddListener(OnClicked);
         }
 
         public void CancelAbilityCast() => _abilityView?.CancelCast();
-
-        public void OnClicked()
-        {
-            Clicked?.Invoke(this);
-            _abilityView.Clicked();
-        }
         
         private void OnCasted() => Casted?.Invoke();
 
@@ -48,10 +99,10 @@ namespace CharacterAbility
         {
             if(_abilityView.CanCast)
             {
-                _button.interactable = true;
+                interactable = true;
                 return;
             }
-            _button.interactable = false;
+            interactable = false;
         }
 
         public void RemoveAbility()
@@ -62,8 +113,8 @@ namespace CharacterAbility
             if(_abilityView != null)
                 _abilityView.Casted -= OnCasted;
             _abilityView = null;
-            _button.interactable = false;
-            _button.onClick.RemoveAllListeners();
+            interactable = false;
+            onClick.RemoveAllListeners();
         }
     }
 }
