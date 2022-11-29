@@ -110,6 +110,7 @@ namespace UIManagement.trashToRemove_Mockups
             {PanelType.ExplorationResult, "Итоги поиска"}, 
             {PanelType.BattleVictory, "Победа"}, 
             {PanelType.BattleDefeat, "Поражение"}, 
+            {PanelType.AbilityDescription, "Описание способности"}, 
         };
 
         public string GetWindowTitleName(PanelType windowType) => _panelTitleNames[windowType];

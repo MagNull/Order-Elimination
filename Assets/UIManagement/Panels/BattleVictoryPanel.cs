@@ -6,7 +6,7 @@ using UIManagement.trashToRemove_Mockups;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BattleVictoryPanel : UIPanel, IUIPanel
+public class BattleVictoryPanel : UIPanel
 {
     public override PanelType PanelType => PanelType.BattleVictory;
     [SerializeField] private IconTextValueElement _primaryCurrency;
@@ -41,6 +41,7 @@ public class BattleVictoryPanel : UIPanel, IUIPanel
     protected override void Initialize()
     {
         base.Initialize();
+        _continueButton.onClick.RemoveAllListeners();
         _continueButton.onClick.AddListener(OnContineButtonClick);
     }
 

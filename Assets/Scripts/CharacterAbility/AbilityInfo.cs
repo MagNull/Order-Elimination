@@ -177,6 +177,8 @@ namespace CharacterAbility
 
         public string Name => _name;
 
+        public string Description => _description;
+
         #endregion
 
         #region Buttons
