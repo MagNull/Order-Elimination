@@ -11,10 +11,13 @@ namespace OrderElimination
         [OdinSerialize]
         private List<IBattleCharacterInfo> _battleStatsList;
 
+        [OdinSerialize] private List<IBattleCharacterInfo> _enemies;
+
         private void Awake() => DontDestroyOnLoad(gameObject);
 
         public void SetCharacters(List<IBattleCharacterInfo> battleStatsList) => _battleStatsList = battleStatsList;
 
         public List<IBattleCharacterInfo> GetBattleCharactersInfo() => _battleStatsList;
+        public List<IBattleCharacterInfo> GetBattleEnemyInfo() => _enemies;
     }
 }

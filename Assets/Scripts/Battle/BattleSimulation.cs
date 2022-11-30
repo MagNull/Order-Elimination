@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 using CharacterAbility;
 using OrderElimination;
 using OrderElimination.BattleMap;
@@ -88,6 +89,14 @@ public class BattleSimulation : MonoBehaviour
                 }
 
                 // Действия ИИ
+                var enemies = _characters
+                    .Select(x => x)
+                    .Where(x => x.Side == BattleObjectSide.Enemy);
+                foreach(var enemy in enemies)
+                {
+                    enemy.PlayTurn();
+                }
+                EndTurn();
             }
         }
     }

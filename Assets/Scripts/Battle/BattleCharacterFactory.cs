@@ -21,7 +21,12 @@ public class BattleCharacterFactory : MonoBehaviour
         battleCharacterView.SetImage(info.GetView());
         //TODO: Fix stats
         var character = new BattleCharacter(side, new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation());
-        battleCharacterView.GetComponent<PlayerTestScript>().SetSide(side);
+        //TODO: Generation Enemy 
+        if (side == BattleObjectSide.Enemy)
+        {
+            character = new EnemyDog(_map, info.GetAbilityInfos().Last(), new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation());
+        }
+        battleCharacterView.GetComponentInChildren<SpriteRenderer>().sprite = info.GetView();
         battleCharacterView.Init(character, CreateCharacterAbilities(info.GetAbilityInfos(), character));
 
         character.SetView(battleCharacterView);
@@ -49,7 +54,7 @@ public class BattleCharacterFactory : MonoBehaviour
         return characters;
     }
 
-    //TODO(ÑÀÍÎ): Move to another response object
+    //TODO(ï¿½ï¿½ï¿½ï¿½): Move to another response object
     private AbilityView[] CreateCharacterAbilities(AbilityInfo[] abilityInfos, BattleCharacter caster)
     {
         var abilities = new AbilityView[abilityInfos.Length];
