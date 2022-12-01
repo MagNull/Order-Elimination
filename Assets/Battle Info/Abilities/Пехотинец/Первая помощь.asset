@@ -22,6 +22,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _name: "\u041F\u0435\u0440\u0432\u0430\u044F \u043F\u043E\u043C\u043E\u0449\u044C"
+  _description: 
   _coolDown: 5
   _startCoolDown: 2
   <Icon>k__BackingField: {fileID: 21300000, guid: 6d54b2b2bac3e834f8d4f79511498f04, type: 3}
@@ -33,6 +34,8 @@ MonoBehaviour:
   _targetType: 2
   _targetEffects:
   - Type: 5
+    HasProbability: 0
+    Probability: 0
     Filter: 0
     DamageHealType: 0
     Amounts: 0
@@ -45,7 +48,10 @@ MonoBehaviour:
     BuffValue: 0
     Duration: 0
     TickValue: 0
+    DescriptionFlag: 
   - Type: 1
+    HasProbability: 0
+    Probability: 0
     Filter: 0
     DamageHealType: 1
     Amounts: 1
@@ -58,6 +64,7 @@ MonoBehaviour:
     BuffValue: 0
     Duration: 0
     TickValue: 0
+    DescriptionFlag: 
   _hasAreaEffect: 0
   _areaRadius: 0
   _areaEffects: []

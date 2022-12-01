@@ -19,7 +19,7 @@ namespace CharacterAbility
         private Image _abilityImage;
         [SerializeField]
         private TextMeshProUGUI _abilityName;
-        private static readonly int millisecondsToHold = 2000;
+        private static readonly int millisecondsToHold = 1000;
         private static readonly int errorHoldTimeInMilliseconds = Math.Min(10, millisecondsToHold);
         private float? _pressedTime;
         public float? HoldingTimeInSeconds
@@ -34,14 +34,15 @@ namespace CharacterAbility
             }
         }
 
-        private void Start()
+        private void Awake()
         {
             interactable = false;
-            print("start");
         }
 
         public override void OnPointerDown(PointerEventData eventData)
         {
+            if (!interactable)
+                return;
             _pressedTime = Time.time;
             base.OnPointerDown(eventData);
             UniTask.Create(WaitUntilHoldTime);
@@ -59,6 +60,8 @@ namespace CharacterAbility
 
         public override void OnPointerUp(PointerEventData eventData)
         {
+            if (!interactable)
+                return;
             if (_pressedTime == null)
                 return;
             base.OnPointerUp(eventData);
@@ -77,8 +80,8 @@ namespace CharacterAbility
 
         public void OnHold()
         {
-            _pressedTime = null;
             Debug.Log("Holded for" + HoldingTimeInSeconds);
+            _pressedTime = null;
         }
 
         public void SetAbility(AbilityView abilityView)
