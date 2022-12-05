@@ -37,7 +37,8 @@ namespace CharacterAbility
             _coolDownTimer = _abilityInfo.StartCoolDown;
 
             BattleSimulation.RoundStarted += OnRoundStart;
-
+            BattleSimulation.BattleEnded += OnBattleEnded;    
+            
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
@@ -213,6 +214,12 @@ namespace CharacterAbility
         {
             _coolDownTimer--;
             Casted?.Invoke();
+        }
+        
+        private void OnBattleEnded(BattleOutcome outcome)
+        {
+            CancelCast();
+            _cancellationTokenSource.Cancel();
         }
     }
 }

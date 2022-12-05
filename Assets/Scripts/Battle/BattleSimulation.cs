@@ -20,6 +20,7 @@ public class BattleSimulation : MonoBehaviour
 
     [SerializeField]
     private AbilityButton[] _abilityButtons;
+    //TODO: Remove panel, use event instead call inside methods(like EndRound, BattleEnd)
     [SerializeField]
     private AbilityPanel _abilityPanel;
 
@@ -58,6 +59,7 @@ public class BattleSimulation : MonoBehaviour
             if (!_isBattleEnded)
             {
                 BattleEnded?.Invoke(_outcome);
+                _abilityPanel.ResetAbilityButtons();
                 _isBattleEnded = true;
                 Debug.LogFormat("Сражение завершено - победил {0}", _outcome == BattleOutcome.Victory ? "игрок" : "ИИ");
             }
