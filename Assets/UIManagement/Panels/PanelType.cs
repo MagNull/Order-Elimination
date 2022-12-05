@@ -6,6 +6,7 @@ namespace UIManagement
 {
     public enum PanelType
     {
+        _BasePanel,
         Pause, 
         Order,
         SquadList,

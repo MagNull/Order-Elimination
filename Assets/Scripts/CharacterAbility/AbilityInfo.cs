@@ -1,20 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace CharacterAbility
 {
-    public class DisplayedEffectParameterAttribute : Attribute
-    {
-        public DisplayedEffectParameterAttribute() 
-        {
-
-        }
-    }
-
     public enum AbilityEffectType
     {
         Damage,
@@ -45,9 +36,9 @@ namespace CharacterAbility
         Attack,
         Health,
         Movement,
-        Evasion,
+        Evasion,//%
         IncomingAttack,
-        IncomingAccuracy,
+        IncomingAccuracy,//%
     }
 
     public enum ModificatorType
@@ -69,6 +60,8 @@ namespace CharacterAbility
     [Serializable]
     public struct AbilityEffect
     {
+        public string Name;
+        public bool IsMainEffect;
         public AbilityEffectType Type;
         public bool HasProbability;
         [ShowIf("HasProbability")]
@@ -104,31 +97,6 @@ namespace CharacterAbility
         [Title("Description Flag")]
         [TextArea]
         public string DescriptionFlag;
-
-        // Чтобы работало, нужно писать свой парсер условий (Один, сука, этим не делится)
-
-        //private readonly static Dictionary<FieldInfo, ShowIfAttribute> _displayableParameters;
-
-        //static AbilityEffect()
-        //{
-        //    foreach (var field in typeof(AbilityEffect)
-        //        .GetFields()
-        //        .Where(f => Attribute.IsDefined(f, typeof(DisplayedEffectParameterAttribute))))
-        //    {
-        //        ShowIfAttribute showIfAttribute = null;
-        //        if (Attribute.IsDefined(field, typeof(ShowIfAttribute)))
-        //            showIfAttribute = field.GetCustomAttribute<ShowIfAttribute>();
-        //        _displayableParameters.Add(field, showIfAttribute);
-        //        showIfAttribute.ConditionMet();
-        //    }
-        //}
-
-        public Dictionary<string, string> GetDisplayableParameters()
-        {
-            var result = new Dictionary<string, string>();
-            if (HasProbability) result.Add("Шанс", $"{Probability}%");
-            return result;
-        }
     }
 
     [CreateAssetMenu(fileName = "AbilityInfo", menuName = "Ability")]

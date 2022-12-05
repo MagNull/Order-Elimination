@@ -40,10 +40,12 @@ namespace UIManagement
         protected override void Initialize()
         {
             base.Initialize();
-            foreach (var b in new[] { _saveGameButton, _loadGameButton, _returnButton })
-                b.onClick.RemoveAllListeners();
-            foreach (var s in new[] { _musicSlider, _soundSlider })
-                s.onValueChanged.RemoveAllListeners();
+            _saveGameButton.onClick.RemoveListener(OnSaveButtonPressed);
+            _loadGameButton.onClick.RemoveListener(OnLoadButtonPressed);
+            _returnButton.onClick.RemoveListener(OnReturnButtonPressed);
+            _musicSlider.onValueChanged.RemoveListener(OnMusicVolumeChanged);
+            _soundSlider.onValueChanged.RemoveListener(OnSoundVolumeChanged);
+
             _saveGameButton.onClick.AddListener(OnSaveButtonPressed);
             _loadGameButton.onClick.AddListener(OnLoadButtonPressed);
             _returnButton.onClick.AddListener(OnReturnButtonPressed);

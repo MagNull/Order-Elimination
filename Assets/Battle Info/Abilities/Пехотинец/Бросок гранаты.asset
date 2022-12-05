@@ -22,6 +22,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _name: "\u0411\u0440\u043E\u0441\u043E\u043A \u0433\u0440\u0430\u043D\u0430\u0442\u044B"
+  _description: 
   _coolDown: 4
   _startCoolDown: 1
   <Icon>k__BackingField: {fileID: 21300000, guid: c4aff6d74b951b446a9c4a0bd68eb2a4, type: 3}
@@ -32,7 +33,12 @@ MonoBehaviour:
   _distance: 3
   _targetType: 3
   _targetEffects:
-  - Type: 0
+  - Name: 
+    IsMainEffect: 0
+    Type: 0
+    HasProbability: 0
+    Probability: 0
+    Filter: 0
     DamageHealType: 0
     Amounts: 1
     ScaleFrom: 0
@@ -44,7 +50,13 @@ MonoBehaviour:
     BuffValue: 0
     Duration: 0
     TickValue: 0
-  - Type: 3
+    DescriptionFlag: 
+  - Name: 
+    IsMainEffect: 0
+    Type: 3
+    HasProbability: 1
+    Probability: 30
+    Filter: 0
     DamageHealType: 1
     Amounts: 0
     ScaleFrom: 0
@@ -56,10 +68,16 @@ MonoBehaviour:
     BuffValue: 0
     Duration: 3
     TickValue: 5
+    DescriptionFlag: 
   _hasAreaEffect: 1
   _areaRadius: 1
   _areaEffects:
-  - Type: 5
+  - Name: 
+    IsMainEffect: 0
+    Type: 5
+    HasProbability: 0
+    Probability: 0
+    Filter: 0
     DamageHealType: 0
     Amounts: 0
     ScaleFrom: 0
@@ -71,7 +89,13 @@ MonoBehaviour:
     BuffValue: 0
     Duration: 0
     TickValue: 0
-  - Type: 0
+    DescriptionFlag: 
+  - Name: 
+    IsMainEffect: 0
+    Type: 0
+    HasProbability: 0
+    Probability: 0
+    Filter: 0
     DamageHealType: 0
     Amounts: 1
     ScaleFrom: 0
@@ -83,7 +107,13 @@ MonoBehaviour:
     BuffValue: 0
     Duration: 0
     TickValue: 0
-  - Type: 3
+    DescriptionFlag: 
+  - Name: 
+    IsMainEffect: 0
+    Type: 3
+    HasProbability: 0
+    Probability: 0
+    Filter: 0
     DamageHealType: 1
     Amounts: 0
     ScaleFrom: 0
@@ -95,3 +125,4 @@ MonoBehaviour:
     BuffValue: 0
     Duration: 3
     TickValue: 5
+    DescriptionFlag: 

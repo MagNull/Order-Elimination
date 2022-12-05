@@ -7,16 +7,20 @@ using TMPro;
 using UIManagement.Elements;
 using System.Linq;
 using Sirenix.OdinInspector;
+using UIManagement.trashToRemove_Mockups;
 
 namespace UIManagement
 {
+    public enum ValueUnits
+    {
+        None,
+        Percents,
+        Cells,
+        Turns
+    }
+
     public class AbilityDescriptionPanel : UIPanel
     {
-        #region ToRemove
-        [OnValueChanged(nameof(OnTestAbility))]
-        public AbilityInfo TestingAbilityInfo;
-        private void OnTestAbility() => UpdateAbilityDescription(TestingAbilityInfo);
-        #endregion ToRemove
         public override PanelType PanelType => PanelType.AbilityDescription;
         [SerializeField] private TextMeshProUGUI _abilityName;
         [SerializeField] private Image _abilityIcon;
@@ -31,20 +35,15 @@ namespace UIManagement
             base.Initialize();
         }
 
-        public void UpdateAbilityDescription(AbilityInfo abilityInfo)
+        public void UpdateAbilityDescription(AbilityView abilityView)
         {
-            Debug.Log("Updating...");
+            var abilityInfo = abilityView.AbilityInfo;
+            var casterStats = abilityView.Caster.Stats;
+
             _abilityName.text = abilityInfo.Name;
             _abilityDescription.text = abilityInfo.Description;
             _abilityIcon.sprite = abilityInfo.Icon;
             _abilityParameters.Clear();
-
-            if (HasEffect(abilityInfo, "Урон", out var effectWithFlag))
-            {
-
-            }
-            //foreach (var p in abilityInfo.)
-            //if (abilityInfo.Distance != null)
     
             foreach (var e in _effectsHolder.GetComponentsInChildren<EffectDescriptionWindow>())
                 Destroy(e.gameObject);
@@ -52,22 +51,30 @@ namespace UIManagement
 
             foreach (var effect in abilityInfo.TargetEffects.Concat(abilityInfo.AreaEffects))
             {
+                if (effect.IsMainEffect)
+                {
+                    foreach (var mainP in effect.GetDisplayableParameters(casterStats))
+                    {
+                        _abilityParameters.Add(null, mainP.Key, mainP.Value);
+                    }
+                    continue;
+                }
                 var newEffectWindow = Instantiate(_effectDescriptionPrefab, _effectsHolder);
-                newEffectWindow.UpdateEffectDescription(effect);
+                newEffectWindow.UpdateEffectDescription(effect, casterStats);
                 Effects.Add(newEffectWindow);
             }
         }
 
-        private bool HasEffect(AbilityInfo abilityInfo, string descriptionFlag, out AbilityEffect effect)
-        {
-            AbilityEffect targetEffect = abilityInfo.GetTargetEffectByFlag(descriptionFlag);
-            AbilityEffect areaEffect = abilityInfo.GetAreaEffectByFlag(descriptionFlag);
-            var hasTargetEffect = !targetEffect.Equals(default(AbilityEffect));
-            var hasAreaEffect = !areaEffect.Equals(default(AbilityEffect));
-            if (hasAreaEffect && hasTargetEffect)
-                throw new System.ArgumentException("Multiple effects with the same description flag. Unable to resolve.");
-            effect = hasTargetEffect ? targetEffect : hasAreaEffect ? areaEffect : default;
-            return hasTargetEffect || hasAreaEffect;
-        }
+        //private bool HasEffect(AbilityInfo abilityInfo, string descriptionFlag, out AbilityEffect effect)
+        //{
+        //    AbilityEffect targetEffect = abilityInfo.GetTargetEffectByFlag(descriptionFlag);
+        //    AbilityEffect areaEffect = abilityInfo.GetAreaEffectByFlag(descriptionFlag);
+        //    var hasTargetEffect = !targetEffect.Equals(default(AbilityEffect));
+        //    var hasAreaEffect = !areaEffect.Equals(default(AbilityEffect));
+        //    if (hasAreaEffect && hasTargetEffect)
+        //        throw new System.ArgumentException("Multiple effects with the same description flag. Unable to resolve.");
+        //    effect = hasTargetEffect ? targetEffect : hasAreaEffect ? areaEffect : default;
+        //    return hasTargetEffect || hasAreaEffect;
+        //}
     }
 }

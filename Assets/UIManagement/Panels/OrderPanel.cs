@@ -27,8 +27,8 @@ namespace UIManagement
             base.Initialize();
             _exploreParameters.HasIcons = _exploreParameters.HasTexts = _exploreParameters.HasValues = true;
             _battleParameters.HasIcons = _battleParameters.HasTexts = _battleParameters.HasValues = true;
-            _exploreButton.onClick.RemoveAllListeners();
-            _battleButton.onClick.RemoveAllListeners();
+            _exploreButton.onClick.RemoveListener(OnExploreButtonPressed);
+            _battleButton.onClick.RemoveListener(OnBattleButtonPressed);
             _exploreButton.onClick.AddListener(OnExploreButtonPressed);
             _battleButton.onClick.AddListener(OnBattleButtonPressed);
         }

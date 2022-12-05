@@ -12,9 +12,10 @@ namespace CharacterAbility
     public class AbilityButton : Button
     {
         public event Action Casted;
-        private AbilityView _abilityView;
 
+        public AbilityView AbilityView { get; private set; }
         public event Action<AbilityButton> Clicked;
+        public event Action<AbilityButton> Holded;
         [SerializeField]
         private Image _abilityImage;
         [SerializeField]
@@ -26,7 +27,7 @@ namespace CharacterAbility
         {
             get
             {
-                if (_pressedTime == null)
+                if (!_pressedTime.HasValue)
                     return null;
                 if (Time.time < _pressedTime)
                     throw new Exception();
@@ -52,8 +53,8 @@ namespace CharacterAbility
         protected async UniTask WaitUntilHoldTime()
         {
             await UniTask.Delay(millisecondsToHold);
-            if (HoldingTimeInSeconds == null
-                || HoldingTimeInSeconds + errorHoldTimeInMilliseconds < millisecondsToHold / 1000f)
+            if (!HoldingTimeInSeconds.HasValue
+                || HoldingTimeInSeconds + errorHoldTimeInMilliseconds / 1000f < millisecondsToHold / 1000f)
                 return;
             OnHold();
         }
@@ -75,12 +76,13 @@ namespace CharacterAbility
         {
             Debug.Log("Clicked");
             Clicked?.Invoke(this);
-            _abilityView.Clicked();
+            AbilityView.Clicked();
         }
 
         public void OnHold()
         {
             Debug.Log("Holded for" + HoldingTimeInSeconds);
+            Holded?.Invoke(this);
             _pressedTime = null;
         }
 
@@ -89,18 +91,18 @@ namespace CharacterAbility
             RemoveAbility();
             _abilityName.text = abilityView.Name;
             _abilityImage.sprite = abilityView.AbilityIcon;
-            _abilityView = abilityView;
-            _abilityView.Casted += OnCasted;
+            AbilityView = abilityView;
+            AbilityView.Casted += OnCasted;
             CheckUsePossibility();
         }
 
-        public void CancelAbilityCast() => _abilityView?.CancelCast();
+        public void CancelAbilityCast() => AbilityView?.CancelCast();
         
         private void OnCasted() => Casted?.Invoke();
 
         public void CheckUsePossibility()
         {
-            if(_abilityView.CanCast)
+            if(AbilityView.CanCast)
             {
                 interactable = true;
                 return;
@@ -113,9 +115,9 @@ namespace CharacterAbility
             CancelAbilityCast();
             _abilityImage.sprite = null;
             _abilityName.text = "";
-            if(_abilityView != null)
-                _abilityView.Casted -= OnCasted;
-            _abilityView = null;
+            if(AbilityView != null)
+                AbilityView.Casted -= OnCasted;
+            AbilityView = null;
             interactable = false;
             onClick.RemoveAllListeners();
         }

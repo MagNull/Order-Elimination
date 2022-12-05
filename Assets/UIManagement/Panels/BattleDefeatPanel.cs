@@ -41,12 +41,13 @@ public class BattleDefeatPanel : UIPanel
     protected override void Initialize()
     {
         base.Initialize();
-        _continueButton.onClick.RemoveAllListeners();
+        _continueButton.onClick.RemoveListener(OnContineButtonClick);
         _continueButton.onClick.AddListener(OnContineButtonClick);
     }
 
     private void OnContineButtonClick()
     {
+        print("clicked");
         if (!_pageSwitcher.ShowNextAvailablePage(false))
             OnContinueAfterLastPagePressed();
     }
