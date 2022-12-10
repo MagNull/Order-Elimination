@@ -11,14 +11,6 @@ using UIManagement.trashToRemove_Mockups;
 
 namespace UIManagement
 {
-    public enum ValueUnits
-    {
-        None,
-        Percents,
-        Cells,
-        Turns
-    }
-
     public class AbilityDescriptionPanel : UIPanel
     {
         public override PanelType PanelType => PanelType.AbilityDescription;
@@ -51,14 +43,14 @@ namespace UIManagement
 
             foreach (var effect in abilityInfo.TargetEffects.Concat(abilityInfo.AreaEffects))
             {
-                if (effect.IsMainEffect)
-                {
-                    foreach (var mainP in effect.GetDisplayableParameters(casterStats))
-                    {
-                        _abilityParameters.Add(null, mainP.Key, mainP.Value);
-                    }
-                    continue;
-                }
+                //if (effect.IsMainEffect)
+                //{
+                //    foreach (var mainP in effect.GetDisplayableParameters(casterStats))
+                //    {
+                //        _abilityParameters.Add(null, mainP.Key, mainP.Value);
+                //    }
+                //    continue;
+                //}
                 var newEffectWindow = Instantiate(_effectDescriptionPrefab, _effectsHolder);
                 newEffectWindow.UpdateEffectDescription(effect, casterStats);
                 Effects.Add(newEffectWindow);

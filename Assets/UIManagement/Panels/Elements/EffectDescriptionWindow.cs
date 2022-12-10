@@ -18,7 +18,7 @@ namespace UIManagement.Elements
         public void UpdateEffectDescription(AbilityEffect effectInfo, IReadOnlyBattleStats casterStats)
         {
             //_effectIcon = effectInfo.Icon;
-            _effectName.text = effectInfo.Name;
+            _effectName.text = effectInfo.EffectView.EffectName;
             _parameters.Clear();
             foreach (var p in effectInfo.GetDisplayableParameters(casterStats))
             {
@@ -32,6 +32,7 @@ namespace UIManagement.Elements
         public static Dictionary<string, string> GetDisplayableParameters(
             this AbilityEffect effect, IReadOnlyBattleStats casterStats)
         {
+            return effect.GetDisplayingParameters(casterStats);
             var result = new Dictionary<string, string>();
             if (effect.HasProbability) result.AddDisplayedParameter("Шанс", effect.Probability, ValueUnits.Percents);
             if (effect.Type == AbilityEffectType.Damage || effect.Type == AbilityEffectType.Heal)

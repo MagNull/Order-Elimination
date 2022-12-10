@@ -47,9 +47,7 @@ MonoBehaviour:
   _hasAreaEffect: 1
   _areaRadius: 1
   _areaEffects:
-  - Name: "\u0423\u0440\u043E\u043D \u0431\u0440\u043E\u043D\u0435 X2"
-    IsMainEffect: 0
-    Type: 5
+  - Type: 5
     HasProbability: 0
     Probability: 0
     Filter: 0
@@ -65,9 +63,12 @@ MonoBehaviour:
     Duration: 0
     TickValue: 0
     DescriptionFlag: 
-  - Name: "\u0423\u0440\u043E\u043D"
-    IsMainEffect: 1
-    Type: 0
+    ShowInAbilityDescription: 1
+    EffectView:
+      EffectName: 
+      EffectIcon: {fileID: 0}
+      DisplayedProperties: []
+  - Type: 0
     HasProbability: 0
     Probability: 0
     Filter: 0
@@ -83,9 +84,12 @@ MonoBehaviour:
     Duration: 0
     TickValue: 0
     DescriptionFlag: 
-  - Name: "\u041A\u0440\u043E\u0432\u043E\u0442\u0435\u0447\u0435\u043D\u0438\u0435"
-    IsMainEffect: 0
-    Type: 3
+    ShowInAbilityDescription: 0
+    EffectView:
+      EffectName: 
+      EffectIcon: {fileID: 0}
+      DisplayedProperties: []
+  - Type: 3
     HasProbability: 0
     Probability: 0
     Filter: 0
@@ -101,3 +105,8 @@ MonoBehaviour:
     Duration: 5
     TickValue: 5
     DescriptionFlag: 
+    ShowInAbilityDescription: 0
+    EffectView:
+      EffectName: 
+      EffectIcon: {fileID: 0}
+      DisplayedProperties: []
