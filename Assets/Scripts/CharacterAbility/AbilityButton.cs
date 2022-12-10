@@ -20,18 +20,19 @@ namespace CharacterAbility
         private Image _abilityImage;
         [SerializeField]
         private TextMeshProUGUI _abilityName;
-        private static readonly int millisecondsToHold = 1000;
+        private static readonly int millisecondsToHold = 700;
         private static readonly int errorHoldTimeInMilliseconds = Math.Min(10, millisecondsToHold);
         private float? _pressedTime;
+        private float? _releasedTime;
         public float? HoldingTimeInSeconds
         {
             get
             {
-                if (!_pressedTime.HasValue)
+                if (!_pressedTime.HasValue || !_releasedTime.HasValue)
                     return null;
-                if (Time.time < _pressedTime)
+                if (_releasedTime < _pressedTime)
                     throw new Exception();
-                return Time.time - _pressedTime.Value;
+                return _releasedTime - _pressedTime.Value;
             }
         }
 
@@ -45,6 +46,7 @@ namespace CharacterAbility
             if (!interactable)
                 return;
             _pressedTime = Time.time;
+            _releasedTime = null;
             base.OnPointerDown(eventData);
             UniTask.Create(WaitUntilHoldTime);
             Debug.Log("Pressed");
@@ -53,8 +55,9 @@ namespace CharacterAbility
         protected async UniTask WaitUntilHoldTime()
         {
             await UniTask.Delay(millisecondsToHold);
+            _releasedTime = Time.time;
             if (!HoldingTimeInSeconds.HasValue
-                || HoldingTimeInSeconds + errorHoldTimeInMilliseconds / 1000f < millisecondsToHold / 1000f)
+                || HoldingTimeInSeconds.Value + errorHoldTimeInMilliseconds / 1000f < millisecondsToHold / 1000f)
                 return;
             OnHold();
         }
@@ -63,27 +66,27 @@ namespace CharacterAbility
         {
             if (!interactable)
                 return;
-            if (_pressedTime == null)
-                return;
-            base.OnPointerUp(eventData);
             _pressedTime = null;
+            base.OnPointerUp(eventData);
+            if (_releasedTime != null)
+                return;
             OnClick();
-            Debug.Log("Released");
         }
 
         //TODO make private
         public void OnClick()
         {
-            Debug.Log("Clicked");
+            _releasedTime = Time.time;
             Clicked?.Invoke(this);
             AbilityView.Clicked();
+            Debug.Log("Clicked");
         }
 
         public void OnHold()
         {
-            Debug.Log("Holded for" + HoldingTimeInSeconds);
+            Debug.Log("Holded for " + HoldingTimeInSeconds.Value);
             Holded?.Invoke(this);
-            _pressedTime = null;
+            OnPointerUp(new PointerEventData(EventSystem.current));
         }
 
         public void SetAbility(AbilityView abilityView)

@@ -49,6 +49,11 @@ MonoBehaviour:
     Duration: 0
     TickValue: 0
     DescriptionFlag: 
+    ShowInAbilityDescription: 0
+    EffectView:
+      DisplayAsMainEffect: 0
+      EffectName: 
+      EffectIcon: {fileID: 0}
   - Type: 1
     HasProbability: 0
     Probability: 0
@@ -65,6 +70,11 @@ MonoBehaviour:
     Duration: 0
     TickValue: 0
     DescriptionFlag: 
+    ShowInAbilityDescription: 1
+    EffectView:
+      DisplayAsMainEffect: 1
+      EffectName: 
+      EffectIcon: {fileID: 0}
   _hasAreaEffect: 0
   _areaRadius: 0
   _areaEffects: []

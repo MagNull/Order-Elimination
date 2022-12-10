@@ -33,9 +33,7 @@ MonoBehaviour:
   _distance: 3
   _targetType: 3
   _targetEffects:
-  - Name: 
-    IsMainEffect: 0
-    Type: 0
+  - Type: 0
     HasProbability: 0
     Probability: 0
     Filter: 0
@@ -51,9 +49,12 @@ MonoBehaviour:
     Duration: 0
     TickValue: 0
     DescriptionFlag: 
-  - Name: 
-    IsMainEffect: 0
-    Type: 3
+    ShowInAbilityDescription: 0
+    EffectView:
+      DisplayAsMainEffect: 0
+      EffectName: 
+      EffectIcon: {fileID: 0}
+  - Type: 3
     HasProbability: 1
     Probability: 30
     Filter: 0
@@ -69,12 +70,15 @@ MonoBehaviour:
     Duration: 3
     TickValue: 5
     DescriptionFlag: 
+    ShowInAbilityDescription: 0
+    EffectView:
+      DisplayAsMainEffect: 0
+      EffectName: 
+      EffectIcon: {fileID: 0}
   _hasAreaEffect: 1
   _areaRadius: 1
   _areaEffects:
-  - Name: 
-    IsMainEffect: 0
-    Type: 5
+  - Type: 5
     HasProbability: 0
     Probability: 0
     Filter: 0
@@ -90,9 +94,12 @@ MonoBehaviour:
     Duration: 0
     TickValue: 0
     DescriptionFlag: 
-  - Name: 
-    IsMainEffect: 0
-    Type: 0
+    ShowInAbilityDescription: 0
+    EffectView:
+      DisplayAsMainEffect: 0
+      EffectName: 
+      EffectIcon: {fileID: 0}
+  - Type: 0
     HasProbability: 0
     Probability: 0
     Filter: 0
@@ -108,9 +115,12 @@ MonoBehaviour:
     Duration: 0
     TickValue: 0
     DescriptionFlag: 
-  - Name: 
-    IsMainEffect: 0
-    Type: 3
+    ShowInAbilityDescription: 1
+    EffectView:
+      DisplayAsMainEffect: 1
+      EffectName: 
+      EffectIcon: {fileID: 0}
+  - Type: 3
     HasProbability: 0
     Probability: 0
     Filter: 0
@@ -126,3 +136,8 @@ MonoBehaviour:
     Duration: 3
     TickValue: 5
     DescriptionFlag: 
+    ShowInAbilityDescription: 1
+    EffectView:
+      DisplayAsMainEffect: 0
+      EffectName: 
+      EffectIcon: {fileID: 0}

@@ -51,10 +51,9 @@ MonoBehaviour:
     DescriptionFlag: 
     ShowInAbilityDescription: 1
     EffectView:
+      DisplayAsMainEffect: 0
       EffectName: 
       EffectIcon: {fileID: 0}
-      DisplayedProperties:
-      - Duration
   - Type: 4
     HasProbability: 0
     Probability: 0
@@ -73,10 +72,9 @@ MonoBehaviour:
     DescriptionFlag: 
     ShowInAbilityDescription: 1
     EffectView:
+      DisplayAsMainEffect: 0
       EffectName: 
       EffectIcon: {fileID: 0}
-      DisplayedProperties:
-      - Duration
   _hasAreaEffect: 0
   _areaRadius: 0
   _areaEffects: []

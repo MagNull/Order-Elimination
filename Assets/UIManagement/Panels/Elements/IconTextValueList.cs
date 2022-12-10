@@ -85,7 +85,7 @@ namespace UIManagement.Elements
                 transform, 
                 icon, 
                 text, 
-                $"{value}{Localization.Current.GetUnitName(valueUnits)}");
+                $"{value}{Localization.Current.GetUnits(valueUnits)}");
             newElement.HasIcon = HasIcons;
             newElement.HasText = HasTexts;
             newElement.HasValue = HasValues;

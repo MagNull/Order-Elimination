@@ -55,21 +55,11 @@ namespace UIManagement
                 newEffectWindow.UpdateEffectDescription(effect, casterStats);
                 Effects.Add(newEffectWindow);
             }
-            if (abilityInfo.)
-                _abilityParameters.Add(null, "Радиус", abilityInfo.AreaRadius.ToString(), ValueUnits.Cells);
+            if(abilityInfo.HasTarget && !abilityInfo.DistanceFromMovement && abilityInfo.Distance != 0)
+                _abilityParameters.Add(null, "Дальность: ", abilityInfo.Distance.ToString(), ValueUnits.Cells);
+            if (abilityInfo.HasAreaEffect)
+                _abilityParameters.Add(null, "Радиус: ", abilityInfo.AreaRadius.ToString(), ValueUnits.Cells);
             _abilityParameters.Add(null, "Откат: ", abilityInfo.CoolDown.ToString(), ValueUnits.Turns);
         }
-
-        //private bool HasEffect(AbilityInfo abilityInfo, string descriptionFlag, out AbilityEffect effect)
-        //{
-        //    AbilityEffect targetEffect = abilityInfo.GetTargetEffectByFlag(descriptionFlag);
-        //    AbilityEffect areaEffect = abilityInfo.GetAreaEffectByFlag(descriptionFlag);
-        //    var hasTargetEffect = !targetEffect.Equals(default(AbilityEffect));
-        //    var hasAreaEffect = !areaEffect.Equals(default(AbilityEffect));
-        //    if (hasAreaEffect && hasTargetEffect)
-        //        throw new System.ArgumentException("Multiple effects with the same description flag. Unable to resolve.");
-        //    effect = hasTargetEffect ? targetEffect : hasAreaEffect ? areaEffect : default;
-        //    return hasTargetEffect || hasAreaEffect;
-        //}
     }
 }

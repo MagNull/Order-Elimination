@@ -140,7 +140,7 @@ namespace UIManagement.trashToRemove_Mockups
 
         public string GetWindowTitleName(PanelType windowType) => _panelTitleNames[windowType];
         //public string GetEffectParameterName( windowType) => _panelTitleNames[windowType];
-        public string GetUnitName(ValueUnits unitType) => _unitNames[unitType];
+        public string GetUnits(ValueUnits unitType) => _unitNames[unitType];
         public string GetBuffName(BuffType buffType) => _buffNames[buffType];
         public string GetOvertimeTypeName(OverTimeAbilityType overtimeType) => _overtimeTypeNames[overtimeType];
     }

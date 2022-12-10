@@ -1,4 +1,5 @@
 ﻿using OrderElimination;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,15 +32,29 @@ namespace CharacterAbility
     [Serializable]
     public class EffectView
     {
-        public string EffectName;
-        public Sprite EffectIcon;
         public bool DisplayAsMainEffect;
+        [ShowIf("@!DisplayAsMainEffect")]
+        public string EffectName;
+        [ShowIf("@!DisplayAsMainEffect")]
+        public Sprite EffectIcon;
 
-        public EffectView(Sprite icon, string name, List<string> displayedProperties)
+        public EffectView(Sprite icon, string name)
         {
             EffectIcon = icon;
             EffectName = name;
         }
+
+        private static readonly Dictionary<BuffType, ValueUnits> _buffUnits = new Dictionary<BuffType, ValueUnits>()
+        {
+            {BuffType.Attack, ValueUnits.None }, 
+            {BuffType.Health, ValueUnits.None }, 
+            {BuffType.Evasion, ValueUnits.Percents }, 
+            {BuffType.IncomingAccuracy, ValueUnits.Percents }, 
+            {BuffType.IncomingAttack, ValueUnits.None }, 
+            {BuffType.Movement, ValueUnits.Cells }, 
+        };
+
+        public static ValueUnits GetBuffUnits(BuffType buffType) => _buffUnits[buffType];
     }
 
     public static class EffectsDisplayHelpers
@@ -47,18 +62,31 @@ namespace CharacterAbility
         public static Dictionary<string, string> GetDisplayableParameters(
             this AbilityEffect effect, IReadOnlyBattleStats casterStats)
         {
-            //return effect.GetDisplayingParameters(casterStats);
             var result = new Dictionary<string, string>();
-            if (effect.HasProbability) result.AddDisplayedParameter("Шанс", effect.Probability, ValueUnits.Percents);
+            if (effect.HasProbability) result.AddDisplayedParameter("Шанс", effect.Probability.ToString(), ValueUnits.Percents);
             if (effect.Type == AbilityEffectType.Damage || effect.Type == AbilityEffectType.Heal)
             {
-                var damageHealSize = effect.ScaleFrom == AbilityScaleFrom.Attack
-                    ? casterStats.Attack
-                    : effect.ScaleFrom == AbilityScaleFrom.Health
-                        ? casterStats.UnmodifiedHealth
-                        : throw new System.ArgumentException();
-                var multiplierEnding = effect.Amounts > 1 ? $" x {effect.Amounts}" : "";
-                var displayedValue = $"{damageHealSize * effect.Scale}{multiplierEnding}";
+                int damageHealSize;
+                string valueEnding = effect.Amounts > 1 ? $" x {effect.Amounts}" : "";
+                switch (effect.ScaleFrom)
+                {
+                    case AbilityScaleFrom.Attack:
+                        damageHealSize = casterStats.Attack;
+                        break;
+                    case AbilityScaleFrom.Health:
+                        damageHealSize = casterStats.UnmodifiedHealth;
+                        break;
+                    case AbilityScaleFrom.Movement:
+                        damageHealSize = casterStats.UnmodifiedMovement;
+                        break;
+                    case AbilityScaleFrom.Distance:
+                        damageHealSize = casterStats.Attack;
+                        valueEnding = $"/{Localization.Current.GetUnits(ValueUnits.Cells)}";
+                        break;
+                    default:
+                        throw new ArgumentException();
+                }
+                var displayedValue = $"{damageHealSize * effect.Scale}{valueEnding}";
                 if (effect.Type == AbilityEffectType.Damage)
                     result.AddDisplayedParameter("Урон", displayedValue);
                 if (effect.Type == AbilityEffectType.Heal)
@@ -66,13 +94,18 @@ namespace CharacterAbility
             }
             if (effect.Type == AbilityEffectType.Modificator && effect.Modificator == ModificatorType.Accuracy)
             {
-                result.AddDisplayedParameter("Точность", $"{effect.ModificatorValue}", ValueUnits.Percents);
+                var valuePrefix = effect.ModificatorValue > 0 ? "+" : "";
+                result.AddDisplayedParameter("Точность", $"{valuePrefix}{effect.ModificatorValue}", ValueUnits.Percents);
             }
             if (effect.Type == AbilityEffectType.Buff || effect.Type == AbilityEffectType.OverTime)
             {
                 if (effect.Type == AbilityEffectType.Buff)
                 {
-                    result.AddDisplayedParameter(Localization.Current.GetBuffName(effect.BuffType), effect.BuffValue);
+                    var valuePrefix = effect.BuffValue > 0 ? "+" : "";
+                    result.AddDisplayedParameter(
+                        Localization.Current.GetBuffName(effect.BuffType), 
+                        $"{valuePrefix}{effect.BuffValue}", 
+                        EffectView.GetBuffUnits(effect.BuffType));
                 }
                 if (effect.Type == AbilityEffectType.OverTime)
                 {
@@ -82,15 +115,12 @@ namespace CharacterAbility
             };
             return result;
         }
+
         public static void AddDisplayedParameter(
             this Dictionary<string, string> parameters, string name, string value, ValueUnits units = ValueUnits.None)
         {
-            parameters.Add($"{name}: ", $"{value}{Localization.Current.GetUnitName(units)}");
+            parameters.Add($"{name}: ", $"{value}{Localization.Current.GetUnits(units)}");
         }
-
-        public static void AddDisplayedParameter(
-            this Dictionary<string, string> parameters, string name, float value, ValueUnits units = ValueUnits.None)
-            => parameters.AddDisplayedParameter(name, value.ToString(), units);
 
         public static void AddDisplayedParameter(
             this Dictionary<string, string> parameters, string name, int value, ValueUnits units = ValueUnits.None)

@@ -164,6 +164,7 @@ namespace CharacterAbility
 
         #region Properties
 
+        public bool HasTarget => _hasTarget;
         public TargetType TargetType => _targetType;
         public int Distance => _distance;
 
@@ -229,12 +230,5 @@ namespace CharacterAbility
 
         public AbilityEffect GetAreaEffectByFlag(string flag) => 
             _areaEffects.First(x => x.DescriptionFlag == flag);
-
-        public Dictionary<string, bool> GetConditionParameters()
-        {
-            var result = new Dictionary<string, bool>();
-            result.Add(nameof(_hasTarget), _hasTarget);
-            result.Add(nameof(_hasTarget), _hasTarget);
-        }
     }
 }
