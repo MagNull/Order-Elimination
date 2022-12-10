@@ -91,7 +91,6 @@ namespace CharacterAbility
         [ShowIf("@Type == AbilityEffectType.Buff")]
         public int BuffValue;
         [ShowIf("@Type == AbilityEffectType.OverTime || Type == AbilityEffectType.Buff")]
-        [EffectParameter("Длительность", ValueUnits.Turns)]
         public int Duration;
         [ShowIf("@Type == AbilityEffectType.OverTime")]
         public int TickValue;
@@ -103,65 +102,6 @@ namespace CharacterAbility
         public bool ShowInAbilityDescription;
         [ShowIf("@" + nameof(ShowInAbilityDescription) + " == true")]
         public EffectView EffectView;
-
-        private readonly static Dictionary<string, EffectParameterInfo> _effectParameters;
-
-        private class EffectParameterInfo
-        {
-            public MemberInfo ValueInfo { get; }
-            public string DisplayedName { get; }
-            public ValueUnits Units { get; }
-
-            public EffectParameterInfo(MemberInfo valueInfo, string displayedName, ValueUnits units)
-            {
-                ValueInfo = valueInfo;
-                DisplayedName = displayedName;
-                Units = units;
-            }
-        }
-
-        static AbilityEffect()
-        {
-            _effectParameters = new Dictionary<string, EffectParameterInfo>();
-            foreach (var valueInfo in typeof(AbilityEffect)
-                .GetFields()
-                .Cast<MemberInfo>()
-                .Concat(typeof(AbilityEffect).GetProperties())
-                .Where(f => Attribute.IsDefined(f, typeof(EffectParameterAttribute))))
-            {
-                var attributeInfo = valueInfo.GetCustomAttribute<EffectParameterAttribute>();
-                _effectParameters.Add(
-                    valueInfo.Name, new EffectParameterInfo(valueInfo, attributeInfo.DisplayedName, attributeInfo.Units));
-            }
-        }
-        
-        public Dictionary<string, string> GetDisplayingParameters(IReadOnlyBattleStats casterStats)
-        {
-            var result = new Dictionary<string, string>();
-            foreach (var propertyName in EffectView.DisplayedProperties)
-            {
-                var name = _effectParameters[propertyName].DisplayedName;
-                var value = GetParameterValue(propertyName);
-                // Просто блядь чью-то мамку...
-                // Не знаю, как я добавлять урон буду...
-                // Потратил весь день на хуйню, когда стоило просто забить хуй и сделать всё за 10 минут...
-                // Я блядь так не хочу сейчас опять делать комит и весь этот код удалять...
-                // Почему, сука, не получается думать заранее...
-                result.Add(name, value.ToString());
-            }
-            return result;
-        }
-
-        private object GetParameterValue(string parameterName)
-        {
-            if (!_effectParameters.ContainsKey(parameterName))
-                throw new KeyNotFoundException($"No property or field named \"{parameterName}\" found. It's possible it doesn't have \"{nameof(EffectParameterAttribute)}\" assigned");
-            if (_effectParameters[parameterName].ValueInfo is FieldInfo f)
-                return f.GetValue(this);
-            if (_effectParameters[parameterName].ValueInfo is PropertyInfo p)
-                return p.GetValue(this);
-            throw new NotImplementedException();
-        }
     }
 
     [CreateAssetMenu(fileName = "AbilityInfo", menuName = "Ability")]
@@ -289,5 +229,12 @@ namespace CharacterAbility
 
         public AbilityEffect GetAreaEffectByFlag(string flag) => 
             _areaEffects.First(x => x.DescriptionFlag == flag);
+
+        public Dictionary<string, bool> GetConditionParameters()
+        {
+            var result = new Dictionary<string, bool>();
+            result.Add(nameof(_hasTarget), _hasTarget);
+            result.Add(nameof(_hasTarget), _hasTarget);
+        }
     }
 }

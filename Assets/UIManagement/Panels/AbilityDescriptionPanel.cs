@@ -41,20 +41,23 @@ namespace UIManagement
                 Destroy(e.gameObject);
             Effects = new List<EffectDescriptionWindow>();
 
-            foreach (var effect in abilityInfo.TargetEffects.Concat(abilityInfo.AreaEffects))
+            foreach (var effect in abilityInfo.TargetEffects.Concat(abilityInfo.AreaEffects).Where(e => e.ShowInAbilityDescription))
             {
-                //if (effect.IsMainEffect)
-                //{
-                //    foreach (var mainP in effect.GetDisplayableParameters(casterStats))
-                //    {
-                //        _abilityParameters.Add(null, mainP.Key, mainP.Value);
-                //    }
-                //    continue;
-                //}
+                if (effect.EffectView.DisplayAsMainEffect)
+                {
+                    foreach (var mainP in effect.GetDisplayableParameters(casterStats))
+                    {
+                        _abilityParameters.Add(null, mainP.Key, mainP.Value);
+                    }
+                    continue;
+                }
                 var newEffectWindow = Instantiate(_effectDescriptionPrefab, _effectsHolder);
                 newEffectWindow.UpdateEffectDescription(effect, casterStats);
                 Effects.Add(newEffectWindow);
             }
+            if (abilityInfo.)
+                _abilityParameters.Add(null, "Радиус", abilityInfo.AreaRadius.ToString(), ValueUnits.Cells);
+            _abilityParameters.Add(null, "Откат: ", abilityInfo.CoolDown.ToString(), ValueUnits.Turns);
         }
 
         //private bool HasEffect(AbilityInfo abilityInfo, string descriptionFlag, out AbilityEffect effect)

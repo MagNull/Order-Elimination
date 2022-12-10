@@ -63,11 +63,11 @@ MonoBehaviour:
     Duration: 0
     TickValue: 0
     DescriptionFlag: 
-    ShowInAbilityDescription: 1
+    ShowInAbilityDescription: 0
     EffectView:
       EffectName: 
       EffectIcon: {fileID: 0}
-      DisplayedProperties: []
+      DisplayAsMainEffect: 0
   - Type: 0
     HasProbability: 0
     Probability: 0
@@ -84,11 +84,11 @@ MonoBehaviour:
     Duration: 0
     TickValue: 0
     DescriptionFlag: 
-    ShowInAbilityDescription: 0
+    ShowInAbilityDescription: 1
     EffectView:
-      EffectName: 
+      EffectName: "\u0422\u0443\u043F\u0430 \u0443\u0440\u043E\u043D"
       EffectIcon: {fileID: 0}
-      DisplayedProperties: []
+      DisplayAsMainEffect: 1
   - Type: 3
     HasProbability: 0
     Probability: 0
@@ -105,8 +105,8 @@ MonoBehaviour:
     Duration: 5
     TickValue: 5
     DescriptionFlag: 
-    ShowInAbilityDescription: 0
+    ShowInAbilityDescription: 1
     EffectView:
-      EffectName: 
+      EffectName: "\u041A\u0440\u043E\u0432\u043E\u0442\u0435\u0447\u0435\u043D\u0438\u0435"
       EffectIcon: {fileID: 0}
-      DisplayedProperties: []
+      DisplayAsMainEffect: 0
