@@ -117,6 +117,7 @@ namespace OrderElimination
             foreach(var squad in _squads)
             {
                 squad.Move(FindNearestPoint(squad));
+                squad.AlreadyMove = false;
             }
         }
 
