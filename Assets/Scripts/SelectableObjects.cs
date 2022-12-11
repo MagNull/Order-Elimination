@@ -16,5 +16,14 @@ namespace OrderElimination
         {
             _selectableObjects.Add(selectableObject);
         }
+
+        public List<Squad> GetSquads()
+        {
+            var squads = new List<Squad>();
+            foreach (var temp in _selectableObjects)
+                if(temp is Squad squad)
+                    squads.Add(squad);
+            return squads;
+        }
     }
 }
