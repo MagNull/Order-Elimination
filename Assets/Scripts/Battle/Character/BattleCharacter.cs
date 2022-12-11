@@ -135,6 +135,9 @@ public class BattleCharacter : IAbilityCaster //TODO: Add IAbilityCaster like in
         }
     }
 
+    public virtual void PlayTurn()
+    { }
+
     public void RemoveTickEffect(ITickEffect effect)
     {
         switch (effect)

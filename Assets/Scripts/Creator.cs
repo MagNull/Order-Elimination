@@ -41,9 +41,9 @@ namespace OrderElimination
             return planetPoint;
         }
 
-        public Squad CreateSquad(SquadInfo squadInfo)
+        public Squad CreateSquad(Vector3 position)
         {
-            var squad = _objectResolver.Instantiate(_squadPrefab, squadInfo.Position, Quaternion.identity);
+            var squad = _objectResolver.Instantiate(_squadPrefab, position, Quaternion.identity);
             Created?.Invoke(squad);
             return squad;
         }
@@ -54,7 +54,7 @@ namespace OrderElimination
             return path;
         }
 
-        //TODO(Иван): Переделать на включение/выключение кнопки(без создания новой)
+        //TODO(РРІР°РЅ): РџРµСЂРµРґРµР»Р°С‚СЊ РЅР° РІРєР»СЋС‡РµРЅРёРµ/РІС‹РєР»СЋС‡РµРЅРёРµ РєРЅРѕРїРєРё(Р±РµР· СЃРѕР·РґР°РЅРёСЏ РЅРѕРІРѕР№)
         public Button CreateSquadButton(Vector3 position)
         {
             Vector3 _position = new Vector3((Screen.width / 100) * 88, position.y, 0);

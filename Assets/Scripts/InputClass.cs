@@ -1,5 +1,8 @@
 using UnityEngine;
 using System;
+using System.IO;
+using System.Xml;
+using Unity.VisualScripting;
 
 namespace OrderElimination
 {
@@ -54,6 +57,26 @@ namespace OrderElimination
             TargetSelected?.Invoke(selectedSquad, end);
             selectedSquad.Unselect();
             selectedSquad.Move(end);
+            SavePositionToXml();
+        }
+
+        private void SavePositionToXml()
+        {
+            var squads = _selectableObjects.GetSquads();
+            
+            using XmlWriter writer =
+                XmlWriter.Create(Application.dataPath + "/Resources" + "/Xml" + "/SquadPositions.xml");
+            
+            writer.WriteStartElement("Positions");
+            
+            foreach (var squad in squads)
+            {
+                if(squad.IsDestroyed())
+                    continue;
+                writer.WriteRaw(squad.transform.position.ToString());
+            }
+            writer.WriteEndElement();
+            writer.Flush();
         }
     }
 }

@@ -19,7 +19,7 @@ public class CharacterArrangeDirector
     {
         _charactersMediator = charactersMediator;
         _characterFactory = characterFactory;
-        _enemiesInfo = _charactersMediator.GetBattleCharactersInfo();
+        _enemiesInfo = _charactersMediator.GetBattleEnemyInfo();
     }
 
     public void SetArrangementMap(BattleMap map) => _arrangementMap = map;

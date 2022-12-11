@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Xml;
 using UnityEngine.EventSystems;
 
 namespace OrderElimination
@@ -49,14 +50,39 @@ namespace OrderElimination
 
         private void DeserializeSquads()
         {
+            var positions = GetPositionsSquad();
+            
             var squadsInfo = Resources.LoadAll<SquadInfo>("");
+            var count = 0;
             foreach(var a in squadsInfo)
             {
-                var squad = _creator.CreateSquad(a);
+                var squad = _creator.CreateSquad(positions[count++]);
                 var button = _creator.CreateSquadButton(a.PositionOnOrderPanel);
                 squad.SetOrderButton(button);
                 _squads.Add(squad);
             }
+        }
+
+        //Не заглядывай сюда если жизнь дорога
+        private List<Vector3> GetPositionsSquad()
+        {
+            using var reader = XmlReader
+                .Create(Application.dataPath + "/Resources" + "/Xml" + "/SquadPositions.xml");
+            reader.MoveToContent();
+            var positionsString = reader.ReadElementContentAsString();
+            
+            var temp = positionsString
+                .Split(new []{"(", ")", ", ", ".00"}, StringSplitOptions.RemoveEmptyEntries);
+            var positions = new List<Vector3>();
+            for (int i = 0; i < temp.Length; i += 3)
+            {
+                var x = Convert.ToInt32(temp[i]);
+                var y = Convert.ToInt32(temp[i + 1]);
+                var z = Convert.ToInt32(temp[i + 2]);
+                positions.Add(new Vector3(x, y, z));
+            }
+
+            return positions;
         }
         
         private void UpdateSettings()
@@ -90,10 +116,24 @@ namespace OrderElimination
         {
             foreach(var squad in _squads)
             {
-                //TODO
-                //Пока задается как первый поинт. Если дальше будет сохранение - поменять
-                squad.Move(_planetPoints[0]);
+                squad.Move(FindNearestPoint(squad));
+                squad.AlreadyMove = false;
             }
+        }
+
+        private PlanetPoint FindNearestPoint(Squad squad)
+        {
+            PlanetPoint nearestPoint = null;
+            double minDistance = double.MaxValue;
+            foreach (var point in _planetPoints)
+            {
+                var distance = Vector3.Distance(squad.transform.position, point.transform.position);
+                if (!(minDistance > distance)) continue;
+                minDistance = distance;
+                nearestPoint = point;
+            }
+
+            return nearestPoint;
         }
     }
 }
