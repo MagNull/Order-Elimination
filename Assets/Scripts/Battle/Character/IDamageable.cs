@@ -15,6 +15,15 @@ public enum DamageHealTarget
     OnlyArmor,
 }
 
+public struct TakeDamageInfo
+{
+    public int RemainHealth;
+    public int RemainArmor;
+    public DamageCancelType CancelType;
+    public IBattleObject Attacker;
+    public IBattleObject Target;
+}
+
 public interface IDamageable
 {
     event Action<int, int, DamageCancelType> Damaged;

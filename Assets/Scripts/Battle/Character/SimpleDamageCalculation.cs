@@ -8,7 +8,7 @@ namespace OrderElimination.Battle
 {
     public class SimpleDamageCalculation : IDamageCalculation
     {
-        public (int healtDamage, int armorDamage, DamageCancelType damageCancelType) CalculateDamage(int damage,
+        public (int healthDamage, int armorDamage, DamageCancelType damageCancelType) CalculateDamage(int damage,
             DamageModificator damageModificator, int armor, int accuracy, int evasion,
             DamageHealTarget damageHealTarget, List<IncomingBuff> incomingDebuffs)
         {

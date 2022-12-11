@@ -5,18 +5,16 @@ namespace CharacterAbility.AbilityEffects
 {
     public class HealAbility : Ability
     {
-        private readonly Ability _nextAbility;
         private readonly DamageHealTarget _damageHealTarget;
         private readonly int _healAmount;
         private readonly AbilityScaleFrom _abilityScaleFrom;
         private readonly float _scale;
 
-        public HealAbility(IBattleObject caster, Ability nextAbility, float probability, DamageHealTarget damageHealTarget,
+        public HealAbility(IBattleObject caster, Ability effects, float probability, DamageHealTarget damageHealTarget,
             int healAmount,
-            AbilityScaleFrom abilityScaleFrom, float scale, BattleObjectSide filter) : base(caster, nextAbility, filter, probability)
+            AbilityScaleFrom abilityScaleFrom, float scale, BattleObjectSide filter) : base(caster, effects, filter, probability)
         {
             _scale = scale;
-            _nextAbility = nextAbility;
             _damageHealTarget = damageHealTarget;
             _healAmount = healAmount;
             _abilityScaleFrom = abilityScaleFrom;
@@ -37,8 +35,6 @@ namespace CharacterAbility.AbilityEffects
                 for (var i = 0; i < _healAmount; i++)
                     targetCharacter.TakeRecover(heal, stats.Accuracy, _damageHealTarget);
             }
-
-            _nextAbility?.Use(target, stats);
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using CharacterAbility.AbilityEffects;
+using UnityEngine;
 
 namespace CharacterAbility
 {
@@ -16,8 +17,11 @@ namespace CharacterAbility
         public AbilityView CreateAbilityView(AbilityInfo abilityInfo, BattleCharacter caster)
         {
             var ability = CreateAbility(abilityInfo, caster);
-            if(abilityInfo.Type == AbilityInfo.AbilityType.Passive)
+            if (abilityInfo.Type == AbilityInfo.AbilityType.Passive)
+            {
+                Debug.Log("Create " + abilityInfo.Name);
                 ability.Use(caster, caster.Stats);
+            }
 
             return new AbilityView(caster, ability, abilityInfo, _battleMapView);
         }
@@ -34,7 +38,7 @@ namespace CharacterAbility
                     ability = AddEffects(abilityInfo.PassiveParams.Effects, ability, caster);
                     break;
             }
-            
+
             ability = abilityInfo.Type switch
             {
                 AbilityInfo.AbilityType.Active => new ActiveAbility(caster, ability,
@@ -95,10 +99,15 @@ namespace CharacterAbility
                             effect.Duration,
                             effect.TickValue, effect.Filter);
                         break;
-                    case AbilityEffectType.Buff:
-                        ability = new BuffAbility(caster, ability, probability, effect.BuffType, effect.BuffValue,
+                    case AbilityEffectType.TickingBuff:
+                        ability = new TickingBuffAbility(caster, ability, probability, effect.BuffType,
+                            effect.BuffValue,
                             effect.Duration,
                             effect.Filter);
+                        break;
+                    case AbilityEffectType.ConditionalBuff:
+                        ability = new ConditionalBuffAbility(caster, ability, probability, effect.BuffType,
+                            effect.BuffValue, effect.ConditionType, effect.Filter);
                         break;
                     case AbilityEffectType.Stun:
                         ability = new StunAbility(caster, ability, probability, effect.Filter);

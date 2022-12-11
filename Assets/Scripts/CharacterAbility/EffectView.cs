@@ -97,9 +97,9 @@ namespace CharacterAbility
                 var valuePrefix = effect.ModificatorValue > 0 ? "+" : "";
                 result.AddDisplayedParameter("Точность", $"{valuePrefix}{effect.ModificatorValue}", ValueUnits.Percents);
             }
-            if (effect.Type == AbilityEffectType.Buff || effect.Type == AbilityEffectType.OverTime)
+            if (effect.Type == AbilityEffectType.TickingBuff || effect.Type == AbilityEffectType.OverTime)
             {
-                if (effect.Type == AbilityEffectType.Buff)
+                if (effect.Type == AbilityEffectType.TickingBuff)
                 {
                     var valuePrefix = effect.BuffValue > 0 ? "+" : "";
                     result.AddDisplayedParameter(

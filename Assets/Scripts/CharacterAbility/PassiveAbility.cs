@@ -1,4 +1,5 @@
-﻿using OrderElimination;
+﻿using System;
+using OrderElimination;
 using OrderElimination.Battle;
 using OrderElimination.BattleMap;
 using UnityEngine;
@@ -8,12 +9,14 @@ namespace CharacterAbility
     public class PassiveAbility : Ability
     {
         private readonly PassiveAbilityParams.PassiveTriggerType _passiveTriggerType;
+        private readonly Ability _effects;
 
         public PassiveAbility(IBattleObject caster, PassiveAbilityParams.PassiveTriggerType passiveTriggerType,
-            Ability nextAbility, BattleObjectSide filter, float probability) : base(caster, nextAbility, filter,
+            Ability effects, BattleObjectSide filter, float probability) : base(caster, effects, filter,
             probability)
         {
             _passiveTriggerType = passiveTriggerType;
+            _effects = effects;
         }
 
         protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
@@ -25,16 +28,19 @@ namespace CharacterAbility
                     {
                         if (cancelType != DamageCancelType.None)
                             return;
-                        Use(target, stats);
+                        _effects?.Use(target, stats);
                         Debug.Log("Apply Damage Passive");
                     };
                     break;
                 case PassiveAbilityParams.PassiveTriggerType.Movement:
                     target.Moved += (from, to) =>
                     {
-                        Debug.Log("Apply Move passive");
+                        if(to.GetObject() is EnvironmentObject)
+                            _effects?.Use(target, stats);
                     };
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }

@@ -19,12 +19,12 @@ namespace OrderElimination.BattleMap
         {
             get
             {
-                Debug.LogWarning("Try get view for null battle object");
+                Debug.LogError("Try get view for null battle object");
                 throw new NullReferenceException();
             }
             set
             {
-                Debug.LogWarning("Try set view form null battle object");
+                Debug.LogError("Try set view form null battle object");
                 throw new NullReferenceException();
             }
         }
@@ -58,7 +58,7 @@ namespace OrderElimination.BattleMap
             Debug.LogWarning("Try Damage Empty Object");
         }
 
-        public void ClearOverEffects()
+        public void ClearTickEffects()
         {
             throw new NotImplementedException();
         }

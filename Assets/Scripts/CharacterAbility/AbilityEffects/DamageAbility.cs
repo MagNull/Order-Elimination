@@ -6,7 +6,6 @@ namespace CharacterAbility.AbilityEffects
 {
     public class DamageAbility : Ability
     {
-        private readonly Ability _nextEffect;
         private readonly BattleMap _battleMap;
         private readonly DamageHealTarget _damageHealTarget;
         private readonly int _damageAmounts;
@@ -22,7 +21,6 @@ namespace CharacterAbility.AbilityEffects
             _scaleFrom = scaleFrom;
             _attackScale = attackScale;
             _damageAmounts = damageAmounts;
-            _nextEffect = nextEffect;
             _battleMap = battleMap;
             _damageHealTarget = damageHealTarget;
         }
@@ -36,7 +34,6 @@ namespace CharacterAbility.AbilityEffects
                 for (var i = 0; i < _damageAmounts; i++)
                     target.TakeDamage(damage, stats.Accuracy, _damageHealTarget, stats.DamageModificator);
             }
-            _nextEffect?.Use(target, stats);
         }
 
         private int ApplyScalability(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)

@@ -60,9 +60,9 @@ public class BattleCharacter : IActor
         var damageTaken =
             _damageCalculation.CalculateDamage(damage, damageModificator, _battleStats.Armor, accuracy, _battleStats.Evasion,
                 damageHealTarget, _incomingTickEffects);
-        Damaged?.Invoke(damageTaken.armorDamage, damageTaken.healtDamage, damageTaken.damageCancelType);
+        Damaged?.Invoke(damageTaken.armorDamage, damageTaken.healthDamage, damageTaken.damageCancelType);
         _battleStats.Armor -= damageTaken.armorDamage;
-        _battleStats.Health -= damageTaken.healtDamage;
+        _battleStats.Health -= damageTaken.healthDamage;
 
         if (_battleStats.Health > 0) return;
         _battleStats.Health = 0;
@@ -91,7 +91,7 @@ public class BattleCharacter : IActor
         }
     }
 
-    public void ClearOverEffects()
+    public void ClearTickEffects()
     {
         _tickEffects.Clear();
     }

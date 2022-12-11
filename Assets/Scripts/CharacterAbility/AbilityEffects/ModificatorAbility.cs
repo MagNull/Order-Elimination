@@ -5,15 +5,13 @@ namespace CharacterAbility.AbilityEffects
 {
     public class ModificatorAbility : Ability
     {
-        private readonly Ability _nextAbility;
         private readonly ModificatorType _modificatorType;
         private readonly int _modificatorValue;
 
-        public ModificatorAbility(IBattleObject caster, Ability nextAbility, float probability, ModificatorType modificatorType,
-            int modificatorValue, BattleObjectSide filter) : base(caster, nextAbility, filter, probability)
+        public ModificatorAbility(IBattleObject caster, Ability effects, float probability, ModificatorType modificatorType,
+            int modificatorValue, BattleObjectSide filter) : base(caster, effects, filter, probability)
         {
             _modificatorValue = modificatorValue;
-            _nextAbility = nextAbility;
             _modificatorType = modificatorType;
         }
 
@@ -37,8 +35,6 @@ namespace CharacterAbility.AbilityEffects
                         throw new ArgumentOutOfRangeException();
                 }
             }
-
-            _nextAbility.Use(target, modifiedStats);
         }
     }
 }

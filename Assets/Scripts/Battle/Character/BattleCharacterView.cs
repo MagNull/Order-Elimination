@@ -58,7 +58,7 @@ public class BattleCharacterView : MonoBehaviour
         _character.Damaged -= OnDamaged;
         _character.Died -= OnDied;
         BattleSimulation.RoundStarted -= OnRoundStart;
-        _character.ClearOverEffects();
+        _character.ClearTickEffects();
     }
 
     private void OnRoundStart()

@@ -16,9 +16,16 @@ namespace CharacterAbility
         Heal,
         Move,
         OverTime,
-        Buff,
+        TickingBuff,
+        ConditionalBuff,
         Modificator,
         Stun
+    }
+
+    public enum BuffConditionType
+    {
+        Moved,
+        Damaged
     }
 
     public enum AbilityScaleFrom
@@ -87,12 +94,14 @@ namespace CharacterAbility
 
         [ShowIf("@Type == AbilityEffectType.OverTime")]
         public OverTimeAbilityType OverTimeType;
-        [ShowIf("@Type == AbilityEffectType.Buff")]
+        [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
         public BuffType BuffType;
-        [ShowIf("@Type == AbilityEffectType.Buff")]
+        [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
         public int BuffValue;
-        [ShowIf("@Type == AbilityEffectType.OverTime || Type == AbilityEffectType.Buff")]
+        [ShowIf("@Type == AbilityEffectType.OverTime || Type == AbilityEffectType.TickingBuff")]
         public int Duration;
+        [ShowIf("@Type == AbilityEffectType.ConditionalBuff")]
+        public BuffConditionType ConditionType;
         [ShowIf("@Type == AbilityEffectType.OverTime")]
         public int TickValue;
 

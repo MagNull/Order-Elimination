@@ -1,21 +1,23 @@
 ﻿using System;
+using CharacterAbility.AbilityEffects;
 using OrderElimination;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace CharacterAbility
 {
     public abstract class Ability
     {
-        private readonly Ability _nextAbility;
+        private readonly Ability _effects;
         private readonly float _probability;
         protected readonly IBattleObject _caster;
         protected readonly BattleObjectSide _filter;
 
-        protected Ability(IBattleObject caster, Ability nextAbility, BattleObjectSide filter,
+        protected Ability(IBattleObject caster, Ability effects, BattleObjectSide filter,
             float probability)
         {
             _caster = caster;
-            _nextAbility = nextAbility;
+            _effects = effects;
             _filter = filter;
             _probability = probability;
         }
@@ -26,9 +28,10 @@ namespace CharacterAbility
             {
                 ApplyEffect(target, stats);
             }
-            else
+
+            if (this is not ActiveAbility and not PassiveAbility)
             {
-                _nextAbility?.Use(target, stats);
+                _effects?.Use(target, stats);
             }
         }
 

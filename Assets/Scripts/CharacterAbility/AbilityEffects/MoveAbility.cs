@@ -6,13 +6,11 @@ namespace CharacterAbility.AbilityEffects
 {
     public class MoveAbility : Ability
     {
-        private readonly Ability _nextAbility;
         private readonly BattleMap _battleMap;
 
-        public MoveAbility(IBattleObject caster, Ability nextAbility, float probability, BattleMap battleMap,
-            BattleObjectSide filter) : base(caster, nextAbility, filter, probability)
+        public MoveAbility(IBattleObject caster, Ability effects, float probability, BattleMap battleMap,
+            BattleObjectSide filter) : base(caster, effects, filter, probability)
         {
-            _nextAbility = nextAbility;
             _battleMap = battleMap;
         }
 
@@ -36,7 +34,6 @@ namespace CharacterAbility.AbilityEffects
             }
 
             _battleMap.MoveTo(_caster, targetPosition.x, targetPosition.y);
-            _nextAbility?.Use(target, stats);
         }
     }
 }

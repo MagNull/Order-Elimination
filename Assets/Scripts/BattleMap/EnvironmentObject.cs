@@ -61,7 +61,7 @@ namespace OrderElimination.BattleMap
             throw new NotImplementedException();
         }
 
-        public void ClearOverEffects()
+        public void ClearTickEffects()
         {
             throw new NotImplementedException();
         }
