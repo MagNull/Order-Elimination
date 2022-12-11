@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace UIManagement
 {
-    public class PauseMenuPanel : UIPanel, IUIPanel, IDebuggablePanel<PauseMenuPanel>
+    public class PauseMenuPanel : UIPanel, IDebuggablePanel<PauseMenuPanel>
     {
         [SerializeField] private Button _saveGameButton;
         [SerializeField] private Button _loadGameButton;
@@ -40,17 +40,17 @@ namespace UIManagement
         protected override void Initialize()
         {
             base.Initialize();
+            _saveGameButton.onClick.RemoveListener(OnSaveButtonPressed);
+            _loadGameButton.onClick.RemoveListener(OnLoadButtonPressed);
+            _returnButton.onClick.RemoveListener(OnReturnButtonPressed);
+            _musicSlider.onValueChanged.RemoveListener(OnMusicVolumeChanged);
+            _soundSlider.onValueChanged.RemoveListener(OnSoundVolumeChanged);
+
             _saveGameButton.onClick.AddListener(OnSaveButtonPressed);
             _loadGameButton.onClick.AddListener(OnLoadButtonPressed);
             _returnButton.onClick.AddListener(OnReturnButtonPressed);
             _musicSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
             _soundSlider.onValueChanged.AddListener(OnSoundVolumeChanged);
-        }
-
-        public override void Close()
-        {
-            gameObject.SetActive(false);
-            CallOnClosedEvent();
         }
 
         public override void Open()

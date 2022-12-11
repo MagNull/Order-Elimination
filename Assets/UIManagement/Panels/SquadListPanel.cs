@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace UIManagement
 {
-    public class SquadListPanel : UIPanel, IUIPanel
+    public class SquadListPanel : UIPanel
     {
         [SerializeField] private CharacterList _characterList;
         public override PanelType PanelType => PanelType.SquadList;

@@ -8,34 +8,31 @@ using UnityEngine;
 
 namespace UIManagement
 {
+    [ExecuteAlways]
     public class UIController : MonoBehaviour
     {
         [SerializeField] private List<IUIPanel> _panels = new List<IUIPanel>();
 
-        private PanelType _displayedPanel;
-        [ShowInInspector]
-        public PanelType DispayedPanel
+        [Button, DisableInEditorMode]
+        public void ShowPanelIsolated(PanelType panel)
         {
-            get => _displayedPanel;
-            set
-            {
-                _displayedPanel = value;
-                HideAllPanels();
-                ShowPanel(value);
-            }
+            CloseAllPanels();
+            OpenPanel(panel);
         }
 
-        public void ShowPanel(PanelType panel)
+        public IUIPanel OpenPanel(PanelType panel)
         {
-            _panels.Single(p => p.PanelType == panel).Open();
+            var panelToOpen = _panels.Single(p => p.PanelType == panel);
+            panelToOpen.Open();
+            return panelToOpen;
         }
 
-        public void HidePanel(PanelType panel)
+        public void ClosePanel(PanelType panel)
         {
             _panels.Single(p => p.PanelType == panel).Close();
         }
 
-        public void HideAllPanels()
+        public void CloseAllPanels()
         {
             foreach (var p in _panels)
             {
@@ -50,39 +47,14 @@ namespace UIManagement
             _panels = GetComponentsInChildren<IUIPanel>(true).ToList();
         }
 
-        private void Start()
-        {
-            HideAllPanels();
-            foreach (var p in _panels)
-            {
-                if (p is IDebuggable debuggable)
-                    debuggable.StartDebugging();
-            }
-        }
-
-        #region temporary debug
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha0))
-            {
-                HideAllPanels();
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                HideAllPanels();
-                ShowPanel(PanelType.Pause);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                HideAllPanels();
-                ShowPanel(PanelType.Order);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                HideAllPanels();
-                ShowPanel(PanelType.SquadList);
-            }
-        }
-        #endregion
+        //private void Start()
+        //{
+        //    HideAllPanels();
+        //    foreach (var p in _panels)
+        //    {
+        //        if (p is IDebuggable debuggable)
+        //            debuggable.StartDebugging();
+        //    }
+        //}
     }
 }

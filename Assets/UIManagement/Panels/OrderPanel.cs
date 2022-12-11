@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace UIManagement
 {
-    public class OrderPanel : UIPanel, IUIPanel, IDebuggablePanel<OrderPanel>
+    public class OrderPanel : UIPanel, IDebuggablePanel<OrderPanel>
     {
         [SerializeField] private Button _exploreButton;
         [SerializeField] private Button _battleButton;
@@ -27,6 +27,8 @@ namespace UIManagement
             base.Initialize();
             _exploreParameters.HasIcons = _exploreParameters.HasTexts = _exploreParameters.HasValues = true;
             _battleParameters.HasIcons = _battleParameters.HasTexts = _battleParameters.HasValues = true;
+            _exploreButton.onClick.RemoveListener(OnExploreButtonPressed);
+            _battleButton.onClick.RemoveListener(OnBattleButtonPressed);
             _exploreButton.onClick.AddListener(OnExploreButtonPressed);
             _battleButton.onClick.AddListener(OnBattleButtonPressed);
         }
@@ -48,18 +50,6 @@ namespace UIManagement
             UpdateOrderInfo(new PlanetPointOrderInfo());
         }
         #endregion
-
-        public override void Close()
-        {
-            gameObject.SetActive(false);
-            CallOnClosedEvent();
-        }
-
-        public override void Open()
-        {
-            gameObject.SetActive(true);
-            CallOnOpenedEvent();
-        }
 
         private void OnExploreButtonPressed()
         {
