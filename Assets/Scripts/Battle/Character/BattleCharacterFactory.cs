@@ -8,10 +8,12 @@ using VContainer;
 
 public class BattleCharacterFactory : MonoBehaviour
 {
+    [SerializeField] private BattleMap _map;
     [SerializeField]
     private BattleCharacterView charPrefab;
     private AbilityFactory _abilityFactory;
-
+    [SerializeField] private AbilityInfo _bite;
+        
     [Inject]
     public void Construct(AbilityFactory abilityFactory)
     {
@@ -27,7 +29,7 @@ public class BattleCharacterFactory : MonoBehaviour
         //TODO: Generation Enemy 
         if (side == BattleObjectSide.Enemy)
         {
-            character = new EnemyDog(_map, info.GetAbilityInfos().Last(), new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation());
+            character = new EnemyDog(_map, _abilityFactory.CreateAbility(_bite, character), new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation());
         }
         battleCharacterView.GetComponentInChildren<SpriteRenderer>().sprite = info.GetView();
         battleCharacterView.Init(character, CreateCharacterAbilities(info.GetAbilityInfos(), character));
