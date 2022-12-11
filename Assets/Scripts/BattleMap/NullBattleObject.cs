@@ -8,21 +8,35 @@ namespace OrderElimination.BattleMap
     public class NullBattleObject : IBattleObject
     {
         public event Action<int, int, DamageCancelType> Damaged;
+        public event Action<Cell, Cell> Moved;
         public event Action Died;
+
+        public BattleObjectSide Side => BattleObjectSide.None;
+
+        public GameObject View
+        {
+            get
+            {
+                Debug.LogWarning("Try get view for null battle object");
+                throw new NullReferenceException();
+            }
+            set
+            {
+                Debug.LogWarning("Try set view form null battle object");
+                throw new NullReferenceException();
+            }
+        }
+
+        public IReadOnlyBattleStats Stats { get; }
 
         public void TakeDamage(int damage, int accuracy, DamageHealType damageHealType)
         {
             Debug.LogWarning("Try Damage Empty Object");
         }
 
-        public BattleObjectSide Side => BattleObjectSide.None;
-
-        public IReadOnlyBattleStats Stats { get; }
-
-        public GameObject GetView()
+        public void OnMoving(Cell from, Cell to)
         {
-            Debug.LogError("Try get view form null battle object");
-            throw new NullReferenceException();
+            Debug.LogWarning("Try Move Empty Object");
         }
 
         public void TakeRecover(int value, int accuracy, DamageHealType damageHealType)
@@ -33,12 +47,12 @@ namespace OrderElimination.BattleMap
 
         public void AddTickEffect(ITickEffect effect)
         { 
-            Debug.LogError("Try add tick effect to null battle object");
+            Debug.LogWarning("Try add tick effect to null battle object");
         }
 
         public void RemoveTickEffect(ITickEffect effect)
         { 
-            Debug.LogError("Try remove tick effect from null battle object");
+            Debug.LogWarning("Try remove tick effect from null battle object");
         }
 
         public void ClearOverEffects()
@@ -48,7 +62,7 @@ namespace OrderElimination.BattleMap
 
         public void OnTurnStart()
         { 
-            Debug.LogError("Try call OnTurnStart from null battle object");
+            Debug.LogWarning("Try call OnTurnStart from null battle object");
             throw new NullReferenceException();
         }
 

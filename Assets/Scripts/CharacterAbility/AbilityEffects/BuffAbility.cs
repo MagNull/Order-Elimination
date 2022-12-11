@@ -12,9 +12,9 @@ namespace CharacterAbility.AbilityEffects
         private readonly int _value;
         private readonly int _duration;
 
-        public BuffAbility(IAbilityCaster caster, Ability nextAbility, BuffType buffType, int value, int duration,
-            BattleObjectSide filter) :
-            base(caster, filter)
+        public BuffAbility(IBattleObject caster, Ability nextAbility, float probability, BuffType buffType, int value,
+            int duration, BattleObjectSide filter) :
+            base(caster, nextAbility, filter, probability)
         {
             _nextAbility = nextAbility;
             _buffType = buffType;
@@ -22,26 +22,26 @@ namespace CharacterAbility.AbilityEffects
             _duration = duration;
         }
 
-        public override void Use(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)
+        protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
             if (_filter == BattleObjectSide.None || target.Side == _filter)
             {
                 ITickEffect buff = _buffType switch
                 {
-                    BuffType.Evasion => new EvasionStatsBuff(target, _value, _duration),
-                    BuffType.Attack => new EvasionStatsBuff(target, _value, _duration),
-                    BuffType.Health => new EvasionStatsBuff(target, _value, _duration),
-                    BuffType.Movement => new EvasionStatsBuff(target, _value, _duration),
-                    BuffType.IncomingAccuracy => new IncomingDebuff(target, IncomingDebuffType.Accuracy, _duration,
+                    BuffType.Evasion => new EvasionStatsBuff(_value, _duration),
+                    BuffType.Attack => new EvasionStatsBuff(_value, _duration),
+                    BuffType.Health => new EvasionStatsBuff(_value, _duration),
+                    BuffType.Movement => new EvasionStatsBuff( _value, _duration),
+                    BuffType.IncomingAccuracy => new IncomingBuff(IncomingDebuffType.Accuracy, _duration,
                         _value),
-                    BuffType.IncomingAttack => new IncomingDebuff(target, IncomingDebuffType.Attack, _duration,
+                    BuffType.IncomingAttack => new IncomingBuff(IncomingDebuffType.Attack, _duration,
                         _value),
                     _ => throw new ArgumentOutOfRangeException()
                 };
                 target.AddTickEffect(buff);
             }
 
-            _nextAbility?.Use(target, stats, battleMap);
+            _nextAbility?.Use(target, stats);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace CharacterAbility
     public class AbilityView
     {
         public event Action Casted;
-        private readonly BattleCharacter _caster;
+        private readonly IAbilityCaster _caster;
         private readonly Ability _ability;
         private readonly BattleMapView _battleMapView;
         private readonly AbilityInfo _abilityInfo;
@@ -27,7 +27,7 @@ namespace CharacterAbility
 
         private CancellationTokenSource _cancellationTokenSource;
 
-        public AbilityView(BattleCharacter caster, Ability ability, AbilityInfo info, BattleMapView battleMapView)
+        public AbilityView(IAbilityCaster caster, Ability ability, AbilityInfo info, BattleMapView battleMapView)
         {
             _caster = caster;
             _ability = ability;
@@ -97,7 +97,7 @@ namespace CharacterAbility
 
             if (!_caster.TrySpendAction(_abilityInfo.ActionType))
                 throw new Exception("Dont enough actions");
-            _ability.Use(target, _caster.Stats, _battleMapView.Map);
+            _ability.Use(target, _caster.Stats);
 
             _coolDownTimer = _abilityInfo.CoolDown;
             Casted?.Invoke();
@@ -180,6 +180,8 @@ namespace CharacterAbility
                     break;
                 case TargetType.Empty:
                     targets.AddRange(_battleMapView.Map.GetEmptyObjectsInRadius(_caster, _abilityDistance));
+                    targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(_caster, _abilityDistance,
+                        BattleObjectSide.Environment));
                     break;
                 case TargetType.Enemy:
                     targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(_caster, _abilityDistance,
@@ -196,6 +198,8 @@ namespace CharacterAbility
                         BattleObjectSide.Enemy));
                     targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(_caster, _abilityDistance,
                         BattleObjectSide.Ally));
+                    targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(_caster, _abilityDistance,
+                        BattleObjectSide.Environment));
                     targets.Add(_caster);
                     break;
                 default:

@@ -7,34 +7,36 @@ namespace CharacterAbility.AbilityEffects
     public class DamageAbility : Ability
     {
         private readonly Ability _nextEffect;
+        private readonly BattleMap _battleMap;
         private readonly DamageHealType _damageHealType;
         private readonly int _damageAmounts;
         private readonly float _attackScale;
         private readonly AbilityScaleFrom _scaleFrom;
 
-        public DamageAbility(IAbilityCaster caster, Ability nextEffect, DamageHealType damageHealType,
+        public DamageAbility(IBattleObject caster, Ability nextEffect, float probability, BattleMap battleMap, DamageHealType damageHealType,
             int damageAmounts,
             AbilityScaleFrom scaleFrom,
             float attackScale, BattleObjectSide filter) :
-            base(caster, filter)
+            base(caster, nextEffect, filter, probability)
         {
             _scaleFrom = scaleFrom;
             _attackScale = attackScale;
             _damageAmounts = damageAmounts;
             _nextEffect = nextEffect;
+            _battleMap = battleMap;
             _damageHealType = damageHealType;
         }
 
-        public override void Use(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)
+        protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
             if (_filter == BattleObjectSide.None || target.Side == _filter)
             {
-                var damage = CalculateDamage(target, stats, battleMap);
+                var damage = CalculateDamage(target, stats, _battleMap);
 
                 for (var i = 0; i < _damageAmounts; i++)
                     target.TakeDamage(damage, stats.Accuracy, _damageHealType);
             }
-            _nextEffect?.Use(target, stats, battleMap);
+            _nextEffect?.Use(target, stats);
         }
 
         private int CalculateDamage(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)

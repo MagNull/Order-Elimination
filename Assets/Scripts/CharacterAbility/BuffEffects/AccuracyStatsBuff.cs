@@ -5,21 +5,21 @@ using UnityEngine;
 namespace CharacterAbility.BuffEffects
 {
     [Serializable]
-    public class EvasionStatsBuff : TickEffectBase, IStatsBuffEffect
+    public class AccuracyStatsBuff : TickEffectBase, IStatsBuffEffect
     {
         [SerializeField]
         private int _value;
 
-        public EvasionStatsBuff(int value, int duration) : base(duration)
+        public AccuracyStatsBuff(int value, int duration) : base(duration)
         {
             _value = value;
         }
-
+        
         public BattleStats Apply(IBattleObject target)
         {
             var newStats = new BattleStats(target.Stats)
             {
-                Evasion = target.Stats.Evasion + _value
+                Accuracy = target.Stats.Accuracy + _value
             };
             return newStats;
         }
@@ -28,7 +28,7 @@ namespace CharacterAbility.BuffEffects
         {
             var newStats = new BattleStats(target.Stats)
             {
-                Evasion = target.Stats.Evasion - _value
+                Accuracy = target.Stats.Accuracy - _value
             };
             return newStats;
         }

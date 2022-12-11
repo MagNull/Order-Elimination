@@ -11,8 +11,9 @@ namespace CharacterAbility.AbilityEffects
         private readonly AbilityScaleFrom _abilityScaleFrom;
         private readonly float _scale;
 
-        public HealAbility(IAbilityCaster caster, Ability nextAbility, DamageHealType damageHealType, int healAmount,
-            AbilityScaleFrom abilityScaleFrom, float scale, BattleObjectSide filter) : base(caster, filter)
+        public HealAbility(IBattleObject caster, Ability nextAbility, float probability, DamageHealType damageHealType,
+            int healAmount,
+            AbilityScaleFrom abilityScaleFrom, float scale, BattleObjectSide filter) : base(caster, nextAbility, filter, probability)
         {
             _scale = scale;
             _nextAbility = nextAbility;
@@ -21,11 +22,11 @@ namespace CharacterAbility.AbilityEffects
             _abilityScaleFrom = abilityScaleFrom;
         }
 
-        public override void Use(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)
+        protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
             if (_filter == BattleObjectSide.None || target.Side == _filter)
             {
-                BattleCharacter targetCharacter = target.GetView().GetComponent<BattleCharacterView>().Model;
+                BattleCharacter targetCharacter = target.View.GetComponent<BattleCharacterView>().Model;
                 var heal = _abilityScaleFrom switch
                 {
                     AbilityScaleFrom.Attack => _healAmount + (int) (stats.Attack * _scale),
@@ -37,7 +38,7 @@ namespace CharacterAbility.AbilityEffects
                     targetCharacter.TakeRecover(heal, stats.Accuracy, _damageHealType);
             }
 
-            _nextAbility?.Use(target, stats, battleMap);
+            _nextAbility?.Use(target, stats);
         }
     }
 }

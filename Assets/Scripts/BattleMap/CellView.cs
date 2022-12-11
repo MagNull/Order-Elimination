@@ -14,6 +14,8 @@ public class CellView : MonoBehaviour
     [SerializeField]
     private Color _enemyColor;
     [SerializeField]
+    private Color _environmentColor;
+    [SerializeField]
     private Color _allyColor;
     private Color _deselectColor;
     private Color _basicColor;
@@ -37,6 +39,7 @@ public class CellView : MonoBehaviour
         _renderer.material.color = _model.GetObject().Side switch
         {
             BattleObjectSide.None => _lightColor,
+            BattleObjectSide.Environment => _environmentColor,
             BattleObjectSide.Enemy => _enemyColor,
             BattleObjectSide.Ally => _allyColor,
             _ => throw new ArgumentOutOfRangeException()
