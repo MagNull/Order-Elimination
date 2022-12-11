@@ -6,6 +6,7 @@ namespace OrderElimination
         private readonly SquadModel _model;
         private readonly SquadView _view;
         private PlanetPoint _planetPoint;
+        public PlanetPoint PlanetPoint => _planetPoint;
         public SquadPresenter(SquadModel model, SquadView view, PlanetPoint planetPoint)
         {
             _model = model;

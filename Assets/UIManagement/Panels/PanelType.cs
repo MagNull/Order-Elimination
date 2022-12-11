@@ -6,6 +6,7 @@ namespace UIManagement
 {
     public enum PanelType
     {
+        _BasePanel,
         Pause, 
         Order,
         SquadList,
@@ -13,5 +14,6 @@ namespace UIManagement
         BattleVictory, 
         BattleDefeat, 
         CharacterDetails, 
+        AbilityDescription
     }
 }

@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using OrderElimination;
 using Sirenix.OdinInspector;
+using UIManagement.trashToRemove_Mockups;
 using UnityEngine;
 
 namespace CharacterAbility
@@ -35,9 +39,9 @@ namespace CharacterAbility
         Attack,
         Health,
         Movement,
-        Evasion,
+        Evasion,//%
         IncomingAttack,
-        IncomingAccuracy,
+        IncomingAccuracy,//%
     }
 
     public enum ModificatorType
@@ -86,7 +90,7 @@ namespace CharacterAbility
         public BuffType BuffType;
         [ShowIf("@Type == AbilityEffectType.Buff")]
         public int BuffValue;
-        [ShowIf("@Type == AbilityEffectType.OverTime|| Type == AbilityEffectType.Buff")]
+        [ShowIf("@Type == AbilityEffectType.OverTime || Type == AbilityEffectType.Buff")]
         public int Duration;
         [ShowIf("@Type == AbilityEffectType.OverTime")]
         public int TickValue;
@@ -94,6 +98,10 @@ namespace CharacterAbility
         [Title("Description Flag")]
         [TextArea]
         public string DescriptionFlag;
+
+        public bool ShowInAbilityDescription;
+        [ShowIf("@" + nameof(ShowInAbilityDescription) + " == true")]
+        public EffectView EffectView;
     }
 
     [CreateAssetMenu(fileName = "AbilityInfo", menuName = "Ability")]
@@ -156,6 +164,7 @@ namespace CharacterAbility
 
         #region Properties
 
+        public bool HasTarget => _hasTarget;
         public TargetType TargetType => _targetType;
         public int Distance => _distance;
 
@@ -176,6 +185,8 @@ namespace CharacterAbility
         public int StartCoolDown => _startCoolDown + 1;
 
         public string Name => _name;
+
+        public string Description => _description;
 
         #endregion
 

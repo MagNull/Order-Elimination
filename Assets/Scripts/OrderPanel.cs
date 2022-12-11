@@ -7,8 +7,6 @@ namespace OrderElimination
 {
     public class OrderPanel : MonoBehaviour
     {
-        private Squad _selectedSquad;
-        private PlanetPoint _selectedPoint;
         private SquadCommander _squadCommander;
 
         [Inject]
@@ -30,29 +28,26 @@ namespace OrderElimination
 
         public void Disable() 
         {
-            if(_selectedSquad != null)
-                _selectedSquad.SetOrderButtonCharacteristics(false);
-            _selectedSquad = null;
-            _selectedPoint = null;
+            if(_squadCommander.Squad != null)
+                _squadCommander.Squad.SetOrderButtonCharacteristics(false);
             GameObject.Find("OrderCanvas").GetComponent<Canvas>().enabled = false;
         }
 
         public void SetOrder(Squad squad, PlanetPoint planetPoint)
         {
-            _selectedSquad = squad;
-            _selectedPoint = planetPoint;
-            _selectedSquad.SetOrderButtonCharacteristics(true);
+            _squadCommander.Set(squad, planetPoint);
+            squad.SetOrderButtonCharacteristics(true);
         }
 
         public void ResearchButtonIsClicked()
         {
-            _selectedSquad.SetOrder(_squadCommander.CreateResearchOrder(_selectedPoint, _selectedSquad));
+            _squadCommander.CreateResearchOrder();
             Disable();
         }
 
         public void AttackButtonIsClicked()
         {
-            _selectedSquad.SetOrder(_squadCommander.CreateAttackOrder(_selectedPoint, _selectedSquad));
+            _squadCommander.CreateAttackOrder();
             Disable();
         }
     }

@@ -92,13 +92,8 @@ namespace OrderElimination
             {
                 //TODO
                 //Пока задается как первый поинт. Если дальше будет сохранение - поменять
-                _planetPoints[0].MoveSquad(squad);
+                squad.Move(_planetPoints[0]);
             }
-        }
-
-        public void OnMouseUp() 
-        {
-            Onclick?.Invoke();
         }
     }
 }

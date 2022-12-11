@@ -19,13 +19,12 @@ namespace OrderElimination
         private SquadView _view;
         private SquadPresenter _presenter;
         [ShowInInspector]
-        private PlanetPoint _planetPoint;
         private Order _order;
         private Button _rectangleOnPanelButton;
         private CharactersMediator _charactersMediator;
         public static event Action<Squad> Selected;
         public static event Action<Squad> Unselected;
-        public PlanetPoint PlanetPoint => _planetPoint;
+        public PlanetPoint PlanetPoint => _presenter.PlanetPoint;
         public int AmountOfCharacters => _model.AmountOfMembers;
         public IReadOnlyList<Character> Members => _model.Members;
 
@@ -41,7 +40,6 @@ namespace OrderElimination
             _model = new SquadModel(_testSquadMembers);
             _view = new SquadView(transform);
             _presenter = new SquadPresenter(_model, _view, null);
-            _planetPoint = null;
             _order = null;
         }
 
@@ -51,7 +49,8 @@ namespace OrderElimination
         
         public void Move(PlanetPoint planetPoint)
         {
-            _planetPoint?.RemoveSquad();
+            PlanetPoint?.RemoveSquad();
+            planetPoint?.AddSquad();
             SetPlanetPoint(planetPoint);
             _model.Move(planetPoint);
         }
@@ -73,7 +72,6 @@ namespace OrderElimination
 
         private void SetPlanetPoint(PlanetPoint planetPoint)
         {
-            _planetPoint = planetPoint;
             _presenter.UpdatePlanetPoint(planetPoint);
         }
         

@@ -18,7 +18,6 @@ namespace OrderElimination
 
         public void ClickOnPanel()
         {
-            Debug.Log("ClickOnPanel");
             ChangeSelectedObject(null);
         }
 
@@ -54,7 +53,7 @@ namespace OrderElimination
         {
             TargetSelected?.Invoke(selectedSquad, end);
             selectedSquad.Unselect();
-            end.MoveSquad(selectedSquad);
+            selectedSquad.Move(end);
         }
     }
 }

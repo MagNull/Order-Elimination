@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CharacterAbility;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -110,9 +111,38 @@ namespace UIManagement.trashToRemove_Mockups
             {PanelType.ExplorationResult, "Итоги поиска"}, 
             {PanelType.BattleVictory, "Победа"}, 
             {PanelType.BattleDefeat, "Поражение"}, 
+            {PanelType.AbilityDescription, "Описание способности"}, 
+        };
+        private Dictionary<ValueUnits, string> _unitNames
+            = new Dictionary<ValueUnits, string>()
+        {
+                { ValueUnits.None, "" },
+                { ValueUnits.Percents, "%" },
+                { ValueUnits.Cells, " клет." },
+                { ValueUnits.Turns, " ход." },
+        };
+        private Dictionary<BuffType, string> _buffNames
+            = new Dictionary<BuffType, string>()
+        {
+                { BuffType.Movement, "Перемещение" },
+                { BuffType.Attack, "Атака" },
+                { BuffType.Health, "Здоровье" },
+                { BuffType.Evasion, "Уклонение" },
+                { BuffType.IncomingAccuracy, "Входящая точность" },
+                { BuffType.IncomingAttack, "Входящий урон" },
+        };
+        private Dictionary<OverTimeAbilityType, string> _overtimeTypeNames
+            = new Dictionary<OverTimeAbilityType, string>()
+        {
+                { OverTimeAbilityType.Damage, "Ур/ход" },
+                { OverTimeAbilityType.Heal, "Леч/ход" },
         };
 
         public string GetWindowTitleName(PanelType windowType) => _panelTitleNames[windowType];
+        //public string GetEffectParameterName( windowType) => _panelTitleNames[windowType];
+        public string GetUnits(ValueUnits unitType) => _unitNames[unitType];
+        public string GetBuffName(BuffType buffType) => _buffNames[buffType];
+        public string GetOvertimeTypeName(OverTimeAbilityType overtimeType) => _overtimeTypeNames[overtimeType];
     }
 
     public class MasterVolume

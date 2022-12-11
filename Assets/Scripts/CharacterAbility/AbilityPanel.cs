@@ -1,4 +1,5 @@
 ﻿using System;
+using UIManagement;
 using UnityEngine;
 
 namespace CharacterAbility
@@ -8,7 +9,9 @@ namespace CharacterAbility
     {
         [SerializeField]
         private AbilityButton[] _abilityButtons;
-        
+        [SerializeField]
+        private UIController _panelController;
+
         public void ResetAbilityButtons()
         {
             foreach (var button in _abilityButtons)
@@ -22,6 +25,7 @@ namespace CharacterAbility
             foreach(var button in _abilityButtons)
             {
                 button.Clicked += OnAbilityButtonClicked;
+                button.Holded += OnAbilityButtonHolded;
                 button.Casted += OnAbilityCasted;
             }
         }
@@ -31,19 +35,26 @@ namespace CharacterAbility
             foreach (var button in _abilityButtons)
             {
                 button.Clicked -= OnAbilityButtonClicked;
+                button.Holded -= OnAbilityButtonHolded;
                 button.Casted -= OnAbilityCasted;
             }
         }
 
         private void OnAbilityButtonClicked(AbilityButton abilityButton)
         {
-            foreach(var button in _abilityButtons)
+            foreach (var button in _abilityButtons)
             {
                 if(button != abilityButton)
                 {
                     button.CancelAbilityCast();
                 }
             }
+        }
+
+        private void OnAbilityButtonHolded(AbilityButton abilityButton)
+        {
+            var panel = (AbilityDescriptionPanel)_panelController.OpenPanel(PanelType.AbilityDescription);
+            panel.UpdateAbilityDescription(abilityButton.AbilityView);
         }
 
         private void OnAbilityCasted()
