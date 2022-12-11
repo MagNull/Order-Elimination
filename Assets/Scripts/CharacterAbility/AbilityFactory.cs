@@ -15,7 +15,9 @@ namespace CharacterAbility
 
         public AbilityView CreateAbilityView(AbilityInfo abilityInfo, BattleCharacter caster)
         {
-            Ability ability = CreateAbility(abilityInfo, caster);
+            var ability = CreateAbility(abilityInfo, caster);
+            if(abilityInfo.Type == AbilityInfo.AbilityType.Passive)
+                ability.Use(caster, caster.Stats);
 
             return new AbilityView(caster, ability, abilityInfo, _battleMapView);
         }
@@ -23,20 +25,41 @@ namespace CharacterAbility
         public Ability CreateAbility(AbilityInfo abilityInfo, IBattleObject caster)
         {
             Ability ability = null;
-            if (abilityInfo.HasAreaEffect)
+            switch (abilityInfo.Type)
             {
-                ability = AddEffects(abilityInfo.AreaEffects, ability, caster);
-                ability = new AreaAbility(caster, ability, _battleMapView.Map, abilityInfo.AreaRadius,
+                case AbilityInfo.AbilityType.Active:
+                    ability = ApplyActiveEffects(abilityInfo, caster, ability);
+                    break;
+                case AbilityInfo.AbilityType.Passive:
+                    ability = AddEffects(abilityInfo.PassiveParams.Effects, ability, caster);
+                    break;
+            }
+            
+            ability = abilityInfo.Type switch
+            {
+                AbilityInfo.AbilityType.Active => new ActiveAbility(caster, ability,
+                    abilityInfo.ActiveParams.TargetType == TargetType.Self, BattleObjectSide.None),
+                AbilityInfo.AbilityType.Passive => new PassiveAbility(caster, abilityInfo.PassiveParams.TriggerType,
+                    ability, BattleObjectSide.None, 100),
+                _ => throw new Exception("Unknown ability type")
+            };
+
+            return ability;
+        }
+
+        private Ability ApplyActiveEffects(AbilityInfo abilityInfo, IBattleObject caster, Ability ability)
+        {
+            if (abilityInfo.ActiveParams.HasAreaEffect)
+            {
+                ability = AddEffects(abilityInfo.ActiveParams.AreaEffects, ability, caster);
+                ability = new AreaAbility(caster, ability, _battleMapView.Map, abilityInfo.ActiveParams.AreaRadius,
                     BattleObjectSide.None);
             }
 
-            if (abilityInfo.HasTargetEffect)
+            if (abilityInfo.ActiveParams.HasTargetEffect)
             {
-                ability = AddEffects(abilityInfo.TargetEffects, ability, caster);
+                ability = AddEffects(abilityInfo.ActiveParams.TargetEffects, ability, caster);
             }
-
-            ability = new TargetAbility(caster, ability, abilityInfo.TargetType == TargetType.Self,
-                BattleObjectSide.None);
 
             return ability;
         }
@@ -55,7 +78,8 @@ namespace CharacterAbility
                             effect.ScaleFrom, effect.Scale, effect.Filter);
                         break;
                     case AbilityEffectType.Heal:
-                        ability = new HealAbility(caster, ability, probability, effect._damageHealTarget, effect.Amounts,
+                        ability = new HealAbility(caster, ability, probability, effect._damageHealTarget,
+                            effect.Amounts,
                             effect.ScaleFrom, effect.Scale, effect.Filter);
                         break;
                     case AbilityEffectType.Move:

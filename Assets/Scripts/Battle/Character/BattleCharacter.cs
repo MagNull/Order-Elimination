@@ -53,10 +53,7 @@ public class BattleCharacter : IActor
         _actionBank = new ActionBank();
     }
 
-    public void OnMoving(Cell from, Cell to)
-    {
-        //Debug.Log("Move into " + to.GetObject());
-    }
+    public void OnMoved(Cell from, Cell to) => Moved?.Invoke(from, to);
 
     public void TakeDamage(int damage, int accuracy, DamageHealTarget damageHealTarget, DamageModificator damageModificator)
     {

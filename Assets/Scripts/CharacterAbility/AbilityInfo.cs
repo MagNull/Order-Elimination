@@ -6,6 +6,7 @@ using OrderElimination;
 using Sirenix.OdinInspector;
 using UIManagement.trashToRemove_Mockups;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CharacterAbility
 {
@@ -39,9 +40,9 @@ namespace CharacterAbility
         Attack,
         Health,
         Movement,
-        Evasion,//%
+        Evasion, //%
         IncomingAttack,
-        IncomingAccuracy,//%
+        IncomingAccuracy, //%
     }
 
     public enum ModificatorType
@@ -107,6 +108,12 @@ namespace CharacterAbility
     [CreateAssetMenu(fileName = "AbilityInfo", menuName = "Ability")]
     public class AbilityInfo : SerializedScriptableObject
     {
+        public enum AbilityType
+        {
+            Active,
+            Passive
+        }
+
         [Title("General Parameters")]
         [SerializeField]
         private string _name;
@@ -124,6 +131,48 @@ namespace CharacterAbility
 
         [field: SerializeField] public ActionType ActionType { get; private set; }
 
+        [SerializeField]
+        private AbilityType _type;
+
+        [ShowIf("@_type == AbilityType.Active")]
+        [SerializeField]
+        private ActiveAbilityParams _activeParams;
+
+        [ShowIf("@_type == AbilityType.Passive")]
+        [SerializeField]
+        private PassiveAbilityParams _passiveParams;
+
+        public int CoolDown => _coolDown + 1;
+
+        public int StartCoolDown => _startCoolDown + 1;
+
+        public string Name => _name;
+
+        public string Description => _description;
+
+        public ActiveAbilityParams ActiveParams => _activeParams;
+
+        public AbilityType Type => _type;
+
+        public PassiveAbilityParams PassiveParams => _passiveParams;
+
+        public AbilityEffect GetTargetEffectByFlag(string flag) =>
+            _activeParams.TargetEffects.First(x => x.DescriptionFlag == flag);
+
+        public AbilityEffect GetAreaEffectByFlag(string flag) =>
+            _activeParams.AreaEffects.First(x => x.DescriptionFlag == flag);
+
+        private void OnValidate()
+        {
+            if (_type == AbilityType.Active)
+                _passiveParams = default;
+            else _activeParams = default;
+        }
+    }
+
+    [Serializable]
+    public struct ActiveAbilityParams
+    {
         #region Params
 
         [HideInInspector]
@@ -180,14 +229,6 @@ namespace CharacterAbility
 
         public bool DistanceFromMovement => _distanceFromMovement;
 
-        public int CoolDown => _coolDown + 1;
-
-        public int StartCoolDown => _startCoolDown + 1;
-
-        public string Name => _name;
-
-        public string Description => _description;
-
         #endregion
 
         #region Buttons
@@ -224,11 +265,24 @@ namespace CharacterAbility
         }
 
         #endregion
+    }
 
-        public AbilityEffect GetTargetEffectByFlag(string flag) =>
-            _targetEffects.First(x => x.DescriptionFlag == flag);
+    [Serializable]
+    public struct PassiveAbilityParams
+    {
+        public enum PassiveTriggerType
+        {
+            Movement,
+            Damage
+        }
 
-        public AbilityEffect GetAreaEffectByFlag(string flag) => 
-            _areaEffects.First(x => x.DescriptionFlag == flag);
+        [SerializeField]
+        private AbilityEffect[] _effects;
+        [SerializeField]
+        private PassiveTriggerType _triggerType;
+
+        public AbilityEffect[] Effects => _effects;
+
+        public PassiveTriggerType TriggerType => _triggerType;
     }
 }

@@ -32,7 +32,7 @@ namespace OrderElimination.BattleMap
         public IReadOnlyBattleStats Stats { get; }
         
         
-        public void OnMoving(Cell from, Cell to)
+        public void OnMoved(Cell from, Cell to)
         {
             Debug.LogWarning("Try Move Empty Object");
         }

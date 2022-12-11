@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using CharacterAbility;
-using UnityEngine;
 using OrderElimination.BattleMap;
 
 public class AbilityViewBinder 

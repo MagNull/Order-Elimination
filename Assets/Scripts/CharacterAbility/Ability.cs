@@ -1,5 +1,6 @@
-﻿using OrderElimination;
-using UnityEngine;
+﻿using System;
+using OrderElimination;
+using Random = UnityEngine.Random;
 
 namespace CharacterAbility
 {
@@ -10,7 +11,8 @@ namespace CharacterAbility
         protected readonly IBattleObject _caster;
         protected readonly BattleObjectSide _filter;
 
-        protected Ability(IBattleObject caster, Ability nextAbility, BattleObjectSide filter, float probability)
+        protected Ability(IBattleObject caster, Ability nextAbility, BattleObjectSide filter,
+            float probability)
         {
             _caster = caster;
             _nextAbility = nextAbility;
@@ -29,7 +31,7 @@ namespace CharacterAbility
                 _nextAbility?.Use(target, stats);
             }
         }
-        
+
         protected abstract void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats);
     }
 }

@@ -24,6 +24,7 @@ namespace CharacterAbility
         private static readonly int errorHoldTimeInMilliseconds = Math.Min(10, millisecondsToHold);
         private float? _pressedTime;
         private float? _releasedTime;
+        
         public float? HoldingTimeInSeconds
         {
             get
@@ -89,7 +90,7 @@ namespace CharacterAbility
             OnPointerUp(new PointerEventData(EventSystem.current));
         }
 
-        public AbilityInfo GetAbilityInfo() => _abilityView.Info;
+        public AbilityInfo GetAbilityInfo() => AbilityView.AbilityInfo;
 
         public void SetAbility(AbilityView abilityView)
         {

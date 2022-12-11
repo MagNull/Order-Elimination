@@ -15,7 +15,6 @@ public class BattleSimulation : MonoBehaviour
     
     private CharacterArrangeDirector _characterArrangeDirector;
     private BattleMapDirector _battleMapDirector;
-    [SerializeField]
     private AbilityViewBinder _abilityViewBinder;
 
     [SerializeField]
@@ -41,6 +40,7 @@ public class BattleSimulation : MonoBehaviour
     private void Awake()
     {
         _characters = new List<BattleCharacter>();
+        _abilityViewBinder = new AbilityViewBinder();
     }
 
     public void Start()

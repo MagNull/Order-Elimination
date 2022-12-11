@@ -30,7 +30,7 @@ namespace OrderElimination.BattleMap
             Debug.Log(battleObject.View.name + " entered " + View.name);
         }
 
-        public void OnMoving(Cell from, Cell to)
+        public void OnMoved(Cell from, Cell to)
         {
             throw new NotImplementedException();
         }

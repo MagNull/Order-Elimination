@@ -21,7 +21,7 @@ namespace CharacterAbility
 
         public AbilityInfo AbilityInfo { get; }
 
-        public IAbilityCaster Caster { get; }
+        public IActor Caster { get; }
 
         public Sprite AbilityIcon => AbilityInfo.Icon;
 
@@ -31,13 +31,15 @@ namespace CharacterAbility
 
         private CancellationTokenSource _cancellationTokenSource;
 
-        public AbilityView(IAbilityCaster caster, Ability ability, AbilityInfo info, BattleMapView battleMapView)
+        public AbilityView(IActor caster, Ability ability, AbilityInfo info, BattleMapView battleMapView)
         {
             Caster = caster;
             _ability = ability;
             _battleMapView = battleMapView;
             AbilityInfo = info;
-            _abilityDistance = AbilityInfo.DistanceFromMovement ? Caster.Stats.Movement : AbilityInfo.Distance;
+            _abilityDistance = AbilityInfo.ActiveParams.DistanceFromMovement
+                ? Caster.Stats.Movement
+                : AbilityInfo.ActiveParams.Distance;
             _coolDownTimer = AbilityInfo.StartCoolDown;
 
             BattleSimulation.RoundStarted += OnRoundStart;
@@ -138,9 +140,10 @@ namespace CharacterAbility
                     return;
                 }
 
-                if (AbilityInfo.HasAreaEffect)
+                if (AbilityInfo.ActiveParams.HasAreaEffect)
                 {
-                    var area = _battleMapView.Map.GetBattleObjectsInRadius(selected, AbilityInfo.AreaRadius);
+                    var area = _battleMapView.Map.GetBattleObjectsInRadius(selected,
+                        AbilityInfo.ActiveParams.AreaRadius);
                     foreach (var obj in area)
                     {
                         var areaCell = _battleMapView.GetCell(obj);
@@ -157,7 +160,7 @@ namespace CharacterAbility
 
             _battleMapView.CellClicked += OnCellClicked;
 
-            if (AbilityInfo.TargetType == TargetType.Self)
+            if (AbilityInfo.ActiveParams.TargetType == TargetType.Self)
                 OnCellClicked(_battleMapView.GetCell(Caster));
 
             await UniTask.WaitUntil(() => cellConfirmed)
@@ -177,7 +180,7 @@ namespace CharacterAbility
         private List<IBattleObject> GetTargets()
         {
             List<IBattleObject> targets = new List<IBattleObject>();
-            switch (AbilityInfo.TargetType)
+            switch (AbilityInfo.ActiveParams.TargetType)
             {
                 case TargetType.Self:
                     targets.Add(Caster);

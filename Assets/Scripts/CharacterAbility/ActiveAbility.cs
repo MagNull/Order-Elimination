@@ -2,12 +2,12 @@
 
 namespace CharacterAbility.AbilityEffects
 {
-    public class TargetAbility : Ability
+    public class ActiveAbility : Ability
     {
         private readonly Ability _nextAbility;
         private readonly bool _selfCast;
 
-        public TargetAbility(IBattleObject caster, Ability nextAbility, bool selfCast,
+        public ActiveAbility(IBattleObject caster, Ability nextAbility, bool selfCast,
             BattleObjectSide filter)
             : base(caster, nextAbility, filter, 100)
         {
