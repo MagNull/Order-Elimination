@@ -11,9 +11,9 @@ using UnityEngine;
 public class EnemyDog : BattleCharacter 
 {
    private BattleMap _map;
-   private AbilityInfo _damage;
+   private Ability _damage;
    
-   public EnemyDog(BattleMap map, AbilityInfo damage, BattleStats battleStats, IDamageCalculation damageCalculation)
+   public EnemyDog(BattleMap map, Ability damage, BattleStats battleStats, IDamageCalculation damageCalculation)
        : base(BattleObjectSide.Enemy, battleStats, damageCalculation)
    {
        _map = map;
@@ -93,8 +93,7 @@ public class EnemyDog : BattleCharacter
 
    private void Attack(BattleCharacter player)
    {
-       //_damage
-       player.TakeDamage(Stats.Attack, Stats.Accuracy, DamageHealType.Normal);
+       _damage.Use(player, player.Stats);
    }
 
    private void Move(Vector2Int coordinate)
