@@ -121,15 +121,15 @@ namespace UIManagement.trashToRemove_Mockups
                 { ValueUnits.Cells, " клет." },
                 { ValueUnits.Turns, " ход." },
         };
-        private Dictionary<BuffType, string> _buffNames
-            = new Dictionary<BuffType, string>()
+        private Dictionary<Buff_Type, string> _buffNames
+            = new Dictionary<Buff_Type, string>()
         {
-                { BuffType.Movement, "Перемещение" },
-                { BuffType.Attack, "Атака" },
-                { BuffType.Health, "Здоровье" },
-                { BuffType.Evasion, "Уклонение" },
-                { BuffType.IncomingAccuracy, "Входящая точность" },
-                { BuffType.IncomingAttack, "Входящий урон" },
+                { Buff_Type.Movement, "Перемещение" },
+                { Buff_Type.Attack, "Атака" },
+                { Buff_Type.Health, "Здоровье" },
+                { Buff_Type.Evasion, "Уклонение" },
+                { Buff_Type.IncomingAccuracy, "Входящая точность" },
+                { Buff_Type.IncomingDamageIncrease, "Входящий урон" },
         };
         private Dictionary<OverTimeAbilityType, string> _overtimeTypeNames
             = new Dictionary<OverTimeAbilityType, string>()
@@ -141,7 +141,7 @@ namespace UIManagement.trashToRemove_Mockups
         public string GetWindowTitleName(PanelType windowType) => _panelTitleNames[windowType];
         //public string GetEffectParameterName( windowType) => _panelTitleNames[windowType];
         public string GetUnits(ValueUnits unitType) => _unitNames[unitType];
-        public string GetBuffName(BuffType buffType) => _buffNames[buffType];
+        public string GetBuffName(Buff_Type buffType) => _buffNames[buffType];
         public string GetOvertimeTypeName(OverTimeAbilityType overtimeType) => _overtimeTypeNames[overtimeType];
     }
 

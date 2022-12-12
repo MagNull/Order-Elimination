@@ -1,35 +1,38 @@
-﻿using OrderElimination;
+﻿using System;
+using CharacterAbility.AbilityEffects;
+using OrderElimination;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace CharacterAbility
 {
     public abstract class Ability
     {
-        private readonly Ability _nextAbility;
+        private readonly Ability _nextEffect;
         private readonly float _probability;
         protected readonly IBattleObject _caster;
         protected readonly BattleObjectSide _filter;
 
-        protected Ability(IBattleObject caster, Ability nextAbility, BattleObjectSide filter, float probability)
+        protected Ability(IBattleObject caster, Ability nextEffect, BattleObjectSide filter,
+            float probability = 100)
         {
             _caster = caster;
-            _nextAbility = nextAbility;
+            _nextEffect = nextEffect;
             _filter = filter;
             _probability = probability;
         }
 
         public void Use(IBattleObject target, IReadOnlyBattleStats stats)
         {
-            if (Random.value * 100 <= _probability)
+            if (target.Side != _filter && _filter != BattleObjectSide.None &&
+                Random.value > _probability / 100)
             {
-                ApplyEffect(target, stats);
+                _nextEffect?.Use(target, stats);
+                return;
             }
-            else
-            {
-                _nextAbility?.Use(target, stats);
-            }
+            ApplyEffect(target, stats);
         }
-        
+
         protected abstract void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats);
     }
 }

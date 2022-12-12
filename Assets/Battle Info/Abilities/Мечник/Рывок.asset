@@ -28,96 +28,86 @@ MonoBehaviour:
   _startCoolDown: 1
   <Icon>k__BackingField: {fileID: 21300000, guid: f91d05b69dc93144ca3549f82b1cdb35, type: 3}
   <ActionType>k__BackingField: 1
-  _hasTarget: 1
-  _hasTargetEffect: 1
-  _distanceFromMovement: 0
-  _distance: 5
-  _targetType: 1
-  _targetEffects:
-  - Type: 5
-    HasProbability: 0
-    Probability: 0
-    Filter: 0
-    DamageHealType: 0
-    Amounts: 0
-    ScaleFrom: 0
-    Scale: 0
-    Modificator: 1
-    ModificatorValue: 0
-    OverTimeType: 0
-    BuffType: 0
-    BuffValue: 0
-    Duration: 0
-    TickValue: 0
-    DescriptionFlag: 
-    ShowInAbilityDescription: 0
-    EffectView:
-      DisplayAsMainEffect: 0
-      EffectName: 
-      EffectIcon: {fileID: 0}
-  - Type: 0
-    HasProbability: 0
-    Probability: 0
-    Filter: 0
-    DamageHealType: 0
-    Amounts: 1
-    ScaleFrom: 3
-    Scale: 1
-    Modificator: 0
-    ModificatorValue: 0
-    OverTimeType: 0
-    BuffType: 0
-    BuffValue: 0
-    Duration: 0
-    TickValue: 0
-    DescriptionFlag: 
-    ShowInAbilityDescription: 1
-    EffectView:
-      DisplayAsMainEffect: 1
-      EffectName: 
-      EffectIcon: {fileID: 0}
-  - Type: 2
-    HasProbability: 0
-    Probability: 0
-    Filter: 0
-    DamageHealType: 0
-    Amounts: 0
-    ScaleFrom: 0
-    Scale: 0
-    Modificator: 0
-    ModificatorValue: 0
-    OverTimeType: 0
-    BuffType: 0
-    BuffValue: 0
-    Duration: 0
-    TickValue: 0
-    DescriptionFlag: 
-    ShowInAbilityDescription: 0
-    EffectView:
-      DisplayAsMainEffect: 0
-      EffectName: 
-      EffectIcon: {fileID: 0}
-  - Type: 3
-    HasProbability: 0
-    Probability: 0
-    Filter: 0
-    DamageHealType: 0
-    Amounts: 0
-    ScaleFrom: 0
-    Scale: 0
-    Modificator: 0
-    ModificatorValue: 0
-    OverTimeType: 0
-    BuffType: 0
-    BuffValue: 0
-    Duration: 5
-    TickValue: 5
-    DescriptionFlag: 
-    ShowInAbilityDescription: 1
-    EffectView:
-      DisplayAsMainEffect: 0
-      EffectName: "\u041A\u0440\u043E\u0432\u043E\u0441\u0438\u0441\u044F"
-      EffectIcon: {fileID: 0}
-  _hasAreaEffect: 0
-  _areaRadius: 0
-  _areaEffects: []
+  _type: 0
+  _activeParams:
+    _hasTarget: 1
+    _hasTargetEffect: 1
+    _distanceFromMovement: 0
+    _distance: 5
+    _targetType: 1
+    _targetEffects:
+    - Type: 6
+      HasProbability: 0
+      Probability: 0
+      Filter: 0
+      _damageHealTarget: 0
+      Amounts: 0
+      ScaleFrom: 0
+      Scale: 0
+      Modificator: 1
+      ModificatorValue: 0
+      BuffType: 0
+      BuffValue: 0
+      Duration: 0
+      ConditionType: 0
+      OverTimeType: 0
+      TickValue: 0
+      DamageType: 0
+      Distance: 0
+      ShowInAbilityDescription: 0
+      EffectView:
+        DisplayAsMainEffect: 0
+        EffectName: 
+        EffectIcon: {fileID: 0}
+    - Type: 0
+      HasProbability: 0
+      Probability: 0
+      Filter: 0
+      _damageHealTarget: 0
+      Amounts: 1
+      ScaleFrom: 2
+      Scale: 1
+      Modificator: 0
+      ModificatorValue: 0
+      BuffType: 0
+      BuffValue: 0
+      Duration: 0
+      ConditionType: 0
+      OverTimeType: 0
+      TickValue: 0
+      DamageType: 3
+      Distance: 0
+      ShowInAbilityDescription: 0
+      EffectView:
+        DisplayAsMainEffect: 0
+        EffectName: 
+        EffectIcon: {fileID: 0}
+    - Type: 3
+      HasProbability: 1
+      Probability: 80
+      Filter: 0
+      _damageHealTarget: 1
+      Amounts: 0
+      ScaleFrom: 0
+      Scale: 0
+      Modificator: 0
+      ModificatorValue: 0
+      BuffType: 0
+      BuffValue: 0
+      Duration: 5
+      ConditionType: 0
+      OverTimeType: 0
+      TickValue: 5
+      DamageType: 3
+      Distance: 0
+      ShowInAbilityDescription: 0
+      EffectView:
+        DisplayAsMainEffect: 0
+        EffectName: 
+        EffectIcon: {fileID: 0}
+    _hasAreaEffect: 0
+    _areaRadius: 0
+    _areaEffects: []
+  _passiveParams:
+    _effects: []
+    _triggerType: 0

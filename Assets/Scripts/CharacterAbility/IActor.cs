@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public interface IAbilityCaster : IBattleObject
+public interface IActor : IBattleObject
 {
     public IReadOnlyList<ActionType> AvailableActions { get; }
 

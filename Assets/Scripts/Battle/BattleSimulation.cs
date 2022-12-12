@@ -16,7 +16,6 @@ public class BattleSimulation : MonoBehaviour
     
     private CharacterArrangeDirector _characterArrangeDirector;
     private BattleMapDirector _battleMapDirector;
-    [SerializeField]
     private AbilityViewBinder _abilityViewBinder;
 
     [SerializeField]
@@ -142,7 +141,6 @@ public class BattleSimulation : MonoBehaviour
     // Влияет на Update()
     public void EndTurn()
     {
-        //TODO: todo выше
         _abilityPanel.ResetAbilityButtons();
         SwitchTurn();
         _isTurnChanged = true;

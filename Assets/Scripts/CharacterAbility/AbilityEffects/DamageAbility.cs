@@ -6,40 +6,49 @@ namespace CharacterAbility.AbilityEffects
 {
     public class DamageAbility : Ability
     {
-        private readonly Ability _nextEffect;
         private readonly BattleMap _battleMap;
-        private readonly DamageHealType _damageHealType;
+        private readonly DamageHealTarget _damageHealTarget;
+        private readonly DamageType _damageType;
         private readonly int _damageAmounts;
         private readonly float _attackScale;
+        private readonly Ability _nextEffect;
         private readonly AbilityScaleFrom _scaleFrom;
 
-        public DamageAbility(IBattleObject caster, Ability nextEffect, float probability, BattleMap battleMap, DamageHealType damageHealType,
+        public DamageAbility(IBattleObject caster, Ability nextEffect, float probability, BattleMap battleMap,
+            DamageHealTarget damageHealTarget,
+            DamageType damageType,
             int damageAmounts,
             AbilityScaleFrom scaleFrom,
             float attackScale, BattleObjectSide filter) :
             base(caster, nextEffect, filter, probability)
         {
+            _nextEffect = nextEffect;
             _scaleFrom = scaleFrom;
             _attackScale = attackScale;
             _damageAmounts = damageAmounts;
-            _nextEffect = nextEffect;
             _battleMap = battleMap;
-            _damageHealType = damageHealType;
+            _damageHealTarget = damageHealTarget;
+            _damageType = damageType;
         }
 
         protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
-            if (_filter == BattleObjectSide.None || target.Side == _filter)
+            var damage = ApplyScalability(target, stats, _battleMap);
+            var attackInfo = new DamageInfo
             {
-                var damage = CalculateDamage(target, stats, _battleMap);
-
-                for (var i = 0; i < _damageAmounts; i++)
-                    target.TakeDamage(damage, stats.Accuracy, _damageHealType);
-            }
+                Attacker = _caster,
+                Accuracy = stats.Accuracy,
+                Damage = damage,
+                DamageType = _damageType,
+                DamageHealTarget = _damageHealTarget
+            };
+            for (var i = 0; i < _damageAmounts; i++)
+                target.TakeDamage(attackInfo);
+            
             _nextEffect?.Use(target, stats);
         }
 
-        private int CalculateDamage(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)
+        private int ApplyScalability(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)
         {
             var damage = _scaleFrom switch
             {
@@ -49,27 +58,6 @@ namespace CharacterAbility.AbilityEffects
                 AbilityScaleFrom.Distance => stats.Attack * battleMap.GetDistance(_caster, target),
                 _ => throw new ArgumentOutOfRangeException()
             };
-            switch (stats.AttackType)
-            {
-                case AttackType.DoubleArmor:
-                    if (target.Stats.Armor > 0 &&
-                        _damageHealType is DamageHealType.Normal or DamageHealType.OnlyArmor)
-                        damage += 2 * damage > target.Stats.Armor
-                            ? (int) Mathf.Floor(Mathf.Clamp(damage, 0, target.Stats.Armor)) / 2
-                            : damage;
-                    break;
-                case AttackType.DoubleHealth:
-                    if (_damageHealType == DamageHealType.Normal && target.Stats.Armor == 0 ||
-                        _damageHealType == DamageHealType.OnlyHealth)
-                        damage += 2 * damage > target.Stats.Health
-                            ? (int) Mathf.Floor(Mathf.Clamp(damage, 0, target.Stats.Health)) / 2
-                            : damage;
-                    break;
-                case AttackType.Normal:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
 
             return damage;
         }

@@ -7,7 +7,7 @@ namespace OrderElimination.BattleMap
     public class EnvironmentObject : IBattleObject
     {
         public event Action<Cell, Cell> Moved;
-        public event Action<int, int, DamageCancelType> Damaged;
+        public event Action<TakeDamageInfo> Damaged;
         private bool _isWalkable;
         private readonly ITickEffect[] _enterBuffs;
         private readonly BattleStats _stats;
@@ -30,7 +30,7 @@ namespace OrderElimination.BattleMap
             Debug.Log(battleObject.View.name + " entered " + View.name);
         }
 
-        public void OnMoving(Cell from, Cell to)
+        public void OnMoved(Cell from, Cell to)
         {
             throw new NotImplementedException();
         }
@@ -41,12 +41,12 @@ namespace OrderElimination.BattleMap
             Debug.Log(battleObject.View.name + " left " + View.name);
         }
 
-        public void TakeDamage(int damage, int accuracy, DamageHealType damageHealType)
+        public void TakeDamage(DamageInfo damageInfo)
         {
             throw new NotImplementedException();
         }
 
-        public void TakeRecover(int value, int accuracy, DamageHealType damageHealType)
+        public void TakeRecover(int value, int accuracy, DamageHealTarget damageHealTarget)
         {
             throw new NotImplementedException();
         }
@@ -61,7 +61,7 @@ namespace OrderElimination.BattleMap
             throw new NotImplementedException();
         }
 
-        public void ClearOverEffects()
+        public void ClearTickEffects()
         {
             throw new NotImplementedException();
         }

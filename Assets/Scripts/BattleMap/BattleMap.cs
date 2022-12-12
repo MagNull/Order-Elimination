@@ -104,7 +104,7 @@ public class BattleMap : MonoBehaviour
         Vector2Int objCoord = GetCoordinate(obj);
         if (objCoord != new Vector2Int(-1, -1))
         {
-            obj.OnMoving(GetCell(obj), GetCell(x, y));
+            obj.OnMoved(GetCell(obj), GetCell(x, y));
             if (_activeEnvironmentObjects.ContainsKey(objCoord))
             {
                 SetCell(objCoord.x, objCoord.y, _activeEnvironmentObjects[objCoord]);

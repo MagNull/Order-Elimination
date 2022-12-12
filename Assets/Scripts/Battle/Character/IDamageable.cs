@@ -1,23 +1,47 @@
 using System;
 using OrderElimination.Battle;
 
-//TODO: Refactor Double
-
-public enum AttackType
+public enum DamageModificator
 {
     Normal,
     DoubleArmor,
     DoubleHealth
 }
-public enum DamageHealType
+
+public enum DamageHealTarget
 {
     Normal,
     OnlyHealth,
     OnlyArmor,
 }
 
+public enum DamageType
+{
+    None,
+    Explosion,
+    Shooting,
+    Cutting
+}
+
+public struct DamageInfo
+{
+    public int Damage;
+    public int Accuracy;
+    public DamageType DamageType;
+    public IBattleObject Attacker;
+    public DamageHealTarget DamageHealTarget;
+}
+public struct TakeDamageInfo
+{
+    public int HealthDamage;
+    public int ArmorDamage;
+    public DamageCancelType CancelType;
+    public IBattleObject Attacker;
+    public IBattleObject Target;
+}
+
 public interface IDamageable
 {
-    event Action<int, int, DamageCancelType> Damaged;
-    void TakeDamage(int damage, int accuracy, DamageHealType damageHealType);
+    event Action<TakeDamageInfo> Damaged;
+    void TakeDamage(DamageInfo damageInfo);
 }

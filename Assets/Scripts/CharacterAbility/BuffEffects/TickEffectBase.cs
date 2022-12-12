@@ -14,7 +14,7 @@ namespace CharacterAbility.BuffEffects
             _duration = duration;
         }
 
-        public virtual void Tick(IBattleObject target)
+        public virtual void Tick(ITickTarget target)
         {
             _duration--;
             if (_duration <= 0)

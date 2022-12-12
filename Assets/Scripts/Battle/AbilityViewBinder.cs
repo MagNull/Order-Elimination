@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using CharacterAbility;
-using UnityEngine;
 using OrderElimination.BattleMap;
 
 public class AbilityViewBinder 
@@ -23,10 +22,10 @@ public class AbilityViewBinder
             _selectedCharacterView?.Deselect();
             _selectedCharacterView = characterView;
             _selectedCharacterView.Select();
-            for (var i = 0; i < characterView.AbilityViews.Length; i++)
+            for (var i = 0; i < characterView.ActiveAbilitiesView.Length; i++)
             {
                 abilityButtons[i].CancelAbilityCast();
-                abilityButtons[i].SetAbility(characterView.AbilityViews[i]);
+                abilityButtons[i].SetAbility(characterView.ActiveAbilitiesView[i]);
             }
             //TODO(Сано): Автовыбор перемещения независимо от порядка
             abilityButtons[0].OnClick();

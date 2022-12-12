@@ -12,7 +12,7 @@ namespace OrderElimination.Battle
 
     public interface IDamageCalculation
     {
-        public (int healtDamage, int armorDamage, DamageCancelType damageCancelType) CalculateDamage(int damage,
-            int armor, int accuracy, int evasion, DamageHealType damageHealType, List<IncomingBuff> incomingDebuffs);
+        public (int healthDamage, int armorDamage, DamageCancelType cancelType) CalculateDamage(DamageInfo damageInfo,
+            int armor, int evasion, List<IncomingBuff> incomingDebuffs);
     }
 }
