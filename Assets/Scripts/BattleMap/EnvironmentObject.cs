@@ -7,7 +7,7 @@ namespace OrderElimination.BattleMap
     public class EnvironmentObject : IBattleObject
     {
         public event Action<Cell, Cell> Moved;
-        public event Action<int, int, DamageCancelType> Damaged;
+        public event Action<TakeDamageInfo> Damaged;
         private bool _isWalkable;
         private readonly ITickEffect[] _enterBuffs;
         private readonly BattleStats _stats;
@@ -41,7 +41,7 @@ namespace OrderElimination.BattleMap
             Debug.Log(battleObject.View.name + " left " + View.name);
         }
 
-        public void TakeDamage(int damage, int accuracy, DamageHealTarget damageHealTarget, DamageModificator damageModificator)
+        public void TakeDamage(DamageInfo damageInfo)
         {
             throw new NotImplementedException();
         }

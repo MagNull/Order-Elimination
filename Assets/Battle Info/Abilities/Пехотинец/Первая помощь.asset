@@ -27,54 +27,41 @@ MonoBehaviour:
   _startCoolDown: 2
   <Icon>k__BackingField: {fileID: 21300000, guid: 6d54b2b2bac3e834f8d4f79511498f04, type: 3}
   <ActionType>k__BackingField: 1
-  _hasTarget: 1
-  _hasTargetEffect: 1
-  _distanceFromMovement: 0
-  _distance: 1
-  _targetType: 2
-  _targetEffects:
-  - Type: 5
-    HasProbability: 0
-    Probability: 0
-    Filter: 0
-    DamageHealType: 0
-    Amounts: 0
-    ScaleFrom: 0
-    Scale: 0
-    Modificator: 0
-    ModificatorValue: 100
-    OverTimeType: 0
-    BuffType: 0
-    BuffValue: 0
-    Duration: 0
-    TickValue: 0
-    DescriptionFlag: 
-    ShowInAbilityDescription: 0
-    EffectView:
-      DisplayAsMainEffect: 0
-      EffectName: 
-      EffectIcon: {fileID: 0}
-  - Type: 1
-    HasProbability: 0
-    Probability: 0
-    Filter: 0
-    DamageHealType: 1
-    Amounts: 1
-    ScaleFrom: 1
-    Scale: 0.2
-    Modificator: 0
-    ModificatorValue: 0
-    OverTimeType: 0
-    BuffType: 0
-    BuffValue: 0
-    Duration: 0
-    TickValue: 0
-    DescriptionFlag: 
-    ShowInAbilityDescription: 1
-    EffectView:
-      DisplayAsMainEffect: 1
-      EffectName: 
-      EffectIcon: {fileID: 0}
-  _hasAreaEffect: 0
-  _areaRadius: 0
-  _areaEffects: []
+  _type: 1
+  _activeParams:
+    _hasTarget: 0
+    _hasTargetEffect: 0
+    _distanceFromMovement: 0
+    _distance: 0
+    _targetType: 0
+    _targetEffects: []
+    _hasAreaEffect: 0
+    _areaRadius: 0
+    _areaEffects: []
+  _passiveParams:
+    _effects:
+    - Type: 4
+      HasProbability: 0
+      Probability: 0
+      Filter: 0
+      _damageHealTarget: 0
+      Amounts: 0
+      ScaleFrom: 0
+      Scale: 0
+      Modificator: 0
+      ModificatorValue: 0
+      BuffType: 7
+      BuffValue: 2
+      Duration: 9999
+      ConditionType: 0
+      OverTimeType: 0
+      TickValue: 0
+      DamageType: 1
+      Distance: 0
+      DescriptionFlag: 
+      ShowInAbilityDescription: 0
+      EffectView:
+        DisplayAsMainEffect: 0
+        EffectName: 
+        EffectIcon: {fileID: 0}
+    _triggerType: 0

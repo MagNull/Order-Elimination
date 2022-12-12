@@ -8,32 +8,44 @@ namespace CharacterAbility.AbilityEffects
     {
         private readonly BattleMap _battleMap;
         private readonly DamageHealTarget _damageHealTarget;
+        private readonly DamageType _damageType;
         private readonly int _damageAmounts;
         private readonly float _attackScale;
+        private readonly Ability _nextEffect;
         private readonly AbilityScaleFrom _scaleFrom;
 
-        public DamageAbility(IBattleObject caster, Ability nextEffect, float probability, BattleMap battleMap, DamageHealTarget damageHealTarget,
+        public DamageAbility(IBattleObject caster, Ability nextEffect, float probability, BattleMap battleMap,
+            DamageHealTarget damageHealTarget,
+            DamageType damageType,
             int damageAmounts,
             AbilityScaleFrom scaleFrom,
             float attackScale, BattleObjectSide filter) :
             base(caster, nextEffect, filter, probability)
         {
+            _nextEffect = nextEffect;
             _scaleFrom = scaleFrom;
             _attackScale = attackScale;
             _damageAmounts = damageAmounts;
             _battleMap = battleMap;
             _damageHealTarget = damageHealTarget;
+            _damageType = damageType;
         }
 
         protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
-            if (_filter == BattleObjectSide.None || target.Side == _filter)
+            var damage = ApplyScalability(target, stats, _battleMap);
+            var attackInfo = new DamageInfo
             {
-                var damage = ApplyScalability(target, stats, _battleMap);
+                Attacker = _caster,
+                Accuracy = stats.Accuracy,
+                Damage = damage,
+                DamageType = _damageType,
+                DamageHealTarget = _damageHealTarget
+            };
 
-                for (var i = 0; i < _damageAmounts; i++)
-                    target.TakeDamage(damage, stats.Accuracy, _damageHealTarget, stats.DamageModificator);
-            }
+            for (var i = 0; i < _damageAmounts; i++)
+                target.TakeDamage(attackInfo);
+            _nextEffect?.Use(target, stats);
         }
 
         private int ApplyScalability(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)

@@ -15,10 +15,26 @@ public enum DamageHealTarget
     OnlyArmor,
 }
 
+public enum DamageType
+{
+    None,
+    Explosion,
+    Shooting,
+    Cutting
+}
+
+public struct DamageInfo
+{
+    public int Damage;
+    public int Accuracy;
+    public DamageType DamageType;
+    public IBattleObject Attacker;
+    public DamageHealTarget DamageHealTarget;
+}
 public struct TakeDamageInfo
 {
-    public int RemainHealth;
-    public int RemainArmor;
+    public int HealthDamage;
+    public int ArmorDamage;
     public DamageCancelType CancelType;
     public IBattleObject Attacker;
     public IBattleObject Target;
@@ -26,6 +42,6 @@ public struct TakeDamageInfo
 
 public interface IDamageable
 {
-    event Action<int, int, DamageCancelType> Damaged;
-    void TakeDamage(int damage, int accuracy, DamageHealTarget damageHealTarget, DamageModificator damageModificator);
+    event Action<TakeDamageInfo> Damaged;
+    void TakeDamage(DamageInfo damageInfo);
 }

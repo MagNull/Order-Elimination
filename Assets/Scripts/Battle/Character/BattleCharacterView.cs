@@ -28,17 +28,23 @@ public class BattleCharacterView : MonoBehaviour
         _abilityViews = abilitiesView;
     }
 
-    private void OnDamaged(int armorDamage, int healthDamage, DamageCancelType damageCancelType)
+    private void OnDamaged(TakeDamageInfo info)
     {
-        if(armorDamage == 0 && healthDamage == 0)
+        if(info is {ArmorDamage: 0, HealthDamage: 0})
         {
-            if(damageCancelType == DamageCancelType.Miss)
-                Debug.Log("Miss " % Colorize.Yellow + gameObject.name);
-            else if( damageCancelType == DamageCancelType.Dodge)
-                Debug.Log("Dodge " % Colorize.Green + gameObject.name);
+            switch (info.CancelType)
+            {
+                case DamageCancelType.Miss:
+                    Debug.Log("Miss " % Colorize.Yellow + gameObject.name);
+                    break;
+                case DamageCancelType.Dodge:
+                    Debug.Log("Dodge " % Colorize.Green + gameObject.name);
+                    break;
+            }
+
             return;
         }
-        Debug.Log(gameObject.name + " get "+ (armorDamage + healthDamage) + " damage " % Colorize.Red );
+        Debug.Log(gameObject.name + " get "+ (info.ArmorDamage + info.HealthDamage) + " damage " % Colorize.Red );
     }
 
     public void SetImage(Sprite image) => _renderer.sprite = image;

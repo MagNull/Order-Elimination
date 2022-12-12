@@ -1,4 +1,5 @@
 ﻿using CharacterAbility.BuffEffects;
+using OrderElimination.BattleMap;
 
 namespace CharacterAbility
 {
@@ -15,7 +16,13 @@ namespace CharacterAbility
 
         public override void Tick(ITickTarget tickTarget)
         {
-            tickTarget.TakeDamage(_damage, 100, _damageHealTarget, DamageModificator.Normal);
+            var attackInfo = new DamageInfo
+            {
+                Attacker = new NullBattleObject(),
+                Damage = _damage,
+                DamageHealTarget = _damageHealTarget
+            };
+            tickTarget.TakeDamage(attackInfo);
             base.Tick(tickTarget);
         }
     }

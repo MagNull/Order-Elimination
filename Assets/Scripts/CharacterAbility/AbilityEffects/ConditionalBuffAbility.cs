@@ -6,27 +6,30 @@ using UnityEngine;
 
 namespace CharacterAbility.AbilityEffects
 {
+    
+    //TODO: Remove duplicate code TickingBuff
     public class ConditionalBuffAbility : Ability
     {
-        private readonly BuffType _buffType;
+        private readonly Ability _nextEffect;
+        private readonly Buff_Type _buffType;
         private readonly int _value;
         private readonly BuffConditionType _conditionType;
+        private readonly DamageType _damageType;
         private ITickEffect _buff;
 
-        public ConditionalBuffAbility(IBattleObject caster, Ability effects, float probability, BuffType buffType,
-            int value, BuffConditionType conditionType, BattleObjectSide filter) :
-            base(caster, effects, filter, probability)
+        public ConditionalBuffAbility(IBattleObject caster, Ability nextEffect, float probability, Buff_Type buffType,
+            int value, BuffConditionType conditionType, BattleObjectSide filter, DamageType damageType) :
+            base(caster, nextEffect, filter, probability)
         {
+            _nextEffect = nextEffect;
             _buffType = buffType;
             _value = value;
             _conditionType = conditionType;
+            _damageType = damageType;
         }
 
         protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
-            if (_filter != BattleObjectSide.None && target.Side != _filter)
-                return;
-
             //TODO: Fix duration trick
             InitBuff();
             target.AddTickEffect(_buff);
@@ -47,6 +50,7 @@ namespace CharacterAbility.AbilityEffects
                     target.Moved += removeBuff;
                     break;
             }
+            _nextEffect?.Use(target, stats);
         }
 
         private void InitBuff()
@@ -54,14 +58,17 @@ namespace CharacterAbility.AbilityEffects
             //TODO: Fix duration trick
             _buff = _buffType switch
             {
-                BuffType.Evasion => new EvasionStatsBuff(_value, 9999),
-                BuffType.Attack => new EvasionStatsBuff(_value, 9999),
-                BuffType.Health => new EvasionStatsBuff(_value, 9999),
-                BuffType.Movement => new EvasionStatsBuff(_value, 9999),
-                BuffType.IncomingAccuracy => new IncomingBuff(IncomingDebuffType.Accuracy, 9999,
-                    _value),
-                BuffType.IncomingAttack => new IncomingBuff(IncomingDebuffType.Attack, 9999,
-                    _value),
+                Buff_Type.Evasion => new EvasionStatsBuff(_value, 9999),
+                Buff_Type.Attack => new AttackStatsBuff(_value, 9999),
+                Buff_Type.Accuracy => new AccuracyStatsBuff(_value, 9999),
+                Buff_Type.Health => new EvasionStatsBuff(_value, 9999),
+                Buff_Type.Movement => new EvasionStatsBuff(_value, 9999),
+                Buff_Type.IncomingAccuracy => new IncomingBuff(Buff_Type.IncomingAccuracy, 9999,
+                    _value, _damageType),
+                Buff_Type.IncomingDamageIncrease => new IncomingBuff(Buff_Type.IncomingDamageIncrease, 9999,
+                    _value, _damageType),
+                Buff_Type.IncomingDamageReduction => new IncomingBuff(Buff_Type.IncomingDamageReduction, 9999,
+                    _value, _damageType),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

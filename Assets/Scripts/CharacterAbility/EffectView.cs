@@ -44,17 +44,17 @@ namespace CharacterAbility
             EffectName = name;
         }
 
-        private static readonly Dictionary<BuffType, ValueUnits> _buffUnits = new()
+        private static readonly Dictionary<Buff_Type, ValueUnits> _buffUnits = new()
         {
-            {BuffType.Attack, ValueUnits.None }, 
-            {BuffType.Health, ValueUnits.None }, 
-            {BuffType.Evasion, ValueUnits.Percents }, 
-            {BuffType.IncomingAccuracy, ValueUnits.Percents }, 
-            {BuffType.IncomingAttack, ValueUnits.None }, 
-            {BuffType.Movement, ValueUnits.Cells }, 
+            {Buff_Type.Attack, ValueUnits.None }, 
+            {Buff_Type.Health, ValueUnits.None }, 
+            {Buff_Type.Evasion, ValueUnits.Percents }, 
+            {Buff_Type.IncomingAccuracy, ValueUnits.Percents }, 
+            {Buff_Type.IncomingDamageIncrease, ValueUnits.None }, 
+            {Buff_Type.Movement, ValueUnits.Cells }, 
         };
 
-        public static ValueUnits GetBuffUnits(BuffType buffType) => _buffUnits[buffType];
+        public static ValueUnits GetBuffUnits(Buff_Type buffType) => _buffUnits[buffType];
     }
 
     public static class EffectsDisplayHelpers

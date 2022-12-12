@@ -7,7 +7,7 @@ namespace OrderElimination.BattleMap
 {
     public class NullBattleObject : IBattleObject
     {
-        public event Action<int, int, DamageCancelType> Damaged;
+        public event Action<TakeDamageInfo> Damaged;
 
         public event Action<Cell, Cell> Moved;
 
@@ -29,7 +29,7 @@ namespace OrderElimination.BattleMap
             }
         }
 
-        public IReadOnlyBattleStats Stats { get; }
+        public IReadOnlyBattleStats Stats => default(BattleStats);
         
         
         public void OnMoved(Cell from, Cell to)
@@ -53,7 +53,7 @@ namespace OrderElimination.BattleMap
             Debug.LogWarning("Try remove tick effect from null battle object");
         }
 
-        public void TakeDamage(int damage, int accuracy, DamageHealTarget damageHealTarget, DamageModificator damageModificator)
+        public void TakeDamage(DamageInfo damageInfo)
         {
             Debug.LogWarning("Try Damage Empty Object");
         }

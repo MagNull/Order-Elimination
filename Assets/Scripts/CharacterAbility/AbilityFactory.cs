@@ -19,7 +19,6 @@ namespace CharacterAbility
             var ability = CreateAbility(abilityInfo, caster);
             if (abilityInfo.Type == AbilityInfo.AbilityType.Passive)
             {
-                Debug.Log("Create " + abilityInfo.Name);
                 ability.Use(caster, caster.Stats);
             }
 
@@ -78,8 +77,8 @@ namespace CharacterAbility
                 {
                     case AbilityEffectType.Damage:
                         ability = new DamageAbility(caster, ability, probability, _battleMapView.Map,
-                            effect._damageHealTarget, effect.Amounts,
-                            effect.ScaleFrom, effect.Scale, effect.Filter);
+                            effect._damageHealTarget, effect.DamageType,
+                            effect.Amounts, effect.ScaleFrom, effect.Scale, effect.Filter);
                         break;
                     case AbilityEffectType.Heal:
                         ability = new HealAbility(caster, ability, probability, effect._damageHealTarget,
@@ -97,20 +96,24 @@ namespace CharacterAbility
                         ability = new OverTimeAbility(caster, ability, probability, effect._damageHealTarget,
                             effect.OverTimeType,
                             effect.Duration,
-                            effect.TickValue, effect.Filter);
+                            effect.TickValue, effect.Filter,
+                            effect.OverTimeType == OverTimeAbilityType.Damage ? effect.DamageType : DamageType.None);
                         break;
                     case AbilityEffectType.TickingBuff:
-                        ability = new TickingBuffAbility(caster, ability, probability, effect.BuffType,
-                            effect.BuffValue,
-                            effect.Duration,
-                            effect.Filter);
+                        ability = new TickingBuffAbility(caster, ability, probability, effect.BuffType, 
+                            effect.BuffValue, effect.Duration, effect.Filter, effect.DamageType);
                         break;
                     case AbilityEffectType.ConditionalBuff:
                         ability = new ConditionalBuffAbility(caster, ability, probability, effect.BuffType,
-                            effect.BuffValue, effect.ConditionType, effect.Filter);
+                            effect.BuffValue, effect.ConditionType, effect.Filter, effect.DamageType);
                         break;
                     case AbilityEffectType.Stun:
                         ability = new StunAbility(caster, ability, probability, effect.Filter);
+                        break;
+
+                    case AbilityEffectType.Contreffect:
+                        ability = new ContreffectAbility(caster, ability, effect.Filter, probability,
+                            _battleMapView.Map.GetDistance, effect.Distance);
                         break;
                 }
             }

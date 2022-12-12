@@ -1,4 +1,5 @@
 ﻿using System;
+using CharacterAbility.AbilityEffects;
 using OrderElimination;
 using OrderElimination.Battle;
 using OrderElimination.BattleMap;
@@ -9,14 +10,14 @@ namespace CharacterAbility
     public class PassiveAbility : Ability
     {
         private readonly PassiveAbilityParams.PassiveTriggerType _passiveTriggerType;
-        private readonly Ability _effects;
+        private readonly Ability _nextEffect;
 
         public PassiveAbility(IBattleObject caster, PassiveAbilityParams.PassiveTriggerType passiveTriggerType,
-            Ability effects, BattleObjectSide filter, float probability) : base(caster, effects, filter,
+            Ability nextEffect, BattleObjectSide filter, float probability) : base(caster, nextEffect, filter,
             probability)
         {
             _passiveTriggerType = passiveTriggerType;
-            _effects = effects;
+            _nextEffect = nextEffect;
         }
 
         protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
@@ -24,11 +25,14 @@ namespace CharacterAbility
             switch (_passiveTriggerType)
             {
                 case PassiveAbilityParams.PassiveTriggerType.Damage:
-                    target.Damaged += (armorDamage, healthDamage, cancelType) =>
+                    target.Damaged += info =>
                     {
-                        if (cancelType != DamageCancelType.None)
+                        if (info.CancelType != DamageCancelType.None)
                             return;
-                        _effects?.Use(target, stats);
+                        if(_nextEffect is ContreffectAbility)
+                            _nextEffect.Use(info.Attacker, _caster.Stats);
+                        else
+                            _nextEffect?.Use(target, stats);
                         Debug.Log("Apply Damage Passive");
                     };
                     break;
@@ -36,8 +40,11 @@ namespace CharacterAbility
                     target.Moved += (from, to) =>
                     {
                         if(to.GetObject() is EnvironmentObject)
-                            _effects?.Use(target, stats);
+                            _nextEffect?.Use(target, stats);
                     };
+                    break;
+                case PassiveAbilityParams.PassiveTriggerType.Spawn:
+                    _nextEffect?.Use(target, stats);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

@@ -76,11 +76,6 @@ namespace OrderElimination
                     Debug.LogWarning("Try set attack less than 0");
                     _attack = 0;
                 }
-                else if (value > _unmodifiedAttack)
-                {
-                    Debug.LogWarning("Try set attack more than unmodified attack");
-                    _attack = _unmodifiedAttack;
-                }
                 else
                 {
                     _attack = value;

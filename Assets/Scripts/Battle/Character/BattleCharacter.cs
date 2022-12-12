@@ -19,12 +19,15 @@ public enum ActionType
 [Serializable]
 public class BattleCharacter : IActor
 {
-    public event Action<int, int, DamageCancelType> Damaged;
+    public event Action<TakeDamageInfo> Damaged;
     public event Action<Cell, Cell> Moved;
     public event Action<BattleCharacter> Died;
 
+    [ShowInInspector]
     private readonly List<ITickEffect> _tickEffects;
+    [ShowInInspector]
     private readonly List<IncomingBuff> _incomingTickEffects;
+    [ShowInInspector]
     private readonly List<IStatsBuffEffect> _buffEffects;
     [ShowInInspector]
     private readonly BattleObjectSide _side;
@@ -55,12 +58,20 @@ public class BattleCharacter : IActor
 
     public void OnMoved(Cell from, Cell to) => Moved?.Invoke(from, to);
 
-    public void TakeDamage(int damage, int accuracy, DamageHealTarget damageHealTarget, DamageModificator damageModificator)
+    public void TakeDamage(DamageInfo damageInfo)
     {
         var damageTaken =
-            _damageCalculation.CalculateDamage(damage, damageModificator, _battleStats.Armor, accuracy, _battleStats.Evasion,
-                damageHealTarget, _incomingTickEffects);
-        Damaged?.Invoke(damageTaken.armorDamage, damageTaken.healthDamage, damageTaken.damageCancelType);
+            _damageCalculation.CalculateDamage(damageInfo, _battleStats.Armor,
+                _battleStats.Evasion, _incomingTickEffects);
+        var takeDamageInfo = new TakeDamageInfo
+        {
+            HealthDamage = damageTaken.healthDamage,
+            ArmorDamage = damageTaken.armorDamage,
+            CancelType = damageTaken.cancelType,
+            Attacker = damageInfo.Attacker,
+            Target = this
+        };
+        Damaged?.Invoke(takeDamageInfo);
         _battleStats.Armor -= damageTaken.armorDamage;
         _battleStats.Health -= damageTaken.healthDamage;
 
@@ -165,7 +176,7 @@ public class ActionBank
 {
     [ShowInInspector]
     private readonly List<ActionType> _availableActions = new();
-    
+
     public IReadOnlyList<ActionType> AvailableActions => _availableActions;
 
     public bool CanSpendAction(ActionType actionType)

@@ -19,7 +19,8 @@ namespace CharacterAbility
         TickingBuff,
         ConditionalBuff,
         Modificator,
-        Stun
+        Stun,
+        Contreffect
     }
 
     public enum BuffConditionType
@@ -42,14 +43,16 @@ namespace CharacterAbility
         Heal,
     }
 
-    public enum BuffType
+    public enum Buff_Type
     {
         Attack,
         Health,
+        Accuracy,
         Movement,
         Evasion, //%
-        IncomingAttack,
+        IncomingDamageIncrease,
         IncomingAccuracy, //%
+        IncomingDamageReduction
     }
 
     public enum ModificatorType
@@ -72,6 +75,7 @@ namespace CharacterAbility
     public struct AbilityEffect
     {
         public AbilityEffectType Type;
+        [ShowIf("@Type != AbilityEffectType.Modificator")]
         public bool HasProbability;
         [ShowIf("HasProbability")]
         public float Probability;
@@ -92,18 +96,30 @@ namespace CharacterAbility
         [ShowIf("@Type == AbilityEffectType.Modificator && Modificator == ModificatorType.Accuracy")]
         public int ModificatorValue;
 
-        [ShowIf("@Type == AbilityEffectType.OverTime")]
-        public OverTimeAbilityType OverTimeType;
         [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
-        public BuffType BuffType;
+        public Buff_Type BuffType;
         [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
         public int BuffValue;
         [ShowIf("@Type == AbilityEffectType.OverTime || Type == AbilityEffectType.TickingBuff")]
         public int Duration;
         [ShowIf("@Type == AbilityEffectType.ConditionalBuff")]
         public BuffConditionType ConditionType;
+
+        [ShowIf("@Type == AbilityEffectType.OverTime")]
+        public OverTimeAbilityType OverTimeType;
         [ShowIf("@Type == AbilityEffectType.OverTime")]
         public int TickValue;
+
+        [ShowIf(
+            "@Type == AbilityEffectType.Damage || " +
+            "(Type == AbilityEffectType.OverTime && OverTimeType == OverTimeAbilityType.Damage)" +
+            "|| ((Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff) && " +
+            "(BuffType == Buff_Type.IncomingDamageIncrease || BuffType == Buff_Type.IncomingDamageReduction ||" +
+            " BuffType == Buff_Type.IncomingAccuracy))")]
+        public DamageType DamageType;
+
+        [ShowIf("@Type == AbilityEffectType.Contreffect")]
+        public int Distance;
 
         [Title("Description Flag")]
         [TextArea]
@@ -281,6 +297,7 @@ namespace CharacterAbility
     {
         public enum PassiveTriggerType
         {
+            Spawn,
             Movement,
             Damage
         }

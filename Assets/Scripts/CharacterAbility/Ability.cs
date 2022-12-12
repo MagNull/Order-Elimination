@@ -8,31 +8,29 @@ namespace CharacterAbility
 {
     public abstract class Ability
     {
-        private readonly Ability _effects;
+        private readonly Ability _nextEffect;
         private readonly float _probability;
         protected readonly IBattleObject _caster;
         protected readonly BattleObjectSide _filter;
 
-        protected Ability(IBattleObject caster, Ability effects, BattleObjectSide filter,
+        protected Ability(IBattleObject caster, Ability nextEffect, BattleObjectSide filter,
             float probability)
         {
             _caster = caster;
-            _effects = effects;
+            _nextEffect = nextEffect;
             _filter = filter;
             _probability = probability;
         }
 
         public void Use(IBattleObject target, IReadOnlyBattleStats stats)
         {
-            if (Random.value * 100 <= _probability)
+            if (target.Side != _filter && _filter != BattleObjectSide.None &&
+                Random.value > _probability / 100)
             {
-                ApplyEffect(target, stats);
+                _nextEffect?.Use(target, stats);
+                return;
             }
-
-            if (this is not ActiveAbility and not PassiveAbility)
-            {
-                _effects?.Use(target, stats);
-            }
+            ApplyEffect(target, stats);
         }
 
         protected abstract void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats);

@@ -8,74 +8,64 @@ namespace OrderElimination.Battle
 {
     public class SimpleDamageCalculation : IDamageCalculation
     {
-        public (int healthDamage, int armorDamage, DamageCancelType damageCancelType) CalculateDamage(int damage,
-            DamageModificator damageModificator, int armor, int accuracy, int evasion,
-            DamageHealTarget damageHealTarget, List<IncomingBuff> incomingDebuffs)
+        public (int healthDamage, int armorDamage, DamageCancelType cancelType) CalculateDamage(DamageInfo damageInfo,
+            int armor, int evasion, List<IncomingBuff> incomingDebuffs)
         {
-            ApplyModifications(ref damage, ref accuracy, armor, damageModificator, damageHealTarget, incomingDebuffs);
+            ApplyModifications(ref damageInfo, armor, incomingDebuffs);
 
-            bool hitRoll = Random.Range(0, 100) <= accuracy;
+            bool hitRoll = Random.Range(0, 100) <= damageInfo.Accuracy;
             if (!hitRoll)
                 return (0, 0, DamageCancelType.Miss);
-            if (damageHealTarget != DamageHealTarget.OnlyHealth)
+            if (damageInfo.DamageHealTarget != DamageHealTarget.OnlyHealth)
             {
                 bool evasionRoll = Random.Range(0, 100) <= evasion;
                 if (evasionRoll)
                     return (0, 0, DamageCancelType.Dodge);
             }
 
-            int armorDamage = Mathf.Clamp(damage, 0, armor);
-            var healthDamage = damage - armorDamage;
-            switch (damageHealTarget)
+            int armorDamage = Mathf.Clamp(damageInfo.Damage, 0, armor);
+            var healthDamage = damageInfo.Damage - armorDamage;
+            switch (damageInfo.DamageHealTarget)
             {
                 case DamageHealTarget.OnlyArmor:
                     healthDamage = 0;
                     break;
                 case DamageHealTarget.OnlyHealth:
                     armorDamage = 0;
-                    healthDamage = damage;
+                    healthDamage = damageInfo.Damage;
                     break;
             }
 
             return (healthDamage, armorDamage, DamageCancelType.None);
         }
 
-        private static void ApplyModifications(ref int damage, ref int accuracy, int armor,
-            DamageModificator damageModificator, DamageHealTarget damageHealTarget, List<IncomingBuff> incomingDebuffs)
+        private static void ApplyModifications(ref DamageInfo damageInfo, int armor, List<IncomingBuff> incomingDebuffs)
         {
-            switch (damageModificator)
+            foreach (var incomingAttackBuff in incomingDebuffs)
+            {
+                damageInfo = incomingAttackBuff.GetModifiedValue(damageInfo);
+            }
+
+            switch (damageInfo.Attacker.Stats.DamageModificator)
             {
                 case DamageModificator.DoubleArmor:
                     if (armor > 0 &&
-                        damageHealTarget is DamageHealTarget.Normal or DamageHealTarget.OnlyArmor)
-                        damage += 2 * damage > armor
-                            ? (int) Mathf.Floor(Mathf.Clamp(damage, 0, armor)) / 2
-                            : damage;
+                        damageInfo.DamageHealTarget is DamageHealTarget.Normal or DamageHealTarget.OnlyArmor)
+                        damageInfo.Damage += 2 * damageInfo.Damage > armor
+                            ? (int) Mathf.Floor(Mathf.Clamp(damageInfo.Damage, 0, armor)) / 2
+                            : damageInfo.Damage;
                     break;
                 case DamageModificator.DoubleHealth:
-                    // if (damageHealTarget == DamageHealTarget.Normal && armor == 0 ||
-                    //     damageHealTarget == DamageHealTarget.OnlyHealth)
-                    //     damage += 2 * damage > health
-                    //         ? (int) Mathf.Floor(Mathf.Clamp(damage, 0, health)) / 2
-                    //         : damage;
+                    // if (damageInfo.DamageHealTarget == DamageHealTarget.Normal && armor == 0 ||
+                    //     damageInfo.DamageHealTarget == DamageHealTarget.OnlyHealth)
+                    //     damageInfo.Damage += 2 * damageInfo.Damage > health
+                    //         ? (int) Mathf.Floor(Mathf.Clamp(damageInfo.Damage, 0, health)) / 2
+                    //         : damageInfo.Damage;
                     break;
                 case DamageModificator.Normal:
                     break;
                 default:
                     throw new ArgumentException();
-            }
-
-            foreach (var incomingDebuff in incomingDebuffs)
-            {
-                switch (incomingDebuff.DebuffType)
-                {
-                    case IncomingDebuffType.Accuracy:
-                        accuracy = incomingDebuff.GetModifiedValue(accuracy);
-                        break;
-                    case IncomingDebuffType.Attack:
-                        damage = incomingDebuff.GetModifiedValue(damage);
-                        break;
-                }
             }
         }
     }
