@@ -17,10 +17,12 @@ MonoBehaviour:
     _attack: 20
     _armor: 0
     _evasion: 0
-    _accuracy: 0
+    _accuracy: 100
     _movement: 8
-    _attackType: 0
+    _damageModificator: 0
   _view: {fileID: 21300000, guid: a04ecc9d5e12d5d449077414eb86635e, type: 3}
-  _abilities:
+  _activeAbilities:
   - {fileID: 11400000, guid: 377b9520ee2226943b6a5eed2b1f24c3, type: 2}
   - {fileID: 11400000, guid: 6c7e7a688e8448e4f9fd68c2c4810fc6, type: 2}
+  _passiveAbilities:
+  - {fileID: 11400000, guid: 601a2993801f0b34b8ed8ecab5405e29, type: 2}
