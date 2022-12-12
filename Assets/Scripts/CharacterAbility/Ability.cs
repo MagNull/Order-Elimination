@@ -14,7 +14,7 @@ namespace CharacterAbility
         protected readonly BattleObjectSide _filter;
 
         protected Ability(IBattleObject caster, Ability nextEffect, BattleObjectSide filter,
-            float probability)
+            float probability = 100)
         {
             _caster = caster;
             _nextEffect = nextEffect;

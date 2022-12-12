@@ -22,10 +22,12 @@ public class BattleCharacterFactory : MonoBehaviour
     {
         BattleCharacterView battleCharacterView = Instantiate(charPrefab);
         battleCharacterView.SetImage(info.GetView());
-        var character = new BattleCharacter(side, new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation());
+        var character =
+            new BattleCharacter(side, new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation());
         //TODO: Fix
         battleCharacterView.GetComponent<PlayerTestScript>().SetSide(side);
-        battleCharacterView.Init(character, CreateCharacterAbilities(info.GetAbilityInfos(), character));
+        battleCharacterView.Init(character, CreateCharacterAbilities(info.GetActiveAbilityInfos(), character),
+            CreateCharacterAbilities(info.GetPassiveAbilityInfos(), character));
 
         character.View = battleCharacterView.gameObject;
         return character;

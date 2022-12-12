@@ -42,9 +42,9 @@ namespace CharacterAbility.AbilityEffects
                 DamageType = _damageType,
                 DamageHealTarget = _damageHealTarget
             };
-
             for (var i = 0; i < _damageAmounts; i++)
                 target.TakeDamage(attackInfo);
+            
             _nextEffect?.Use(target, stats);
         }
 

@@ -71,6 +71,7 @@ public class BattleCharacter : IActor
             Attacker = damageInfo.Attacker,
             Target = this
         };
+        Debug.Log("Attacker " + damageInfo.Attacker.View.name);
         Damaged?.Invoke(takeDamageInfo);
         _battleStats.Armor -= damageTaken.armorDamage;
         _battleStats.Health -= damageTaken.healthDamage;

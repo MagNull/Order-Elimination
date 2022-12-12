@@ -27,13 +27,12 @@ namespace CharacterAbility
                 case PassiveAbilityParams.PassiveTriggerType.Damage:
                     target.Damaged += info =>
                     {
-                        if (info.CancelType != DamageCancelType.None)
-                            return;
+                        // if (info.CancelType != DamageCancelType.None)
+                        //     return;
                         if(_nextEffect is ContreffectAbility)
                             _nextEffect.Use(info.Attacker, _caster.Stats);
                         else
                             _nextEffect?.Use(target, stats);
-                        Debug.Log("Apply Damage Passive");
                     };
                     break;
                 case PassiveAbilityParams.PassiveTriggerType.Movement:

@@ -9,6 +9,7 @@ namespace CharacterAbility.BuffEffects
     {
         [SerializeField]
         private int _value;
+        private int _attackOld;
 
         public AttackStatsBuff(int value, int duration) : base(duration)
         {
@@ -17,11 +18,11 @@ namespace CharacterAbility.BuffEffects
 
         public BattleStats Apply(IBuffTarget target)
         {
+            _attackOld = target.Stats.Attack;
             var newStats = new BattleStats(target.Stats)
             {
-                Attack = target.Stats.Attack + _value
+                Attack = (int)(target.Stats.Attack * (1f + _value / 100f)) 
             };
-            Debug.Log("AttackStatsBuff Apply " + target.Stats.Attack + " " + _value + "Result: " + newStats.Attack);
             return newStats;
         }
 
@@ -29,7 +30,7 @@ namespace CharacterAbility.BuffEffects
         {
             var newStats = new BattleStats(target.Stats)
             {
-                Attack = target.Stats.Attack - _value
+                Attack = _attackOld
             };
             return newStats;
         }

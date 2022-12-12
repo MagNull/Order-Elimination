@@ -6,5 +6,7 @@ public interface IBattleCharacterInfo
 {
     public BattleStats GetBattleStats();
     public Sprite GetView();
-    public AbilityInfo[] GetAbilityInfos();
+    public AbilityInfo[] GetActiveAbilityInfos();
+    
+    public AbilityInfo[] GetPassiveAbilityInfos();
 }

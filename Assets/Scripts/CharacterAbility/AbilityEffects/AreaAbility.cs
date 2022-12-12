@@ -1,19 +1,20 @@
 ﻿using OrderElimination;
+using UnityEngine;
 
 namespace CharacterAbility.AbilityEffects
 {
     public class AreaAbility : Ability
     {
         private readonly int _radius;
-        private readonly Ability _areaAbility;
+        private readonly Ability _areaEffects;
         private readonly BattleMap _battleMap;
 
-        public AreaAbility(IBattleObject caster, Ability areaAbility, BattleMap battleMap,
+        public AreaAbility(IBattleObject caster, Ability areaEffects, BattleMap battleMap,
             int radius, BattleObjectSide filter) :
-            base(caster, null, filter, 100)
+            base(caster, null, filter)
         {
             _radius = radius;
-            _areaAbility = areaAbility;
+            _areaEffects = areaEffects;
             _battleMap = battleMap;
         }
 
@@ -23,7 +24,7 @@ namespace CharacterAbility.AbilityEffects
             targets.Remove(target);
             foreach (var battleObject in targets)
             {
-                _areaAbility.Use(battleObject, stats);
+                _areaEffects.Use(battleObject, stats);
             }
         }
     }

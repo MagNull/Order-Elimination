@@ -79,7 +79,7 @@ namespace CharacterAbility
         public bool HasProbability;
         [ShowIf("HasProbability")]
         public float Probability;
-        [ShowIf("@Type != AbilityEffectType.Move")]
+        [ShowIf("@Type != AbilityEffectType.Move && Type != AbilityEffectType.Modificator")] 
         public BattleObjectSide Filter;
         [ShowIf(
             "@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal || Type == AbilityEffectType.OverTime")]
@@ -121,10 +121,6 @@ namespace CharacterAbility
         [ShowIf("@Type == AbilityEffectType.Contreffect")]
         public int Distance;
 
-        [Title("Description Flag")]
-        [TextArea]
-        public string DescriptionFlag;
-
         public bool ShowInAbilityDescription;
         [ShowIf("@" + nameof(ShowInAbilityDescription) + " == true")]
         public EffectView EffectView;
@@ -145,15 +141,19 @@ namespace CharacterAbility
         [SerializeField]
         [TextArea]
         private string _description;
+        [HideIf("@_type == AbilityType.Passive")]
         [SerializeField]
         [Range(0, 10)]
         private int _coolDown;
+        [HideIf("@_type == AbilityType.Passive")]
+
         [SerializeField]
         [Range(0, 10)]
         private int _startCoolDown;
 
         [field: SerializeField] public Sprite Icon { get; private set; }
 
+        [HideIf("@_type == AbilityType.Passive")]
         [field: SerializeField] public ActionType ActionType { get; private set; }
 
         [SerializeField]
@@ -180,12 +180,6 @@ namespace CharacterAbility
         public AbilityType Type => _type;
 
         public PassiveAbilityParams PassiveParams => _passiveParams;
-
-        public AbilityEffect GetTargetEffectByFlag(string flag) =>
-            _activeParams.TargetEffects.First(x => x.DescriptionFlag == flag);
-
-        public AbilityEffect GetAreaEffectByFlag(string flag) =>
-            _activeParams.AreaEffects.First(x => x.DescriptionFlag == flag);
 
         private void OnValidate()
         {

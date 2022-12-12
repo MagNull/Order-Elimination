@@ -39,75 +39,86 @@ MonoBehaviour:
   _startCoolDown: 1
   <Icon>k__BackingField: {fileID: 21300000, guid: f40d2eb98e4900346970d6c388916269, type: 3}
   <ActionType>k__BackingField: 1
-  _hasTarget: 1
-  _hasTargetEffect: 0
-  _distanceFromMovement: 0
-  _distance: 0
-  _targetType: 0
-  _targetEffects: []
-  _hasAreaEffect: 1
-  _areaRadius: 1
-  _areaEffects:
-  - Type: 5
-    HasProbability: 0
-    Probability: 0
-    Filter: 0
-    DamageHealType: 0
-    Amounts: 0
-    ScaleFrom: 0
-    Scale: 0
-    Modificator: 1
-    ModificatorValue: 0
-    OverTimeType: 0
-    BuffType: 0
-    BuffValue: 0
-    Duration: 0
-    TickValue: 0
-    DescriptionFlag: 
-    ShowInAbilityDescription: 0
-    EffectView:
-      DisplayAsMainEffect: 0
-      EffectName: 
-      EffectIcon: {fileID: 0}
-  - Type: 0
-    HasProbability: 0
-    Probability: 0
-    Filter: 0
-    DamageHealType: 0
-    Amounts: 2
-    ScaleFrom: 0
-    Scale: 1
-    Modificator: 0
-    ModificatorValue: 0
-    OverTimeType: 0
-    BuffType: 0
-    BuffValue: 0
-    Duration: 0
-    TickValue: 0
-    DescriptionFlag: 
-    ShowInAbilityDescription: 1
-    EffectView:
-      DisplayAsMainEffect: 1
-      EffectName: "\u0422\u0443\u043F\u0430 \u0443\u0440\u043E\u043D"
-      EffectIcon: {fileID: 0}
-  - Type: 3
-    HasProbability: 0
-    Probability: 0
-    Filter: 0
-    DamageHealType: 1
-    Amounts: 0
-    ScaleFrom: 0
-    Scale: 0
-    Modificator: 0
-    ModificatorValue: 0
-    OverTimeType: 0
-    BuffType: 0
-    BuffValue: 0
-    Duration: 5
-    TickValue: 5
-    DescriptionFlag: 
-    ShowInAbilityDescription: 1
-    EffectView:
-      DisplayAsMainEffect: 0
-      EffectName: "\u041A\u0440\u043E\u0432\u043E\u0442\u0435\u0447\u0435\u043D\u0438\u0435"
-      EffectIcon: {fileID: 0}
+  _type: 0
+  _activeParams:
+    _hasTarget: 0
+    _hasTargetEffect: 0
+    _distanceFromMovement: 0
+    _distance: 0
+    _targetType: 0
+    _targetEffects: []
+    _hasAreaEffect: 1
+    _areaRadius: 1
+    _areaEffects:
+    - Type: 6
+      HasProbability: 0
+      Probability: 0
+      Filter: 0
+      _damageHealTarget: 0
+      Amounts: 0
+      ScaleFrom: 0
+      Scale: 0
+      Modificator: 1
+      ModificatorValue: 0
+      BuffType: 0
+      BuffValue: 0
+      Duration: 0
+      ConditionType: 0
+      OverTimeType: 0
+      TickValue: 0
+      DamageType: 0
+      Distance: 0
+      ShowInAbilityDescription: 0
+      EffectView:
+        DisplayAsMainEffect: 0
+        EffectName: 
+        EffectIcon: {fileID: 0}
+    - Type: 0
+      HasProbability: 0
+      Probability: 0
+      Filter: 0
+      _damageHealTarget: 0
+      Amounts: 2
+      ScaleFrom: 0
+      Scale: 1
+      Modificator: 0
+      ModificatorValue: 0
+      BuffType: 0
+      BuffValue: 0
+      Duration: 0
+      ConditionType: 0
+      OverTimeType: 0
+      TickValue: 0
+      DamageType: 3
+      Distance: 0
+      ShowInAbilityDescription: 0
+      EffectView:
+        DisplayAsMainEffect: 0
+        EffectName: 
+        EffectIcon: {fileID: 0}
+    - Type: 3
+      HasProbability: 1
+      Probability: 80
+      Filter: 0
+      _damageHealTarget: 1
+      Amounts: 0
+      ScaleFrom: 0
+      Scale: 0
+      Modificator: 0
+      ModificatorValue: 0
+      BuffType: 0
+      BuffValue: 0
+      Duration: 5
+      ConditionType: 0
+      OverTimeType: 0
+      TickValue: 5
+      DamageType: 3
+      Distance: 0
+      ShowInAbilityDescription: 0
+      EffectView:
+        DisplayAsMainEffect: 0
+        EffectName: 
+        EffectIcon: {fileID: 0}
+  _passiveParams:
+    _effects: []
+    _triggerType: 0

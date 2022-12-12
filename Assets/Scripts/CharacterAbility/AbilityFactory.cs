@@ -58,7 +58,6 @@ namespace CharacterAbility
                 ability = new AreaAbility(caster, ability, _battleMapView.Map, abilityInfo.ActiveParams.AreaRadius,
                     BattleObjectSide.None);
             }
-
             if (abilityInfo.ActiveParams.HasTargetEffect)
             {
                 ability = AddEffects(abilityInfo.ActiveParams.TargetEffects, ability, caster);

@@ -11,6 +11,7 @@ namespace CharacterAbility
     {
         [SerializeField]
         protected int _modificator;
+        [SerializeField]
         private readonly Buff_Type _incomingBuffType;
         private readonly DamageType _damageType;
 
@@ -27,13 +28,16 @@ namespace CharacterAbility
             switch (_incomingBuffType)
             {
                 case Buff_Type.IncomingAccuracy:
-                    info.Accuracy += _modificator;
+                    if(info.DamageType == _damageType)
+                        info.Accuracy += _modificator;
                     break;
                 case Buff_Type.IncomingDamageIncrease:
-                    info.Damage *= _modificator;
+                    if(info.DamageType == _damageType)
+                        info.Damage *= _modificator;
                     break;
                 case Buff_Type.IncomingDamageReduction:
-                    info.Damage /= _modificator;
+                    if(info.DamageType == _damageType)
+                        info.Damage /= _modificator;
                     break;
                 
                 case Buff_Type.Attack:

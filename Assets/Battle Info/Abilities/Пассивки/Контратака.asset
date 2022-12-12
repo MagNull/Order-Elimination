@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 712c7d7e8793431d90ef1998c6ea77d7, type: 3}
-  m_Name: "\u0421\u0432\u0438\u043D\u0446\u043E\u0432\u044B\u0439 \u0434\u043E\u0436\u0434\u044C"
+  m_Name: "\u041A\u043E\u043D\u0442\u0440\u0430\u0442\u0430\u043A\u0430"
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,50 +21,32 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _name: "\u0421\u0432\u0438\u043D\u0446\u043E\u0432\u044B\u0439 \u0434\u043E\u0436\u0434\u044C"
-  _description: 
-  _coolDown: 3
+  _name: "\u041A\u043E\u043D\u0442\u0440\u0430\u0442\u0430\u043A\u0430"
+  _description: "\u2014 \u042F \u0437\u043D\u0430\u044E, \u043A\u0442\u043E \u0442\u044B!\n\u2014
+    \u0421\u043A\u0430\u0436\u0438!.. \u0421\u043A\u0430\u0436\u0438 \u044D\u0442\u043E!"
+  _coolDown: 1
   _startCoolDown: 1
-  <Icon>k__BackingField: {fileID: 21300000, guid: 2a8bb88beb4680b4e95d30a944cfa553, type: 3}
+  <Icon>k__BackingField: {fileID: 21300000, guid: f91d05b69dc93144ca3549f82b1cdb35, type: 3}
   <ActionType>k__BackingField: 1
-  _type: 0
+  _type: 1
   _activeParams:
-    _hasTarget: 1
-    _hasTargetEffect: 1
+    _hasTarget: 0
+    _hasTargetEffect: 0
     _distanceFromMovement: 0
-    _distance: 4
-    _targetType: 1
-    _targetEffects:
-    - Type: 6
+    _distance: 0
+    _targetType: 0
+    _targetEffects: []
+    _hasAreaEffect: 0
+    _areaRadius: 0
+    _areaEffects: []
+  _passiveParams:
+    _effects:
+    - Type: 8
       HasProbability: 0
       Probability: 0
       Filter: 0
       _damageHealTarget: 0
-      Amounts: 0
-      ScaleFrom: 0
-      Scale: 0
-      Modificator: 0
-      ModificatorValue: -15
-      BuffType: 0
-      BuffValue: 0
-      Duration: 0
-      ConditionType: 0
-      OverTimeType: 0
-      TickValue: 0
-      DamageType: 0
-      Distance: 0
-      DescriptionFlag: 
-      ShowInAbilityDescription: 0
-      EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
-    - Type: 0
-      HasProbability: 0
-      Probability: 0
-      Filter: 0
-      _damageHealTarget: 0
-      Amounts: 5
+      Amounts: 1
       ScaleFrom: 0
       Scale: 1
       Modificator: 0
@@ -75,17 +57,34 @@ MonoBehaviour:
       ConditionType: 0
       OverTimeType: 0
       TickValue: 0
-      DamageType: 2
-      Distance: 0
-      DescriptionFlag: 
+      DamageType: 3
+      Distance: 5
       ShowInAbilityDescription: 0
       EffectView:
         DisplayAsMainEffect: 0
         EffectName: 
         EffectIcon: {fileID: 0}
-    _hasAreaEffect: 0
-    _areaRadius: 0
-    _areaEffects: []
-  _passiveParams:
-    _effects: []
-    _triggerType: 0
+    - Type: 0
+      HasProbability: 0
+      Probability: 0
+      Filter: 0
+      _damageHealTarget: 0
+      Amounts: 1
+      ScaleFrom: 0
+      Scale: 1
+      Modificator: 0
+      ModificatorValue: 0
+      BuffType: 0
+      BuffValue: 0
+      Duration: 0
+      ConditionType: 0
+      OverTimeType: 0
+      TickValue: 0
+      DamageType: 3
+      Distance: 0
+      ShowInAbilityDescription: 0
+      EffectView:
+        DisplayAsMainEffect: 0
+        EffectName: 
+        EffectIcon: {fileID: 0}
+    _triggerType: 2
