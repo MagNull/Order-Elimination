@@ -78,5 +78,13 @@ namespace OrderElimination
             writer.WriteEndElement();
             writer.Flush();
         }
+
+        public void FinishMove()
+        {
+            var squads = _selectableObjects.GetSquads();
+
+            foreach (var squad in squads)
+                squad.AlreadyMove = false;
+        }
     }
 }
