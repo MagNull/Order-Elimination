@@ -97,6 +97,7 @@ public class BattleMapView : MonoBehaviour
         {
             cell.Delight();
         }
+        _lightedCells.Clear();
     }
 
     private void OnBattleEnded(BattleOutcome obj)

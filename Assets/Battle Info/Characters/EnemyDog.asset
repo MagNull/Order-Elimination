@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EnemyDog
   m_EditorClassIdentifier: 
   _battleStats:
-    _health: 60
+    _health: 40
     _attack: 20
     _armor: 0
     _evasion: 0
@@ -24,5 +24,4 @@ MonoBehaviour:
   _activeAbilities:
   - {fileID: 11400000, guid: 377b9520ee2226943b6a5eed2b1f24c3, type: 2}
   - {fileID: 11400000, guid: 6c7e7a688e8448e4f9fd68c2c4810fc6, type: 2}
-  _passiveAbilities:
-  - {fileID: 11400000, guid: 601a2993801f0b34b8ed8ecab5405e29, type: 2}
+  _passiveAbilities: []

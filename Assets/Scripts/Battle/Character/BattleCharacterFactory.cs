@@ -26,14 +26,17 @@ public class BattleCharacterFactory : MonoBehaviour
     {
         BattleCharacterView battleCharacterView = Instantiate(charPrefab);
         battleCharacterView.SetImage(info.GetView());
-        //TODO: Fix stats
-        var character =
-            new BattleCharacter(side, new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation());
+        BattleCharacter character;
         //TODO: Generation Enemy 
         if (side == BattleObjectSide.Enemy)
         {
-            character = new EnemyDog(_map, _abilityFactory.CreateAbility(_bite, character),
+            character = new EnemyDog(_map,
                 new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation());
+            ((EnemyDog)character).SetDamageAbility(_abilityFactory.CreateAbility(_bite, character));
+        }
+        else
+        {
+            character = new BattleCharacter(side, new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation());
         }
 
         battleCharacterView.GetComponentInChildren<SpriteRenderer>().sprite = info.GetView();

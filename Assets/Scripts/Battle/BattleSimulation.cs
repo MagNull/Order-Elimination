@@ -13,7 +13,7 @@ public class BattleSimulation : MonoBehaviour
     public static event Action PlayerTurnEnd;
 
     public static event Action<BattleOutcome> BattleEnded;
-    
+
     private CharacterArrangeDirector _characterArrangeDirector;
     private BattleMapDirector _battleMapDirector;
     private AbilityViewBinder _abilityViewBinder;
@@ -56,13 +56,11 @@ public class BattleSimulation : MonoBehaviour
         if (_outcome != BattleOutcome.Neither)
         {
             // По завершении сражения событие отправляется единожды
-            if (!_isBattleEnded)
-            {
-                BattleEnded?.Invoke(_outcome);
-                _abilityPanel.ResetAbilityButtons();
-                _isBattleEnded = true;
-                Debug.LogFormat("Сражение завершено - победил {0}", _outcome == BattleOutcome.Victory ? "игрок" : "ИИ");
-            }
+            if (_isBattleEnded) return;
+            BattleEnded?.Invoke(_outcome);
+            _abilityPanel.ResetAbilityButtons();
+            _isBattleEnded = true;
+            Debug.LogFormat("Сражение завершено - победил {0}", _outcome == BattleOutcome.Victory ? "игрок" : "ИИ");
         }
         else
         {
@@ -93,10 +91,11 @@ public class BattleSimulation : MonoBehaviour
                 var enemies = _characters
                     .Select(x => x)
                     .Where(x => x.Side == BattleObjectSide.Enemy);
-                foreach(var enemy in enemies)
+                foreach (var enemy in enemies)
                 {
                     enemy.PlayTurn();
                 }
+
                 EndTurn();
             }
         }
