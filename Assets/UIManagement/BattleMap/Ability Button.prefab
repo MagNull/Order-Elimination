@@ -29,7 +29,7 @@ RectTransform:
   m_GameObject: {fileID: 2134820545029408842}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.87377244, y: 0.87377244, z: 0.87377244}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2134820545618955603}
@@ -119,7 +119,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2134820545029408841}
   m_OnClick:
     m_PersistentCalls:
@@ -179,11 +179,11 @@ RectTransform:
   m_Father: {fileID: 2134820545029408843}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -119.3839, y: -0.6249}
-  m_SizeDelta: {x: 130.0963, y: 121.4018}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 15, y: 0}
+  m_SizeDelta: {x: 110, y: 110}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &2134820545498950722
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -255,11 +255,11 @@ RectTransform:
   m_Father: {fileID: 2134820545029408843}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 74.65213, y: 0}
-  m_SizeDelta: {x: -149.3042, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -13.7, y: -0.000024243}
+  m_SizeDelta: {x: 210.6958, y: 120}
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &2134820545618955601
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -315,7 +315,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
+  m_fontSize: 28.2
   m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -16,11 +16,17 @@ public class BattleCharacterView : MonoBehaviour
 
     public BattleCharacter Model => _character;
     public AbilityView[] ActiveAbilitiesView => _activeAbilitiesView;
+    public Sprite Avatar { get; private set; }
 
-    public bool Selected => _selected;
+    public bool IsSelected => _selected;
 
-    public void Init(BattleCharacter character, AbilityView[] activeAbilitiesView, AbilityView[] passiveAbilitiesView)
+    public static event Action<BattleCharacterView> Selected;
+    public static event Action<BattleCharacterView> Deselected;
+
+    public void Init(BattleCharacter character, AbilityView[] activeAbilitiesView, AbilityView[] passiveAbilitiesView, Sprite avatar)
     {
+        Selected = null;
+        Deselected = null;
         _passiveAbilitiesView = passiveAbilitiesView;
         _character = character;
         _character.Damaged += OnDamaged;
@@ -29,6 +35,7 @@ public class BattleCharacterView : MonoBehaviour
 
         _activeAbilitiesView = activeAbilitiesView;
         _passiveAbilitiesView = passiveAbilitiesView;
+        Avatar = avatar;
     }
 
     private void OnDamaged(TakeDamageInfo info)
@@ -52,9 +59,17 @@ public class BattleCharacterView : MonoBehaviour
 
     public void SetImage(Sprite image) => _renderer.sprite = image;
 
-    public void Select() => _selected = true;
-    
-    public void Deselect() => _selected = false;
+    public void Select()
+    {
+        _selected = true;
+        Selected?.Invoke(this);
+    }
+
+    public void Deselect()
+    {
+        _selected = false;
+        Deselected?.Invoke(this);
+    }
 
     private void OnDied(BattleCharacter battleCharacter)
     {

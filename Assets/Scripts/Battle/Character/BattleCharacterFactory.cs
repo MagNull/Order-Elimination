@@ -41,7 +41,8 @@ public class BattleCharacterFactory : MonoBehaviour
 
         battleCharacterView.GetComponentInChildren<SpriteRenderer>().sprite = info.GetView();
         battleCharacterView.Init(character, CreateCharacterAbilities(info.GetActiveAbilityInfos(), character),
-            CreateCharacterAbilities(info.GetPassiveAbilityInfos(), character));
+            CreateCharacterAbilities(info.GetPassiveAbilityInfos(), character),
+            info.GetView());
 
         character.View = battleCharacterView.gameObject;
         return character;
