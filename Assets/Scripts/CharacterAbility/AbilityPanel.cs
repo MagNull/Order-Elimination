@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UIManagement;
 using UnityEngine;
 
@@ -10,7 +11,10 @@ namespace CharacterAbility
         [SerializeField]
         private AbilityButton[] _abilityButtons;
         [SerializeField]
+        private AbilityButton[] _passiveSkillsButtons;
+        [SerializeField]
         private UIController _panelController;
+        public IReadOnlyList<AbilityButton> AbilityButtons => _abilityButtons;
 
         public void ResetAbilityButtons()
         {
@@ -26,7 +30,7 @@ namespace CharacterAbility
             {
                 button.Clicked += OnAbilityButtonClicked;
                 button.Holded += OnAbilityButtonHolded;
-                button.Casted += OnAbilityCasted;
+                button.AbilityButtonUsed += OnAbilityCasted;
             }
         }
 
@@ -36,7 +40,7 @@ namespace CharacterAbility
             {
                 button.Clicked -= OnAbilityButtonClicked;
                 button.Holded -= OnAbilityButtonHolded;
-                button.Casted -= OnAbilityCasted;
+                button.AbilityButtonUsed -= OnAbilityCasted;
             }
         }
 
@@ -61,7 +65,7 @@ namespace CharacterAbility
         {
             foreach(var button in _abilityButtons)
             {
-                button.CheckUsePossibility();
+                //button.CheckUsePossibility();
             }
         }
     }

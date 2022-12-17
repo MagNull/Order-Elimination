@@ -46,6 +46,7 @@ public class BattleSimulation : MonoBehaviour
     {
         _characters = new List<BattleCharacter>();
         _abilityViewBinder = new AbilityViewBinder();
+        _abilityButtons = _abilityPanel.AbilityButtons.ToArray();
     }
 
     public void Start()

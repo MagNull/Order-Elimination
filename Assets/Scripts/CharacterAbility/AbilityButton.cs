@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
 using System;
 using TMPro;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace CharacterAbility
     //TODO выделить отдельный класс HoldableButton
     public class AbilityButton : Button
     {
-        public event Action Casted;
+        public event Action AbilityButtonUsed;
 
         public AbilityView AbilityView { get; private set; }
         public event Action<AbilityButton> Clicked;
@@ -55,7 +56,7 @@ namespace CharacterAbility
 
         protected async UniTask WaitUntilHoldTime()
         {
-            await UniTask.Delay(millisecondsToHold);
+            await UniTask.Delay(millisecondsToHold, ignoreTimeScale: true);
             _releasedTime = Time.time;
             if (!HoldingTimeInSeconds.HasValue
                 || HoldingTimeInSeconds.Value + errorHoldTimeInMilliseconds / 1000f < millisecondsToHold / 1000f)
@@ -79,7 +80,9 @@ namespace CharacterAbility
         {
             _releasedTime = Time.time;
             Clicked?.Invoke(this);
-            AbilityView.Clicked();
+            //TODO Логика зависит от UI
+            //if (AbilityView.CanCast)
+                AbilityView.Clicked();
             Debug.Log("Clicked");
         }
 
@@ -95,36 +98,26 @@ namespace CharacterAbility
         public void SetAbility(AbilityView abilityView)
         {
             RemoveAbility();
+            interactable = true;
             _abilityName.text = abilityView.Name;
             _abilityImage.sprite = abilityView.AbilityIcon;
             AbilityView = abilityView;
-            AbilityView.Casted += OnCasted;
-            CheckUsePossibility();
+            AbilityView.Casted += OnAbilityCasted;
         }
 
         public void CancelAbilityCast() => AbilityView?.CancelCast();
         
-        private void OnCasted() => Casted?.Invoke();
-
-        public void CheckUsePossibility()
-        {
-            if(AbilityView.CanCast)
-            {
-                interactable = true;
-                return;
-            }
-            interactable = false;
-        }
+        private void OnAbilityCasted() => AbilityButtonUsed?.Invoke();
 
         public void RemoveAbility()
         {
+            interactable = false;
             CancelAbilityCast();
             _abilityImage.sprite = null;
             _abilityName.text = "";
             if(AbilityView != null)
-                AbilityView.Casted -= OnCasted;
+                AbilityView.Casted -= OnAbilityCasted;
             AbilityView = null;
-            interactable = false;
             onClick.RemoveAllListeners();
         }
     }
