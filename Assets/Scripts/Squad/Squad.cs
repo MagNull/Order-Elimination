@@ -59,7 +59,6 @@ namespace OrderElimination
 
         public void SetOrder(Order order)
         {
-            AlreadyMove = false;
             _order = order;
             _order.Start();
         }
