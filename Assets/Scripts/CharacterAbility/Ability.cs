@@ -13,6 +13,8 @@ namespace CharacterAbility
         protected readonly IBattleObject _caster;
         protected readonly BattleObjectSide _filter;
 
+        public float Probability => _probability;
+
         protected Ability(IBattleObject caster, Ability nextEffect, BattleObjectSide filter,
             float probability = 100)
         {
