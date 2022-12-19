@@ -6,98 +6,144 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace CharacterAbility
+namespace UIManagement.Elements
 {
-    // Сериализуемые поля назначать в инспекторе в Debug режиме!!
-    //TODO выделить отдельный класс HoldableButton
-    public class HoldableButton : Button
+    /// <summary>
+    /// Don't use onClick event or you die. 
+    /// Весь этот класс – параша, как и юнитивский Button. 
+    /// В следующий раз лучше будет изобрести велосипед или использовать уже готовый ассет.
+    /// </summary>
+    [Serializable]
+    public sealed class HoldableButton : Button
     {
-        public event Action<HoldableButton> Clicked;
-        public event Action<HoldableButton> Holded;
-        [SerializeField]
-        public int MillisecondsToHold = 700;
-        public bool ClickAvailable;
-        public bool HoldAvailable;
         private int MillisecondsToHoldError => Math.Min(10, MillisecondsToHold);
-        private bool isPressed;
-        private float? _pressedTime;
-        private float? _releasedTime;
+        private float? _pressTime;
+        private bool isPressed = false;
         private bool isPointerOnButton = false;
 
-        private float? HoldingTimeInSeconds
+        public event Action<HoldableButton> Clicked;
+        public event Action<HoldableButton, float> Holded;
+        [SerializeField]
+        public int MillisecondsToHold = 700;
+        [SerializeField]
+        public Color ClickUnavalableTint = Color.red;
+
+        [SerializeField]
+        private bool _clickAvailable;
+        public bool ClickAvailable
         {
-            get
+            get => _clickAvailable;
+            set
             {
-                if (!_pressedTime.HasValue || !_releasedTime.HasValue)
-                    return null;
-                if (_releasedTime < _pressedTime)
-                    throw new Exception();
-                return _releasedTime - _pressedTime.Value;
+                _clickAvailable = value;
+                UpdateVisuals();
             }
+        }
+        [SerializeField]
+        private bool _holdAvailable;
+        public bool HoldAvailable
+        {
+            get => _holdAvailable;
+            set
+            {
+                _holdAvailable = value;
+                UpdateVisuals();
+            }
+        }
+
+        [Obsolete("Deprecated. Use Clicked and Holded events instead.")]
+        public ButtonClickedEvent onClick => onClick;
+
+        public void UpdateVisuals()
+        {
+            targetGraphic.color = Color.white;
+            if (!ClickAvailable)
+                targetGraphic.color = ClickUnavalableTint;
+        }
+
+        protected override void OnEnable()
+        {
+            UpdateVisuals();
         }
 
         public override void OnPointerDown(PointerEventData eventData)
         {
-            if (!interactable || !isPointerOnButton)
+            if (!interactable)
                 return;
-            
-            _pressedTime = Time.unscaledTime;
-            _releasedTime = null;
+            if (!ClickAvailable && !HoldAvailable)
+                return;
+            _pressTime = Time.unscaledTime;
+            isPressed = true;
             base.OnPointerDown(eventData);
             UniTask.Create(WaitUntilHoldTime);
             Debug.Log("Pressed");
         }
 
-        protected async UniTask WaitUntilHoldTime()
+        private async UniTask WaitUntilHoldTime()
         {
+            if (!HoldAvailable) return;
             await UniTask.Delay(MillisecondsToHold, ignoreTimeScale: true);
-            if (!isPointerOnButton)
+            if (!interactable 
+                || !isPressed
+                || !isPointerOnButton)
+                return;
+            if (!HoldAvailable) return;
+            var holdTime = Time.unscaledTime - _pressTime;
+            if (holdTime * 1000 + MillisecondsToHoldError >= MillisecondsToHold)
             {
-                return;
+                base.OnPointerUp(new PointerEventData(EventSystem.current));
+                OnHold(Mathf.Min(holdTime.Value, MillisecondsToHold / 1000f));
             }
-            _releasedTime = Time.unscaledTime;
-            if (!HoldingTimeInSeconds.HasValue
-                || HoldingTimeInSeconds.Value + MillisecondsToHoldError / 1000f < MillisecondsToHold / 1000f)
-                return;
-            OnHold();
         }
 
         public override void OnPointerUp(PointerEventData eventData)
         {
             if (!interactable)
                 return;
-            _pressedTime = null;
             base.OnPointerUp(eventData);
-            if (_releasedTime != null)
+            if (!isPressed)
                 return;
-            OnClick();
+            isPressed = false;
+            _pressTime = null;
+            if (ClickAvailable && isPointerOnButton)
+            {
+                OnClick();
+            }
         }
 
         public override void OnPointerExit(PointerEventData eventData)
         {
+            if (!interactable)
+                return;
             isPointerOnButton = false;
-            _pressedTime = null;
+            _pressTime = null;
             base.OnPointerExit(eventData);
         }
         public override void OnPointerEnter(PointerEventData eventData)
         {
+            if (!interactable)
+                return;
             isPointerOnButton = true;
-            _pressedTime = Time.unscaledTime;
-            base.OnPointerExit(eventData);
+            if (isPressed)
+            {
+                _pressTime = Time.unscaledTime;
+                UniTask.Create(WaitUntilHoldTime);
+            }
+            base.OnPointerEnter(eventData);
         }
 
         private void OnClick()
         {
-            _releasedTime = Time.unscaledTime;
+            isPressed = false;
             Clicked?.Invoke(this);
             Debug.Log("Clicked");
         }
 
-        private void OnHold()
+        private void OnHold(float holdTimeInSeconds)
         {
-            Debug.Log("Holded for " + HoldingTimeInSeconds.Value);
-            Holded?.Invoke(this);
-            OnPointerUp(new PointerEventData(EventSystem.current));
+            isPressed = false;
+            Holded?.Invoke(this, holdTimeInSeconds);
+            Debug.Log("Holded for " + holdTimeInSeconds + " s");
         }
     }
 }

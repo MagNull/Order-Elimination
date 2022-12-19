@@ -16,6 +16,7 @@ public class BattleCharacterView : MonoBehaviour
 
     public BattleCharacter Model => _character;
     public AbilityView[] ActiveAbilitiesView => _activeAbilitiesView;
+    public AbilityView[] PassiveAbilitiesView => _passiveAbilitiesView;
     public Sprite Avatar { get; private set; }
 
     public bool IsSelected => _selected;

@@ -73,9 +73,10 @@ public class BattleCharacter : IActor
             Attacker = damageInfo.Attacker,
             Target = this
         };
-        Damaged?.Invoke(takeDamageInfo);
+        //TODO Логика ивента при уроне
         _battleStats.Armor -= damageTaken.armorDamage;
         _battleStats.Health -= damageTaken.healthDamage;
+        Damaged?.Invoke(takeDamageInfo);
 
         if (_battleStats.Health > 0) return;
         _battleStats.Health = 0;
