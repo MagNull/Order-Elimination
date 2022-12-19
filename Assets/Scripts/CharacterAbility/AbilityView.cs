@@ -36,6 +36,10 @@ namespace CharacterAbility
             Caster = caster;
             _ability = ability;
             _battleMapView = battleMapView;
+            if (_battleMapView == null)
+            {
+
+            }
             AbilityInfo = info;
             _abilityDistance = AbilityInfo.ActiveParams.DistanceFromMovement
                 ? Caster.Stats.Movement

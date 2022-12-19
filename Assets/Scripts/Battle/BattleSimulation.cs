@@ -6,6 +6,8 @@ using CharacterAbility;
 using OrderElimination;
 using OrderElimination.BattleMap;
 using VContainer;
+using UIManagement.Elements;
+using UIManagement;
 
 public class BattleSimulation : MonoBehaviour
 {
@@ -18,11 +20,11 @@ public class BattleSimulation : MonoBehaviour
     private BattleMapDirector _battleMapDirector;
     private AbilityViewBinder _abilityViewBinder;
 
-    [SerializeField]
-    private AbilityButton[] _abilityButtons;
     //TODO: Remove panel, use event instead call inside methods(like EndRound, BattleEnd)
     [SerializeField]
     private AbilityPanel _abilityPanel;
+    [SerializeField]
+    private CharacterBattleStatsPanel _characterStatsWindow;
 
     private BattleObjectSide _currentTurn;
     private BattleOutcome _outcome;
@@ -160,6 +162,8 @@ public class BattleSimulation : MonoBehaviour
         _characterArrangeDirector.SetArrangementMap(_battleMapDirector.Map);
         _characters = _characterArrangeDirector.Arrange();
 
-        _abilityViewBinder.BindAbilityButtons(_battleMapDirector.MapView, _abilityButtons, _currentTurn);
+        _abilityViewBinder.BindAbilityButtons(_battleMapDirector.MapView, _abilityPanel, _currentTurn);
+        //TODO затрагивает UI
+        _characterStatsWindow.Bind(_battleMapDirector.MapView, _currentTurn);
     }
 }
