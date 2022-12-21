@@ -92,19 +92,19 @@ namespace CharacterAbility
                 if (effect.Type == AbilityEffectType.Heal)
                     result.AddDisplayedParameter("Лечение", displayedValue);
             }
-            if (effect.Type == AbilityEffectType.Modificator && effect.Modificator == ModificatorType.Accuracy)
+            else if (effect.Type == AbilityEffectType.Modificator && effect.Modificator == ModificatorType.Accuracy)
             {
                 var valuePrefix = effect.ModificatorValue > 0 ? "+" : "";
                 result.AddDisplayedParameter("Точность", $"{valuePrefix}{effect.ModificatorValue}", ValueUnits.Percents);
             }
-            if (effect.Type == AbilityEffectType.TickingBuff || effect.Type == AbilityEffectType.OverTime)
+            else if (effect.Type == AbilityEffectType.TickingBuff || effect.Type == AbilityEffectType.OverTime)
             {
                 if (effect.Type == AbilityEffectType.TickingBuff)
                 {
                     var valuePrefix = effect.BuffValue > 0 ? "+" : "";
                     result.AddDisplayedParameter(
-                        Localization.Current.GetBuffName(effect.BuffType), 
-                        $"{valuePrefix}{effect.BuffValue}", 
+                        Localization.Current.GetBuffName(effect.BuffType),
+                        $"{valuePrefix}{effect.BuffValue}",
                         EffectView.GetBuffUnits(effect.BuffType));
                 }
                 if (effect.Type == AbilityEffectType.OverTime)
@@ -112,7 +112,9 @@ namespace CharacterAbility
                     result.AddDisplayedParameter(Localization.Current.GetOvertimeTypeName(effect.OverTimeType), effect.TickValue);
                 }
                 result.AddDisplayedParameter("Длительн", effect.Duration, ValueUnits.Turns);
-            };
+            }
+            else
+                throw new NotImplementedException($"EffectType {effect.Type} cannot be displayed.");
             return result;
         }
 

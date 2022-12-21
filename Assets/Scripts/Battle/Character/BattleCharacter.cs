@@ -45,6 +45,8 @@ public class BattleCharacter : IActor
 
     public IReadOnlyBattleStats Stats => _battleStats;
 
+    public event Action<ITickEffect> EffectAdded;
+
     public BattleCharacter(BattleObjectSide side, BattleStats battleStats, IDamageCalculation damageCalculation)
     {
         _damageCalculation = damageCalculation;
@@ -71,9 +73,10 @@ public class BattleCharacter : IActor
             Attacker = damageInfo.Attacker,
             Target = this
         };
-        Damaged?.Invoke(takeDamageInfo);
+        //TODO Логика ивента при уроне
         _battleStats.Armor -= damageTaken.armorDamage;
         _battleStats.Health -= damageTaken.healthDamage;
+        Damaged?.Invoke(takeDamageInfo);
 
         if (_battleStats.Health > 0) return;
         _battleStats.Health = 0;
@@ -141,6 +144,7 @@ public class BattleCharacter : IActor
                 _tickEffects.Add(effect);
                 break;
         }
+        EffectAdded?.Invoke(effect);
     }
 
     public virtual void PlayTurn()

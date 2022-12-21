@@ -14,6 +14,7 @@ namespace UIManagement
         BattleVictory, 
         BattleDefeat, 
         CharacterDetails, 
-        AbilityDescription
+        AbilityDescription,
+        PassiveSkillsDescription
     }
 }

@@ -9,6 +9,9 @@ using UnityEngine.UI;
 
 namespace UIManagement
 {
+    /// <summary>
+    /// Call Initialize() method before usage.
+    /// </summary>
     [DisallowMultipleComponent]
     public abstract class UIPanel : MonoBehaviour, IUIPanel
     {

@@ -10,6 +10,9 @@ namespace CharacterAbility
     public class AbilityView
     {
         public event Action Casted;
+        // Добавленные события
+        public static event Action<float, GameObject> TargetSelected;
+        public static event Action TargetDeselected;
 
         private readonly Ability _ability;
         private readonly BattleMapView _battleMapView;
@@ -36,6 +39,10 @@ namespace CharacterAbility
             Caster = caster;
             _ability = ability;
             _battleMapView = battleMapView;
+            if (_battleMapView == null)
+            {
+
+            }
             AbilityInfo = info;
             _abilityDistance = AbilityInfo.ActiveParams.DistanceFromMovement
                 ? Caster.Stats.Movement
@@ -115,6 +122,8 @@ namespace CharacterAbility
 
         private async UniTask<IBattleObject> SelectTarget()
         {
+            TargetDeselected?.Invoke();
+
             IBattleObject target = null;
             _casting = true;
 
@@ -157,6 +166,13 @@ namespace CharacterAbility
                 selectedCellViews.Add(cell);
 
                 target = selected;
+
+                // Начало
+                if (target.Side == BattleObjectSide.Enemy)
+                {
+                    TargetSelected?.Invoke(_ability.Probability, target.View);
+                }
+                // Конец
             }
 
             _battleMapView.CellClicked += OnCellClicked;
