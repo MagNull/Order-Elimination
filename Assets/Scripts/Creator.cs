@@ -37,6 +37,7 @@ namespace OrderElimination
         public PlanetPoint CreatePlanetPoint(PlanetInfo planetInfo)
         {
             var planetPoint = Instantiate(_planetPointPrefab, planetInfo.Position, Quaternion.identity);
+            planetPoint.SetInfo(planetInfo);
             Created?.Invoke(planetPoint);
             return planetPoint;
         }

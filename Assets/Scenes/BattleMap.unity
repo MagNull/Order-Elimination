@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &11810983 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6007388017382158676, guid: 8f896f893c431c8479eb8f0be3595dfe, type: 3}
+  m_PrefabInstance: {fileID: 84414886}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dd16475eb079d742973403e0d5bf4df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &12381584
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,6 +305,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character Stats
       objectReference: {fileID: 0}
+    - target: {fileID: 7908058774557859806, guid: 8f896f893c431c8479eb8f0be3595dfe, type: 3}
+      propertyPath: _armorBar
+      value: 
+      objectReference: {fileID: 11810983}
+    - target: {fileID: 7908058774557859806, guid: 8f896f893c431c8479eb8f0be3595dfe, type: 3}
+      propertyPath: _healthBar
+      value: 
+      objectReference: {fileID: 1029369293}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f896f893c431c8479eb8f0be3595dfe, type: 3}
 --- !u!1 &131492486
@@ -2979,6 +2998,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2134820545029408843, guid: 3f57e9f7ecaf59446bfb09ee9f0277a5, type: 3}
   m_PrefabInstance: {fileID: 991932962}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1029369293 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7685515782295545373, guid: 8f896f893c431c8479eb8f0be3595dfe, type: 3}
+  m_PrefabInstance: {fileID: 84414886}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dd16475eb079d742973403e0d5bf4df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1066279672
 GameObject:
   m_ObjectHideFlags: 0
@@ -3935,6 +3965,7 @@ MonoBehaviour:
   autoRun: 1
   autoInjectGameObjects:
   - {fileID: 1136108541}
+  - {fileID: 1136108541}
   _battleCharacterFactory: {fileID: 221238765}
   _battleMapView: {fileID: 246195458}
   _battleMapDirector:
@@ -4085,7 +4116,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1908500042
 MonoBehaviour:
   m_ObjectHideFlags: 0

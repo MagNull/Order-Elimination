@@ -19,14 +19,15 @@ namespace OrderElimination
         {
             var battleStatsList = _squad.Members.Cast<IBattleCharacterInfo>().ToList();
             var charactersMediator = _objectResolver.Resolve<CharactersMediator>();
-            charactersMediator.SetCharacters(battleStatsList);
+            charactersMediator.SetSquad(battleStatsList);
+            charactersMediator.SetEnemies(_target.GetPlanetInfo().Enemies);
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();
         }
 
         public override void End()
         {
-            base._squad.DistributeExperience(base._target.GetPlanetInfo().Expirience);
+            base._squad.DistributeExperience(base._target.GetPlanetInfo().Experience);
         }
     }
 }

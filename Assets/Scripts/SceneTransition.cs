@@ -11,7 +11,7 @@ namespace OrderElimination
 
         public void LoadStrategyMap()
         {
-            SceneManager.LoadSceneAsync("Scenes/StrategyScene");
+            SceneManager.LoadSceneAsync("Scenes/StrategyMap");
         }
     }
 }

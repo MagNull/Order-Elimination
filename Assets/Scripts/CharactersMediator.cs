@@ -15,7 +15,8 @@ namespace OrderElimination
 
         private void Awake() => DontDestroyOnLoad(gameObject);
 
-        public void SetCharacters(List<IBattleCharacterInfo> battleStatsList) => _battleStatsList = battleStatsList;
+        public void SetSquad(List<IBattleCharacterInfo> battleStatsList) => _battleStatsList = battleStatsList;
+        public void SetEnemies(List<IBattleCharacterInfo> battleStatsList) => _enemies = battleStatsList;
 
         public List<IBattleCharacterInfo> GetBattleCharactersInfo() => _battleStatsList;
         public List<IBattleCharacterInfo> GetBattleEnemyInfo() => _enemies;

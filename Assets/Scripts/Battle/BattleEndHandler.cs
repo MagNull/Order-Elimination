@@ -1,11 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VContainer;
 
 public class BattleEndHandler : MonoBehaviour
 {
-    [SerializeField] private BaseBattleResultWindow _winWindow;
-    [SerializeField] private BaseBattleResultWindow _defeatWindow;
+    [SerializeField]
+    private BaseBattleResultWindow _winWindow;
+    [SerializeField]
+    private BaseBattleResultWindow _defeatWindow;
+    private IObjectResolver _objectResolver;
+
+    [Inject]
+    public void Construct(IObjectResolver objectResolver)
+    {
+        _objectResolver = objectResolver;
+    }
 
     public void OnEnable()
     {
@@ -19,13 +29,7 @@ public class BattleEndHandler : MonoBehaviour
 
     public void ShowResults(BattleOutcome outcome)
     {
-        if (outcome == BattleOutcome.Victory)
-        {
-            _winWindow.View();
-        }
-        else
-        {
-            _defeatWindow.View();
-        }
+        var results = outcome == BattleOutcome.Victory ? Instantiate(_winWindow) : Instantiate(_defeatWindow);
+        _objectResolver.Inject(results);
     }
 }

@@ -95,7 +95,7 @@ public class BattleMapView : MonoBehaviour
     {
         foreach (var cell in _lightedCells)
         {
-            cell.Delight();
+            cell?.Delight();
         }
         _lightedCells.Clear();
     }
