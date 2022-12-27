@@ -25,5 +25,14 @@ namespace OrderElimination
                     squads.Add(squad);
             return squads;
         }
+        
+        public List<PlanetPoint> GetPlanetPoints()
+        {
+            var planetPoints = new List<PlanetPoint>();
+            foreach (var temp in _selectableObjects)
+                if(temp is PlanetPoint point)
+                    planetPoints.Add(point);
+            return planetPoints;
+        }
     }
 }

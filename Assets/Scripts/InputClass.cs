@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Linq;
 using System.Xml;
 using Unity.VisualScripting;
 
@@ -11,7 +12,7 @@ namespace OrderElimination
         [SerializeField] private Database _database;
         private ISelectable _selectedObject;
         public static event Action<Squad, PlanetPoint> TargetSelected;
-    
+
         private void Awake() 
         { 
             Squad.Selected += ChangeSelectedObject;
@@ -57,10 +58,10 @@ namespace OrderElimination
             TargetSelected?.Invoke(selectedSquad, end);
             selectedSquad.Unselect();
             selectedSquad.Move(end);
-            SavePositionToXml();
+            SavePositions();
         }
 
-        private void SavePositionToXml()
+        private void SavePositions()
         {
             var squads = _selectableObjects.GetSquads();
             var count = 0;
@@ -72,6 +73,25 @@ namespace OrderElimination
                 var position = squad.transform.position;
                 _database.SaveData($"Squad {count++}", position);
             }
+        }
+
+        public void ResetDatabase()
+        {
+            var squads = _selectableObjects.GetSquads();
+            var points = _selectableObjects.GetPlanetPoints();
+            squads.Last().Move(points.Last());
+            
+            foreach (var squad in squads)
+            {
+                var firstPoint = points.First();
+                if(squad.PlanetPoint == firstPoint)
+                    continue;
+                squad.Move(firstPoint);
+                squad.AlreadyMove = false;
+                squad.SetOrderButtonCharacteristics(false);
+            }
+            
+            SavePositions();
         }
 
         public void FinishMove()
