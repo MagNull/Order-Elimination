@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using System.IO;
 using System.Xml;
 using Unity.VisualScripting;
 
@@ -9,6 +8,7 @@ namespace OrderElimination
     public class InputClass : MonoBehaviour
     {
         [SerializeField] private SelectableObjects _selectableObjects;
+        [SerializeField] private Database _database;
         private ISelectable _selectedObject;
         public static event Action<Squad, PlanetPoint> TargetSelected;
     
@@ -35,14 +35,14 @@ namespace OrderElimination
 
         private void PlanetPointClicked(PlanetPoint selectedPoint)
         {
-            if(!(_selectedObject is Squad))
+            if(_selectedObject is not Squad)
             {
                 ChangeSelectedObject(selectedPoint);
                 return;
             }
 
             var selectedSquad = (Squad)_selectedObject;
-            if(selectedSquad == null || selectedPoint == null)
+            if(selectedSquad is null || selectedPoint is null)
                 return;
             
             foreach(var end in selectedSquad.PlanetPoint.GetNextPoints())
@@ -63,20 +63,15 @@ namespace OrderElimination
         private void SavePositionToXml()
         {
             var squads = _selectableObjects.GetSquads();
-            
-            using XmlWriter writer =
-                XmlWriter.Create(Application.dataPath + "/Resources" + "/Xml" + "/SquadPositions.xml");
-            
-            writer.WriteStartElement("Positions");
+            var count = 0;
             
             foreach (var squad in squads)
             {
                 if(squad.IsDestroyed())
                     continue;
-                writer.WriteRaw(squad.transform.position.ToString());
+                var position = squad.transform.position;
+                _database.SaveData($"Squad {count++}", position);
             }
-            writer.WriteEndElement();
-            writer.Flush();
         }
 
         public void FinishMove()
