@@ -51,38 +51,26 @@ namespace OrderElimination
 
         private async Task DeserializeSquads()
         {
-            await _database.LoadData();
-            var positions = GetPositionsSquad();
+            var positions = _database.LoadData();
             var squadsInfo = Resources.LoadAll<SquadInfo>("");
             var count = 0;
-            foreach (var a in squadsInfo)
+            await foreach(var position in positions)
             {
-                var squad = _creator.CreateSquad(positions[count++]);
-                var button = _creator.CreateSquadButton(a.PositionOnOrderPanel);
+                var squad = _creator.CreateSquad(GetVectorFromString(position));
+                var button = _creator.CreateSquadButton(squadsInfo[count++].PositionOnOrderPanel);
                 squad.SetOrderButton(button);
                 _squads.Add(squad);
             }
         }
 
-        private List<Vector3> GetPositionsSquad()
+        private Vector3 GetVectorFromString(string str)
         {
-            using var reader = XmlReader
-                .Create(Application.dataPath + "/Resources" + "/Xml" + "/SquadPositions.xml");
-            reader.MoveToContent();
-            var positionsString = reader.ReadElementContentAsString();
-
-            var temp = positionsString
-                .Split(new[] { "(", ")", ", ", ".00" }, StringSplitOptions.RemoveEmptyEntries);
-            var positions = new List<Vector3>();
-            for (int i = 0; i < temp.Length; i += 3)
-            {
-                var x = Convert.ToInt32(temp[i]);
-                var y = Convert.ToInt32(temp[i + 1]);
-                var z = Convert.ToInt32(temp[i + 2]);
-                positions.Add(new Vector3(x, y, z));
-            }
-
-            return positions;
+            var temp = str.Split(new[] { "(", ")", ", ", ".00" }, StringSplitOptions.RemoveEmptyEntries);
+            
+            var x = Convert.ToInt32(temp[0]);
+            var y = Convert.ToInt32(temp[1]);
+            var z = Convert.ToInt32(temp[2]);
+            return new Vector3(x, y, z);
         }
 
         private void UpdateSettings()

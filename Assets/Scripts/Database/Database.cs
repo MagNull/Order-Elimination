@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Xml;
 using UnityEngine;
 using Firebase.Database;
@@ -34,7 +33,7 @@ namespace OrderElimination
                 .SetValueAsync(position.ToString());
         }
 
-        public async Task LoadData()
+        public async IAsyncEnumerable<string> LoadData()
         {
             var dataSnapshot = await FirebaseDatabase
                 .DefaultInstance
@@ -44,18 +43,12 @@ namespace OrderElimination
 
             if (dataSnapshot is null)
                 throw new NullReferenceException();
-
-            using var writer =
-                XmlWriter.Create(Application.dataPath + "/Resources" + "/Xml" + "/SquadPositions.xml");
-
-            writer.WriteStartElement("Positions");
+            
             foreach (var child in dataSnapshot.Children)
             {
                 var positionString = child.Value.ToString();
-                writer.WriteRaw(positionString);
+                yield return positionString;
             }
-
-            writer.WriteEndElement();
         }
     }
 }
