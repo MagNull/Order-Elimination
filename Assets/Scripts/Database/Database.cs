@@ -10,6 +10,8 @@ namespace OrderElimination
     {
         private DatabaseReference _dbReference;
         private List<Vector3> _positions;
+        [SerializeField]
+        private string _id;
 
         private void Awake()
         {
@@ -28,7 +30,7 @@ namespace OrderElimination
         {
             _dbReference
                 .Child("Positions")
-                .Child(GetIdFromFile())
+                .Child(_id)
                 .Child(squadName)
                 .SetValueAsync(position.ToString());
         }
@@ -38,7 +40,7 @@ namespace OrderElimination
             var dataSnapshot = await FirebaseDatabase
                 .DefaultInstance
                 .GetReference("Positions")
-                .Child(GetIdFromFile())
+                .Child(_id)
                 .GetValueAsync();
 
             if (dataSnapshot is null)
