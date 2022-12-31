@@ -113,7 +113,7 @@ namespace CharacterAbility
                 }
                 result.AddDisplayedParameter("Длительн", effect.Duration, ValueUnits.Turns);
             }
-            else
+            else if (effect.Type != AbilityEffectType.Modificator)
                 throw new NotImplementedException($"EffectType {effect.Type} cannot be displayed.");
             return result;
         }

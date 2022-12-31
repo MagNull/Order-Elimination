@@ -48,7 +48,8 @@ public class CellView : MonoBehaviour
 
     public void Delight()
     {
-        _renderer.material.color = _basicColor;
+        if(_renderer != null)
+            _renderer.material.color = _basicColor;
     }
 
     public void Select()

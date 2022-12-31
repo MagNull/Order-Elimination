@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: EnemyDog
   m_EditorClassIdentifier: 
   _battleStats:
-    _health: 60
+    _health: 50
     _attack: 20
-    _armor: 0
+    _armor: 20
     _evasion: 0
     _accuracy: 100
     _movement: 8
     _damageModificator: 0
-  _view: {fileID: 21300000, guid: d31c24fc6f0a0d94d970677955c3bc30, type: 3}
+  _view: {fileID: 21300000, guid: a8d51c883384c47469807e601a9966d3, type: 3}
   _activeAbilities:
   - {fileID: 11400000, guid: 377b9520ee2226943b6a5eed2b1f24c3, type: 2}
   - {fileID: 11400000, guid: 6c7e7a688e8448e4f9fd68c2c4810fc6, type: 2}
