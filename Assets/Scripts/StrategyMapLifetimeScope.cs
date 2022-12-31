@@ -3,7 +3,7 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-//TODO(Сано): Register Currency
+//TODO(пїЅпїЅпїЅпїЅ): Register Currency
 public class StrategyMapLifetimeScope : LifetimeScope
 {
     [SerializeField]
