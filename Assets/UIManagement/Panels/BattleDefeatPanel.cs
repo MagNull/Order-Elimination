@@ -6,7 +6,7 @@ using UIManagement.trashToRemove_Mockups;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BattleDefeatPanel : UIPanel, IUIPanel
+public class BattleDefeatPanel : UIPanel
 {
     public override PanelType PanelType => PanelType.BattleDefeat;
     [SerializeField] private IconTextValueElement _primaryCurrency;
@@ -41,11 +41,13 @@ public class BattleDefeatPanel : UIPanel, IUIPanel
     protected override void Initialize()
     {
         base.Initialize();
+        _continueButton.onClick.RemoveListener(OnContineButtonClick);
         _continueButton.onClick.AddListener(OnContineButtonClick);
     }
 
     private void OnContineButtonClick()
     {
+        print("clicked");
         if (!_pageSwitcher.ShowNextAvailablePage(false))
             OnContinueAfterLastPagePressed();
     }

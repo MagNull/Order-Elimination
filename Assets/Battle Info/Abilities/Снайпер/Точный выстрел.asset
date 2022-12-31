@@ -22,28 +22,48 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _name: "\u0422\u043E\u0447\u043D\u044B\u0439 \u0432\u044B\u0441\u0442\u0440\u0435\u043B"
+  _description: "\u0414\u0430\u0439\u0442\u0435 \u0441\u043D\u0430\u0439\u043F\u0435\u0440\u0443
+    \u0432\u0440\u0435\u043C\u0435\u043D\u044F \u043D\u0430 \u043F\u043E\u0434\u0433\u043E\u0442\u043E\u0432\u043A\u0443,
+    \u0447\u0442\u043E\u0431\u044B \u0443\u0432\u0438\u0434\u0435\u0442\u044C \u0435\u0433\u043E
+    \u0432\u043E \u0432\u0441\u0435\u0439 \u043A\u0440\u0430\u0441\u0435."
   _coolDown: 1
   _startCoolDown: 0
   <Icon>k__BackingField: {fileID: 21300000, guid: 59d6ee10d55fe2748b1726b2b2dede83, type: 3}
   <ActionType>k__BackingField: 2
-  _hasTarget: 1
-  _hasTargetEffect: 1
-  _distanceFromMovement: 0
-  _distance: 6
-  _targetType: 1
-  _targetEffects:
-  - Type: 0
-    DamageHealType: 0
-    Amounts: 1
-    ScaleFrom: 0
-    Scale: 2
-    Modificator: 0
-    ModificatorValue: 0
-    OverTimeType: 0
-    BuffType: 0
-    BuffValue: 0
-    Duration: 0
-    TickValue: 0
-  _hasAreaEffect: 0
-  _areaRadius: 0
-  _areaEffects: []
+  _type: 0
+  _activeParams:
+    _hasTarget: 1
+    _hasTargetEffect: 1
+    _distanceFromMovement: 0
+    _distance: 6
+    _targetType: 1
+    _targetEffects:
+    - Type: 0
+      HasProbability: 0
+      Probability: 0
+      Filter: 0
+      _damageHealTarget: 0
+      Amounts: 1
+      ScaleFrom: 0
+      Scale: 2
+      Modificator: 0
+      ModificatorValue: 0
+      BuffType: 0
+      BuffValue: 0
+      Duration: 0
+      ConditionType: 0
+      OverTimeType: 0
+      TickValue: 0
+      DamageType: 2
+      Distance: 0
+      ShowInAbilityDescription: 0
+      EffectView:
+        DisplayAsMainEffect: 0
+        EffectName: 
+        EffectIcon: {fileID: 0}
+    _hasAreaEffect: 0
+    _areaRadius: 0
+    _areaEffects: []
+  _passiveParams:
+    _effects: []
+    _triggerType: 0

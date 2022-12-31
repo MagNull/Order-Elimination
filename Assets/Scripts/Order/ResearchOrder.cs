@@ -7,7 +7,7 @@
         public override void Start() {}
         public override void End()
         {
-            base._squad.DistributeExperience(base._target.GetPlanetInfo().Expirience * amountOfExpirience);
+            base._squad.DistributeExperience(base._target.GetPlanetInfo().Experience * amountOfExpirience);
         }
     }
 }

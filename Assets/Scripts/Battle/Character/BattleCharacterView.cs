@@ -7,45 +7,70 @@ public class BattleCharacterView : MonoBehaviour
 {
     [SerializeField]
     private BattleCharacter _character;
-    private AbilityView[] _abilityViews;
+    private AbilityView[] _activeAbilitiesView;
+    private AbilityView[] _passiveAbilitiesView;
     [SerializeField]
     private SpriteRenderer _renderer;
 
     private bool _selected = false;
 
     public BattleCharacter Model => _character;
-    public AbilityView[] AbilityViews => _abilityViews;
+    public AbilityView[] ActiveAbilitiesView => _activeAbilitiesView;
+    public AbilityView[] PassiveAbilitiesView => _passiveAbilitiesView;
+    public Sprite Avatar { get; private set; }
 
-    public bool Selected => _selected;
+    public bool IsSelected => _selected;
 
-    public void Init(BattleCharacter character, AbilityView[] abilitiesView)
+    public static event Action<BattleCharacterView> Selected;
+    public static event Action<BattleCharacterView> Deselected;
+
+    public void Init(BattleCharacter character, AbilityView[] activeAbilitiesView, AbilityView[] passiveAbilitiesView, Sprite avatar)
     {
+        Selected = null;
+        Deselected = null;
+        _passiveAbilitiesView = passiveAbilitiesView;
         _character = character;
         _character.Damaged += OnDamaged;
         _character.Died += OnDied;
         BattleSimulation.RoundStarted += OnRoundStart;
 
-        _abilityViews = abilitiesView;
+        _activeAbilitiesView = activeAbilitiesView;
+        _passiveAbilitiesView = passiveAbilitiesView;
+        Avatar = avatar;
     }
 
-    private void OnDamaged(int armorDamage, int healthDamage, DamageCancelType damageCancelType)
+    private void OnDamaged(TakeDamageInfo info)
     {
-        if(armorDamage == 0 && healthDamage == 0)
+        if(info is {ArmorDamage: 0, HealthDamage: 0})
         {
-            if(damageCancelType == DamageCancelType.Miss)
-                Debug.Log("Miss " % Colorize.Yellow + gameObject.name);
-            else if( damageCancelType == DamageCancelType.Dodge)
-                Debug.Log("Dodge " % Colorize.Green + gameObject.name);
+            switch (info.CancelType)
+            {
+                case DamageCancelType.Miss:
+                    Debug.Log("Miss " % Colorize.Yellow + gameObject.name);
+                    break;
+                case DamageCancelType.Dodge:
+                    Debug.Log("Dodge " % Colorize.Green + gameObject.name);
+                    break;
+            }
+
             return;
         }
-        Debug.Log(gameObject.name + " get "+ (armorDamage + healthDamage) + " damage " % Colorize.Red );
+        Debug.Log(gameObject.name + " get "+ (info.ArmorDamage + info.HealthDamage) + " damage " % Colorize.Red );
     }
 
     public void SetImage(Sprite image) => _renderer.sprite = image;
 
-    public void Select() => _selected = true;
-    
-    public void Deselect() => _selected = false;
+    public void Select()
+    {
+        _selected = true;
+        Selected?.Invoke(this);
+    }
+
+    public void Deselect()
+    {
+        _selected = false;
+        Deselected?.Invoke(this);
+    }
 
     private void OnDied(BattleCharacter battleCharacter)
     {
@@ -58,7 +83,7 @@ public class BattleCharacterView : MonoBehaviour
         _character.Damaged -= OnDamaged;
         _character.Died -= OnDied;
         BattleSimulation.RoundStarted -= OnRoundStart;
-        _character.ClearOverEffects();
+        _character.ClearTickEffects();
     }
 
     private void OnRoundStart()

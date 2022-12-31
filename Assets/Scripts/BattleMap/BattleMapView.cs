@@ -14,16 +14,19 @@ public class BattleMapView : MonoBehaviour
     private CellView[,] _cellViewGrid;
 
     private readonly List<CellView> _lightedCells = new();
+    private bool _battleEnded = false;
 
     public BattleMap Map => _battleMap;
 
     public void OnEnable()
     {
+        BattleSimulation.BattleEnded += OnBattleEnded;
         _battleMap.CellChanged += OnCellChanged;
     }
 
     public void OnDisable()
     {
+        BattleSimulation.BattleEnded -= OnBattleEnded;
         _battleMap.CellChanged -= OnCellChanged;
     }
 
@@ -81,7 +84,7 @@ public class BattleMapView : MonoBehaviour
         cell.Light();
         _lightedCells.Add(cell);
     }
-    
+
     public void LightCell(CellView cellView)
     {
         cellView.Light();
@@ -92,11 +95,22 @@ public class BattleMapView : MonoBehaviour
     {
         foreach (var cell in _lightedCells)
         {
-            cell.Delight();
+            cell?.Delight();
         }
+        _lightedCells.Clear();
     }
 
-    private void OnCellClicked(CellView cellView) => CellClicked?.Invoke(cellView);
+    private void OnBattleEnded(BattleOutcome obj)
+    {
+        _battleEnded = true;
+    }
+
+    private void OnCellClicked(CellView cellView)
+    {
+        if(_battleEnded)
+            return;
+        CellClicked?.Invoke(cellView);
+    }
 
     private void OnCellChanged(Cell cell)
     {

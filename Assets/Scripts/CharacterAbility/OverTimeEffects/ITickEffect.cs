@@ -2,5 +2,5 @@ using OrderElimination;
 
 public interface ITickEffect
 {
-    public void Tick(IBattleObject target);
+    public void Tick(ITickTarget target);
 }

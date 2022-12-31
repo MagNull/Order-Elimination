@@ -28,7 +28,8 @@ namespace OrderElimination
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_battleCharacterFactory);
             builder.RegisterComponent(_battleMapDirector);
-
+            
+            builder.Register<SceneTransition>(Lifetime.Singleton);
 
             builder.Register<AbilityFactory>(Lifetime.Singleton).WithParameter(_battleMapView);
             builder.Register<EnvironmentFactory>(Lifetime.Singleton).WithParameter(_environmentPrefab);

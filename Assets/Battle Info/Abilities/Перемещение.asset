@@ -22,28 +22,44 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _name: "\u041F\u0435\u0440\u0435\u043C\u0435\u0449\u0435\u043D\u0438\u0435"
+  _description: 
   _coolDown: 0
   _startCoolDown: 0
   <Icon>k__BackingField: {fileID: 21300000, guid: 71c02e5907336674f94326e5e1a76dcc, type: 3}
   <ActionType>k__BackingField: 0
-  _hasTarget: 1
-  _hasTargetEffect: 1
-  _distanceFromMovement: 1
-  _distance: 10
-  _targetType: 4
-  _targetEffects:
-  - Type: 2
-    DamageHealType: 0
-    Amounts: 0
-    ScaleFrom: 0
-    Scale: 0
-    Modificator: 0
-    ModificatorValue: 0
-    OverTimeType: 0
-    BuffType: 0
-    BuffValue: 0
-    Duration: 0
-    TickValue: 0
-  _hasAreaEffect: 0
-  _areaRadius: 0
-  _areaEffects: []
+  _type: 0
+  _activeParams:
+    _hasTarget: 1
+    _hasTargetEffect: 1
+    _distanceFromMovement: 1
+    _distance: 0
+    _targetType: 4
+    _targetEffects:
+    - Type: 2
+      HasProbability: 0
+      Probability: 0
+      Filter: 0
+      _damageHealTarget: 0
+      Amounts: 0
+      ScaleFrom: 0
+      Scale: 0
+      Modificator: 0
+      ModificatorValue: 0
+      OverTimeType: 0
+      BuffType: 0
+      BuffValue: 0
+      Duration: 0
+      ConditionType: 0
+      TickValue: 0
+      DescriptionFlag: 
+      ShowInAbilityDescription: 0
+      EffectView:
+        DisplayAsMainEffect: 0
+        EffectName: 
+        EffectIcon: {fileID: 0}
+    _hasAreaEffect: 0
+    _areaRadius: 0
+    _areaEffects: []
+  _passiveParams:
+    _effects: []
+    _triggerType: 0

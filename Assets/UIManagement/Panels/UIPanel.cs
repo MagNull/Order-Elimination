@@ -9,10 +9,16 @@ using UnityEngine.UI;
 
 namespace UIManagement
 {
+    /// <summary>
+    /// Call Initialize() method before usage.
+    /// </summary>
+    [DisallowMultipleComponent]
     public abstract class UIPanel : MonoBehaviour, IUIPanel
     {
         protected bool _isInitialized = false;
         [SerializeField] protected TextMeshProUGUI _titleText;
+        [SerializeField] protected Button _closingButton;
+        [SerializeField] protected Button _closingAreaButton;
 
         public event Action<IUIPanel> Opened;
         public event Action<IUIPanel> Closed;
@@ -34,6 +40,10 @@ namespace UIManagement
         protected virtual void Initialize()
         {
             _titleText.text = name = Title;
+            _closingButton.onClick.RemoveListener(Close);
+            _closingAreaButton.onClick.RemoveListener(Close);
+            _closingButton.onClick.AddListener(Close);
+            _closingAreaButton.onClick.AddListener(Close);
             _isInitialized = true;
         }
 

@@ -1,6 +1,6 @@
-public interface ITickTarget
+public interface ITickTarget : IDamageable, IHealable
 {
     void AddTickEffect(ITickEffect effect);
     void RemoveTickEffect(ITickEffect effect);
-    void ClearOverEffects();
+    void ClearTickEffects();
 }

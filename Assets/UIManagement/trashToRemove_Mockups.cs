@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CharacterAbility;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -110,9 +111,39 @@ namespace UIManagement.trashToRemove_Mockups
             {PanelType.ExplorationResult, "Итоги поиска"}, 
             {PanelType.BattleVictory, "Победа"}, 
             {PanelType.BattleDefeat, "Поражение"}, 
+            {PanelType.AbilityDescription, "Описание способности"}, 
+            {PanelType.PassiveSkillsDescription, "Пассивные навыки"}, 
+        };
+        private Dictionary<ValueUnits, string> _unitNames
+            = new Dictionary<ValueUnits, string>()
+        {
+                { ValueUnits.None, "" },
+                { ValueUnits.Percents, "%" },
+                { ValueUnits.Cells, " клет." },
+                { ValueUnits.Turns, " ход." },
+        };
+        private Dictionary<Buff_Type, string> _buffNames
+            = new Dictionary<Buff_Type, string>()
+        {
+                { Buff_Type.Movement, "Перемещение" },
+                { Buff_Type.Attack, "Атака" },
+                { Buff_Type.Health, "Здоровье" },
+                { Buff_Type.Evasion, "Уклонение" },
+                { Buff_Type.IncomingAccuracy, "Входящая точность" },
+                { Buff_Type.IncomingDamageIncrease, "Входящий урон" },
+        };
+        private Dictionary<OverTimeAbilityType, string> _overtimeTypeNames
+            = new Dictionary<OverTimeAbilityType, string>()
+        {
+                { OverTimeAbilityType.Damage, "Ур/ход" },
+                { OverTimeAbilityType.Heal, "Леч/ход" },
         };
 
         public string GetWindowTitleName(PanelType windowType) => _panelTitleNames[windowType];
+        //public string GetEffectParameterName( windowType) => _panelTitleNames[windowType];
+        public string GetUnits(ValueUnits unitType) => _unitNames[unitType];
+        public string GetBuffName(Buff_Type buffType) => _buffNames[buffType];
+        public string GetOvertimeTypeName(OverTimeAbilityType overtimeType) => _overtimeTypeNames[overtimeType];
     }
 
     public class MasterVolume

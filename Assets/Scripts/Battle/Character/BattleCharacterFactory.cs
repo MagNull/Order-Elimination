@@ -9,8 +9,12 @@ using VContainer;
 public class BattleCharacterFactory : MonoBehaviour
 {
     [SerializeField]
+    private BattleMap _map;
+    [SerializeField]
     private BattleCharacterView charPrefab;
     private AbilityFactory _abilityFactory;
+    [SerializeField]
+    private AbilityInfo _bite;
 
     [Inject]
     public void Construct(AbilityFactory abilityFactory)
@@ -22,11 +26,23 @@ public class BattleCharacterFactory : MonoBehaviour
     {
         BattleCharacterView battleCharacterView = Instantiate(charPrefab);
         battleCharacterView.SetImage(info.GetView());
-        //TODO: Fix stats
-        var character = new BattleCharacter(side, new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation());
-        //TODO: Fix
-        battleCharacterView.GetComponent<PlayerTestScript>().SetSide(side);
-        battleCharacterView.Init(character, CreateCharacterAbilities(info.GetAbilityInfos(), character));
+        BattleCharacter character;
+        //TODO: Generation Enemy 
+        if (side == BattleObjectSide.Enemy)
+        {
+            character = new EnemyDog(_map,
+                new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation());
+            ((EnemyDog)character).SetDamageAbility(_abilityFactory.CreateAbility(_bite, character));
+        }
+        else
+        {
+            character = new BattleCharacter(side, new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation());
+        }
+
+        battleCharacterView.GetComponentInChildren<SpriteRenderer>().sprite = info.GetView();
+        battleCharacterView.Init(character, CreateCharacterAbilities(info.GetActiveAbilityInfos(), character),
+            CreateCharacterAbilities(info.GetPassiveAbilityInfos(), character),
+            info.GetView());
 
         character.View = battleCharacterView.gameObject;
         return character;
@@ -50,7 +66,7 @@ public class BattleCharacterFactory : MonoBehaviour
         return characters;
     }
 
-    //TODO(ÑÀÍÎ): Move to another response object
+    //TODO(ï¿½ï¿½ï¿½ï¿½): Move to another response object
     private AbilityView[] CreateCharacterAbilities(AbilityInfo[] abilityInfos, BattleCharacter caster)
     {
         var abilities = new AbilityView[abilityInfos.Length];

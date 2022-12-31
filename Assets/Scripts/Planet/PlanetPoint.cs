@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -24,6 +25,7 @@ namespace OrderElimination
         }
 
         public PlanetInfo GetPlanetInfo() => _planetInfo;
+        public void SetInfo(PlanetInfo planetInfo) => _planetInfo = planetInfo;
 
         public void IncreasePoint() => _planetView.Increase();
         public void DecreasePoint() => _planetView.Decrease();
@@ -47,7 +49,7 @@ namespace OrderElimination
 
         public void ShowPaths()
         {
-            foreach (var path in _paths)
+            foreach (var path in _paths.Where(p => p != null))
             {
                 Debug.Log($"{gameObject.name}: showPath");
                 path.gameObject.SetActive(true);
@@ -57,7 +59,7 @@ namespace OrderElimination
 
         public void HidePaths()
         {
-            foreach (var path in _paths)
+            foreach (var path in _paths.Where(p => p != null))
             {
                 Debug.Log($"{gameObject.name}: hidePath");
                 path.gameObject.SetActive(false);

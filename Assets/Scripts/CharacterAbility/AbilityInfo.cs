@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using OrderElimination;
 using Sirenix.OdinInspector;
+using UIManagement.trashToRemove_Mockups;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CharacterAbility
 {
@@ -11,9 +16,17 @@ namespace CharacterAbility
         Heal,
         Move,
         OverTime,
-        Buff,
+        TickingBuff,
+        ConditionalBuff,
         Modificator,
-        Stun
+        Stun,
+        Contreffect
+    }
+
+    public enum BuffConditionType
+    {
+        Moved,
+        Damaged
     }
 
     public enum AbilityScaleFrom
@@ -30,14 +43,16 @@ namespace CharacterAbility
         Heal,
     }
 
-    public enum BuffType
+    public enum Buff_Type
     {
         Attack,
         Health,
+        Accuracy,
         Movement,
-        Evasion,
-        IncomingAttack,
-        IncomingAccuracy,
+        Evasion, //%
+        IncomingDamageIncrease,
+        IncomingAccuracy, //%
+        IncomingDamageReduction
     }
 
     public enum ModificatorType
@@ -60,14 +75,15 @@ namespace CharacterAbility
     public struct AbilityEffect
     {
         public AbilityEffectType Type;
+        [ShowIf("@Type != AbilityEffectType.Modificator")]
         public bool HasProbability;
         [ShowIf("HasProbability")]
         public float Probability;
-        [ShowIf("@Type != AbilityEffectType.Move")]
+        [ShowIf("@Type != AbilityEffectType.Move && Type != AbilityEffectType.Modificator")] 
         public BattleObjectSide Filter;
         [ShowIf(
             "@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal || Type == AbilityEffectType.OverTime")]
-        public DamageHealType DamageHealType;
+        public DamageHealTarget _damageHealTarget;
         [ShowIf("@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal")]
         public int Amounts;
         [ShowIf("@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal")]
@@ -80,42 +96,102 @@ namespace CharacterAbility
         [ShowIf("@Type == AbilityEffectType.Modificator && Modificator == ModificatorType.Accuracy")]
         public int ModificatorValue;
 
+        [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
+        public Buff_Type BuffType;
+        [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
+        public int BuffValue;
+        [ShowIf("@Type == AbilityEffectType.OverTime || Type == AbilityEffectType.TickingBuff")]
+        public int Duration;
+        [ShowIf("@Type == AbilityEffectType.ConditionalBuff")]
+        public BuffConditionType ConditionType;
+
         [ShowIf("@Type == AbilityEffectType.OverTime")]
         public OverTimeAbilityType OverTimeType;
-        [ShowIf("@Type == AbilityEffectType.Buff")]
-        public BuffType BuffType;
-        [ShowIf("@Type == AbilityEffectType.Buff")]
-        public int BuffValue;
-        [ShowIf("@Type == AbilityEffectType.OverTime|| Type == AbilityEffectType.Buff")]
-        public int Duration;
         [ShowIf("@Type == AbilityEffectType.OverTime")]
         public int TickValue;
 
-        [Title("Description Flag")]
-        [TextArea]
-        public string DescriptionFlag;
+        [ShowIf(
+            "@Type == AbilityEffectType.Damage || " +
+            "(Type == AbilityEffectType.OverTime && OverTimeType == OverTimeAbilityType.Damage)" +
+            "|| ((Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff) && " +
+            "(BuffType == Buff_Type.IncomingDamageIncrease || BuffType == Buff_Type.IncomingDamageReduction ||" +
+            " BuffType == Buff_Type.IncomingAccuracy))")]
+        public DamageType DamageType;
+
+        [ShowIf("@Type == AbilityEffectType.Contreffect")]
+        public int Distance;
+
+        public bool ShowInAbilityDescription;
+        [ShowIf("@" + nameof(ShowInAbilityDescription) + " == true")]
+        public EffectView EffectView;
     }
 
     [CreateAssetMenu(fileName = "AbilityInfo", menuName = "Ability")]
     public class AbilityInfo : SerializedScriptableObject
     {
+        public enum AbilityType
+        {
+            Active,
+            Passive
+        }
+
         [Title("General Parameters")]
         [SerializeField]
         private string _name;
         [SerializeField]
         [TextArea]
         private string _description;
+        [HideIf("@_type == AbilityType.Passive")]
         [SerializeField]
         [Range(0, 10)]
         private int _coolDown;
+        [HideIf("@_type == AbilityType.Passive")]
+
         [SerializeField]
         [Range(0, 10)]
         private int _startCoolDown;
 
         [field: SerializeField] public Sprite Icon { get; private set; }
 
+        [HideIf("@_type == AbilityType.Passive")]
         [field: SerializeField] public ActionType ActionType { get; private set; }
 
+        [SerializeField]
+        private AbilityType _type;
+
+        [ShowIf("@_type == AbilityType.Active")]
+        [SerializeField]
+        private ActiveAbilityParams _activeParams;
+
+        [ShowIf("@_type == AbilityType.Passive")]
+        [SerializeField]
+        private PassiveAbilityParams _passiveParams;
+
+        public int CoolDown => _coolDown + 1;
+
+        public int StartCoolDown => _startCoolDown + 1;
+
+        public string Name => _name;
+
+        public string Description => _description;
+
+        public ActiveAbilityParams ActiveParams => _activeParams;
+
+        public AbilityType Type => _type;
+
+        public PassiveAbilityParams PassiveParams => _passiveParams;
+
+        private void OnValidate()
+        {
+            if (_type == AbilityType.Active)
+                _passiveParams = default;
+            else _activeParams = default;
+        }
+    }
+
+    [Serializable]
+    public struct ActiveAbilityParams
+    {
         #region Params
 
         [HideInInspector]
@@ -156,6 +232,7 @@ namespace CharacterAbility
 
         #region Properties
 
+        public bool HasTarget => _hasTarget;
         public TargetType TargetType => _targetType;
         public int Distance => _distance;
 
@@ -170,12 +247,6 @@ namespace CharacterAbility
         public bool HasTargetEffect => _hasTargetEffect;
 
         public bool DistanceFromMovement => _distanceFromMovement;
-
-        public int CoolDown => _coolDown + 1;
-
-        public int StartCoolDown => _startCoolDown + 1;
-
-        public string Name => _name;
 
         #endregion
 
@@ -213,11 +284,25 @@ namespace CharacterAbility
         }
 
         #endregion
+    }
 
-        public AbilityEffect GetTargetEffectByFlag(string flag) =>
-            _targetEffects.First(x => x.DescriptionFlag == flag);
+    [Serializable]
+    public struct PassiveAbilityParams
+    {
+        public enum PassiveTriggerType
+        {
+            Spawn,
+            Movement,
+            Damage
+        }
 
-        public AbilityEffect GetAreaEffectByFlag(string flag) => 
-            _areaEffects.First(x => x.DescriptionFlag == flag);
+        [SerializeField]
+        private AbilityEffect[] _effects;
+        [SerializeField]
+        private PassiveTriggerType _triggerType;
+
+        public AbilityEffect[] Effects => _effects;
+
+        public PassiveTriggerType TriggerType => _triggerType;
     }
 }

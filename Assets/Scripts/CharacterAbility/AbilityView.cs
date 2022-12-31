@@ -10,41 +10,55 @@ namespace CharacterAbility
     public class AbilityView
     {
         public event Action Casted;
-        private readonly IAbilityCaster _caster;
+        // Добавленные события
+        public static event Action<float, GameObject> TargetSelected;
+        public static event Action TargetDeselected;
+
         private readonly Ability _ability;
         private readonly BattleMapView _battleMapView;
-        private readonly AbilityInfo _abilityInfo;
         private readonly int _abilityDistance;
 
         private int _coolDownTimer;
 
         private bool _casting;
-        public Sprite AbilityIcon => _abilityInfo.Icon;
 
-        public bool CanCast => _coolDownTimer <= 0 && !_casting && _caster.CanSpendAction(_abilityInfo.ActionType);
+        public AbilityInfo AbilityInfo { get; }
 
-        public string Name => _abilityInfo.Name;
+        public IActor Caster { get; }
+
+        public Sprite AbilityIcon => AbilityInfo.Icon;
+
+        public bool CanCast => _coolDownTimer <= 0 && !_casting && Caster.CanSpendAction(AbilityInfo.ActionType);
+
+        public string Name => AbilityInfo.Name;
 
         private CancellationTokenSource _cancellationTokenSource;
 
-        public AbilityView(IAbilityCaster caster, Ability ability, AbilityInfo info, BattleMapView battleMapView)
+        public AbilityView(IActor caster, Ability ability, AbilityInfo info, BattleMapView battleMapView)
         {
-            _caster = caster;
+            Caster = caster;
             _ability = ability;
             _battleMapView = battleMapView;
-            _abilityInfo = info;
-            _abilityDistance = _abilityInfo.DistanceFromMovement ? _caster.Stats.Movement : _abilityInfo.Distance;
-            _coolDownTimer = _abilityInfo.StartCoolDown;
+            if (_battleMapView == null)
+            {
+
+            }
+            AbilityInfo = info;
+            _abilityDistance = AbilityInfo.ActiveParams.DistanceFromMovement
+                ? Caster.Stats.Movement
+                : AbilityInfo.ActiveParams.Distance;
+            _coolDownTimer = AbilityInfo.StartCoolDown;
 
             BattleSimulation.RoundStarted += OnRoundStart;
-
+            BattleSimulation.BattleEnded += OnBattleEnded;    
+            
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
         public async void Clicked()
         {
             _battleMapView.DelightCells();
-            if (!_caster.CanSpendAction(_abilityInfo.ActionType))
+            if (!Caster.CanSpendAction(AbilityInfo.ActionType))
             {
                 NotEnoughActions();
                 return;
@@ -78,7 +92,7 @@ namespace CharacterAbility
 
         private void LightTargets()
         {
-            var casterCoords = _battleMapView.Map.GetCoordinate(_caster);
+            var casterCoords = _battleMapView.Map.GetCoordinate(Caster);
             _battleMapView.LightCellByDistance(casterCoords.x, casterCoords.y, _abilityDistance);
         }
 
@@ -95,11 +109,11 @@ namespace CharacterAbility
 
             IBattleObject target = targetSelection.Result;
 
-            if (!_caster.TrySpendAction(_abilityInfo.ActionType))
+            if (!Caster.TrySpendAction(AbilityInfo.ActionType))
                 throw new Exception("Dont enough actions");
-            _ability.Use(target, _caster.Stats);
+            _ability.Use(target, Caster.Stats);
 
-            _coolDownTimer = _abilityInfo.CoolDown;
+            _coolDownTimer = AbilityInfo.CoolDown;
             Casted?.Invoke();
 
             _casting = false;
@@ -108,6 +122,8 @@ namespace CharacterAbility
 
         private async UniTask<IBattleObject> SelectTarget()
         {
+            TargetDeselected?.Invoke();
+
             IBattleObject target = null;
             _casting = true;
 
@@ -134,9 +150,10 @@ namespace CharacterAbility
                     return;
                 }
 
-                if (_abilityInfo.HasAreaEffect)
+                if (AbilityInfo.ActiveParams.HasAreaEffect)
                 {
-                    var area = _battleMapView.Map.GetBattleObjectsInRadius(selected, _abilityInfo.AreaRadius);
+                    var area = _battleMapView.Map.GetBattleObjectsInRadius(selected,
+                        AbilityInfo.ActiveParams.AreaRadius);
                     foreach (var obj in area)
                     {
                         var areaCell = _battleMapView.GetCell(obj);
@@ -149,12 +166,19 @@ namespace CharacterAbility
                 selectedCellViews.Add(cell);
 
                 target = selected;
+
+                // Начало
+                if (target.Side == BattleObjectSide.Enemy)
+                {
+                    TargetSelected?.Invoke(_ability.Probability, target.View);
+                }
+                // Конец
             }
 
             _battleMapView.CellClicked += OnCellClicked;
 
-            if (_abilityInfo.TargetType == TargetType.Self)
-                OnCellClicked(_battleMapView.GetCell(_caster));
+            if (AbilityInfo.ActiveParams.TargetType == TargetType.Self)
+                OnCellClicked(_battleMapView.GetCell(Caster));
 
             await UniTask.WaitUntil(() => cellConfirmed)
                 .AttachExternalCancellation(_cancellationTokenSource.Token)
@@ -173,34 +197,34 @@ namespace CharacterAbility
         private List<IBattleObject> GetTargets()
         {
             List<IBattleObject> targets = new List<IBattleObject>();
-            switch (_abilityInfo.TargetType)
+            switch (AbilityInfo.ActiveParams.TargetType)
             {
                 case TargetType.Self:
-                    targets.Add(_caster);
+                    targets.Add(Caster);
                     break;
                 case TargetType.Empty:
-                    targets.AddRange(_battleMapView.Map.GetEmptyObjectsInRadius(_caster, _abilityDistance));
-                    targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(_caster, _abilityDistance,
+                    targets.AddRange(_battleMapView.Map.GetEmptyObjectsInRadius(Caster, _abilityDistance));
+                    targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(Caster, _abilityDistance,
                         BattleObjectSide.Environment));
                     break;
                 case TargetType.Enemy:
-                    targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(_caster, _abilityDistance,
+                    targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(Caster, _abilityDistance,
                         BattleObjectSide.Enemy));
                     break;
                 case TargetType.Ally:
-                    targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(_caster, _abilityDistance,
+                    targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(Caster, _abilityDistance,
                         BattleObjectSide.Ally));
-                    targets.Add(_caster);
+                    targets.Add(Caster);
                     break;
                 case TargetType.All:
-                    targets.AddRange(_battleMapView.Map.GetEmptyObjectsInRadius(_caster, _abilityDistance));
-                    targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(_caster, _abilityDistance,
+                    targets.AddRange(_battleMapView.Map.GetEmptyObjectsInRadius(Caster, _abilityDistance));
+                    targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(Caster, _abilityDistance,
                         BattleObjectSide.Enemy));
-                    targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(_caster, _abilityDistance,
+                    targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(Caster, _abilityDistance,
                         BattleObjectSide.Ally));
-                    targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(_caster, _abilityDistance,
+                    targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(Caster, _abilityDistance,
                         BattleObjectSide.Environment));
-                    targets.Add(_caster);
+                    targets.Add(Caster);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -213,6 +237,12 @@ namespace CharacterAbility
         {
             _coolDownTimer--;
             Casted?.Invoke();
+        }
+        
+        private void OnBattleEnded(BattleOutcome outcome)
+        {
+            CancelCast();
+            _cancellationTokenSource.Cancel();
         }
     }
 }

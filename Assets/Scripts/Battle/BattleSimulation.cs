@@ -1,28 +1,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 using CharacterAbility;
 using OrderElimination;
 using OrderElimination.BattleMap;
 using VContainer;
+using UIManagement.Elements;
+using UIManagement;
 
-//TODO(Илья): Refactor interaction with abilities. Decompose BattlSimualtion
 public class BattleSimulation : MonoBehaviour
 {
     public static event Action RoundStarted;
     public static event Action PlayerTurnEnd;
 
     public static event Action<BattleOutcome> BattleEnded;
-    
+
     private CharacterArrangeDirector _characterArrangeDirector;
     private BattleMapDirector _battleMapDirector;
-    [SerializeField]
     private AbilityViewBinder _abilityViewBinder;
 
-    [SerializeField]
-    private AbilityButton[] _abilityButtons;
+    //TODO: Remove panel, use event instead call inside methods(like EndRound, BattleEnd)
     [SerializeField]
     private AbilityPanel _abilityPanel;
+    [SerializeField]
+    private CharacterBattleStatsPanel _characterStatsWindow;
 
     private BattleObjectSide _currentTurn;
     private BattleOutcome _outcome;
@@ -52,15 +54,15 @@ public class BattleSimulation : MonoBehaviour
 
     public void Update()
     {
+        CheckBattleOutcome();
         if (_outcome != BattleOutcome.Neither)
         {
             // По завершении сражения событие отправляется единожды
-            if (!_isBattleEnded)
-            {
-                BattleEnded?.Invoke(_outcome);
-                _isBattleEnded = true;
-                Debug.LogFormat("Сражение завершено - победил {0}", _outcome == BattleOutcome.Victory ? "игрок" : "ИИ");
-            }
+            if (_isBattleEnded) return;
+            BattleEnded?.Invoke(_outcome);
+            _abilityPanel.ResetAbilityButtons();
+            _isBattleEnded = true;
+            Debug.LogFormat("Сражение завершено - победил {0}", _outcome == BattleOutcome.Victory ? "игрок" : "ИИ");
         }
         else
         {
@@ -88,12 +90,30 @@ public class BattleSimulation : MonoBehaviour
                 }
 
                 // Действия ИИ
+                var enemies = _characters
+                    .Select(x => x)
+                    .Where(x => x.Side == BattleObjectSide.Enemy);
+                foreach (var enemy in enemies)
+                {
+                    enemy.PlayTurn();
+                }
+
+                EndTurn();
             }
         }
     }
 
+    // Тестовые методы
+    public void AwardPlayerVictory() => _outcome = BattleOutcome.Victory;
+    public void AwardPlayerDefeat() => _outcome = BattleOutcome.Defeat;
+
     public void CheckBattleOutcome()
     {
+        if (_outcome != BattleOutcome.Neither)
+        {
+            return;
+        }
+
         bool isThereAnyAliveAlly = false;
         bool isThereAnyAliveEnemy = false;
 
@@ -122,7 +142,6 @@ public class BattleSimulation : MonoBehaviour
     // Влияет на Update()
     public void EndTurn()
     {
-        //TODO: todo выше
         _abilityPanel.ResetAbilityButtons();
         SwitchTurn();
         _isTurnChanged = true;
@@ -143,6 +162,8 @@ public class BattleSimulation : MonoBehaviour
         _characterArrangeDirector.SetArrangementMap(_battleMapDirector.Map);
         _characters = _characterArrangeDirector.Arrange();
 
-        _abilityViewBinder.BindAbilityButtons(_battleMapDirector.MapView, _abilityButtons, _currentTurn);
+        _abilityViewBinder.BindAbilityButtons(_battleMapDirector.MapView, _abilityPanel, _currentTurn);
+        //TODO затрагивает UI
+        _characterStatsWindow.Bind(_battleMapDirector.MapView, _currentTurn);
     }
 }

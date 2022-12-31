@@ -27,6 +27,7 @@ namespace OrderElimination
         public PlanetPoint PlanetPoint => _presenter.PlanetPoint;
         public int AmountOfCharacters => _model.AmountOfMembers;
         public IReadOnlyList<Character> Members => _model.Members;
+        public bool AlreadyMove = false;
 
 
         [Inject]
@@ -49,6 +50,7 @@ namespace OrderElimination
         
         public void Move(PlanetPoint planetPoint)
         {
+            AlreadyMove = true;
             PlanetPoint?.RemoveSquad();
             planetPoint?.AddSquad();
             SetPlanetPoint(planetPoint);
@@ -77,6 +79,8 @@ namespace OrderElimination
         
         public void Select()
         {
+            if (AlreadyMove)
+                return;
             Selected?.Invoke(this);
             _model.Select();
         }
