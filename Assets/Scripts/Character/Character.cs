@@ -12,7 +12,11 @@ namespace OrderElimination
         // [SerializeField]
         private StrategyStats _strategyStats;
         [SerializeField]
-        private Sprite _view;
+        private string _name;
+        [SerializeField]
+        private Sprite _viewIcon;
+        [SerializeField]
+        private Sprite _viewAvatar;
         [FormerlySerializedAs("_abilities")]
         [SerializeField]
         private AbilityInfo[] _activeAbilities;
@@ -21,7 +25,9 @@ namespace OrderElimination
         
         public BattleStats GetBattleStats() => _battleStats;
 
-        public Sprite GetView() => _view;
+        public string GetName() => _name;
+        public Sprite GetViewIcon() => _viewIcon;
+        public Sprite GetViewAvatar() => _viewAvatar;
 
         public AbilityInfo[] GetActiveAbilityInfos() => _activeAbilities;
         public AbilityInfo[] GetPassiveAbilityInfos() => _passiveAbilities;

@@ -11,6 +11,8 @@ namespace UIManagement.Elements
         [SerializeField] private Image _avatar;
         [SerializeField] private BattleStatUIBar _healthBar;
         [SerializeField] private BattleStatUIBar _armorBar;
+        [SerializeField] private HoldableButton _avatarButton;
+        [SerializeField] private UIController _panelController;
         private BattleCharacterView currentCharacterView;
 
         public void UpdateCharacterInfo(BattleCharacterView characterView)
@@ -34,7 +36,7 @@ namespace UIManagement.Elements
             var stats = characterView.Model.Stats;
             _healthBar.SetValue(stats.Health, 0, stats.UnmodifiedHealth);
             _armorBar.SetValue(stats.Armor, 0, stats.UnmodifiedArmor);
-            _avatar.sprite = characterView.Avatar;
+            _avatar.sprite = characterView.Icon;
         }
 
         private void OnCharacterEffectAdded(ITickEffect effect) => UpdateCharacterInfo(currentCharacterView);
@@ -64,6 +66,12 @@ namespace UIManagement.Elements
             HideInfo();
         }
 
+        private void OnAvatarButtonPressed(HoldableButton avatarButton)
+        {
+            var characterDescriptionPanel = (CharacterDescriptionPanel)_panelController.OpenPanel(PanelType.CharacterDetails);
+            characterDescriptionPanel.UpdateCharacterDescription(currentCharacterView);
+        }
+
         private void OnCharacterDeselected(BattleCharacterView character)
         {
             HideInfo();
@@ -74,6 +82,8 @@ namespace UIManagement.Elements
             _avatar.gameObject.SetActive(false);
             _healthBar.gameObject.SetActive(false);
             _armorBar.gameObject.SetActive(false);
+            _avatarButton.gameObject.SetActive(false);
+            _avatarButton.Clicked -= OnAvatarButtonPressed;
         }
 
         private void ShowInfo()
@@ -81,6 +91,8 @@ namespace UIManagement.Elements
             _avatar.gameObject.SetActive(true);
             _healthBar.gameObject.SetActive(true);
             _armorBar.gameObject.SetActive(true);
+            _avatarButton.gameObject.SetActive(true);
+            _avatarButton.Clicked += OnAvatarButtonPressed;
         }
     } 
 }

@@ -25,7 +25,7 @@ public class BattleCharacterFactory : MonoBehaviour
     public BattleCharacter Create(IBattleCharacterInfo info, BattleObjectSide side)
     {
         BattleCharacterView battleCharacterView = Instantiate(charPrefab);
-        battleCharacterView.SetImage(info.GetView());
+        battleCharacterView.SetImage(info.GetViewIcon());
         BattleCharacter character;
         //TODO: Generation Enemy 
         if (side == BattleObjectSide.Enemy)
@@ -39,10 +39,11 @@ public class BattleCharacterFactory : MonoBehaviour
             character = new BattleCharacter(side, new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation());
         }
 
-        battleCharacterView.GetComponentInChildren<SpriteRenderer>().sprite = info.GetView();
+        battleCharacterView.GetComponentInChildren<SpriteRenderer>().sprite = info.GetViewIcon();
         battleCharacterView.Init(character, CreateCharacterAbilities(info.GetActiveAbilityInfos(), character),
             CreateCharacterAbilities(info.GetPassiveAbilityInfos(), character),
-            info.GetView());
+            info.GetViewIcon(),
+            info.GetViewAvatar());
 
         character.View = battleCharacterView.gameObject;
         return character;

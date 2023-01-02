@@ -44,7 +44,7 @@ namespace CharacterAbility
             EffectName = name;
         }
 
-        private static readonly Dictionary<Buff_Type, ValueUnits> _buffUnits = new()
+        private static readonly Dictionary<Buff_Type, ValueUnits> _buffUnits = new Dictionary<Buff_Type, ValueUnits>()
         {
             {Buff_Type.Attack, ValueUnits.None }, 
             {Buff_Type.Health, ValueUnits.None }, 

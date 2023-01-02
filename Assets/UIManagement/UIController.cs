@@ -14,7 +14,7 @@ namespace UIManagement
         [SerializeField] private List<IUIPanel> _panels = new List<IUIPanel>();
 
         [Button, DisableInEditorMode]
-        public void ShowPanelIsolated(PanelType panel)
+        private void OpenPanelIsolated(PanelType panel)
         {
             CloseAllPanels();
             OpenPanel(panel);

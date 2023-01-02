@@ -113,6 +113,7 @@ namespace UIManagement.trashToRemove_Mockups
             {PanelType.BattleDefeat, "Поражение"}, 
             {PanelType.AbilityDescription, "Описание способности"}, 
             {PanelType.PassiveSkillsDescription, "Пассивные навыки"}, 
+            {PanelType.CharacterDetails, "Информация о бойце"}, 
         };
         private Dictionary<ValueUnits, string> _unitNames
             = new Dictionary<ValueUnits, string>()

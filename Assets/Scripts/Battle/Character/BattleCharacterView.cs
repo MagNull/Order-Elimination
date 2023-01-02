@@ -17,14 +17,15 @@ public class BattleCharacterView : MonoBehaviour
     public BattleCharacter Model => _character;
     public AbilityView[] ActiveAbilitiesView => _activeAbilitiesView;
     public AbilityView[] PassiveAbilitiesView => _passiveAbilitiesView;
-    public Sprite Avatar { get; private set; }
+    public Sprite Icon { get; private set; }
+    public Sprite AvatarFull { get; private set; }
 
     public bool IsSelected => _selected;
 
     public static event Action<BattleCharacterView> Selected;
     public static event Action<BattleCharacterView> Deselected;
 
-    public void Init(BattleCharacter character, AbilityView[] activeAbilitiesView, AbilityView[] passiveAbilitiesView, Sprite avatar)
+    public void Init(BattleCharacter character, AbilityView[] activeAbilitiesView, AbilityView[] passiveAbilitiesView, Sprite avatarIcon, Sprite avatarFull)
     {
         Selected = null;
         Deselected = null;
@@ -36,7 +37,8 @@ public class BattleCharacterView : MonoBehaviour
 
         _activeAbilitiesView = activeAbilitiesView;
         _passiveAbilitiesView = passiveAbilitiesView;
-        Avatar = avatar;
+        Icon = avatarIcon;
+        AvatarFull = avatarFull;
     }
 
     private void OnDamaged(TakeDamageInfo info)

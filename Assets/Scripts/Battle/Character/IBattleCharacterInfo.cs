@@ -5,7 +5,9 @@ using UnityEngine;
 public interface IBattleCharacterInfo
 {
     public BattleStats GetBattleStats();
-    public Sprite GetView();
+    public string GetName();
+    public Sprite GetViewIcon();
+    public Sprite GetViewAvatar();
     public AbilityInfo[] GetActiveAbilityInfos();
     
     public AbilityInfo[] GetPassiveAbilityInfos();
