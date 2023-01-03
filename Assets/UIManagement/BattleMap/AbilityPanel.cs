@@ -13,7 +13,7 @@ namespace UIManagement
         [SerializeField]
         private AbilityButton[] _activeAbilityButtons;
         [SerializeField]
-        private SmallSkillButton[] _passiveSkillButtons;
+        private SmallAbilityButton[] _passiveSkillButtons;
         [SerializeField]
         private UIController _panelController;
 
@@ -85,7 +85,7 @@ namespace UIManagement
             }
             foreach (var button in _passiveSkillButtons)
             {
-                button.RemoveSkillView();
+                button.RemoveAbilityView();
             }
             _buttonsByView.Clear();
             _currentPassiveSkills = null;
@@ -116,10 +116,10 @@ namespace UIManagement
             }
         }
 
-        private void OnPassiveSkillButtonClicked(SmallSkillButton skillButton)
+        private void OnPassiveSkillButtonClicked(SmallAbilityButton skillButton)
         {
             var panel = _panelController.OpenPanel(PanelType.PassiveSkillsDescription) as PassiveSkillDescriptionPanel;
-            panel.SetPassiveSkillsDescription(_currentPassiveSkills);
+            panel.AssignPassiveSkillsDescription(_currentPassiveSkills);
         }
     }
 }

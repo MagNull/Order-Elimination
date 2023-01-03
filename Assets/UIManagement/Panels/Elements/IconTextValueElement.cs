@@ -68,6 +68,16 @@ namespace UIManagement.Elements
             set => _valueComponent.text = value;
         }
 
+        public void UpdateInfo(Sprite icon = null, string text = null, string value = null)
+        {
+            Icon = icon;
+            Text = text;
+            Value = value;
+        }
+
+        public void UpdateInfo(Sprite icon = null, string text = null, float value = 0) => UpdateInfo(icon, text, value.ToString());
+        public void UpdateInfo(Sprite icon = null, string text = null, int value = 0) => UpdateInfo(icon, text, value.ToString());
+
         private void OnDestroy()
         {
             Destroyed?.Invoke(this);

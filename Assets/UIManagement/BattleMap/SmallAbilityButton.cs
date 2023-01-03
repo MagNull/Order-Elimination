@@ -8,12 +8,12 @@ using UnityEngine.UI;
 namespace UIManagement.Elements
 {
     [RequireComponent(typeof(HoldableButton))]
-    public class SmallSkillButton : MonoBehaviour
+    public class SmallAbilityButton : MonoBehaviour
     {
         [SerializeField] Image _icon;
         [SerializeField] HoldableButton _button;
-        public AbilityView SkillView { get; private set; }
-        public event Action<SmallSkillButton> Clicked;
+        public AbilityView AbilityView { get; private set; }
+        public event Action<SmallAbilityButton> Clicked;
 
         private void Awake()
         {
@@ -25,16 +25,17 @@ namespace UIManagement.Elements
 
         private void OnClick(HoldableButton button) => Clicked?.Invoke(this);
 
-        public void AssignAbilityView(AbilityView skillView)
+        public void AssignAbilityView(AbilityView abilityView)
         {
-            _icon.sprite = skillView.AbilityIcon;
+            AbilityView = abilityView;
+            _icon.sprite = AbilityView.AbilityIcon;
             _button.interactable = true;
         }
 
-        public void RemoveSkillView()
+        public void RemoveAbilityView()
         {
             _icon.sprite = null;
-            SkillView = null;
+            AbilityView = null;
             _button.interactable = false;
         }
     } 

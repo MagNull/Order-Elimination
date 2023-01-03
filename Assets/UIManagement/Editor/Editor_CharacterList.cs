@@ -63,7 +63,7 @@ public class Editor_CharacterList : Editor
         {
             if (list.CharactersCount < expectedCount)
             {
-                list.Add(new Character());
+                list.Add(new BattleCharacterView());
             }
             else if (list.CharactersCount > expectedCount)
             {

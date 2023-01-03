@@ -43,7 +43,7 @@ namespace UIManagement.Elements
         [SerializeField] private IconTextValueElement _experienceRecieved;
         [SerializeField] private IconTextValueElement _maintenanceCost;
         [SerializeField] private IconTextValueList _parametersList;
-        public Character CharacterInfo { get; private set; }
+        public BattleCharacterView CharacterInfo { get; private set; }
 
         [ShowInInspector]
         public bool HasExperienceRecieved
@@ -75,22 +75,22 @@ namespace UIManagement.Elements
 
         public event Action<CharacterListElement> Destroyed;
 
-        public void UpdateCharacterInfo(Character character)
+        public void UpdateCharacterInfo(BattleCharacterView character)
         {
             if (character == null)
                 throw new InvalidOperationException();
             CharacterInfo = character;
-            IsDead = character.IsDead;
-            var battleStats = CharacterInfo.GetBattleStats();
-            var strategyStats = CharacterInfo.GetStrategyStats();
-            CharacterName = CharacterInfo.Name;
+            //IsDead = character.IsDead;
+            var battleStats = CharacterInfo.Model.Stats;//.GetBattleStats();
+            //var strategyStats = CharacterInfo.GetStrategyStats();
+            CharacterName = CharacterInfo.CharacterName;
             MaintenanceText = "Содержание бойца";
-            MaintenanceCost = strategyStats.MaintenanceCost.ToString();
-            _parametersList.Add(null, "Здоровье", battleStats.HP.ToString());
-            _parametersList.Add(null, "Урон", battleStats.Attack.ToString());
-            _parametersList.Add(null, "Броня", battleStats.Armor.ToString());
-            _parametersList.Add(null, "Уклонение", battleStats.Evasion.ToString());
-            _parametersList.Add(null, "Точность", battleStats.Accuracy.ToString());
+            //MaintenanceCost = strategyStats.MaintenanceCost.ToString();
+            _parametersList.Add(null, "Здоровье", battleStats.UnmodifiedHealth.ToString());
+            _parametersList.Add(null, "Урон", battleStats.UnmodifiedAttack.ToString());
+            _parametersList.Add(null, "Броня", battleStats.UnmodifiedArmor.ToString());
+            _parametersList.Add(null, "Уклонение", battleStats.UnmodifiedEvasion.ToString());
+            _parametersList.Add(null, "Точность", battleStats.UnmodifiedAccuracy.ToString());
         }
 
         private void OnDestroy()

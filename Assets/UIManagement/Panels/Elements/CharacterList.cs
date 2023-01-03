@@ -70,7 +70,7 @@ namespace UIManagement.Elements
         }
 
         [Button]
-        public void Add(params Character[] charactersInfo)
+        public void Add(params BattleCharacterView[] charactersInfo)
         {
             if (_elementPrefab == null)
                 throw new Exception("No given prefab for instancing.");

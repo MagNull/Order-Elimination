@@ -17,6 +17,7 @@ public class BattleCharacterView : MonoBehaviour
     public BattleCharacter Model => _character;
     public AbilityView[] ActiveAbilitiesView => _activeAbilitiesView;
     public AbilityView[] PassiveAbilitiesView => _passiveAbilitiesView;
+    public string CharacterName { get; private set; }
     public Sprite Icon { get; private set; }
     public Sprite AvatarFull { get; private set; }
 
@@ -25,7 +26,7 @@ public class BattleCharacterView : MonoBehaviour
     public static event Action<BattleCharacterView> Selected;
     public static event Action<BattleCharacterView> Deselected;
 
-    public void Init(BattleCharacter character, AbilityView[] activeAbilitiesView, AbilityView[] passiveAbilitiesView, Sprite avatarIcon, Sprite avatarFull)
+    public void Init(BattleCharacter character, AbilityView[] activeAbilitiesView, AbilityView[] passiveAbilitiesView, string characterName, Sprite avatarIcon, Sprite avatarFull)
     {
         Selected = null;
         Deselected = null;
@@ -37,6 +38,7 @@ public class BattleCharacterView : MonoBehaviour
 
         _activeAbilitiesView = activeAbilitiesView;
         _passiveAbilitiesView = passiveAbilitiesView;
+        CharacterName = characterName;
         Icon = avatarIcon;
         AvatarFull = avatarFull;
     }

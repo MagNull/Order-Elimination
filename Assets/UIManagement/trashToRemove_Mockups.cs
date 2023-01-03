@@ -1,4 +1,5 @@
 ﻿using CharacterAbility;
+using OrderElimination;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,15 +14,15 @@ namespace UIManagement.trashToRemove_Mockups
         public int PrimaryCurrencyRecieved = Random.Range(0, 500);
         public int SpecialCurrencyRecieved = Random.Range(0, 20);
         public int ExperienceAmount = Random.Range(0, 200);
-        public List<Character> SquadCharacters = GetSquadCharacters();
+        public List<BattleCharacterView> SquadCharacters = GetSquadCharacters();
         public List<Powerup> PowerupsRecieved = GetPowerups();
 
-        private static List<Character> GetSquadCharacters()
+        private static List<BattleCharacterView> GetSquadCharacters()
         {
-            var characters = new Character[Random.Range(1, 5)];
+            var characters = new BattleCharacterView[Random.Range(1, 5)];
             for (var i = 0; i < characters.Length; i++)
             {
-                characters[i] = new Character();
+                characters[i] = null;
             }
             return characters.ToList();
         }
@@ -42,15 +43,15 @@ namespace UIManagement.trashToRemove_Mockups
         public int PrimaryCurrencyRecieved = Random.Range(0, 500);
         public int SpecialCurrencyRecieved = Random.Range(0, 20);
         public int ExperienceAmount = Random.Range(0, 200);
-        public List<Character> SquadCharacters = GetSquadCharacters();
+        public List<BattleCharacterView> SquadCharacters = GetSquadCharacters();
         public List<Powerup> PowerupsRecieved = GetPowerups();
 
-        private static List<Character> GetSquadCharacters()
+        private static List<BattleCharacterView> GetSquadCharacters()
         {
-            var characters = new Character[Random.Range(1, 5)];
+            var characters = new BattleCharacterView[Random.Range(1, 5)];
             for (var i = 0; i < characters.Length; i++)
             {
-                characters[i] = new Character();
+                characters[i] = new BattleCharacterView();
             }
             return characters.ToList();
         }
@@ -72,15 +73,6 @@ namespace UIManagement.trashToRemove_Mockups
     }
 
     #region Character
-    public class BattleStats
-    {
-        public float HP { get; } = Random.Range(10, 800);
-        public float Attack { get; } = Random.Range(10, 800);
-        public float Armor { get; } = Random.Range(10, 800);
-        public float Evasion { get; } = Random.Range(10, 100);
-        public float Accuracy { get; } = Random.Range(10, 100);
-        public float Movement { get; } = Random.Range(1, 5);
-    }
 
     public class StrategyStats
     {
@@ -94,7 +86,7 @@ namespace UIManagement.trashToRemove_Mockups
         public bool IsDead = Random.Range(0, 100) < 20;
         private readonly BattleStats battleStats = new BattleStats();
         private readonly StrategyStats strategyStats = new StrategyStats();
-        public BattleStats GetBattleStats() => battleStats;
+        public IReadOnlyBattleStats GetBattleStats() => battleStats;
         public StrategyStats GetStrategyStats() => strategyStats;
     }
     #endregion Character
