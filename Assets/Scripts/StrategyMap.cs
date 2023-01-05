@@ -76,15 +76,15 @@ namespace OrderElimination
 
         private Vector3 GetPathPosition(Vector3 start, Vector3 end)
         {
-            var pathPositionX = (end.x + start.x) / 2;
-            var pathPositionY = end.y - 25;
+            var pathPositionX = (end.x + start.x - 50) / 2;
             if (start.y == end.y)
-                return new Vector3(pathPositionX, pathPositionY);
+                return new Vector3(pathPositionX, end.x);
 
-            pathPositionX += 25;
-            pathPositionY = (end.y + start.y) / 2 - 25;
-            if (end.y < start.y)
-                pathPositionX -= 50;
+            var pathPositionY = (end.y + start.y - 50) / 2;
+            if (end.y > start.y && end.x > start.x)
+                pathPositionX += 50;
+            if (end.y < start.y && end.x < start.x)
+                pathPositionX += 50;
             return new Vector3(pathPositionX, pathPositionY);
         }
 
@@ -95,11 +95,9 @@ namespace OrderElimination
 
             var b = end.y - start.y;
             var a = end.x - start.x;
-            var alpha = Math.Atan(b / a) * 180 / Math.PI;
+            var alpha = MathF.Atan(b / a) * 180 / (float)Math.PI;
 
-            return start.x < end.x
-                ? Quaternion.Euler(0, 0, (float)alpha)
-                : Quaternion.Euler(0, 0, -(float)alpha);
+            return Quaternion.Euler(0, 0, alpha);
         }
 
         private async Task DeserializeSquads()
