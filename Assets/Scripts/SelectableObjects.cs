@@ -4,9 +4,10 @@ using UnityEngine;
 namespace OrderElimination
 {
     public class SelectableObjects : MonoBehaviour
-    {   
+    {
         private List<ISelectable> _selectableObjects;
-        private void Awake() 
+
+        private void Awake()
         {
             _selectableObjects = new List<ISelectable>();
             Creator.Created += AddSelectableObject;
@@ -21,16 +22,16 @@ namespace OrderElimination
         {
             var squads = new List<Squad>();
             foreach (var temp in _selectableObjects)
-                if(temp is Squad squad)
+                if (temp is Squad squad)
                     squads.Add(squad);
             return squads;
         }
-        
+
         public List<PlanetPoint> GetPlanetPoints()
         {
             var planetPoints = new List<PlanetPoint>();
             foreach (var temp in _selectableObjects)
-                if(temp is PlanetPoint point)
+                if (temp is PlanetPoint point)
                     planetPoints.Add(point);
             return planetPoints;
         }

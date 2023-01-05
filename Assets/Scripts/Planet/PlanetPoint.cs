@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using Sirenix.OdinInspector;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -25,7 +26,6 @@ namespace OrderElimination
         }
 
         public PlanetInfo GetPlanetInfo() => _planetInfo;
-        public void SetInfo(PlanetInfo planetInfo) => _planetInfo = planetInfo;
 
         public void IncreasePoint() => _planetView.Increase();
         public void DecreasePoint() => _planetView.Decrease();
@@ -33,10 +33,19 @@ namespace OrderElimination
         public void RemoveSquad() => _countSquadOnPoint--;
         public void AddSquad() => _countSquadOnPoint++;
 
+        public void SetPlanetInfo(PlanetInfo planetInfo)
+        {
+            _planetInfo = planetInfo;
+        }
+        
         public void SetPath(Path path)
         {
-            Debug.Log($"SetPath: {path.gameObject.name}");
             _paths.Add(path);
+        }
+        
+        public void SetPath(IEnumerable<Path> paths)
+        {
+            _paths.AddRange(paths);
         }
 
         public IReadOnlyList<PlanetPoint> GetNextPoints()
@@ -49,22 +58,18 @@ namespace OrderElimination
 
         public void ShowPaths()
         {
-            foreach (var path in _paths.Where(p => p != null))
+            foreach (var path in _paths)
             {
-                Debug.Log($"{gameObject.name}: showPath");
                 path.gameObject.SetActive(true);
-                path.Increase();
             }
         }
 
         public void HidePaths()
         {
-            foreach (var path in _paths.Where(p => p != null))
+            foreach (var path in _paths.Where(path => !path.IsDestroyed()))
             {
-                Debug.Log($"{gameObject.name}: hidePath");
                 path.gameObject.SetActive(false);
-                path.Decrease();
-            } 
+            }
         }
 
         private void OnMouseDown() => Select(); 

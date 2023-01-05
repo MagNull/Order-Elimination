@@ -19,9 +19,9 @@ namespace OrderElimination
         [SerializeField]
         private Button _rectanglePrefab;
 
-        [SerializeField]
-        private Canvas _strategyMapCanvas;
+        private Canvas _canvas;
         private IObjectResolver _objectResolver;
+        private static int num = 0;
         public static event Action<ISelectable> Created;
 
         [Inject]
@@ -29,11 +29,17 @@ namespace OrderElimination
         {
             _objectResolver = resolver;
         }
+        
+        private void Start()
+        {
+            _canvas = GameObject.Find("StrategyMapCanvas").GetComponent<Canvas>();
+        }
 
         public PlanetPoint CreatePlanetPoint(PlanetInfo planetInfo)
         {
             var planetPoint = Instantiate(_planetPointPrefab, planetInfo.Position, Quaternion.identity);
-            planetPoint.SetInfo(planetInfo);
+            planetPoint.name = num.ToString();
+            num++;
             Created?.Invoke(planetPoint);
             return planetPoint;
         }
@@ -45,16 +51,16 @@ namespace OrderElimination
             return squad;
         }
 
-        public Path CreatePath(PathInfo pathInfo)
+        public Path CreatePath(Vector3 position, Quaternion quaternion)
         {
-            var path = Instantiate(_pathPrefab, pathInfo.Positon, Quaternion.identity);
+            var path = Instantiate(_pathPrefab, position, quaternion);
             return path;
         }
 
         public Button CreateSquadButton(Vector3 position)
         {
             Vector3 _position = new Vector3((Screen.width / 100) * 88, position.y, 0);
-            var button = Instantiate(_rectanglePrefab, _position, Quaternion.identity, _strategyMapCanvas.transform);
+            var button = Instantiate(_rectanglePrefab, _position, Quaternion.identity, _canvas.transform);
             button.onClick.AddListener(() => _orderPanel.SetActive());
             return button;
         }

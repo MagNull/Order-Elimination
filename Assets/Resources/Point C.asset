@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c682b0bae1680d48becdfdfe16809b5, type: 3}
-  m_Name: Point3
+  m_Name: Point C
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -42,6 +42,8 @@ MonoBehaviour:
       Entry: 8
       Data: 
   _position: {x: 600, y: 50, z: 0}
+  _paths:
+  - {fileID: 11400000, guid: c179e0b0c58ad00439db4aad40986de5, type: 2}
   _spriteIcon: {fileID: 0}
   "_\u0441hanceOfItems": 0
   _chanceOfFighting: 0

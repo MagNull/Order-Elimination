@@ -27,9 +27,9 @@ namespace OrderElimination
 
         private void ChangeSelectedObject(ISelectable selectedObject)
         {
-            if(_selectedObject is Squad)
+            if(_selectedObject is Squad squad)
             {
-                ((Squad)_selectedObject).Unselect();
+                squad.Unselect();
             }
             _selectedObject = selectedObject;
         }
@@ -79,6 +79,9 @@ namespace OrderElimination
         {
             var squads = _selectableObjects.GetSquads();
             var points = _selectableObjects.GetPlanetPoints();
+            foreach (var point in points)
+                point.HidePaths();
+
             squads.Last().Move(points.Last());
             
             foreach (var squad in squads)
