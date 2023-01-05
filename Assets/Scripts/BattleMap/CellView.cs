@@ -1,6 +1,7 @@
 using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CellView : MonoBehaviour
 {
@@ -63,6 +64,8 @@ public class CellView : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if(EventSystem.current.IsPointerOverGameObject())
+            return;
         CellClicked?.Invoke(this);
     }
 }
