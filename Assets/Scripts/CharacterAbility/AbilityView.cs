@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using OrderElimination.BattleMap;
 using UnityEngine;
 
 namespace CharacterAbility
@@ -10,9 +12,6 @@ namespace CharacterAbility
     public class AbilityView
     {
         public event Action Casted;
-        // Добавленные события
-        public static event Action<float, GameObject> TargetSelected;
-        public static event Action TargetDeselected;
 
         private readonly Ability _ability;
         private readonly BattleMapView _battleMapView;
@@ -122,8 +121,6 @@ namespace CharacterAbility
 
         private async UniTask<IBattleObject> SelectTarget()
         {
-            TargetDeselected?.Invoke();
-
             IBattleObject target = null;
             _casting = true;
 
@@ -140,13 +137,14 @@ namespace CharacterAbility
                     return;
                 }
 
-                selectedCellViews.ForEach(c => c.Deselect());
+                //TODO: Refactor
+                DeselectCells(selectedCellViews);
                 selectedCellViews.Clear();
 
                 if (selected == target)
                 {
                     cellConfirmed = true;
-                    selectedCellViews.ForEach(c => c.Deselect());
+                    DeselectCells(selectedCellViews);
                     return;
                 }
 
@@ -167,12 +165,11 @@ namespace CharacterAbility
 
                 target = selected;
 
-                // Начало
-                if (target.Side == BattleObjectSide.Enemy)
+                foreach (var selectedObj in selectedCellViews.Select(selectedCellView => selectedCellView.Model.GetObject()))
                 {
-                    TargetSelected?.Invoke(_ability.Probability, target.View);
+                    if(selectedObj is not NullBattleObject && selectedObj.View.TryGetComponent(out BattleCharacterView view))
+                        view.ShowProbability();
                 }
-                // Конец
             }
 
             _battleMapView.CellClicked += OnCellClicked;
@@ -187,6 +184,17 @@ namespace CharacterAbility
             _battleMapView.CellClicked -= OnCellClicked;
 
             return target;
+        }
+
+        private static void DeselectCells(List<CellView> selectedCellViews)
+        {
+            foreach (var cell in selectedCellViews)
+            {
+                cell.Deselect();
+                var selectedObj = cell.Model.GetObject();
+                if (selectedObj is not NullBattleObject && selectedObj.View.TryGetComponent(out BattleCharacterView view))
+                    view.HideProbability();
+            }
         }
 
         private void WrongTargetSelected()

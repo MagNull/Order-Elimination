@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using CharacterAbility;
 using OrderElimination.Battle;
+using TMPro;
 
 public class BattleCharacterView : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class BattleCharacterView : MonoBehaviour
     private AbilityView[] _passiveAbilitiesView;
     [SerializeField]
     private SpriteRenderer _renderer;
+    [SerializeField]
+    private TextMeshProUGUI _shootProbability;
 
     private bool _selected = false;
 
@@ -26,7 +29,8 @@ public class BattleCharacterView : MonoBehaviour
     public static event Action<BattleCharacterView> Selected;
     public static event Action<BattleCharacterView> Deselected;
 
-    public void Init(BattleCharacter character, AbilityView[] activeAbilitiesView, AbilityView[] passiveAbilitiesView, string characterName, Sprite avatarIcon, Sprite avatarFull)
+    public void Init(BattleCharacter character, AbilityView[] activeAbilitiesView, AbilityView[] passiveAbilitiesView,
+        string characterName, Sprite avatarIcon, Sprite avatarFull)
     {
         Selected = null;
         Deselected = null;
@@ -35,6 +39,7 @@ public class BattleCharacterView : MonoBehaviour
         _character.Damaged += OnDamaged;
         _character.Died += OnDied;
         BattleSimulation.RoundStarted += OnRoundStart;
+        BattleSimulation.PlayerTurnEnd += HideProbability;
 
         _activeAbilitiesView = activeAbilitiesView;
         _passiveAbilitiesView = passiveAbilitiesView;
@@ -45,7 +50,7 @@ public class BattleCharacterView : MonoBehaviour
 
     private void OnDamaged(TakeDamageInfo info)
     {
-        if(info is {ArmorDamage: 0, HealthDamage: 0})
+        if (info is {ArmorDamage: 0, HealthDamage: 0})
         {
             switch (info.CancelType)
             {
@@ -59,7 +64,8 @@ public class BattleCharacterView : MonoBehaviour
 
             return;
         }
-        Debug.Log(gameObject.name + " get "+ (info.ArmorDamage + info.HealthDamage) + " damage " % Colorize.Red );
+
+        Debug.Log(gameObject.name + " get " + (info.ArmorDamage + info.HealthDamage) + " damage " % Colorize.Red);
     }
 
     public void SetImage(Sprite image) => _renderer.sprite = image;
@@ -74,6 +80,18 @@ public class BattleCharacterView : MonoBehaviour
     {
         _selected = false;
         Deselected?.Invoke(this);
+    }
+
+    
+    //TODO: Probability panel instead text
+    public void ShowProbability()
+    {
+        _shootProbability.text = _character.Stats.Evasion.ToString();
+    }
+    
+    public void HideProbability()
+    {
+        _shootProbability.text = "";
     }
 
     private void OnDied(BattleCharacter battleCharacter)
