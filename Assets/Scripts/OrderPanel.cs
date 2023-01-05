@@ -14,8 +14,8 @@ namespace OrderElimination
         {
             _squadCommander = squadCommander;
         }
-        
-        private void Start() 
+
+        private void Start()
         {
             InputClass.TargetSelected += SetOrder;
             Disable();
@@ -26,9 +26,9 @@ namespace OrderElimination
             GameObject.Find("OrderCanvas").GetComponent<Canvas>().enabled = true;
         }
 
-        public void Disable() 
+        public void Disable()
         {
-            if(_squadCommander.Squad != null)
+            if (_squadCommander.Squad != null)
                 _squadCommander.Squad.SetOrderButtonCharacteristics(false);
             GameObject.Find("OrderCanvas").GetComponent<Canvas>().enabled = false;
         }

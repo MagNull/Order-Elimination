@@ -54,7 +54,6 @@ namespace OrderElimination
         public Path CreatePath(Vector3 position, Quaternion quaternion)
         {
             var path = Instantiate(_pathPrefab, position, quaternion);
-            Debug.Log(path.transform.localScale);
             return path;
         }
 

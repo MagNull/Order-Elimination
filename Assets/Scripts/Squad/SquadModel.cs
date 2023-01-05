@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace OrderElimination
 {
@@ -17,7 +16,7 @@ namespace OrderElimination
 
         public SquadModel(List<Character> members)
         {
-            if (members.Count == 0) 
+            if (members.Count == 0)
                 return;
             _members = members;
             _rang = 0;

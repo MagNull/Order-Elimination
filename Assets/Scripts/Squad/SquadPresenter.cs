@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-namespace OrderElimination
+﻿namespace OrderElimination
 {
     public class SquadPresenter
     {
@@ -7,6 +6,7 @@ namespace OrderElimination
         private readonly SquadView _view;
         private PlanetPoint _planetPoint;
         public PlanetPoint PlanetPoint => _planetPoint;
+
         public SquadPresenter(SquadModel model, SquadView view, PlanetPoint planetPoint)
         {
             _model = model;
@@ -19,7 +19,7 @@ namespace OrderElimination
             _model.Moved += _view.OnMove;
             _model.Selected += _view.OnSelect;
             _model.Unselected += _view.OnUnselect;
-            if(_planetPoint != null)
+            if (_planetPoint != null)
             {
                 _model.Selected += _planetPoint.ShowPaths;
                 _model.Unselected += _planetPoint.HidePaths;
@@ -31,7 +31,7 @@ namespace OrderElimination
             _model.Moved -= _view.OnMove;
             _model.Selected -= _view.OnSelect;
             _model.Unselected -= _view.OnUnselect;
-            if(_planetPoint != null)
+            if (_planetPoint != null)
             {
                 _model.Selected -= _planetPoint.ShowPaths;
                 _model.Unselected -= _planetPoint.HidePaths;

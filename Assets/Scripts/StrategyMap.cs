@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
-using System.Numerics;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
@@ -40,7 +38,7 @@ namespace OrderElimination
             DeserializePaths();
             await DeserializeSquads();
         }
-        
+
         private void DeserializePoints()
         {
             foreach (var planetInfo in _pointsInfo)
@@ -50,7 +48,7 @@ namespace OrderElimination
                 _planetPoints.Add(planetPoint);
             }
         }
-        
+
         private void DeserializePaths()
         {
             foreach (var pointInfo in _pointsInfo)
@@ -59,14 +57,18 @@ namespace OrderElimination
                 foreach (var pathInfo in pointInfo.Paths)
                 {
                     var endPosition = pathInfo.End.Position;
-                    
+
                     var pathPosition = GetPathPosition(startPosition, endPosition);
                     var quaternion = GetPathQuaternion(startPosition, endPosition);
                     var path = _creator.CreatePath(pathPosition, quaternion);
                     //scale for distance
-                    path.transform.localScale = new Vector3(Vector3.Distance(startPosition, endPosition) * 0.075f, 60, 1);
-                    path.SetStartPoint(_planetPoints.FirstOrDefault(x => x.GetPlanetInfo() == pointInfo));
-                    path.SetEndPoint(_planetPoints.FirstOrDefault(x => x.GetPlanetInfo() == pathInfo.End));
+                    path.transform.localScale =
+                        new Vector3(Vector3.Distance(startPosition, endPosition) * 0.075f, 60, 1);
+
+                    path.SetStartPoint(_planetPoints.First(x => x.GetPlanetInfo() == pointInfo));
+                    path.SetEndPoint(_planetPoints.First(x => x.GetPlanetInfo() == pathInfo.End));
+                    path.gameObject.SetActive(false);
+
                     _paths.Add(path);
                 }
             }
@@ -76,26 +78,26 @@ namespace OrderElimination
         {
             var pathPositionX = (end.x + start.x) / 2;
             var pathPositionY = end.y - 25;
-            if (start.y == end.y) 
+            if (start.y == end.y)
                 return new Vector3(pathPositionX, pathPositionY);
 
             pathPositionX += 25;
             pathPositionY = (end.y + start.y) / 2 - 25;
-            if(end.y < start.y)
+            if (end.y < start.y)
                 pathPositionX -= 50;
             return new Vector3(pathPositionX, pathPositionY);
         }
 
         private Quaternion GetPathQuaternion(Vector3 start, Vector3 end)
         {
-            if(Math.Abs(start.y - end.y) < 1)
+            if (Math.Abs(start.y - end.y) < 1)
                 return Quaternion.identity;
 
             var b = end.y - start.y;
             var a = end.x - start.x;
             var alpha = Math.Atan(b / a) * 180 / Math.PI;
-            
-            return start.x < end.x 
+
+            return start.x < end.x
                 ? Quaternion.Euler(0, 0, (float)alpha)
                 : Quaternion.Euler(0, 0, -(float)alpha);
         }
@@ -105,7 +107,7 @@ namespace OrderElimination
             var positions = _database.LoadData();
             var squadsInfo = Resources.LoadAll<SquadInfo>("");
             var count = 0;
-            await foreach(var position in positions)
+            await foreach (var position in positions)
             {
                 var squad = _creator.CreateSquad(GetVectorFromString(position));
                 var button = _creator.CreateSquadButton(squadsInfo[count++].PositionOnOrderPanel);
@@ -117,7 +119,7 @@ namespace OrderElimination
         private Vector3 GetVectorFromString(string str)
         {
             var temp = str.Split(new[] { "(", ")", ", ", ".00" }, StringSplitOptions.RemoveEmptyEntries);
-            
+
             var x = Convert.ToInt32(temp[0]);
             var y = Convert.ToInt32(temp[1]);
             var z = Convert.ToInt32(temp[2]);
@@ -126,24 +128,15 @@ namespace OrderElimination
 
         private void UpdateSettings()
         {
-            UpdatePathSettings();
             UpdatePlanetPointSettings();
             UpdateSquadSettings();
         }
 
-        private void UpdatePathSettings()
-        {
-            for (var i = 0; i < _paths.Count; i++)
-            {
-                _paths[i].gameObject.SetActive(false);
-            }
-        }
-
         private void UpdatePlanetPointSettings()
         {
-            for (var i = 0; i < _pointsInfo.Length; i++)
+            foreach (var point in _planetPoints)
             {
-                _planetPoints[i].SetPath(_paths.Where(x => x.Start == _planetPoints[i]));
+                point.SetPath(_paths.Where(x => x.Start == point));
             }
         }
 

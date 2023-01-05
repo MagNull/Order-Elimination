@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System;
+using System.Linq;
 using Sirenix.OdinInspector;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -38,7 +40,6 @@ namespace OrderElimination
         
         public void SetPath(Path path)
         {
-            Debug.Log($"SetPath: {path.gameObject.name}");
             _paths.Add(path);
         }
         
@@ -59,20 +60,16 @@ namespace OrderElimination
         {
             foreach (var path in _paths)
             {
-                Debug.Log($"{gameObject.name}: showPath");
                 path.gameObject.SetActive(true);
-                path.Increase();
             }
         }
 
         public void HidePaths()
         {
-            foreach (var path in _paths)
+            foreach (var path in _paths.Where(path => !path.IsDestroyed()))
             {
-                Debug.Log($"{gameObject.name}: hidePath");
                 path.gameObject.SetActive(false);
-                path.Decrease();
-            } 
+            }
         }
 
         private void OnMouseDown() => Select(); 

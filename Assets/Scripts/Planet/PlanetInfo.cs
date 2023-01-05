@@ -9,11 +9,13 @@ namespace OrderElimination
         [SerializeField] private Vector3 _position;
         [SerializeField] private List<PathInfo> _paths;
         [SerializeField] private Sprite _spriteIcon;
-        [SerializeField][Range(0, 1)] private float _сhanceOfItems;
-        [SerializeField][Range(0, 1)] private float _chanceOfFighting;
-        [SerializeField][Range(0, 1)] private float _chanceOfFightingBack;
-        [SerializeField][Range(0, float.MaxValue)] private float _expirience;
-        
+        [SerializeField] [Range(0, 1)] private float _сhanceOfItems;
+        [SerializeField] [Range(0, 1)] private float _chanceOfFighting;
+        [SerializeField] [Range(0, 1)] private float _chanceOfFightingBack;
+
+        [SerializeField] [Range(0, float.MaxValue)]
+        private float _expirience;
+
         public Vector3 Position => _position;
         public IReadOnlyList<PathInfo> Paths => _paths;
         public Sprite SpriteIcon => _spriteIcon;

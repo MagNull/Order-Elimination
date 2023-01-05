@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using System;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using UnityEngine;
 using VContainer;
 
 namespace OrderElimination
@@ -18,8 +17,7 @@ namespace OrderElimination
         private SquadModel _model;
         private SquadView _view;
         private SquadPresenter _presenter;
-        [ShowInInspector]
-        private Order _order;
+        [ShowInInspector] private Order _order;
         private Button _rectangleOnPanelButton;
         private CharactersMediator _charactersMediator;
         public static event Action<Squad> Selected;
@@ -47,7 +45,7 @@ namespace OrderElimination
         public void Add(Character member) => _model.Add(member);
 
         public void Remove(Character member) => _model.RemoveCharacter(member);
-        
+
         public void Move(PlanetPoint planetPoint)
         {
             AlreadyMove = true;
@@ -69,14 +67,14 @@ namespace OrderElimination
             _view.SetButtonOnOrder(image);
         }
 
-        public void SetOrderButtonCharacteristics(bool isActive) 
+        public void SetOrderButtonCharacteristics(bool isActive)
             => _view.SetButtonCharacteristics(isActive);
 
         private void SetPlanetPoint(PlanetPoint planetPoint)
         {
             _presenter.UpdatePlanetPoint(planetPoint);
         }
-        
+
         public void Select()
         {
             if (AlreadyMove)

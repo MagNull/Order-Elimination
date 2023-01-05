@@ -27,9 +27,9 @@ namespace OrderElimination
 
         private void ChangeSelectedObject(ISelectable selectedObject)
         {
-            if(_selectedObject is Squad)
+            if(_selectedObject is Squad squad)
             {
-                ((Squad)_selectedObject).Unselect();
+                squad.Unselect();
             }
             _selectedObject = selectedObject;
         }

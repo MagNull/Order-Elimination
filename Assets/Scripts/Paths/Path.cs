@@ -12,13 +12,11 @@ namespace OrderElimination
 
         public void SetStartPoint(PlanetPoint planetPoint)
         {
-            Debug.Log("SetStartPoint");
             _start = planetPoint;
         }
 
         public void SetEndPoint(PlanetPoint planetPoint)
         {
-            Debug.Log("SetEndPoint");
             _end = planetPoint;
         }
 

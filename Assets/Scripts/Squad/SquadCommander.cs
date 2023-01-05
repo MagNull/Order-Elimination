@@ -21,17 +21,17 @@ namespace OrderElimination
             _squad = squad;
             _target = target;
         }
-        
+
         public void CreateAttackOrder()
         {
-            if(_squad == null || _target == null)
+            if (_squad == null || _target == null)
                 throw new System.Exception("Characteristics are not set");
             _squad.SetOrder(new AttackOrder(_target, _squad, _objectResolver));
         }
 
         public void CreateResearchOrder()
         {
-            if(_squad == null || _target == null)
+            if (_squad == null || _target == null)
                 throw new System.Exception("Characteristics are not set");
             _squad.SetOrder(new ResearchOrder(_target, _squad));
         }
