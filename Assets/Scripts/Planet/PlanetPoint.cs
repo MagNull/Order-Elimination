@@ -31,10 +31,20 @@ namespace OrderElimination
         public void RemoveSquad() => _countSquadOnPoint--;
         public void AddSquad() => _countSquadOnPoint++;
 
+        public void SetPlanetInfo(PlanetInfo planetInfo)
+        {
+            _planetInfo = planetInfo;
+        }
+        
         public void SetPath(Path path)
         {
             Debug.Log($"SetPath: {path.gameObject.name}");
             _paths.Add(path);
+        }
+        
+        public void SetPath(IEnumerable<Path> paths)
+        {
+            _paths.AddRange(paths);
         }
 
         public IReadOnlyList<PlanetPoint> GetNextPoints()

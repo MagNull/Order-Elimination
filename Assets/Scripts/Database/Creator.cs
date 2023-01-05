@@ -21,6 +21,7 @@ namespace OrderElimination
 
         private Canvas _canvas;
         private IObjectResolver _objectResolver;
+        private static int num = 0;
         public static event Action<ISelectable> Created;
 
         [Inject]
@@ -37,6 +38,8 @@ namespace OrderElimination
         public PlanetPoint CreatePlanetPoint(PlanetInfo planetInfo)
         {
             var planetPoint = Instantiate(_planetPointPrefab, planetInfo.Position, Quaternion.identity);
+            planetPoint.name = num.ToString();
+            num++;
             Created?.Invoke(planetPoint);
             return planetPoint;
         }
@@ -48,9 +51,10 @@ namespace OrderElimination
             return squad;
         }
 
-        public Path CreatePath(PathInfo pathInfo)
+        public Path CreatePath(Vector3 position, Quaternion quaternion)
         {
-            var path = Instantiate(_pathPrefab, pathInfo.Positon, Quaternion.identity);
+            var path = Instantiate(_pathPrefab, position, quaternion);
+            Debug.Log(path.transform.localScale);
             return path;
         }
 
