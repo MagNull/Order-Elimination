@@ -39,7 +39,6 @@ public class BattleCharacterView : MonoBehaviour
         _character.Damaged += OnDamaged;
         _character.Died += OnDied;
         BattleSimulation.RoundStarted += OnRoundStart;
-        BattleSimulation.PlayerTurnEnd += HideProbability;
 
         _activeAbilitiesView = activeAbilitiesView;
         _passiveAbilitiesView = passiveAbilitiesView;
@@ -84,9 +83,9 @@ public class BattleCharacterView : MonoBehaviour
 
     
     //TODO: Probability panel instead text
-    public void ShowProbability()
+    public void ShowProbability(int probability)
     {
-        _shootProbability.text = _character.Stats.Evasion.ToString();
+        _shootProbability.text = probability.ToString();
     }
     
     public void HideProbability()

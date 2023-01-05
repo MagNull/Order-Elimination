@@ -21,6 +21,8 @@ namespace CharacterAbility
 
         private bool _casting;
 
+        private List<CellView> _selectedCellViews = new List<CellView>();
+
         public AbilityInfo AbilityInfo { get; }
 
         public IActor Caster { get; }
@@ -40,8 +42,8 @@ namespace CharacterAbility
             _battleMapView = battleMapView;
             if (_battleMapView == null)
             {
-
             }
+
             AbilityInfo = info;
             _abilityDistance = AbilityInfo.ActiveParams.DistanceFromMovement
                 ? Caster.Stats.Movement
@@ -49,8 +51,8 @@ namespace CharacterAbility
             _coolDownTimer = AbilityInfo.StartCoolDown;
 
             BattleSimulation.RoundStarted += OnRoundStart;
-            BattleSimulation.BattleEnded += OnBattleEnded;    
-            
+            BattleSimulation.BattleEnded += OnBattleEnded;
+
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
@@ -104,7 +106,17 @@ namespace CharacterAbility
                 .AttachExternalCancellation(_cancellationTokenSource.Token)
                 .SuppressCancellationThrow();
             if (targetSelection.IsCanceled)
+            {
+                foreach (var selectedObj in _selectedCellViews.Select(cell => cell.Model.GetObject()))
+                {
+                    if (selectedObj is not NullBattleObject &&
+                        selectedObj.View.TryGetComponent(out BattleCharacterView view))
+                        view.HideProbability();
+                }
+
+                _selectedCellViews.Clear();
                 return true;
+            }
 
             IBattleObject target = targetSelection.Result;
 
@@ -126,7 +138,6 @@ namespace CharacterAbility
 
             var cellConfirmed = false;
             List<IBattleObject> availableTargets = GetTargets();
-            List<CellView> selectedCellViews = new List<CellView>();
 
             void OnCellClicked(CellView cell)
             {
@@ -137,14 +148,12 @@ namespace CharacterAbility
                     return;
                 }
 
-                //TODO: Refactor
-                DeselectCells(selectedCellViews);
-                selectedCellViews.Clear();
+                DeselectCells(_selectedCellViews);
+                _selectedCellViews.Clear();
 
                 if (selected == target)
                 {
                     cellConfirmed = true;
-                    DeselectCells(selectedCellViews);
                     return;
                 }
 
@@ -156,19 +165,21 @@ namespace CharacterAbility
                     {
                         var areaCell = _battleMapView.GetCell(obj);
                         areaCell.Select();
-                        selectedCellViews.Add(areaCell);
+                        _selectedCellViews.Add(areaCell);
                     }
                 }
 
                 cell.Select();
-                selectedCellViews.Add(cell);
+                _selectedCellViews.Add(cell);
 
                 target = selected;
 
-                foreach (var selectedObj in selectedCellViews.Select(selectedCellView => selectedCellView.Model.GetObject()))
+                foreach (var selectedObj in _selectedCellViews.Select(selectedCellView =>
+                             selectedCellView.Model.GetObject()))
                 {
-                    if(selectedObj is not NullBattleObject && selectedObj.View.TryGetComponent(out BattleCharacterView view))
-                        view.ShowProbability();
+                    if (selectedObj is not NullBattleObject &&
+                        selectedObj.View.TryGetComponent(out BattleCharacterView view))
+                        view.ShowProbability(Caster.Stats.Accuracy);
                 }
             }
 
@@ -192,7 +203,8 @@ namespace CharacterAbility
             {
                 cell.Deselect();
                 var selectedObj = cell.Model.GetObject();
-                if (selectedObj is not NullBattleObject && selectedObj.View.TryGetComponent(out BattleCharacterView view))
+                if (selectedObj is not NullBattleObject &&
+                    selectedObj.View.TryGetComponent(out BattleCharacterView view))
                     view.HideProbability();
             }
         }
@@ -246,7 +258,7 @@ namespace CharacterAbility
             _coolDownTimer--;
             Casted?.Invoke();
         }
-        
+
         private void OnBattleEnded(BattleOutcome outcome)
         {
             CancelCast();
