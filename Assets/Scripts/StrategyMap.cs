@@ -16,6 +16,7 @@ namespace OrderElimination
         private List<PlanetPoint> _planetPoints;
         private List<Squad> _squads;
         private List<Path> _paths;
+        private const float IconSize = 50;
         public static event Action Onclick;
 
         private void Awake()
@@ -57,34 +58,42 @@ namespace OrderElimination
                 foreach (var pathInfo in pointInfo.Paths)
                 {
                     var endPosition = pathInfo.End.Position;
-
-                    var pathPosition = GetPathPosition(startPosition, endPosition);
                     var quaternion = GetPathQuaternion(startPosition, endPosition);
+                    var pathPosition = GetPathPosition(startPosition, endPosition, quaternion);
+                    
                     var path = _creator.CreatePath(pathPosition, quaternion);
                     //scale for distance
                     path.transform.localScale =
                         new Vector3(Vector3.Distance(startPosition, endPosition) * 0.075f, 60, 1);
 
-                    path.SetStartPoint(_planetPoints.First(x => x.GetPlanetInfo() == pointInfo));
-                    path.SetEndPoint(_planetPoints.First(x => x.GetPlanetInfo() == pathInfo.End));
-                    path.gameObject.SetActive(false);
+                    var startPoint = _planetPoints.First(x => x.GetPlanetInfo() == pointInfo);
+                    var endPoint = _planetPoints.First(x => x.GetPlanetInfo() == pathInfo.End);
+                    
+                    path.SetStartPoint(startPoint);
+                    path.SetEndPoint(endPoint);
 
                     _paths.Add(path);
                 }
             }
         }
 
-        private Vector3 GetPathPosition(Vector3 start, Vector3 end)
+        private Vector3 GetPathPosition(Vector3 start, Vector3 end, Quaternion quaternion)
         {
-            var pathPositionX = (end.x + start.x - 50) / 2;
-            if (start.y == end.y)
-                return new Vector3(pathPositionX, end.x);
-
-            var pathPositionY = (end.y + start.y - 50) / 2;
+            var pathPositionX = (end.x + start.x) / 2;
+            var pathPositionY = (end.y + start.y) / 2;
+            if (Math.Abs(start.x - end.x) < 0.5)
+                return new Vector3(pathPositionX + IconSize / 2, pathPositionY);
+            if (Math.Abs(start.y - end.y) < 0.5)
+                return new Vector3(pathPositionX, pathPositionY - IconSize / 2);
+            
             if (end.y > start.y && end.x > start.x)
-                pathPositionX += 50;
-            if (end.y < start.y && end.x < start.x)
-                pathPositionX += 50;
+                pathPositionX += IconSize / 2;
+
+            if (start.y > end.y && start.x > end.x)
+                pathPositionX += IconSize / 2;
+
+            if (quaternion.z < 0)
+                pathPositionX -= IconSize / 2;
             return new Vector3(pathPositionX, pathPositionY);
         }
 
@@ -92,7 +101,9 @@ namespace OrderElimination
         {
             if (Math.Abs(start.y - end.y) < 1)
                 return Quaternion.identity;
-
+            if (Math.Abs(start.x - end.x) < 1)
+                return Quaternion.Euler(0, 0, 90);
+            
             var b = end.y - start.y;
             var a = end.x - start.x;
             var alpha = MathF.Atan(b / a) * 180 / (float)Math.PI;
