@@ -51,9 +51,9 @@ namespace OrderElimination
             return squad;
         }
 
-        public Path CreatePath(Vector3 position, Quaternion quaternion)
+        public Path CreatePath()
         {
-            var path = Instantiate(_pathPrefab, position, quaternion);
+            var path = Instantiate(_pathPrefab, Vector3.zero, Quaternion.identity);
             return path;
         }
 

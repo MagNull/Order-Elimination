@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 7ff4cf78d53992f4aa842cc84f04ff7c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -138,7 +138,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: _testSquadMembers
       Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[OrderElimination.ISquadMember, Assembly-CSharp]],
+      Data: 0|System.Collections.Generic.List`1[[OrderElimination.Character, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -158,3 +158,4 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  AlreadyMove: 0
