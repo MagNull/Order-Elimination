@@ -150,7 +150,7 @@ public class BattleMap : MonoBehaviour
             foreach (var neighbour in GetNeighbours(current))
             {
                 if (visited.Contains(neighbour) ||
-                    GetCell(neighbour.x, neighbour.y).GetObject() is not NullBattleObject)
+                    GetCell(neighbour.x, neighbour.y).GetObject() is not NullBattleObject and not EnvironmentObject )
                     continue;
 
                 visited.Add(neighbour);
