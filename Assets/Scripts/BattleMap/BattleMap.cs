@@ -173,6 +173,14 @@ public class BattleMap : MonoBehaviour
             neighbours.Add(new Vector2Int(coord.x, coord.y - 1));
         if (coord.y < _height - 1)
             neighbours.Add(new Vector2Int(coord.x, coord.y + 1));
+        if (coord.y < _height - 1 && coord.x < _width - 1)
+            neighbours.Add(new Vector2Int(coord.x + 1, coord.y + 1));
+        if (coord.y > 0 && coord.x > 0)
+            neighbours.Add(new Vector2Int(coord.x - 1, coord.y - 1));
+        if (coord.y > 0 && coord.x < _width - 1)
+            neighbours.Add(new Vector2Int(coord.x + 1, coord.y - 1));
+        if (coord.y < _height - 1 && coord.x > 0)
+            neighbours.Add(new Vector2Int(coord.x - 1, coord.y + 1));
         return neighbours;
     }
 
