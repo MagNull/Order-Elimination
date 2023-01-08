@@ -14,7 +14,8 @@ namespace CharacterAbility
             _battleMapView = battleMapView;
         }
 
-        public AbilityView CreateAbilityView(AbilityInfo abilityInfo, BattleCharacter caster)
+        public AbilityView CreateAbilityView(AbilityInfo abilityInfo, BattleCharacter caster,
+            BattleCharacterView casterView)
         {
             var ability = CreateAbility(abilityInfo, caster);
             if (abilityInfo.Type == AbilityInfo.AbilityType.Passive)
@@ -22,7 +23,7 @@ namespace CharacterAbility
                 ability.Use(caster, caster.Stats);
             }
 
-            return new AbilityView(caster, ability, abilityInfo, _battleMapView);
+            return new AbilityView(caster, ability, abilityInfo, _battleMapView, casterView);
         }
 
         public Ability CreateAbility(AbilityInfo abilityInfo, IBattleObject caster)
@@ -59,6 +60,7 @@ namespace CharacterAbility
                 ability = new AreaAbility(caster, ability, _battleMapView.Map, abilityInfo.ActiveParams.AreaRadius,
                     BattleObjectSide.None);
             }
+
             if (abilityInfo.ActiveParams.HasTargetEffect)
             {
                 ability = AddEffects(abilityInfo.ActiveParams.TargetEffects, ability, caster);
@@ -100,7 +102,7 @@ namespace CharacterAbility
                             effect.OverTimeType == OverTimeAbilityType.Damage ? effect.DamageType : DamageType.None);
                         break;
                     case AbilityEffectType.TickingBuff:
-                        ability = new TickingBuffAbility(caster, ability, probability, effect.BuffType, 
+                        ability = new TickingBuffAbility(caster, ability, probability, effect.BuffType,
                             effect.BuffValue, effect.Duration, effect.Filter, effect.DamageType);
                         break;
                     case AbilityEffectType.ConditionalBuff:

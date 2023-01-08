@@ -32,16 +32,18 @@ public class BattleCharacterFactory : MonoBehaviour
         {
             character = new EnemyDog(_map,
                 new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation());
-            ((EnemyDog)character).SetDamageAbility(_abilityFactory.CreateAbility(_bite, character));
+            ((EnemyDog) character).SetDamageAbility(_abilityFactory.CreateAbility(_bite, character));
         }
         else
         {
-            character = new BattleCharacter(side, new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation());
+            character = new BattleCharacter(side, new BattleStats(info.GetBattleStats()),
+                new SimpleDamageCalculation());
         }
 
         battleCharacterView.GetComponentInChildren<SpriteRenderer>().sprite = info.GetViewIcon();
-        battleCharacterView.Init(character, CreateCharacterAbilities(info.GetActiveAbilityInfos(), character),
-            CreateCharacterAbilities(info.GetPassiveAbilityInfos(), character),
+        battleCharacterView.Init(character,
+            CreateCharacterAbilities(info.GetActiveAbilityInfos(), character, battleCharacterView),
+            CreateCharacterAbilities(info.GetPassiveAbilityInfos(), character, battleCharacterView),
             info.GetName(),
             info.GetViewIcon(),
             info.GetViewAvatar());
@@ -69,12 +71,13 @@ public class BattleCharacterFactory : MonoBehaviour
     }
 
     //TODO(����): Move to another response object
-    private AbilityView[] CreateCharacterAbilities(AbilityInfo[] abilityInfos, BattleCharacter caster)
+    private AbilityView[] CreateCharacterAbilities(AbilityInfo[] abilityInfos, BattleCharacter caster,
+        BattleCharacterView casterView)
     {
         var abilities = new AbilityView[abilityInfos.Length];
         for (int i = 0; i < abilityInfos.Length; i++)
         {
-            abilities[i] = _abilityFactory.CreateAbilityView(abilityInfos[i], caster);
+            abilities[i] = _abilityFactory.CreateAbilityView(abilityInfos[i], caster, casterView);
         }
 
         return abilities;
