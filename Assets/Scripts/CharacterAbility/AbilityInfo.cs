@@ -167,7 +167,7 @@ namespace CharacterAbility
         [SerializeField]
         private PassiveAbilityParams _passiveParams;
 
-        public int CoolDown => _coolDown + 1;
+        public int CoolDown => _coolDown;
 
         public int StartCoolDown => _startCoolDown + 1;
 
