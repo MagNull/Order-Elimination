@@ -18,8 +18,8 @@ namespace OrderElimination.Start
         public static event Action<bool> ExitSavesWindow;
         public static event Action<int> LoadClicked;
         public static event Action<int> NewGameClicked;
-        
-        
+
+
         private void Awake()
         {
             Database.LoadSave += SetSaveText;
@@ -29,7 +29,7 @@ namespace OrderElimination.Start
                 GameObject.Find("SecondSave"),
                 GameObject.Find("ThirdSave")
             };
-            
+
             FirstSaveClicked();
             _loadButton.interactable = true;
         }
@@ -39,10 +39,10 @@ namespace OrderElimination.Start
             _selectedSavesImages = _saves[0].GetComponent<Image>();
             SwitchColorButtons();
         }
-        
+
         public void SecondSaveClicked()
         {
-            _selectedSavesImages =_saves[1].GetComponent<Image>();
+            _selectedSavesImages = _saves[1].GetComponent<Image>();
             SwitchColorButtons();
         }
 
@@ -61,10 +61,10 @@ namespace OrderElimination.Start
                     : _defaultImageColor;
             }
 
-            _loadButton.interactable = !IsEmptySave(GetIndexSave());
+            _loadButton.interactable = !IsEmptySave();
         }
 
-        private bool IsEmptySave(int saveIndex)
+        private bool IsEmptySave()
         {
             return _saves[GetIndexSave()].GetComponentInChildren<TMP_Text>().text == "";
         }
