@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using OrderElimination.BattleMap;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ public class BattleMapView : MonoBehaviour
 
     [SerializeField]
     private BattleMap _battleMap;
+    [SerializeField]
+    private float _moveDuration = 0.5f;
 
     private CellView[,] _cellViewGrid;
 
@@ -17,6 +20,8 @@ public class BattleMapView : MonoBehaviour
     private bool _battleEnded = false;
 
     public BattleMap Map => _battleMap;
+
+    public float MoveDuration => _moveDuration;
 
     public void OnEnable()
     {
@@ -117,6 +122,6 @@ public class BattleMapView : MonoBehaviour
         var obj = cell.GetObject();
         if (obj is NullBattleObject)
             return;
-        obj.View.transform.position = GetCell(obj).transform.position;
+        obj.View.transform.DOMove(GetCell(obj).transform.position, _moveDuration) ;
     }
 }

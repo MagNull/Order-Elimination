@@ -1,4 +1,5 @@
-﻿using OrderElimination;
+﻿using Cysharp.Threading.Tasks;
+using OrderElimination;
 using OrderElimination.BattleMap;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace CharacterAbility.AbilityEffects
             _battleMap = battleMap;
         }
 
-        protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
+        protected override async void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
             Vector2Int targetPosition = _battleMap.GetCoordinate(target);
             if (target is not NullBattleObject && target is not EnvironmentObject)
@@ -35,7 +36,11 @@ namespace CharacterAbility.AbilityEffects
                 targetPosition = _battleMap.GetCoordinate(nearestPosition);
             }
 
-            _battleMap.MoveTo(_caster, targetPosition.x, targetPosition.y);
+            var path = _battleMap.GetShortestPath(_caster, targetPosition.x, targetPosition.y);
+            foreach (var cell in path)
+            {
+                await _battleMap.MoveTo(_caster, cell.x, cell.y);
+            }
             _nextEffect?.Use(target, stats);
         }
     }
