@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
-using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
 namespace OrderElimination
@@ -11,14 +9,19 @@ namespace OrderElimination
     public class StrategyMap : MonoBehaviour
     {
         [SerializeField] private Creator _creator;
-        [SerializeField] private Database _database;
         private PlanetInfo[] _pointsInfo;
         private List<PlanetPoint> _planetPoints;
         private List<Squad> _squads;
         private List<Path> _paths;
-        private const float IconSize = 50;
         public static event Action Onclick;
+        public static int CountMove { get; private set; }
 
+        public static void AddCountMove()
+        {
+            CountMove++;
+            Database.SaveCountMove(CountMove);
+        }
+        
         private void Awake()
         {
             _planetPoints = new List<PlanetPoint>();
@@ -27,17 +30,20 @@ namespace OrderElimination
             _pointsInfo = Resources.LoadAll<PlanetInfo>("");
         }
 
-        private async void Start()
+        private void Start()
         {
-            await Deserialize();
+            if (Database.Instance == null)
+                throw new ArgumentNullException("Instance Database not saved");
+            CountMove = Database.Instance.CountMoveInSave;
+            Deserialize();
             UpdateSettings();
         }
 
-        private async Task Deserialize()
+        private void Deserialize()
         {
             DeserializePoints();
             DeserializePaths();
-            await DeserializeSquads();
+            DeserializeSquads();
         }
 
         private void DeserializePoints()
@@ -69,28 +75,17 @@ namespace OrderElimination
             }
         }
 
-        private async Task DeserializeSquads()
+        private void DeserializeSquads()
         {
-            var positions = _database.LoadData();
             var squadsInfo = Resources.LoadAll<SquadInfo>("");
             var count = 0;
-            await foreach (var position in positions)
+            foreach (var position in Database.Instance.PositionsInSave)
             {
-                var squad = _creator.CreateSquad(GetVectorFromString(position));
+                var squad = _creator.CreateSquad(position);
                 var button = _creator.CreateSquadButton(squadsInfo[count++].PositionOnOrderPanel);
                 squad.SetOrderButton(button);
                 _squads.Add(squad);
             }
-        }
-
-        private Vector3 GetVectorFromString(string str)
-        {
-            var temp = str.Split(new[] { "(", ")", ", ", ".00" }, StringSplitOptions.RemoveEmptyEntries);
-
-            var x = Convert.ToInt32(temp[0]);
-            var y = Convert.ToInt32(temp[1]);
-            var z = Convert.ToInt32(temp[2]);
-            return new Vector3(x, y, z);
         }
 
         private void UpdateSettings()

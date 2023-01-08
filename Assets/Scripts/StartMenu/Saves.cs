@@ -1,21 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace OrderElimination.Start
 {
     public class Saves : MonoBehaviour
     {
-        public static event Action<bool> ExitSavesWindow;
+        [SerializeField] private Button _loadButton;
         private List<GameObject> _saves;
         private Image _selectedSavesImages;
         private Color _activeImageColor = Color.white;
         private Color _defaultImageColor = Color.gray;
+        public static event Action<bool> ExitSavesWindow;
+        public static event Action<int> LoadClicked;
+        public static event Action<int> NewGameClicked;
+        
         
         private void Awake()
         {
+            Database.LoadSave += SetSaveText;
             _saves = new List<GameObject>
             {
                 GameObject.Find("FirstSave"),
@@ -24,6 +31,7 @@ namespace OrderElimination.Start
             };
             
             FirstSaveClicked();
+            _loadButton.interactable = true;
         }
 
         public void FirstSaveClicked()
@@ -52,13 +60,43 @@ namespace OrderElimination.Start
                     ? _activeImageColor
                     : _defaultImageColor;
             }
+
+            _loadButton.interactable = !IsEmptySave(GetIndexSave());
         }
 
-        private void SaveButtonClicked()
+        private bool IsEmptySave(int saveIndex)
         {
-            
+            return _saves[GetIndexSave()].GetComponentInChildren<TMP_Text>().text == "";
         }
-        
+
+        public void SetSaveText(int index, string text)
+        {
+            _saves[index].GetComponentInChildren<TMP_Text>().text = text;
+        }
+
+        public void LoadButtonClicked()
+        {
+            LoadClicked?.Invoke(GetIndexSave());
+            SceneManager.LoadScene("StrategyMap");
+        }
+
+        public void NewGameButtonClicked()
+        {
+            NewGameClicked?.Invoke(GetIndexSave());
+            SceneManager.LoadScene("StrategyMap");
+        }
+
+        private int GetIndexSave()
+        {
+            for (var i = 0; i < _saves.Count; i++)
+            {
+                if (_saves[i].GetComponent<Image>() != _selectedSavesImages)
+                    continue;
+                return i;
+            }
+
+            throw new Exception("Not selected save");
+        }
 
         public void ExitClicked()
         {

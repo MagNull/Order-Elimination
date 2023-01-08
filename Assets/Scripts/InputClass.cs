@@ -103,6 +103,7 @@ namespace OrderElimination
 
             foreach (var squad in squads)
                 squad.AlreadyMove = false;
+            StrategyMap.AddCountMove();
         }
     }
 }
