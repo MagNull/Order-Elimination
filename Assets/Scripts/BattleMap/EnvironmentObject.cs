@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using CharacterAbility;
+using CharacterAbility.BuffEffects;
 using OrderElimination.Battle;
 using UnityEngine;
 
@@ -22,6 +25,11 @@ namespace OrderElimination.BattleMap
             _enterBuffs = enterBuffs;
             _stats = stats;
             _isWalkable = isWalkable;
+        }
+
+        public int GetAccuracyFrom(IBattleObject attacker)
+        {
+            throw new NotImplementedException();
         }
 
         public void OnEnter(IBattleObject battleObject)
@@ -67,6 +75,21 @@ namespace OrderElimination.BattleMap
         }
 
         public void ClearBuffEffects()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyList<ITickEffect> GetTickEffects(ITickEffect tickEffectType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyList<IStatsBuffEffect> GetTickEffects(IStatsBuffEffect tickEffectType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyList<IncomingBuff> GetTickEffects(IncomingBuff tickEffectType)
         {
             throw new NotImplementedException();
         }

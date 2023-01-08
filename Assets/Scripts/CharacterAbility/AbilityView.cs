@@ -177,9 +177,11 @@ namespace CharacterAbility
                 foreach (var selectedObj in _selectedCellViews.Select(selectedCellView =>
                              selectedCellView.Model.GetObject()))
                 {
-                    if (selectedObj is not NullBattleObject &&
-                        selectedObj.View.TryGetComponent(out BattleCharacterView view))
-                        view.ShowProbability(Caster.Stats.Accuracy);
+                    if (selectedObj is NullBattleObject || selectedObj == Caster ||
+                        !selectedObj.View.TryGetComponent(out BattleCharacterView view)) 
+                        continue;
+                    var accuracy = target.GetAccuracyFrom(Caster);
+                    view.ShowAccuracy(accuracy);
                 }
             }
 
@@ -196,6 +198,8 @@ namespace CharacterAbility
 
             return target;
         }
+
+        
 
         private static void DeselectCells(List<CellView> selectedCellViews)
         {
