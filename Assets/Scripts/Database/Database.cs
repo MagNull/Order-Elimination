@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Xml;
 using UnityEngine;
 using Firebase.Database;
@@ -63,6 +64,16 @@ namespace OrderElimination
             dataSnapshot
                 .Child("Time")
                 .SetValueAsync($"{dateTime.ToShortTimeString()} - {dateTime.ToShortDateString()}");
+        }
+
+        public static void DeleteSave(int index)
+        {
+            FirebaseDatabase
+                .DefaultInstance
+                .GetReference(GetIdFromFile())
+                .Child("Saves")
+                .Child(index.ToString())
+                .RemoveValueAsync();
         }
 
         public static void SaveCountMove(int countMove)

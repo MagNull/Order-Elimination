@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,97 +9,74 @@ namespace OrderElimination.Start
     public class Saves : MonoBehaviour
     {
         [SerializeField] private Button _loadButton;
-        private List<GameObject> _saves;
+        [SerializeField] private List<Save> _saves;
+        private int _selectedSaveIndex;
         private Image _selectedSavesImages;
-        private Color _activeImageColor = Color.white;
-        private Color _defaultImageColor = Color.gray;
         public static event Action<bool> ExitSavesWindow;
         public static event Action<int> LoadClicked;
         public static event Action<int> NewGameClicked;
-
-
+        
         private void Awake()
         {
             Database.LoadSave += SetSaveText;
-            _saves = new List<GameObject>
-            {
-                GameObject.Find("FirstSave"),
-                GameObject.Find("SecondSave"),
-                GameObject.Find("ThirdSave")
-            };
-
+            foreach (var save in _saves)
+                save.DeleteSave += DeleteSave;
             FirstSaveClicked();
             _loadButton.interactable = true;
         }
 
         public void FirstSaveClicked()
         {
-            _selectedSavesImages = _saves[0].GetComponent<Image>();
+            _selectedSaveIndex = 0;
             SwitchColorButtons();
         }
 
         public void SecondSaveClicked()
         {
-            _selectedSavesImages = _saves[1].GetComponent<Image>();
+            _selectedSaveIndex = 1;
             SwitchColorButtons();
         }
 
         public void ThirdSaveClicked()
         {
-            _selectedSavesImages = _saves[2].GetComponent<Image>();
+            _selectedSaveIndex = 2;
             SwitchColorButtons();
         }
 
         private void SwitchColorButtons()
         {
-            foreach (var image in _saves.Select(save => save.GetComponent<Image>()))
-            {
-                image.color = _selectedSavesImages == image
-                    ? _activeImageColor
-                    : _defaultImageColor;
-            }
-
-            _loadButton.interactable = !IsEmptySave();
-        }
-
-        private bool IsEmptySave()
-        {
-            return _saves[GetIndexSave()].GetComponentInChildren<TMP_Text>().text == "";
+            for (var i = 0; i < _saves.Count; i++)
+                _saves[i].SetActive(_selectedSaveIndex == i);
+            
+            _loadButton.interactable = !_saves[_selectedSaveIndex].IsEmpySave();
         }
 
         public void SetSaveText(int index, string text)
         {
-            _saves[index].GetComponentInChildren<TMP_Text>().text = text;
+            _saves[index].SetText(text);
         }
 
         public void LoadButtonClicked()
         {
-            LoadClicked?.Invoke(GetIndexSave());
+            LoadClicked?.Invoke(_selectedSaveIndex);
             SceneManager.LoadScene("StrategyMap");
         }
 
         public void NewGameButtonClicked()
         {
-            NewGameClicked?.Invoke(GetIndexSave());
+            NewGameClicked?.Invoke(_selectedSaveIndex);
             SceneManager.LoadScene("StrategyMap");
-        }
-
-        private int GetIndexSave()
-        {
-            for (var i = 0; i < _saves.Count; i++)
-            {
-                if (_saves[i].GetComponent<Image>() != _selectedSavesImages)
-                    continue;
-                return i;
-            }
-
-            throw new Exception("Not selected save");
         }
 
         public void ExitClicked()
         {
             ExitSavesWindow?.Invoke(true);
             gameObject.SetActive(false);
+        }
+
+        private void DeleteSave()
+        {
+            Database.DeleteSave(_selectedSaveIndex);
         }
     }
 }
