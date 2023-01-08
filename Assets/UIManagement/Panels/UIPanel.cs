@@ -6,6 +6,8 @@ using UIManagement.Debugging;
 using UIManagement.trashToRemove_Mockups;
 using UnityEngine;
 using UnityEngine.UI;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 
 namespace UIManagement
 {
@@ -18,6 +20,8 @@ namespace UIManagement
         protected bool _isInitialized = false;
         [SerializeField] protected TextMeshProUGUI _titleText;
         [SerializeField] protected Button _closingButton;
+        [SerializeField] protected bool _isClosingByClickingOutside = true;
+        public bool IsClosingByClickingOutside => _isClosingByClickingOutside;
 
         public event Action<IUIPanel> Opened;
         public event Action<IUIPanel> Closed;

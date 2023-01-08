@@ -10,8 +10,21 @@ namespace UIManagement.Elements
     [RequireComponent(typeof(HoldableButton))]
     public class SmallAbilityButton : MonoBehaviour
     {
-        [SerializeField] Image _icon;
+        [SerializeField] Image _iconComponent;
         [SerializeField] HoldableButton _button;
+
+        [SerializeField]
+        private Sprite _noIconAvailableSprite;
+        public Sprite NoIconAvailableSprite
+        {
+            get => _noIconAvailableSprite;
+            set
+            {
+                _noIconAvailableSprite = value;
+                if (_iconComponent.sprite != value)
+                    _iconComponent.sprite = value;
+            }
+        }
         public AbilityView AbilityView { get; private set; }
         public event Action<SmallAbilityButton> Clicked;
 
@@ -28,14 +41,14 @@ namespace UIManagement.Elements
         public void AssignAbilityView(AbilityView abilityView)
         {
             AbilityView = abilityView;
-            _icon.sprite = AbilityView.AbilityIcon;
+            _iconComponent.sprite = AbilityView.AbilityIcon;
             _button.interactable = true;
         }
 
         public void RemoveAbilityView()
         {
-            _icon.sprite = null;
             AbilityView = null;
+            _iconComponent.sprite = NoIconAvailableSprite;
             _button.interactable = false;
         }
     } 

@@ -19,6 +19,7 @@ namespace UIManagement.Elements
         {
             //_effectIcon = effectInfo.Icon;
             _effectName.text = effectInfo.EffectView.EffectName;
+            _effectIcon.sprite = effectInfo.EffectView.EffectIcon;
             _parameters.Clear();
             foreach (var p in effectInfo.GetDisplayableParameters(casterStats))
             {

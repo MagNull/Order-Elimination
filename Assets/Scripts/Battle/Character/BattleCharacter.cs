@@ -169,7 +169,12 @@ public class BattleCharacter : IActor
 
     public bool CanSpendAction(ActionType actionType) => _actionBank.CanSpendAction(actionType);
 
-    public bool TrySpendAction(ActionType actionType) => _actionBank.TrySpendAction(actionType);
+    public bool TrySpendAction(ActionType actionType)
+    {
+        var actionPerformed = _actionBank.TrySpendAction(actionType);
+        // Ивент на обновление
+        return actionPerformed;
+    }
 
     public void AddAction(ActionType actionType) => _actionBank.AddAction(actionType);
 

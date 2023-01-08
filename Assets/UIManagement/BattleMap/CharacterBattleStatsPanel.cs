@@ -12,8 +12,19 @@ namespace UIManagement.Elements
         [SerializeField] private BattleStatUIBar _healthBar;
         [SerializeField] private BattleStatUIBar _armorBar;
         [SerializeField] private HoldableButton _avatarButton;
-        [SerializeField] private UIController _panelController;
         private BattleCharacterView currentCharacterView;
+
+        [SerializeField]
+        private bool _isClickingAvatarAvailable;
+        public bool IsClickingAvatarAvailable
+        {
+            get => _isClickingAvatarAvailable;
+            set
+            {
+                _isClickingAvatarAvailable = value;
+                _avatarButton.ClickAvailable = value;
+            }
+        }
 
         public void UpdateCharacterInfo(BattleCharacterView characterView)
         {
@@ -45,39 +56,18 @@ namespace UIManagement.Elements
 
         private void OnCharacterDied(BattleCharacter character) => UpdateCharacterInfo(null);
 
-        public void Bind(BattleMapView mapView, BattleObjectSide currentTurn)
-        {
-            //mapView.CellClicked += cell =>
-            //{
-            //    if (cell.Model.GetObject() is NullBattleObject ||
-            //        !cell.Model.GetObject().View.TryGetComponent(out BattleCharacterView characterView)
-            //        || characterView.Model.Side != BattleObjectSide.Ally
-            //        || currentTurn != BattleObjectSide.Ally)
-            //        return;
-            //    UpdateCharacterInfo(characterView);
-            //};
-
-            BattleCharacterView.Selected += UpdateCharacterInfo;
-            BattleCharacterView.Deselected += OnCharacterDeselected;
-        }
-
         private void Start()
         {
-            HideInfo();
+
         }
 
         private void OnAvatarButtonPressed(HoldableButton avatarButton)
         {
-            var characterDescriptionPanel = (CharacterDescriptionPanel)_panelController.OpenPanel(PanelType.CharacterDetails);
+            var characterDescriptionPanel = (CharacterDescriptionPanel)UIController.SceneInstance.OpenPanel(PanelType.CharacterDetails);
             characterDescriptionPanel.UpdateCharacterDescription(currentCharacterView);
         }
 
-        private void OnCharacterDeselected(BattleCharacterView character)
-        {
-            HideInfo();
-        }
-
-        private void HideInfo()
+        public void HideInfo()
         {
             _avatar.gameObject.SetActive(false);
             _healthBar.gameObject.SetActive(false);
@@ -86,7 +76,7 @@ namespace UIManagement.Elements
             _avatarButton.Clicked -= OnAvatarButtonPressed;
         }
 
-        private void ShowInfo()
+        public void ShowInfo()
         {
             _avatar.gameObject.SetActive(true);
             _healthBar.gameObject.SetActive(true);

@@ -55,9 +55,9 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 1
       Distance: 0
-      ShowInAbilityDescription: 0
+      ShowInAbilityDescription: 1
       EffectView:
-        DisplayAsMainEffect: 0
+        DisplayAsMainEffect: 1
         EffectName: 
         EffectIcon: {fileID: 0}
     - Type: 3
@@ -78,11 +78,11 @@ MonoBehaviour:
       TickValue: 5
       DamageType: 0
       Distance: 0
-      ShowInAbilityDescription: 0
+      ShowInAbilityDescription: 1
       EffectView:
         DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        EffectName: "\u041A\u0440\u043E\u0432\u043E\u0442\u0435\u0447\u0435\u043D\u0438\u0435"
+        EffectIcon: {fileID: 21300000, guid: 1053df36a08b0f64196e8c380c204482, type: 3}
     - Type: 7
       HasProbability: 1
       Probability: 90
@@ -101,11 +101,11 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
-      ShowInAbilityDescription: 0
+      ShowInAbilityDescription: 1
       EffectView:
         DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        EffectName: "\u041E\u0433\u043B\u0443\u0448\u0435\u043D\u0438\u0435"
+        EffectIcon: {fileID: 21300000, guid: ae3a0e6ca55c6c648af6030633593efc, type: 3}
     _hasAreaEffect: 1
     _areaRadius: 1
     _areaEffects:

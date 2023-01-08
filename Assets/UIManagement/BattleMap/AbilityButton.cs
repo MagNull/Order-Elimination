@@ -14,11 +14,22 @@ namespace UIManagement.Elements
     {
         public event Action AbilityButtonUsed;
 
+        private Sprite _noSelectedAbilityIcon;
+        public Sprite NoSelectedAbilityIcon
+        {
+            get => _noSelectedAbilityIcon;
+            set
+            {
+                _noSelectedAbilityIcon = value;
+                if (_abilityIcon.sprite != value)
+                    _abilityIcon.sprite = value;
+            }
+        }
         public AbilityView AbilityView { get; private set; }
         public event Action<AbilityButton> Clicked;
         public event Action<AbilityButton> Holded;
         [SerializeField]
-        private Image _abilityImage;
+        private Image _abilityIcon;
         [SerializeField]
         private TextMeshProUGUI _abilityName;
         [SerializeField]
@@ -54,7 +65,7 @@ namespace UIManagement.Elements
         {
             RemoveAbilityView();
             _abilityName.text = abilityView.Name;
-            _abilityImage.sprite = abilityView.AbilityIcon;
+            _abilityIcon.sprite = abilityView.AbilityIcon;
             AbilityView = abilityView;
             AbilityView.Casted += OnAbilityCasted;
             _button.interactable = true;
@@ -66,7 +77,7 @@ namespace UIManagement.Elements
         public void RemoveAbilityView()
         {
             CancelAbilityCast();
-            _abilityImage.sprite = null;
+            _abilityIcon.sprite = NoSelectedAbilityIcon;
             _abilityName.text = "";
             if(AbilityView != null)
                 AbilityView.Casted -= OnAbilityCasted;

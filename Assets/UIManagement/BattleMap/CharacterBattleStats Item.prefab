@@ -60,7 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -214,7 +214,7 @@ GameObject:
   - component: {fileID: 7360740130122911551}
   - component: {fileID: 7908058774557859806}
   m_Layer: 5
-  m_Name: Character Stats
+  m_Name: CharacterBattleStats Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -266,7 +266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -298,7 +298,6 @@ MonoBehaviour:
   _healthBar: {fileID: 7685515782295545373}
   _armorBar: {fileID: 6007388017382158676}
   _avatarButton: {fileID: 6396469935999913722}
-  _panelController: {fileID: 0}
 --- !u!1001 &6789500383016072163
 PrefabInstance:
   m_ObjectHideFlags: 0
