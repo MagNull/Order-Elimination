@@ -52,7 +52,7 @@ namespace OrderElimination
         {
             List<PlanetPoint> nextPoints = new List<PlanetPoint>();
             foreach(var path in _paths)
-                nextPoints.Add(path.End);
+                nextPoints.Add(path.EndPoint);
             return nextPoints;
         }
 
@@ -60,7 +60,7 @@ namespace OrderElimination
         {
             foreach (var path in _paths)
             {
-                path.gameObject.SetActive(true);
+                path.ActivateSprite(true);
             }
         }
 
@@ -68,7 +68,7 @@ namespace OrderElimination
         {
             foreach (var path in _paths.Where(path => !path.IsDestroyed()))
             {
-                path.gameObject.SetActive(false);
+                path.ActivateSprite(false);
             }
         }
 

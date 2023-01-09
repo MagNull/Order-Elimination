@@ -22,18 +22,11 @@ namespace OrderElimination
             _target = target;
         }
 
-        public void CreateAttackOrder()
+        public AttackOrder CreateAttackOrder()
         {
             if (_squad == null || _target == null)
                 throw new System.Exception("Characteristics are not set");
-            _squad.SetOrder(new AttackOrder(_target, _squad, _objectResolver));
-        }
-
-        public void CreateResearchOrder()
-        {
-            if (_squad == null || _target == null)
-                throw new System.Exception("Characteristics are not set");
-            _squad.SetOrder(new ResearchOrder(_target, _squad));
+            return new AttackOrder(_target, _squad, _objectResolver);
         }
     }
 }
