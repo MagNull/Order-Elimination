@@ -172,7 +172,7 @@ namespace OrderElimination
                 new Vector3(150, 110, 0)
             };
             SaveIndex = saveIndex;
-            SetMediator(positions, _allCountMove[saveIndex], Vector3.zero);
+            SetMediator(positions, 0, Vector3.zero);
             SaveData("Squad 0", new Vector3(50, 150, 0));
             SaveData("Squad 1", new Vector3(150, 110, 0));
             SaveCountMove(0);

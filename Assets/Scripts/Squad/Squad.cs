@@ -18,7 +18,7 @@ namespace OrderElimination
         private SquadView _view;
         private SquadPresenter _presenter;
         private SquadCommander _commander;
-        private Button _rectangleOnPanelButton;
+        private Button _buttonOnOrderPanel;
         private CharactersMediator _charactersMediator;
         public static event Action<Squad> Selected;
         public static event Action<Squad> Unselected;
@@ -52,11 +52,9 @@ namespace OrderElimination
             PlanetPoint?.RemoveSquad();
             planetPoint?.AddSquad();
             SetPlanetPoint(planetPoint);
-            SetOrderButtonCharacteristics(true);
             _model.Move(planetPoint);
             if (planetPoint.HasEnemy)
                 StartAttack();
-
         }
 
         public void StartAttack()
@@ -68,12 +66,8 @@ namespace OrderElimination
 
         public void SetOrderButton(Button image)
         {
-            _rectangleOnPanelButton = image;
-            _view.SetButtonOnOrder(image);
+            _buttonOnOrderPanel = image;
         }
-
-        public void SetOrderButtonCharacteristics(bool isActive)
-            => _view.SetButtonCharacteristics(isActive);
 
         private void SetPlanetPoint(PlanetPoint planetPoint)
         {
