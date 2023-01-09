@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using UnityEngine;
 using VContainer;
 
 namespace OrderElimination
@@ -17,7 +18,7 @@ namespace OrderElimination
         private SquadModel _model;
         private SquadView _view;
         private SquadPresenter _presenter;
-        [ShowInInspector] private Order _order;
+        private SquadCommander _commander;
         private Button _rectangleOnPanelButton;
         private CharactersMediator _charactersMediator;
         public static event Action<Squad> Selected;
@@ -29,9 +30,10 @@ namespace OrderElimination
 
 
         [Inject]
-        private void Construct(CharactersMediator charactersMediator)
+        private void Construct(CharactersMediator charactersMediator, SquadCommander commander)
         {
             _charactersMediator = charactersMediator;
+            _commander = commander;
         }
 
         private void Awake()
@@ -39,7 +41,6 @@ namespace OrderElimination
             _model = new SquadModel(_testSquadMembers);
             _view = new SquadView(transform);
             _presenter = new SquadPresenter(_model, _view, null);
-            _order = null;
         }
 
         public void Add(Character member) => _model.Add(member);
@@ -52,13 +53,15 @@ namespace OrderElimination
             PlanetPoint?.RemoveSquad();
             planetPoint?.AddSquad();
             SetPlanetPoint(planetPoint);
+            SetOrderButtonCharacteristics(true);
             _model.Move(planetPoint);
         }
 
-        public void SetOrder(Order order)
+        public void StartAttack()
         {
-            _order = order;
-            _order.Start();
+            _commander.Set(this, PlanetPoint);
+            var order =_commander.CreateAttackOrder();
+            order.Start();
         }
 
         public void SetOrderButton(Button image)

@@ -83,6 +83,7 @@ namespace OrderElimination
             {
                 var squad = _creator.CreateSquad(position);
                 var button = _creator.CreateSquadButton(squadsInfo[count++].PositionOnOrderPanel);
+                button.onClick.AddListener(() => squad.StartAttack());
                 squad.SetOrderButton(button);
                 _squads.Add(squad);
             }

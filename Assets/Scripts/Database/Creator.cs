@@ -9,8 +9,6 @@ namespace OrderElimination
     public class Creator : MonoBehaviour
     {
         [SerializeField]
-        private OrderPanel _orderPanel;
-        [SerializeField]
         private PlanetPoint _planetPointPrefab;
         [SerializeField]
         private Squad _squadPrefab;
@@ -57,7 +55,6 @@ namespace OrderElimination
         {
             Vector3 _position = new Vector3((Screen.width / 100) * 88, position.y, 0);
             var button = Instantiate(_rectanglePrefab, _position, Quaternion.identity, _parent.transform);
-            button.onClick.AddListener(() => _orderPanel.SetActive());
             return button;
         }
     }
