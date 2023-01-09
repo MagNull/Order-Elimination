@@ -1,8 +1,10 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
+using OrderElimination.Start;
 using Unity.VisualScripting;
+using UnityEngine.UI;
 
 namespace OrderElimination
 {
@@ -10,6 +12,7 @@ namespace OrderElimination
     {
         [SerializeField] private SelectableObjects _selectableObjects;
         [SerializeField] private Database _database;
+        [SerializeField] private Image _settingsImage;
         private ISelectable _selectedObject;
         public static event Action<Squad, PlanetPoint> TargetSelected;
 
@@ -65,14 +68,20 @@ namespace OrderElimination
         {
             var squads = _selectableObjects.GetSquads();
             var count = 0;
-            
+            var positions = new List<Vector3>();
             foreach (var squad in squads)
             {
                 if(squad.IsDestroyed())
                     continue;
                 var position = squad.transform.position;
+                positions.Add(position);
                 _database.SaveData($"Squad {count++}", position);
+                Database.SaveCountMove(StrategyMap.CountMove);
             }
+            
+            StartMenuMediator.SetPositionsInSave(positions);
+            StartMenuMediator.SetCountMove(StrategyMap.CountMove);
+            _database.LoadTextToSaves();
         }
 
         public void ResetDatabase()
@@ -104,6 +113,13 @@ namespace OrderElimination
             foreach (var squad in squads)
                 squad.AlreadyMove = false;
             StrategyMap.AddCountMove();
+            Database.SaveCountMove(StrategyMap.CountMove);
+            _database.LoadTextToSaves();
+        }
+        
+        public void PauseButtonClicked()
+        {
+            _settingsImage.gameObject.SetActive(true);
         }
     }
 }

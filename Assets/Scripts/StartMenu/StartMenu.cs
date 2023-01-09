@@ -5,8 +5,8 @@ namespace OrderElimination.Start
 {
     public class StartMenu : MonoBehaviour
     {
-        [SerializeField] private Image _saves;
-        [SerializeField] private Image _settings;
+        [SerializeField] private Saves _saves;
+        [SerializeField] private Settings _settings;
         private Button _playButton;
         private Button _settingsButton;
         private Button _exitButton;
@@ -19,12 +19,6 @@ namespace OrderElimination.Start
 
             Saves.ExitSavesWindow += SetActiveButtons;
             Settings.ExitSettingsWindow += SetActiveButtons;
-        }
-
-        private void Start()
-        {
-            _saves.gameObject.SetActive(false);
-            _settings.gameObject.SetActive(false);
         }
 
         private void SetActiveButtons(bool isActive)
@@ -40,13 +34,13 @@ namespace OrderElimination.Start
         public void StartButtonClicked()
         {
             SetActiveButtons(false);
-            _saves.gameObject.SetActive(true);
+            _saves.SetActive(true);
         }
 
         public void SettingsButtonClicked()
         {
             SetActiveButtons(false);
-            _settings.gameObject.SetActive(true);
+            _settings.SetActive(true);
         }
 
         public void ExitButtonClicked()

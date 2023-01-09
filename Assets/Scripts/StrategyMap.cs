@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
-using UnityEngine.UI;
+using OrderElimination.Start;
 using Vector3 = UnityEngine.Vector3;
 
 namespace OrderElimination
@@ -10,7 +10,6 @@ namespace OrderElimination
     public class StrategyMap : MonoBehaviour
     {
         [SerializeField] private Creator _creator;
-        [SerializeField] private Image _settingsImage;
         private PlanetInfo[] _pointsInfo;
         private List<PlanetPoint> _planetPoints;
         private List<Squad> _squads;
@@ -21,7 +20,6 @@ namespace OrderElimination
         public static void AddCountMove()
         {
             CountMove++;
-            Database.SaveCountMove(CountMove);
         }
         
         private void Awake()
@@ -34,9 +32,9 @@ namespace OrderElimination
 
         private void Start()
         {
-            if (Database.Instance == null)
+            if (StartMenuMediator.Instance == null)
                 throw new ArgumentNullException("Instance Database not saved");
-            CountMove = Database.Instance.CountMoveInSave;
+            CountMove = StartMenuMediator.Instance.CountMoveInSave;
             Deserialize();
             UpdateSettings();
         }
@@ -81,7 +79,7 @@ namespace OrderElimination
         {
             var squadsInfo = Resources.LoadAll<SquadInfo>("");
             var count = 0;
-            foreach (var position in Database.Instance.PositionsInSave)
+            foreach (var position in StartMenuMediator.Instance.PositionsInSave)
             {
                 var squad = _creator.CreateSquad(position);
                 var button = _creator.CreateSquadButton(squadsInfo[count++].PositionOnOrderPanel);
@@ -126,11 +124,6 @@ namespace OrderElimination
             }
 
             return nearestPoint;
-        }
-
-        public void PauseButtonClicked()
-        {
-            _settingsImage.gameObject.SetActive(true);
         }
     }
 }

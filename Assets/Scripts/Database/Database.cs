@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Xml;
 using UnityEngine;
 using Firebase.Database;
@@ -14,27 +13,16 @@ namespace OrderElimination
         private Dictionary<int, List<Vector3>> _allPositions;
         private Dictionary<int, int> _allCountMove;
         public static event Action<int, string> LoadSave;
-        public static Database Instance;
-        public int SaveIndex { get; private set; }
-        public IReadOnlyList<Vector3> PositionsInSave => _allPositions[SaveIndex];
-        public int CountMoveInSave => _allCountMove[SaveIndex];
+        public static int SaveIndex { get; private set; }
 
         private void Awake()
         {
-            if (Instance != null && SceneManager.GetActiveScene().name == "StrategyMap")
-            {
-                Destroy(gameObject);
-                return;
-            }
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            Saves.LoadClicked += SetSaveIndex;
+            Saves.LoadClicked += SetMediatorBySelectedSave;
             Saves.NewGameClicked += SetNewGame;
         }
 
         private void Start()
         {
-            if (SceneManager.GetActiveScene().name != "StartMenu") return;
             _allPositions = new Dictionary<int, List<Vector3>>();
             _allCountMove = new Dictionary<int, int>();
             LoadTextToSaves();
@@ -55,7 +43,7 @@ namespace OrderElimination
                 .DefaultInstance
                 .GetReference(GetIdFromFile())
                 .Child("Saves")
-                .Child(Instance.SaveIndex.ToString());
+                .Child(SaveIndex.ToString());
             dataSnapshot
                 .Child("Positions")
                 .Child(squadName)
@@ -82,12 +70,12 @@ namespace OrderElimination
                 .DefaultInstance
                 .GetReference(GetIdFromFile())
                 .Child("Saves")
-                .Child(Instance.SaveIndex.ToString())
+                .Child(SaveIndex.ToString())
                 .Child("CountMove")
                 .SetValueAsync(countMove);
         }
 
-        private async void LoadTextToSaves()
+        public async void LoadTextToSaves()
         {
             var dataSnapshot = await FirebaseDatabase
                 .DefaultInstance
@@ -104,7 +92,7 @@ namespace OrderElimination
                     continue;
                 var timeString = dataSnapshot.Child($"{i}").Child("Time").Value.ToString();
                 LoadSave?.Invoke(i, $"Игра {i + 1}, ход {countMove} ({timeString})");
-                Instance._allCountMove.Add(i, countMove);
+                _allCountMove[i] = countMove;
             }
         }
 
@@ -129,24 +117,29 @@ namespace OrderElimination
                     GetVectorFromString(secondSquadPositionString)
                 };
                 
-                Instance._allPositions.Add(i, positions);
+                _allPositions.Add(i, positions);
             }
         }
 
-        private void SetSaveIndex(int saveIndex)
+        private void SetMediatorBySelectedSave(int saveIndex)
         {
-            Instance.SaveIndex = saveIndex;
+            if (SceneManager.GetActiveScene().name != "StartMenu")
+                return;
+            SaveIndex = saveIndex;
+            StartMenuMediator.SetPositionsInSave(_allPositions[saveIndex]);
+            StartMenuMediator.SetCountMove(_allCountMove[saveIndex]);
         }
 
         private void SetNewGame(int saveIndex)
         {
-            SetSaveIndex(saveIndex);
-            Instance._allPositions[saveIndex] = new List<Vector3>
+            var positions = new List<Vector3>
             {
                 new Vector3(50, 150, 0),
                 new Vector3(150, 110, 0)
             };
-            Instance._allCountMove[saveIndex] = 0;
+            SaveIndex = saveIndex;
+            StartMenuMediator.SetPositionsInSave(positions);
+            StartMenuMediator.SetCountMove(_allCountMove[saveIndex]);
             SaveData("Squad 0", new Vector3(50, 150, 0));
             SaveData("Squad 1", new Vector3(150, 110, 0));
             SaveCountMove(0);

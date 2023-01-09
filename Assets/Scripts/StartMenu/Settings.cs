@@ -6,7 +6,18 @@ namespace OrderElimination.Start
 {
     public class Settings : MonoBehaviour
     {
+        [SerializeField] private Saves _saves;
         public static event Action<bool> ExitSettingsWindow;
+
+        private void Start()
+        {
+            SetActive(false);
+        }
+        
+        public void SetActive(bool isActive)
+        {
+            gameObject.SetActive(isActive);
+        }
         
         public void MenuButtonClicked()
         {
@@ -22,6 +33,12 @@ namespace OrderElimination.Start
         {
             ExitSettingsWindow?.Invoke(true);
             gameObject.SetActive(false);
+        }
+
+        public void LoadButtonClicked()
+        {
+            SetActive(false);
+            _saves.SetActive(true);
         }
     }
 }

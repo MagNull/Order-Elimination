@@ -25,6 +25,16 @@ namespace OrderElimination.Start
             _loadButton.interactable = true;
         }
 
+        private void Start()
+        {
+            SetActive(false);
+        }
+
+        public void SetActive(bool isActive)
+        {
+            gameObject.SetActive(isActive);
+        }
+        
         public void SaveClicked(int index)
         {
             _selectedSaveIndex = index;
@@ -65,6 +75,7 @@ namespace OrderElimination.Start
         private void DeleteSave()
         {
             Database.DeleteSave(_selectedSaveIndex);
+            _loadButton.interactable = false;
         }
     }
 }
