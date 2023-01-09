@@ -15,6 +15,7 @@ namespace CharacterAbility
 
         private readonly Ability _ability;
         private readonly BattleMapView _battleMapView;
+        private readonly BattleCharacterView _casterView;
         private readonly int _abilityDistance;
 
         private int _coolDownTimer;
@@ -35,14 +36,15 @@ namespace CharacterAbility
 
         private CancellationTokenSource _cancellationTokenSource;
 
-        public AbilityView(IActor caster, Ability ability, AbilityInfo info, BattleMapView battleMapView)
+        public AbilityView(IActor caster, Ability ability, AbilityInfo info, BattleMapView battleMapView,
+            BattleCharacterView casterView)
         {
             Caster = caster;
             _ability = ability;
             _battleMapView = battleMapView;
-            if (_battleMapView == null)
-            {
-            }
+            _casterView = casterView;
+
+            _casterView.FireLine.gameObject.SetActive(false);
 
             AbilityInfo = info;
             _abilityDistance = AbilityInfo.ActiveParams.DistanceFromMovement
@@ -72,7 +74,16 @@ namespace CharacterAbility
             }
 
             LightTargets();
+
+            if (AbilityInfo.ActionType != ActionType.Movement)
+            {
+                _casterView.FireLine.gameObject.SetActive(true);
+                _casterView.FireLine.SetPosition(1, _casterView.transform.position);
+                _casterView.FireLine.SetPosition(0, _casterView.transform.position);
+            }
+
             var success = await TryCast();
+            _casterView.FireLine.gameObject.SetActive(false);
             if (!success)
                 return;
             _battleMapView.DelightCells();
@@ -174,6 +185,7 @@ namespace CharacterAbility
                 _selectedCellViews.Add(cell);
 
                 target = selected;
+                _casterView.FireLine.SetPosition(1, cell.transform.position);
 
                 foreach (var selectedObj in _selectedCellViews.Select(selectedCellView =>
                              selectedCellView.Model.GetObject()))

@@ -14,6 +14,8 @@ public class BattleCharacterView : MonoBehaviour
     private SpriteRenderer _renderer;
     [SerializeField]
     private TextMeshProUGUI _shootProbability;
+    [SerializeField]
+    private LineRenderer _fireLine;
 
     private bool _selected = false;
 
@@ -25,6 +27,8 @@ public class BattleCharacterView : MonoBehaviour
     public Sprite AvatarFull { get; private set; }
 
     public bool IsSelected => _selected;
+
+    public LineRenderer FireLine => _fireLine;
 
     public static event Action<BattleCharacterView> Selected;
     public static event Action<BattleCharacterView> Deselected;
