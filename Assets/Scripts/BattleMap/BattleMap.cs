@@ -4,6 +4,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using OrderElimination.BattleMap;
 using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 
 public class BattleMap : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class BattleMap : MonoBehaviour
     [SerializeField]
     private int _height;
     [SerializeField]
-    private float _oneStepMoveDuration = 0.5f;
+    private float _oneStepMoveDelay = 0.5f;
 
     private Cell[,] _cellGrid;
 
@@ -119,7 +120,7 @@ public class BattleMap : MonoBehaviour
         }
 
         SetCell(x, y, obj);
-        await UniTask.Delay(TimeSpan.FromSeconds(_oneStepMoveDuration));
+        await UniTask.Delay(TimeSpan.FromSeconds(_oneStepMoveDelay));
     }
 
     public List<Vector2Int> GetShortestPath(IBattleObject obj, int x, int y)
