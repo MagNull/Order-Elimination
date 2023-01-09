@@ -54,6 +54,9 @@ namespace OrderElimination
             SetPlanetPoint(planetPoint);
             SetOrderButtonCharacteristics(true);
             _model.Move(planetPoint);
+            if (planetPoint.HasEnemy)
+                StartAttack();
+
         }
 
         public void StartAttack()

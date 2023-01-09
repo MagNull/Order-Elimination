@@ -145,8 +145,12 @@ namespace OrderElimination
             
             for (var i = 0; i < dataSnapshot.ChildrenCount; i++)
             {
-                if(!dataSnapshot.Child($"{i}").Child("EnemyPosition").Exists)
+                if (!dataSnapshot.Child($"{i}").Child("EnemyPosition").Exists)
+                {
+                    _enemySquadPositions[i] = Vector3.zero;    
                     continue;
+                }
+                    
                 var positionString = dataSnapshot.Child($"{i}").Child("EnemyPosition").Value.ToString();
                 _enemySquadPositions[i] = GetVectorFromString(positionString);
             }

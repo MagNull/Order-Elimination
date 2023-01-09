@@ -109,7 +109,7 @@ namespace OrderElimination
         {
             _enemySquad = enemySquad;
             var position = enemySquad.transform.position;
-            FindNearestPoint(position).AddSquad();
+            FindNearestPoint(position).SetEnemy(true);
             Database.SaveEnemySquadPosition(position);
             StartMenuMediator.SetEnemySquadPosition(position);
         }
