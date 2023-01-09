@@ -28,7 +28,6 @@ namespace CharacterAbility
         public Ability CreateAbility(AbilityInfo abilityInfo, IBattleObject caster)
         {
             Ability ability = null;
-            Debug.Log(abilityInfo == null);
             switch (abilityInfo.Type)
             {
                 case AbilityInfo.AbilityType.Active:

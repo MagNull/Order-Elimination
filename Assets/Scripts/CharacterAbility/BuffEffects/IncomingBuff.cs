@@ -23,23 +23,23 @@ namespace CharacterAbility
             _damageType = damageType;
         }
 
-        public DamageInfo GetModifiedValue(DamageInfo info)
+        public DamageInfo GetModifiedInfo(DamageInfo info)
         {
             switch (_incomingBuffType)
             {
                 case Buff_Type.IncomingAccuracy:
-                    if(info.DamageType == _damageType)
+                    if (info.DamageType == _damageType)
                         info.Accuracy += _modificator;
                     break;
                 case Buff_Type.IncomingDamageIncrease:
-                    if(info.DamageType == _damageType)
+                    if (info.DamageType == _damageType)
                         info.Damage *= _modificator;
                     break;
                 case Buff_Type.IncomingDamageReduction:
-                    if(info.DamageType == _damageType)
+                    if (info.DamageType == _damageType)
                         info.Damage /= _modificator;
                     break;
-                
+
                 case Buff_Type.Attack:
                 case Buff_Type.Health:
                 case Buff_Type.Accuracy:
@@ -50,6 +50,36 @@ namespace CharacterAbility
             }
 
             return info;
+        }
+
+        public int GetModifiedValue(int value, Buff_Type buffType)
+        {
+            var newValue = value;
+            Debug.Log(buffType + " " + _incomingBuffType);
+            if (_incomingBuffType != buffType)
+                return newValue;
+            switch (_incomingBuffType)
+            {
+                case Buff_Type.IncomingAccuracy:
+                    newValue += _modificator;
+                    break;
+                case Buff_Type.IncomingDamageIncrease:
+                    newValue *= _modificator;
+                    break;
+                case Buff_Type.IncomingDamageReduction:
+                    newValue /= _modificator;
+                    break;
+
+                case Buff_Type.Attack:
+                case Buff_Type.Health:
+                case Buff_Type.Accuracy:
+                case Buff_Type.Movement:
+                case Buff_Type.Evasion:
+                default:
+                    throw new ArgumentException("Not incoming buff type");
+            }
+
+            return newValue;
         }
     }
 }

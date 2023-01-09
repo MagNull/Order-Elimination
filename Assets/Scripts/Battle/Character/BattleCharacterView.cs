@@ -45,6 +45,8 @@ public class BattleCharacterView : MonoBehaviour
         CharacterName = characterName;
         Icon = avatarIcon;
         AvatarFull = avatarFull;
+        
+        HideProbability();
     }
 
     private void OnDamaged(TakeDamageInfo info)
@@ -82,14 +84,15 @@ public class BattleCharacterView : MonoBehaviour
     }
 
     
-    //TODO: Probability panel instead text
-    public void ShowProbability(int probability)
+    public void ShowAccuracy(int probability)
     {
+        _shootProbability.gameObject.SetActive(true);
         _shootProbability.text = probability.ToString();
     }
     
     public void HideProbability()
     {
+        _shootProbability.gameObject.SetActive(false);
         _shootProbability.text = "";
     }
 
