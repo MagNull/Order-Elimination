@@ -97,6 +97,7 @@ namespace CharacterAbility
             _battleMapView.LightCellByDistance(casterCoords.x, casterCoords.y, _abilityDistance);
         }
 
+        //TODO: Refactor with async abilities
         private async UniTask<bool> TryCast()
         {
             if (_casting)
