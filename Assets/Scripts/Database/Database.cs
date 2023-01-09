@@ -21,7 +21,7 @@ namespace OrderElimination
 
         private void Awake()
         {
-            if (Instance != null)
+            if (Instance != null && SceneManager.GetActiveScene().name == "StrategyMap")
             {
                 Destroy(gameObject);
                 return;

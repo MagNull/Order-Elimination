@@ -21,25 +21,13 @@ namespace OrderElimination.Start
             Database.LoadSave += SetSaveText;
             foreach (var save in _saves)
                 save.DeleteSave += DeleteSave;
-            FirstSaveClicked();
+            SaveClicked(0);
             _loadButton.interactable = true;
         }
 
-        public void FirstSaveClicked()
+        public void SaveClicked(int index)
         {
-            _selectedSaveIndex = 0;
-            SwitchColorButtons();
-        }
-
-        public void SecondSaveClicked()
-        {
-            _selectedSaveIndex = 1;
-            SwitchColorButtons();
-        }
-
-        public void ThirdSaveClicked()
-        {
-            _selectedSaveIndex = 2;
+            _selectedSaveIndex = index;
             SwitchColorButtons();
         }
 
@@ -48,7 +36,7 @@ namespace OrderElimination.Start
             for (var i = 0; i < _saves.Count; i++)
                 _saves[i].SetActive(_selectedSaveIndex == i);
             
-            _loadButton.interactable = !_saves[_selectedSaveIndex].IsEmpySave();
+            _loadButton.interactable = !_saves[_selectedSaveIndex].IsEmptySave();
         }
 
         public void SetSaveText(int index, string text)

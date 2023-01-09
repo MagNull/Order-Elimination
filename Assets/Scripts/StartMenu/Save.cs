@@ -20,10 +20,10 @@ namespace OrderElimination.Start
             _text.text = text;
             // _deleteButton.interactable = IsActive && !IsEmpySave();
             if(!_deleteButton.IsDestroyed())
-                _deleteButton.gameObject.SetActive(IsActive && !IsEmpySave());
+                _deleteButton.gameObject.SetActive(IsActive && !IsEmptySave());
         }
 
-        public bool IsEmpySave() => _text.text == "";
+        public bool IsEmptySave() => _text.text == "";
 
         public void SetActive(bool isActive)
         {
@@ -31,7 +31,7 @@ namespace OrderElimination.Start
             _image.color = isActive
                 ? _activeImageColor
                 : _defaultImageColor;
-            _deleteButton.gameObject.SetActive(isActive && !IsEmpySave());
+            _deleteButton.gameObject.SetActive(isActive && !IsEmptySave());
         }
 
         public void DeleteButtonClicked()
