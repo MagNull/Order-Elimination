@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
+using UnityEngine.UI;
 using Vector3 = UnityEngine.Vector3;
 
 namespace OrderElimination
@@ -9,6 +10,7 @@ namespace OrderElimination
     public class StrategyMap : MonoBehaviour
     {
         [SerializeField] private Creator _creator;
+        [SerializeField] private Image _settingsImage;
         private PlanetInfo[] _pointsInfo;
         private List<PlanetPoint> _planetPoints;
         private List<Squad> _squads;
@@ -124,6 +126,11 @@ namespace OrderElimination
             }
 
             return nearestPoint;
+        }
+
+        public void PauseButtonClicked()
+        {
+            _settingsImage.gameObject.SetActive(true);
         }
     }
 }

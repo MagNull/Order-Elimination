@@ -18,8 +18,9 @@ namespace OrderElimination
         private Path _pathPrefab;
         [SerializeField]
         private Button _rectanglePrefab;
+        [SerializeField]
+        private GameObject _parent;
 
-        private Canvas _canvas;
         private IObjectResolver _objectResolver;
         private static int num = 0;
         public static event Action<ISelectable> Created;
@@ -29,15 +30,10 @@ namespace OrderElimination
         {
             _objectResolver = resolver;
         }
-        
-        private void Start()
-        {
-            _canvas = GameObject.Find("StrategyMapCanvas").GetComponent<Canvas>();
-        }
 
         public PlanetPoint CreatePlanetPoint(PlanetInfo planetInfo)
         {
-            var planetPoint = Instantiate(_planetPointPrefab, planetInfo.Position, Quaternion.identity);
+            var planetPoint = Instantiate(_planetPointPrefab, planetInfo.Position, Quaternion.identity, _parent.transform);
             planetPoint.name = num.ToString();
             num++;
             Created?.Invoke(planetPoint);
@@ -46,21 +42,21 @@ namespace OrderElimination
 
         public Squad CreateSquad(Vector3 position)
         {
-            var squad = _objectResolver.Instantiate(_squadPrefab, position, Quaternion.identity);
+            var squad = _objectResolver.Instantiate(_squadPrefab, position, Quaternion.identity, _parent.transform);
             Created?.Invoke(squad);
             return squad;
         }
 
         public Path CreatePath()
         {
-            var path = Instantiate(_pathPrefab, Vector3.zero, Quaternion.identity);
+            var path = Instantiate(_pathPrefab, Vector3.zero, Quaternion.identity, _parent.transform);
             return path;
         }
 
         public Button CreateSquadButton(Vector3 position)
         {
             Vector3 _position = new Vector3((Screen.width / 100) * 88, position.y, 0);
-            var button = Instantiate(_rectanglePrefab, _position, Quaternion.identity, _canvas.transform);
+            var button = Instantiate(_rectanglePrefab, _position, Quaternion.identity, _parent.transform);
             button.onClick.AddListener(() => _orderPanel.SetActive());
             return button;
         }
