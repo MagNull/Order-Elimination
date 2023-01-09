@@ -13,6 +13,8 @@ namespace OrderElimination
         [SerializeField]
         private Squad _squadPrefab;
         [SerializeField]
+        private EnemySquad _enemySquadPrefab;
+        [SerializeField]
         private Path _pathPrefab;
         [SerializeField]
         private Button _rectanglePrefab;
@@ -56,6 +58,12 @@ namespace OrderElimination
             Vector3 _position = new Vector3((Screen.width / 100) * 88, position.y, 0);
             var button = Instantiate(_rectanglePrefab, _position, Quaternion.identity, _parent.transform);
             return button;
+        }
+
+        public EnemySquad CreateEnemySquad(Vector3 position)
+        {
+            var enemySquad = Instantiate(_enemySquadPrefab, position, Quaternion.identity, _parent.transform);
+            return enemySquad;
         }
     }
 }

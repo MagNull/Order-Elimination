@@ -3,6 +3,8 @@ using UnityEngine;
 using System;
 using System.Linq;
 using OrderElimination.Start;
+using Unity.VisualScripting;
+using Random = System.Random;
 using Vector3 = UnityEngine.Vector3;
 
 namespace OrderElimination
@@ -14,6 +16,8 @@ namespace OrderElimination
         private List<PlanetPoint> _planetPoints;
         private List<Squad> _squads;
         private List<Path> _paths;
+        private EnemySquad _enemySquad;
+        public const float IconSize = 50f;
         public static event Action Onclick;
         public static int CountMove { get; private set; }
 
@@ -27,7 +31,9 @@ namespace OrderElimination
             _planetPoints = new List<PlanetPoint>();
             _squads = new List<Squad>();
             _paths = new List<Path>();
+            _enemySquad = null;
             _pointsInfo = Resources.LoadAll<PlanetInfo>("");
+            InputClass.SpawnEnemySquad += SpawnEnemySquad;
         }
 
         private void Start()
@@ -48,6 +54,7 @@ namespace OrderElimination
 
         private void DeserializePoints()
         {
+            Debug.Log("DeserializePoints");
             foreach (var planetInfo in _pointsInfo)
             {
                 var planetPoint = _creator.CreatePlanetPoint(planetInfo);
@@ -110,6 +117,18 @@ namespace OrderElimination
                 squad.Move(FindNearestPoint(squad));
                 squad.AlreadyMove = false;
             }
+        }
+
+        private void SpawnEnemySquad()
+        {
+            if (_enemySquad != null)
+                return;
+            
+            var emptyPoints = _planetPoints.Where(point => point.CountSquadOnPoint == 0).ToList();
+            var rnd = new Random();
+            var planetPoint = emptyPoints[rnd.Next(0, emptyPoints.Count - 1)];
+            if(!planetPoint.IsDestroyed())
+                _enemySquad = _creator.CreateEnemySquad(planetPoint.transform.position + new Vector3(-IconSize, IconSize + 10f));
         }
 
         private PlanetPoint FindNearestPoint(Squad squad)

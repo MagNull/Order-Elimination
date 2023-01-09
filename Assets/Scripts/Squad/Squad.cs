@@ -3,12 +3,11 @@ using UnityEngine.UI;
 using System;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using UnityEngine;
 using VContainer;
 
 namespace OrderElimination
 {
-    public class Squad : SerializedMonoBehaviour, ISelectable, IMovable
+    public class Squad : SerializedMonoBehaviour, ISquad, ISelectable
     {
         [OdinSerialize]
         [ShowInInspector]
