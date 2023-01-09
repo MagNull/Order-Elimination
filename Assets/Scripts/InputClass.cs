@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OrderElimination.Start;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace OrderElimination
@@ -59,6 +60,8 @@ namespace OrderElimination
 
         private void TargetIsClicked(Squad selectedSquad, PlanetPoint end)
         {
+            if (end.CountSquadOnPoint == 2)
+                return;
             TargetSelected?.Invoke(selectedSquad, end);
             selectedSquad.Unselect();
             selectedSquad.Move(end);
@@ -77,9 +80,9 @@ namespace OrderElimination
                 var position = squad.transform.position;
                 positions.Add(position);
                 _database.SaveData($"Squad {count++}", position);
-                Database.SaveCountMove(StrategyMap.CountMove);
             }
             
+            Database.SaveCountMove(StrategyMap.CountMove);
             StartMenuMediator.SetPositionsInSave(positions);
             StartMenuMediator.SetCountMove(StrategyMap.CountMove);
             _database.LoadTextToSaves();
@@ -87,24 +90,8 @@ namespace OrderElimination
 
         public void ResetDatabase()
         {
-            var squads = _selectableObjects.GetSquads();
-            var points = _selectableObjects.GetPlanetPoints();
-            foreach (var point in points)
-                point.HidePaths();
-
-            squads.Last().Move(points.Last());
-            
-            foreach (var squad in squads)
-            {
-                var firstPoint = points.First();
-                if(squad.PlanetPoint == firstPoint)
-                    continue;
-                squad.Move(firstPoint);
-                squad.AlreadyMove = false;
-                squad.SetOrderButtonCharacteristics(false);
-            }
-            
-            SavePositions();
+            _database.SetNewGame(StartMenuMediator.Instance.SaveIndex);
+            SceneManager.LoadScene("StrategyMap");
         }
 
         public void FinishMove()

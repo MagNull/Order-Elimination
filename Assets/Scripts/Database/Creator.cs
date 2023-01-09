@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using Unity.VisualScripting;
 using VContainer;
 using VContainer.Unity;
 
@@ -62,8 +63,13 @@ namespace OrderElimination
 
         public EnemySquad CreateEnemySquad(Vector3 position)
         {
-            var enemySquad = Instantiate(_enemySquadPrefab, position, Quaternion.identity, _parent.transform);
-            return enemySquad;
+            if (!_enemySquadPrefab.IsDestroyed() && !_parent.IsDestroyed())
+            {
+                var enemySquad = Instantiate(_enemySquadPrefab, position, Quaternion.identity, _parent.transform);
+                return enemySquad;
+            }
+
+            return null;
         }
     }
 }

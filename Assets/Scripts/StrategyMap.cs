@@ -50,6 +50,7 @@ namespace OrderElimination
             DeserializePoints();
             DeserializePaths();
             DeserializeSquads();
+            DeserializeEnemySquad();
         }
 
         private void DeserializePoints()
@@ -96,6 +97,23 @@ namespace OrderElimination
             }
         }
 
+        private void DeserializeEnemySquad()
+        {
+            var position = StartMenuMediator.Instance.EnemySquadPosition;
+            if (position == Vector3.zero)
+                return;
+            SetEnemySquad(_creator.CreateEnemySquad(position));
+        }
+
+        private void SetEnemySquad(EnemySquad enemySquad)
+        {
+            _enemySquad = enemySquad;
+            var position = enemySquad.transform.position;
+            FindNearestPoint(position).AddSquad();
+            Database.SaveEnemySquadPosition(position);
+            StartMenuMediator.SetEnemySquadPosition(position);
+        }
+
         private void UpdateSettings()
         {
             UpdatePlanetPointSettings();
@@ -114,7 +132,7 @@ namespace OrderElimination
         {
             foreach (var squad in _squads)
             {
-                squad.Move(FindNearestPoint(squad));
+                squad.Move(FindNearestPoint(squad.transform.position));
                 squad.AlreadyMove = false;
             }
         }
@@ -127,17 +145,20 @@ namespace OrderElimination
             var emptyPoints = _planetPoints.Where(point => point.CountSquadOnPoint == 0).ToList();
             var rnd = new Random();
             var planetPoint = emptyPoints[rnd.Next(0, emptyPoints.Count - 1)];
-            if(!planetPoint.IsDestroyed())
-                _enemySquad = _creator.CreateEnemySquad(planetPoint.transform.position + new Vector3(-IconSize, IconSize + 10f));
+            var position = Vector3.zero;
+            if (!planetPoint.IsDestroyed())
+                position = planetPoint.transform.position + new Vector3(-IconSize, IconSize + 10f);
+            if(!_creator.IsDestroyed())
+                SetEnemySquad(_creator.CreateEnemySquad(position));
         }
 
-        private PlanetPoint FindNearestPoint(Squad squad)
+        private PlanetPoint FindNearestPoint(Vector3 squadPosition)
         {
             PlanetPoint nearestPoint = null;
             double minDistance = double.MaxValue;
             foreach (var point in _planetPoints)
             {
-                var distance = Vector3.Distance(squad.transform.position, point.transform.position);
+                var distance = Vector3.Distance(squadPosition, point.transform.position);
                 if (!(minDistance > distance)) continue;
                 minDistance = distance;
                 nearestPoint = point;

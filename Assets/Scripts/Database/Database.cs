@@ -11,6 +11,7 @@ namespace OrderElimination
     public class Database : MonoBehaviour
     {
         private Dictionary<int, List<Vector3>> _allPositions;
+        private Dictionary<int, Vector3> _enemySquadPositions;
         private Dictionary<int, int> _allCountMove;
         public static event Action<int, string> LoadSave;
         public static int SaveIndex { get; private set; }
@@ -25,8 +26,10 @@ namespace OrderElimination
         {
             _allPositions = new Dictionary<int, List<Vector3>>();
             _allCountMove = new Dictionary<int, int>();
+            _enemySquadPositions = new Dictionary<int, Vector3>();
             LoadTextToSaves();
             LoadPositionsToSaves();
+            LoadEnemySquadPositionToSaves();
         }
 
         private static string GetIdFromFile()
@@ -75,6 +78,17 @@ namespace OrderElimination
                 .SetValueAsync(countMove);
         }
 
+        public static void SaveEnemySquadPosition(Vector3 position)
+        {
+            FirebaseDatabase
+                .DefaultInstance
+                .GetReference(GetIdFromFile())
+                .Child("Saves")
+                .Child(SaveIndex.ToString())
+                .Child("EnemyPosition")
+                .SetValueAsync(position.ToString());
+        }
+
         public async void LoadTextToSaves()
         {
             var dataSnapshot = await FirebaseDatabase
@@ -117,7 +131,24 @@ namespace OrderElimination
                     GetVectorFromString(secondSquadPositionString)
                 };
                 
-                _allPositions.Add(i, positions);
+                _allPositions[i] = positions;
+            }
+        }
+
+        private async void LoadEnemySquadPositionToSaves()
+        {
+            var dataSnapshot = await FirebaseDatabase
+                .DefaultInstance
+                .GetReference(GetIdFromFile())
+                .Child("Saves")
+                .GetValueAsync();
+            
+            for (var i = 0; i < dataSnapshot.ChildrenCount; i++)
+            {
+                if(!dataSnapshot.Child($"{i}").Child("EnemyPosition").Exists)
+                    continue;
+                var positionString = dataSnapshot.Child($"{i}").Child("EnemyPosition").Value.ToString();
+                _enemySquadPositions[i] = GetVectorFromString(positionString);
             }
         }
 
@@ -126,11 +157,10 @@ namespace OrderElimination
             if (SceneManager.GetActiveScene().name != "StartMenu")
                 return;
             SaveIndex = saveIndex;
-            StartMenuMediator.SetPositionsInSave(_allPositions[saveIndex]);
-            StartMenuMediator.SetCountMove(_allCountMove[saveIndex]);
+            SetMediator(_allPositions[saveIndex], _allCountMove[saveIndex], _enemySquadPositions[saveIndex]);
         }
 
-        private void SetNewGame(int saveIndex)
+        public void SetNewGame(int saveIndex)
         {
             var positions = new List<Vector3>
             {
@@ -138,11 +168,18 @@ namespace OrderElimination
                 new Vector3(150, 110, 0)
             };
             SaveIndex = saveIndex;
-            StartMenuMediator.SetPositionsInSave(positions);
-            StartMenuMediator.SetCountMove(_allCountMove[saveIndex]);
+            SetMediator(positions, _allCountMove[saveIndex], Vector3.zero);
             SaveData("Squad 0", new Vector3(50, 150, 0));
             SaveData("Squad 1", new Vector3(150, 110, 0));
             SaveCountMove(0);
+        }
+
+        private void SetMediator(List<Vector3> positions, int countMove, Vector3 enemyPosition)
+        {
+            StartMenuMediator.SetSaveIndex(SaveIndex);
+            StartMenuMediator.SetPositionsInSave(positions);
+            StartMenuMediator.SetCountMove(countMove);
+            StartMenuMediator.SetEnemySquadPosition(enemyPosition);
         }
         
         private Vector3 GetVectorFromString(string str)

@@ -7,6 +7,8 @@ namespace OrderElimination.Start
     {
         private List<Vector3> _positionsInSave;
         public int CountMoveInSave { get; private set; }
+        public Vector3 EnemySquadPosition { get; private set; }
+        public int SaveIndex { get; private set; }
         public IReadOnlyList<Vector3> PositionsInSave => _positionsInSave;
         public static StartMenuMediator Instance;
         
@@ -19,6 +21,7 @@ namespace OrderElimination.Start
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            Instance.EnemySquadPosition = Vector3.zero;
         }
         
         public static void SetPositionsInSave(List<Vector3> positions)
@@ -26,9 +29,19 @@ namespace OrderElimination.Start
             Instance._positionsInSave = positions;
         }
 
+        public static void SetEnemySquadPosition(Vector3 position)
+        {
+            Instance.EnemySquadPosition = position;
+        }
+
         public static void SetCountMove(int countMove)
         {
             Instance.CountMoveInSave = countMove;
+        }
+
+        public static void SetSaveIndex(int index)
+        {
+            Instance.SaveIndex = index;
         }
     }
 }
