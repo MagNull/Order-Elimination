@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using DG.Tweening;
+using UnityEngine;
 
 namespace OrderElimination
 {
     public class SquadView
     {
         private Transform _transform;
-
+        public event Action onEndAnimation; 
         public SquadView(Transform transform)
         {
             _transform = transform;
@@ -14,8 +16,11 @@ namespace OrderElimination
         //TODO(Иван): Magic numbers
         public void OnMove(PlanetPoint planetPoint)
         {
-            _transform.position = planetPoint.transform.position +
-                                  new Vector3(-50 + (planetPoint.CountSquadOnPoint - 1) * 100f, 60f);
+            var target = planetPoint.transform.position +
+                         new Vector3(-StrategyMap.IconSize + (planetPoint.CountSquadOnPoint - 1) * 100f,
+                             StrategyMap.IconSize + 10f);
+            var tween = _transform.DOMove(target, 0.5f);
+            tween.OnComplete(() => onEndAnimation?.Invoke());
         }
     }
 }

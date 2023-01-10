@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
+using System.Threading;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using UnityEngine;
 using VContainer;
 
 namespace OrderElimination
@@ -22,6 +24,7 @@ namespace OrderElimination
         private CharactersMediator _charactersMediator;
         public static event Action<Squad> Selected;
         public static event Action<Squad> Unselected;
+        public static event Action onMove; 
         public PlanetPoint PlanetPoint => _presenter.PlanetPoint;
         public int AmountOfCharacters => _model.AmountOfMembers;
         public IReadOnlyList<Character> Members => _model.Members;
@@ -40,6 +43,7 @@ namespace OrderElimination
             _model = new SquadModel(_testSquadMembers);
             _view = new SquadView(transform);
             _presenter = new SquadPresenter(_model, _view, null);
+            _view.onEndAnimation += StartAttack;
         }
 
         public void Add(Character member) => _model.Add(member);
@@ -53,20 +57,22 @@ namespace OrderElimination
             planetPoint?.AddSquad();
             SetPlanetPoint(planetPoint);
             _model.Move(planetPoint);
-            if (planetPoint.HasEnemy)
-                StartAttack();
         }
 
         public void StartAttack()
         {
+            onMove?.Invoke();
+            if (!PlanetPoint.HasEnemy)
+                return;
             _commander.Set(this, PlanetPoint);
             var order =_commander.CreateAttackOrder();
             order.Start();
         }
 
-        public void SetOrderButton(Button image)
+        public void SetOrderButton(Button button)
         {
-            _buttonOnOrderPanel = image;
+            _buttonOnOrderPanel = button;
+            _buttonOnOrderPanel.onClick.AddListener(Select);
         }
 
         private void SetPlanetPoint(PlanetPoint planetPoint)

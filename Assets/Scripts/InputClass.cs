@@ -25,6 +25,11 @@ namespace OrderElimination
             StrategyMap.Onclick += ClickOnPanel;
         }
 
+        private void Start()
+        {
+            Squad.onMove += SavePositions;
+        }
+
         public void ClickOnPanel()
         {
             ChangeSelectedObject(null);
@@ -65,7 +70,6 @@ namespace OrderElimination
             TargetSelected?.Invoke(selectedSquad, end);
             selectedSquad.Unselect();
             selectedSquad.Move(end);
-            SavePositions();
         }
 
         private void SavePositions()
@@ -82,9 +86,9 @@ namespace OrderElimination
                 _database.SaveData($"Squad {count++}", position);
             }
             
-            Database.SaveCountMove(StrategyMap.CountMove);
             StartMenuMediator.SetPositionsInSave(positions);
             StartMenuMediator.SetCountMove(StrategyMap.CountMove);
+            Database.SaveCountMove(StrategyMap.CountMove);
             _database.LoadTextToSaves();
         }
 
