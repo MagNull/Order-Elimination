@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Xml;
 using UnityEngine;
 using Firebase.Database;
@@ -12,6 +13,7 @@ namespace OrderElimination
     {
         private Dictionary<int, List<Vector3>> _allPositions;
         private Dictionary<int, Vector3> _enemySquadPositions;
+        private Dictionary<int, int> _moneyInSaves;
         private Dictionary<int, int> _allCountMove;
         public static event Action<int, string> LoadSave;
         public static int SaveIndex { get; private set; }
@@ -26,10 +28,12 @@ namespace OrderElimination
         {
             _allPositions = new Dictionary<int, List<Vector3>>();
             _allCountMove = new Dictionary<int, int>();
+            _moneyInSaves = new Dictionary<int, int>();
             _enemySquadPositions = new Dictionary<int, Vector3>();
             LoadTextToSaves();
             LoadPositionsToSaves();
             LoadEnemySquadPositionToSaves();
+            LoadMoney();
         }
 
         private static string GetIdFromFile()
@@ -67,46 +71,51 @@ namespace OrderElimination
                 .RemoveValueAsync();
         }
 
-        public static void SaveCountMove(int countMove)
+        public static void SaveCountMove(int countMove, string child = "CountMove")
         {
-            FirebaseDatabase
-                .DefaultInstance
-                .GetReference(GetIdFromFile())
-                .Child("Saves")
-                .Child(SaveIndex.ToString())
-                .Child("CountMove")
-                .SetValueAsync(countMove);
+            SaveChild(child, countMove.ToString());
         }
 
-        public static void SaveEnemySquadPosition(Vector3 position)
+        public static void SaveEnemySquadPosition(Vector3 position, string child = "EnemyPosition")
+        {
+            SaveChild(child, position.ToString());
+        }
+
+        public static void SaveMoney(int money, string child = "Money")
+        {
+            SaveChild(child, money.ToString());
+        }
+
+        public static void SaveChild(string child, string value)
         {
             FirebaseDatabase
                 .DefaultInstance
                 .GetReference(GetIdFromFile())
                 .Child("Saves")
                 .Child(SaveIndex.ToString())
-                .Child("EnemyPosition")
-                .SetValueAsync(position.ToString());
+                .Child(child)
+                .SetValueAsync(value);
         }
         
-        public static void DeleteEnemySquadPosition()
+        public static void DeleteEnemySquadPosition(string child = "EnemyPosition")
+        {
+            DeleteChild(child);
+        }
+
+        public static void DeleteChild(string child)
         {
             FirebaseDatabase
                 .DefaultInstance
                 .GetReference(GetIdFromFile())
                 .Child("Saves")
                 .Child(SaveIndex.ToString())
-                .Child("EnemyPosition")
+                .Child(child)
                 .RemoveValueAsync();
         }
 
         public async void LoadTextToSaves()
         {
-            var dataSnapshot = await FirebaseDatabase
-                .DefaultInstance
-                .GetReference(GetIdFromFile())
-                .Child("Saves")
-                .GetValueAsync();
+            var dataSnapshot = await GetSavesDataSnapshot();
 
             for (var i = 0; i < 3; i++)
             {
@@ -123,11 +132,7 @@ namespace OrderElimination
 
         private async void LoadPositionsToSaves()
         {
-            var dataSnapshot = await FirebaseDatabase
-                .DefaultInstance
-                .GetReference(GetIdFromFile())
-                .Child("Saves")
-                .GetValueAsync();
+            var dataSnapshot = await GetSavesDataSnapshot();
             for (var i = 0; i < dataSnapshot.ChildrenCount; i++)
             {
                 var positionsSnapshot = dataSnapshot.Child($"{i}").Child("Positions");
@@ -146,13 +151,22 @@ namespace OrderElimination
             }
         }
 
+        private async void LoadMoney()
+        {
+            var dataSnapshot = await GetSavesDataSnapshot();
+            
+            for (var i = 0; i < dataSnapshot.ChildrenCount; i++)
+            {
+                var money = dataSnapshot.Child($"{i}").Child("Money").Exists
+                    ? dataSnapshot.Child($"{i}").Child("Money").Value.ToString()
+                    : "0";
+                _moneyInSaves[i] = Convert.ToInt32(money);
+            }
+        }
+
         private async void LoadEnemySquadPositionToSaves()
         {
-            var dataSnapshot = await FirebaseDatabase
-                .DefaultInstance
-                .GetReference(GetIdFromFile())
-                .Child("Saves")
-                .GetValueAsync();
+            var dataSnapshot = await GetSavesDataSnapshot();
             
             for (var i = 0; i < dataSnapshot.ChildrenCount; i++)
             {
@@ -167,12 +181,22 @@ namespace OrderElimination
             }
         }
 
+        private async Task<DataSnapshot> GetSavesDataSnapshot()
+        {
+            return await FirebaseDatabase
+                .DefaultInstance
+                .GetReference(GetIdFromFile())
+                .Child("Saves")
+                .GetValueAsync();
+        }
+
         private void SetMediatorBySelectedSave(int saveIndex)
         {
             if (SceneManager.GetActiveScene().name != "StartMenu")
                 return;
             SaveIndex = saveIndex;
-            SetMediator(_allPositions[saveIndex], _allCountMove[saveIndex], _enemySquadPositions[saveIndex]);
+            SetMediator(_allPositions[saveIndex], _allCountMove[saveIndex],
+                _enemySquadPositions[saveIndex], _moneyInSaves[saveIndex]);
         }
 
         public void SetNewGame(int saveIndex)
@@ -183,18 +207,19 @@ namespace OrderElimination
                 new Vector3(150, 110, 0)
             };
             SaveIndex = saveIndex;
-            SetMediator(positions, 0, Vector3.zero);
+            SetMediator(positions, 0, Vector3.zero, 0);
             SaveData("Squad 0", new Vector3(50, 150, 0));
             SaveData("Squad 1", new Vector3(150, 110, 0));
             SaveCountMove(0);
         }
 
-        private void SetMediator(List<Vector3> positions, int countMove, Vector3 enemyPosition)
+        private void SetMediator(List<Vector3> positions, int countMove, Vector3 enemyPosition, int money)
         {
             StartMenuMediator.SetSaveIndex(SaveIndex);
             StartMenuMediator.SetPositionsInSave(positions);
             StartMenuMediator.SetCountMove(countMove);
             StartMenuMediator.SetEnemySquadPosition(enemyPosition);
+            StartMenuMediator.SetMoney(money);
         }
         
         private Vector3 GetVectorFromString(string str)

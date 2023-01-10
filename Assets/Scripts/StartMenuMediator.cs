@@ -9,6 +9,7 @@ namespace OrderElimination.Start
         public int CountMoveInSave { get; private set; }
         public Vector3 EnemySquadPosition { get; private set; }
         public int SaveIndex { get; private set; }
+        public int Money { get; private set; }
         public BattleOutcome Outcome { get; private set; } = BattleOutcome.Neither;
         public IReadOnlyList<Vector3> PositionsInSave => _positionsInSave;
         public static StartMenuMediator Instance;
@@ -39,6 +40,12 @@ namespace OrderElimination.Start
         public static void SetCountMove(int countMove)
         {
             Instance.CountMoveInSave = countMove;
+        }
+
+        public static void SetMoney(int money)
+        {
+            Instance.Money = money;
+            Database.SaveMoney(money);
         }
 
         public static void SetSaveIndex(int index)
