@@ -88,6 +88,17 @@ namespace OrderElimination
                 .Child("EnemyPosition")
                 .SetValueAsync(position.ToString());
         }
+        
+        public static void DeleteEnemySquadPosition()
+        {
+            FirebaseDatabase
+                .DefaultInstance
+                .GetReference(GetIdFromFile())
+                .Child("Saves")
+                .Child(SaveIndex.ToString())
+                .Child("EnemyPosition")
+                .RemoveValueAsync();
+        }
 
         public async void LoadTextToSaves()
         {

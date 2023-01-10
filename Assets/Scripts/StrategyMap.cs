@@ -101,7 +101,12 @@ namespace OrderElimination
             var position = StartMenuMediator.Instance.EnemySquadPosition;
             if (position == Vector3.zero)
                 return;
-            SetEnemySquad(_creator.CreateEnemySquad(position));
+            if (StartMenuMediator.Instance.Outcome != BattleOutcome.Victory)
+            {
+                SetEnemySquad(_creator.CreateEnemySquad(position));
+            }
+            else
+                Database.DeleteEnemySquadPosition();
         }
 
         private void SetEnemySquad(EnemySquad enemySquad)

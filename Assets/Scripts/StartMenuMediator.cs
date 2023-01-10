@@ -9,6 +9,7 @@ namespace OrderElimination.Start
         public int CountMoveInSave { get; private set; }
         public Vector3 EnemySquadPosition { get; private set; }
         public int SaveIndex { get; private set; }
+        public BattleOutcome Outcome { get; private set; } = BattleOutcome.Neither;
         public IReadOnlyList<Vector3> PositionsInSave => _positionsInSave;
         public static StartMenuMediator Instance;
         
@@ -22,6 +23,7 @@ namespace OrderElimination.Start
             Instance = this;
             DontDestroyOnLoad(gameObject);
             Instance.EnemySquadPosition = Vector3.zero;
+            BattleSimulation.BattleEnded += SetBattleOutcome;
         }
         
         public static void SetPositionsInSave(List<Vector3> positions)
@@ -42,6 +44,11 @@ namespace OrderElimination.Start
         public static void SetSaveIndex(int index)
         {
             Instance.SaveIndex = index;
+        }
+
+        public static void SetBattleOutcome(BattleOutcome outcome)
+        {
+            Instance.Outcome = outcome;
         }
     }
 }
