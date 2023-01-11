@@ -17,8 +17,6 @@
         public void Subscribe()
         {
             _model.Moved += _view.OnMove;
-            _model.Selected += _view.OnSelect;
-            _model.Unselected += _view.OnUnselect;
             if (_planetPoint != null)
             {
                 _model.Selected += _planetPoint.ShowPaths;
@@ -29,8 +27,6 @@
         public void Unsubscribe()
         {
             _model.Moved -= _view.OnMove;
-            _model.Selected -= _view.OnSelect;
-            _model.Unselected -= _view.OnUnselect;
             if (_planetPoint != null)
             {
                 _model.Selected -= _planetPoint.ShowPaths;

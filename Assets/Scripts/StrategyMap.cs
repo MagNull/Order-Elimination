@@ -3,6 +3,8 @@ using UnityEngine;
 using System;
 using System.Linq;
 using OrderElimination.Start;
+using Unity.VisualScripting;
+using Random = System.Random;
 using Vector3 = UnityEngine.Vector3;
 
 namespace OrderElimination
@@ -14,6 +16,8 @@ namespace OrderElimination
         private List<PlanetPoint> _planetPoints;
         private List<Squad> _squads;
         private List<Path> _paths;
+        private EnemySquad _enemySquad;
+        public const float IconSize = 50f;
         public static event Action Onclick;
         public static int CountMove { get; private set; }
 
@@ -27,7 +31,9 @@ namespace OrderElimination
             _planetPoints = new List<PlanetPoint>();
             _squads = new List<Squad>();
             _paths = new List<Path>();
+            _enemySquad = null;
             _pointsInfo = Resources.LoadAll<PlanetInfo>("");
+            InputClass.onFinishMove += OnFinishMove;
         }
 
         private void Start()
@@ -44,6 +50,7 @@ namespace OrderElimination
             DeserializePoints();
             DeserializePaths();
             DeserializeSquads();
+            DeserializeEnemySquad();
         }
 
         private void DeserializePoints()
@@ -82,11 +89,33 @@ namespace OrderElimination
             foreach (var position in StartMenuMediator.Instance.PositionsInSave)
             {
                 var squad = _creator.CreateSquad(position);
+                squad.name = $"Squad {count}";
                 var button = _creator.CreateSquadButton(squadsInfo[count++].PositionOnOrderPanel);
-                button.onClick.AddListener(() => squad.StartAttack());
                 squad.SetOrderButton(button);
                 _squads.Add(squad);
             }
+        }
+
+        private void DeserializeEnemySquad()
+        {
+            var position = StartMenuMediator.Instance.EnemySquadPosition;
+            if (position == Vector3.zero)
+                return;
+            if (StartMenuMediator.Instance.Outcome != BattleOutcome.Victory)
+            {
+                SetEnemySquad(_creator.CreateEnemySquad(position));
+            }
+            else
+                Database.DeleteEnemySquadPosition();
+        }
+
+        private void SetEnemySquad(EnemySquad enemySquad)
+        {
+            _enemySquad = enemySquad;
+            var position = enemySquad.transform.position;
+            FindNearestPoint(position).SetEnemy(true);
+            Database.SaveEnemySquadPosition(position);
+            StartMenuMediator.SetEnemySquadPosition(position);
         }
 
         private void UpdateSettings()
@@ -105,26 +134,47 @@ namespace OrderElimination
 
         private void UpdateSquadSettings()
         {
+            var count = 0;
             foreach (var squad in _squads)
             {
-                squad.Move(FindNearestPoint(squad));
-                squad.AlreadyMove = false;
+                squad.Move(FindNearestPoint(squad.transform.position));
+                squad.AlreadyMove = StartMenuMediator.Instance.IsMoveSquads[count++];
             }
         }
 
-        private PlanetPoint FindNearestPoint(Squad squad)
+        private void OnFinishMove()
+        {
+            if (_enemySquad != null)
+                return;
+            
+            var emptyPoints = _planetPoints.Where(point => point.CountSquadOnPoint == 0).ToList();
+            var rnd = new Random();
+            var planetPoint = emptyPoints[rnd.Next(0, emptyPoints.Count - 1)];
+            var position = Vector3.zero;
+            if (!planetPoint.IsDestroyed())
+                position = planetPoint.transform.position + new Vector3(-IconSize, IconSize + 10f);
+            if(!_creator.IsDestroyed())
+                SetEnemySquad(_creator.CreateEnemySquad(position));
+        }
+
+        private PlanetPoint FindNearestPoint(Vector3 squadPosition)
         {
             PlanetPoint nearestPoint = null;
             double minDistance = double.MaxValue;
             foreach (var point in _planetPoints)
             {
-                var distance = Vector3.Distance(squad.transform.position, point.transform.position);
+                var distance = Vector3.Distance(squadPosition, point.transform.position);
                 if (!(minDistance > distance)) continue;
                 minDistance = distance;
                 nearestPoint = point;
             }
 
             return nearestPoint;
+        }
+
+        private void OnDisable()
+        {
+            InputClass.onFinishMove -= OnFinishMove;
         }
     }
 }

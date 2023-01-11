@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using Unity.VisualScripting;
 using VContainer;
 using VContainer.Unity;
 
@@ -13,9 +14,11 @@ namespace OrderElimination
         [SerializeField]
         private Squad _squadPrefab;
         [SerializeField]
+        private EnemySquad _enemySquadPrefab;
+        [SerializeField]
         private Path _pathPrefab;
         [SerializeField]
-        private Button _rectanglePrefab;
+        private Button _buttonSquadPrefab;
         [SerializeField]
         private GameObject _parent;
 
@@ -53,9 +56,19 @@ namespace OrderElimination
 
         public Button CreateSquadButton(Vector3 position)
         {
-            Vector3 _position = new Vector3((Screen.width / 100) * 88, position.y, 0);
-            var button = Instantiate(_rectanglePrefab, _position, Quaternion.identity, _parent.transform);
+            var button = Instantiate(_buttonSquadPrefab, position, Quaternion.identity, _parent.transform);
             return button;
+        }
+
+        public EnemySquad CreateEnemySquad(Vector3 position)
+        {
+            if (!_enemySquadPrefab.IsDestroyed() && !_parent.IsDestroyed())
+            {
+                var enemySquad = Instantiate(_enemySquadPrefab, position, Quaternion.identity, _parent.transform);
+                return enemySquad;
+            }
+
+            return null;
         }
     }
 }
