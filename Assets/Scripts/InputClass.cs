@@ -16,7 +16,7 @@ namespace OrderElimination
         [SerializeField] private Image _settingsImage;
         private ISelectable _selectedObject;
         public static event Action<Squad, PlanetPoint> TargetSelected;
-        public static event Action SpawnEnemySquad;
+        public static event Action onFinishMove;
 
         private void Awake() 
         { 
@@ -70,6 +70,8 @@ namespace OrderElimination
             TargetSelected?.Invoke(selectedSquad, end);
             selectedSquad.Unselect();
             selectedSquad.Move(end);
+            
+            StartMenuMediator.SetIsMoveSquad(selectedSquad.name, true);
         }
 
         private void SavePositions()
@@ -107,7 +109,7 @@ namespace OrderElimination
             StrategyMap.AddCountMove();
             Database.SaveCountMove(StrategyMap.CountMove);
             _database.LoadTextToSaves();
-            SpawnEnemySquad?.Invoke();
+            onFinishMove?.Invoke();
         }
         
         public void PauseButtonClicked()

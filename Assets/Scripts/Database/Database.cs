@@ -13,6 +13,7 @@ namespace OrderElimination
     {
         private Dictionary<int, List<Vector3>> _allPositions;
         private Dictionary<int, Vector3> _enemySquadPositions;
+        private Dictionary<int, List<bool>> _isMovesSquadsOnSaves;
         private Dictionary<int, int> _moneyInSaves;
         private Dictionary<int, int> _allCountMove;
         public static event Action<int, string> LoadSave;
@@ -28,6 +29,7 @@ namespace OrderElimination
         private void Start()
         {
             _allPositions = new Dictionary<int, List<Vector3>>();
+            _isMovesSquadsOnSaves = new Dictionary<int, List<bool>>();
             _allCountMove = new Dictionary<int, int>();
             _moneyInSaves = new Dictionary<int, int>();
             _enemySquadPositions = new Dictionary<int, Vector3>();
@@ -35,6 +37,7 @@ namespace OrderElimination
             LoadPositionsToSaves();
             LoadEnemySquadPositionToSaves();
             LoadMoney();
+            LoadIsMoveSquads();
         }
 
         private static string GetIdFromFile()
@@ -80,6 +83,12 @@ namespace OrderElimination
         public static void SaveEnemySquadPosition(Vector3 position, string child = "EnemyPosition")
         {
             SaveChild(child, position.ToString());
+        }
+
+        public static void SaveIsMoveSquads(List<bool> isMoveSquads)
+        {
+            foreach(var isMoveSquad in isMoveSquads)
+                SaveChild("Squad 0", isMoveSquad.ToString());
         }
 
         public static void SaveMoney(int money, string child = "Money")
@@ -152,6 +161,31 @@ namespace OrderElimination
             }
         }
 
+        private async void LoadIsMoveSquads()
+        {
+            var dataSnapshot = await GetSavesDataSnapshot();
+
+            for (var i = 0; i < dataSnapshot.ChildrenCount; i++)
+            {
+                var isMoveSnapshot = dataSnapshot.Child($"{i}").Child("IsMove");
+                var firstSquadIsMove = "0";
+                var secondSquadIsMove = "0";
+                
+                if (isMoveSnapshot.Child("Squad 0").Exists)
+                    firstSquadIsMove = isMoveSnapshot.Child("Squad 0").Value.ToString();
+                if (isMoveSnapshot.Child("Squad 1").Exists)
+                    secondSquadIsMove = isMoveSnapshot.Child("Squad 1").Value.ToString();
+                
+                var isMoveSquads = new List<bool>
+                {
+                    firstSquadIsMove != "0",
+                    secondSquadIsMove != "0"
+                };
+                
+                _isMovesSquadsOnSaves[i] = isMoveSquads;
+            }
+        }
+
         private async void LoadMoney()
         {
             var dataSnapshot = await GetSavesDataSnapshot();
@@ -196,7 +230,7 @@ namespace OrderElimination
             if (SceneManager.GetActiveScene().name != "StartMenu")
                 return;
             SaveIndex = saveIndex;
-            SetMediator(_allPositions[saveIndex], _allCountMove[saveIndex],
+            SetMediator(_allPositions[saveIndex], _isMovesSquadsOnSaves[saveIndex], _allCountMove[saveIndex],
                 _enemySquadPositions[saveIndex], _moneyInSaves[saveIndex]);
         }
 
@@ -208,16 +242,17 @@ namespace OrderElimination
                 new Vector3(150, 110, 0)
             };
             SaveIndex = saveIndex;
-            SetMediator(positions, 0, Vector3.zero, 0);
+            SetMediator(positions, new List<bool>{false, false} ,0, Vector3.zero, 0);
             SaveData("Squad 0", new Vector3(50, 150, 0));
             SaveData("Squad 1", new Vector3(150, 110, 0));
             SaveCountMove(0);
         }
 
-        private void SetMediator(List<Vector3> positions, int countMove, Vector3 enemyPosition, int money)
+        private void SetMediator(List<Vector3> positions,List<bool> isMoveSquads, int countMove, Vector3 enemyPosition, int money)
         {
             StartMenuMediator.SetSaveIndex(SaveIndex);
             StartMenuMediator.SetPositionsInSave(positions);
+            StartMenuMediator.SetIsMoveSquads(isMoveSquads);
             StartMenuMediator.SetCountMove(countMove);
             StartMenuMediator.SetEnemySquadPosition(enemyPosition);
             StartMenuMediator.SetMoney(money);

@@ -33,7 +33,7 @@ namespace OrderElimination
             _paths = new List<Path>();
             _enemySquad = null;
             _pointsInfo = Resources.LoadAll<PlanetInfo>("");
-            InputClass.SpawnEnemySquad += SpawnEnemySquad;
+            InputClass.onFinishMove += OnFinishMove;
         }
 
         private void Start()
@@ -89,6 +89,7 @@ namespace OrderElimination
             foreach (var position in StartMenuMediator.Instance.PositionsInSave)
             {
                 var squad = _creator.CreateSquad(position);
+                squad.name = $"Squad {count}";
                 var button = _creator.CreateSquadButton(squadsInfo[count++].PositionOnOrderPanel);
                 squad.SetOrderButton(button);
                 _squads.Add(squad);
@@ -133,14 +134,15 @@ namespace OrderElimination
 
         private void UpdateSquadSettings()
         {
+            var count = 0;
             foreach (var squad in _squads)
             {
                 squad.Move(FindNearestPoint(squad.transform.position));
-                squad.AlreadyMove = false;
+                squad.AlreadyMove = StartMenuMediator.Instance.IsMoveSquads[count++];
             }
         }
 
-        private void SpawnEnemySquad()
+        private void OnFinishMove()
         {
             if (_enemySquad != null)
                 return;
@@ -172,7 +174,7 @@ namespace OrderElimination
 
         private void OnDisable()
         {
-            InputClass.SpawnEnemySquad -= SpawnEnemySquad;
+            InputClass.onFinishMove -= OnFinishMove;
         }
     }
 }
