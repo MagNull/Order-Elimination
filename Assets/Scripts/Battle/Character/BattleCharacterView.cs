@@ -23,6 +23,11 @@ public class BattleCharacterView : MonoBehaviour
     private TextEmitter _textEmitter;
     [SerializeField]
     private float _damagedDuration;
+    [Header("Die")]
+    [SerializeField]
+    private float _dieDuration;
+    [SerializeField]
+    private float _dieFadeTimes;
 
     private bool _selected = false;
 
@@ -110,9 +115,15 @@ public class BattleCharacterView : MonoBehaviour
         _shootProbability.text = "";
     }
 
-    private void OnDied(BattleCharacter battleCharacter)
+    private async void OnDied(BattleCharacter battleCharacter)
     {
         Debug.Log(gameObject.name + " died" % Colorize.DarkRed);
+        for(var i = 0; i < _dieFadeTimes - 1; i++)
+        {
+            await _renderer.DOColor(Color.clear, _dieDuration / (_dieFadeTimes * 4)).AsyncWaitForCompletion();
+            await _renderer.DOColor(Color.white, _dieDuration / (_dieFadeTimes * 4)).AsyncWaitForCompletion();
+        }
+        await _renderer.DOColor(Color.clear, _dieDuration / _dieFadeTimes * 2).AsyncWaitForCompletion();
         _renderer.gameObject.SetActive(false);
     }
 

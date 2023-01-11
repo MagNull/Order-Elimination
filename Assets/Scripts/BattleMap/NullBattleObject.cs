@@ -33,7 +33,7 @@ namespace OrderElimination.BattleMap
 
         public int GetAccuracyFrom(IBattleObject attacker)
         {
-            throw new NotImplementedException();
+            return 0;
         }
 
         public IReadOnlyBattleStats Stats => default(BattleStats);
