@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
 using System.Threading;
+using OrderElimination.Start;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
@@ -44,6 +45,9 @@ namespace OrderElimination
             _view = new SquadView(transform);
             _presenter = new SquadPresenter(_model, _view, null);
             _view.onEndAnimation += StartAttack;
+            InputClass.onPauseClicked += SetActiveButtonOnOrderPanel;
+            Saves.ExitSavesWindow += SetActiveButtonOnOrderPanel;
+            Settings.ExitSettingsWindow += SetActiveButtonOnOrderPanel;
         }
 
         public void Add(Character member) => _model.Add(member);
@@ -78,6 +82,11 @@ namespace OrderElimination
             _presenter.UpdatePlanetPoint(planetPoint);
         }
 
+        public void SetActiveButtonOnOrderPanel(bool isActive)
+        {
+            _buttonOnOrderPanel.gameObject.SetActive(isActive);
+        }
+
         public void Select()
         {
             if (AlreadyMove)
@@ -103,6 +112,9 @@ namespace OrderElimination
         {
             _presenter.Unsubscribe();
             _view.onEndAnimation -= StartAttack;
+            InputClass.onPauseClicked -= SetActiveButtonOnOrderPanel;
+            Saves.ExitSavesWindow -= SetActiveButtonOnOrderPanel;
+            Settings.ExitSettingsWindow -= SetActiveButtonOnOrderPanel;
         }
 
         private void OnMouseDown() => Select();

@@ -17,6 +17,7 @@ namespace OrderElimination
         private ISelectable _selectedObject;
         public static event Action<Squad, PlanetPoint> TargetSelected;
         public static event Action onFinishMove;
+        public static event Action<bool> onPauseClicked;
 
         private void Awake() 
         { 
@@ -114,6 +115,7 @@ namespace OrderElimination
         
         public void PauseButtonClicked()
         {
+            onPauseClicked?.Invoke(false);
             _settingsImage.gameObject.SetActive(true);
         }
     }
