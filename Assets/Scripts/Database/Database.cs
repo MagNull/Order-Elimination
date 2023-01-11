@@ -20,6 +20,7 @@ namespace OrderElimination
 
         private void Awake()
         {
+            Debug.Log("Awake DB");
             Saves.LoadClicked += SetMediatorBySelectedSave;
             Saves.NewGameClicked += SetNewGame;
         }
@@ -230,6 +231,12 @@ namespace OrderElimination
             var y = Convert.ToInt32(temp[1]);
             var z = Convert.ToInt32(temp[2]);
             return new Vector3(x, y, z);
+        }
+
+        private void OnDisable()
+        {
+            Saves.LoadClicked -= SetMediatorBySelectedSave;
+            Saves.NewGameClicked -= SetNewGame;
         }
     }
 }

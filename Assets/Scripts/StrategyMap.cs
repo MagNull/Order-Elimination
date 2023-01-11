@@ -55,7 +55,6 @@ namespace OrderElimination
 
         private void DeserializePoints()
         {
-            Debug.Log("DeserializePoints");
             foreach (var planetInfo in _pointsInfo)
             {
                 var planetPoint = _creator.CreatePlanetPoint(planetInfo);
@@ -169,6 +168,11 @@ namespace OrderElimination
             }
 
             return nearestPoint;
+        }
+
+        private void OnDisable()
+        {
+            InputClass.SpawnEnemySquad -= SpawnEnemySquad;
         }
     }
 }

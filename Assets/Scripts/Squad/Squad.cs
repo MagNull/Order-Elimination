@@ -65,8 +65,6 @@ namespace OrderElimination
             if (!PlanetPoint.HasEnemy)
                 return;
             _commander.Set(this, PlanetPoint);
-            var order =_commander.CreateAttackOrder();
-            order.Start();
         }
 
         public void SetOrderButton(Button button)
@@ -104,6 +102,7 @@ namespace OrderElimination
         private void OnDisable()
         {
             _presenter.Unsubscribe();
+            _view.onEndAnimation -= StartAttack;
         }
 
         private void OnMouseDown() => Select();
