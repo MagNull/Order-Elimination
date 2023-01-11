@@ -1,5 +1,6 @@
 ﻿using System;
 using CharacterAbility.BuffEffects;
+using Cysharp.Threading.Tasks;
 using OrderElimination;
 using OrderElimination.Battle;
 using UnityEngine;
@@ -28,7 +29,7 @@ namespace CharacterAbility.AbilityEffects
             _damageType = damageType;
         }
 
-        protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
+        protected override async UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
             //TODO: Fix duration trick
             InitBuff();
@@ -50,7 +51,9 @@ namespace CharacterAbility.AbilityEffects
                     target.Moved += removeBuff;
                     break;
             }
-            _nextEffect?.Use(target, stats);
+            if(_nextEffect == null)
+                return;
+            await _nextEffect.Use(target, stats);
         }
 
         private void InitBuff()

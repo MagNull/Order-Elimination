@@ -1,4 +1,5 @@
-﻿using OrderElimination;
+﻿using Cysharp.Threading.Tasks;
+using OrderElimination;
 using UnityEngine;
 
 namespace CharacterAbility.AbilityEffects
@@ -18,7 +19,7 @@ namespace CharacterAbility.AbilityEffects
             _battleMap = battleMap;
         }
 
-        protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
+        protected override async UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
             var targets = _battleMap.GetBattleObjectsInRadius(target, _radius);
             targets.Remove(target);
@@ -26,6 +27,8 @@ namespace CharacterAbility.AbilityEffects
             {
                 _areaEffects.Use(battleObject, stats);
             }
+
+            await UniTask.Yield();
         }
     }
 }

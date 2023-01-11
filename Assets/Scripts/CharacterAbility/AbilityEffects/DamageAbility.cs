@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using OrderElimination;
 using UnityEngine;
 
@@ -31,7 +32,7 @@ namespace CharacterAbility.AbilityEffects
             _damageType = damageType;
         }
 
-        protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
+        protected override async UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
             var damage = ApplyScalability(target, stats, _battleMap);
             var attackInfo = new DamageInfo
@@ -45,7 +46,9 @@ namespace CharacterAbility.AbilityEffects
             for (var i = 0; i < _damageAmounts; i++)
                 target.TakeDamage(attackInfo);
             
-            _nextEffect?.Use(target, stats);
+            if(_nextEffect == null)
+                return;
+            await _nextEffect.Use(target, stats);
         }
 
         private int ApplyScalability(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)

@@ -1,5 +1,6 @@
 ﻿using System;
 using CharacterAbility.AbilityEffects;
+using Cysharp.Threading.Tasks;
 using OrderElimination;
 using OrderElimination.Battle;
 using OrderElimination.BattleMap;
@@ -20,7 +21,7 @@ namespace CharacterAbility
             _nextEffect = nextEffect;
         }
 
-        protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
+        protected override async UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
             switch (_passiveTriggerType)
             {

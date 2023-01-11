@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using OrderElimination;
 
 namespace CharacterAbility.AbilityEffects
@@ -17,7 +18,7 @@ namespace CharacterAbility.AbilityEffects
             _modificatorType = modificatorType;
         }
 
-        protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
+        protected override async UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
             BattleStats modifiedStats = new BattleStats(stats);
             switch (_modificatorType)
@@ -34,7 +35,7 @@ namespace CharacterAbility.AbilityEffects
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            _nextEffect.Use(target, modifiedStats);
+            await _nextEffect.Use(target, modifiedStats);
         }
     }
 }

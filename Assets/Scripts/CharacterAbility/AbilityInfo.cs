@@ -91,6 +91,9 @@ namespace CharacterAbility
         [ShowIf("@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal")]
         public float Scale;
 
+        [ShowIf("@Type == AbilityEffectType.Move")]
+        public float StepDelay;
+
         [ShowIf("@Type == AbilityEffectType.Modificator")]
         public ModificatorType Modificator;
         [ShowIf("@Type == AbilityEffectType.Modificator && Modificator == ModificatorType.Accuracy")]

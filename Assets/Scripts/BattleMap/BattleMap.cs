@@ -14,8 +14,6 @@ public class BattleMap : MonoBehaviour
     private int _width;
     [SerializeField]
     private int _height;
-    [SerializeField]
-    private float _oneStepMoveDelay = 0.5f;
 
     private Cell[,] _cellGrid;
 
@@ -103,7 +101,7 @@ public class BattleMap : MonoBehaviour
         return GetObjectsInRadius(obj, radius, battleObject => battleObject is NullBattleObject);
     }
 
-    public async UniTask MoveTo(IBattleObject obj, int x, int y)
+    public async UniTask MoveTo(IBattleObject obj, int x, int y, float delay = -1)
     {
         Vector2Int objCoord = GetCoordinate(obj);
         if (objCoord != new Vector2Int(-1, -1))
@@ -120,7 +118,7 @@ public class BattleMap : MonoBehaviour
         }
 
         SetCell(x, y, obj);
-        await UniTask.Delay(TimeSpan.FromSeconds(_oneStepMoveDelay));
+        await UniTask.Delay(TimeSpan.FromSeconds(delay == -1 ? 0 : delay));
     }
 
     public List<Vector2Int> GetShortestPath(IBattleObject obj, int x, int y)

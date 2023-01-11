@@ -1,5 +1,6 @@
 ﻿using System;
 using CharacterAbility.BuffEffects;
+using Cysharp.Threading.Tasks;
 using OrderElimination;
 using UnityEngine;
 
@@ -25,11 +26,13 @@ namespace CharacterAbility.AbilityEffects
             _damageType = damageType;
         }
 
-        protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
+        protected override async UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
             InitBuff();
             target.AddTickEffect(_buff);
-            _nextEffect?.Use(target, stats);
+            if(_nextEffect == null)
+                return;
+            await _nextEffect.Use(target, stats);
         }
 
         private void InitBuff()

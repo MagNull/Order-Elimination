@@ -87,7 +87,8 @@ namespace CharacterAbility
                             effect.ScaleFrom, effect.Scale, effect.Filter);
                         break;
                     case AbilityEffectType.Move:
-                        ability = new MoveAbility(caster, ability, probability, _battleMapView.Map, effect.Filter);
+                        ability = new MoveAbility(caster, ability, probability, _battleMapView.Map, effect.Filter,
+                            effect.StepDelay);
                         break;
                     case AbilityEffectType.Modificator:
                         ability = new ModificatorAbility(caster, ability, probability, effect.Modificator,

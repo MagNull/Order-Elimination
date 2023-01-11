@@ -9,15 +9,17 @@ namespace CharacterAbility.AbilityEffects
     {
         private readonly Ability _nextEffect;
         private readonly BattleMap _battleMap;
+        private readonly float _stepDelay;
 
         public MoveAbility(IBattleObject caster, Ability nextEffect, float probability, BattleMap battleMap,
-            BattleObjectSide filter) : base(caster, nextEffect, filter, probability)
+            BattleObjectSide filter, float stepDelay) : base(caster, nextEffect, filter, probability)
         {
             _nextEffect = nextEffect;
             _battleMap = battleMap;
+            _stepDelay = stepDelay;
         }
 
-        protected override async void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
+        protected override async UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
             Vector2Int targetPosition = _battleMap.GetCoordinate(target);
             if (target is not NullBattleObject && target is not EnvironmentObject)
@@ -39,9 +41,13 @@ namespace CharacterAbility.AbilityEffects
             var path = _battleMap.GetShortestPath(_caster, targetPosition.x, targetPosition.y);
             foreach (var cell in path)
             {
-                await _battleMap.MoveTo(_caster, cell.x, cell.y);
+                await _battleMap.MoveTo(_caster, cell.x, cell.y, _stepDelay);
             }
-            _nextEffect?.Use(target, stats);
+            
+            if(_nextEffect == null)
+                return;
+            await _nextEffect.Use(target, stats);
+            
         }
     }
 }
