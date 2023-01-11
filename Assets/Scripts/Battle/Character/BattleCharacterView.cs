@@ -1,6 +1,8 @@
 using UnityEngine;
 using System;
 using CharacterAbility;
+using DefaultNamespace;
+using DG.Tweening;
 using OrderElimination.Battle;
 using TMPro;
 
@@ -16,6 +18,11 @@ public class BattleCharacterView : MonoBehaviour
     private TextMeshProUGUI _shootProbability;
     [SerializeField]
     private LineRenderer _fireLine;
+    [Header("Reactions")]
+    [SerializeField]
+    private TextEmitter _textEmitter;
+    [SerializeField]
+    private float _damagedDuration;
 
     private bool _selected = false;
 
@@ -49,7 +56,7 @@ public class BattleCharacterView : MonoBehaviour
         CharacterName = characterName;
         Icon = avatarIcon;
         AvatarFull = avatarFull;
-        
+
         HideProbability();
     }
 
@@ -60,17 +67,21 @@ public class BattleCharacterView : MonoBehaviour
             switch (info.CancelType)
             {
                 case DamageCancelType.Miss:
-                    Debug.Log("Miss " % Colorize.Yellow + gameObject.name);
+                    _textEmitter.Emit("Miss", Color.yellow);
                     break;
                 case DamageCancelType.Dodge:
-                    Debug.Log("Dodge " % Colorize.Green + gameObject.name);
+                    _textEmitter.Emit("Dodge", Color.green);
                     break;
             }
 
             return;
         }
 
-        Debug.Log(gameObject.name + " get " + (info.ArmorDamage + info.HealthDamage) + " damage " % Colorize.Red);
+        _renderer.DOColor(Color.red, _damagedDuration / 2).onComplete += () =>
+        {
+            _renderer.DOColor(Color.white, _damagedDuration / 2);
+        };
+        _textEmitter.Emit((info.ArmorDamage + info.HealthDamage).ToString(), Color.red);
     }
 
     public void SetImage(Sprite image) => _renderer.sprite = image;
@@ -87,13 +98,12 @@ public class BattleCharacterView : MonoBehaviour
         Deselected?.Invoke(this);
     }
 
-    
     public void ShowAccuracy(int probability)
     {
         _shootProbability.gameObject.SetActive(true);
         _shootProbability.text = probability.ToString();
     }
-    
+
     public void HideProbability()
     {
         _shootProbability.gameObject.SetActive(false);
@@ -103,7 +113,7 @@ public class BattleCharacterView : MonoBehaviour
     private void OnDied(BattleCharacter battleCharacter)
     {
         Debug.Log(gameObject.name + " died" % Colorize.DarkRed);
-        Destroy(gameObject);
+        _renderer.gameObject.SetActive(false);
     }
 
     private void OnDisable()

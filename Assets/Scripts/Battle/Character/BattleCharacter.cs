@@ -113,12 +113,10 @@ public class BattleCharacter : IActor
     public int GetAccuracyFrom(IBattleObject attacker)
     {
         var accuracy = attacker.Stats.Accuracy;
-        Debug.Log("Accuracy before: " + accuracy);
         foreach (var effect in _incomingTickEffects)
         {
             accuracy = effect.GetModifiedValue(accuracy, Buff_Type.IncomingAccuracy);
         }
-        Debug.Log("Accuracy after: " + accuracy);
         return accuracy;
     }
 

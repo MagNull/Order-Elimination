@@ -529,6 +529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _battleMap: {fileID: 246195459}
+  _moveDuration: 0.2
 --- !u!114 &246195459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -543,6 +544,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _width: 8
   _height: 8
+  _oneStepMoveDelay: 0.2
 --- !u!4 &246195460
 Transform:
   m_ObjectHideFlags: 0
