@@ -117,6 +117,8 @@ public class BattleCharacter : IActor
         {
             accuracy = effect.GetModifiedValue(accuracy, Buff_Type.IncomingAccuracy);
         }
+
+        accuracy = Mathf.Clamp(accuracy, 0, 100);
         return accuracy;
     }
 

@@ -193,7 +193,7 @@ namespace CharacterAbility
                     if (selectedObj is NullBattleObject || selectedObj == Caster ||
                         !selectedObj.View.TryGetComponent(out BattleCharacterView view)) 
                         continue;
-                    var accuracy = target.GetAccuracyFrom(Caster);
+                    var accuracy = selectedObj.GetAccuracyFrom(Caster);
                     view.ShowAccuracy(accuracy);
                 }
             }
