@@ -8,11 +8,6 @@ namespace OrderElimination.Start
     {
         [SerializeField] private Saves _saves;
         public static event Action<bool> ExitSettingsWindow;
-
-        private void Start()
-        {
-            SetActive(false);
-        }
         
         public void SetActive(bool isActive)
         {

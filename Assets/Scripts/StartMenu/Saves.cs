@@ -24,11 +24,7 @@ namespace OrderElimination.Start
             SaveClicked(0);
             _loadButton.interactable = true;
         }
-
-        private void Start()
-        {
-            SetActive(false);
-        }
+        
 
         public void SetActive(bool isActive)
         {
