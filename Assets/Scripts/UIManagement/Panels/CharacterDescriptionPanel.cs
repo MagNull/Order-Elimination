@@ -56,9 +56,11 @@ namespace UIManagement
 
             var activeAbilities = characterView.ActiveAbilitiesView.Where(v => !_ignoredActiveAbilities.Contains(v.AbilityInfo)).ToArray();
             var passiveAbilities = characterView.PassiveAbilitiesView;
-            if (activeAbilities.Length != _activeAbilitiesButtons.Count
-                || passiveAbilities.Length != _passiveAbilitiesButtons.Count)
-                throw new System.InvalidOperationException();
+            foreach (var b in _activeAbilitiesButtons.Concat(_passiveAbilitiesButtons))
+                b.RemoveAbilityView();
+            if (activeAbilities.Length > _activeAbilitiesButtons.Count
+                || passiveAbilities.Length > _passiveAbilitiesButtons.Count)
+                throw new System.InvalidOperationException("Maximum of 4 active and 2 passive abilities is supported");
             for (var i = 0; i < activeAbilities.Length; i++)
             {
                 _activeAbilitiesButtons[i].AssignAbilityView(activeAbilities[i]);

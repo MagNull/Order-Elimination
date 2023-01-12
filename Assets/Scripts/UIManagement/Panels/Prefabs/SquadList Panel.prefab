@@ -594,7 +594,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7246075501522125805
 RectTransform:
   m_ObjectHideFlags: 0
@@ -630,6 +630,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _titleText: {fileID: 6857236558598486744}
   _closingButton: {fileID: 4968073206338249752}
+  _isClosingByClickingOutside: 1
   _characterList: {fileID: 752721596620677080}
 --- !u!1 &8314015041647234459
 GameObject:

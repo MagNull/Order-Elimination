@@ -81,7 +81,7 @@ namespace CharacterAbility
                         break;
                     case AbilityScaleFrom.Distance:
                         damageHealSize = casterStats.Attack;
-                        valueEnding = $"/{Localization.Current.GetUnits(ValueUnits.Cells)}";
+                        valueEnding = $" /{Localization.Current.GetUnits(ValueUnits.Cells)}";
                         break;
                     default:
                         throw new ArgumentException();
@@ -113,6 +113,14 @@ namespace CharacterAbility
                 }
                 result.AddDisplayedParameter("Длительн", effect.Duration, ValueUnits.Turns);
             }
+            else if (effect.Type == AbilityEffectType.Move)
+            {
+                result.AddDisplayedParameter("Дальность", casterStats.UnmodifiedMovement);
+            }
+            else if (effect.Type == AbilityEffectType.Stun)
+            {
+
+            }
             else if (effect.Type != AbilityEffectType.Modificator)
                 throw new NotImplementedException($"EffectType {effect.Type} cannot be displayed.");
             return result;
@@ -126,6 +134,10 @@ namespace CharacterAbility
 
         public static void AddDisplayedParameter(
             this Dictionary<string, string> parameters, string name, int value, ValueUnits units = ValueUnits.None)
+            => parameters.AddDisplayedParameter(name, value.ToString(), units);
+
+        public static void AddDisplayedParameter(
+            this Dictionary<string, string> parameters, string name, float value, ValueUnits units = ValueUnits.None)
             => parameters.AddDisplayedParameter(name, value.ToString(), units);
     }
 }

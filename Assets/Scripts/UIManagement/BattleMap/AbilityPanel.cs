@@ -13,10 +13,11 @@ namespace UIManagement
         [SerializeField]
         private AbilityButton[] _activeAbilityButtons;
         [SerializeField]
-        private SmallAbilityButton[] _passiveSkillButtons;
+        private SmallAbilityButton[] _passiveAbilityButtons;
         [SerializeField]
         private UIController _panelController;
-
+        [SerializeField]
+        private Sprite _noSelectedAbilityIcon;
         private Dictionary<AbilityView, AbilityButton> _buttonsByView = new Dictionary<AbilityView, AbilityButton>();
         private AbilityView[] _currentPassiveSkills;
 
@@ -29,10 +30,12 @@ namespace UIManagement
                 abilityButton.Clicked += OnActiveAbilityButtonClicked;
                 abilityButton.Holded += OnActiveAbilityButtonHolded;
                 abilityButton.AbilityButtonUsed += UpdateActiveAbilityButtonsAvailability;
+                abilityButton.NoSelectedAbilityIcon = _noSelectedAbilityIcon;
             }
-            foreach (var skillButton in _passiveSkillButtons)
+            foreach (var abilityButton in _passiveAbilityButtons)
             {
-                skillButton.Clicked += OnPassiveSkillButtonClicked;
+                abilityButton.Clicked += OnPassiveAbilityButtonClicked;
+                abilityButton.NoIconAvailableSprite = _noSelectedAbilityIcon;
             }
         }
 
@@ -44,14 +47,16 @@ namespace UIManagement
                 button.Holded -= OnActiveAbilityButtonHolded;
                 button.AbilityButtonUsed -= UpdateActiveAbilityButtonsAvailability;
             }
-            foreach (var skillButton in _passiveSkillButtons)
+            foreach (var skillButton in _passiveAbilityButtons)
             {
-                skillButton.Clicked -= OnPassiveSkillButtonClicked;
+                skillButton.Clicked -= OnPassiveAbilityButtonClicked;
             }
         }
 
         public void Select(AbilityView abilityView)
         {
+            if (abilityView == null)
+                return;
             if (!_buttonsByView.ContainsKey(abilityView))
                 throw new KeyNotFoundException($"No ability \"{abilityView.Name}\" assigned.");
             _buttonsByView[abilityView].Select();
@@ -60,7 +65,7 @@ namespace UIManagement
         public void AssignAbilities(AbilityView[] activeAbilitiesView, AbilityView[] passiveAbilitiesView)
         {
             if (activeAbilitiesView.Length > _activeAbilityButtons.Length
-                || passiveAbilitiesView.Length > _passiveSkillButtons.Length)
+                || passiveAbilitiesView.Length > _passiveAbilityButtons.Length)
                 throw new ArgumentException();
             ResetAbilityButtons();
             for (var i = 0; i < activeAbilitiesView.Length; i++)
@@ -72,7 +77,7 @@ namespace UIManagement
             }
             for (var j = 0; j < passiveAbilitiesView.Length; j++)
             {
-                _passiveSkillButtons[j].AssignAbilityView(passiveAbilitiesView[j]);
+                _passiveAbilityButtons[j].AssignAbilityView(passiveAbilitiesView[j]);
             }
             _currentPassiveSkills = passiveAbilitiesView;
         }
@@ -83,7 +88,7 @@ namespace UIManagement
                 abilityButton.RemoveAbilityView();
                 abilityButton.HoldableButton.ClickAvailable = true;
             }
-            foreach (var button in _passiveSkillButtons)
+            foreach (var button in _passiveAbilityButtons)
             {
                 button.RemoveAbilityView();
             }
@@ -116,7 +121,7 @@ namespace UIManagement
             }
         }
 
-        private void OnPassiveSkillButtonClicked(SmallAbilityButton skillButton)
+        private void OnPassiveAbilityButtonClicked(SmallAbilityButton skillButton)
         {
             var panel = _panelController.OpenPanel(PanelType.PassiveSkillsDescription) as PassiveSkillDescriptionPanel;
             panel.AssignPassiveSkillsDescription(_currentPassiveSkills);

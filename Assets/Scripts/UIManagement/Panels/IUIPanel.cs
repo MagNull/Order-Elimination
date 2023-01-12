@@ -9,6 +9,7 @@ namespace UIManagement
     {
         string Title { get; }
         PanelType PanelType { get; }
+        bool IsClosingByClickingOutside { get; }
 
         event Action<IUIPanel> Opened;
         event Action<IUIPanel> Closed;

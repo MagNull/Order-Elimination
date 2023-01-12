@@ -126,7 +126,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2706343065176360037
 RectTransform:
   m_ObjectHideFlags: 0
@@ -162,6 +162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _titleText: {fileID: 2173034900416593232}
   _closingButton: {fileID: 4218073519246773550}
+  _isClosingByClickingOutside: 1
   _descriptionCardPrefab: {fileID: 9047801421929819930, guid: 1e94111cb36671f45b49679d72163a9b, type: 3}
   _descriptionCardsHolder: {fileID: 8750549573410678522}
 --- !u!1 &3066894876844000831

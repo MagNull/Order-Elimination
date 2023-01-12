@@ -65,6 +65,8 @@ namespace UIManagement
 
         private void CloseOntopPanel()
         {
+            if (!_openedPanelsStack[_openedPanelsStack.Count - 1].IsClosingByClickingOutside)
+                return;
             _openedPanelsStack[_openedPanelsStack.Count - 1].Close();
         }
 

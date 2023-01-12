@@ -2012,7 +2012,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7603365497900206654
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2086,6 +2086,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _titleText: {fileID: 7692574482738201908}
   _closingButton: {fileID: 6921282150309047354}
+  _isClosingByClickingOutside: 1
   _primaryCurrency: {fileID: 8817667613315673514}
   _specialCurrency: {fileID: 3179912622221858115}
   _continueButton: {fileID: 6232141354318417200}

@@ -24,7 +24,9 @@ public class BattleSimulation : MonoBehaviour
     [SerializeField]
     private AbilityPanel _abilityPanel;
     [SerializeField]
-    private CharacterBattleStatsPanel _characterStatsWindow;
+    private CharacterBattleStatsPanel _selectedPlayerCharacterStatsPanel;
+    [SerializeField]
+    private EnemiesListPanel _enemiesListPanel;
 
     private BattleObjectSide _currentTurn;
     private BattleOutcome _outcome;
@@ -60,6 +62,7 @@ public class BattleSimulation : MonoBehaviour
             // По завершении сражения событие отправляется единожды
             if (_isBattleEnded) return;
             BattleEnded?.Invoke(_outcome);
+            _selectedPlayerCharacterStatsPanel.HideInfo();
             _abilityPanel.ResetAbilityButtons();
             _isBattleEnded = true;
             Debug.LogFormat("Сражение завершено - победил {0}", _outcome == BattleOutcome.Victory ? "игрок" : "ИИ");
@@ -101,6 +104,7 @@ public class BattleSimulation : MonoBehaviour
                 EndTurn();
             }
         }
+
     }
 
     // Тестовые методы
@@ -143,6 +147,7 @@ public class BattleSimulation : MonoBehaviour
     public void EndTurn()
     {
         _abilityPanel.ResetAbilityButtons();
+        _selectedPlayerCharacterStatsPanel.HideInfo();
         SwitchTurn();
         _isTurnChanged = true;
     }
@@ -162,8 +167,19 @@ public class BattleSimulation : MonoBehaviour
         _characterArrangeDirector.SetArrangementMap(_battleMapDirector.Map);
         _characters = _characterArrangeDirector.Arrange();
 
+        var enemies = _characters
+            .Where(c => c.Side == BattleObjectSide.Enemy)
+            .Select(c => c.View.GetComponent<BattleCharacterView>())
+            .ToArray();
+        _enemiesListPanel.Populate(enemies);
+        foreach (var e in enemies)
+        {
+            e.Model.Died -= _enemiesListPanel.RemoveItem;
+            e.Model.Died += _enemiesListPanel.RemoveItem;
+        }
         _abilityViewBinder.BindAbilityButtons(_battleMapDirector.MapView, _abilityPanel, _currentTurn);
         //TODO затрагивает UI
-        _characterStatsWindow.Bind(_battleMapDirector.MapView, _currentTurn);
+        BattleCharacterView.Selected += _selectedPlayerCharacterStatsPanel.UpdateCharacterInfo;
+        BattleCharacterView.Deselected += info => _selectedPlayerCharacterStatsPanel.HideInfo();
     }
 }
