@@ -15,8 +15,8 @@ namespace CharacterAbility
         private readonly Buff_Type _incomingBuffType;
         private readonly DamageType _damageType;
 
-        public IncomingBuff(Buff_Type incomingBuffType, int duration, int modificator,
-            DamageType damageType = DamageType.None) : base(duration)
+        public IncomingBuff(Buff_Type incomingBuffType, int duration, int modificator, ITickEffectView view,
+            DamageType damageType = DamageType.None) : base(duration, view)
         {
             _incomingBuffType = incomingBuffType;
             _modificator = modificator;

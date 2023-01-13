@@ -16,6 +16,8 @@ namespace UIManagement.Elements
         [SerializeField]
         private bool _enemiesInfoByClickingAvailable = false;
         [SerializeField]
+        private bool _enemiesInfoByHoldingAvailable = false;
+        [SerializeField]
         private float _enemyDisappearTime = 0.3f;
         [SerializeField]
         private Ease _enemyDisappearEase = Ease.Flash;
@@ -30,6 +32,7 @@ namespace UIManagement.Elements
                 var newStatsItem = Instantiate(_characterStatsItemPrefab, _listItemsHolder);
                 newStatsItem.UpdateCharacterInfo(enemy);
                 newStatsItem.IsClickingAvatarAvailable = _enemiesInfoByClickingAvailable;
+                newStatsItem.IsHoldingAvatarAvailable = _enemiesInfoByHoldingAvailable;
                 _characterPanels.Add(enemy.Model, newStatsItem);
             }
         }

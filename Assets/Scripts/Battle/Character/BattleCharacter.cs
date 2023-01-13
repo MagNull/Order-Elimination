@@ -25,10 +25,13 @@ public class BattleCharacter : IActor
 
     [ShowInInspector]
     private readonly List<ITickEffect> _tickEffects;
+    public IReadOnlyList<ITickEffect> CurrentTickEffects => _tickEffects;
     [ShowInInspector]
     private readonly List<IncomingBuff> _incomingTickEffects;
+    public IReadOnlyList<IncomingBuff> IncomingTickEffects => _incomingTickEffects;
     [ShowInInspector]
     private readonly List<IStatsBuffEffect> _buffEffects;
+    public IReadOnlyList<IStatsBuffEffect> CurrentBuffEffects => _buffEffects;
     [ShowInInspector]
     private readonly BattleObjectSide _side;
     [SerializeField]

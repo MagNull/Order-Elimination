@@ -1913,6 +1913,7 @@ MonoBehaviour:
   _characterStatsItemPrefab: {fileID: 7908058774557859806, guid: 8f896f893c431c8479eb8f0be3595dfe, type: 3}
   _listItemsHolder: {fileID: 2581901}
   _enemiesInfoByClickingAvailable: 1
+  _enemiesInfoByHoldingAvailable: 1
   _enemyDisappearTime: 0.5
   _enemyDisappearEase: 3
 --- !u!1 &1260126941
@@ -3097,7 +3098,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7360740130122911544, guid: 8f896f893c431c8479eb8f0be3595dfe, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -59.672787
+      value: -59.67273
       objectReference: {fileID: 0}
     - target: {fileID: 7360740130122911544, guid: 8f896f893c431c8479eb8f0be3595dfe, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

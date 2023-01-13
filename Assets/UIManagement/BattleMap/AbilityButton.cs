@@ -58,7 +58,6 @@ namespace UIManagement.Elements
             //TODO Логика зависит от UI
             //if (AbilityView.CanCast)
             AbilityView.Clicked();
-            Debug.Log("Clicked");
         }
 
         public void AssignAbilityView(AbilityView abilityView)

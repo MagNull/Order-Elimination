@@ -9,9 +9,14 @@ namespace CharacterAbility.BuffEffects
         [SerializeField]
         private int _duration;
 
-        protected TickEffectBase(int duration)
+        private ITickEffectView _effectView;
+
+        public ITickEffectView GetEffectView() => _effectView;
+
+        protected TickEffectBase(int duration, ITickEffectView effectView)
         {
             _duration = duration;
+            _effectView = effectView;
         }
 
         public virtual void Tick(ITickTarget target)

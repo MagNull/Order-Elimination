@@ -10,7 +10,7 @@ namespace CharacterAbility.BuffEffects
         [SerializeField]
         private int _value;
 
-        public EvasionStatsBuff(int value, int duration) : base(duration)
+        public EvasionStatsBuff(int value, int duration, ITickEffectView view) : base(duration, view)
         {
             _value = value;
         }

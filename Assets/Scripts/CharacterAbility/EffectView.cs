@@ -29,14 +29,23 @@ namespace CharacterAbility
         Turns
     }
 
+    public interface ITickEffectView
+    {
+        string GetEffectName();
+        Sprite GetEffectIcon();
+    }
+
     [Serializable]
-    public class EffectView
+    public class EffectView : ITickEffectView
     {
         public bool DisplayAsMainEffect;
         [ShowIf("@!DisplayAsMainEffect")]
         public string EffectName;
         [ShowIf("@!DisplayAsMainEffect")]
         public Sprite EffectIcon;
+
+        public string GetEffectName() => EffectName;
+        public Sprite GetEffectIcon() => EffectIcon;
 
         public EffectView(Sprite icon, string name)
         {

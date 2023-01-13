@@ -11,7 +11,7 @@ namespace CharacterAbility.BuffEffects
         private int _value;
         private int _attackOld;
 
-        public AttackStatsBuff(int value, int duration) : base(duration)
+        public AttackStatsBuff(int value, int duration, ITickEffectView view) : base(duration, view)
         {
             _value = value;
         }

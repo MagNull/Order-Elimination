@@ -197,10 +197,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
-  MillisecondsToHold: 700
+  MillisecondsToHold: 500
   ClickUnavalableTint: {r: 1, g: 0, b: 0, a: 1}
   _clickAvailable: 1
-  _holdAvailable: 0
+  _holdAvailable: 1
 --- !u!1 &7360740130122911545
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,6 +298,7 @@ MonoBehaviour:
   _healthBar: {fileID: 7685515782295545373}
   _armorBar: {fileID: 6007388017382158676}
   _avatarButton: {fileID: 6396469935999913722}
+  _isClickingAvatarAvailable: 0
 --- !u!1001 &6789500383016072163
 PrefabInstance:
   m_ObjectHideFlags: 0

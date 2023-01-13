@@ -76,7 +76,6 @@ namespace UIManagement.Elements
             isPressed = true;
             base.OnPointerDown(eventData);
             UniTask.Create(WaitUntilHoldTime);
-            Debug.Log("Pressed");
         }
 
         private async UniTask WaitUntilHoldTime()
@@ -136,14 +135,12 @@ namespace UIManagement.Elements
         {
             isPressed = false;
             Clicked?.Invoke(this);
-            Debug.Log("Clicked");
         }
 
         private void OnHold(float holdTimeInSeconds)
         {
             isPressed = false;
             Holded?.Invoke(this, holdTimeInSeconds);
-            Debug.Log("Holded for " + holdTimeInSeconds + " s");
         }
     }
 }

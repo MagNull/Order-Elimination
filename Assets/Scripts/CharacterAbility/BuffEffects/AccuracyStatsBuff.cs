@@ -10,7 +10,7 @@ namespace CharacterAbility.BuffEffects
         [SerializeField]
         private int _value;
 
-        public AccuracyStatsBuff(int value, int duration) : base(duration)
+        public AccuracyStatsBuff(int value, int duration, ITickEffectView view) : base(duration, view)
         {
             _value = value;
         }
