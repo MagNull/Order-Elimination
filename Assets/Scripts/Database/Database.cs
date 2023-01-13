@@ -11,6 +11,8 @@ namespace OrderElimination
 {
     public class Database : MonoBehaviour
     {
+        private static string _id = "b4e1c7e5-ff55-495e-b6c9-e63da38c2306";
+        
         private Dictionary<int, List<Vector3>> _allPositions;
         private Dictionary<int, Vector3> _enemySquadPositions;
         private Dictionary<int, List<bool>> _isMovesSquadsOnSaves;
@@ -42,10 +44,7 @@ namespace OrderElimination
 
         private static string GetIdFromFile()
         {
-            using var reader = XmlReader
-                .Create(Application.dataPath + "/Resources" + "/Xml" + "/Id.xml");
-            reader.MoveToContent();
-            return reader.ReadElementContentAsString();
+            return _id;
         }
 
         public void SaveData(string squadName, Vector3 position)

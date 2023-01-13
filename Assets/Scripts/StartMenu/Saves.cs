@@ -23,6 +23,8 @@ namespace OrderElimination.Start
                 save.DeleteSave += DeleteSave;
             SaveClicked(0);
             _loadButton.interactable = true;
+            
+            SetActive(false);
         }
         
 
