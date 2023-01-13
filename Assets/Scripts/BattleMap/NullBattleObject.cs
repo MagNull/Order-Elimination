@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using CharacterAbility;
 using CharacterAbility.BuffEffects;
 using OrderElimination.Battle;
 using UnityEngine;
@@ -27,6 +29,11 @@ namespace OrderElimination.BattleMap
                 Debug.LogError("Try set view form null battle object");
                 throw new NullReferenceException();
             }
+        }
+
+        public int GetAccuracyFrom(IBattleObject attacker)
+        {
+            return 0;
         }
 
         public IReadOnlyBattleStats Stats => default(BattleStats);
@@ -82,6 +89,21 @@ namespace OrderElimination.BattleMap
         public void ClearBuffEffects()
         {
             Debug.LogWarning("Try clear buff effects from null battle object");
+        }
+
+        public IReadOnlyList<ITickEffect> GetTickEffects(ITickEffect tickEffectType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyList<IStatsBuffEffect> GetTickEffects(IStatsBuffEffect tickEffectType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyList<IncomingBuff> GetTickEffects(IncomingBuff tickEffectType)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,5 +1,6 @@
 using OrderElimination;
 using UnityEngine;
+using UnityEngine.UI;
 using VContainer;
 using VContainer.Unity;
 
@@ -8,6 +9,8 @@ public class StrategyMapLifetimeScope : LifetimeScope
 {
     [SerializeField]
     private CharactersMediator _charactersMediatorPrefab;
+    [SerializeField] 
+    private Image _attackImage;
 
     protected override void Configure(IContainerBuilder builder)
     {
@@ -18,5 +21,6 @@ public class StrategyMapLifetimeScope : LifetimeScope
         builder.RegisterComponent(mediator);
         builder.Register<SquadCommander>(Lifetime.Singleton);
         builder.Register<SceneTransition>(Lifetime.Singleton);
+        builder.RegisterComponent(_attackImage);
     }
 }

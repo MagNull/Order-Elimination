@@ -15,6 +15,7 @@ namespace OrderElimination
         private PlanetInfo _planetInfo;
         private PlanetView _planetView;
         private List<Path> _paths;
+        public bool HasEnemy { get; private set; }
         public static event Action<PlanetPoint> Onclick;
 
         public int CountSquadOnPoint => _countSquadOnPoint;
@@ -32,6 +33,12 @@ namespace OrderElimination
         
         public void RemoveSquad() => _countSquadOnPoint--;
         public void AddSquad() => _countSquadOnPoint++;
+
+        public void SetEnemy(bool hasEnemy)
+        {
+            HasEnemy = hasEnemy;
+            AddSquad();
+        }
 
         public void SetPlanetInfo(PlanetInfo planetInfo)
         {
@@ -52,7 +59,7 @@ namespace OrderElimination
         {
             List<PlanetPoint> nextPoints = new List<PlanetPoint>();
             foreach(var path in _paths)
-                nextPoints.Add(path.End);
+                nextPoints.Add(path.EndPoint);
             return nextPoints;
         }
 
@@ -60,7 +67,7 @@ namespace OrderElimination
         {
             foreach (var path in _paths)
             {
-                path.gameObject.SetActive(true);
+                path.ActivateSprite(true);
             }
         }
 
@@ -68,7 +75,7 @@ namespace OrderElimination
         {
             foreach (var path in _paths.Where(path => !path.IsDestroyed()))
             {
-                path.gameObject.SetActive(false);
+                path.ActivateSprite(false);
             }
         }
 

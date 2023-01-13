@@ -43,7 +43,7 @@ namespace OrderElimination.Battle
         {
             foreach (var incomingAttackBuff in incomingDebuffs)
             {
-                damageInfo = incomingAttackBuff.GetModifiedValue(damageInfo);
+                damageInfo = incomingAttackBuff.GetModifiedInfo(damageInfo);
             }
 
             switch (damageInfo.Attacker.Stats.DamageModificator)

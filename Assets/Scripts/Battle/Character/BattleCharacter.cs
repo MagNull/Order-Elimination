@@ -113,23 +113,22 @@ public class BattleCharacter : IActor
         _tickEffects.Clear();
     }
 
+    public int GetAccuracyFrom(IBattleObject attacker)
+    {
+        var accuracy = attacker.Stats.Accuracy;
+        foreach (var effect in _incomingTickEffects)
+        {
+            accuracy = effect.GetModifiedValue(accuracy, Buff_Type.IncomingAccuracy);
+        }
+
+        accuracy = Mathf.Clamp(accuracy, 0, 100);
+        return accuracy;
+    }
+
     public void OnTurnStart()
     {
         TickEffects();
         RefreshActions();
-    }
-
-    private void TickEffects()
-    {
-        for (var i = 0; i < _tickEffects.Count; i++)
-        {
-            _tickEffects[i].Tick(this);
-        }
-
-        for (var i = 0; i < _buffEffects.Count; i++)
-        {
-            _buffEffects[i].Tick(this);
-        }
     }
 
     public void AddTickEffect(ITickEffect effect)
@@ -147,11 +146,13 @@ public class BattleCharacter : IActor
                 _tickEffects.Add(effect);
                 break;
         }
+
         EffectAdded?.Invoke(effect);
     }
 
     public virtual void PlayTurn()
-    { }
+    {
+    }
 
     public void RemoveTickEffect(ITickEffect effect)
     {
@@ -182,6 +183,24 @@ public class BattleCharacter : IActor
     public void AddAction(ActionType actionType) => _actionBank.AddAction(actionType);
 
     public void ClearActions() => _actionBank.ClearActions();
+
+    private void TickEffects()
+    {
+        for (var i = 0; i < _tickEffects.Count; i++)
+        {
+            _tickEffects[i].Tick(this);
+        }
+
+        for (var i = 0; i < _buffEffects.Count; i++)
+        {
+            _buffEffects[i].Tick(this);
+        }
+
+        for (var i = 0; i < _incomingTickEffects.Count; i++)
+        {
+            _incomingTickEffects[i].Tick(this);
+        }
+    }
 
     private void RefreshActions() => _actionBank.RefreshActions();
 }

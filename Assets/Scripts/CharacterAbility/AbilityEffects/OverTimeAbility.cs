@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using OrderElimination;
 using UnityEngine;
 
@@ -28,7 +29,7 @@ namespace CharacterAbility.AbilityEffects
             _effectView = view;
         }
 
-        protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
+        protected override async UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
             var tickEffect = _overTimeAbilityType switch
             {
@@ -38,7 +39,9 @@ namespace CharacterAbility.AbilityEffects
             };
             target.AddTickEffect(tickEffect);
 
-            _nextEffect?.Use(target, stats);
+            if(_nextEffect == null)
+                return;
+            await _nextEffect.Use(target, stats);
         }
     }
 }

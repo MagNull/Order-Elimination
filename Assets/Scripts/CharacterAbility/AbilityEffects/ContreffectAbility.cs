@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using OrderElimination;
 using UnityEngine;
 
@@ -20,11 +21,13 @@ namespace CharacterAbility.AbilityEffects
             _distance = distance;
         }
 
-        protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
+        protected override async UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
             if(_getDistance.Invoke(_caster, target) > _distance)
                 return;
-            _nextEffect.Use(target, stats);
+            if(_nextEffect == null)
+                return;
+            await _nextEffect.Use(target, stats);
         }
     }
 }

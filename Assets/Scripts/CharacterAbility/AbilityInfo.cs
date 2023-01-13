@@ -91,6 +91,9 @@ namespace CharacterAbility
         [ShowIf("@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal")]
         public float Scale;
 
+        [ShowIf("@Type == AbilityEffectType.Move")]
+        public float StepDelay;
+
         [ShowIf("@Type == AbilityEffectType.Modificator")]
         public ModificatorType Modificator;
         [ShowIf("@Type == AbilityEffectType.Modificator && Modificator == ModificatorType.Accuracy")]
@@ -167,7 +170,7 @@ namespace CharacterAbility
         [SerializeField]
         private PassiveAbilityParams _passiveParams;
 
-        public int CoolDown => _coolDown + 1;
+        public int CoolDown => _coolDown;
 
         public int StartCoolDown => _startCoolDown + 1;
 

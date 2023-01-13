@@ -14,7 +14,8 @@ namespace CharacterAbility
             _battleMapView = battleMapView;
         }
 
-        public AbilityView CreateAbilityView(AbilityInfo abilityInfo, BattleCharacter caster)
+        public AbilityView CreateAbilityView(AbilityInfo abilityInfo, BattleCharacter caster,
+            BattleCharacterView casterView)
         {
             var ability = CreateAbility(abilityInfo, caster);
             if (abilityInfo.Type == AbilityInfo.AbilityType.Passive)
@@ -22,7 +23,7 @@ namespace CharacterAbility
                 ability.Use(caster, caster.Stats);
             }
 
-            return new AbilityView(caster, ability, abilityInfo, _battleMapView);
+            return new AbilityView(caster, ability, abilityInfo, _battleMapView, casterView);
         }
 
         public Ability CreateAbility(AbilityInfo abilityInfo, IBattleObject caster)
@@ -58,6 +59,7 @@ namespace CharacterAbility
                 ability = new AreaAbility(caster, ability, _battleMapView.Map, abilityInfo.ActiveParams.AreaRadius,
                     BattleObjectSide.None);
             }
+
             if (abilityInfo.ActiveParams.HasTargetEffect)
             {
                 ability = AddEffects(abilityInfo.ActiveParams.TargetEffects, ability, caster);
@@ -85,27 +87,27 @@ namespace CharacterAbility
                             effect.ScaleFrom, effect.Scale, effect.Filter);
                         break;
                     case AbilityEffectType.Move:
-                        ability = new MoveAbility(caster, ability, probability, _battleMapView.Map, effect.Filter);
+                        ability = new MoveAbility(caster, ability, probability, _battleMapView.Map, effect.Filter,
+                            effect.StepDelay);
                         break;
                     case AbilityEffectType.Modificator:
                         ability = new ModificatorAbility(caster, ability, probability, effect.Modificator,
                             effect.ModificatorValue, effect.Filter);
                         break;
                     case AbilityEffectType.OverTime:
-                        ability = new OverTimeAbility(caster, ability, probability, effect._damageHealTarget, 
+                        ability = new OverTimeAbility(caster, ability, probability, effect._damageHealTarget,
                             effect.OverTimeType,
                             effect.Duration,
                             effect.TickValue, effect.Filter,
-                            effect.OverTimeType == OverTimeAbilityType.Damage ? effect.DamageType : DamageType.None,
-                            effect.EffectView);
+                            effect.OverTimeType == OverTimeAbilityType.Damage ? effect.DamageType : DamageType.None);
                         break;
                     case AbilityEffectType.TickingBuff:
-                        ability = new TickingBuffAbility(caster, ability, probability, effect.BuffType, 
-                            effect.BuffValue, effect.Duration, effect.Filter, effect.DamageType, effect.EffectView);
+                        ability = new TickingBuffAbility(caster, ability, probability, effect.BuffType,
+                            effect.BuffValue, effect.Duration, effect.Filter, effect.DamageType);
                         break;
                     case AbilityEffectType.ConditionalBuff:
                         ability = new ConditionalBuffAbility(caster, ability, probability, effect.BuffType,
-                            effect.BuffValue, effect.ConditionType, effect.Filter, effect.DamageType, effect.EffectView);
+                            effect.BuffValue, effect.ConditionType, effect.Filter, effect.DamageType);
                         break;
                     case AbilityEffectType.Stun:
                         ability = new StunAbility(caster, ability, probability, effect.Filter);

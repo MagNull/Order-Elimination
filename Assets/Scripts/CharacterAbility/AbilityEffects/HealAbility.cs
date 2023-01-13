@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using OrderElimination;
 
 namespace CharacterAbility.AbilityEffects
@@ -22,7 +23,7 @@ namespace CharacterAbility.AbilityEffects
             _abilityScaleFrom = abilityScaleFrom;
         }
 
-        protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
+        protected override async UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
             BattleCharacter targetCharacter = target.View.GetComponent<BattleCharacterView>().Model;
             var heal = _abilityScaleFrom switch
@@ -34,7 +35,9 @@ namespace CharacterAbility.AbilityEffects
             };
             for (var i = 0; i < _healAmount; i++)
                 targetCharacter.TakeRecover(heal, stats.Accuracy, _damageHealTarget);
-            _nextEffect?.Use(target, stats);
+            if(_nextEffect == null)
+                return;
+            await _nextEffect.Use(target, stats);
         }
     }
 }

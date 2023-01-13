@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Cysharp.Threading.Tasks;
 using OrderElimination.BattleMap;
 using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 
 public class BattleMap : MonoBehaviour
 {
@@ -99,7 +101,7 @@ public class BattleMap : MonoBehaviour
         return GetObjectsInRadius(obj, radius, battleObject => battleObject is NullBattleObject);
     }
 
-    public void MoveTo(IBattleObject obj, int x, int y)
+    public async UniTask MoveTo(IBattleObject obj, int x, int y, float delay = -1)
     {
         Vector2Int objCoord = GetCoordinate(obj);
         if (objCoord != new Vector2Int(-1, -1))
@@ -114,8 +116,87 @@ public class BattleMap : MonoBehaviour
             else
                 SetCell(objCoord.x, objCoord.y, new NullBattleObject());
         }
-        
+
         SetCell(x, y, obj);
+        await UniTask.Delay(TimeSpan.FromSeconds(delay == -1 ? 0 : delay));
+    }
+
+    public List<Vector2Int> GetShortestPath(IBattleObject obj, int x, int y)
+    {
+        var path = new List<Vector2Int>();
+        var objCoord = GetCoordinate(obj);
+        var target = new Vector2Int(x, y);
+        var visited = new HashSet<Vector2Int>();
+        var queue = new Queue<Vector2Int>();
+        var parents = new Dictionary<Vector2Int, Vector2Int>();
+        queue.Enqueue(objCoord);
+        visited.Add(objCoord);
+        while (queue.Count > 0)
+        {
+            var current = queue.Dequeue();
+            if (current == target)
+            {
+                while (current != objCoord)
+                {
+                    path.Add(current);
+                    current = parents[current];
+                }
+
+                path.Reverse();
+                return path;
+            }
+
+            foreach (var neighbour in GetNeighbours(current))
+            {
+                if (visited.Contains(neighbour) ||
+                    GetCell(neighbour.x, neighbour.y).GetObject() is not NullBattleObject and not EnvironmentObject )
+                    continue;
+
+                visited.Add(neighbour);
+                queue.Enqueue(neighbour);
+                parents.Add(neighbour, current);
+            }
+        }
+
+        return path;
+    }
+
+    private List<Vector2Int> GetNeighbours(Vector2Int coord)
+    {
+        var neighbours = new List<Vector2Int>();
+        if (coord.x > 0)
+            neighbours.Add(new Vector2Int(coord.x - 1, coord.y));
+        if (coord.x < _width - 1)
+            neighbours.Add(new Vector2Int(coord.x + 1, coord.y));
+        if (coord.y > 0)
+            neighbours.Add(new Vector2Int(coord.x, coord.y - 1));
+        if (coord.y < _height - 1)
+            neighbours.Add(new Vector2Int(coord.x, coord.y + 1));
+        if (coord.y < _height - 1 && coord.x < _width - 1)
+            neighbours.Add(new Vector2Int(coord.x + 1, coord.y + 1));
+        if (coord.y > 0 && coord.x > 0)
+            neighbours.Add(new Vector2Int(coord.x - 1, coord.y - 1));
+        if (coord.y > 0 && coord.x < _width - 1)
+            neighbours.Add(new Vector2Int(coord.x + 1, coord.y - 1));
+        if (coord.y < _height - 1 && coord.x > 0)
+            neighbours.Add(new Vector2Int(coord.x - 1, coord.y + 1));
+        return neighbours;
+    }
+
+    private Vector2Int GetCellCoordinate(Cell cell)
+    {
+        for (var i = 0; i < _cellGrid.GetLength(0); i++)
+        {
+            for (var j = 0; j < _cellGrid.GetLength(1); j++)
+            {
+                if (_cellGrid[i, j] == cell)
+                {
+                    return new Vector2Int(i, j);
+                }
+            }
+        }
+
+        throw new ArgumentException("Cell not found");
     }
 
     private void SetCell(int x, int y, IBattleObject obj)

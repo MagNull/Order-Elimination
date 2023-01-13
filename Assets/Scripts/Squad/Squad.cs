@@ -1,13 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
+using System.Threading;
+using OrderElimination.Start;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using UnityEngine;
 using VContainer;
 
 namespace OrderElimination
 {
-    public class Squad : SerializedMonoBehaviour, ISelectable, IMovable
+    public class Squad : SerializedMonoBehaviour, ISquad, ISelectable
     {
         [OdinSerialize]
         [ShowInInspector]
@@ -17,11 +20,12 @@ namespace OrderElimination
         private SquadModel _model;
         private SquadView _view;
         private SquadPresenter _presenter;
-        [ShowInInspector] private Order _order;
-        private Button _rectangleOnPanelButton;
+        private SquadCommander _commander;
+        private Button _buttonOnOrderPanel;
         private CharactersMediator _charactersMediator;
         public static event Action<Squad> Selected;
         public static event Action<Squad> Unselected;
+        public static event Action onMove; 
         public PlanetPoint PlanetPoint => _presenter.PlanetPoint;
         public int AmountOfCharacters => _model.AmountOfMembers;
         public IReadOnlyList<Character> Members => _model.Members;
@@ -29,9 +33,10 @@ namespace OrderElimination
 
 
         [Inject]
-        private void Construct(CharactersMediator charactersMediator)
+        private void Construct(CharactersMediator charactersMediator, SquadCommander commander)
         {
             _charactersMediator = charactersMediator;
+            _commander = commander;
         }
 
         private void Awake()
@@ -39,7 +44,10 @@ namespace OrderElimination
             _model = new SquadModel(_testSquadMembers);
             _view = new SquadView(transform);
             _presenter = new SquadPresenter(_model, _view, null);
-            _order = null;
+            _view.onEndAnimation += StartAttack;
+            InputClass.onPauseClicked += SetActiveButtonOnOrderPanel;
+            Saves.ExitSavesWindow += SetActiveButtonOnOrderPanel;
+            Settings.ExitSettingsWindow += SetActiveButtonOnOrderPanel;
         }
 
         public void Add(Character member) => _model.Add(member);
@@ -55,24 +63,28 @@ namespace OrderElimination
             _model.Move(planetPoint);
         }
 
-        public void SetOrder(Order order)
+        public void StartAttack()
         {
-            _order = order;
-            _order.Start();
+            onMove?.Invoke();
+            if (!PlanetPoint.HasEnemy)
+                return;
+            _commander.Set(this, PlanetPoint);
         }
 
-        public void SetOrderButton(Button image)
+        public void SetOrderButton(Button button)
         {
-            _rectangleOnPanelButton = image;
-            _view.SetButtonOnOrder(image);
+            _buttonOnOrderPanel = button;
+            _buttonOnOrderPanel.onClick.AddListener(Select);
         }
-
-        public void SetOrderButtonCharacteristics(bool isActive)
-            => _view.SetButtonCharacteristics(isActive);
 
         private void SetPlanetPoint(PlanetPoint planetPoint)
         {
             _presenter.UpdatePlanetPoint(planetPoint);
+        }
+
+        public void SetActiveButtonOnOrderPanel(bool isActive)
+        {
+            _buttonOnOrderPanel.gameObject.SetActive(isActive);
         }
 
         public void Select()
@@ -99,6 +111,10 @@ namespace OrderElimination
         private void OnDisable()
         {
             _presenter.Unsubscribe();
+            _view.onEndAnimation -= StartAttack;
+            InputClass.onPauseClicked -= SetActiveButtonOnOrderPanel;
+            Saves.ExitSavesWindow -= SetActiveButtonOnOrderPanel;
+            Settings.ExitSettingsWindow -= SetActiveButtonOnOrderPanel;
         }
 
         private void OnMouseDown() => Select();

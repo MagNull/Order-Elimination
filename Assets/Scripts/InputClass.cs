@@ -1,8 +1,11 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
+using OrderElimination.Start;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace OrderElimination
 {
@@ -10,14 +13,22 @@ namespace OrderElimination
     {
         [SerializeField] private SelectableObjects _selectableObjects;
         [SerializeField] private Database _database;
+        [SerializeField] private Image _settingsImage;
         private ISelectable _selectedObject;
         public static event Action<Squad, PlanetPoint> TargetSelected;
+        public static event Action onFinishMove;
+        public static event Action<bool> onPauseClicked;
 
         private void Awake() 
         { 
             Squad.Selected += ChangeSelectedObject;
             PlanetPoint.Onclick += PlanetPointClicked;
             StrategyMap.Onclick += ClickOnPanel;
+        }
+
+        private void Start()
+        {
+            Squad.onMove += SavePositions;
         }
 
         public void ClickOnPanel()
@@ -55,46 +66,39 @@ namespace OrderElimination
 
         private void TargetIsClicked(Squad selectedSquad, PlanetPoint end)
         {
+            if (end.CountSquadOnPoint == 2)
+                return;
             TargetSelected?.Invoke(selectedSquad, end);
             selectedSquad.Unselect();
             selectedSquad.Move(end);
-            SavePositions();
+            
+            StartMenuMediator.SetIsMoveSquad(selectedSquad.name, true);
         }
 
         private void SavePositions()
         {
             var squads = _selectableObjects.GetSquads();
             var count = 0;
-            
+            var positions = new List<Vector3>();
             foreach (var squad in squads)
             {
                 if(squad.IsDestroyed())
                     continue;
                 var position = squad.transform.position;
+                positions.Add(position);
                 _database.SaveData($"Squad {count++}", position);
             }
+            
+            StartMenuMediator.SetPositionsInSave(positions);
+            StartMenuMediator.SetCountMove(StrategyMap.CountMove);
+            Database.SaveCountMove(StrategyMap.CountMove);
+            _database.LoadTextToSaves();
         }
 
         public void ResetDatabase()
         {
-            var squads = _selectableObjects.GetSquads();
-            var points = _selectableObjects.GetPlanetPoints();
-            foreach (var point in points)
-                point.HidePaths();
-
-            squads.Last().Move(points.Last());
-            
-            foreach (var squad in squads)
-            {
-                var firstPoint = points.First();
-                if(squad.PlanetPoint == firstPoint)
-                    continue;
-                squad.Move(firstPoint);
-                squad.AlreadyMove = false;
-                squad.SetOrderButtonCharacteristics(false);
-            }
-            
-            SavePositions();
+            _database.SetNewGame(StartMenuMediator.Instance.SaveIndex);
+            SceneManager.LoadScene("StrategyMap");
         }
 
         public void FinishMove()
@@ -103,6 +107,16 @@ namespace OrderElimination
 
             foreach (var squad in squads)
                 squad.AlreadyMove = false;
+            StrategyMap.AddCountMove();
+            Database.SaveCountMove(StrategyMap.CountMove);
+            _database.LoadTextToSaves();
+            onFinishMove?.Invoke();
+        }
+        
+        public void PauseButtonClicked()
+        {
+            onPauseClicked?.Invoke(false);
+            _settingsImage.gameObject.SetActive(true);
         }
     }
 }

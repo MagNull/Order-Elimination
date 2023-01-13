@@ -21,7 +21,9 @@ namespace CharacterAbility.BuffEffects
             _attackOld = target.Stats.Attack;
             var newStats = new BattleStats(target.Stats)
             {
-                Attack = (int)(target.Stats.Attack * (1f + _value / 100f)) 
+                Attack = (int)(target.Stats.Attack * (1f + _value / 100f)),
+                UnmodifiedArmor = target.Stats.UnmodifiedArmor
+                
             };
             return newStats;
         }

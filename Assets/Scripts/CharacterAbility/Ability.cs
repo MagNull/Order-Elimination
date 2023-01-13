@@ -1,5 +1,6 @@
 ﻿using System;
 using CharacterAbility.AbilityEffects;
+using Cysharp.Threading.Tasks;
 using OrderElimination;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -12,7 +13,7 @@ namespace CharacterAbility
         private readonly float _probability;
         protected readonly IBattleObject _caster;
         protected readonly BattleObjectSide _filter;
-        
+
         protected Ability(IBattleObject caster, Ability nextEffect, BattleObjectSide filter,
             float probability = 100)
         {
@@ -22,17 +23,19 @@ namespace CharacterAbility
             _probability = probability;
         }
 
-        public void Use(IBattleObject target, IReadOnlyBattleStats stats)
+        public async UniTask Use(IBattleObject target, IReadOnlyBattleStats stats)
         {
             if (target.Side != _filter && _filter != BattleObjectSide.None &&
                 Random.value > _probability / 100)
             {
-                _nextEffect?.Use(target, stats);
-                return;
+                if (_nextEffect == null)
+                    return;
+                await _nextEffect.Use(target, stats);
             }
-            ApplyEffect(target, stats);
+
+            await ApplyEffect(target, stats);
         }
 
-        protected abstract void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats);
+        protected abstract UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats);
     }
 }

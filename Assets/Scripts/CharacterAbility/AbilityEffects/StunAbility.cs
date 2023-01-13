@@ -1,4 +1,5 @@
-﻿using OrderElimination;
+﻿using Cysharp.Threading.Tasks;
+using OrderElimination;
 
 namespace CharacterAbility
 {
@@ -13,14 +14,19 @@ namespace CharacterAbility
         }
 
         
-        protected override void ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
+        protected override async UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
-            if (target is not IActor abilityCaster)
+            if (target is not IActor targetActor)
             {
-                _nextEffect?.Use(target, stats);
+                if(_nextEffect == null)
+                    return;
+                await _nextEffect.Use(target, stats);
                 return;
             }
-            abilityCaster.ClearActions();
+            targetActor.ClearActions();
+            if(_nextEffect == null)
+                return;
+            await _nextEffect.Use(target, stats);
         }
     }
 }
