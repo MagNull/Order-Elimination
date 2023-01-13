@@ -86,8 +86,15 @@ namespace OrderElimination
 
         public static void SaveIsMoveSquads(List<bool> isMoveSquads)
         {
-            foreach(var isMoveSquad in isMoveSquads)
-                SaveChild("Squad 0", isMoveSquad.ToString());
+            var dbRef = FirebaseDatabase
+                .DefaultInstance
+                .GetReference(GetIdFromFile())
+                .Child("Saves")
+                .Child(SaveIndex.ToString())
+                .Child("IsMove");
+            var count = 0;
+            foreach (var isMoveSquad in isMoveSquads)
+                dbRef.Child($"Squad {count++}").SetValueAsync(isMoveSquad.ToString());
         }
 
         public static void SaveMoney(int money, string child = "Money")
