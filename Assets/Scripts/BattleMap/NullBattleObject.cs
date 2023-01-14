@@ -76,12 +76,12 @@ namespace OrderElimination.BattleMap
             throw new NullReferenceException();
         }
 
-        public void AddBuffEffect(IStatsBuffEffect statsBuffEffect)
+        public void AddBuffEffect(StatsBuffEffect statsBuffEffect)
         {
             Debug.LogWarning("Try add buff effect to null battle object");
         }
 
-        public void RemoveBuffEffect(IStatsBuffEffect statsBuffEffect)
+        public void RemoveBuffEffect(StatsBuffEffect statsBuffEffect)
         {
             Debug.LogWarning("Try remove buff effect from null battle object");
         }
@@ -96,7 +96,7 @@ namespace OrderElimination.BattleMap
             throw new NotImplementedException();
         }
 
-        public IReadOnlyList<IStatsBuffEffect> GetTickEffects(IStatsBuffEffect tickEffectType)
+        public IReadOnlyList<StatsBuffEffect> GetTickEffects(StatsBuffEffect tickEffectType)
         {
             throw new NotImplementedException();
         }

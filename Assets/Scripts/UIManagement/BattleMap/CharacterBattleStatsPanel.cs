@@ -46,7 +46,7 @@ namespace UIManagement.Elements
             currentCharacterView.Model.Died += OnCharacterDied;
             var stats = characterView.Model.Stats;
             _healthBar.SetValue(stats.Health, 0, stats.UnmodifiedHealth);
-            _armorBar.SetValue(stats.Armor, 0, stats.UnmodifiedArmor);
+            _armorBar.SetValue(stats.Armor + stats.AdditionalArmor, 0, stats.UnmodifiedArmor + stats.AdditionalArmor);
             _avatar.sprite = characterView.Icon;
         }
 

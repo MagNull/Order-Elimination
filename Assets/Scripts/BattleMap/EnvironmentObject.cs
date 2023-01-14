@@ -84,7 +84,7 @@ namespace OrderElimination.BattleMap
             throw new NotImplementedException();
         }
 
-        public IReadOnlyList<IStatsBuffEffect> GetTickEffects(IStatsBuffEffect tickEffectType)
+        public IReadOnlyList<StatsBuffEffect> GetTickEffects(StatsBuffEffect tickEffectType)
         {
             throw new NotImplementedException();
         }

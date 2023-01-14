@@ -1,4 +1,5 @@
-﻿using CharacterAbility;
+﻿using System;
+using CharacterAbility;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -36,6 +37,16 @@ namespace OrderElimination
         public void RaiseExperience(float experience)
         {
             throw new System.NotImplementedException();
+        }
+
+        private void OnValidate()
+        {
+            _battleStats.UnmodifiedHealth = _battleStats.Health;
+            _battleStats.UnmodifiedArmor = _battleStats.Armor;
+            _battleStats.UnmodifiedAttack = _battleStats.Attack;
+            _battleStats.UnmodifiedAccuracy = _battleStats.Accuracy;
+            _battleStats.UnmodifiedEvasion = _battleStats.Evasion;
+            _battleStats.UnmodifiedMovement = _battleStats.Movement;
         }
     }
 }

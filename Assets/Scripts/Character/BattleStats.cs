@@ -16,6 +16,8 @@ namespace OrderElimination
         private int _armor;
         private int _unmodifiedArmor;
         [SerializeField]
+        private int _additionalArmor;
+        [SerializeField]
         private int _evasion;
         private int _unmodifiedEvasion;
         [SerializeField]
@@ -30,18 +32,19 @@ namespace OrderElimination
         public BattleStats(IReadOnlyBattleStats other)
         {
             _health = other.Health;
-            _unmodifiedHealth = other.Health;
+            _unmodifiedHealth = other.UnmodifiedHealth;
             _attack = other.Attack;
-            _unmodifiedAttack = other.Attack;
+            _unmodifiedAttack = other.UnmodifiedAttack;
             _armor = other.Armor;
-            _unmodifiedArmor = other.Armor;
+            _unmodifiedArmor = other.UnmodifiedArmor;
             _evasion = other.Evasion;
-            _unmodifiedEvasion = other.Evasion;
+            _unmodifiedEvasion = other.UnmodifiedEvasion;
             _accuracy = other.Accuracy;
-            _unmodifiedAccuracy = other.Accuracy;
+            _unmodifiedAccuracy = other.UnmodifiedAccuracy;
             _movement = other.Movement;
-            _unmodifiedMovement = other.Movement;
+            _unmodifiedMovement = other.UnmodifiedMovement;
             _damageModificator = other.DamageModificator;
+            _additionalArmor = other.AdditionalArmor;
         }
 
         public int Health
@@ -273,7 +276,28 @@ namespace OrderElimination
             }
         }
 
-        public DamageModificator DamageModificator { get => _damageModificator; set => _damageModificator = value; }
+        public DamageModificator DamageModificator
+        {
+            get => _damageModificator;
+            set => _damageModificator = value;
+        }
+
+        public int AdditionalArmor
+        {
+            get => _additionalArmor;
+            set
+            {
+                if (value < 0)
+                {
+                    Debug.LogWarning("Try set additional armor less than 0");
+                    _additionalArmor = 0;
+                }
+                else
+                {
+                    _additionalArmor = value;
+                }
+            }
+        }
     }
 
     public interface IReadOnlyBattleStats
@@ -284,6 +308,8 @@ namespace OrderElimination
         int UnmodifiedAttack { get; }
         int Armor { get; }
         int UnmodifiedArmor { get; }
+        
+        int AdditionalArmor { get; }
         int Evasion { get; }
         int UnmodifiedEvasion { get; }
         int Accuracy { get; }

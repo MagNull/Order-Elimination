@@ -22,7 +22,7 @@ namespace CharacterAbility
 
         private bool _casting;
 
-        private List<CellView> _selectedCellViews = new List<CellView>();
+        private List<CellView> _selectedCellViews = new ();
 
         public AbilityInfo AbilityInfo { get; }
 

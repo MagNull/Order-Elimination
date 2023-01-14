@@ -103,11 +103,11 @@ namespace CharacterAbility
                         break;
                     case AbilityEffectType.TickingBuff:
                         ability = new TickingBuffAbility(caster, ability, probability, effect.BuffType,
-                            effect.BuffValue, effect.Duration, effect.Filter, effect.DamageType);
+                            effect.BuffModificator, effect.ScaleFromWhom, effect.Duration, effect.Filter, effect.DamageType, effect.Multiplier);
                         break;
                     case AbilityEffectType.ConditionalBuff:
                         ability = new ConditionalBuffAbility(caster, ability, probability, effect.BuffType,
-                            effect.BuffValue, effect.ConditionType, effect.Filter, effect.DamageType);
+                            effect.BuffModificator, effect.ScaleFromWhom, effect.ConditionType, effect.Filter, effect.DamageType, effect.Multiplier);
                         break;
                     case AbilityEffectType.Stun:
                         ability = new StunAbility(caster, ability, probability, effect.Filter);

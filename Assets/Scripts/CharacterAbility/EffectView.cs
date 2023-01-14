@@ -101,10 +101,10 @@ namespace CharacterAbility
             {
                 if (effect.Type == AbilityEffectType.TickingBuff)
                 {
-                    var valuePrefix = effect.BuffValue > 0 ? "+" : "";
+                    var valuePrefix = effect.BuffModificator > 0 ? "+" : "";
                     result.AddDisplayedParameter(
                         Localization.Current.GetBuffName(effect.BuffType),
-                        $"{valuePrefix}{effect.BuffValue}",
+                        $"{valuePrefix}{effect.BuffModificator}",
                         EffectView.GetBuffUnits(effect.BuffType));
                 }
                 if (effect.Type == AbilityEffectType.OverTime)

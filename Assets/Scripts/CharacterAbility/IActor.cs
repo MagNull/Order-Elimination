@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 public interface IActor : IBattleObject
 {
+
     public IReadOnlyList<ActionType> AvailableActions { get; }
 
     public bool TrySpendAction(ActionType actionType);

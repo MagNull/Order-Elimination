@@ -20,6 +20,7 @@ public enum ActionType
 public class BattleCharacter : IActor
 {
     public event Action<TakeDamageInfo> Damaged;
+    public event Action Casted;
     public event Action<Cell, Cell> Moved;
     public event Action<BattleCharacter> Died;
 
@@ -28,7 +29,7 @@ public class BattleCharacter : IActor
     [ShowInInspector]
     private readonly List<IncomingBuff> _incomingTickEffects;
     [ShowInInspector]
-    private readonly List<IStatsBuffEffect> _buffEffects;
+    private readonly List<StatsBuffEffect> _buffEffects;
     [ShowInInspector]
     private readonly BattleObjectSide _side;
     [SerializeField]
@@ -53,17 +54,19 @@ public class BattleCharacter : IActor
         _side = side;
         _battleStats = battleStats;
         _tickEffects = new List<ITickEffect>();
-        _buffEffects = new List<IStatsBuffEffect>();
+        _buffEffects = new List<StatsBuffEffect>();
         _incomingTickEffects = new List<IncomingBuff>();
         _actionBank = new ActionBank();
     }
 
     public void OnMoved(Cell from, Cell to) => Moved?.Invoke(from, to);
 
+    public void OnCasted() => Casted?.Invoke();
+
     public void TakeDamage(DamageInfo damageInfo)
     {
         var damageTaken =
-            _damageCalculation.CalculateDamage(damageInfo, _battleStats.Armor,
+            _damageCalculation.CalculateDamage(damageInfo, _battleStats.Armor + _battleStats.AdditionalArmor,
                 _battleStats.Evasion, _incomingTickEffects);
         var takeDamageInfo = new TakeDamageInfo
         {
@@ -73,7 +76,13 @@ public class BattleCharacter : IActor
             Attacker = damageInfo.Attacker,
             Target = this
         };
-        //TODO Логика ивента при уроне
+
+        if (_battleStats.AdditionalArmor > 0)
+        {
+            var armorDamage = Mathf.Min(_battleStats.AdditionalArmor, damageTaken.armorDamage);
+            _battleStats.AdditionalArmor -= armorDamage;
+            takeDamageInfo.ArmorDamage -= armorDamage;
+        }
         _battleStats.Armor -= damageTaken.armorDamage;
         _battleStats.Health -= damageTaken.healthDamage;
         Damaged?.Invoke(takeDamageInfo);
@@ -135,7 +144,7 @@ public class BattleCharacter : IActor
             case IncomingBuff incomingDebuff:
                 _incomingTickEffects.Add(incomingDebuff);
                 break;
-            case IStatsBuffEffect statsBuffEffect:
+            case StatsBuffEffect statsBuffEffect:
                 _buffEffects.Add(statsBuffEffect);
                 _battleStats = statsBuffEffect.Apply(this);
                 break;
@@ -146,7 +155,7 @@ public class BattleCharacter : IActor
 
         EffectAdded?.Invoke(effect);
     }
-
+    
     public virtual void PlayTurn()
     {
     }
@@ -158,7 +167,7 @@ public class BattleCharacter : IActor
             case IncomingBuff incomingDebuff:
                 _incomingTickEffects.Remove(incomingDebuff);
                 break;
-            case IStatsBuffEffect statsBuffEffect:
+            case StatsBuffEffect statsBuffEffect:
                 _buffEffects.Remove(statsBuffEffect);
                 _battleStats = statsBuffEffect.Remove(this);
                 break;

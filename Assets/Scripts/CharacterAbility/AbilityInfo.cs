@@ -26,7 +26,8 @@ namespace CharacterAbility
     public enum BuffConditionType
     {
         Moved,
-        Damaged
+        Damaged,
+        Casted
     }
 
     public enum AbilityScaleFrom
@@ -47,12 +48,19 @@ namespace CharacterAbility
     {
         Attack,
         Health,
+        AdditionalArmor,
         Accuracy,
         Movement,
         Evasion, //%
         IncomingDamageIncrease,
         IncomingAccuracy, //%
         IncomingDamageReduction
+    }
+
+    public enum ScaleFromWhom
+    {
+        Target,
+        Caster
     }
 
     public enum ModificatorType
@@ -102,7 +110,12 @@ namespace CharacterAbility
         [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
         public Buff_Type BuffType;
         [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
-        public int BuffValue;
+        public bool Multiplier;
+        [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
+        public ScaleFromWhom ScaleFromWhom;
+        [FormerlySerializedAs("BuffValue")]
+        [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
+        public float BuffModificator;
         [ShowIf("@Type == AbilityEffectType.OverTime || Type == AbilityEffectType.TickingBuff")]
         public int Duration;
         [ShowIf("@Type == AbilityEffectType.ConditionalBuff")]
