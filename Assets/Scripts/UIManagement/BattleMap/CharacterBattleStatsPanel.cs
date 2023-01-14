@@ -9,15 +9,21 @@ namespace UIManagement.Elements
 {
     public class CharacterBattleStatsPanel : MonoBehaviour
     {
-        [SerializeField] private Image _avatar;
-        [SerializeField] private BattleStatUIBar _healthBar;
-        [SerializeField] private BattleStatUIBar _armorBar;
-        [SerializeField] private HoldableButton _avatarButton;
-        [SerializeField] private EffectsList _effectsList;
+        [SerializeField]
+        private Image _avatar;
+        [SerializeField]
+        private BattleStatUIBar _healthBar;
+        [SerializeField]
+        private BattleStatUIBar _armorBar;
+        [SerializeField]
+        private HoldableButton _avatarButton;
+        [SerializeField]
+        private EffectsList _effectsList;
         private BattleCharacterView currentCharacterView;
 
         [SerializeField]
         private bool _isClickingAvatarAvailable;
+
         public bool IsClickingAvatarAvailable
         {
             get => _isClickingAvatarAvailable;
@@ -30,6 +36,7 @@ namespace UIManagement.Elements
 
         [SerializeField]
         private bool _isHoldingAvatarAvailable;
+
         public bool IsHoldingAvatarAvailable
         {
             get => _isHoldingAvatarAvailable;
@@ -49,12 +56,14 @@ namespace UIManagement.Elements
                 currentCharacterView.Model.EffectRemoved -= OnCharacterEffectRemoved;
                 currentCharacterView.Model.Died -= OnCharacterDied;
             }
+
             currentCharacterView = characterView;
             if (characterView == null)
             {
                 HideInfo();
                 return;
             }
+
             ShowInfo();
             characterView.Model.Damaged += OnCharacterDamaged;
             characterView.Model.EffectAdded += OnCharacterEffectAdded;
@@ -62,7 +71,8 @@ namespace UIManagement.Elements
             characterView.Model.Died += OnCharacterDied;
             var stats = characterView.Model.Stats;
             _healthBar.SetValue(stats.Health, 0, stats.UnmodifiedHealth);
-            _armorBar.SetValue(stats.Armor, 0, stats.UnmodifiedArmor);
+            _armorBar.SetValue(stats.Armor + stats.AdditionalArmor, 0, 
+                stats.UnmodifiedArmor + stats.AdditionalArmor);
 
             var effects = characterView.Model.CurrentBuffEffects
                 .Concat(characterView.Model.CurrentTickEffects)
@@ -85,7 +95,8 @@ namespace UIManagement.Elements
 
         private void OnAvatarButtonPressed(HoldableButton avatarButton)
         {
-            var characterDescriptionPanel = (CharacterDescriptionPanel)UIController.SceneInstance.OpenPanel(PanelType.CharacterDetails);
+            var characterDescriptionPanel =
+                (CharacterDescriptionPanel) UIController.SceneInstance.OpenPanel(PanelType.CharacterDetails);
             characterDescriptionPanel.UpdateCharacterDescription(currentCharacterView);
         }
 
@@ -110,5 +121,5 @@ namespace UIManagement.Elements
             _avatarButton.Clicked += OnAvatarButtonPressed;
             _avatarButton.Holded += OnAvatarButtonHolded;
         }
-    } 
+    }
 }
