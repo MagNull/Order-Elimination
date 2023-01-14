@@ -1,6 +1,7 @@
 using OrderElimination.BattleMap;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ namespace UIManagement.Elements
         [SerializeField] private BattleStatUIBar _healthBar;
         [SerializeField] private BattleStatUIBar _armorBar;
         [SerializeField] private HoldableButton _avatarButton;
+        [SerializeField] private EffectsList _effectsList;
         private BattleCharacterView currentCharacterView;
 
         [SerializeField]
@@ -40,11 +42,11 @@ namespace UIManagement.Elements
 
         public void UpdateCharacterInfo(BattleCharacterView characterView)
         {
-            print($"Данные для персонажа {characterView.CharacterName} обновлены");
             if (currentCharacterView != null)
             {
                 currentCharacterView.Model.Damaged -= OnCharacterDamaged;
                 currentCharacterView.Model.EffectAdded -= OnCharacterEffectAdded;
+                currentCharacterView.Model.EffectRemoved -= OnCharacterEffectRemoved;
                 currentCharacterView.Model.Died -= OnCharacterDied;
             }
             currentCharacterView = characterView;
@@ -56,36 +58,23 @@ namespace UIManagement.Elements
             ShowInfo();
             characterView.Model.Damaged += OnCharacterDamaged;
             characterView.Model.EffectAdded += OnCharacterEffectAdded;
+            characterView.Model.EffectRemoved += OnCharacterEffectRemoved;
             characterView.Model.Died += OnCharacterDied;
             var stats = characterView.Model.Stats;
             _healthBar.SetValue(stats.Health, 0, stats.UnmodifiedHealth);
             _armorBar.SetValue(stats.Armor, 0, stats.UnmodifiedArmor);
 
-            print($"Бафов на персонаже {characterView.CharacterName}: {characterView.Model.CurrentBuffEffects.Count}");
-            print($"Временных эффектов на персонаже {characterView.CharacterName}: {characterView.Model.CurrentTickEffects.Count}");
-            print($"Текущих эффектов на персонаже {characterView.CharacterName}: {characterView.Model.IncomingTickEffects.Count}");
-            foreach (var e in characterView.Model.CurrentBuffEffects)
-            {
-                var effectView = e.GetEffectView();
-                var effectName = effectView.GetEffectName();
-                print($"На персонажа {characterView.CharacterName} наложен бафф {effectName}");
-            }
-            foreach (var e in characterView.Model.CurrentTickEffects)
-            {
-                var effectView = e.GetEffectView();
-                var effectName = effectView.GetEffectName();
-                print($"На персонажа {characterView.CharacterName} наложен эффект {effectName}");
-            }
-            foreach (var e in characterView.Model.IncomingTickEffects)
-            {
-                var effectView = e.GetEffectView();
-                var effectName = effectView.GetEffectName();
-                print($"На персонажа {characterView.CharacterName} наложен временный эффект {effectName}");
-            }
+            var effects = characterView.Model.CurrentBuffEffects
+                .Concat(characterView.Model.CurrentTickEffects)
+                .Concat(characterView.Model.IncomingTickEffects)
+                .ToArray();
+            //.Where()
+            _effectsList.UpdateEffects(effects);
             _avatar.sprite = characterView.Icon;
         }
 
         private void OnCharacterEffectAdded(ITickEffect effect) => UpdateCharacterInfo(currentCharacterView);
+        private void OnCharacterEffectRemoved(ITickEffect effect) => UpdateCharacterInfo(currentCharacterView);
 
         private void OnCharacterDamaged(TakeDamageInfo damageInfo) => UpdateCharacterInfo(currentCharacterView);
 
@@ -106,6 +95,7 @@ namespace UIManagement.Elements
             _healthBar.gameObject.SetActive(false);
             _armorBar.gameObject.SetActive(false);
             _avatarButton.gameObject.SetActive(false);
+            _effectsList.gameObject.SetActive(false);
             _avatarButton.Clicked -= OnAvatarButtonPressed;
             _avatarButton.Holded -= OnAvatarButtonHolded;
         }
@@ -116,6 +106,7 @@ namespace UIManagement.Elements
             _healthBar.gameObject.SetActive(true);
             _armorBar.gameObject.SetActive(true);
             _avatarButton.gameObject.SetActive(true);
+            _effectsList.gameObject.SetActive(true);
             _avatarButton.Clicked += OnAvatarButtonPressed;
             _avatarButton.Holded += OnAvatarButtonHolded;
         }

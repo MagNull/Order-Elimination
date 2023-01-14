@@ -99,15 +99,16 @@ namespace CharacterAbility
                             effect.OverTimeType,
                             effect.Duration,
                             effect.TickValue, effect.Filter,
-                            effect.OverTimeType == OverTimeAbilityType.Damage ? effect.DamageType : DamageType.None);
+                            effect.OverTimeType == OverTimeAbilityType.Damage ? effect.DamageType : DamageType.None,
+                            effect.EffectView);
                         break;
                     case AbilityEffectType.TickingBuff:
                         ability = new TickingBuffAbility(caster, ability, probability, effect.BuffType,
-                            effect.BuffValue, effect.Duration, effect.Filter, effect.DamageType);
+                            effect.BuffValue, effect.Duration, effect.Filter, effect.DamageType, effect.EffectView);
                         break;
                     case AbilityEffectType.ConditionalBuff:
                         ability = new ConditionalBuffAbility(caster, ability, probability, effect.BuffType,
-                            effect.BuffValue, effect.ConditionType, effect.Filter, effect.DamageType);
+                            effect.BuffValue, effect.ConditionType, effect.Filter, effect.DamageType, effect.EffectView);
                         break;
                     case AbilityEffectType.Stun:
                         ability = new StunAbility(caster, ability, probability, effect.Filter);

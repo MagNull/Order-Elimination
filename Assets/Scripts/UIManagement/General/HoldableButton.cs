@@ -26,7 +26,7 @@ namespace UIManagement.Elements
         [SerializeField]
         public int MillisecondsToHold = 700;
         [SerializeField]
-        public Color ClickUnavalableTint = Color.red;
+        public Color ClickUnavalableTint = Color.white;
 
         [SerializeField]
         private bool _clickAvailable;

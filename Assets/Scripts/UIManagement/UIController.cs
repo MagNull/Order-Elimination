@@ -1,5 +1,6 @@
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,6 @@ namespace UIManagement
         {
             var panelToOpen = _panels.Single(p => p.PanelType == panel);
             _closingArea.gameObject.SetActive(true);
-            //_closingArea.transform.SetSiblingIndex(_panels.Count);
             panelToOpen.Closed += OnPanelClosed;
 
             var panelTransform = ((UIPanel)panelToOpen).transform;

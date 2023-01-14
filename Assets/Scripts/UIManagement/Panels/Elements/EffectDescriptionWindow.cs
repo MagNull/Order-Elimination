@@ -17,9 +17,19 @@ namespace UIManagement.Elements
 
         public void UpdateEffectDescription(AbilityEffect effectInfo, IReadOnlyBattleStats casterStats)
         {
-            //_effectIcon = effectInfo.Icon;
             _effectName.text = effectInfo.EffectView.EffectName;
             _effectIcon.sprite = effectInfo.EffectView.EffectIcon;
+            _parameters.Clear();
+            foreach (var p in effectInfo.GetDisplayableParameters(casterStats))
+            {
+                _parameters.Add(null, p.Key, p.Value); //параметрам эффекта не нужны иконки
+            }
+        }
+
+        public void UpdateEffectDescription(ITickEffectView effectInfo, IReadOnlyBattleStats casterStats)
+        {
+            _effectName.text = effectInfo.EffectName;
+            _effectIcon.sprite = effectInfo.EffectIcon;
             _parameters.Clear();
             foreach (var p in effectInfo.GetDisplayableParameters(casterStats))
             {
