@@ -25,12 +25,11 @@ namespace CharacterAbility
 
         public async UniTask Use(IBattleObject target, IReadOnlyBattleStats stats)
         {
-            if (target.Side != _filter && _filter != BattleObjectSide.None &&
-                Random.value > _probability / 100)
+            if (target.Side != _filter && _filter != BattleObjectSide.None && Random.Range(0, 100) <= _probability)
             {
-                if (_nextEffect == null)
-                    return;
-                await _nextEffect.Use(target, stats);
+                if (_nextEffect != null)
+                    await _nextEffect.Use(target, stats);
+                return;
             }
 
             await ApplyEffect(target, stats);
