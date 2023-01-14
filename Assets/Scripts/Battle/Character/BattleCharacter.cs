@@ -41,7 +41,7 @@ public class BattleCharacter : IActor
 
     public IReadOnlyList<ITickEffect> CurrentTickEffects => _tickEffects;
     public IReadOnlyList<IncomingBuff> IncomingTickEffects => _incomingTickEffects;
-    public IReadOnlyList<IStatsBuffEffect> CurrentBuffEffects => _buffEffects;
+    public IReadOnlyList<StatsBuffEffect> CurrentBuffEffects => _buffEffects;
 
     public BattleObjectSide Side => _side;
     public GameObject View { get; set; }

@@ -10,12 +10,12 @@ namespace CharacterAbility
     public class IncomingBuff : TickEffectBase
     {
         [SerializeField]
-        protected int _modificator;
+        protected float _modificator;
         [SerializeField]
         private readonly Buff_Type _incomingBuffType;
         private readonly DamageType _damageType;
 
-        public IncomingBuff(Buff_Type incomingBuffType, int duration, int modificator, ITickEffectView view,
+        public IncomingBuff(Buff_Type incomingBuffType, int duration, float modificator, ITickEffectView view,
             DamageType damageType = DamageType.None) : base(duration, view)
         {
             _incomingBuffType = incomingBuffType;
@@ -29,15 +29,15 @@ namespace CharacterAbility
             {
                 case Buff_Type.IncomingAccuracy:
                     if (info.DamageType == _damageType)
-                        info.Accuracy += _modificator;
+                        info.Accuracy += (int)_modificator;
                     break;
                 case Buff_Type.IncomingDamageIncrease:
                     if (info.DamageType == _damageType)
-                        info.Damage *= _modificator;
+                        info.Damage = Mathf.RoundToInt(info.Damage * _modificator);
                     break;
                 case Buff_Type.IncomingDamageReduction:
                     if (info.DamageType == _damageType)
-                        info.Damage /= _modificator;
+                        info.Damage = Mathf.RoundToInt(info.Damage / _modificator);
                     break;
 
                 case Buff_Type.Attack:
@@ -61,13 +61,13 @@ namespace CharacterAbility
             switch (_incomingBuffType)
             {
                 case Buff_Type.IncomingAccuracy:
-                    newValue += _modificator;
+                    newValue += (int)_modificator;
                     break;
                 case Buff_Type.IncomingDamageIncrease:
-                    newValue *= _modificator;
+                    newValue = Mathf.RoundToInt(_modificator * newValue);
                     break;
                 case Buff_Type.IncomingDamageReduction:
-                    newValue /= _modificator;
+                    newValue = Mathf.RoundToInt(newValue / _modificator);
                     break;
 
                 case Buff_Type.Attack:

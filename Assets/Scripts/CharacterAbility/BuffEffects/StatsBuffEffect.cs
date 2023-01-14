@@ -18,7 +18,7 @@ namespace CharacterAbility.BuffEffects
         private ScaleFromWhom _scaleFromWhom;
 
         public StatsBuffEffect(Buff_Type statType, float modifier, ScaleFromWhom scaleFromWhom, int duration,
-            bool isMultiplier, IBattleObject caster) : base(duration)
+            bool isMultiplier, IBattleObject caster, ITickEffectView tickEffectView) : base(duration, tickEffectView)
         {
             _statType = statType;
             _modifier = modifier;
