@@ -47,6 +47,7 @@ MonoBehaviour:
       Amounts: 0
       ScaleFrom: 0
       Scale: 0
+      StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
       BuffType: 4
@@ -59,9 +60,10 @@ MonoBehaviour:
       Distance: 0
       ShowInAbilityDescription: 1
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: "\u0423\u043A\u043B\u043E\u043D\u0435\u043D\u0438\u0435"
-        EffectIcon: {fileID: 21300000, guid: 50ecc83617e47db41a67e261753e9a02, type: 3}
+        _effectName: "\u0423\u043A\u043B\u043E\u043D\u0435\u043D\u0438\u0435"
+        _effectIcon: {fileID: 21300000, guid: 50ecc83617e47db41a67e261753e9a02, type: 3}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 1
     _hasAreaEffect: 0
     _areaRadius: 0
     _areaEffects: []

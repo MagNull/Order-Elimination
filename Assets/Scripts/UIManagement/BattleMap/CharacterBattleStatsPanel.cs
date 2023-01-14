@@ -1,6 +1,7 @@
 using OrderElimination.BattleMap;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ namespace UIManagement.Elements
         [SerializeField] private BattleStatUIBar _healthBar;
         [SerializeField] private BattleStatUIBar _armorBar;
         [SerializeField] private HoldableButton _avatarButton;
+        [SerializeField] private EffectsList _effectsList;
         private BattleCharacterView currentCharacterView;
 
         [SerializeField]
@@ -26,12 +28,25 @@ namespace UIManagement.Elements
             }
         }
 
+        [SerializeField]
+        private bool _isHoldingAvatarAvailable;
+        public bool IsHoldingAvatarAvailable
+        {
+            get => _isHoldingAvatarAvailable;
+            set
+            {
+                _isHoldingAvatarAvailable = value;
+                _avatarButton.HoldAvailable = value;
+            }
+        }
+
         public void UpdateCharacterInfo(BattleCharacterView characterView)
         {
             if (currentCharacterView != null)
             {
                 currentCharacterView.Model.Damaged -= OnCharacterDamaged;
                 currentCharacterView.Model.EffectAdded -= OnCharacterEffectAdded;
+                currentCharacterView.Model.EffectRemoved -= OnCharacterEffectRemoved;
                 currentCharacterView.Model.Died -= OnCharacterDied;
             }
             currentCharacterView = characterView;
@@ -43,23 +58,30 @@ namespace UIManagement.Elements
             ShowInfo();
             characterView.Model.Damaged += OnCharacterDamaged;
             characterView.Model.EffectAdded += OnCharacterEffectAdded;
-            currentCharacterView.Model.Died += OnCharacterDied;
+            characterView.Model.EffectRemoved += OnCharacterEffectRemoved;
+            characterView.Model.Died += OnCharacterDied;
             var stats = characterView.Model.Stats;
             _healthBar.SetValue(stats.Health, 0, stats.UnmodifiedHealth);
-            _armorBar.SetValue(stats.Armor + stats.AdditionalArmor, 0, stats.UnmodifiedArmor + stats.AdditionalArmor);
+            _armorBar.SetValue(stats.Armor, 0, stats.UnmodifiedArmor);
+
+            var effects = characterView.Model.CurrentBuffEffects
+                .Concat(characterView.Model.CurrentTickEffects)
+                .Concat(characterView.Model.IncomingTickEffects)
+                .ToArray();
+            //.Where()
+            _effectsList.UpdateEffects(effects);
             _avatar.sprite = characterView.Icon;
         }
 
         private void OnCharacterEffectAdded(ITickEffect effect) => UpdateCharacterInfo(currentCharacterView);
+        private void OnCharacterEffectRemoved(ITickEffect effect) => UpdateCharacterInfo(currentCharacterView);
 
         private void OnCharacterDamaged(TakeDamageInfo damageInfo) => UpdateCharacterInfo(currentCharacterView);
 
         private void OnCharacterDied(BattleCharacter character) => UpdateCharacterInfo(null);
 
-        private void Start()
-        {
-
-        }
+        private void OnAvatarButtonHolded(HoldableButton avatarButton, float holdingTime)
+            => OnAvatarButtonPressed(avatarButton);
 
         private void OnAvatarButtonPressed(HoldableButton avatarButton)
         {
@@ -73,7 +95,9 @@ namespace UIManagement.Elements
             _healthBar.gameObject.SetActive(false);
             _armorBar.gameObject.SetActive(false);
             _avatarButton.gameObject.SetActive(false);
+            _effectsList.gameObject.SetActive(false);
             _avatarButton.Clicked -= OnAvatarButtonPressed;
+            _avatarButton.Holded -= OnAvatarButtonHolded;
         }
 
         public void ShowInfo()
@@ -82,7 +106,9 @@ namespace UIManagement.Elements
             _healthBar.gameObject.SetActive(true);
             _armorBar.gameObject.SetActive(true);
             _avatarButton.gameObject.SetActive(true);
+            _effectsList.gameObject.SetActive(true);
             _avatarButton.Clicked += OnAvatarButtonPressed;
+            _avatarButton.Holded += OnAvatarButtonHolded;
         }
     } 
 }

@@ -39,6 +39,10 @@ public class BattleCharacter : IActor
     [ShowInInspector]
     private readonly ActionBank _actionBank;
 
+    public IReadOnlyList<ITickEffect> CurrentTickEffects => _tickEffects;
+    public IReadOnlyList<IncomingBuff> IncomingTickEffects => _incomingTickEffects;
+    public IReadOnlyList<IStatsBuffEffect> CurrentBuffEffects => _buffEffects;
+
     public BattleObjectSide Side => _side;
     public GameObject View { get; set; }
 
@@ -47,6 +51,7 @@ public class BattleCharacter : IActor
     public IReadOnlyBattleStats Stats => _battleStats;
 
     public event Action<ITickEffect> EffectAdded;
+    public event Action<ITickEffect> EffectRemoved;
 
     public BattleCharacter(BattleObjectSide side, BattleStats battleStats, IDamageCalculation damageCalculation)
     {
@@ -175,6 +180,7 @@ public class BattleCharacter : IActor
                 _tickEffects.Remove(effect);
                 break;
         }
+        EffectRemoved?.Invoke(effect);
     }
 
     public bool CanSpendAction(ActionType actionType) => _actionBank.CanSpendAction(actionType);

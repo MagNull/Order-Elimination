@@ -8,7 +8,8 @@ namespace CharacterAbility
         private readonly DamageHealTarget _damageHealTarget;
         private readonly int _damage;
 
-        public DamageOverTimeEffect(DamageHealTarget damageHealTarget, int damage, int duration) : base(duration)
+        public DamageOverTimeEffect(
+            DamageHealTarget damageHealTarget, int damage, int duration, ITickEffectView view) : base(duration, view )
         {
             _damageHealTarget = damageHealTarget;
             _damage = damage;

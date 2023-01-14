@@ -29,19 +29,38 @@ namespace CharacterAbility
         Turns
     }
 
-    [Serializable]
-    public class EffectView
+    public interface ITickEffectView
     {
-        public bool DisplayAsMainEffect;
-        [ShowIf("@!DisplayAsMainEffect")]
-        public string EffectName;
-        [ShowIf("@!DisplayAsMainEffect")]
-        public Sprite EffectIcon;
+        string EffectName { get; }
+        Sprite EffectIcon { get; }
+        IReadOnlyDictionary<string, string> GetDisplayableParameters(IReadOnlyBattleStats characterStats);
+        bool DisplayAsMainEffect { get; }
+        bool DisplayWhenApplied { get; }
+    }
+
+    [Serializable]
+    public class EffectView : ITickEffectView
+    {
+        [SerializeField, ShowIf("@!DisplayAsMainEffect || DisplayWhenApplied")]
+        private string _effectName;
+        [SerializeField, ShowIf("@!DisplayAsMainEffect || DisplayWhenApplied")]
+        private Sprite _effectIcon;
+        [SerializeField]
+        private bool _displayAsMainEffect = false;
+        [SerializeField]
+        private bool _displayWhenApplied = false;
+        public string EffectName => _effectName;
+        public Sprite EffectIcon => _effectIcon;
+        private AbilityEffect _effectModel;
+        public IReadOnlyDictionary<string, string> GetDisplayableParameters(IReadOnlyBattleStats characterStats)
+            => _effectModel.GetDisplayableParameters(characterStats) ?? throw new InvalidOperationException();
+        public bool DisplayAsMainEffect => _displayAsMainEffect;
+        public bool DisplayWhenApplied => _displayWhenApplied;
 
         public EffectView(Sprite icon, string name)
         {
-            EffectIcon = icon;
-            EffectName = name;
+            _effectIcon = icon;
+            _effectName = name;
         }
 
         private static readonly Dictionary<Buff_Type, ValueUnits> _buffUnits = new Dictionary<Buff_Type, ValueUnits>()
@@ -55,6 +74,8 @@ namespace CharacterAbility
         };
 
         public static ValueUnits GetBuffUnits(Buff_Type buffType) => _buffUnits[buffType];
+
+        public void AssignAbilityEffectToView(AbilityEffect model) => _effectModel = model;
     }
 
     public static class EffectsDisplayHelpers
@@ -122,7 +143,7 @@ namespace CharacterAbility
 
             }
             else if (effect.Type != AbilityEffectType.Modificator)
-                throw new NotImplementedException($"EffectType {effect.Type} cannot be displayed.");
+                throw new NotImplementedException($"EffectType {effect.Type} cannot be displayed since it is not implemented.");
             return result;
         }
 

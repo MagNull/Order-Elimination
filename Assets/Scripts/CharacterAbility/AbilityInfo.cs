@@ -138,8 +138,13 @@ namespace CharacterAbility
         public int Distance;
 
         public bool ShowInAbilityDescription;
-        [ShowIf("@" + nameof(ShowInAbilityDescription) + " == true")]
+        [ShowIf("@" + nameof(ShowInAbilityDescription) + " == true"), OnInspectorGUI(nameof(UpdateEffectParameters))]
         public EffectView EffectView;
+
+        public void UpdateEffectParameters()
+        {
+            EffectView.AssignAbilityEffectToView(this);
+        }
     }
 
     [CreateAssetMenu(fileName = "AbilityInfo", menuName = "Ability")]

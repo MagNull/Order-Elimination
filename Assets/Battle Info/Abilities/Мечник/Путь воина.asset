@@ -46,6 +46,7 @@ MonoBehaviour:
       Amounts: 0
       ScaleFrom: 0
       Scale: 0
+      StepDelay: 0
       Modificator: 1
       ModificatorValue: 0
       BuffType: 0
@@ -58,9 +59,10 @@ MonoBehaviour:
       Distance: 0
       ShowInAbilityDescription: 0
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
     - Type: 0
       HasProbability: 0
       Probability: 0
@@ -69,6 +71,7 @@ MonoBehaviour:
       Amounts: 2
       ScaleFrom: 0
       Scale: 1
+      StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
       BuffType: 0
@@ -81,9 +84,10 @@ MonoBehaviour:
       Distance: 0
       ShowInAbilityDescription: 1
       EffectView:
-        DisplayAsMainEffect: 1
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 1
+        _displayWhenApplied: 0
     - Type: 3
       HasProbability: 1
       Probability: 80
@@ -92,6 +96,7 @@ MonoBehaviour:
       Amounts: 0
       ScaleFrom: 0
       Scale: 0
+      StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
       BuffType: 0
@@ -104,9 +109,10 @@ MonoBehaviour:
       Distance: 0
       ShowInAbilityDescription: 1
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: "\u041A\u0440\u043E\u0432\u043E\u0442\u0435\u0447\u0435\u043D\u0438\u0435"
-        EffectIcon: {fileID: 21300000, guid: 1053df36a08b0f64196e8c380c204482, type: 3}
+        _effectName: "\u041A\u0440\u043E\u0432\u043E\u0442\u0435\u0447\u0435\u043D\u0438\u0435"
+        _effectIcon: {fileID: 21300000, guid: 1053df36a08b0f64196e8c380c204482, type: 3}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 1
     _hasAreaEffect: 0
     _areaRadius: 0
     _areaEffects: []
