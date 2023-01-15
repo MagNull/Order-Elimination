@@ -133,7 +133,7 @@ namespace CharacterAbility
                 switch (incomingBuff.IncomingBuffType)
                 {
                     case Buff_Type.IncomingAccuracy:
-                        result.AddDisplayedParameter("Входящая точность", $"+{ incomingBuff.Modificator }");
+                        result.AddDisplayedParameter("Вход. точность", $"+{ incomingBuff.Modificator }");
                         break;
                     case Buff_Type.IncomingDamageIncrease:
                         result.AddDisplayedParameter("Урон взрывом", $"+{ (incomingBuff.Modificator - 1) * 100 }%");
@@ -208,7 +208,7 @@ namespace CharacterAbility
                 {
                     result.AddDisplayedParameter(Localization.Current.GetOvertimeTypeName(effect.OverTimeType), effect.TickValue);
                 }
-                result.AddDisplayedParameter("Длительн", effect.Duration, ValueUnits.Turns);
+                result.AddDisplayedParameter("Длительность", effect.Duration);
             }
             else if (effect.Type == AbilityEffectType.Move)
             {
