@@ -14,10 +14,13 @@ namespace OrderElimination
 
         private void Start()
         {
-            if(StartMenuMediator.Instance.Outcome == BattleOutcome.Victory)
-                StartMenuMediator.SetMoney(StartMenuMediator.Instance.Money + 1000);
-            SetMoney(StartMenuMediator.Instance.Money);
-            SetMoveCount(StartMenuMediator.Instance.CountMoveInSave);
+            if (PlayerPrefs.GetString($"{StrategyMap.SaveIndex}:BattleOutcome") == BattleOutcome.Victory.ToString())
+            {
+                var money = PlayerPrefs.GetInt($"{StrategyMap.SaveIndex}:Money");
+                PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:Money", money + 1000);
+            }
+            SetMoney(PlayerPrefs.GetInt($"{StrategyMap.SaveIndex}:Money"));
+            SetMoveCount(PlayerPrefs.GetInt($"{StrategyMap.SaveIndex}:CountMove"));
             InputClass.onFinishMove += AddMoveCount;
         }
 

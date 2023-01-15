@@ -19,6 +19,7 @@ namespace OrderElimination
         private EnemySquad _enemySquad;
         public const float IconSize = 50f;
         public static event Action Onclick;
+        public static int SaveIndex { get; private set; }
         public static int CountMove { get; private set; }
 
         public static void AddCountMove()
@@ -38,9 +39,8 @@ namespace OrderElimination
 
         private void Start()
         {
-            if (StartMenuMediator.Instance == null)
-                throw new ArgumentNullException("Instance Database not saved");
-            CountMove = StartMenuMediator.Instance.CountMoveInSave;
+            SaveIndex = PlayerPrefs.GetInt("SaveIndex");
+            CountMove = PlayerPrefs.GetInt($"{SaveIndex}:CountMove");
             Deserialize();
             UpdateSettings();
         }
@@ -86,7 +86,12 @@ namespace OrderElimination
         {
             var squadsInfo = Resources.LoadAll<SquadInfo>("");
             var count = 0;
-            foreach (var position in StartMenuMediator.Instance.PositionsInSave)
+            var positionsInSave = new List<Vector3>
+            {
+                PlayerPrefs.GetString($"{SaveIndex}:Squad 0").GetVectorFromString(),
+                PlayerPrefs.GetString($"{SaveIndex}:Squad 1").GetVectorFromString()
+            };
+            foreach (var position in positionsInSave)
             {
                 var squad = _creator.CreateSquad(position);
                 squad.name = $"Squad {count}";
@@ -98,10 +103,11 @@ namespace OrderElimination
 
         private void DeserializeEnemySquad()
         {
-            var position = StartMenuMediator.Instance.EnemySquadPosition;
+            var position = PlayerPrefs.GetString($"{SaveIndex}:EnemySquad").GetVectorFromString();
             if (position == Vector3.zero)
                 return;
-            if (StartMenuMediator.Instance.Outcome != BattleOutcome.Victory)
+            var battleOutcome = PlayerPrefs.GetString($"{SaveIndex}:BattleOutcome");
+            if (battleOutcome != BattleOutcome.Victory.ToString())
             {
                 SetEnemySquad(_creator.CreateEnemySquad(position));
             }
@@ -114,8 +120,9 @@ namespace OrderElimination
             _enemySquad = enemySquad;
             var position = enemySquad.transform.position;
             FindNearestPoint(position).SetEnemy(true);
+            Debug.Log("SetEnemySquad");
             Database.SaveEnemySquadPosition(position);
-            StartMenuMediator.SetEnemySquadPosition(position);
+            PlayerPrefs.SetString($"{SaveIndex}:EnemySquad", position.ToString());
         }
 
         private void UpdateSettings()
@@ -138,7 +145,8 @@ namespace OrderElimination
             foreach (var squad in _squads)
             {
                 squad.Move(FindNearestPoint(squad.transform.position));
-                squad.AlreadyMove = StartMenuMediator.Instance.IsMoveSquads[count++];
+                squad.SetAlreadyMove(PlayerPrefs.GetInt($"{SaveIndex}:Squad {count}:isMove") == 1);
+                //squad.AlreadyMove = StartMenuMediator.Instance.IsMoveSquads[count++];
             }
         }
 

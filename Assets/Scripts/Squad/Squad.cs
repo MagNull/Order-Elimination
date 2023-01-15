@@ -29,7 +29,7 @@ namespace OrderElimination
         public PlanetPoint PlanetPoint => _presenter.PlanetPoint;
         public int AmountOfCharacters => _model.AmountOfMembers;
         public IReadOnlyList<Character> Members => _model.Members;
-        public bool AlreadyMove = false;
+        public bool AlreadyMove { get; private set; }
 
 
         [Inject]
@@ -69,6 +69,12 @@ namespace OrderElimination
             if (!PlanetPoint.HasEnemy)
                 return;
             _commander.Set(this, PlanetPoint);
+        }
+
+        public void SetAlreadyMove(bool isAlreadyMove)
+        {
+            PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:{this.name}", isAlreadyMove ? 1 : 0);
+            AlreadyMove = isAlreadyMove;
         }
 
         public void SetOrderButton(Button button)
