@@ -198,6 +198,7 @@ namespace OrderElimination
         
         public void SetActiveSquadListPanel(Squad squad)
         {
+            Debug.Log("SetActive");
             ((SquadListPanel)UIController.SceneInstance.OpenPanel(PanelType.SquadList)).UpdateSquadListPanel(squad.Members);
         }
 

@@ -77,7 +77,6 @@ namespace OrderElimination
 
         public void SetAlreadyMove(bool isAlreadyMove)
         {
-            PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:{this.name}", isAlreadyMove ? 1 : 0);
             AlreadyMove = isAlreadyMove;
         }
 
