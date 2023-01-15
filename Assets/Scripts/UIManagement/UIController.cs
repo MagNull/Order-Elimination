@@ -30,6 +30,12 @@ namespace UIManagement
             _closingArea.gameObject.SetActive(true);
             panelToOpen.Closed += OnPanelClosed;
 
+            if (_openedPanelsStack.Count > 0)
+            {
+                var previousPanel = (UIPanel)_openedPanelsStack[_openedPanelsStack.Count - 1];
+                previousPanel.transform.DOScale(0, _windowOpeningTime).SetEase(_windowOpeningEase);
+            }
+
             var panelTransform = ((UIPanel)panelToOpen).transform;
             panelTransform.SetSiblingIndex(_panels.Count + 1);
             _openedPanelsStack.Add(panelToOpen);
@@ -74,6 +80,11 @@ namespace UIManagement
         {
             panel.Closed -= OnPanelClosed;
             _openedPanelsStack.Remove(panel);
+            if (_openedPanelsStack.Count > 0)
+            {
+                var previousPanel = (UIPanel)_openedPanelsStack[_openedPanelsStack.Count - 1];
+                previousPanel.transform.DOScale(1, _windowOpeningTime).SetEase(_windowOpeningEase);
+            }
             if (_openedPanelsStack.Count == 0)
                 _closingArea.gameObject.SetActive(false);
         }
