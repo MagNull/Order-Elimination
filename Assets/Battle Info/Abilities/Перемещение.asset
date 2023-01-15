@@ -47,7 +47,9 @@ MonoBehaviour:
       Modificator: 0
       ModificatorValue: 0
       BuffType: 0
-      BuffValue: 0
+      Multiplier: 0
+      ScaleFromWhom: 0
+      BuffModificator: 0
       Duration: 0
       ConditionType: 0
       OverTimeType: 0
@@ -56,9 +58,10 @@ MonoBehaviour:
       Distance: 0
       ShowInAbilityDescription: 1
       EffectView:
-        DisplayAsMainEffect: 1
-        EffectName: "\u0414\u0432\u0438\u0433\u0430\u0446\u0430"
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
     _hasAreaEffect: 0
     _areaRadius: 0
     _areaEffects: []

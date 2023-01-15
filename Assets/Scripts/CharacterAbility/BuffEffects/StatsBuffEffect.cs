@@ -6,13 +6,13 @@ namespace CharacterAbility.BuffEffects
 {
     public class StatsBuffEffect : TickEffectBase
     {
-        private readonly Buff_Type _statType;
+        [SerializeField]
+        private Buff_Type _statType;
         [SerializeField]
         private float _modifier;
         [SerializeField]
         private bool _isMultiplier;
         private readonly IBattleObject _caster;
-        [SerializeField]
         private float _modificator;
         [SerializeField]
         private ScaleFromWhom _scaleFromWhom;

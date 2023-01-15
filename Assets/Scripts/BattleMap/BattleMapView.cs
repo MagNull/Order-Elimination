@@ -138,6 +138,7 @@ public class BattleMapView : MonoBehaviour
         var obj = cell.GetObject();
         if (obj is NullBattleObject)
             return;
-        obj.View.transform.DOMove(GetCell(obj).transform.position, _moveDuration) ;
+        obj.View.transform.position = GetCell(obj).transform.position;
+        //obj.View.transform.DOMove(GetCell(obj).transform.position, _moveDuration) ;
     }
 }

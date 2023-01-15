@@ -34,6 +34,7 @@ namespace OrderElimination.BattleMap
 
         public void OnEnter(IBattleObject battleObject)
         {
+            Debug.Log(battleObject.View.name + " entered " + View.name);
             foreach (var buff in _enterBuffs) battleObject.AddTickEffect(buff);
             Debug.Log(battleObject.View.name + " entered " + View.name);
         }

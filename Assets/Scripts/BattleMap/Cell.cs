@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using OrderElimination.BattleMap;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 
 public class Cell
 {

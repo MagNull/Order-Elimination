@@ -2,12 +2,10 @@
 using System.Threading.Tasks;
 using Coffee.UIExtensions;
 using Cysharp.Threading.Tasks;
-using OrderElimination.BattleMap;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Tutorial

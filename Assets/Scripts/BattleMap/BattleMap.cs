@@ -133,7 +133,9 @@ public class BattleMap : MonoBehaviour
                 SetCell(objCoord.x, objCoord.y, new NullBattleObject());
         }
 
+        Debug.Log("Ne");
         SetCell(x, y, obj);
+        Debug.Log("Da");
         await UniTask.Delay(TimeSpan.FromSeconds(delay == -1 ? 0 : delay));
     }
 
@@ -165,7 +167,7 @@ public class BattleMap : MonoBehaviour
             foreach (var neighbour in GetNeighbours(current))
             {
                 if (visited.Contains(neighbour) ||
-                    GetCell(neighbour.x, neighbour.y).GetObject() is not NullBattleObject and not EnvironmentObject)
+                    GetCell(neighbour.x, neighbour.y).GetObject().Side != BattleObjectSide.None)
                     continue;
 
                 visited.Add(neighbour);
@@ -174,6 +176,7 @@ public class BattleMap : MonoBehaviour
             }
         }
 
+        Debug.Log("Path len: " + path.Count);
         return path;
     }
 

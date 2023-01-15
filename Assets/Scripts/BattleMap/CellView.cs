@@ -66,6 +66,7 @@ public class CellView : MonoBehaviour
     {
         if(EventSystem.current.IsPointerOverGameObject())
             return;
+        Debug.Log(Model.GetObject() + " clicked");
         CellClicked?.Invoke(this);
     }
 }
