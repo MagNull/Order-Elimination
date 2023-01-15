@@ -34,7 +34,7 @@ MonoBehaviour:
     _hasTargetEffect: 1
     _distanceFromMovement: 0
     _distance: 3
-    _targetType: 2
+    _targetType: 0
     _targetEffects:
     - Type: 1
       HasProbability: 0
@@ -59,9 +59,10 @@ MonoBehaviour:
       Distance: 0
       ShowInAbilityDescription: 0
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
     _hasAreaEffect: 0
     _areaRadius: 0
     _areaEffects: []

@@ -30,7 +30,6 @@ public class BattleCharacterFactory : MonoBehaviour
         //TODO: Generation Enemy 
         if (side == BattleObjectSide.Enemy)
         {
-            Debug.Log(info.GetName());
             character = new EnemyDog(_map,
                 new BattleStats(info.GetBattleStats()), new PerfectHitDamageCalculation());
             ((EnemyDog) character).SetDamageAbility(_abilityFactory.CreateAbility(_bite, character));

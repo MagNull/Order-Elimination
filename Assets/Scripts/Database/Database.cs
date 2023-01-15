@@ -1,11 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Xml;
 using UnityEngine;
-using Firebase.Database;
 using OrderElimination.Start;
-using UnityEngine.SceneManagement;
 
 namespace OrderElimination
 {
@@ -240,14 +236,14 @@ namespace OrderElimination
             // }
         }
 
-        private async Task<DataSnapshot> GetSavesDataSnapshot()
-        {
-            return await FirebaseDatabase
-                .DefaultInstance
-                .GetReference(GetIdFromFile())
-                .Child("Saves")
-                .GetValueAsync();
-        }
+        // private async Task<DataSnapshot> GetSavesDataSnapshot()
+        // {
+        //     return await FirebaseDatabase
+        //         .DefaultInstance
+        //         .GetReference(GetIdFromFile())
+        //         .Child("Saves")
+        //         .GetValueAsync();
+        // }
 
         private void SetMediatorBySelectedSave(int saveIndex)
         {

@@ -100,9 +100,10 @@ public class BattleCharacter : IActor
     //TODO: Strategy pattern in future if needed
     public void TakeRecover(int value, int accuracy, DamageHealTarget damageHealTarget)
     {
-        var isHeal = Random.Range(0, 100) < accuracy;
-        if (!isHeal)
-            return;
+        Debug.Log("healed");
+        // var isHeal = Random.Range(0, 100) < accuracy;
+        // if (!isHeal)
+        //     return;
 
         switch (damageHealTarget)
         {
@@ -117,6 +118,15 @@ public class BattleCharacter : IActor
                 _battleStats.Health += value;
                 break;
         }
+        var takeDamageInfo = new TakeDamageInfo
+        {
+            HealthDamage = 0,
+            ArmorDamage = 0,
+            CancelType = 0,
+            Attacker = this,
+            Target = this
+        };
+        Damaged?.Invoke(takeDamageInfo);
     }
 
     public void ClearTickEffects()

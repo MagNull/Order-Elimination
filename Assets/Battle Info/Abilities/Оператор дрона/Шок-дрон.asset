@@ -33,7 +33,7 @@ MonoBehaviour:
     _hasTargetEffect: 1
     _distanceFromMovement: 0
     _distance: 4
-    _targetType: 0
+    _targetType: 1
     _targetEffects:
     - Type: 0
       HasProbability: 0
@@ -58,9 +58,10 @@ MonoBehaviour:
       Distance: 0
       ShowInAbilityDescription: 0
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
     - Type: 7
       HasProbability: 0
       Probability: 0
@@ -82,11 +83,12 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
-      ShowInAbilityDescription: 0
+      ShowInAbilityDescription: 1
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: "\u041E\u0433\u043B\u0443\u0448\u0435\u043D\u0438\u0435"
+        _effectIcon: {fileID: 21300000, guid: 02800fb9cff14da47a04572790384d8b, type: 3}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
     - Type: 4
       HasProbability: 0
       Probability: 0
@@ -108,11 +110,12 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
-      ShowInAbilityDescription: 0
+      ShowInAbilityDescription: 1
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: "\u0412\u0445\u043E\u0434\u044F\u0449\u0430\u044F \u043C\u0435\u0442\u043A\u043E\u0441\u0442\u044C"
+        _effectIcon: {fileID: 21300000, guid: 5725ced29463b774c80b9bfc87fcf383, type: 3}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 1
     _hasAreaEffect: 0
     _areaRadius: 0
     _areaEffects: []

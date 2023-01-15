@@ -48,6 +48,7 @@ MonoBehaviour:
       ModificatorValue: 0
       BuffType: 3
       Multiplier: 0
+      ScaleFromWhom: 0
       BuffModificator: -30
       Duration: 1
       ConditionType: 0
@@ -57,9 +58,10 @@ MonoBehaviour:
       Distance: 0
       ShowInAbilityDescription: 0
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
     - Type: 4
       HasProbability: 1
       Probability: 90
@@ -73,6 +75,7 @@ MonoBehaviour:
       ModificatorValue: 0
       BuffType: 3
       Multiplier: 0
+      ScaleFromWhom: 0
       BuffModificator: -1
       Duration: 1
       ConditionType: 0
@@ -82,9 +85,10 @@ MonoBehaviour:
       Distance: 0
       ShowInAbilityDescription: 0
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
     - Type: 4
       HasProbability: 0
       Probability: 0
@@ -98,6 +102,7 @@ MonoBehaviour:
       ModificatorValue: 0
       BuffType: 0
       Multiplier: 1
+      ScaleFromWhom: 0
       BuffModificator: -0.3
       Duration: 0
       ConditionType: 0
@@ -107,11 +112,12 @@ MonoBehaviour:
       Distance: 0
       ShowInAbilityDescription: 0
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
     _hasAreaEffect: 1
-    _areaRadius: 3
+    _areaRadius: 1
     _areaEffects:
     - Type: 4
       HasProbability: 1
@@ -126,6 +132,7 @@ MonoBehaviour:
       ModificatorValue: 0
       BuffType: 3
       Multiplier: 0
+      ScaleFromWhom: 0
       BuffModificator: -30
       Duration: 1
       ConditionType: 0
@@ -133,11 +140,12 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
-      ShowInAbilityDescription: 0
+      ShowInAbilityDescription: 1
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 21300000, guid: 8f7797d10d9321642a806c4164dcc5fd, type: 3}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
     - Type: 4
       HasProbability: 1
       Probability: 90
@@ -151,6 +159,7 @@ MonoBehaviour:
       ModificatorValue: 0
       BuffType: 4
       Multiplier: 0
+      ScaleFromWhom: 0
       BuffModificator: -1
       Duration: 1
       ConditionType: 0
@@ -160,9 +169,10 @@ MonoBehaviour:
       Distance: 0
       ShowInAbilityDescription: 0
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
     - Type: 4
       HasProbability: 0
       Probability: 0
@@ -176,6 +186,7 @@ MonoBehaviour:
       ModificatorValue: 0
       BuffType: 0
       Multiplier: 1
+      ScaleFromWhom: 0
       BuffModificator: -0.3
       Duration: 0
       ConditionType: 0
@@ -185,9 +196,10 @@ MonoBehaviour:
       Distance: 0
       ShowInAbilityDescription: 0
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
   _passiveParams:
     _effects: []
     _triggerType: 0

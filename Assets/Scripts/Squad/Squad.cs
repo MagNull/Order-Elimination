@@ -99,8 +99,6 @@ namespace OrderElimination
 
         public void Select()
         {
-            Debug.Log($"Select {name}");
-            Debug.Log(AlreadyMove);
             if (AlreadyMove)
                 return;
             Selected?.Invoke(this);

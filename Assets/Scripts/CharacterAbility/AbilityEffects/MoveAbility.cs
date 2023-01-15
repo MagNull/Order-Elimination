@@ -1,4 +1,6 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using OrderElimination;
 using OrderElimination.BattleMap;
 using UnityEngine;
@@ -39,15 +41,25 @@ namespace CharacterAbility.AbilityEffects
             }
 
             var path = _battleMap.GetShortestPath(_caster, targetPosition.x, targetPosition.y);
+
+            var turnEnded = false;
+            CancellationTokenSource cancellationToken = new CancellationTokenSource();
+            BattleSimulation.PlayerTurnEnd += () => cancellationToken.Cancel();
+            var canceled = false;
             foreach (var cell in path)
             {
-                await _battleMap.MoveTo(_caster, cell.x, cell.y, _stepDelay);
+                canceled = await _battleMap.MoveTo(_caster, cell.x, cell.y, _stepDelay)
+                    .AttachExternalCancellation(cancellationToken.Token).SuppressCancellationThrow();
             }
-            
-            if(_nextEffect == null)
+
+            if (canceled)
+            {
+                var last = path.Last();
+                await _battleMap.MoveTo(_caster, last.x, last.y);
+            }
+            if (_nextEffect == null)
                 return;
             await _nextEffect.Use(target, stats);
-            
         }
     }
 }

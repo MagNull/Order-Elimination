@@ -33,7 +33,6 @@ namespace Tutorial
         
         private async void Start()
         {
-            Debug.Log(PlayerPrefs.GetInt("Battle Tutorial"));
             if (PlayerPrefs.GetInt("Battle Tutorial") < 0)
             {
                 gameObject.SetActive(false);

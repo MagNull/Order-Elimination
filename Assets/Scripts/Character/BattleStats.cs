@@ -32,11 +32,11 @@ namespace OrderElimination
         public BattleStats(IReadOnlyBattleStats other)
         {
             _health = other.Health;
-            _unmodifiedHealth = other.UnmodifiedHealth;
+            _unmodifiedHealth = other.UnmodifiedHealth == 0 ? other.Health : other.UnmodifiedHealth;
             _attack = other.Attack;
             _unmodifiedAttack = other.UnmodifiedAttack;
             _armor = other.Armor;
-            _unmodifiedArmor = other.UnmodifiedArmor;
+            _unmodifiedArmor = other.UnmodifiedArmor == 0 ? other.Armor : other.UnmodifiedArmor;
             _evasion = other.Evasion;
             _unmodifiedEvasion = other.UnmodifiedEvasion;
             _accuracy = other.Accuracy;

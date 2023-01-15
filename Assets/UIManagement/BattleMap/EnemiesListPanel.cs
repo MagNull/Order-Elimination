@@ -30,6 +30,8 @@ namespace UIManagement.Elements
             foreach (var enemy in enemies)
             {
                 var newStatsItem = Instantiate(_characterStatsItemPrefab, _listItemsHolder);
+                Debug.Log("Health: " + enemy.Model.Stats.Health + '\n' +
+                          "Unmod Health: " + enemy.Model.Stats.UnmodifiedHealth);
                 newStatsItem.UpdateCharacterInfo(enemy);
                 newStatsItem.IsClickingAvatarAvailable = _enemiesInfoByClickingAvailable;
                 newStatsItem.IsHoldingAvatarAvailable = _enemiesInfoByHoldingAvailable;
