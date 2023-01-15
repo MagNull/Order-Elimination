@@ -36,7 +36,7 @@ namespace OrderElimination
             // _allCountMove = new Dictionary<int, int>();
             // _moneyInSaves = new Dictionary<int, int>();
             // _enemySquadPositions = new Dictionary<int, Vector3>();
-            // LoadTextToSaves();
+            LoadTextToSaves();
             // LoadPositionsToSaves();
             // LoadEnemySquadPositionToSaves();
             // LoadMoney();
@@ -73,6 +73,16 @@ namespace OrderElimination
             //     .Child("Saves")
             //     .Child(index.ToString())
             //     .RemoveValueAsync();
+            
+            PlayerPrefs.DeleteKey($"{index}");
+            PlayerPrefs.DeleteKey($"{SaveIndex}:Squad 0");
+            PlayerPrefs.DeleteKey($"{SaveIndex}:Squad 1");
+            PlayerPrefs.DeleteKey($"{SaveIndex}:Squad 0:isMove");
+            PlayerPrefs.DeleteKey($"{SaveIndex}:Squad 1:isMove");
+            PlayerPrefs.DeleteKey($"{SaveIndex}:CountMove");
+            PlayerPrefs.DeleteKey($"{SaveIndex}:EnemySquad");
+            PlayerPrefs.DeleteKey($"{SaveIndex}:BattleOutcome");
+            PlayerPrefs.DeleteKey($"{SaveIndex}:Money");
         }
 
         public static void SaveCountMove(int countMove, string child = "CountMove")
@@ -145,6 +155,13 @@ namespace OrderElimination
             //     LoadSave?.Invoke(i, $"Игра {i + 1}, ход {countMove} ({timeString})");
             //     _allCountMove[i] = countMove;
             // }
+            for (var i = 0; i < 3; i++)
+            {
+                if (!PlayerPrefs.HasKey($"{i}:CountMove"))
+                    continue;
+                var countMove = PlayerPrefs.GetInt($"{i}:CountMove");
+                LoadSave?.Invoke(i, $"Игра {i + 1}, ход {countMove}");
+            }
         }
 
         private async void LoadPositionsToSaves()
@@ -239,6 +256,7 @@ namespace OrderElimination
             // SaveIndex = saveIndex;
             // SetMediator(_allPositions[saveIndex], _isMovesSquadsOnSaves[saveIndex], _allCountMove[saveIndex],
             //     _enemySquadPositions[saveIndex], _moneyInSaves[saveIndex]);
+            PlayerPrefs.SetInt($"SaveIndex", saveIndex);
         }
 
         public void SetNewGame(int saveIndex)
@@ -255,7 +273,7 @@ namespace OrderElimination
             // SaveCountMove(0);
         }
 
-        private void SetMediator(List<Vector3> positions,List<bool> isMoveSquads, int countMove, Vector3 enemyPosition, int money)
+        private void SetMediator(List<Vector3> positions, List<bool> isMoveSquads, int countMove, Vector3 enemyPosition, int money)
         {
             PlayerPrefs.SetInt($"SaveIndex", SaveIndex);
             //StartMenuMediator.SetSaveIndex(SaveIndex);

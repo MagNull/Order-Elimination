@@ -75,6 +75,8 @@ namespace OrderElimination
 
         private void SavePositions()
         {
+            if (this.IsDestroyed())
+                return;
             var squads = _selectableObjects.GetSquads();
             var count = 0;
             var positions = new List<Vector3>();
@@ -86,6 +88,7 @@ namespace OrderElimination
                 var position = squad.transform.position;
                 positions.Add(position);
                 isMoveSquads.Add(squad.AlreadyMove);
+                Debug.Log($"SavePosition: {count}");
                 PlayerPrefs.SetString($"{StrategyMap.SaveIndex}:Squad {count}", position.ToString());
                 _database.SaveData($"Squad {count++}", position);
             }
@@ -112,6 +115,7 @@ namespace OrderElimination
             PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:Squad 0:isMove", 0);
             PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:Squad 1:isMove", 0);
             StrategyMap.AddCountMove();
+            PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:CountMove", StrategyMap.CountMove);
             Database.SaveCountMove(StrategyMap.CountMove);
             Database.SaveIsMoveSquads(new List<bool>{false, false});
             _database.LoadTextToSaves();
@@ -122,6 +126,11 @@ namespace OrderElimination
         {
             onPauseClicked?.Invoke(false);
             _settingsImage.gameObject.SetActive(true);
+        }
+
+        public void OnDestroy()
+        {
+            Squad.onMove -= SavePositions;
         }
     }
 }
