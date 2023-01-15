@@ -175,8 +175,8 @@ namespace OrderElimination
             for (var i = 0; i < dataSnapshot.ChildrenCount; i++)
             {
                 var isMoveSnapshot = dataSnapshot.Child($"{i}").Child("IsMove");
-                var firstSquadIsMove = "0";
-                var secondSquadIsMove = "0";
+                var firstSquadIsMove = "False";
+                var secondSquadIsMove = "False";
                 
                 if (isMoveSnapshot.Child("Squad 0").Exists)
                     firstSquadIsMove = isMoveSnapshot.Child("Squad 0").Value.ToString();
@@ -185,8 +185,8 @@ namespace OrderElimination
                 
                 var isMoveSquads = new List<bool>
                 {
-                    firstSquadIsMove != "0",
-                    secondSquadIsMove != "0"
+                    firstSquadIsMove != "False",
+                    secondSquadIsMove != "False"
                 };
                 
                 _isMovesSquadsOnSaves[i] = isMoveSquads;
@@ -273,6 +273,8 @@ namespace OrderElimination
             
             PlayerPrefs.SetString($"{SaveIndex}:EnemySquad", enemyPosition.ToString());
             //StartMenuMediator.SetEnemySquadPosition(enemyPosition);
+            
+            PlayerPrefs.SetString($"{SaveIndex}:BattleOutcome", BattleOutcome.Neither.ToString());
             
             PlayerPrefs.SetInt($"{SaveIndex}:Money", money);
             //StartMenuMediator.SetMoney(money);

@@ -112,6 +112,7 @@ namespace OrderElimination
                 squad.SetAlreadyMove(false);
             StrategyMap.AddCountMove();
             Database.SaveCountMove(StrategyMap.CountMove);
+            Database.SaveIsMoveSquads(new List<bool>{false, false});
             _database.LoadTextToSaves();
             onFinishMove?.Invoke();
         }

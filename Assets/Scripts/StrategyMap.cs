@@ -106,8 +106,11 @@ namespace OrderElimination
             var position = PlayerPrefs.GetString($"{SaveIndex}:EnemySquad").GetVectorFromString();
             if (position == Vector3.zero)
                 return;
-            if (PlayerPrefs.GetString($"{SaveIndex}:BattleOutcome") != BattleOutcome.Victory.ToString())
+            var battleOutcome = PlayerPrefs.GetString($"{SaveIndex}:BattleOutcome");
+            if (battleOutcome != BattleOutcome.Victory.ToString())
+            {
                 SetEnemySquad(_creator.CreateEnemySquad(position));
+            }
             else
                 Database.DeleteEnemySquadPosition();
         }
@@ -117,6 +120,7 @@ namespace OrderElimination
             _enemySquad = enemySquad;
             var position = enemySquad.transform.position;
             FindNearestPoint(position).SetEnemy(true);
+            Debug.Log("SetEnemySquad");
             Database.SaveEnemySquadPosition(position);
             PlayerPrefs.SetString($"{SaveIndex}:EnemySquad", position.ToString());
         }
