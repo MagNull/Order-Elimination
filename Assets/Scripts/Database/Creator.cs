@@ -12,13 +12,17 @@ namespace OrderElimination
         [SerializeField]
         private PlanetPoint _planetPointPrefab;
         [SerializeField]
-        private Squad _squadPrefab;
+        private Squad _firstSquadPrefab;
+        [SerializeField]
+        private Squad _secondSquadPrefab;
         [SerializeField]
         private EnemySquad _enemySquadPrefab;
         [SerializeField]
         private Path _pathPrefab;
         [SerializeField]
-        private Button _buttonSquadPrefab;
+        private Button _firstButtonSquadPrefab;
+        [SerializeField]
+        private Button _secondButtonSquadPrefab;
         [SerializeField]
         private GameObject _parent;
 
@@ -41,9 +45,9 @@ namespace OrderElimination
             return planetPoint;
         }
 
-        public Squad CreateSquad(Vector3 position)
+        public Squad CreateSquad(Vector3 position, bool isFirstSquad)
         {
-            var squad = _objectResolver.Instantiate(_squadPrefab, position, Quaternion.identity, _parent.transform);
+            var squad = _objectResolver.Instantiate(isFirstSquad ? _firstSquadPrefab : _secondSquadPrefab, position, Quaternion.identity, _parent.transform);
             Created?.Invoke(squad);
             return squad;
         }
@@ -54,9 +58,9 @@ namespace OrderElimination
             return path;
         }
 
-        public Button CreateSquadButton(Vector3 position)
+        public Button CreateSquadButton(Vector3 position, bool isFirstSquad)
         {
-            var button = Instantiate(_buttonSquadPrefab, position, Quaternion.identity, _parent.transform);
+            var button = Instantiate(isFirstSquad ? _firstButtonSquadPrefab : _secondButtonSquadPrefab, position, Quaternion.identity, _parent.transform);
             return button;
         }
 
