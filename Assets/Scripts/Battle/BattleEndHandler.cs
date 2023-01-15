@@ -15,6 +15,8 @@ public class BattleEndHandler : MonoBehaviour
     public void Construct(IObjectResolver objectResolver)
     {
         _objectResolver = objectResolver;
+        _winWindow.gameObject.SetActive(false);
+        _defeatWindow.gameObject.SetActive(false);
     }
 
     public void OnEnable()
@@ -29,7 +31,8 @@ public class BattleEndHandler : MonoBehaviour
 
     public void ShowResults(BattleOutcome outcome)
     {
-        var results = outcome == BattleOutcome.Victory ? Instantiate(_winWindow) : Instantiate(_defeatWindow);
+        var results = outcome == BattleOutcome.Victory ? _winWindow : _defeatWindow;
+        results.gameObject.SetActive(true);
         _objectResolver.Inject(results);
     }
 }

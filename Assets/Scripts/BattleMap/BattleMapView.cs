@@ -66,6 +66,22 @@ public class BattleMapView : MonoBehaviour
         throw new ArgumentException("BattleObject not found");
     }
 
+    public CellView GetCell(Cell cell)
+    {
+        for (var i = 0; i < _cellViewGrid.GetLength(0); i++)
+        {
+            for (var j = 0; j < _cellViewGrid.GetLength(1); j++)
+            {
+                if (_cellViewGrid[i, j].Model == cell)
+                {
+                    return _cellViewGrid[i, j];
+                }
+            }
+        }
+
+        throw new ArgumentException("Cell not found");
+    }
+
     public void LightCellByDistance(int x, int y, int distance)
     {
         for (int i = -distance; i <= distance; i++)

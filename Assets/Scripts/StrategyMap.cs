@@ -11,7 +11,8 @@ namespace OrderElimination
 {
     public class StrategyMap : MonoBehaviour
     {
-        [SerializeField] private Creator _creator;
+        [SerializeField]
+        private Creator _creator;
         private PlanetInfo[] _pointsInfo;
         private List<PlanetPoint> _planetPoints;
         private List<Squad> _squads;
@@ -22,11 +23,26 @@ namespace OrderElimination
         public static int SaveIndex { get; private set; }
         public static int CountMove { get; private set; }
 
+        public IReadOnlyList<Squad> Squads => _squads;
+
+        public IReadOnlyList<PlanetPoint> PlanetPoints => _planetPoints;
+
+        public EnemySquad EnemySquad => _enemySquad;
+
         public static void AddCountMove()
         {
             CountMove++;
         }
-        
+
+        //VERY VERY COOL CRUTCH TODO: Fix
+        public void SpawnEnemy(int index)
+        {
+            var emptyPoints = _planetPoints.Where(point => point.CountSquadOnPoint == 0).ToList();
+            var planetPoint = emptyPoints[index];
+            var position = planetPoint.transform.position + new Vector3(-IconSize, IconSize + 10f);
+            SetEnemySquad(_creator.CreateEnemySquad(position));
+        }
+
         private void Awake()
         {
             _planetPoints = new List<PlanetPoint>();
@@ -70,10 +86,10 @@ namespace OrderElimination
                 foreach (var pathInfo in pointInfo.Paths)
                 {
                     var path = _creator.CreatePath();
-                    
+
                     var startPoint = _planetPoints.First(x => x.GetPlanetInfo() == pointInfo);
                     var endPoint = _planetPoints.First(x => x.GetPlanetInfo() == pathInfo.End);
-                    
+
                     path.SetStartPoint(startPoint);
                     path.SetEndPoint(endPoint);
 
@@ -93,9 +109,10 @@ namespace OrderElimination
             };
             foreach (var position in positionsInSave)
             {
-                var squad = _creator.CreateSquad(position);
+                var squad = _creator.CreateSquad(position, count == 0);
                 squad.name = $"Squad {count}";
-                var button = _creator.CreateSquadButton(squadsInfo[count++].PositionOnOrderPanel);
+                var button = _creator.CreateSquadButton(squadsInfo[count].PositionOnOrderPanel, count == 0);
+                count++;
                 squad.SetOrderButton(button);
                 _squads.Add(squad);
             }
@@ -120,7 +137,6 @@ namespace OrderElimination
             _enemySquad = enemySquad;
             var position = enemySquad.transform.position;
             FindNearestPoint(position).SetEnemy(true);
-            Debug.Log("SetEnemySquad");
             Database.SaveEnemySquadPosition(position);
             PlayerPrefs.SetString($"{SaveIndex}:EnemySquad", position.ToString());
         }
@@ -154,14 +170,14 @@ namespace OrderElimination
         {
             if (_enemySquad != null)
                 return;
-            
+
             var emptyPoints = _planetPoints.Where(point => point.CountSquadOnPoint == 0).ToList();
             var rnd = new Random();
             var planetPoint = emptyPoints[rnd.Next(0, emptyPoints.Count - 1)];
             var position = Vector3.zero;
             if (!planetPoint.IsDestroyed())
                 position = planetPoint.transform.position + new Vector3(-IconSize, IconSize + 10f);
-            if(!_creator.IsDestroyed())
+            if (!_creator.IsDestroyed())
                 SetEnemySquad(_creator.CreateEnemySquad(position));
         }
 

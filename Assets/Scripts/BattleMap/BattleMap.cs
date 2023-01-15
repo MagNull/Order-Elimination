@@ -90,6 +90,22 @@ public class BattleMap : MonoBehaviour
             battleObject is not NullBattleObject && battleObject.Side == side);
     }
 
+    public bool GetCellWith(Func<Cell, bool> predicate, out Cell cell)
+    {
+        for (var i = 0; i < _cellGrid.GetLength(0); i++)
+        {
+            for (var j = 0; j < _cellGrid.GetLength(1); j++)
+            {
+                if (!predicate(_cellGrid[i, j])) continue;
+                cell = _cellGrid[i, j];
+                return true;
+            }
+        }
+
+        cell = null;
+        return false;
+    }
+
     public IList<IBattleObject> GetBattleObjectsInRadius(IBattleObject obj, int radius)
     {
         return GetObjectsInRadius(obj, radius, battleObject =>
@@ -149,7 +165,7 @@ public class BattleMap : MonoBehaviour
             foreach (var neighbour in GetNeighbours(current))
             {
                 if (visited.Contains(neighbour) ||
-                    GetCell(neighbour.x, neighbour.y).GetObject() is not NullBattleObject and not EnvironmentObject )
+                    GetCell(neighbour.x, neighbour.y).GetObject() is not NullBattleObject and not EnvironmentObject)
                     continue;
 
                 visited.Add(neighbour);

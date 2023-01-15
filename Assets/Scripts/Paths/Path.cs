@@ -23,12 +23,12 @@ namespace OrderElimination
         {
             if (isActive)
             {
-                _lineRenderer.sortingOrder = 1;
+                _lineRenderer.sortingOrder = 2;
                 _lineRenderer.SetColors(Color.yellow, Color.yellow);
             }
             else
             {
-                _lineRenderer.sortingOrder = 0;
+                _lineRenderer.sortingOrder = 1;
                 _lineRenderer.SetColors(Color.black, Color.black);
             }
         }

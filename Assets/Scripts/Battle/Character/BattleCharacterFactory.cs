@@ -31,7 +31,7 @@ public class BattleCharacterFactory : MonoBehaviour
         if (side == BattleObjectSide.Enemy)
         {
             character = new EnemyDog(_map,
-                new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation());
+                new BattleStats(info.GetBattleStats()), new PerfectHitDamageCalculation());
             ((EnemyDog) character).SetDamageAbility(_abilityFactory.CreateAbility(_bite, character));
         }
         else

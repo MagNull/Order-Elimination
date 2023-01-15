@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5601238274128453347}
   - component: {fileID: 5601238274128453344}
   - component: {fileID: 5601238274128453345}
+  - component: {fileID: -4369055071686487152}
   m_Layer: 0
   m_Name: Point
   m_TagString: Untagged
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 20980dac0159fff4ea066b688ca4e70d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -122,5 +123,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ffe96fed6795ad4690892f2f394ed33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-4369055071686487152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5601238274128453348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff33aaa296bb421c9bef070afe9cf9a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
