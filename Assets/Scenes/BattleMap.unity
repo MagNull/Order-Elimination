@@ -2239,6 +2239,14 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 6707548206703960479, guid: 815b3c51ed3aea54385d980a8b11f453, type: 3}
+    - target: {fileID: 6974830995163515079, guid: 815b3c51ed3aea54385d980a8b11f453, type: 3}
+      propertyPath: m_Content
+      value: 
+      objectReference: {fileID: 1486324162}
+    - target: {fileID: 7029517119637265537, guid: 815b3c51ed3aea54385d980a8b11f453, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7046296649737385482, guid: 815b3c51ed3aea54385d980a8b11f453, type: 3}
       propertyPath: serializationData.Prefab
       value: 
@@ -3764,6 +3772,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &1486324162 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3138909771945261253, guid: 815b3c51ed3aea54385d980a8b11f453, type: 3}
+  m_PrefabInstance: {fileID: 867361640}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1502236258
 GameObject:
   m_ObjectHideFlags: 0
