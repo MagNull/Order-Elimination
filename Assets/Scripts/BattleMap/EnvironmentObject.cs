@@ -52,32 +52,29 @@ namespace OrderElimination.BattleMap
 
         public void TakeDamage(DamageInfo damageInfo)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void TakeRecover(int value, int accuracy, DamageHealTarget damageHealTarget)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void AddTickEffect(ITickEffect effect)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void RemoveTickEffect(ITickEffect effect)
         {
-            throw new NotImplementedException();
         }
 
         public void ClearTickEffects()
         {
-            throw new NotImplementedException();
         }
 
         public void ClearBuffEffects()
         {
-            throw new NotImplementedException();
         }
 
         public IReadOnlyList<ITickEffect> GetTickEffects(ITickEffect tickEffectType)
