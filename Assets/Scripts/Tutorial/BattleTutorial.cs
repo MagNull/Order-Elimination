@@ -22,6 +22,8 @@ namespace Tutorial
         [SerializeField]
         private BattleMapView _battleMapView;
 
+        private int _activeCutoutCounter;
+
         private async void Start()
         {
             if (PlayerPrefs.GetInt("Tutorial") == -1)
@@ -37,37 +39,29 @@ namespace Tutorial
             _unmasks.ForEach(u => u.gameObject.SetActive(false));
             gameObject.SetActive(false);
             await UniTask.Delay(300);
-            foreach (var stage in _tutorialStages)
+            foreach (var tutorialStage in _tutorialStages)
             {
-                await ProceedStage(stage);
+                await ProceedStage(tutorialStage);
             }
         }
 
         private async Task ProceedStage(BattleTutorialStage stage)
         {
             gameObject.SetActive(true);
-            if (stage.UnmaskCells.Length > 0)
+            var cells = stage.UnmaskCells;
+            for (var i = 0; i < cells.Length; i++)
             {
-                var cells = stage.UnmaskCells;
-                for (var i = 0; i < cells.Length; i++)
-                {
-                    CellView cell = _battleMapView.GetCell(cells[i].x, cells[i].y);
-                    var screenPos = Camera.main.WorldToScreenPoint(cell.transform.position);
-                    _cutouts[i].transform.position = screenPos;
-                    _unmasks[i].fitTarget = _cutouts[i];
-                    _unmasks[i].gameObject.SetActive(true);
-                }
+                CellView cell = _battleMapView.GetCell(cells[i].x, cells[i].y);
+                var screenPos = Camera.main.WorldToScreenPoint(cell.transform.position);
+                HighlightPosition(screenPos);
             }
 
-            if (stage.UnmaskUIs.Length > 0)
+            var uis = stage.UnmaskUIs;
+            for (var i = 0; i < uis.Length; i++)
             {
-                var uis = stage.UnmaskUIs;
-                for (var i = 0; i < uis.Length; i++)
-                {
-                    var unmask = _unmasks[i + stage.UnmaskCells.Length];
-                    unmask.fitTarget = uis[i];
-                    unmask.gameObject.SetActive(true);
-                }
+                var unmask = _unmasks[i + stage.UnmaskCells.Length];
+                unmask.fitTarget = uis[i];
+                unmask.gameObject.SetActive(true);
             }
 
             CellView finishTargetCell = _battleMapView.GetCell(stage.ClickTarget.x, stage.ClickTarget.y);
@@ -77,6 +71,19 @@ namespace Tutorial
             _unmasks.ForEach(u => u.gameObject.SetActive(false));
             gameObject.SetActive(false);
             await UniTask.Delay(TimeSpan.FromSeconds(stage.Delay));
+        }
+        
+        private void HighlightPosition(Vector3 pos)
+        {
+            if (_activeCutoutCounter >= _cutouts.Length)
+            {
+                Debug.LogError("Not enough cutouts");
+                return;
+            }
+            _cutouts[_activeCutoutCounter].transform.position = pos;
+            _unmasks[_activeCutoutCounter].fitTarget = _cutouts[_activeCutoutCounter];
+            _unmasks[_activeCutoutCounter].gameObject.SetActive(true);
+            _activeCutoutCounter++;
         }
     }
 
