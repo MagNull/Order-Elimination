@@ -31,6 +31,7 @@ public class BattleEndHandler : MonoBehaviour
 
     public void ShowResults(BattleOutcome outcome)
     {
+        Debug.Log(outcome);
         var results = outcome == BattleOutcome.Victory ? _winWindow : _defeatWindow;
         results.gameObject.SetActive(true);
         _objectResolver.Inject(results);

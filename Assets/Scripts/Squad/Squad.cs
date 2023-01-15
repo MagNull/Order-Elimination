@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UIManagement;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using VContainer;
 
 namespace OrderElimination
@@ -129,6 +130,14 @@ namespace OrderElimination
             Settings.ExitSettingsWindow -= SetActiveButtonOnOrderPanel;
         }
 
-        private void OnMouseDown() => Select();
+        private void OnMouseDown()
+        {
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                Debug.Log("Blocked");
+                return;
+            }
+            Select();
+        }
     }
 }

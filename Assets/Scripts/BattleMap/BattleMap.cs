@@ -133,9 +133,7 @@ public class BattleMap : MonoBehaviour
                 SetCell(objCoord.x, objCoord.y, new NullBattleObject());
         }
 
-        Debug.Log("Ne");
         SetCell(x, y, obj);
-        Debug.Log("Da");
         await UniTask.Delay(TimeSpan.FromSeconds(delay == -1 ? 0 : delay));
     }
 

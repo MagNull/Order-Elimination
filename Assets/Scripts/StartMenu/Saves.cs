@@ -55,13 +55,13 @@ namespace OrderElimination.Start
         public void LoadButtonClicked()
         {
             LoadClicked?.Invoke(_selectedSaveIndex);
-            SceneManager.LoadScene("StrategyMap2");
+            SceneManager.LoadScene(1);
         }
 
         public void NewGameButtonClicked()
         {
             NewGameClicked?.Invoke(_selectedSaveIndex);
-            SceneManager.LoadScene("StrategyMap2");
+            SceneManager.LoadScene(1);
         }
 
         public void ExitClicked()
