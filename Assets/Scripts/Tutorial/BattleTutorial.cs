@@ -30,6 +30,7 @@ namespace Tutorial
             PlayerPrefs.SetInt("Battle Tutorial", 1);
         }
         
+        
         private async void Start()
         {
             Debug.Log(PlayerPrefs.GetInt("Battle Tutorial"));
@@ -116,7 +117,7 @@ namespace Tutorial
         public Vector2Int[] UnmaskCells;
         public RectTransform[] UnmaskUIs;
         public GameObject AppearingObject;
-        [TextArea]
+        [TextArea(3, 5)]
         public string Text;
     }
 }

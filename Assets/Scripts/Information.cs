@@ -32,7 +32,7 @@ namespace OrderElimination
 
         public void SetMoveCount(int moveCount)
         {
-            _moveCountText.text = $"Count move: {moveCount.ToString()}";
+            _moveCountText.text = $"Ход: {moveCount.ToString()}";
             _moveCount = moveCount;
         }
 

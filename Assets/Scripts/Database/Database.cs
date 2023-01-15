@@ -257,6 +257,7 @@ namespace OrderElimination
             // SetMediator(_allPositions[saveIndex], _isMovesSquadsOnSaves[saveIndex], _allCountMove[saveIndex],
             //     _enemySquadPositions[saveIndex], _moneyInSaves[saveIndex]);
             PlayerPrefs.SetInt($"SaveIndex", saveIndex);
+            PlayerPrefs.SetString($"{SaveIndex}:BattleOutcome", BattleOutcome.Neither.ToString());
         }
 
         public void SetNewGame(int saveIndex)
