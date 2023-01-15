@@ -4,10 +4,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using OrderElimination;
 using TMPro;
 using UIManagement.Debugging;
 using UIManagement.Elements;
-using UIManagement.trashToRemove_Mockups;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -71,6 +71,23 @@ namespace UIManagement.Elements
 
         [Button]
         public void Add(params BattleCharacterView[] charactersInfo)
+        {
+            if (_elementPrefab == null)
+                throw new Exception("No given prefab for instancing.");
+            foreach (var characterInfo in charactersInfo)
+            {
+                var newElement = Instantiate(_elementPrefab, transform);
+                newElement.UpdateCharacterInfo(characterInfo);
+                newElement.HasExperienceRecieved = HasExperienceRecieved;
+                newElement.HasMaintenanceCost = HasMaintenanceCost;
+                newElement.HasParameters = HasParameters;
+                newElement.Destroyed += OnElementDestroyed;
+                _characterList.Add(newElement);
+            }
+        }
+
+        [Button]
+        public void Add(params Character[] charactersInfo)
         {
             if (_elementPrefab == null)
                 throw new Exception("No given prefab for instancing.");

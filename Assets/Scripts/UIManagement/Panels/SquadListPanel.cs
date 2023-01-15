@@ -8,6 +8,7 @@ using UIManagement.Elements;
 using UIManagement.trashToRemove_Mockups;
 using UnityEngine;
 using UnityEngine.UI;
+using Character = OrderElimination.Character;
 
 namespace UIManagement
 {
@@ -18,16 +19,20 @@ namespace UIManagement
 
         public void UpdateSquadListPanel(List<BattleCharacterView> squadCharacters)
         {
+            Debug.Log("1");
             _characterList.HasExperienceRecieved = false;
             _characterList.HasMaintenanceCost = true;
             _characterList.HasParameters = true;
             _characterList.Add(squadCharacters.ToArray());
         }
-
-        //ToRemove
-        private void Awake()
+        
+        public void UpdateSquadListPanel(List<Character> squadCharacters)
         {
-            UpdateSquadListPanel(new ExplorationResult().SquadCharacters);
+            _characterList.Clear();
+            _characterList.HasExperienceRecieved = false;
+            _characterList.HasMaintenanceCost = false;
+            _characterList.HasParameters = false;
+            _characterList.Add(squadCharacters.ToArray());
         }
     }
 }

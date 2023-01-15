@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
-using OrderElimination.Start;
+using UIManagement;
 using Unity.VisualScripting;
 using Random = System.Random;
 using Vector3 = UnityEngine.Vector3;
@@ -162,7 +162,7 @@ namespace OrderElimination
             {
                 squad.Move(FindNearestPoint(squad.transform.position));
                 squad.SetAlreadyMove(PlayerPrefs.GetInt($"{SaveIndex}:Squad {count}:isMove") == 1);
-                //squad.AlreadyMove = StartMenuMediator.Instance.IsMoveSquads[count++];
+                squad.onActiveSquadPanel += SetActiveSquadListPanel;
             }
         }
 
@@ -194,6 +194,11 @@ namespace OrderElimination
             }
 
             return nearestPoint;
+        }
+        
+        public void SetActiveSquadListPanel(Squad squad)
+        {
+            ((SquadListPanel)UIController.SceneInstance.OpenPanel(PanelType.SquadList)).UpdateSquadListPanel(squad.Members);
         }
 
         private void OnDisable()

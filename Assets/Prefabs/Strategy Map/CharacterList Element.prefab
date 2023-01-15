@@ -210,8 +210,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -11.3016405, y: -77}
-  m_SizeDelta: {x: -22.603281, y: 65.5508}
+  m_AnchoredPosition: {x: -0.000030517578, y: 0}
+  m_SizeDelta: {x: -45.2065, y: 65.5508}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &2674833865881443082
 CanvasRenderer:
@@ -250,8 +250,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -268,7 +268,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34.1
+  m_fontSize: 31.3
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -508,7 +508,6 @@ MonoBehaviour:
   _experienceRecieved: {fileID: 2435223829160846168}
   _maintenanceCost: {fileID: 4897515729560424995}
   _parametersList: {fileID: 4614004120144316626}
-  _characterAvatar: {fileID: 2674833865648638006}
 --- !u!114 &2674833867100067444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1009,7 +1008,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3049483318917344189, guid: 1a833951b234c6c4d9422ed2e84886f7, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -376
+      value: -330
       objectReference: {fileID: 0}
     - target: {fileID: 3049483318917344189, guid: 1a833951b234c6c4d9422ed2e84886f7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OrderElimination;
 using TMPro;
-using UIManagement.trashToRemove_Mockups;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -43,7 +44,9 @@ namespace UIManagement.Elements
         [SerializeField] private IconTextValueElement _experienceRecieved;
         [SerializeField] private IconTextValueElement _maintenanceCost;
         [SerializeField] private IconTextValueList _parametersList;
+        [SerializeField] private Image _characterAvatar;
         public BattleCharacterView CharacterInfo { get; private set; }
+        public Character CharacterNotView { get; private set; }
 
         [ShowInInspector]
         public bool HasExperienceRecieved
@@ -84,6 +87,25 @@ namespace UIManagement.Elements
             var battleStats = CharacterInfo.Model.Stats;//.GetBattleStats();
             //var strategyStats = CharacterInfo.GetStrategyStats();
             CharacterName = CharacterInfo.CharacterName;
+            MaintenanceText = "Содержание бойца";
+            //MaintenanceCost = strategyStats.MaintenanceCost.ToString();
+            _parametersList.Add(null, "Здоровье", battleStats.UnmodifiedHealth.ToString());
+            _parametersList.Add(null, "Урон", battleStats.UnmodifiedAttack.ToString());
+            _parametersList.Add(null, "Броня", battleStats.UnmodifiedArmor.ToString());
+            _parametersList.Add(null, "Уклонение", battleStats.UnmodifiedEvasion.ToString());
+            _parametersList.Add(null, "Точность", battleStats.UnmodifiedAccuracy.ToString());
+        }
+        
+        public void UpdateCharacterInfo(Character character)
+        {
+            if (character == null)
+                throw new InvalidOperationException();
+            CharacterNotView = character;
+            _characterAvatar.sprite = character.GetViewAvatar();
+            //IsDead = character.IsDead;
+            var battleStats = CharacterNotView.GetBattleStats();
+            //var strategyStats = CharacterInfo.GetStrategyStats();
+            CharacterName = CharacterNotView.GetName();
             MaintenanceText = "Содержание бойца";
             //MaintenanceCost = strategyStats.MaintenanceCost.ToString();
             _parametersList.Add(null, "Здоровье", battleStats.UnmodifiedHealth.ToString());

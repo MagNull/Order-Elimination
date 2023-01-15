@@ -1,8 +1,6 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using OrderElimination.Start;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -110,6 +108,9 @@ namespace OrderElimination
 
             foreach (var squad in squads)
                 squad.SetAlreadyMove(false);
+            
+            PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:Squad 0:isMove", 0);
+            PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:Squad 1:isMove", 0);
             StrategyMap.AddCountMove();
             Database.SaveCountMove(StrategyMap.CountMove);
             Database.SaveIsMoveSquads(new List<bool>{false, false});
