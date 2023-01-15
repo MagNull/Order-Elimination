@@ -6,32 +6,28 @@ namespace CharacterAbility.BuffEffects
 {
     public class StatsBuffEffect : TickEffectBase
     {
-        private readonly Buff_Type _statType;
-        [SerializeField]
-        private float _modifier;
-        [SerializeField]
-        private bool _isMultiplier;
-        private readonly IBattleObject _caster;
-        [SerializeField]
-        private float _modificator;
-        [SerializeField]
-        private ScaleFromWhom _scaleFromWhom;
+        public float Modifier { get; }
+        public bool IsMultiplier { get; }
+        private float _buffedValueAddition;
+        public ScaleFromWhom ScaleFromWhom { get; }
+        public Buff_Type StatType { get; }
+        public IBattleObject Caster { get; }
 
         public StatsBuffEffect(Buff_Type statType, float modifier, ScaleFromWhom scaleFromWhom, int duration,
             bool isMultiplier, IBattleObject caster, ITickEffectView tickEffectView) : base(duration, tickEffectView)
         {
-            _statType = statType;
-            _modifier = modifier;
-            _scaleFromWhom = scaleFromWhom;
-            _isMultiplier = isMultiplier;
-            _caster = caster;
+            StatType = statType;
+            Modifier = modifier;
+            ScaleFromWhom = scaleFromWhom;
+            IsMultiplier = isMultiplier;
+            Caster = caster;
         }
 
         public BattleStats Apply(IBuffTarget target)
         {
             var newStats = new BattleStats(target.Stats);
-            var scaleTarget = _scaleFromWhom == ScaleFromWhom.Caster ? _caster : target;
-            switch (_statType)
+            var scaleTarget = ScaleFromWhom == ScaleFromWhom.Caster ? Caster : target;
+            switch (StatType)
             {
                 case Buff_Type.Accuracy:
                     newStats.Accuracy = GetModifiedValue(target.Stats.Accuracy, scaleTarget.Stats.Accuracy);
@@ -43,10 +39,10 @@ namespace CharacterAbility.BuffEffects
                     newStats.Evasion = GetModifiedValue(target.Stats.Evasion, scaleTarget.Stats.Evasion);
                     break;
                 case Buff_Type.Health:
-                    newStats.Health = GetModifiedValue(target.Stats.Evasion, scaleTarget.Stats.Evasion);
+                    newStats.Health = GetModifiedValue(target.Stats.Health, scaleTarget.Stats.Health);
                     break;
                 case Buff_Type.Movement:
-                    newStats.Movement = GetModifiedValue(target.Stats.Evasion, scaleTarget.Stats.Evasion);
+                    newStats.Movement = GetModifiedValue(target.Stats.Movement, scaleTarget.Stats.Movement);
                     break;
                 case Buff_Type.AdditionalArmor:
                     newStats.AdditionalArmor =
@@ -61,7 +57,7 @@ namespace CharacterAbility.BuffEffects
         public BattleStats Remove(IBuffTarget target)
         {
             var newStats = new BattleStats(target.Stats);
-            switch (_statType)
+            switch (StatType)
             {
                 case Buff_Type.Accuracy:
                     newStats.Accuracy = GetUnmodifiedValue(target.Stats.Accuracy);
@@ -88,13 +84,13 @@ namespace CharacterAbility.BuffEffects
 
         private int GetModifiedValue(int value, int scaleValue)
         {
-            _modificator = _isMultiplier ? scaleValue * (1 + _modifier) - value : _modifier;
-            return Mathf.RoundToInt(_isMultiplier ? scaleValue * (1 + _modifier) : value + _modifier);
+            _buffedValueAddition = IsMultiplier ? scaleValue * (1 + Modifier) - value : Modifier;
+            return Mathf.RoundToInt(IsMultiplier ? scaleValue * (1 + Modifier) : value + Modifier);
         }
 
         private int GetUnmodifiedValue(int value)
         {
-            return Mathf.RoundToInt(value - _modificator);
+            return Mathf.RoundToInt(value - _buffedValueAddition);
         }
     }
 }

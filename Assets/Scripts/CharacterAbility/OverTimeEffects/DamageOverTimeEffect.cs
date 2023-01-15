@@ -5,14 +5,14 @@ namespace CharacterAbility
 {
     public class DamageOverTimeEffect : TickEffectBase
     {
-        private readonly DamageHealTarget _damageHealTarget;
-        private readonly int _damage;
+        public DamageHealTarget DamageHealTarget;
+        public int Damage { get; }
 
         public DamageOverTimeEffect(
             DamageHealTarget damageHealTarget, int damage, int duration, ITickEffectView view) : base(duration, view )
         {
-            _damageHealTarget = damageHealTarget;
-            _damage = damage;
+            DamageHealTarget = damageHealTarget;
+            Damage = damage;
         }
 
         public override void Tick(ITickTarget tickTarget)
@@ -20,8 +20,8 @@ namespace CharacterAbility
             var attackInfo = new DamageInfo
             {
                 Attacker = new NullBattleObject(),
-                Damage = _damage,
-                DamageHealTarget = _damageHealTarget
+                Damage = Damage,
+                DamageHealTarget = DamageHealTarget
             };
             tickTarget.TakeDamage(attackInfo);
             base.Tick(tickTarget);

@@ -26,12 +26,13 @@ namespace UIManagement.Elements
             }
         }
 
-        public void UpdateEffectDescription(ITickEffectView effectInfo, IReadOnlyBattleStats casterStats)
+        public void UpdateEffectDescription(ITickEffect effect)
         {
-            _effectName.text = effectInfo.EffectName;
-            _effectIcon.sprite = effectInfo.EffectIcon;
+            var effectview = effect.GetEffectView();
+            _effectName.text = effectview.EffectName;
+            _effectIcon.sprite = effectview.EffectIcon;
             _parameters.Clear();
-            foreach (var p in effectInfo.GetDisplayableParameters(casterStats))
+            foreach (var p in effect.GetDisplayableParameters())
             {
                 _parameters.Add(null, p.Key, p.Value);
             }

@@ -9,35 +9,33 @@ namespace CharacterAbility
     [Serializable]
     public class IncomingBuff : TickEffectBase
     {
-        [SerializeField]
-        protected float _modificator;
-        [SerializeField]
-        private readonly Buff_Type _incomingBuffType;
-        private readonly DamageType _damageType;
+        public float Modificator { get; }
+        public Buff_Type IncomingBuffType { get; }
+        public DamageType DamageType { get; }
 
         public IncomingBuff(Buff_Type incomingBuffType, int duration, float modificator, ITickEffectView view,
             DamageType damageType = DamageType.None) : base(duration, view)
         {
-            _incomingBuffType = incomingBuffType;
-            _modificator = modificator;
-            _damageType = damageType;
+            IncomingBuffType = incomingBuffType;
+            Modificator = modificator;
+            DamageType = damageType;
         }
 
         public DamageInfo GetModifiedInfo(DamageInfo info)
         {
-            switch (_incomingBuffType)
+            switch (IncomingBuffType)
             {
                 case Buff_Type.IncomingAccuracy:
-                    if (info.DamageType == _damageType)
-                        info.Accuracy += (int)_modificator;
+                    if (info.DamageType == DamageType)
+                        info.Accuracy += (int)Modificator;
                     break;
                 case Buff_Type.IncomingDamageIncrease:
-                    if (info.DamageType == _damageType)
-                        info.Damage = Mathf.RoundToInt(info.Damage * _modificator);
+                    if (info.DamageType == DamageType)
+                        info.Damage = Mathf.RoundToInt(info.Damage * Modificator);
                     break;
                 case Buff_Type.IncomingDamageReduction:
-                    if (info.DamageType == _damageType)
-                        info.Damage = Mathf.RoundToInt(info.Damage / _modificator);
+                    if (info.DamageType == DamageType)
+                        info.Damage = Mathf.RoundToInt(info.Damage / Modificator);
                     break;
 
                 case Buff_Type.Attack:
@@ -55,19 +53,19 @@ namespace CharacterAbility
         public int GetModifiedValue(int value, Buff_Type buffType)
         {
             var newValue = value;
-            Debug.Log(buffType + " " + _incomingBuffType);
-            if (_incomingBuffType != buffType)
+            Debug.Log(buffType + " " + IncomingBuffType);
+            if (IncomingBuffType != buffType)
                 return newValue;
-            switch (_incomingBuffType)
+            switch (IncomingBuffType)
             {
                 case Buff_Type.IncomingAccuracy:
-                    newValue += (int)_modificator;
+                    newValue += (int)Modificator;
                     break;
                 case Buff_Type.IncomingDamageIncrease:
-                    newValue = Mathf.RoundToInt(_modificator * newValue);
+                    newValue = Mathf.RoundToInt(Modificator * newValue);
                     break;
                 case Buff_Type.IncomingDamageReduction:
-                    newValue = Mathf.RoundToInt(newValue / _modificator);
+                    newValue = Mathf.RoundToInt(newValue / Modificator);
                     break;
 
                 case Buff_Type.Attack:

@@ -16,13 +16,13 @@ namespace UIManagement.Elements
         private List<EffectDescriptionWindow> _effects = new List<EffectDescriptionWindow>();
 
 
-        public void UpdateEffectsList(ITickEffectView[] effectViews)
+        public void UpdateEffectsList(ITickEffect[] effects)
         {
             RemoveEffects();
-            foreach (var e in effectViews)
+            foreach (var e in effects)
             {
                 var newEffectWindow = Instantiate(_effectDescriptionPrefab, _effectsHolder);
-                newEffectWindow.UpdateEffectDescription(e, null);
+                newEffectWindow.UpdateEffectDescription(e);
                 _effects.Add(newEffectWindow);
             }
         }
