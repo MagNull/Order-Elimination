@@ -40,7 +40,7 @@ namespace OrderElimination
             var emptyPoints = _planetPoints.Where(point => point.CountSquadOnPoint == 0).ToList();
             var planetPoint = emptyPoints[index];
             var position = planetPoint.transform.position + new Vector3(-IconSize, IconSize + 10f);
-            SetEnemySquad(_creator.CreateEnemySquad(position));
+            SetEnemySquad(_creator.CreateTutorialEnemySquad(position));
         }
 
         private void Awake()
