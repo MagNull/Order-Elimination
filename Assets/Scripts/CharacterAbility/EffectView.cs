@@ -1,4 +1,5 @@
-﻿using OrderElimination;
+﻿using CharacterAbility.BuffEffects;
+using OrderElimination;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace CharacterAbility
     {
         string EffectName { get; }
         Sprite EffectIcon { get; }
-        IReadOnlyDictionary<string, string> GetDisplayableParameters(IReadOnlyBattleStats characterStats);
+        //IReadOnlyDictionary<string, string> GetDisplayableParameters(IReadOnlyBattleStats characterStats);
         bool DisplayAsMainEffect { get; }
         bool DisplayWhenApplied { get; }
     }
@@ -51,9 +52,9 @@ namespace CharacterAbility
         private bool _displayWhenApplied = false;
         public string EffectName => _effectName;
         public Sprite EffectIcon => _effectIcon;
-        private AbilityEffect _effectModel;
-        public IReadOnlyDictionary<string, string> GetDisplayableParameters(IReadOnlyBattleStats characterStats)
-            => _effectModel.GetDisplayableParameters(characterStats) ?? throw new InvalidOperationException();
+        //private AbilityEffect _effectModel;
+        //public IReadOnlyDictionary<string, string> GetDisplayableParameters(IReadOnlyBattleStats characterStats)
+        //    => _effectModel.GetDisplayableParameters(characterStats) ?? throw new InvalidOperationException();
         public bool DisplayAsMainEffect => _displayAsMainEffect;
         public bool DisplayWhenApplied => _displayWhenApplied;
 
@@ -74,12 +75,87 @@ namespace CharacterAbility
         };
 
         public static ValueUnits GetBuffUnits(Buff_Type buffType) => _buffUnits[buffType];
-
-        public void AssignAbilityEffectToView(AbilityEffect model) => _effectModel = model;
     }
 
     public static class EffectsDisplayHelpers
     {
+        public static Dictionary<string, string> GetDisplayableParameters(this ITickEffect effect)
+        {
+            var result = new Dictionary<string, string>();
+            var tickEffect = (TickEffectBase)effect;
+            if (effect is StatsBuffEffect statsBuffEffect)
+            {
+                int GetModifiedValue(int value, int scaleValue) 
+                    => Mathf.RoundToInt(statsBuffEffect.IsMultiplier
+                        ? scaleValue * (1 + statsBuffEffect.Modifier)
+                        : value + statsBuffEffect.Modifier);
+
+                var buffName = Localization.Current.GetBuffName(statsBuffEffect.StatType);
+                string value;
+
+                if (statsBuffEffect.ScaleFromWhom == ScaleFromWhom.Target)
+                {
+                    value = statsBuffEffect.IsMultiplier
+                    ? $"+{statsBuffEffect.Modifier * 100}%"
+                    : $"+{statsBuffEffect.Modifier}";
+                }
+                else if (statsBuffEffect.ScaleFromWhom == ScaleFromWhom.Caster)
+                {
+                    var statValue = statsBuffEffect.StatType switch
+                    {
+                        Buff_Type.Accuracy => statsBuffEffect.Caster.Stats.Accuracy,
+                        Buff_Type.Attack => statsBuffEffect.Caster.Stats.Attack,
+                        Buff_Type.Evasion => statsBuffEffect.Caster.Stats.Evasion,
+                        Buff_Type.Health => statsBuffEffect.Caster.Stats.Health,
+                        Buff_Type.Movement => statsBuffEffect.Caster.Stats.Movement,
+                        Buff_Type.AdditionalArmor => statsBuffEffect.Caster.Stats.UnmodifiedArmor,
+                        _ => throw new NotImplementedException()
+                    };
+                    value = $"{GetModifiedValue(statValue, statValue)}";
+                }
+                else
+                    throw new NotImplementedException();
+                result.AddDisplayedParameter(buffName, value);
+            }
+            else if (effect is DamageOverTimeEffect damageOverTimeEffect)
+            {
+                var parameterName = damageOverTimeEffect.DamageHealTarget switch
+                {
+                    DamageHealTarget.Normal => "Урон",
+                    DamageHealTarget.OnlyArmor => "Урон броне",
+                    DamageHealTarget.OnlyHealth => "Урон ОЗ",
+                    _ => throw new NotImplementedException()
+                };
+                result.AddDisplayedParameter(parameterName, damageOverTimeEffect.Damage);
+            }
+            else if (effect is IncomingBuff incomingBuff)
+            {
+                switch (incomingBuff.IncomingBuffType)
+                {
+                    case Buff_Type.IncomingAccuracy:
+                        result.AddDisplayedParameter("Входящая точность", $"+{ incomingBuff.Modificator }");
+                        break;
+                    case Buff_Type.IncomingDamageIncrease:
+                        result.AddDisplayedParameter("Урон взрывом", $"+{ (incomingBuff.Modificator - 1) * 100 }%");
+                        break;
+                    case Buff_Type.IncomingDamageReduction:
+                        var dmgReduction = Mathf.RoundToInt((1 - (1 / incomingBuff.Modificator)) * 100);
+                        result.AddDisplayedParameter("Урон взрывом", $"-{ dmgReduction }%");
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            else
+                throw new NotImplementedException();
+            result.AddDisplayedParameter("Длительность", tickEffect.Duration);
+            return result;
+        }
+
+
+
+
+
         public static Dictionary<string, string> GetDisplayableParameters(
             this AbilityEffect effect, IReadOnlyBattleStats casterStats)
         {

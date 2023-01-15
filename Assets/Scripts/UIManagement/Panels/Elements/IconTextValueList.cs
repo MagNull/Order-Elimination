@@ -13,16 +13,24 @@ using UnityEngine.UI;
 
 namespace UIManagement.Elements
 {
-    [ExecuteInEditMode, RequireComponent(typeof(LayoutGroup))]
-    public class IconTextValueList: SerializedMonoBehaviour
+    [ExecuteInEditMode]
+    public class IconTextValueList: MonoBehaviour
     {
         [SerializeField] private IconTextValueElement _elementPrefab;
-        [ListDrawerSettings(IsReadOnly = true), OdinSerialize]
-        private readonly List<IconTextValueElement> _elements = new List<IconTextValueElement>();
-        public IReadOnlyList<IconTextValueElement> Elements => _elements;
-        public int Count => _elements.Count;
+        [SerializeReference, OnValueChanged(nameof(OnListUpdated))]
+        private List<IconTextValueElement> _attachedElements = new List<IconTextValueElement>();
+        public IReadOnlyList<IconTextValueElement> Elements => _attachedElements;
+        public int Count => _attachedElements.Count;
 
+        [SerializeField, HideInInspector]
         private float _iconSize = 64;
+        [SerializeField, HideInInspector]
+        private bool _hasIcons;
+        [SerializeField, HideInInspector]
+        private bool _hasTexts;
+        [SerializeField, HideInInspector]
+        private bool _hasValues;
+
         [ShowInInspector]
         public float IconSize
         {
@@ -30,12 +38,10 @@ namespace UIManagement.Elements
             set
             {
                 _iconSize = value;
-                foreach (var e in _elements)
+                foreach (var e in _attachedElements)
                     e.IconSize = _iconSize;
             }
         }
-        [OdinSerialize, HideInInspector]
-        private bool _hasIcons;
         [ShowInInspector]
         public bool HasIcons
         {
@@ -43,13 +49,10 @@ namespace UIManagement.Elements
             set
             {
                 _hasIcons = value;
-                foreach (var e in _elements)
+                foreach (var e in _attachedElements)
                     e.HasIcon = _hasIcons;
             }
         }
-
-        [OdinSerialize, HideInInspector]
-        private bool _hasTexts;
         [ShowInInspector]
         public bool HasTexts
         {
@@ -57,13 +60,10 @@ namespace UIManagement.Elements
             set
             {
                 _hasTexts = value;
-                foreach (var e in _elements)
+                foreach (var e in _attachedElements)
                     e.HasText = _hasTexts;
             }
         }
-
-        [OdinSerialize, HideInInspector]
-        private bool _hasValues;
         [ShowInInspector]
         public bool HasValues
         {
@@ -71,7 +71,7 @@ namespace UIManagement.Elements
             set
             {
                 _hasValues = value;
-                foreach (var e in _elements)
+                foreach (var e in _attachedElements)
                     e.HasValue = _hasValues;
             }
         }
@@ -80,34 +80,17 @@ namespace UIManagement.Elements
         public void Add(Sprite icon = null, string text = "New Text", string value = "0", ValueUnits valueUnits = ValueUnits.None)
         {
             if (_elementPrefab == null)
-                throw new Exception("No given prefab for instancing.");
-            var newElement = CreateIconTextValueElement(
-                transform, 
-                icon, 
-                text, 
-                $"{value}{Localization.Current.GetUnits(valueUnits)}");
-            newElement.HasIcon = HasIcons;
-            newElement.HasText = HasTexts;
-            newElement.HasValue = HasValues;
-            newElement.Destroyed += OnElementDestroyed;
-            _elements.Add(newElement);
-        }
-        
-        [Button]
-        public void RemoveAt(int index)
-        {
-            if (index >= Count || index < 0)
-                throw new IndexOutOfRangeException();
-            var element = _elements[index];
-            _elements.RemoveAt(index);
-            DestroyImmediate(element.gameObject);
+                throw new Exception("No prefab given for instancing.");
+            _attachedElements.Add(
+                CreateIconTextValueElement(transform, icon, text, $"{value}{Localization.Current.GetUnits(valueUnits)}"));
+            OnListUpdated();
         }
 
         [Button, ShowIf("@Count>0")]
         public void Clear()
         {
-            var elementsToRemove = _elements.ToList();
-            _elements.Clear();
+            var elementsToRemove = _attachedElements.ToArray();
+            _attachedElements.Clear();
             foreach (var e in elementsToRemove)
             {
                 DestroyImmediate(e.gameObject);
@@ -117,7 +100,7 @@ namespace UIManagement.Elements
         public bool HasForeignChildren => transform.childCount > Count;
 
         [Button, ShowIf(nameof(HasForeignChildren))]
-        public void DestroyAllChildrenNotInList()
+        public void DestroyNotAttachedChildren()
         {
             if (!HasForeignChildren)
                 return;
@@ -126,7 +109,7 @@ namespace UIManagement.Elements
                 children.Add(t);
             foreach (var c in children
                 .Select(t => t.gameObject)
-                .Except(_elements.Select(e => e.gameObject)))
+                .Except(_attachedElements.Select(e => e.gameObject)))
             {
                 if (c == gameObject)
                     continue;
@@ -135,11 +118,21 @@ namespace UIManagement.Elements
 
         }
 
+        private void OnListUpdated()
+        {
+            foreach (var e in _attachedElements)
+            {
+                e.HasIcon = HasIcons; e.HasText = HasTexts; e.HasValue = HasValues;
+                e.Destroyed -= OnElementDestroyed;
+                e.Destroyed += OnElementDestroyed;
+            }
+        }
+
         private void OnElementDestroyed(IconTextValueElement element)
         {
-            if (_elements.Contains(element))
+            if (_attachedElements.Contains(element))
             {
-                _elements.Remove(element);
+                _attachedElements.Remove(element);
             }
             element.Destroyed -= OnElementDestroyed;
         }

@@ -65,7 +65,7 @@ namespace UIManagement.Elements
         {
             EffectButtonClicked?.Invoke(effectButton);
             var descrWindow = (EffectsDescriptionPanel)UIController.SceneInstance.OpenPanel(PanelType.EffectsDesriptionList);
-            descrWindow.UpdateEffectsList(_effects.Keys.Select(e => e.GetEffectView()).ToArray());
+            descrWindow.UpdateEffectsList(_effects.Keys.ToArray());
         }
     } 
 }

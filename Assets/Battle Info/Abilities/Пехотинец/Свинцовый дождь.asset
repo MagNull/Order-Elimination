@@ -46,10 +46,13 @@ MonoBehaviour:
       Amounts: 0
       ScaleFrom: 0
       Scale: 0
+      StepDelay: 0
       Modificator: 0
       ModificatorValue: -15
       BuffType: 0
-      BuffValue: 0
+      Multiplier: 0
+      ScaleFromWhom: 0
+      BuffModificator: 0
       Duration: 0
       ConditionType: 0
       OverTimeType: 0
@@ -58,9 +61,10 @@ MonoBehaviour:
       Distance: 0
       ShowInAbilityDescription: 0
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
     - Type: 0
       HasProbability: 0
       Probability: 0
@@ -69,10 +73,13 @@ MonoBehaviour:
       Amounts: 5
       ScaleFrom: 0
       Scale: 1
+      StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
       BuffType: 0
-      BuffValue: 0
+      Multiplier: 0
+      ScaleFromWhom: 0
+      BuffModificator: 0
       Duration: 0
       ConditionType: 0
       OverTimeType: 0
@@ -81,9 +88,10 @@ MonoBehaviour:
       Distance: 0
       ShowInAbilityDescription: 1
       EffectView:
-        DisplayAsMainEffect: 1
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 1
+        _displayWhenApplied: 0
     _hasAreaEffect: 0
     _areaRadius: 0
     _areaEffects: []

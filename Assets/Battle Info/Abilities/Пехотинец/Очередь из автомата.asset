@@ -24,7 +24,7 @@ MonoBehaviour:
   _name: "\u041E\u0447\u0435\u0440\u0435\u0434\u044C \u0438\u0437 \u0430\u0432\u0442\u043E\u043C\u0430\u0442\u0430"
   _description: "\r\u0411\u043E\u0435\u0446 \u043F\u0440\u043E\u0438\u0437\u0432\u0435\u0434\u0435\u0442
     2 \u0432\u044B\u0441\u0442\u0440\u0435\u043B\u0430 \u043F\u043E \u0446\u0435\u043B\u0438."
-  _coolDown: 0
+  _coolDown: 1
   _startCoolDown: 0
   <Icon>k__BackingField: {fileID: 21300000, guid: 752d46f166f66ce4190342f2b6764f66, type: 3}
   <ActionType>k__BackingField: 1
@@ -44,10 +44,13 @@ MonoBehaviour:
       Amounts: 2
       ScaleFrom: 0
       Scale: 1
+      StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
       BuffType: 0
-      BuffValue: 0
+      Multiplier: 0
+      ScaleFromWhom: 0
+      BuffModificator: 0
       Duration: 0
       ConditionType: 0
       OverTimeType: 0
@@ -56,9 +59,10 @@ MonoBehaviour:
       Distance: 0
       ShowInAbilityDescription: 1
       EffectView:
-        DisplayAsMainEffect: 1
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
     _hasAreaEffect: 0
     _areaRadius: 0
     _areaEffects: []
