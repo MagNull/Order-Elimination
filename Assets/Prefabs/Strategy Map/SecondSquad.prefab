@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8283018835555511166}
   - component: {fileID: 8283018835555511162}
   m_Layer: 0
-  m_Name: Squad
+  m_Name: SecondSquad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 8283018835555511163}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1372, y: 743, z: 0}
-  m_LocalScale: {x: 20, y: 20, z: 0}
+  m_LocalScale: {x: 50, y: 50, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -74,8 +74,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 7ff4cf78d53992f4aa842cc84f04ff7c, type: 3}
+  m_SortingOrder: 3
+  m_Sprite: {fileID: 21300000, guid: d79de18d68b630442ac905c0e6e1ec47, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -103,7 +103,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.7, y: 2.58}
+    oldSize: {x: 1.4, y: 1.4}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -158,4 +158,3 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  AlreadyMove: 0

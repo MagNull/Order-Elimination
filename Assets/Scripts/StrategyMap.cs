@@ -109,9 +109,10 @@ namespace OrderElimination
             };
             foreach (var position in positionsInSave)
             {
-                var squad = _creator.CreateSquad(position);
+                var squad = _creator.CreateSquad(position, count == 0);
                 squad.name = $"Squad {count}";
-                var button = _creator.CreateSquadButton(squadsInfo[count++].PositionOnOrderPanel);
+                var button = _creator.CreateSquadButton(squadsInfo[count].PositionOnOrderPanel, count == 0);
+                count++;
                 squad.SetOrderButton(button);
                 _squads.Add(squad);
             }
