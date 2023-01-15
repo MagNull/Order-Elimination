@@ -14,6 +14,7 @@ namespace OrderElimination
         [SerializeField] private SelectableObjects _selectableObjects;
         [SerializeField] private Database _database;
         [SerializeField] private Image _settingsImage;
+        [SerializeField] private GameObject _squadListPanel;
         private ISelectable _selectedObject;
         public static event Action<Squad, PlanetPoint> TargetSelected;
         public static event Action onFinishMove;
