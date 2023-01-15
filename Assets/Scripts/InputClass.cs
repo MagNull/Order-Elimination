@@ -72,7 +72,7 @@ namespace OrderElimination
             selectedSquad.Unselect();
             selectedSquad.Move(end);
             
-            StartMenuMediator.SetIsMoveSquad(selectedSquad.name, true);
+            PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:{selectedSquad.name}:isMove", 1);
         }
 
         private void SavePositions()
@@ -80,24 +80,27 @@ namespace OrderElimination
             var squads = _selectableObjects.GetSquads();
             var count = 0;
             var positions = new List<Vector3>();
+            var isMoveSquads = new List<bool>();
             foreach (var squad in squads)
             {
                 if(squad.IsDestroyed())
                     continue;
                 var position = squad.transform.position;
                 positions.Add(position);
+                isMoveSquads.Add(squad.AlreadyMove);
+                PlayerPrefs.SetString($"{StrategyMap.SaveIndex}:Squad {count}", position.ToString());
                 _database.SaveData($"Squad {count++}", position);
             }
             
-            StartMenuMediator.SetPositionsInSave(positions);
-            StartMenuMediator.SetCountMove(StrategyMap.CountMove);
+            PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:CountMove", StrategyMap.CountMove);
             Database.SaveCountMove(StrategyMap.CountMove);
+            Database.SaveIsMoveSquads(isMoveSquads);
             _database.LoadTextToSaves();
         }
 
         public void ResetDatabase()
         {
-            _database.SetNewGame(StartMenuMediator.Instance.SaveIndex);
+            _database.SetNewGame(StrategyMap.SaveIndex);
             SceneManager.LoadScene("StrategyMap");
         }
 
@@ -106,7 +109,7 @@ namespace OrderElimination
             var squads = _selectableObjects.GetSquads();
 
             foreach (var squad in squads)
-                squad.AlreadyMove = false;
+                squad.SetAlreadyMove(false);
             StrategyMap.AddCountMove();
             Database.SaveCountMove(StrategyMap.CountMove);
             _database.LoadTextToSaves();

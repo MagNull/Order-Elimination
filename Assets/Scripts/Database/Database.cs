@@ -26,6 +26,7 @@ namespace OrderElimination
             Debug.Log("Awake DB");
             Saves.LoadClicked += SetMediatorBySelectedSave;
             Saves.NewGameClicked += SetNewGame;
+            BattleSimulation.BattleEnded += SetBattleOutcome;
         }
 
         private void Start()
@@ -159,8 +160,8 @@ namespace OrderElimination
                 
                 var positions = new List<Vector3>
                 {
-                    GetVectorFromString(firstSquadPositionString),
-                    GetVectorFromString(secondSquadPositionString)
+                    firstSquadPositionString.GetVectorFromString(),
+                    secondSquadPositionString.GetVectorFromString()
                 };
                 
                 _allPositions[i] = positions;
@@ -218,7 +219,7 @@ namespace OrderElimination
                 }
                     
                 var positionString = dataSnapshot.Child($"{i}").Child("EnemyPosition").Value.ToString();
-                _enemySquadPositions[i] = GetVectorFromString(positionString);
+                _enemySquadPositions[i] = positionString.GetVectorFromString();
             }
         }
 
@@ -256,22 +257,30 @@ namespace OrderElimination
 
         private void SetMediator(List<Vector3> positions,List<bool> isMoveSquads, int countMove, Vector3 enemyPosition, int money)
         {
-            StartMenuMediator.SetSaveIndex(SaveIndex);
-            StartMenuMediator.SetPositionsInSave(positions);
-            StartMenuMediator.SetIsMoveSquads(isMoveSquads);
-            StartMenuMediator.SetCountMove(countMove);
-            StartMenuMediator.SetEnemySquadPosition(enemyPosition);
-            StartMenuMediator.SetMoney(money);
+            PlayerPrefs.SetInt($"SaveIndex", SaveIndex);
+            //StartMenuMediator.SetSaveIndex(SaveIndex);
+            
+            PlayerPrefs.SetString($"{SaveIndex}:Squad 0", positions[0].ToString());
+            PlayerPrefs.SetString($"{SaveIndex}:Squad 1", positions[1].ToString());
+            //StartMenuMediator.SetPositionsInSave(positions);
+            
+            PlayerPrefs.SetInt($"{SaveIndex}:Squad 0:isMove", isMoveSquads[0] ? 1 : 0);
+            PlayerPrefs.SetInt($"{SaveIndex}:Squad 1:isMove", isMoveSquads[1] ? 1 : 0);
+            //StartMenuMediator.SetIsMoveSquads(isMoveSquads);
+            
+            PlayerPrefs.SetInt($"{SaveIndex}:CountMove", countMove);
+            //StartMenuMediator.SetCountMove(countMove);
+            
+            PlayerPrefs.SetString($"{SaveIndex}:EnemySquad", enemyPosition.ToString());
+            //StartMenuMediator.SetEnemySquadPosition(enemyPosition);
+            
+            PlayerPrefs.SetInt($"{SaveIndex}:Money", money);
+            //StartMenuMediator.SetMoney(money);
         }
         
-        private Vector3 GetVectorFromString(string str)
+        public static void SetBattleOutcome(BattleOutcome outcome)
         {
-            var temp = str.Split(new[] { "(", ")", ", ", ".00" }, StringSplitOptions.RemoveEmptyEntries);
-
-            var x = Convert.ToInt32(temp[0]);
-            var y = Convert.ToInt32(temp[1]);
-            var z = Convert.ToInt32(temp[2]);
-            return new Vector3(x, y, z);
+            PlayerPrefs.SetString($"{SaveIndex}:BattleOutcome", outcome.ToString());
         }
 
         private void OnDisable()
