@@ -108,6 +108,9 @@ namespace OrderElimination
 
             foreach (var squad in squads)
                 squad.SetAlreadyMove(false);
+            
+            PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:Squad 0:isMove", 0);
+            PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:Squad 1:isMove", 0);
             StrategyMap.AddCountMove();
             Database.SaveCountMove(StrategyMap.CountMove);
             Database.SaveIsMoveSquads(new List<bool>{false, false});

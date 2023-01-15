@@ -14,8 +14,6 @@ namespace OrderElimination
         [OdinSerialize]
         [ShowInInspector]
         private List<Character> _testSquadMembers;
-        [SerializeField] 
-        private SquadListPanel _squadListPanel;
         private SquadInfo _squadInfo; 
         private SquadModel _model;
         private SquadView _view;
