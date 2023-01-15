@@ -14,6 +14,10 @@ namespace Tutorial
 
         private void OnMouseDown()
         {
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
             OnClicked();
         }
 

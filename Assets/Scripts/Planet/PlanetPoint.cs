@@ -4,7 +4,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.EventSystems;
 
 namespace OrderElimination
 {
@@ -79,7 +79,16 @@ namespace OrderElimination
             }
         }
 
-        private void OnMouseDown() => Select(); 
+        private void OnMouseDown()
+        {
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                Debug.Log("Blocked");
+                return;
+            }
+            Select();
+        }
+
         public void Select()
         {
             Onclick?.Invoke(this);

@@ -5,8 +5,10 @@ using Cysharp.Threading.Tasks;
 using OrderElimination.BattleMap;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace Tutorial
 {
@@ -15,22 +17,30 @@ namespace Tutorial
         [SerializeField]
         private BattleTutorialStage[] _tutorialStages;
         [SerializeField]
-        private RectTransform[] _cutouts;
-        [SerializeField]
         private Unmask[] _unmasks;
 
         [SerializeField]
         private BattleMapView _battleMapView;
+        [SerializeField]
+        private TextMeshProUGUI _tutorialText;
 
         private int _activeCutoutCounter;
 
+        [Button]
+        private void ResetTutorial()
+        {
+            PlayerPrefs.SetInt("Battle Tutorial", 1);
+        }
+        
         private async void Start()
         {
-            if (PlayerPrefs.GetInt("Tutorial") == -1)
+            Debug.Log(PlayerPrefs.GetInt("Battle Tutorial"));
+            if (PlayerPrefs.GetInt("Battle Tutorial") < 0)
             {
                 gameObject.SetActive(false);
                 return;
             }
+            PlayerPrefs.SetInt("Battle Tutorial", -1);
             await StartTutorial();
         }
 
@@ -38,22 +48,23 @@ namespace Tutorial
         {
             _unmasks.ForEach(u => u.gameObject.SetActive(false));
             gameObject.SetActive(false);
-            await UniTask.Delay(300);
+            await UniTask.Delay(400);
             foreach (var tutorialStage in _tutorialStages)
             {
                 await ProceedStage(tutorialStage);
-            }
-        }
+            } }
 
         private async Task ProceedStage(BattleTutorialStage stage)
         {
             gameObject.SetActive(true);
+            _tutorialText.text = stage.Text;
+            stage.AppearingObject.SetActive(true);
+
             var cells = stage.UnmaskCells;
             for (var i = 0; i < cells.Length; i++)
             {
                 CellView cell = _battleMapView.GetCell(cells[i].x, cells[i].y);
-                var screenPos = Camera.main.WorldToScreenPoint(cell.transform.position);
-                HighlightPosition(screenPos);
+                HighlightPosition(cell.gameObject);
             }
 
             var uis = stage.UnmaskUIs;
@@ -70,18 +81,29 @@ namespace Tutorial
             await UniTask.WaitUntil(() => stage.ClickCount <= clickCounter);
             _unmasks.ForEach(u => u.gameObject.SetActive(false));
             gameObject.SetActive(false);
+            _activeCutoutCounter = 0;
             await UniTask.Delay(TimeSpan.FromSeconds(stage.Delay));
         }
         
-        private void HighlightPosition(Vector3 pos)
+        private void HighlightPosition(GameObject obj)
         {
-            if (_activeCutoutCounter >= _cutouts.Length)
+            if (_activeCutoutCounter >= _unmasks.Length)
             {
                 Debug.LogError("Not enough cutouts");
                 return;
             }
-            _cutouts[_activeCutoutCounter].transform.position = pos;
-            _unmasks[_activeCutoutCounter].fitTarget = _cutouts[_activeCutoutCounter];
+
+            if (!obj.TryGetComponent(out RectTransform targetRect))
+            {
+                var go = new GameObject();
+                targetRect = go.AddComponent<RectTransform>();
+                targetRect.position = Camera.main.WorldToScreenPoint(obj.transform.position);
+            }
+
+            if (obj.TryGetComponent(out Image objImage))
+                _unmasks[_activeCutoutCounter].GetComponent<Image>().sprite = objImage.sprite;
+
+            _unmasks[_activeCutoutCounter].fitTarget = targetRect;
             _unmasks[_activeCutoutCounter].gameObject.SetActive(true);
             _activeCutoutCounter++;
         }
@@ -95,6 +117,8 @@ namespace Tutorial
         public float Delay;
         public Vector2Int[] UnmaskCells;
         public RectTransform[] UnmaskUIs;
-        public GameObject AppearingObjects;
+        public GameObject AppearingObject;
+        [TextArea]
+        public string Text;
     }
 }
