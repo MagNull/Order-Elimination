@@ -1,13 +1,9 @@
 using System.Collections.Generic;
-using UnityEngine.UI;
 using System;
-using System.Threading;
 using OrderElimination.Start;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UIManagement;
-using UIManagement.Elements;
-using Unity.VisualScripting;
 using UnityEngine;
 using VContainer;
 
@@ -18,6 +14,8 @@ namespace OrderElimination
         [OdinSerialize]
         [ShowInInspector]
         private List<Character> _testSquadMembers;
+        [SerializeField] 
+        private SquadListPanel _squadListPanel;
         private SquadInfo _squadInfo; 
         private SquadModel _model;
         private SquadView _view;
@@ -28,9 +26,10 @@ namespace OrderElimination
         public static event Action<Squad> Selected;
         public static event Action<Squad> Unselected;
         public static event Action onMove;
+        public event Action<Squad> onActiveSquadPanel;
         public PlanetPoint PlanetPoint => _presenter.PlanetPoint;
         public int AmountOfCharacters => _model.AmountOfMembers;
-        public IReadOnlyList<Character> Members => _model.Members;
+        public List<Character> Members => _testSquadMembers;
         public bool AlreadyMove { get; private set; }
         
         [Inject]
@@ -64,6 +63,11 @@ namespace OrderElimination
             _model.Move(planetPoint);
         }
 
+        private void ActiveSquadPanel()
+        {
+            onActiveSquadPanel?.Invoke(this);
+        }
+
         public void StartAttack()
         {
             onMove?.Invoke();
@@ -82,6 +86,7 @@ namespace OrderElimination
         {
             _buttonOnOrderPanel = button;
             _buttonOnOrderPanel.onPointerDown += Select;
+            _buttonOnOrderPanel.onActiveSquadPanel += ActiveSquadPanel;
         }
 
         private void SetPlanetPoint(PlanetPoint planetPoint)

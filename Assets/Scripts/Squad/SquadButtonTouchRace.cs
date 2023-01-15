@@ -9,6 +9,7 @@ namespace OrderElimination
         private float _time = 0;
         private bool _isRacePressed = false;
         public event Action onPointerDown;
+        public event Action onActiveSquadPanel;
         
         void Update ()
         {
@@ -20,7 +21,8 @@ namespace OrderElimination
 
             if (_time > 0.8)
             {
-                UIController.SceneInstance.OpenPanel(PanelType.SquadList);
+                onActiveSquadPanel?.Invoke();
+                PointerUp();
             }
         }
         

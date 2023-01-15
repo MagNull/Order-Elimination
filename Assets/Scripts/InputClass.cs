@@ -1,8 +1,6 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using OrderElimination.Start;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,7 +12,6 @@ namespace OrderElimination
         [SerializeField] private SelectableObjects _selectableObjects;
         [SerializeField] private Database _database;
         [SerializeField] private Image _settingsImage;
-        [SerializeField] private GameObject _squadListPanel;
         private ISelectable _selectedObject;
         public static event Action<Squad, PlanetPoint> TargetSelected;
         public static event Action onFinishMove;
