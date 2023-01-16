@@ -34,15 +34,15 @@ namespace OrderElimination
             _health = other.Health;
             _unmodifiedHealth = other.UnmodifiedHealth == 0 ? other.Health : other.UnmodifiedHealth;
             _attack = other.Attack;
-            _unmodifiedAttack = other.UnmodifiedAttack;
+            _unmodifiedAttack = other.UnmodifiedAttack == 0 ? other.Attack : other.UnmodifiedAttack;
             _armor = other.Armor;
             _unmodifiedArmor = other.UnmodifiedArmor == 0 ? other.Armor : other.UnmodifiedArmor;
             _evasion = other.Evasion;
-            _unmodifiedEvasion = other.UnmodifiedEvasion;
+            _unmodifiedEvasion = other.UnmodifiedEvasion == 0 ? other.Evasion : other.UnmodifiedEvasion;
             _accuracy = other.Accuracy;
-            _unmodifiedAccuracy = other.UnmodifiedAccuracy;
+            _unmodifiedAccuracy = other.UnmodifiedAccuracy == 0 ? other.Accuracy : other.UnmodifiedAccuracy;
             _movement = other.Movement;
-            _unmodifiedMovement = other.UnmodifiedMovement;
+            _unmodifiedMovement = other.UnmodifiedMovement == 0 ? other.Movement : other.UnmodifiedMovement;
             _damageModificator = other.DamageModificator;
             _additionalArmor = other.AdditionalArmor;
         }

@@ -123,7 +123,7 @@ namespace CharacterAbility
                 {
                     if (selectedObj is not NullBattleObject &&
                         selectedObj.View.TryGetComponent(out BattleCharacterView view))
-                        view.HideProbability();
+                        view.HideAccuracy();
                 }
 
                 _selectedCellViews.Clear();
@@ -222,7 +222,7 @@ namespace CharacterAbility
                 var selectedObj = cell.Model.GetObject();
                 if (selectedObj is not NullBattleObject &&
                     selectedObj.View.TryGetComponent(out BattleCharacterView view))
-                    view.HideProbability();
+                    view.HideAccuracy();
             }
         }
 

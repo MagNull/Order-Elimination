@@ -62,7 +62,7 @@ public class BattleCharacterView : MonoBehaviour
         Icon = avatarIcon;
         AvatarFull = avatarFull;
 
-        HideProbability();
+        HideAccuracy();
     }
 
     private void OnDamaged(TakeDamageInfo info)
@@ -109,7 +109,7 @@ public class BattleCharacterView : MonoBehaviour
         _shootProbability.text = probability.ToString();
     }
 
-    public void HideProbability()
+    public void HideAccuracy()
     {
         _shootProbability.gameObject.SetActive(false);
         _shootProbability.text = "";
