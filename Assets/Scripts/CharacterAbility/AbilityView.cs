@@ -60,6 +60,11 @@ namespace CharacterAbility
 
         public async void Clicked()
         {
+            if (_casting)
+            {
+                CancelCast();
+                return;
+            }
             _battleMapView.DelightCells();
             if (!Caster.CanSpendAction(AbilityInfo.ActionType))
             {
