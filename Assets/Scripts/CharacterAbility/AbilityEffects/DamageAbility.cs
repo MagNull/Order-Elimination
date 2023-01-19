@@ -14,7 +14,8 @@ namespace CharacterAbility.AbilityEffects
         private readonly float _attackScale;
         private readonly AbilityScaleFrom _scaleFrom;
 
-        public DamageAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability, BattleMap battleMap,
+        public DamageAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability,
+            BattleMap battleMap,
             DamageHealTarget damageHealTarget,
             DamageType damageType,
             int damageAmounts,
@@ -48,7 +49,7 @@ namespace CharacterAbility.AbilityEffects
                 var info = target.TakeDamage(attackInfo);
                 success = info.HealthDamage > 0 || info.ArmorDamage > 0 || success;
             }
-            
+
             await UseNext(target, stats, success);
         }
 
@@ -59,10 +60,11 @@ namespace CharacterAbility.AbilityEffects
                 AbilityScaleFrom.Attack => (int) (stats.Attack * _attackScale),
                 AbilityScaleFrom.Health => (int) (stats.UnmodifiedHealth * _attackScale),
                 AbilityScaleFrom.Movement => (int) (stats.UnmodifiedMovement * _attackScale),
-                AbilityScaleFrom.Distance => stats.Attack * battleMap.GetStraightDistance(_caster, target),
+                AbilityScaleFrom.Distance => Mathf.RoundToInt(stats.Attack *
+                    (battleMap.GetStraightDistance(_caster, target) - 1)),
                 _ => throw new ArgumentOutOfRangeException()
             };
-
+            Debug.Log(battleMap.GetStraightDistance(_caster, target) - 1);
             return damage;
         }
     }

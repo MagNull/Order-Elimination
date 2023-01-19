@@ -61,7 +61,8 @@ public class BattleMap : MonoBehaviour
     {
         Vector2Int obj1Crd = GetCoordinate(obj1);
         Vector2Int obj2Crd = GetCoordinate(obj2);
-        return Math.Abs(obj1Crd.x - obj2Crd.x) + Math.Abs(obj1Crd.y - obj2Crd.y);
+        return Mathf.FloorToInt(Mathf.Sqrt(Mathf.Pow(obj1Crd.x - obj2Crd.x, 2) +
+                                           Mathf.Pow(obj1Crd.y - obj2Crd.y, 2)));
     }
 
     public int GetPathDistance(IBattleObject obj1, IBattleObject obj2)
