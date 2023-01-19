@@ -2,6 +2,7 @@ using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 public class CellView : MonoBehaviour
 {
@@ -15,8 +16,9 @@ public class CellView : MonoBehaviour
     private Color _lightColor;
     [SerializeField]
     private Color _enemyColor;
+    [FormerlySerializedAs("_environmentColor")]
     [SerializeField]
-    private Color _environmentColor;
+    private Color _obstacleColor;
     [SerializeField]
     private Color _allyColor;
     private Color _deselectColor;
@@ -41,7 +43,8 @@ public class CellView : MonoBehaviour
         _renderer.material.color = _model.GetObject().Side switch
         {
             BattleObjectSide.None => _lightColor,
-            BattleObjectSide.Environment => _environmentColor,
+            BattleObjectSide.Obstacle => _obstacleColor,
+            BattleObjectSide.Environment => _lightColor,
             BattleObjectSide.Enemy => _enemyColor,
             BattleObjectSide.Ally => _allyColor,
             _ => throw new ArgumentOutOfRangeException()

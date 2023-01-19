@@ -166,8 +166,7 @@ public class BattleMap : MonoBehaviour
 
             foreach (var neighbour in GetNeighbours(current))
             {
-                if (visited.Contains(neighbour) ||
-                    GetCell(neighbour.x, neighbour.y).GetObject().Side != BattleObjectSide.None)
+                if (visited.Contains(neighbour))
                     continue;
 
                 visited.Add(neighbour);
@@ -176,7 +175,6 @@ public class BattleMap : MonoBehaviour
             }
         }
 
-        Debug.Log("Path len: " + path.Count);
         return path;
     }
 
@@ -227,6 +225,7 @@ public class BattleMap : MonoBehaviour
             environmentObject.OnEnter(obj);
             _activeEnvironmentObjects.Add(new Vector2Int(x, y), environmentObject);
         }
+
 
         _cellGrid[x, y].SetObject(obj);
         CellChanged?.Invoke(_cellGrid[x, y]);

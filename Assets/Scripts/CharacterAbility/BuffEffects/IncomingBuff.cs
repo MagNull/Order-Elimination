@@ -9,16 +9,25 @@ namespace CharacterAbility
     [Serializable]
     public class IncomingBuff : TickEffectBase
     {
-        public float Modificator { get; }
-        public Buff_Type IncomingBuffType { get; }
-        public DamageType DamageType { get; }
+        [SerializeField]
+        private float _modificator;
+        [SerializeField]
+        private Buff_Type _incomingBuffType;
+        [SerializeField]
+        private DamageType _damageType;
+
+        public float Modificator => _modificator;
+
+        public Buff_Type IncomingBuffType => _incomingBuffType;
+
+        public DamageType DamageType => _damageType;
 
         public IncomingBuff(Buff_Type incomingBuffType, int duration, float modificator, ITickEffectView view,
             DamageType damageType = DamageType.None) : base(duration, view)
         {
-            IncomingBuffType = incomingBuffType;
-            Modificator = modificator;
-            DamageType = damageType;
+            _incomingBuffType = incomingBuffType;
+            _modificator = modificator;
+            _damageType = damageType;
         }
 
         public DamageInfo GetModifiedInfo(DamageInfo info)

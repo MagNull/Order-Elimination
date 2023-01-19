@@ -15,7 +15,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 21300000, guid: 6bf533d8cb517684fa0428abd9a0f548, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -29,20 +30,35 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|CharacterAbility.BuffEffects.StatsBuffEffect, Assembly-CSharp
+      Data: 1|CharacterAbility.IncomingBuff, Assembly-CSharp
     - Name: _duration
       Entry: 3
-      Data: 9999
-    - Name: _statType
-      Entry: 3
-      Data: 7
-    - Name: _modifier
-      Entry: 4
-      Data: -20
-    - Name: _isMultiplier
+      Data: 998
+    - Name: _effectView
+      Entry: 7
+      Data: 2|CharacterAbility.EffectView, Assembly-CSharp
+    - Name: _effectName
+      Entry: 1
+      Data: "\u0423\u043A\u0440\u044B\u0442\u0438\u0435"
+    - Name: _effectIcon
+      Entry: 10
+      Data: 0
+    - Name: _displayAsMainEffect
       Entry: 5
       Data: false
-    - Name: _scaleFromWhom
+    - Name: _displayWhenApplied
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _modificator
+      Entry: 4
+      Data: -10
+    - Name: _incomingBuffType
+      Entry: 3
+      Data: 7
+    - Name: _damageType
       Entry: 3
       Data: 0
     - Name: 

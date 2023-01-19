@@ -22,7 +22,7 @@ namespace CharacterAbility
 
         private bool _casting;
 
-        private List<CellView> _selectedCellViews = new ();
+        private List<CellView> _selectedCellViews = new();
 
         public AbilityInfo AbilityInfo { get; }
 
@@ -191,7 +191,7 @@ namespace CharacterAbility
                              selectedCellView.Model.GetObject()))
                 {
                     if (selectedObj is NullBattleObject || selectedObj == Caster ||
-                        !selectedObj.View.TryGetComponent(out BattleCharacterView view)) 
+                        !selectedObj.View.TryGetComponent(out BattleCharacterView view))
                         continue;
                     var accuracy = selectedObj.GetAccuracyFrom(Caster);
                     view.ShowAccuracy(accuracy);
@@ -211,8 +211,6 @@ namespace CharacterAbility
 
             return target;
         }
-
-        
 
         private static void DeselectCells(List<CellView> selectedCellViews)
         {
@@ -241,6 +239,8 @@ namespace CharacterAbility
                     break;
                 case TargetType.Empty:
                     targets.AddRange(_battleMapView.Map.GetEmptyObjectsInRadius(Caster, _abilityDistance));
+                    targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(Caster, _abilityDistance,
+                        BattleObjectSide.Environment));
                     break;
                 case TargetType.Enemy:
                     targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(Caster, _abilityDistance,

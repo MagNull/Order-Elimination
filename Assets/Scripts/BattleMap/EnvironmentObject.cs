@@ -16,7 +16,7 @@ namespace OrderElimination.BattleMap
         private readonly BattleStats _stats;
 
         public IReadOnlyBattleStats Stats => _stats;
-        public BattleObjectSide Side => _isWalkable ? BattleObjectSide.None : BattleObjectSide.Environment;
+        public BattleObjectSide Side => _isWalkable ? BattleObjectSide.Environment : BattleObjectSide.Obstacle;
         public GameObject View { get; set; }
 
         public EnvironmentObject(ITickEffect[] enterBuffs, GameObject view, BattleStats stats, bool isWalkable)
@@ -34,9 +34,8 @@ namespace OrderElimination.BattleMap
 
         public void OnEnter(IBattleObject battleObject)
         {
-            Debug.Log(battleObject.View.name + " entered " + View.name);
+            Debug.Log(_enterBuffs.Length);
             foreach (var buff in _enterBuffs) battleObject.AddTickEffect(buff);
-            Debug.Log(battleObject.View.name + " entered " + View.name);
         }
 
         public void OnMoved(Cell from, Cell to)

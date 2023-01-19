@@ -9,7 +9,8 @@ namespace CharacterAbility.BuffEffects
         [SerializeField]
         private int _duration;
         public int Duration => _duration;
-
+        
+        [SerializeField]
         private ITickEffectView _effectView;
 
         public ITickEffectView GetEffectView() => _effectView;
