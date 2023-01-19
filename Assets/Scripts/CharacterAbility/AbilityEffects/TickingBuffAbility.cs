@@ -8,7 +8,6 @@ namespace CharacterAbility.AbilityEffects
 {
     public class TickingBuffAbility : Ability
     {
-        private readonly Ability _nextEffect;
         private readonly Buff_Type _buffType;
         private readonly float _value;
         private readonly ScaleFromWhom _scaleFromWhom;
@@ -18,12 +17,11 @@ namespace CharacterAbility.AbilityEffects
         private readonly ITickEffectView _tickEffectView;
         private ITickEffect _buff;
 
-        public TickingBuffAbility(IBattleObject caster, Ability nextEffect, float probability, Buff_Type buffType,
+        public TickingBuffAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability, Buff_Type buffType,
             float value, ScaleFromWhom scaleFromWhom, int duration, BattleObjectSide filter, DamageType damageType,
             bool isMultiplier, ITickEffectView tickEffectView) :
-            base(caster, nextEffect, filter, probability)
+            base(caster, isMain, nextEffect, filter, probability)
         {
-            _nextEffect = nextEffect;
             _buffType = buffType;
             _value = value;
             _scaleFromWhom = scaleFromWhom;
@@ -37,9 +35,7 @@ namespace CharacterAbility.AbilityEffects
         {
             InitBuff();
             target.AddTickEffect(_buff);
-            if (_nextEffect == null)
-                return;
-            await _nextEffect.Use(target, stats);
+            await UseNext(target, stats);
         }
 
         private void InitBuff()

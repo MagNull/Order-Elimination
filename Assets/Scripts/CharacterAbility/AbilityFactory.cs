@@ -77,25 +77,25 @@ namespace CharacterAbility
                 switch (effectDesc.Type)
                 {
                     case AbilityEffectType.Damage:
-                        ability = new DamageAbility(caster, ability, probability, _battleMapView.Map,
+                        ability = new DamageAbility(caster, effectDesc.MainEffect, ability, probability, _battleMapView.Map,
                             effectDesc._damageHealTarget, effectDesc.DamageType,
                             effectDesc.Amounts, effectDesc.ScaleFrom, effectDesc.Scale, effectDesc.Filter);
                         break;
                     case AbilityEffectType.Heal:
-                        ability = new HealAbility(caster, ability, probability, effectDesc._damageHealTarget,
+                        ability = new HealAbility(caster, effectDesc.MainEffect, ability, probability, effectDesc._damageHealTarget,
                             effectDesc.Amounts,
                             effectDesc.ScaleFrom, effectDesc.Scale, effectDesc.Filter);
                         break;
                     case AbilityEffectType.Move:
-                        ability = new MoveAbility(caster, ability, probability, _battleMapView.Map, effectDesc.Filter,
+                        ability = new MoveAbility(caster, effectDesc.MainEffect, ability, probability, _battleMapView.Map, effectDesc.Filter,
                             effectDesc.StepDelay);
                         break;
                     case AbilityEffectType.Modificator:
-                        ability = new ModificatorAbility(caster, ability, probability, effectDesc.Modificator,
+                        ability = new ModificatorAbility(caster, effectDesc.MainEffect, ability, probability, effectDesc.Modificator,
                             effectDesc.ModificatorValue, effectDesc.Filter);
                         break;
                     case AbilityEffectType.OverTime:
-                        ability = new OverTimeAbility(caster, ability, probability, effectDesc._damageHealTarget,
+                        ability = new OverTimeAbility(caster, effectDesc.MainEffect, ability, probability, effectDesc._damageHealTarget,
                             effectDesc.OverTimeType,
                             effectDesc.Duration,
                             effectDesc.TickValue, effectDesc.Filter,
@@ -103,21 +103,21 @@ namespace CharacterAbility
                             effectDesc.EffectView);
                         break;
                     case AbilityEffectType.TickingBuff:
-                        ability = new TickingBuffAbility(caster, ability, probability, effectDesc.BuffType,
+                        ability = new TickingBuffAbility(caster, effectDesc.MainEffect, ability, probability, effectDesc.BuffType,
                             effectDesc.BuffModificator, effectDesc.ScaleFromWhom, effectDesc.Duration, effectDesc.Filter,
                             effectDesc.DamageType, effectDesc.Multiplier, effectDesc.EffectView);
                         break;
                     case AbilityEffectType.ConditionalBuff:
-                        ability = new ConditionalBuffAbility(caster, ability, probability, effectDesc.BuffType,
+                        ability = new ConditionalBuffAbility(caster, effectDesc.MainEffect, ability, probability, effectDesc.BuffType,
                             effectDesc.BuffModificator, effectDesc.ScaleFromWhom, effectDesc.ConditionType, effectDesc.Filter,
                             effectDesc.DamageType, effectDesc.Multiplier, effectDesc.EffectView);
                         break;
                     case AbilityEffectType.Stun:
-                        ability = new StunAbility(caster, ability, probability, effectDesc.Filter);
+                        ability = new StunAbility(caster, effectDesc.MainEffect, ability, probability, effectDesc.Filter);
                         break;
 
                     case AbilityEffectType.Contreffect:
-                        ability = new ContreffectAbility(caster, ability, effectDesc.Filter, probability,
+                        ability = new ContreffectAbility(caster, effectDesc.MainEffect, ability, effectDesc.Filter, probability,
                             _battleMapView.Map.GetStraightDistance, effectDesc.Distance);
                         break;
                 }

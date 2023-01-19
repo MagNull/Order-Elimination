@@ -12,18 +12,16 @@ namespace CharacterAbility.AbilityEffects
         private readonly DamageType _damageType;
         private readonly int _damageAmounts;
         private readonly float _attackScale;
-        private readonly Ability _nextEffect;
         private readonly AbilityScaleFrom _scaleFrom;
 
-        public DamageAbility(IBattleObject caster, Ability nextEffect, float probability, BattleMap battleMap,
+        public DamageAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability, BattleMap battleMap,
             DamageHealTarget damageHealTarget,
             DamageType damageType,
             int damageAmounts,
             AbilityScaleFrom scaleFrom,
             float attackScale, BattleObjectSide filter) :
-            base(caster, nextEffect, filter, probability)
+            base(caster, isMain, nextEffect, filter, probability)
         {
-            _nextEffect = nextEffect;
             _scaleFrom = scaleFrom;
             _attackScale = attackScale;
             _damageAmounts = damageAmounts;
@@ -41,14 +39,17 @@ namespace CharacterAbility.AbilityEffects
                 Accuracy = stats.Accuracy,
                 Damage = damage,
                 DamageType = _damageType,
-                DamageHealTarget = _damageHealTarget
+                DamageHealTarget = _damageHealTarget,
+                DamageModificator = stats.DamageModificator
             };
+            var success = false;
             for (var i = 0; i < _damageAmounts; i++)
-                target.TakeDamage(attackInfo);
+            {
+                var info = target.TakeDamage(attackInfo);
+                success = info.HealthDamage > 0 || info.ArmorDamage > 0 || success;
+            }
             
-            if(_nextEffect == null)
-                return;
-            await _nextEffect.Use(target, stats);
+            await UseNext(target, stats, success);
         }
 
         private int ApplyScalability(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)

@@ -68,7 +68,7 @@ public class BattleCharacter : IActor
 
     public void OnCasted() => Casted?.Invoke();
 
-    public void TakeDamage(DamageInfo damageInfo)
+    public TakeDamageInfo TakeDamage(DamageInfo damageInfo)
     {
         var damageTaken =
             _damageCalculation.CalculateDamage(damageInfo, _battleStats.Armor + _battleStats.AdditionalArmor,
@@ -92,9 +92,12 @@ public class BattleCharacter : IActor
         _battleStats.Health -= damageTaken.healthDamage;
         Damaged?.Invoke(takeDamageInfo);
 
-        if (_battleStats.Health > 0) return;
+        if (_battleStats.Health > 0)
+            return takeDamageInfo;
         _battleStats.Health = 0;
         Died?.Invoke(this);
+
+        return takeDamageInfo;
     }
 
     //TODO: Strategy pattern in future if needed

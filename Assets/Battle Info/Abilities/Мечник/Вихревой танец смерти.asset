@@ -48,6 +48,7 @@ MonoBehaviour:
     _lightTargetsSide: 2
     _areaEffects:
     - Type: 6
+      MainEffect: 0
       HasProbability: 0
       Probability: 0
       Filter: 0
@@ -75,6 +76,7 @@ MonoBehaviour:
         _displayAsMainEffect: 0
         _displayWhenApplied: 0
     - Type: 0
+      MainEffect: 1
       HasProbability: 0
       Probability: 0
       Filter: 2
@@ -102,6 +104,7 @@ MonoBehaviour:
         _displayAsMainEffect: 1
         _displayWhenApplied: 0
     - Type: 3
+      MainEffect: 0
       HasProbability: 0
       Probability: 80
       Filter: 2

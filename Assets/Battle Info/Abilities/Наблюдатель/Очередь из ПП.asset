@@ -37,6 +37,7 @@ MonoBehaviour:
     _targetType: 1
     _targetEffects:
     - Type: 6
+      MainEffect: 0
       HasProbability: 0
       Probability: 0
       Filter: 0
@@ -49,7 +50,8 @@ MonoBehaviour:
       ModificatorValue: -15
       BuffType: 0
       Multiplier: 0
-      BuffValue: 0
+      ScaleFromWhom: 0
+      BuffModificator: 0
       Duration: 0
       ConditionType: 0
       OverTimeType: 0
@@ -58,10 +60,12 @@ MonoBehaviour:
       Distance: 0
       ShowInAbilityDescription: 0
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
     - Type: 0
+      MainEffect: 1
       HasProbability: 0
       Probability: 0
       Filter: 0
@@ -74,7 +78,8 @@ MonoBehaviour:
       ModificatorValue: 0
       BuffType: 0
       Multiplier: 0
-      BuffValue: 0
+      ScaleFromWhom: 0
+      BuffModificator: 0
       Duration: 0
       ConditionType: 0
       OverTimeType: 0
@@ -83,11 +88,13 @@ MonoBehaviour:
       Distance: 0
       ShowInAbilityDescription: 1
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
     _hasAreaEffect: 0
     _areaRadius: 0
+    _lightTargetsSide: 0
     _areaEffects: []
   _passiveParams:
     _effects: []

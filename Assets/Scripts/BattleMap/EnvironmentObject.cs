@@ -49,9 +49,9 @@ namespace OrderElimination.BattleMap
             Debug.Log(battleObject.View.name + " left " + View.name);
         }
 
-        public void TakeDamage(DamageInfo damageInfo)
+        public TakeDamageInfo TakeDamage(DamageInfo damageInfo)
         {
-            
+            return new TakeDamageInfo();
         }
 
         public void TakeRecover(int value, int accuracy, DamageHealTarget damageHealTarget)

@@ -29,6 +29,7 @@ public struct DamageInfo
     public int Accuracy;
     public DamageType DamageType;
     public IBattleObject Attacker;
+    public DamageModificator DamageModificator;
     public DamageHealTarget DamageHealTarget;
 }
 public struct TakeDamageInfo
@@ -43,5 +44,5 @@ public struct TakeDamageInfo
 public interface IDamageable
 {
     event Action<TakeDamageInfo> Damaged;
-    void TakeDamage(DamageInfo damageInfo);
+    TakeDamageInfo TakeDamage(DamageInfo damageInfo);
 }

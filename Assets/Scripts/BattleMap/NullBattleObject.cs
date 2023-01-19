@@ -60,9 +60,10 @@ namespace OrderElimination.BattleMap
             Debug.LogWarning("Try remove tick effect from null battle object");
         }
 
-        public void TakeDamage(DamageInfo damageInfo)
+        public TakeDamageInfo TakeDamage(DamageInfo damageInfo)
         {
             Debug.LogWarning("Try Damage Empty Object");
+            return new TakeDamageInfo();
         }
 
         public void ClearTickEffects()

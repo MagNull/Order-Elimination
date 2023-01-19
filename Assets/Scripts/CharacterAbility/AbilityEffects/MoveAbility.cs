@@ -9,14 +9,12 @@ namespace CharacterAbility.AbilityEffects
 {
     public class MoveAbility : Ability
     {
-        private readonly Ability _nextEffect;
         private readonly BattleMap _battleMap;
         private readonly float _stepDelay;
 
-        public MoveAbility(IBattleObject caster, Ability nextEffect, float probability, BattleMap battleMap,
-            BattleObjectSide filter, float stepDelay) : base(caster, nextEffect, filter, probability)
+        public MoveAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability, BattleMap battleMap,
+            BattleObjectSide filter, float stepDelay) : base(caster, isMain, nextEffect, filter, probability)
         {
-            _nextEffect = nextEffect;
             _battleMap = battleMap;
             _stepDelay = stepDelay;
         }
@@ -57,9 +55,7 @@ namespace CharacterAbility.AbilityEffects
                 var last = path.Last();
                 await _battleMap.MoveTo(_caster, last.x, last.y);
             }
-            if (_nextEffect == null)
-                return;
-            await _nextEffect.Use(target, stats);
+            await UseNext(target, stats);
         }
     }
 }
