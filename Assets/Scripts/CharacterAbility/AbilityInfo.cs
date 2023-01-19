@@ -240,6 +240,9 @@ namespace CharacterAbility
         [ShowIf("_hasAreaEffect")]
         [SerializeField]
         private int _areaRadius;
+        [ShowIf("_hasAreaEffect")]
+        [SerializeField]
+        private BattleObjectSide _lightTargetsSide;
 
         [ShowIf("_hasAreaEffect")]
         [SerializeField]
@@ -264,6 +267,8 @@ namespace CharacterAbility
         public bool HasTargetEffect => _hasTargetEffect;
 
         public bool DistanceFromMovement => _distanceFromMovement;
+
+        public BattleObjectSide LightTargetsSide => _lightTargetsSide;
 
         #endregion
 

@@ -172,7 +172,7 @@ namespace CharacterAbility
                 if (AbilityInfo.ActiveParams.HasAreaEffect)
                 {
                     var area = _battleMapView.Map.GetBattleObjectsInRadius(selected,
-                        AbilityInfo.ActiveParams.AreaRadius);
+                        AbilityInfo.ActiveParams.AreaRadius, AbilityInfo.ActiveParams.LightTargetsSide);
                     foreach (var obj in area)
                     {
                         var areaCell = _battleMapView.GetCell(obj);
@@ -241,8 +241,6 @@ namespace CharacterAbility
                     break;
                 case TargetType.Empty:
                     targets.AddRange(_battleMapView.Map.GetEmptyObjectsInRadius(Caster, _abilityDistance));
-                    targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(Caster, _abilityDistance,
-                        BattleObjectSide.None));
                     break;
                 case TargetType.Enemy:
                     targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(Caster, _abilityDistance,

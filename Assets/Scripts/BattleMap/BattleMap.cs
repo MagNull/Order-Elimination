@@ -91,10 +91,11 @@ public class BattleMap : MonoBehaviour
         return new Vector2Int(-1, -1);
     }
 
-    public IList<IBattleObject> GetBattleObjectsInRadius(IBattleObject obj, int radius, BattleObjectSide side)
+    public IList<IBattleObject> GetBattleObjectsInRadius(IBattleObject obj, int radius,
+        BattleObjectSide side = BattleObjectSide.None)
     {
         return GetObjectsInRadius(obj, radius, battleObject =>
-            battleObject is not NullBattleObject && battleObject.Side == side);
+            battleObject is not NullBattleObject && (side == BattleObjectSide.None || battleObject.Side == side));
     }
 
     public bool GetCellWith(Func<Cell, bool> predicate, out Cell cell)
@@ -111,12 +112,6 @@ public class BattleMap : MonoBehaviour
 
         cell = null;
         return false;
-    }
-
-    public IList<IBattleObject> GetBattleObjectsInRadius(IBattleObject obj, int radius)
-    {
-        return GetObjectsInRadius(obj, radius, battleObject =>
-            battleObject is not NullBattleObject);
     }
 
     public IList<IBattleObject> GetEmptyObjectsInRadius(IBattleObject obj, int radius)
