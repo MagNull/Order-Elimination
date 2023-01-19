@@ -34,6 +34,8 @@ namespace CharacterAbility
 
         public string Name => AbilityInfo.Name;
 
+        public bool Casting => _casting;
+
         private CancellationTokenSource _cancellationTokenSource;
 
         public AbilityView(IActor caster, Ability ability, AbilityInfo info, BattleMapView battleMapView,

@@ -1,6 +1,7 @@
 ﻿using CharacterAbility;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UIManagement;
 using UIManagement.Elements;
 using UnityEngine;
@@ -18,20 +19,25 @@ namespace UIManagement
         private UIController _panelController;
         [SerializeField]
         private Sprite _noSelectedAbilityIcon;
-        private Dictionary<AbilityView, AbilityButton> _buttonsByView = new Dictionary<AbilityView, AbilityButton>();
+        private Dictionary<AbilityView, AbilityButton> _buttonsByView = new();
         private AbilityView[] _currentPassiveSkills;
+
+        public bool AbilityCasing => _activeAbilityButtons.Any(ab => ab.AbilityView is {Casting: true} &&
+                                                                     ab.AbilityView.AbilityInfo.ActionType !=
+                                                                     ActionType.Movement);
 
         public IReadOnlyList<AbilityButton> AbilityButtons => _activeAbilityButtons;
 
         private void OnEnable()
         {
-            foreach(var abilityButton in _activeAbilityButtons)
+            foreach (var abilityButton in _activeAbilityButtons)
             {
                 abilityButton.Clicked += OnActiveAbilityButtonClicked;
                 abilityButton.Holded += OnActiveAbilityButtonHolded;
                 abilityButton.AbilityButtonUsed += UpdateActiveAbilityButtonsAvailability;
                 abilityButton.NoSelectedAbilityIcon = _noSelectedAbilityIcon;
             }
+
             foreach (var abilityButton in _passiveAbilityButtons)
             {
                 abilityButton.Clicked += OnPassiveAbilityButtonClicked;
@@ -47,6 +53,7 @@ namespace UIManagement
                 button.Holded -= OnActiveAbilityButtonHolded;
                 button.AbilityButtonUsed -= UpdateActiveAbilityButtonsAvailability;
             }
+
             foreach (var skillButton in _passiveAbilityButtons)
             {
                 skillButton.Clicked -= OnPassiveAbilityButtonClicked;
@@ -75,12 +82,15 @@ namespace UIManagement
                 _activeAbilityButtons[i].HoldableButton.HoldAvailable = true;
                 _buttonsByView.Add(activeAbilitiesView[i], _activeAbilityButtons[i]);
             }
+
             for (var j = 0; j < passiveAbilitiesView.Length; j++)
             {
                 _passiveAbilityButtons[j].AssignAbilityView(passiveAbilitiesView[j]);
             }
+
             _currentPassiveSkills = passiveAbilitiesView;
         }
+
         public void ResetAbilityButtons()
         {
             foreach (var abilityButton in _activeAbilityButtons)
@@ -88,10 +98,12 @@ namespace UIManagement
                 abilityButton.RemoveAbilityView();
                 abilityButton.HoldableButton.ClickAvailable = true;
             }
+
             foreach (var button in _passiveAbilityButtons)
             {
                 button.RemoveAbilityView();
             }
+
             _buttonsByView.Clear();
             _currentPassiveSkills = null;
         }
@@ -100,7 +112,7 @@ namespace UIManagement
         {
             foreach (var button in _activeAbilityButtons)
             {
-                if(button != abilityButton)
+                if (button != abilityButton)
                 {
                     button.CancelAbilityCast();
                 }
@@ -109,13 +121,13 @@ namespace UIManagement
 
         private void OnActiveAbilityButtonHolded(AbilityButton abilityButton)
         {
-            var panel = (AbilityDescriptionPanel)_panelController.OpenPanel(PanelType.AbilityDescription);
+            var panel = (AbilityDescriptionPanel) _panelController.OpenPanel(PanelType.AbilityDescription);
             panel.UpdateAbilityDescription(abilityButton.AbilityView);
         }
 
         private void UpdateActiveAbilityButtonsAvailability()
         {
-            foreach(var button in _activeAbilityButtons)
+            foreach (var button in _activeAbilityButtons)
             {
                 button.UpdateAvailability();
             }
