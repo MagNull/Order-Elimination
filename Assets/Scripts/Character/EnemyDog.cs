@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CharacterAbility;
+using Cysharp.Threading.Tasks;
 using OrderElimination;
 using OrderElimination.Battle;
 using OrderElimination.BattleMap;
@@ -17,32 +18,30 @@ public class EnemyDog : BattleCharacter
     {
         _map = map;
     }
-    
+
     public void SetDamageAbility(Ability damage)
     {
         _damage = damage;
     }
 
-    public override void PlayTurn()
+    public override async void PlayTurn()
     {
         var players = _map
             .GetBattleObjectsInRadius(this, Math.Max(_map.Height, _map.Width), BattleObjectSide.Ally)
             .Select(x => (BattleCharacter) x);
         var nearestPlayer = SearchNearestPlayer(players);
-        var distance = _map.GetDistance(this, nearestPlayer);
-        if (distance == 0)
-            Attack(nearestPlayer);
-        else if (distance < Stats.Movement)
-        {
-            Move(GetOptimalCoordinateToMove(nearestPlayer));
-            Attack(nearestPlayer);
-        }
-        else
-        {
-            Move(GetOptimalCoordinateToMove(nearestPlayer));
-        }
+        if (TryAttack(nearestPlayer)) return;
+        await Move(GetOptimalCoordinateToMove(nearestPlayer));
+        TryAttack(nearestPlayer);
+    }
 
-        Debug.Log(nearestPlayer.Stats.Health);
+    private bool TryAttack(BattleCharacter nearestPlayer)
+    {
+        Debug.Log(View.name + " distance " + _map.GetStraightDistance(this, nearestPlayer));
+        if (_map.GetStraightDistance(this, nearestPlayer) > 1) 
+            return false;
+        _damage.Use(nearestPlayer, Stats);
+        return true;
     }
 
     private BattleCharacter SearchNearestPlayer(IEnumerable<BattleCharacter> players)
@@ -51,7 +50,7 @@ public class EnemyDog : BattleCharacter
         var minDistance = int.MaxValue;
         foreach (var player in players)
         {
-            var distance = _map.GetDistance(this, player);
+            var distance = _map.GetStraightDistance(this, player);
             if (minDistance <= distance)
                 continue;
             nearestEnemy = player;
@@ -67,7 +66,7 @@ public class EnemyDog : BattleCharacter
         var coordinate = _map.GetCoordinate(this);
         var shiftX = coordinate.x;
         var shiftY = coordinate.y;
-        var step = Math.Min(Stats.Movement, _map.GetDistance(this, player));
+        var step = Math.Min(Stats.Movement, _map.GetStraightDistance(this, player));
         var countStep = 0;
         while (shiftX >= -1 && shiftX < _map.Height && countStep != step &&
                shiftY >= -1 && shiftY < _map.Height && countStep != step)
@@ -94,14 +93,9 @@ public class EnemyDog : BattleCharacter
         return new Vector2Int(shiftX, shiftY);
     }
 
-    private void Attack(BattleCharacter player)
+    private async UniTask Move(Vector2Int coordinate)
     {
-        _damage.Use(player, Stats);
-    }
-
-    private void Move(Vector2Int coordinate)
-    {
-        _map.MoveTo(this, coordinate.x, coordinate.y);
+        await _map.MoveTo(this, coordinate.x, coordinate.y);
     }
 
     private bool IsValidCoordinate(int x, int y)

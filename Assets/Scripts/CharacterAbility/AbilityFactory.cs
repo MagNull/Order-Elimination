@@ -118,7 +118,7 @@ namespace CharacterAbility
 
                     case AbilityEffectType.Contreffect:
                         ability = new ContreffectAbility(caster, ability, effect.Filter, probability,
-                            _battleMapView.Map.GetDistance, effect.Distance);
+                            _battleMapView.Map.GetStraightDistance, effect.Distance);
                         break;
                 }
             }

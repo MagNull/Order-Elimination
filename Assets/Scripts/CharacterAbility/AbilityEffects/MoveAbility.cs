@@ -32,8 +32,8 @@ namespace CharacterAbility.AbilityEffects
                 var nearestPosition = availablePositions[Random.Range(0, availablePositions.Count)];
                 foreach (var availablePosition in availablePositions)
                 {
-                    if (_battleMap.GetDistance(_caster, nearestPosition) >
-                        _battleMap.GetDistance(_caster, availablePosition))
+                    if (_battleMap.GetStraightDistance(_caster, nearestPosition) >
+                        _battleMap.GetStraightDistance(_caster, availablePosition))
                         nearestPosition = availablePosition;
                 }
 

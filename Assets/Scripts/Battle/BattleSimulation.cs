@@ -78,10 +78,6 @@ public class BattleSimulation : MonoBehaviour
                     _isTurnChanged = false;
                     Debug.Log("Начался ход игрока" % Colorize.Green);
                 }
-                else
-                {
-                    // ?
-                }
             }
             else if (_currentTurn == BattleObjectSide.Enemy)
             {

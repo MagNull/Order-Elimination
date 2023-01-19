@@ -58,7 +58,7 @@ namespace CharacterAbility.AbilityEffects
                 AbilityScaleFrom.Attack => (int) (stats.Attack * _attackScale),
                 AbilityScaleFrom.Health => (int) (stats.UnmodifiedHealth * _attackScale),
                 AbilityScaleFrom.Movement => (int) (stats.UnmodifiedMovement * _attackScale),
-                AbilityScaleFrom.Distance => stats.Attack * battleMap.GetDistance(_caster, target),
+                AbilityScaleFrom.Distance => stats.Attack * battleMap.GetStraightDistance(_caster, target),
                 _ => throw new ArgumentOutOfRangeException()
             };
 

@@ -57,11 +57,18 @@ public class BattleMap : MonoBehaviour
         SetCell(boPos.x, boPos.y, new NullBattleObject());
     }
 
-    public int GetDistance(IBattleObject obj1, IBattleObject obj2)
+    public int GetStraightDistance(IBattleObject obj1, IBattleObject obj2)
     {
         Vector2Int obj1Crd = GetCoordinate(obj1);
         Vector2Int obj2Crd = GetCoordinate(obj2);
-        return Math.Abs(obj1Crd.x - obj2Crd.x) + Math.Abs(obj1Crd.y - obj2Crd.y) - 1;
+        return Math.Abs(obj1Crd.x - obj2Crd.x) + Math.Abs(obj1Crd.y - obj2Crd.y);
+    }
+
+    public int GetPathDistance(IBattleObject obj1, IBattleObject obj2)
+    {
+        var target = GetCoordinate(obj2);
+        var path = GetShortestPath(obj1, target.x, target.y);
+        return path.Count;
     }
 
     public Vector2Int GetCoordinate(IBattleObject obj)
