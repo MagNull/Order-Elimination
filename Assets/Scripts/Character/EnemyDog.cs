@@ -37,7 +37,6 @@ public class EnemyDog : BattleCharacter
 
     private bool TryAttack(BattleCharacter nearestPlayer)
     {
-        Debug.Log(View.name + " distance " + _map.GetStraightDistance(this, nearestPlayer));
         if (_map.GetStraightDistance(this, nearestPlayer) > 1) 
             return false;
         _damage.Use(nearestPlayer, Stats);

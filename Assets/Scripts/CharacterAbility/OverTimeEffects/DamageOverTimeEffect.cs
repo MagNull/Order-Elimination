@@ -21,6 +21,7 @@ namespace CharacterAbility
             {
                 Attacker = new NullBattleObject(),
                 Damage = Damage,
+                Accuracy = 100,
                 DamageHealTarget = DamageHealTarget
             };
             tickTarget.TakeDamage(attackInfo);

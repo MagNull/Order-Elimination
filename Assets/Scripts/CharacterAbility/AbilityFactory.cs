@@ -72,53 +72,53 @@ namespace CharacterAbility
         {
             for (var i = effects.Length - 1; i >= 0; i--)
             {
-                var effect = effects[i];
-                var probability = effect.HasProbability ? effect.Probability : 100f;
-                switch (effect.Type)
+                var effectDesc = effects[i];
+                var probability = effectDesc.HasProbability ? effectDesc.Probability : 100f;
+                switch (effectDesc.Type)
                 {
                     case AbilityEffectType.Damage:
                         ability = new DamageAbility(caster, ability, probability, _battleMapView.Map,
-                            effect._damageHealTarget, effect.DamageType,
-                            effect.Amounts, effect.ScaleFrom, effect.Scale, effect.Filter);
+                            effectDesc._damageHealTarget, effectDesc.DamageType,
+                            effectDesc.Amounts, effectDesc.ScaleFrom, effectDesc.Scale, effectDesc.Filter);
                         break;
                     case AbilityEffectType.Heal:
-                        ability = new HealAbility(caster, ability, probability, effect._damageHealTarget,
-                            effect.Amounts,
-                            effect.ScaleFrom, effect.Scale, effect.Filter);
+                        ability = new HealAbility(caster, ability, probability, effectDesc._damageHealTarget,
+                            effectDesc.Amounts,
+                            effectDesc.ScaleFrom, effectDesc.Scale, effectDesc.Filter);
                         break;
                     case AbilityEffectType.Move:
-                        ability = new MoveAbility(caster, ability, probability, _battleMapView.Map, effect.Filter,
-                            effect.StepDelay);
+                        ability = new MoveAbility(caster, ability, probability, _battleMapView.Map, effectDesc.Filter,
+                            effectDesc.StepDelay);
                         break;
                     case AbilityEffectType.Modificator:
-                        ability = new ModificatorAbility(caster, ability, probability, effect.Modificator,
-                            effect.ModificatorValue, effect.Filter);
+                        ability = new ModificatorAbility(caster, ability, probability, effectDesc.Modificator,
+                            effectDesc.ModificatorValue, effectDesc.Filter);
                         break;
                     case AbilityEffectType.OverTime:
-                        ability = new OverTimeAbility(caster, ability, probability, effect._damageHealTarget,
-                            effect.OverTimeType,
-                            effect.Duration,
-                            effect.TickValue, effect.Filter,
-                            effect.OverTimeType == OverTimeAbilityType.Damage ? effect.DamageType : DamageType.None,
-                            effect.EffectView);
+                        ability = new OverTimeAbility(caster, ability, probability, effectDesc._damageHealTarget,
+                            effectDesc.OverTimeType,
+                            effectDesc.Duration,
+                            effectDesc.TickValue, effectDesc.Filter,
+                            effectDesc.OverTimeType == OverTimeAbilityType.Damage ? effectDesc.DamageType : DamageType.None,
+                            effectDesc.EffectView);
                         break;
                     case AbilityEffectType.TickingBuff:
-                        ability = new TickingBuffAbility(caster, ability, probability, effect.BuffType,
-                            effect.BuffModificator, effect.ScaleFromWhom, effect.Duration, effect.Filter,
-                            effect.DamageType, effect.Multiplier, effect.EffectView);
+                        ability = new TickingBuffAbility(caster, ability, probability, effectDesc.BuffType,
+                            effectDesc.BuffModificator, effectDesc.ScaleFromWhom, effectDesc.Duration, effectDesc.Filter,
+                            effectDesc.DamageType, effectDesc.Multiplier, effectDesc.EffectView);
                         break;
                     case AbilityEffectType.ConditionalBuff:
-                        ability = new ConditionalBuffAbility(caster, ability, probability, effect.BuffType,
-                            effect.BuffModificator, effect.ScaleFromWhom, effect.ConditionType, effect.Filter,
-                            effect.DamageType, effect.Multiplier, effect.EffectView);
+                        ability = new ConditionalBuffAbility(caster, ability, probability, effectDesc.BuffType,
+                            effectDesc.BuffModificator, effectDesc.ScaleFromWhom, effectDesc.ConditionType, effectDesc.Filter,
+                            effectDesc.DamageType, effectDesc.Multiplier, effectDesc.EffectView);
                         break;
                     case AbilityEffectType.Stun:
-                        ability = new StunAbility(caster, ability, probability, effect.Filter);
+                        ability = new StunAbility(caster, ability, probability, effectDesc.Filter);
                         break;
 
                     case AbilityEffectType.Contreffect:
-                        ability = new ContreffectAbility(caster, ability, effect.Filter, probability,
-                            _battleMapView.Map.GetStraightDistance, effect.Distance);
+                        ability = new ContreffectAbility(caster, ability, effectDesc.Filter, probability,
+                            _battleMapView.Map.GetStraightDistance, effectDesc.Distance);
                         break;
                 }
             }
