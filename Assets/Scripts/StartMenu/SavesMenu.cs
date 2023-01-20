@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 namespace OrderElimination.Start
 {
-    public class Saves : MonoBehaviour
+    public class SavesMenu : MonoBehaviour
     {
         [SerializeField] private Button _loadButton;
-        [SerializeField] private List<Save> _saves;
+        [SerializeField] private List<SaveButton> _saves;
         private int _selectedSaveIndex;
         private Image _selectedSavesImages;
         public static event Action<bool> ExitSavesWindow;

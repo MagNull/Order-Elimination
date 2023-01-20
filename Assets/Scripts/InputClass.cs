@@ -89,12 +89,12 @@ namespace OrderElimination
                 positions.Add(position);
                 isMoveSquads.Add(squad.AlreadyMove);
                 PlayerPrefs.SetString($"{StrategyMap.SaveIndex}:Squad {count}", position.ToString());
-                _database.SaveData($"Squad {count++}", position);
+                //_database.SaveData($"Squad {count++}", position);
             }
             
             PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:CountMove", StrategyMap.CountMove);
-            Database.SaveCountMove(StrategyMap.CountMove);
-            Database.SaveIsMoveSquads(isMoveSquads);
+            //Database.SaveCountMove(StrategyMap.CountMove);
+            //Database.SaveIsMoveSquads(isMoveSquads);
             _database.LoadTextToSaves();
         }
 
@@ -115,8 +115,8 @@ namespace OrderElimination
             PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:Squad 1:isMove", 0);
             StrategyMap.AddCountMove();
             PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:CountMove", StrategyMap.CountMove);
-            Database.SaveCountMove(StrategyMap.CountMove);
-            Database.SaveIsMoveSquads(new List<bool>{false, false});
+            //Database.SaveCountMove(StrategyMap.CountMove);
+            //Database.SaveIsMoveSquads(new List<bool>{false, false});
             _database.LoadTextToSaves();
             onFinishMove?.Invoke();
         }

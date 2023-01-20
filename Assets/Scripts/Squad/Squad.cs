@@ -45,7 +45,7 @@ namespace OrderElimination
             _presenter = new SquadPresenter(_model, _view, null);
             _view.onEndAnimation += StartAttack;
             InputClass.onPauseClicked += SetActiveButtonOnOrderPanel;
-            Saves.ExitSavesWindow += SetActiveButtonOnOrderPanel;
+            SavesMenu.ExitSavesWindow += SetActiveButtonOnOrderPanel;
             Settings.ExitSettingsWindow += SetActiveButtonOnOrderPanel;
         }
 
@@ -123,7 +123,7 @@ namespace OrderElimination
             _presenter.Unsubscribe();
             _view.onEndAnimation -= StartAttack;
             InputClass.onPauseClicked -= SetActiveButtonOnOrderPanel;
-            Saves.ExitSavesWindow -= SetActiveButtonOnOrderPanel;
+            SavesMenu.ExitSavesWindow -= SetActiveButtonOnOrderPanel;
             Settings.ExitSettingsWindow -= SetActiveButtonOnOrderPanel;
         }
 

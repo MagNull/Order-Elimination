@@ -6,7 +6,7 @@ namespace OrderElimination.Start
 {
     public class Settings : MonoBehaviour
     {
-        [SerializeField] private Saves _saves;
+        [SerializeField] private SavesMenu _savesMenu;
         public static event Action<bool> ExitSettingsWindow;
         
         public void SetActive(bool isActive)
@@ -33,7 +33,7 @@ namespace OrderElimination.Start
         public void LoadButtonClicked()
         {
             SetActive(false);
-            _saves.SetActive(true);
+            _savesMenu.SetActive(true);
         }
     }
 }

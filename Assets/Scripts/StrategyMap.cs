@@ -128,8 +128,8 @@ namespace OrderElimination
             {
                 SetEnemySquad(_creator.CreateEnemySquad(position));
             }
-            else
-                Database.DeleteEnemySquadPosition();
+            // else
+            //     Database.DeleteEnemySquadPosition();
         }
 
         private void SetEnemySquad(EnemySquad enemySquad)
@@ -137,7 +137,7 @@ namespace OrderElimination
             _enemySquad = enemySquad;
             var position = enemySquad.transform.position;
             FindNearestPoint(position).SetEnemy(true);
-            Database.SaveEnemySquadPosition(position);
+            //Database.SaveEnemySquadPosition(position);
             PlayerPrefs.SetString($"{SaveIndex}:EnemySquad", position.ToString());
         }
 
@@ -198,7 +198,6 @@ namespace OrderElimination
         
         public void SetActiveSquadListPanel(Squad squad)
         {
-            Debug.Log("SetActive");
             ((SquadListPanel)UIController.SceneInstance.OpenPanel(PanelType.SquadList)).UpdateSquadListPanel(squad.Members);
         }
 

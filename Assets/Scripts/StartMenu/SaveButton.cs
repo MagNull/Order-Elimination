@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace OrderElimination.Start
 {
-    public class Save : MonoBehaviour
+    public class SaveButton : MonoBehaviour
     {
         [SerializeField] private Image _image;
         [SerializeField] private TMP_Text _text;
