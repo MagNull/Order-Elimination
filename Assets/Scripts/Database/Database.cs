@@ -2,9 +2,28 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using OrderElimination.Start;
+using Proyecto26;
 
 namespace OrderElimination
 {
+    public class SaveInDB
+    {
+        public string userName;
+        public List<Vector3> positions;
+        public int userScore;
+
+        public SaveInDB()
+        {
+            userName = "Ivan";
+            userScore = 1;
+            positions = new List<Vector3>
+            {
+                new Vector3(0, 0, 0),
+                new Vector3(100, 100, 100)
+            };
+        }
+    }
+    
     public class Database : MonoBehaviour
     {
         private static string _id = "b4e1c7e5-ff55-495e-b6c9-e63da38c2306";
@@ -14,6 +33,7 @@ namespace OrderElimination
         private Dictionary<int, List<bool>> _isMovesSquadsOnSaves;
         private Dictionary<int, int> _moneyInSaves;
         private Dictionary<int, int> _allCountMove;
+        private SaveInDB _saveInDB;
         public static event Action<int, string> LoadSave;
         public static int SaveIndex { get; private set; }
 
@@ -27,6 +47,9 @@ namespace OrderElimination
 
         private void Start()
         {
+            //PostToDatabase();
+            //RetrieveFromDatabase();
+            
             // _allPositions = new Dictionary<int, List<Vector3>>();
             // _isMovesSquadsOnSaves = new Dictionary<int, List<bool>>();
             // _allCountMove = new Dictionary<int, int>();
@@ -37,6 +60,24 @@ namespace OrderElimination
             // LoadEnemySquadPositionToSaves();
             // LoadMoney();
             // LoadIsMoveSquads();
+        }
+
+        private void PostToDatabase()
+        {
+            var save = new SaveInDB();
+            RestClient.Put("https://orderelimination-default-rtdb.firebaseio.com/ " + save.userName + ".json", save);
+        }
+
+        private void RetrieveFromDatabase()
+        {
+            RestClient.Get<SaveInDB>("https://orderelimination-default-rtdb.firebaseio.com/ " + "Ivan" + ".json")
+                .Then(response =>
+                {
+                    _saveInDB = response;
+                    Debug.Log(response.userName);
+                    Debug.Log(response.positions[0]);
+                    Debug.Log(response.userScore);
+                });
         }
 
         private static string GetIdFromFile()
