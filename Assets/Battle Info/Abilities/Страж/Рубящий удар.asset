@@ -47,6 +47,7 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 1
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 0
       Multiplier: 0
       ScaleFromWhom: 0
@@ -75,6 +76,7 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 0
       Multiplier: 0
       ScaleFromWhom: 0
@@ -93,8 +95,72 @@ MonoBehaviour:
         _displayWhenApplied: 0
     _hasAreaEffect: 0
     _areaRadius: 0
-    _lightTargetsSide: 0
     _areaEffects: []
+    _hasPatternTargetEffect: 1
+    _pattern:
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    - {x: 1, y: -1}
+    _patternEffects:
+    - Type: 6
+      MainEffect: 0
+      HasProbability: 0
+      Probability: 0
+      Filter: 0
+      _damageHealTarget: 0
+      Amounts: 0
+      ScaleFrom: 0
+      Scale: 0
+      StepDelay: 0
+      Modificator: 1
+      ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
+      BuffType: 0
+      Multiplier: 0
+      ScaleFromWhom: 0
+      BuffModificator: 0
+      Duration: 0
+      ConditionType: 0
+      OverTimeType: 0
+      TickValue: 0
+      DamageType: 0
+      Distance: 0
+      ShowInAbilityDescription: 0
+      EffectView:
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
+    - Type: 0
+      MainEffect: 1
+      HasProbability: 0
+      Probability: 0
+      Filter: 0
+      _damageHealTarget: 0
+      Amounts: 1
+      ScaleFrom: 0
+      Scale: 2
+      StepDelay: 0
+      Modificator: 0
+      ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
+      BuffType: 0
+      Multiplier: 0
+      ScaleFromWhom: 0
+      BuffModificator: 0
+      Duration: 0
+      ConditionType: 0
+      OverTimeType: 0
+      TickValue: 0
+      DamageType: 3
+      Distance: 0
+      ShowInAbilityDescription: 0
+      EffectView:
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
+    _lightTargetsSide: 2
   _passiveParams:
     _effects: []
     _triggerType: 0

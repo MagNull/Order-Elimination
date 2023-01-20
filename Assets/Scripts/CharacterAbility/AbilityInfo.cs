@@ -110,7 +110,7 @@ namespace CharacterAbility
         public ModificatorType Modificator;
         [ShowIf("@Type == AbilityEffectType.Modificator && Modificator == ModificatorType.Accuracy")]
         public int ModificatorValue;
-        
+
         [ShowIf("@Type == AbilityEffectType.ObjectSpawn")]
         public EnvironmentInfo ObjectInfo;
 
@@ -123,7 +123,8 @@ namespace CharacterAbility
         [FormerlySerializedAs("BuffValue")]
         [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
         public float BuffModificator;
-        [ShowIf("@Type == AbilityEffectType.OverTime || Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ObjectSpawn")]
+        [ShowIf(
+            "@Type == AbilityEffectType.OverTime || Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ObjectSpawn")]
         public int Duration;
         [ShowIf("@Type == AbilityEffectType.ConditionalBuff")]
         public BuffConditionType ConditionType;
@@ -246,13 +247,30 @@ namespace CharacterAbility
         [ShowIf("_hasAreaEffect")]
         [SerializeField]
         private int _areaRadius;
-        [ShowIf("_hasAreaEffect")]
-        [SerializeField]
-        private BattleObjectSide _lightTargetsSide;
 
         [ShowIf("_hasAreaEffect")]
         [SerializeField]
         private AbilityEffect[] _areaEffects;
+
+        [HideInInspector]
+        [SerializeField]
+        private bool _hasPatternTargetEffect;
+        [HideInInspector]
+        [SerializeField]
+        private bool _hasMaxDistance;
+        [ShowIf("_hasMaxDistance")]
+        [SerializeField]
+        private int _patternMaxDistance;
+        [ShowIf("_hasPatternTargetEffect")]
+        [SerializeField]
+        private Vector2Int[] _pattern;
+        [ShowIf("_hasPatternTargetEffect")]
+        [SerializeField]
+        private AbilityEffect[] _patternEffects;
+
+        [ShowIf("@_hasAreaEffect || _hasPatternTargetEffect")]
+        [SerializeField]
+        private BattleObjectSide _lightTargetsSide;
 
         #endregion
 
@@ -276,9 +294,33 @@ namespace CharacterAbility
 
         public BattleObjectSide LightTargetsSide => _lightTargetsSide;
 
+        public bool HasPatternTargetEffect => _hasPatternTargetEffect;
+
+        public Vector2Int[] Pattern => _pattern;
+
+        public AbilityEffect[] PatternEffects => _patternEffects;
+
+        public bool HasMaxDistance => _hasMaxDistance;
+
+        public int PatternMaxDistance => _patternMaxDistance;
+
         #endregion
 
         #region Buttons
+
+        [HideIf("@!_hasPatternTargetEffect || _hasMaxDistance"), Button]
+        private void AddMaxDistance()
+        {
+            _hasMaxDistance = true;
+            _patternMaxDistance = 0;
+        }
+
+        [ShowIf("@_hasPatternTargetEffect && _hasMaxDistance"), Button]
+        private void RemoveMaxDistance()
+        {
+            _hasMaxDistance = false;
+            _patternMaxDistance = 999;
+        }
 
         [HideIf("_hasTarget"), Button]
         private void AddTarget() => _hasTarget = true;
@@ -309,6 +351,17 @@ namespace CharacterAbility
         {
             _hasTargetEffect = false;
             _targetEffects = Array.Empty<AbilityEffect>();
+        }
+
+        [HideIf("_hasPatternTargetEffect"), Button]
+        private void AddPatternTargetEffect() => _hasPatternTargetEffect = true;
+
+        [ShowIf("_hasPatternTargetEffect"), Button]
+        private void RemovePatternTargetEffect()
+        {
+            _hasPatternTargetEffect = false;
+            _pattern = Array.Empty<Vector2Int>();
+            _hasMaxDistance = false;
         }
 
         #endregion

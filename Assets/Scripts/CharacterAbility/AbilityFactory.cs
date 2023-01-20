@@ -65,6 +65,13 @@ namespace CharacterAbility
                     BattleObjectSide.None);
             }
 
+            if (abilityInfo.ActiveParams.HasPatternTargetEffect)
+            {
+                ability = AddEffects(abilityInfo.ActiveParams.PatternEffects, ability, caster);
+                ability = new PatternTargetAbility(caster, abilityInfo.ActiveParams.Pattern, _battleMapView.Map,
+                    ability, BattleObjectSide.None, abilityInfo.ActiveParams.PatternMaxDistance);
+            }
+
             if (abilityInfo.ActiveParams.HasTargetEffect)
             {
                 ability = AddEffects(abilityInfo.ActiveParams.TargetEffects, ability, caster);
@@ -140,7 +147,8 @@ namespace CharacterAbility
                         break;
                     case AbilityEffectType.ObjectSpawn:
                         ability = new ObjectSpawnAbility(caster, effectDesc.ObjectInfo,
-                            _objectResolver.Resolve<EnvironmentFactory>(), effectDesc.Duration, _battleMapView.Map, effectDesc.MainEffect,
+                            _objectResolver.Resolve<EnvironmentFactory>(), effectDesc.Duration, _battleMapView.Map,
+                            effectDesc.MainEffect,
                             ability, BattleObjectSide.None);
                         break;
                 }

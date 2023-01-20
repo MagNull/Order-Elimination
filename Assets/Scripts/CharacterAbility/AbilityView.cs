@@ -176,16 +176,29 @@ namespace CharacterAbility
                     return;
                 }
 
-                if (AbilityInfo.ActiveParams.HasAreaEffect)
+                void SelectSeveral(IList<IBattleObject> battleObjects)
                 {
-                    var area = _battleMapView.Map.GetBattleObjectsInRadius(selected,
-                        AbilityInfo.ActiveParams.AreaRadius, AbilityInfo.ActiveParams.LightTargetsSide);
-                    foreach (var obj in area)
+                    foreach (var obj in battleObjects)
                     {
                         var areaCell = _battleMapView.GetCell(obj);
                         areaCell.Select();
                         _selectedCellViews.Add(areaCell);
                     }
+                }
+
+                if (AbilityInfo.ActiveParams.HasAreaEffect)
+                {
+                    var area = _battleMapView.Map.GetBattleObjectsInRadius(selected,
+                        AbilityInfo.ActiveParams.AreaRadius, AbilityInfo.ActiveParams.LightTargetsSide);
+                    SelectSeveral(area);
+                }
+
+                if (AbilityInfo.ActiveParams.HasPatternTargetEffect)
+                {
+                    var pattern = _battleMapView.Map.GetBattleObjectsInPatternArea(selected,
+                        Caster, AbilityInfo.ActiveParams.Pattern, AbilityInfo.ActiveParams.LightTargetsSide,
+                        AbilityInfo.ActiveParams.PatternMaxDistance);
+                    SelectSeveral(pattern);
                 }
 
                 cell.Select();

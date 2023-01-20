@@ -31,6 +31,11 @@ public class BattleMap : MonoBehaviour
         _cellGrid = modelGrid;
     }
 
+    public bool ExistCoordinate(Vector2Int point)
+    {
+        return point.x >= 0 && point.x < _width && point.y >= 0 && point.y < _height;
+    }
+
     public Cell GetCell(int x, int y)
     {
         if (x < 0 || x > _width - 1 || y < 0 || y > _height - 1)
@@ -97,8 +102,43 @@ public class BattleMap : MonoBehaviour
         if (obj is EnvironmentObject env && _activeEnvironmentObjects.ContainsValue(env))
             return _activeEnvironmentObjects.First(x => x.Value == env).Key;
 
-        //Debug.LogWarning($"$Объект {obj.View.name} не найден на поле!");
+        Debug.LogWarning($"$Объект {obj.View.GameObject.name} не найден на поле!");
         return new Vector2Int(-1, -1);
+    }
+
+    public IList<IBattleObject> GetBattleObjectsInPatternArea(IBattleObject obj, IBattleObject source,
+        Vector2Int[] pattern, BattleObjectSide side = BattleObjectSide.None, int maxDistance = 999)
+    {
+        var center = GetCoordinate(obj);
+        var sourcePos = GetCoordinate(source);
+        var directionVector = center - sourcePos;
+        var angle = Vector2.Angle(directionVector, Vector2.right);
+
+        var result = new List<IBattleObject>();
+        foreach (var patternElement in pattern)
+        {
+            var patternElementRotated = Quaternion.FromToRotation(Vector2.right, (Vector2) directionVector)
+                                        * (Vector2) patternElement;
+            
+            var newPoint = new Vector2Int(center.x + Mathf.RoundToInt(patternElementRotated.x),
+                center.y + Mathf.RoundToInt(patternElementRotated.y));
+            if ((newPoint - sourcePos).magnitude > maxDistance)
+            {
+                newPoint = sourcePos +
+                           Vector2Int.RoundToInt(Vector2.ClampMagnitude(newPoint - sourcePos, maxDistance));
+            }
+            if (ExistCoordinate(newPoint))
+            {
+                var cell = GetCell(newPoint.x, newPoint.y);
+                if (
+                    (side == BattleObjectSide.None || cell.GetObject().Side == side))
+                {
+                    result.Add(cell.GetObject());
+                }
+            }
+        }
+
+        return result;
     }
 
     public IList<IBattleObject> GetBattleObjectsInRadius(IBattleObject obj, int radius,
