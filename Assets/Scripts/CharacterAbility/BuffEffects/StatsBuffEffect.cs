@@ -6,18 +6,25 @@ namespace CharacterAbility.BuffEffects
 {
     public class StatsBuffEffect : TickEffectBase
     {
-        public float Modifier { get; }
-        public bool IsMultiplier { get; }
+        [SerializeField]
+        private Buff_Type _statType;
+        [SerializeField]
+        private readonly float _modifier;
         private float _buffedValueAddition;
+        public float Modifier => _modifier;
+
+        public bool IsMultiplier { get; }
         public ScaleFromWhom ScaleFromWhom { get; }
-        public Buff_Type StatType { get; }
+
+        public Buff_Type StatType => _statType;
+
         public IBattleObject Caster { get; }
 
         public StatsBuffEffect(Buff_Type statType, float modifier, ScaleFromWhom scaleFromWhom, int duration,
             bool isMultiplier, IBattleObject caster, ITickEffectView tickEffectView) : base(duration, tickEffectView)
         {
-            StatType = statType;
-            Modifier = modifier;
+            _statType = statType;
+            _modifier = modifier;
             ScaleFromWhom = scaleFromWhom;
             IsMultiplier = isMultiplier;
             Caster = caster;

@@ -26,7 +26,7 @@ MonoBehaviour:
     2 \u0443\u0434\u0430\u0440\u0430 \u043F\u043E \u0446\u0435\u043B\u0438, \u043D\u0430\u043D\u043E\u0441\u044F
     \u0434\u0432\u043E\u0439\u043D\u043E\u0439 \u0443\u0440\u043E\u043D \u043F\u043E
     \u0411\u0440\u043E\u043D\u0435."
-  _coolDown: 0
+  _coolDown: 1
   _startCoolDown: 0
   <Icon>k__BackingField: {fileID: 21300000, guid: 5cfee3c370c7c3440acc1406ebc0a721, type: 3}
   <ActionType>k__BackingField: 1
@@ -39,6 +39,7 @@ MonoBehaviour:
     _targetType: 1
     _targetEffects:
     - Type: 6
+      MainEffect: 0
       HasProbability: 0
       Probability: 0
       Filter: 0
@@ -48,9 +49,11 @@ MonoBehaviour:
       Scale: 0
       StepDelay: 0
       Modificator: 1
-      ModificatorValue: 0
+      ModificatorValue: -79
       BuffType: 0
-      BuffValue: 0
+      Multiplier: 0
+      ScaleFromWhom: 0
+      BuffModificator: 0
       Duration: 0
       ConditionType: 0
       OverTimeType: 0
@@ -64,6 +67,7 @@ MonoBehaviour:
         _displayAsMainEffect: 0
         _displayWhenApplied: 0
     - Type: 0
+      MainEffect: 1
       HasProbability: 0
       Probability: 0
       Filter: 0
@@ -75,7 +79,9 @@ MonoBehaviour:
       Modificator: 0
       ModificatorValue: 0
       BuffType: 0
-      BuffValue: 0
+      Multiplier: 0
+      ScaleFromWhom: 0
+      BuffModificator: 0
       Duration: 0
       ConditionType: 0
       OverTimeType: 0
@@ -89,6 +95,7 @@ MonoBehaviour:
         _displayAsMainEffect: 1
         _displayWhenApplied: 0
     - Type: 3
+      MainEffect: 0
       HasProbability: 1
       Probability: 80
       Filter: 0
@@ -100,7 +107,9 @@ MonoBehaviour:
       Modificator: 0
       ModificatorValue: 0
       BuffType: 0
-      BuffValue: 0
+      Multiplier: 0
+      ScaleFromWhom: 0
+      BuffModificator: 0
       Duration: 5
       ConditionType: 0
       OverTimeType: 0
@@ -115,6 +124,7 @@ MonoBehaviour:
         _displayWhenApplied: 1
     _hasAreaEffect: 0
     _areaRadius: 0
+    _lightTargetsSide: 0
     _areaEffects: []
   _passiveParams:
     _effects: []

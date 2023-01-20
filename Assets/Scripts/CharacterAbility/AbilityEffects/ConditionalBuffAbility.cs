@@ -10,7 +10,6 @@ namespace CharacterAbility.AbilityEffects
     //TODO: Remove duplicate code TickingBuff
     public class ConditionalBuffAbility : Ability
     {
-        private readonly Ability _nextEffect;
         private readonly Buff_Type _buffType;
         private readonly float _value;
         private readonly ScaleFromWhom _scaleFromWhom;
@@ -20,12 +19,11 @@ namespace CharacterAbility.AbilityEffects
         private readonly ITickEffectView _tickEffectView;
         private ITickEffect _buff;
 
-        public ConditionalBuffAbility(IBattleObject caster, Ability nextEffect, float probability, Buff_Type buffType,
+        public ConditionalBuffAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability, Buff_Type buffType,
             float value, ScaleFromWhom scaleFromWhom, BuffConditionType conditionType, BattleObjectSide filter,
             DamageType damageType, bool isMultiplier, ITickEffectView tickEffectView) :
-            base(caster, nextEffect, filter, probability)
+            base(caster, isMain, nextEffect, filter, probability)
         {
-            _nextEffect = nextEffect;
             _buffType = buffType;
             _value = value;
             _scaleFromWhom = scaleFromWhom;
@@ -78,9 +76,7 @@ namespace CharacterAbility.AbilityEffects
                     break;
             }
 
-            if (_nextEffect == null)
-                return;
-            await _nextEffect.Use(target, stats);
+            await UseNext(target, stats);
         }
 
         private void InitBuff()

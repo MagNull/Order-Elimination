@@ -57,11 +57,19 @@ public class BattleMap : MonoBehaviour
         SetCell(boPos.x, boPos.y, new NullBattleObject());
     }
 
-    public int GetDistance(IBattleObject obj1, IBattleObject obj2)
+    public int GetStraightDistance(IBattleObject obj1, IBattleObject obj2)
     {
         Vector2Int obj1Crd = GetCoordinate(obj1);
         Vector2Int obj2Crd = GetCoordinate(obj2);
-        return Math.Abs(obj1Crd.x - obj2Crd.x) + Math.Abs(obj1Crd.y - obj2Crd.y) - 1;
+        return Mathf.FloorToInt(Mathf.Sqrt(Mathf.Pow(obj1Crd.x - obj2Crd.x, 2) +
+                                           Mathf.Pow(obj1Crd.y - obj2Crd.y, 2)));
+    }
+
+    public int GetPathDistance(IBattleObject obj1, IBattleObject obj2)
+    {
+        var target = GetCoordinate(obj2);
+        var path = GetShortestPath(obj1, target.x, target.y);
+        return path.Count;
     }
 
     public Vector2Int GetCoordinate(IBattleObject obj)
@@ -84,10 +92,11 @@ public class BattleMap : MonoBehaviour
         return new Vector2Int(-1, -1);
     }
 
-    public IList<IBattleObject> GetBattleObjectsInRadius(IBattleObject obj, int radius, BattleObjectSide side)
+    public IList<IBattleObject> GetBattleObjectsInRadius(IBattleObject obj, int radius,
+        BattleObjectSide side = BattleObjectSide.None)
     {
         return GetObjectsInRadius(obj, radius, battleObject =>
-            battleObject is not NullBattleObject && battleObject.Side == side);
+            battleObject is not NullBattleObject && (side == BattleObjectSide.None || battleObject.Side == side));
     }
 
     public bool GetCellWith(Func<Cell, bool> predicate, out Cell cell)
@@ -104,12 +113,6 @@ public class BattleMap : MonoBehaviour
 
         cell = null;
         return false;
-    }
-
-    public IList<IBattleObject> GetBattleObjectsInRadius(IBattleObject obj, int radius)
-    {
-        return GetObjectsInRadius(obj, radius, battleObject =>
-            battleObject is not NullBattleObject);
     }
 
     public IList<IBattleObject> GetEmptyObjectsInRadius(IBattleObject obj, int radius)
@@ -164,8 +167,7 @@ public class BattleMap : MonoBehaviour
 
             foreach (var neighbour in GetNeighbours(current))
             {
-                if (visited.Contains(neighbour) ||
-                    GetCell(neighbour.x, neighbour.y).GetObject().Side != BattleObjectSide.None)
+                if (visited.Contains(neighbour))
                     continue;
 
                 visited.Add(neighbour);
@@ -174,7 +176,6 @@ public class BattleMap : MonoBehaviour
             }
         }
 
-        Debug.Log("Path len: " + path.Count);
         return path;
     }
 
@@ -225,6 +226,7 @@ public class BattleMap : MonoBehaviour
             environmentObject.OnEnter(obj);
             _activeEnvironmentObjects.Add(new Vector2Int(x, y), environmentObject);
         }
+
 
         _cellGrid[x, y].SetObject(obj);
         CellChanged?.Invoke(_cellGrid[x, y]);

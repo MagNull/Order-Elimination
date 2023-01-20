@@ -17,6 +17,8 @@ namespace OrderElimination
         [SerializeField]
         private EnemySquad _enemySquadPrefab;
         [SerializeField]
+        private EnemySquad _tutorialEnemySquadPrefab;
+        [SerializeField]
         private Path _pathPrefab;
         [SerializeField]
         private SquadButtonTouchRace _firstButtonSquadPrefab;
@@ -68,6 +70,17 @@ namespace OrderElimination
             if (!_enemySquadPrefab.IsDestroyed() && !_parent.IsDestroyed())
             {
                 var enemySquad = Instantiate(_enemySquadPrefab, position, Quaternion.identity, _parent.transform);
+                return enemySquad;
+            }
+
+            return null;
+        }
+        
+        public EnemySquad CreateTutorialEnemySquad(Vector3 position)
+        {
+            if (!_enemySquadPrefab.IsDestroyed() && !_parent.IsDestroyed())
+            {
+                var enemySquad = Instantiate(_tutorialEnemySquadPrefab, position, Quaternion.identity, _parent.transform);
                 return enemySquad;
             }
 

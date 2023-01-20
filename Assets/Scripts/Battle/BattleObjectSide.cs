@@ -8,4 +8,5 @@ public enum BattleObjectSide
     Environment,
     Enemy,
     Ally,
+    Obstacle
 }

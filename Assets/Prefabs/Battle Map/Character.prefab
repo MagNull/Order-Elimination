@@ -431,7 +431,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1296974696013792460
 Transform:
   m_ObjectHideFlags: 0
@@ -613,6 +613,7 @@ MonoBehaviour:
       _health: 0
       _attack: 0
       _armor: 0
+      _additionalArmor: 0
       _evasion: 0
       _accuracy: 0
       _movement: 0

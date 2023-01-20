@@ -18,7 +18,8 @@ public class AbilityViewBinder
                 !cell.Model.GetObject().View.TryGetComponent(out BattleCharacterView characterView)
                 || characterView.Model.Side != BattleObjectSide.Ally
                 || currentTurn != BattleObjectSide.Ally
-                || characterView.IsSelected)
+                || characterView.IsSelected
+                || abilityPanel.AbilityCasing)
                 return;
 
             _selectedCharacterView?.Deselect();

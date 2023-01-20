@@ -16,7 +16,7 @@ namespace OrderElimination.Start
         
         public void MenuButtonClicked()
         {
-            SceneManager.LoadScene("StartMenu");
+            SceneManager.LoadScene(0);
         }
 
         public void ContinueButtonClicked()

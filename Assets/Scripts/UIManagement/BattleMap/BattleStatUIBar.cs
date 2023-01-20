@@ -27,7 +27,12 @@ namespace UIManagement.Elements
             _textValueComponent.text = currentValue.ToString();
             var normalizedValue = (currentValue - minValue) / (maxValue - minValue);
             if (normalizedValue > 1 || normalizedValue < 0 || float.IsNaN(normalizedValue))
+            {
+                Debug.Log("Normalized value: " + normalizedValue + '\n' +
+                          "Max value: " + maxValue + '\n' +
+                          "Min value: " + minValue + '\n');
                 throw new System.InvalidOperationException();
+            }
             DOTween.To(GetFillAmount, SetFillAmount, normalizedValue, 0.4f).SetEase(ValueChangeEase);
 
             float GetFillAmount() => FillAmount;

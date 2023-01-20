@@ -145,7 +145,7 @@ namespace Tutorial
         public int[] UnmaskPlanetPointIndexes;
         public RectTransform[] UnmaskObjects;
         public GameObject AppearingObject;
-        [TextArea]
+        [TextArea(3, 5)]
         public string Text;
     }
 }

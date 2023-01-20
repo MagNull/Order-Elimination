@@ -7,7 +7,6 @@ namespace CharacterAbility.AbilityEffects
 {
     public class OverTimeAbility : Ability
     {
-        private readonly Ability _nextEffect;
         private readonly DamageHealTarget _damageHealTarget;
         private readonly OverTimeAbilityType _overTimeAbilityType;
         private readonly int _duration;
@@ -15,13 +14,12 @@ namespace CharacterAbility.AbilityEffects
         private ITickEffect _tickEffect;
         private ITickEffectView _effectView;
 
-        public OverTimeAbility(IBattleObject caster, Ability nextEffect, float probability,
+        public OverTimeAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability,
             DamageHealTarget damageHealTarget, OverTimeAbilityType overTimeAbilityType,
             int duration, int tickValue, BattleObjectSide filter, DamageType damageType, ITickEffectView view) : base(
-            caster, nextEffect, filter,
+            caster, isMain, nextEffect, filter,
             probability)
         {
-            _nextEffect = nextEffect;
             _damageHealTarget = damageHealTarget;
             _overTimeAbilityType = overTimeAbilityType;
             _duration = duration;
@@ -39,9 +37,7 @@ namespace CharacterAbility.AbilityEffects
             };
             target.AddTickEffect(tickEffect);
 
-            if(_nextEffect == null)
-                return;
-            await _nextEffect.Use(target, stats);
+            await UseNext(target, stats);
         }
     }
 }

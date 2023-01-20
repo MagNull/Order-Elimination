@@ -12,11 +12,14 @@ namespace OrderElimination
         public PlanetPoint StartPoint => _startPoint;
         public PlanetPoint EndPoint => _endPoint;
 
+        private Color _color;
+
         private void Start()
         {
+            _color = _lineRenderer.startColor;
             _lineRenderer.SetWidth(7, 7);
             _lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-            _lineRenderer.SetColors(Color.black, Color.black);
+            _lineRenderer.SetColors(_color, _color);
         }
 
         public void ActivateSprite(bool isActive)
@@ -29,7 +32,7 @@ namespace OrderElimination
             else
             {
                 _lineRenderer.sortingOrder = 1;
-                _lineRenderer.SetColors(Color.black, Color.black);
+                _lineRenderer.SetColors(_color, _color);
             }
         }
 

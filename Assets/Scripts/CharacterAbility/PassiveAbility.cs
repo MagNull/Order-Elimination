@@ -14,7 +14,7 @@ namespace CharacterAbility
         private readonly Ability _nextEffect;
 
         public PassiveAbility(IBattleObject caster, PassiveAbilityParams.PassiveTriggerType passiveTriggerType,
-            Ability nextEffect, BattleObjectSide filter, float probability) : base(caster, nextEffect, filter,
+            Ability nextEffect, BattleObjectSide filter, float probability) : base(caster, false, nextEffect, filter,
             probability)
         {
             _passiveTriggerType = passiveTriggerType;

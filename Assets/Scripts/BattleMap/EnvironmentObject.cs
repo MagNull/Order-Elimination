@@ -16,7 +16,7 @@ namespace OrderElimination.BattleMap
         private readonly BattleStats _stats;
 
         public IReadOnlyBattleStats Stats => _stats;
-        public BattleObjectSide Side => _isWalkable ? BattleObjectSide.None : BattleObjectSide.Environment;
+        public BattleObjectSide Side => _isWalkable ? BattleObjectSide.Environment : BattleObjectSide.Obstacle;
         public GameObject View { get; set; }
 
         public EnvironmentObject(ITickEffect[] enterBuffs, GameObject view, BattleStats stats, bool isWalkable)
@@ -34,9 +34,8 @@ namespace OrderElimination.BattleMap
 
         public void OnEnter(IBattleObject battleObject)
         {
-            Debug.Log(battleObject.View.name + " entered " + View.name);
+            Debug.Log(_enterBuffs.Length);
             foreach (var buff in _enterBuffs) battleObject.AddTickEffect(buff);
-            Debug.Log(battleObject.View.name + " entered " + View.name);
         }
 
         public void OnMoved(Cell from, Cell to)
@@ -50,34 +49,31 @@ namespace OrderElimination.BattleMap
             Debug.Log(battleObject.View.name + " left " + View.name);
         }
 
-        public void TakeDamage(DamageInfo damageInfo)
+        public TakeDamageInfo TakeDamage(DamageInfo damageInfo)
         {
-            throw new NotImplementedException();
+            return new TakeDamageInfo();
         }
 
         public void TakeRecover(int value, int accuracy, DamageHealTarget damageHealTarget)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void AddTickEffect(ITickEffect effect)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void RemoveTickEffect(ITickEffect effect)
         {
-            throw new NotImplementedException();
         }
 
         public void ClearTickEffects()
         {
-            throw new NotImplementedException();
         }
 
         public void ClearBuffEffects()
         {
-            throw new NotImplementedException();
         }
 
         public IReadOnlyList<ITickEffect> GetTickEffects(ITickEffect tickEffectType)

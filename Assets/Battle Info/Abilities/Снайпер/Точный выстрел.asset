@@ -39,6 +39,7 @@ MonoBehaviour:
     _targetType: 1
     _targetEffects:
     - Type: 0
+      MainEffect: 1
       HasProbability: 0
       Probability: 0
       Filter: 0
@@ -50,7 +51,9 @@ MonoBehaviour:
       Modificator: 0
       ModificatorValue: 0
       BuffType: 0
-      BuffValue: 0
+      Multiplier: 0
+      ScaleFromWhom: 0
+      BuffModificator: 0
       Duration: 0
       ConditionType: 0
       OverTimeType: 0
@@ -65,6 +68,7 @@ MonoBehaviour:
         _displayWhenApplied: 0
     _hasAreaEffect: 0
     _areaRadius: 0
+    _lightTargetsSide: 0
     _areaEffects: []
   _passiveParams:
     _effects: []

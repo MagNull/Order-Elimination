@@ -70,10 +70,10 @@ namespace UIManagement
                 abilityInfo.ActiveParams.Distance != 0)
                 _abilityParameters.Add(null, "Дальность: ", abilityInfo.ActiveParams.Distance.ToString(),
                     ValueUnits.Cells);
-            if (abilityInfo.ActiveParams.HasAreaEffect)
-                _abilityParameters.Add(null, "Радиус: ", abilityInfo.ActiveParams.AreaRadius.ToString(),
-                    ValueUnits.Cells);
-            _abilityParameters.Add(null, "Откат: ", (abilityInfo.CoolDown - 1).ToString(), ValueUnits.Turns);
+            // if (abilityInfo.ActiveParams.HasAreaEffect)
+            //     _abilityParameters.Add(null, "Радиус: ", abilityInfo.ActiveParams.AreaRadius.ToString(),
+            //         ValueUnits.Cells);
+            _abilityParameters.Add(null, "Откат: ", abilityInfo.CoolDown.ToString(), ValueUnits.Turns);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace CharacterAbility
 
         private bool _casting;
 
-        private List<CellView> _selectedCellViews = new ();
+        private List<CellView> _selectedCellViews = new();
 
         public AbilityInfo AbilityInfo { get; }
 
@@ -33,6 +33,8 @@ namespace CharacterAbility
         public bool CanCast => _coolDownTimer <= 0 && !_casting && Caster.CanSpendAction(AbilityInfo.ActionType);
 
         public string Name => AbilityInfo.Name;
+
+        public bool Casting => _casting;
 
         private CancellationTokenSource _cancellationTokenSource;
 
@@ -60,6 +62,11 @@ namespace CharacterAbility
 
         public async void Clicked()
         {
+            if (_casting)
+            {
+                CancelCast();
+                return;
+            }
             _battleMapView.DelightCells();
             if (!Caster.CanSpendAction(AbilityInfo.ActionType))
             {
@@ -123,7 +130,7 @@ namespace CharacterAbility
                 {
                     if (selectedObj is not NullBattleObject &&
                         selectedObj.View.TryGetComponent(out BattleCharacterView view))
-                        view.HideProbability();
+                        view.HideAccuracy();
                 }
 
                 _selectedCellViews.Clear();
@@ -172,7 +179,7 @@ namespace CharacterAbility
                 if (AbilityInfo.ActiveParams.HasAreaEffect)
                 {
                     var area = _battleMapView.Map.GetBattleObjectsInRadius(selected,
-                        AbilityInfo.ActiveParams.AreaRadius);
+                        AbilityInfo.ActiveParams.AreaRadius, AbilityInfo.ActiveParams.LightTargetsSide);
                     foreach (var obj in area)
                     {
                         var areaCell = _battleMapView.GetCell(obj);
@@ -191,7 +198,7 @@ namespace CharacterAbility
                              selectedCellView.Model.GetObject()))
                 {
                     if (selectedObj is NullBattleObject || selectedObj == Caster ||
-                        !selectedObj.View.TryGetComponent(out BattleCharacterView view)) 
+                        !selectedObj.View.TryGetComponent(out BattleCharacterView view))
                         continue;
                     var accuracy = selectedObj.GetAccuracyFrom(Caster);
                     view.ShowAccuracy(accuracy);
@@ -212,8 +219,6 @@ namespace CharacterAbility
             return target;
         }
 
-        
-
         private static void DeselectCells(List<CellView> selectedCellViews)
         {
             foreach (var cell in selectedCellViews)
@@ -222,7 +227,7 @@ namespace CharacterAbility
                 var selectedObj = cell.Model.GetObject();
                 if (selectedObj is not NullBattleObject &&
                     selectedObj.View.TryGetComponent(out BattleCharacterView view))
-                    view.HideProbability();
+                    view.HideAccuracy();
             }
         }
 
@@ -242,7 +247,7 @@ namespace CharacterAbility
                 case TargetType.Empty:
                     targets.AddRange(_battleMapView.Map.GetEmptyObjectsInRadius(Caster, _abilityDistance));
                     targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(Caster, _abilityDistance,
-                        BattleObjectSide.None));
+                        BattleObjectSide.Environment));
                     break;
                 case TargetType.Enemy:
                     targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(Caster, _abilityDistance,

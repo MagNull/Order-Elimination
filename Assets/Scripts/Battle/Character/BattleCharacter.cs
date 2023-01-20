@@ -68,7 +68,7 @@ public class BattleCharacter : IActor
 
     public void OnCasted() => Casted?.Invoke();
 
-    public void TakeDamage(DamageInfo damageInfo)
+    public TakeDamageInfo TakeDamage(DamageInfo damageInfo)
     {
         var damageTaken =
             _damageCalculation.CalculateDamage(damageInfo, _battleStats.Armor + _battleStats.AdditionalArmor,
@@ -92,17 +92,21 @@ public class BattleCharacter : IActor
         _battleStats.Health -= damageTaken.healthDamage;
         Damaged?.Invoke(takeDamageInfo);
 
-        if (_battleStats.Health > 0) return;
+        if (_battleStats.Health > 0)
+            return takeDamageInfo;
         _battleStats.Health = 0;
         Died?.Invoke(this);
+
+        return takeDamageInfo;
     }
 
     //TODO: Strategy pattern in future if needed
     public void TakeRecover(int value, int accuracy, DamageHealTarget damageHealTarget)
     {
-        var isHeal = Random.Range(0, 100) < accuracy;
-        if (!isHeal)
-            return;
+        Debug.Log("healed");
+        // var isHeal = Random.Range(0, 100) < accuracy;
+        // if (!isHeal)
+        //     return;
 
         switch (damageHealTarget)
         {
@@ -117,6 +121,15 @@ public class BattleCharacter : IActor
                 _battleStats.Health += value;
                 break;
         }
+        var takeDamageInfo = new TakeDamageInfo
+        {
+            HealthDamage = 0,
+            ArmorDamage = 0,
+            CancelType = 0,
+            Attacker = this,
+            Target = this
+        };
+        Damaged?.Invoke(takeDamageInfo);
     }
 
     public void ClearTickEffects()

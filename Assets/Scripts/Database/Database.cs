@@ -1,11 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Xml;
 using UnityEngine;
-using Firebase.Database;
 using OrderElimination.Start;
-using UnityEngine.SceneManagement;
 
 namespace OrderElimination
 {
@@ -240,14 +236,14 @@ namespace OrderElimination
             // }
         }
 
-        private async Task<DataSnapshot> GetSavesDataSnapshot()
-        {
-            return await FirebaseDatabase
-                .DefaultInstance
-                .GetReference(GetIdFromFile())
-                .Child("Saves")
-                .GetValueAsync();
-        }
+        // private async Task<DataSnapshot> GetSavesDataSnapshot()
+        // {
+        //     return await FirebaseDatabase
+        //         .DefaultInstance
+        //         .GetReference(GetIdFromFile())
+        //         .Child("Saves")
+        //         .GetValueAsync();
+        // }
 
         private void SetMediatorBySelectedSave(int saveIndex)
         {
@@ -257,6 +253,7 @@ namespace OrderElimination
             // SetMediator(_allPositions[saveIndex], _isMovesSquadsOnSaves[saveIndex], _allCountMove[saveIndex],
             //     _enemySquadPositions[saveIndex], _moneyInSaves[saveIndex]);
             PlayerPrefs.SetInt($"SaveIndex", saveIndex);
+            PlayerPrefs.SetString($"{SaveIndex}:BattleOutcome", BattleOutcome.Neither.ToString());
         }
 
         public void SetNewGame(int saveIndex)

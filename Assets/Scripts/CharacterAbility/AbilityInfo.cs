@@ -5,6 +5,7 @@ using System.Reflection;
 using OrderElimination;
 using Sirenix.OdinInspector;
 using UIManagement.trashToRemove_Mockups;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -83,11 +84,12 @@ namespace CharacterAbility
     public struct AbilityEffect
     {
         public AbilityEffectType Type;
+        public bool MainEffect;
         [ShowIf("@Type != AbilityEffectType.Modificator")]
         public bool HasProbability;
         [ShowIf("HasProbability")]
         public float Probability;
-        [ShowIf("@Type != AbilityEffectType.Move && Type != AbilityEffectType.Modificator")] 
+        [ShowIf("@Type != AbilityEffectType.Move && Type != AbilityEffectType.Modificator")]
         public BattleObjectSide Filter;
         [ShowIf(
             "@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal || Type == AbilityEffectType.OverTime")]
@@ -162,7 +164,6 @@ namespace CharacterAbility
         [Range(0, 10)]
         private int _coolDown;
         [HideIf("@_type == AbilityType.Passive")]
-
         [SerializeField]
         [Range(0, 10)]
         private int _startCoolDown;
@@ -170,7 +171,8 @@ namespace CharacterAbility
         [field: SerializeField] public Sprite Icon { get; private set; }
 
         [HideIf("@_type == AbilityType.Passive")]
-        [field: SerializeField] public ActionType ActionType { get; private set; }
+        [field: SerializeField]
+        public ActionType ActionType { get; private set; }
 
         [SerializeField]
         private AbilityType _type;
@@ -239,6 +241,9 @@ namespace CharacterAbility
         [ShowIf("_hasAreaEffect")]
         [SerializeField]
         private int _areaRadius;
+        [ShowIf("_hasAreaEffect")]
+        [SerializeField]
+        private BattleObjectSide _lightTargetsSide;
 
         [ShowIf("_hasAreaEffect")]
         [SerializeField]
@@ -263,6 +268,8 @@ namespace CharacterAbility
         public bool HasTargetEffect => _hasTargetEffect;
 
         public bool DistanceFromMovement => _distanceFromMovement;
+
+        public BattleObjectSide LightTargetsSide => _lightTargetsSide;
 
         #endregion
 

@@ -88,7 +88,6 @@ namespace OrderElimination
                 var position = squad.transform.position;
                 positions.Add(position);
                 isMoveSquads.Add(squad.AlreadyMove);
-                Debug.Log($"SavePosition: {count}");
                 PlayerPrefs.SetString($"{StrategyMap.SaveIndex}:Squad {count}", position.ToString());
                 _database.SaveData($"Squad {count++}", position);
             }

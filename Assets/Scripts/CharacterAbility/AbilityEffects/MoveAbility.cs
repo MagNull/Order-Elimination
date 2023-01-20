@@ -1,4 +1,6 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using OrderElimination;
 using OrderElimination.BattleMap;
 using UnityEngine;
@@ -7,14 +9,12 @@ namespace CharacterAbility.AbilityEffects
 {
     public class MoveAbility : Ability
     {
-        private readonly Ability _nextEffect;
         private readonly BattleMap _battleMap;
         private readonly float _stepDelay;
 
-        public MoveAbility(IBattleObject caster, Ability nextEffect, float probability, BattleMap battleMap,
-            BattleObjectSide filter, float stepDelay) : base(caster, nextEffect, filter, probability)
+        public MoveAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability, BattleMap battleMap,
+            BattleObjectSide filter, float stepDelay) : base(caster, isMain, nextEffect, filter, probability)
         {
-            _nextEffect = nextEffect;
             _battleMap = battleMap;
             _stepDelay = stepDelay;
         }
@@ -30,8 +30,8 @@ namespace CharacterAbility.AbilityEffects
                 var nearestPosition = availablePositions[Random.Range(0, availablePositions.Count)];
                 foreach (var availablePosition in availablePositions)
                 {
-                    if (_battleMap.GetDistance(_caster, nearestPosition) >
-                        _battleMap.GetDistance(_caster, availablePosition))
+                    if (_battleMap.GetStraightDistance(_caster, nearestPosition) >
+                        _battleMap.GetStraightDistance(_caster, availablePosition))
                         nearestPosition = availablePosition;
                 }
 
@@ -39,15 +39,23 @@ namespace CharacterAbility.AbilityEffects
             }
 
             var path = _battleMap.GetShortestPath(_caster, targetPosition.x, targetPosition.y);
+
+            var turnEnded = false;
+            CancellationTokenSource cancellationToken = new CancellationTokenSource();
+            BattleSimulation.PlayerTurnEnd += () => cancellationToken.Cancel();
+            var canceled = false;
             foreach (var cell in path)
             {
-                await _battleMap.MoveTo(_caster, cell.x, cell.y, _stepDelay);
+                canceled = await _battleMap.MoveTo(_caster, cell.x, cell.y, _stepDelay)
+                    .AttachExternalCancellation(cancellationToken.Token).SuppressCancellationThrow();
             }
-            
-            if(_nextEffect == null)
-                return;
-            await _nextEffect.Use(target, stats);
-            
+
+            if (canceled)
+            {
+                var last = path.Last();
+                await _battleMap.MoveTo(_caster, last.x, last.y);
+            }
+            await UseNext(target, stats);
         }
     }
 }

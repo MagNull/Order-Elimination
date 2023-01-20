@@ -30,6 +30,15 @@ namespace Tutorial
             PlayerPrefs.SetInt("Standard Tutorial", 1);
         }
         
+        [Button]
+        private void ResetAllTutorials()
+        {
+            PlayerPrefs.SetInt("Battle Tutorial", 1);
+            PlayerPrefs.SetInt("Strategy Tutorial", 1);
+            PlayerPrefs.SetInt("Standard Tutorial", 1);
+
+        }
+        
         private async void Start()
         {
             if (PlayerPrefs.GetInt("Standard Tutorial") < 0)
@@ -108,7 +117,7 @@ namespace Tutorial
         public GameObject[] ClickTargets;
         public RectTransform[] UnmaskObjects;
         public GameObject AppearingObject;
-        [TextArea]
+        [TextArea(3, 5)]
         public string Text;
     }
 }
