@@ -6,7 +6,7 @@ using DG.Tweening;
 using OrderElimination.Battle;
 using TMPro;
 
-public class BattleCharacterView : MonoBehaviour
+public class BattleCharacterView : MonoBehaviour, IBattleObjectView
 {
     [SerializeField]
     private BattleCharacter _character;
@@ -31,7 +31,7 @@ public class BattleCharacterView : MonoBehaviour
 
     private bool _selected = false;
 
-    public BattleCharacter Model => _character;
+    public IBattleObject Model => _character;
     public AbilityView[] ActiveAbilitiesView => _activeAbilitiesView;
     public AbilityView[] PassiveAbilitiesView => _passiveAbilitiesView;
     public string CharacterName { get; private set; }
@@ -40,8 +40,10 @@ public class BattleCharacterView : MonoBehaviour
 
     public bool IsSelected => _selected;
 
+    public GameObject GameObject => gameObject;
     public LineRenderer FireLine => _fireLine;
 
+    public event Action<IBattleObjectView> Disabled;
     public static event Action<BattleCharacterView> Selected;
     public static event Action<BattleCharacterView> Deselected;
 
@@ -65,7 +67,7 @@ public class BattleCharacterView : MonoBehaviour
         HideAccuracy();
     }
 
-    private void OnDamaged(TakeDamageInfo info)
+    public void OnDamaged(TakeDamageInfo info)
     {
         if (info is {ArmorDamage: 0, HealthDamage: 0})
         {
@@ -87,6 +89,12 @@ public class BattleCharacterView : MonoBehaviour
             _renderer.DOColor(Color.white, _damagedDuration / 2);
         };
         _textEmitter.Emit((info.ArmorDamage + info.HealthDamage).ToString(), Color.red);
+    }
+
+    public void Disable()
+    {
+        gameObject.SetActive(false);
+        Disabled?.Invoke(this);
     }
 
     public void SetImage(Sprite image) => _renderer.sprite = image;
@@ -125,6 +133,7 @@ public class BattleCharacterView : MonoBehaviour
         }
         await _renderer.DOColor(Color.clear, _dieDuration / _dieFadeTimes * 2).AsyncWaitForCompletion();
         _renderer.gameObject.SetActive(false);
+        Disable();
     }
 
     private void OnDisable()

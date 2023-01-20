@@ -64,7 +64,6 @@ namespace CharacterAbility.AbilityEffects
                     (battleMap.GetStraightDistance(_caster, target) - 1)),
                 _ => throw new ArgumentOutOfRangeException()
             };
-            Debug.Log(battleMap.GetStraightDistance(_caster, target) - 1);
             return damage;
         }
     }

@@ -1,5 +1,5 @@
 ﻿using CharacterAbility.BuffEffects;
-using OrderElimination.BattleMap;
+using OrderElimination.BM;
 
 namespace CharacterAbility
 {

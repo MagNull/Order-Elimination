@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using CharacterAbility;
 using OrderElimination;
-using OrderElimination.BattleMap;
+using OrderElimination.BM;
 using VContainer;
 using UIManagement.Elements;
 using UIManagement;
@@ -165,13 +165,13 @@ public class BattleSimulation : MonoBehaviour
 
         var enemies = _characters
             .Where(c => c.Side == BattleObjectSide.Enemy)
-            .Select(c => c.View.GetComponent<BattleCharacterView>())
+            .Select(c => c.View.GameObject.GetComponent<BattleCharacterView>())
             .ToArray();
         _enemiesListPanel.Populate(enemies);
         foreach (var e in enemies)
         {
-            e.Model.Died -= _enemiesListPanel.RemoveItem;
-            e.Model.Died += _enemiesListPanel.RemoveItem;
+            //e.Model.Died -= _enemiesListPanel.RemoveItem;
+            e.Disabled += _enemiesListPanel.RemoveItem;
         }
         _abilityViewBinder.BindAbilityButtons(_battleMapDirector.MapView, _abilityPanel, _currentTurn);
         //TODO затрагивает UI

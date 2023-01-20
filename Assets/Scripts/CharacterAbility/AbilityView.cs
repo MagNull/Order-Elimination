@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using OrderElimination.BattleMap;
+using OrderElimination.BM;
 using UnityEngine;
 
 namespace CharacterAbility
@@ -129,7 +129,7 @@ namespace CharacterAbility
                 foreach (var selectedObj in _selectedCellViews.Select(cell => cell.Model.GetObject()))
                 {
                     if (selectedObj is not NullBattleObject &&
-                        selectedObj.View.TryGetComponent(out BattleCharacterView view))
+                        selectedObj.View.GameObject.TryGetComponent(out BattleCharacterView view))
                         view.HideAccuracy();
                 }
 
@@ -198,7 +198,7 @@ namespace CharacterAbility
                              selectedCellView.Model.GetObject()))
                 {
                     if (selectedObj is NullBattleObject || selectedObj == Caster ||
-                        !selectedObj.View.TryGetComponent(out BattleCharacterView view))
+                        !selectedObj.View.GameObject.TryGetComponent(out BattleCharacterView view))
                         continue;
                     var accuracy = selectedObj.GetAccuracyFrom(Caster);
                     view.ShowAccuracy(accuracy);
@@ -226,7 +226,7 @@ namespace CharacterAbility
                 cell.Deselect();
                 var selectedObj = cell.Model.GetObject();
                 if (selectedObj is not NullBattleObject &&
-                    selectedObj.View.TryGetComponent(out BattleCharacterView view))
+                    selectedObj.View.GameObject.TryGetComponent(out BattleCharacterView view))
                     view.HideAccuracy();
             }
         }

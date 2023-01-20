@@ -2,7 +2,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using OrderElimination;
-using OrderElimination.BattleMap;
+using OrderElimination.BM;
 using UnityEngine;
 
 namespace CharacterAbility.AbilityEffects
@@ -21,6 +21,7 @@ namespace CharacterAbility.AbilityEffects
 
         protected override async UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
+            Debug.Log("Enter");
             Vector2Int targetPosition = _battleMap.GetCoordinate(target);
             if (target is not NullBattleObject && target is not EnvironmentObject)
             {

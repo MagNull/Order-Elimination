@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using OrderElimination;
+using OrderElimination.BM;
 using Sirenix.OdinInspector;
 using UIManagement.trashToRemove_Mockups;
 using Unity.VisualScripting;
@@ -21,7 +22,8 @@ namespace CharacterAbility
         ConditionalBuff,
         Modificator,
         Stun,
-        Contreffect
+        Contreffect,
+        ObjectSpawn
     }
 
     public enum BuffConditionType
@@ -108,6 +110,9 @@ namespace CharacterAbility
         public ModificatorType Modificator;
         [ShowIf("@Type == AbilityEffectType.Modificator && Modificator == ModificatorType.Accuracy")]
         public int ModificatorValue;
+        
+        [ShowIf("@Type == AbilityEffectType.ObjectSpawn")]
+        public EnvironmentInfo ObjectInfo;
 
         [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
         public Buff_Type BuffType;
@@ -118,7 +123,7 @@ namespace CharacterAbility
         [FormerlySerializedAs("BuffValue")]
         [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
         public float BuffModificator;
-        [ShowIf("@Type == AbilityEffectType.OverTime || Type == AbilityEffectType.TickingBuff")]
+        [ShowIf("@Type == AbilityEffectType.OverTime || Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ObjectSpawn")]
         public int Duration;
         [ShowIf("@Type == AbilityEffectType.ConditionalBuff")]
         public BuffConditionType ConditionType;

@@ -48,7 +48,7 @@ public class BattleCharacterFactory : MonoBehaviour
             info.GetViewIcon(),
             info.GetViewAvatar());
 
-        character.View = battleCharacterView.gameObject;
+        character.View = battleCharacterView.gameObject.GetComponent<IBattleObjectView>();
         return character;
     }
 
@@ -64,7 +64,7 @@ public class BattleCharacterFactory : MonoBehaviour
         for (var i = 0; i < infos.Count; i++)
         {
             characters.Add(Create(infos[i], side));
-            characters.Last().View.name = name + " " + i;
+            characters.Last().View.GameObject.name = name + " " + i;
         }
 
         return characters;

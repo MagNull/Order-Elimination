@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
-using OrderElimination.BattleMap;
+using OrderElimination.BM;
 using UnityEngine;
 
 public class BattleMapView : MonoBehaviour
@@ -138,6 +138,6 @@ public class BattleMapView : MonoBehaviour
         var obj = cell.GetObject();
         if (obj is NullBattleObject)
             return;
-        obj.View.transform.DOMove(GetCell(obj).transform.position, _moveDuration) ;
+        obj.View.GameObject.transform.DOMove(GetCell(obj).transform.position, _moveDuration) ;
     }
 }

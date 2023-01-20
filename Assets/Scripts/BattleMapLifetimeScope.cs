@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Design;
 using CharacterAbility;
-using OrderElimination.BattleMap;
+using OrderElimination.BM;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -18,21 +18,22 @@ namespace OrderElimination
         //TODO(Sano): Make normal prefab info
         [SerializeField]
         private GameObject _environmentPrefab;
-        
+
         protected override void Configure(IContainerBuilder builder)
         {
             var mediator = FindObjectOfType<CharactersMediator>();
-            if(!mediator)
+            if (!mediator)
                 throw new CheckoutException("No character mediator found");
-            
+
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_battleCharacterFactory);
             builder.RegisterComponent(_battleMapDirector);
-            
+
             builder.Register<SceneTransition>(Lifetime.Singleton);
 
             builder.Register<AbilityFactory>(Lifetime.Singleton).WithParameter(_battleMapView);
-            builder.Register<EnvironmentFactory>(Lifetime.Singleton).WithParameter(_environmentPrefab);
+            builder.Register<EnvironmentFactory>(Lifetime.Singleton).WithParameter(_environmentPrefab)
+                .WithParameter(_battleMapDirector.Map);
             builder.Register<CharacterArrangeDirector>(Lifetime.Singleton);
         }
     }

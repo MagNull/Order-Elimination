@@ -3,7 +3,7 @@ using CharacterAbility.AbilityEffects;
 using Cysharp.Threading.Tasks;
 using OrderElimination;
 using OrderElimination.Battle;
-using OrderElimination.BattleMap;
+using OrderElimination.BM;
 using UnityEngine;
 
 namespace CharacterAbility

@@ -23,6 +23,8 @@ public class BattleCharacter : IActor
     public event Action Casted;
     public event Action<Cell, Cell> Moved;
     public event Action<BattleCharacter> Died;
+    public event Action<ITickEffect> EffectAdded;
+    public event Action<ITickEffect> EffectRemoved;
 
     [ShowInInspector]
     private readonly List<ITickEffect> _tickEffects;
@@ -44,14 +46,12 @@ public class BattleCharacter : IActor
     public IReadOnlyList<StatsBuffEffect> CurrentBuffEffects => _buffEffects;
 
     public BattleObjectSide Side => _side;
-    public GameObject View { get; set; }
+    public IBattleObjectView View { get; set; }
 
     public IReadOnlyList<ActionType> AvailableActions => _actionBank.AvailableActions;
 
     public IReadOnlyBattleStats Stats => _battleStats;
 
-    public event Action<ITickEffect> EffectAdded;
-    public event Action<ITickEffect> EffectRemoved;
 
     public BattleCharacter(BattleObjectSide side, BattleStats battleStats, IDamageCalculation damageCalculation)
     {

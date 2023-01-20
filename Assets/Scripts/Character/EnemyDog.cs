@@ -5,7 +5,7 @@ using CharacterAbility;
 using Cysharp.Threading.Tasks;
 using OrderElimination;
 using OrderElimination.Battle;
-using OrderElimination.BattleMap;
+using OrderElimination.BM;
 using UnityEngine;
 
 public class EnemyDog : BattleCharacter
@@ -37,7 +37,7 @@ public class EnemyDog : BattleCharacter
 
     private bool TryAttack(BattleCharacter nearestPlayer)
     {
-        if (_map.GetStraightDistance(this, nearestPlayer) > 1) 
+        if (_map.GetStraightDistance(this, nearestPlayer) > 1)
             return false;
         _damage.Use(nearestPlayer, Stats);
         return true;
@@ -105,6 +105,8 @@ public class EnemyDog : BattleCharacter
     private bool IsEmptyCell(int x, int y)
     {
         var objectOnCoordinate = _map.GetCell(x, y).GetObject();
-        return objectOnCoordinate is NullBattleObject;
+        return objectOnCoordinate is NullBattleObject
+               || (objectOnCoordinate is EnvironmentObject environmentObject &&
+               environmentObject.Side != BattleObjectSide.Obstacle);
     }
 }
