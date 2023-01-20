@@ -10,11 +10,15 @@ namespace OrderElimination
     {
         public static readonly string DatabaseLink = "https://orderelimination-default-rtdb.firebaseio.com/";
         private static readonly string _id = "b4e1c7e5-ff55-495e-b6c9-e63da38c2306";
+        private static readonly int SaveCount = 3;
+
+        private List<Save> _saves;
         public static event Action<int, string> LoadSave;
         public static int SaveIndex { get; private set; }
 
         private void Awake()
         {
+            _saves = new List<Save>();
             SavesMenu.LoadClicked += SetMediatorBySelectedSave;
             SavesMenu.NewGameClicked += SetNewGame;
             BattleSimulation.BattleEnded += SetBattleOutcome;
@@ -22,40 +26,36 @@ namespace OrderElimination
 
         private void Start()
         {
-            PostSaveToDatabase(new List<Save> { new(), new(), new() });
-            //RetrieveFromDatabase();
-            LoadTextToSaves();
+            RetrieveSaveFromDatabase();
         }
 
-        public static void PostSaveToDatabase(List<Save> saves)
+        public static void PutSaveToDatabase(List<Save> saves)
         {
             var count = 0;
             foreach (var save in saves)
-                RestClient.Put<List<Save>>(DatabaseLink + $"{_id}" + $"/{count++}" + ".json", save);
+                RestClient.Put<Save>(DatabaseLink + $"{_id}" + $"/{count++}" + ".json", save);
         }
 
-        public static void PostSaveToDatabase(Save save, int saveIndex)
+        public static void PutSaveToDatabase(Save save, int saveIndex)
         {
-            RestClient.Put<List<Save>>(DatabaseLink + $"{_id}" + $"/{saveIndex}" + ".json", save);
+            RestClient.Put<Save>(DatabaseLink + $"{_id}" + $"/{saveIndex}" + ".json", save);
         }
 
-        private void RetrieveSaveFromDatabase(int saveIndex)
+        private void RetrieveSaveFromDatabase()
         {
-            RestClient.Get<List<Save>>(DatabaseLink + $"{_id}" + $"/{saveIndex}" + ".json")
+            _saves.Clear();
+            RestClient
+                .GetArray<Save>(DatabaseLink + $"{_id}"  + ".json")
                 .Then(response =>
                 {
-                    // foreach (var save in response)
-                    // {
-                    //     Debug.Log(save.CountMove);
-                    //     Debug.Log(save.SquadPositions[0]);
-                    //     Debug.Log(save.EnemyPosition);
-                    //     Debug.Log(save.IsMoveSquads[0]);
-                    // }
+                    _saves.AddRange(response);
+                    LoadTextToSaves();
                 });
         }
 
         public static void DeleteSave(int index)
         {
+            RestClient.Delete(DatabaseLink + $"{_id}" + $"/{index}" + ".json");
             PlayerPrefs.DeleteKey($"{index}");
             PlayerPrefs.DeleteKey($"{SaveIndex}:Squad 0");
             PlayerPrefs.DeleteKey($"{SaveIndex}:Squad 1");
@@ -69,13 +69,8 @@ namespace OrderElimination
 
         public void LoadTextToSaves()
         {
-            for (var i = 0; i < 3; i++)
-            {
-                if (!PlayerPrefs.HasKey($"{i}:CountMove"))
-                    continue;
-                var countMove = PlayerPrefs.GetInt($"{i}:CountMove");
-                LoadSave?.Invoke(i, $"Игра {i + 1}, ход {countMove}");
-            }
+            for (var i = 0; i < _saves.Count; i++)
+                LoadSave?.Invoke(i, $"Игра {i + 1}, ход {_saves[i].CountMove}");
         }
 
         private void SetMediatorBySelectedSave(int saveIndex)
