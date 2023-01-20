@@ -11,7 +11,7 @@ namespace OrderElimination
         public static readonly string DatabaseLink = "https://orderelimination-default-rtdb.firebaseio.com/";
         private static readonly string _id = "b4e1c7e5-ff55-495e-b6c9-e63da38c2306";
         private static readonly int SaveCount = 3;
-
+        
         private List<Save> _saves;
         public static event Action<int, string> LoadSave;
         public static int SaveIndex { get; private set; }
@@ -75,33 +75,28 @@ namespace OrderElimination
 
         private void SetMediatorBySelectedSave(int saveIndex)
         {
-            PlayerPrefs.SetInt($"SaveIndex", saveIndex);
-            PlayerPrefs.SetString($"{SaveIndex}:BattleOutcome", BattleOutcome.Neither.ToString());
+            SaveIndex = saveIndex;
+            SetMediator(_saves[saveIndex]);
         }
 
         public void SetNewGame(int saveIndex)
         {
-            var positions = new List<Vector3>
-            {
-                new (50, 150, 0),
-                new (150, 110, 0)
-            };
             SaveIndex = saveIndex;
-            SetMediator(positions, new List<bool> { false, false }, 0, Vector3.zero, 0);
+            PutSaveToDatabase(new Save(), saveIndex);
+            SetMediator(new Save());
         }
 
-        private void SetMediator(List<Vector3> positions, List<bool> isMoveSquads, int countMove, Vector3 enemyPosition,
-            int money)
+        private void SetMediator(Save save)
         {
             PlayerPrefs.SetInt($"SaveIndex", SaveIndex);
-            PlayerPrefs.SetString($"{SaveIndex}:Squad 0", positions[0].ToString());
-            PlayerPrefs.SetString($"{SaveIndex}:Squad 1", positions[1].ToString());
-            PlayerPrefs.SetInt($"{SaveIndex}:Squad 0:isMove", isMoveSquads[0] ? 1 : 0);
-            PlayerPrefs.SetInt($"{SaveIndex}:Squad 1:isMove", isMoveSquads[1] ? 1 : 0);
-            PlayerPrefs.SetInt($"{SaveIndex}:CountMove", countMove);
-            PlayerPrefs.SetString($"{SaveIndex}:EnemySquad", enemyPosition.ToString());
+            PlayerPrefs.SetString($"{SaveIndex}:Squad 0", save.SquadPositions[0].ToString());
+            PlayerPrefs.SetString($"{SaveIndex}:Squad 1", save.SquadPositions[0].ToString());
+            PlayerPrefs.SetInt($"{SaveIndex}:Squad 0:isMove", save.IsMoveSquads[0] ? 1 : 0);
+            PlayerPrefs.SetInt($"{SaveIndex}:Squad 1:isMove", save.IsMoveSquads[1] ? 1 : 0);
+            PlayerPrefs.SetInt($"{SaveIndex}:CountMove", save.CountMove);
+            PlayerPrefs.SetString($"{SaveIndex}:EnemySquad", save.EnemyPosition.ToString());
             PlayerPrefs.SetString($"{SaveIndex}:BattleOutcome", BattleOutcome.Neither.ToString());
-            PlayerPrefs.SetInt($"{SaveIndex}:Money", money);
+            PlayerPrefs.SetInt($"{SaveIndex}:Money", save.Money);
         }
 
         public static void SetBattleOutcome(BattleOutcome outcome)
