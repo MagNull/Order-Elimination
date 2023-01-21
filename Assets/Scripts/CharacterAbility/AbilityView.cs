@@ -11,7 +11,7 @@ namespace CharacterAbility
     [Serializable]
     public class AbilityView
     {
-        public event Action Casted;
+        public event Action<ActionType> Casted;
 
         private readonly Ability _ability;
         private readonly BattleMapView _battleMapView;
@@ -54,9 +54,8 @@ namespace CharacterAbility
                 : AbilityInfo.ActiveParams.Distance;
             _coolDownTimer = AbilityInfo.StartCoolDown;
 
-            BattleSimulation.RoundStarted += OnRoundStart;
+            BattleSimulation.PlayerTurnStarted += OnPlayerTurnStart;
             BattleSimulation.BattleEnded += OnBattleEnded;
-
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
@@ -67,6 +66,7 @@ namespace CharacterAbility
                 CancelCast();
                 return;
             }
+
             _battleMapView.DelightCells();
             if (!Caster.CanSpendAction(AbilityInfo.ActionType))
             {
@@ -144,7 +144,13 @@ namespace CharacterAbility
             _ability.Use(target, Caster.Stats);
 
             _coolDownTimer = AbilityInfo.CoolDown;
-            Casted?.Invoke();
+            //TODO: Rework crutch
+            if (!AbilityInfo.NotTriggerCast)
+            {
+                Caster.OnCasted(AbilityInfo.ActionType);
+            }
+
+            Casted?.Invoke(AbilityInfo.ActionType);
 
             _casting = false;
             return true;
@@ -163,7 +169,8 @@ namespace CharacterAbility
                 IBattleObject selected = cell.Model.GetObject();
                 if (!availableTargets.Contains(selected))
                 {
-                    WrongTargetSelected();
+                    if (AbilityInfo.ActionType != ActionType.Movement)
+                        WrongTargetSelected();
                     return;
                 }
 
@@ -246,7 +253,7 @@ namespace CharacterAbility
 
         private void WrongTargetSelected()
         {
-            Debug.LogWarning("Wrong target selected");
+            _casterView.EmmitText("Wrong target", Color.red, .8f); //TODO: Fix magic number
         }
 
         private List<IBattleObject> GetTargets()
@@ -288,10 +295,10 @@ namespace CharacterAbility
             return targets;
         }
 
-        private void OnRoundStart()
+        private void OnPlayerTurnStart()
         {
             _coolDownTimer--;
-            Casted?.Invoke();
+            Casted?.Invoke(AbilityInfo.ActionType);
         }
 
         private void OnBattleEnded(BattleOutcome outcome)

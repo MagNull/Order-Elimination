@@ -2,7 +2,9 @@
 using CharacterAbility.BuffEffects;
 using Cysharp.Threading.Tasks;
 using OrderElimination;
+using OrderElimination.Battle;
 using UnityEngine;
+using VContainer;
 
 namespace CharacterAbility.AbilityEffects
 {
@@ -15,11 +17,14 @@ namespace CharacterAbility.AbilityEffects
         private readonly DamageType _damageType;
         private readonly bool _isMultiplier;
         private readonly ITickEffectView _tickEffectView;
+        private readonly IObjectResolver _objectResolver;
         private ITickEffect _buff;
 
-        public TickingBuffAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability, Buff_Type buffType,
+        //TODO: Refactor DI in BuffAbilities
+        public TickingBuffAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability,
+            Buff_Type buffType,
             float value, ScaleFromWhom scaleFromWhom, int duration, BattleObjectSide filter, DamageType damageType,
-            bool isMultiplier, ITickEffectView tickEffectView) :
+            bool isMultiplier, ITickEffectView tickEffectView, IObjectResolver objectResolver) :
             base(caster, isMain, nextEffect, filter, probability)
         {
             _buffType = buffType;
@@ -29,6 +34,7 @@ namespace CharacterAbility.AbilityEffects
             _damageType = damageType;
             _isMultiplier = isMultiplier;
             _tickEffectView = tickEffectView;
+            _objectResolver = objectResolver;
         }
 
         protected override async UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
@@ -46,9 +52,11 @@ namespace CharacterAbility.AbilityEffects
                     _isMultiplier, _caster, _tickEffectView),
                 Buff_Type.Accuracy => new StatsBuffEffect(Buff_Type.Accuracy, _value, _scaleFromWhom, _duration,
                     _isMultiplier, _caster, _tickEffectView),
-                Buff_Type.Attack => new StatsBuffEffect(Buff_Type.Attack, _value, _scaleFromWhom, _duration, _isMultiplier,
+                Buff_Type.Attack => new StatsBuffEffect(Buff_Type.Attack, _value, _scaleFromWhom, _duration,
+                    _isMultiplier,
                     _caster, _tickEffectView),
-                Buff_Type.Health => new StatsBuffEffect(Buff_Type.Health, _value, _scaleFromWhom, _duration, _isMultiplier,
+                Buff_Type.Health => new StatsBuffEffect(Buff_Type.Health, _value, _scaleFromWhom, _duration,
+                    _isMultiplier,
                     _caster, _tickEffectView),
                 Buff_Type.Movement => new StatsBuffEffect(Buff_Type.Movement, _value, _scaleFromWhom, _duration,
                     _isMultiplier, _caster, _tickEffectView),
@@ -61,6 +69,8 @@ namespace CharacterAbility.AbilityEffects
                     _value, _tickEffectView, _damageType),
                 Buff_Type.IncomingDamageReduction => new IncomingBuff(Buff_Type.IncomingDamageReduction, _duration,
                     _value, _tickEffectView, _damageType),
+                Buff_Type.Concealment => new ConcealmentBuff(_duration, _objectResolver.Resolve<CharactersBank>(),
+                    _tickEffectView),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

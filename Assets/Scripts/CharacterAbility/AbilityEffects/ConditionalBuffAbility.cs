@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using OrderElimination;
 using OrderElimination.Battle;
 using UnityEngine;
+using VContainer;
 
 namespace CharacterAbility.AbilityEffects
 {
@@ -17,11 +18,14 @@ namespace CharacterAbility.AbilityEffects
         private readonly DamageType _damageType;
         private readonly bool _isMultiplier;
         private readonly ITickEffectView _tickEffectView;
+        private readonly IObjectResolver _objectResolver;
         private ITickEffect _buff;
 
-        public ConditionalBuffAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability, Buff_Type buffType,
+        //TODO: Refactor DI in BuffAbilities
+        public ConditionalBuffAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability,
+            Buff_Type buffType,
             float value, ScaleFromWhom scaleFromWhom, BuffConditionType conditionType, BattleObjectSide filter,
-            DamageType damageType, bool isMultiplier, ITickEffectView tickEffectView) :
+            DamageType damageType, bool isMultiplier, ITickEffectView tickEffectView, IObjectResolver objectResolver) :
             base(caster, isMain, nextEffect, filter, probability)
         {
             _buffType = buffType;
@@ -31,20 +35,21 @@ namespace CharacterAbility.AbilityEffects
             _damageType = damageType;
             _isMultiplier = isMultiplier;
             _tickEffectView = tickEffectView;
+            _objectResolver = objectResolver;
         }
 
         protected override async UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
             InitBuff();
             target.AddTickEffect(_buff);
+            _buff.Tick(target);
             switch (_conditionType)
             {
                 case BuffConditionType.Damaged:
                     Action<TakeDamageInfo> removeDamaged = null;
                     removeDamaged = _ =>
                     {
-                        Debug.Log("Buff removed");
-                        target.RemoveTickEffect(_buff);
+                        _buff.RemoveTickEffect(target);
                         target.Damaged -= removeDamaged;
                     };
 
@@ -54,8 +59,7 @@ namespace CharacterAbility.AbilityEffects
                     Action<Cell, Cell> removeMoved = null;
                     removeMoved = (_, _) =>
                     {
-                        Debug.Log("Buff removed");
-                        target.RemoveTickEffect(_buff);
+                        _buff.RemoveTickEffect(target);
                         target.Moved -= removeMoved;
                     };
 
@@ -67,8 +71,7 @@ namespace CharacterAbility.AbilityEffects
                     Action removeCasted = null;
                     removeCasted = () =>
                     {
-                        Debug.Log("Buff removed");
-                        battleCharacter.RemoveTickEffect(_buff);
+                        _buff.RemoveTickEffect(target);
                         battleCharacter.Casted -= removeCasted;
                     };
 
@@ -102,6 +105,8 @@ namespace CharacterAbility.AbilityEffects
                     _value, _tickEffectView, _damageType),
                 Buff_Type.IncomingDamageReduction => new IncomingBuff(Buff_Type.IncomingDamageReduction, 9999,
                     _value, _tickEffectView, _damageType),
+                Buff_Type.Concealment => new ConcealmentBuff(9999, _objectResolver.Resolve<CharactersBank>(),
+                    _tickEffectView),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

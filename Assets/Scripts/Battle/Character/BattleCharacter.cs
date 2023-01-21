@@ -66,8 +66,6 @@ public class BattleCharacter : IActor
 
     public void OnMoved(Cell from, Cell to) => Moved?.Invoke(from, to);
 
-    public void OnCasted() => Casted?.Invoke();
-
     public TakeDamageInfo TakeDamage(DamageInfo damageInfo)
     {
         var damageTaken =
@@ -201,13 +199,19 @@ public class BattleCharacter : IActor
     public bool TrySpendAction(ActionType actionType)
     {
         var actionPerformed = _actionBank.TrySpendAction(actionType);
-        // Ивент на обновление
         return actionPerformed;
     }
 
     public void AddAction(ActionType actionType) => _actionBank.AddAction(actionType);
 
     public void ClearActions() => _actionBank.ClearActions();
+    
+    public void OnCasted(ActionType actionType)
+    {
+        if(actionType == ActionType.Movement)
+            return;
+        Casted?.Invoke();
+    }
 
     private void TickEffects()
     {

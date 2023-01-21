@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Design;
 using CharacterAbility;
+using OrderElimination.Battle;
 using OrderElimination.BM;
 using UnityEngine;
 using VContainer;
@@ -15,6 +16,8 @@ namespace OrderElimination
         private BattleMapView _battleMapView;
         [SerializeField]
         private BattleMapDirector _battleMapDirector;
+        [SerializeField]
+        private CharactersBank _charactersBank; 
         //TODO(Sano): Make normal prefab info
         [SerializeField]
         private GameObject _environmentPrefab;
@@ -25,6 +28,9 @@ namespace OrderElimination
             if (!mediator)
                 throw new CheckoutException("No character mediator found");
 
+            _charactersBank = new CharactersBank();
+            builder.RegisterInstance(_charactersBank).AsSelf().AsImplementedInterfaces();
+            
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_battleCharacterFactory);
             builder.RegisterComponent(_battleMapDirector);

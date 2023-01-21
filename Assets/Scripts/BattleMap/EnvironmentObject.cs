@@ -53,7 +53,7 @@ namespace OrderElimination.BM
 
         public void OnLeave(IBattleObject battleObject)
         {
-            foreach (var buff in _enterBuffs) battleObject.RemoveTickEffect(buff);
+            foreach (var buff in _enterBuffs) buff.RemoveTickEffect(battleObject);
         }
 
         public TakeDamageInfo TakeDamage(DamageInfo damageInfo)

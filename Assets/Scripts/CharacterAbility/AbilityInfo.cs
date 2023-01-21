@@ -57,7 +57,8 @@ namespace CharacterAbility
         Evasion, //%
         IncomingDamageIncrease,
         IncomingAccuracy, //%
-        IncomingDamageReduction
+        IncomingDamageReduction,
+        Concealment
     }
 
     public enum ScaleFromWhom
@@ -116,12 +117,12 @@ namespace CharacterAbility
 
         [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
         public Buff_Type BuffType;
-        [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
+        [ShowIf("@(Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff) && BuffType != Buff_Type.Concealment")]
         public bool Multiplier;
-        [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
+        [ShowIf("@(Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff) && BuffType != Buff_Type.Concealment")]
         public ScaleFromWhom ScaleFromWhom;
         [FormerlySerializedAs("BuffValue")]
-        [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
+        [ShowIf("@(Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff) && BuffType != Buff_Type.Concealment")]
         public float BuffModificator;
         [ShowIf(
             "@Type == AbilityEffectType.OverTime || Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ObjectSpawn")]
@@ -173,6 +174,8 @@ namespace CharacterAbility
         [SerializeField]
         [Range(0, 10)]
         private int _startCoolDown;
+        [SerializeField]
+        private bool _notTriggerCast;
 
         [field: SerializeField] public Sprite Icon { get; private set; }
 
@@ -204,6 +207,8 @@ namespace CharacterAbility
         public AbilityType Type => _type;
 
         public PassiveAbilityParams PassiveParams => _passiveParams;
+
+        public bool NotTriggerCast => _notTriggerCast;
 
         private void OnValidate()
         {

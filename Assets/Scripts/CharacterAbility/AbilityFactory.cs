@@ -1,7 +1,6 @@
 using System;
 using CharacterAbility.AbilityEffects;
 using OrderElimination.BM;
-using UnityEngine;
 using VContainer;
 
 namespace CharacterAbility
@@ -116,9 +115,6 @@ namespace CharacterAbility
                             effectDesc.OverTimeType,
                             effectDesc.Duration,
                             effectDesc.TickValue, effectDesc.Filter,
-                            effectDesc.OverTimeType == OverTimeAbilityType.Damage
-                                ? effectDesc.DamageType
-                                : DamageType.None,
                             effectDesc.EffectView);
                         break;
                     case AbilityEffectType.TickingBuff:
@@ -126,14 +122,14 @@ namespace CharacterAbility
                             effectDesc.BuffType,
                             effectDesc.BuffModificator, effectDesc.ScaleFromWhom, effectDesc.Duration,
                             effectDesc.Filter,
-                            effectDesc.DamageType, effectDesc.Multiplier, effectDesc.EffectView);
+                            effectDesc.DamageType, effectDesc.Multiplier, effectDesc.EffectView, _objectResolver);
                         break;
                     case AbilityEffectType.ConditionalBuff:
                         ability = new ConditionalBuffAbility(caster, effectDesc.MainEffect, ability, probability,
                             effectDesc.BuffType,
                             effectDesc.BuffModificator, effectDesc.ScaleFromWhom, effectDesc.ConditionType,
                             effectDesc.Filter,
-                            effectDesc.DamageType, effectDesc.Multiplier, effectDesc.EffectView);
+                            effectDesc.DamageType, effectDesc.Multiplier, effectDesc.EffectView, _objectResolver);
                         break;
                     case AbilityEffectType.Stun:
                         ability = new StunAbility(caster, effectDesc.MainEffect, ability, probability,

@@ -13,7 +13,6 @@ namespace OrderElimination.Battle
         {
             ApplyModifications(ref damageInfo, armor, incomingDebuffs);
 
-            Debug.Log(damageInfo.Accuracy);
             bool hitRoll = Random.Range(0, 100) <= damageInfo.Accuracy;
             if (!hitRoll)
                 return (0, 0, DamageCancelType.Miss);

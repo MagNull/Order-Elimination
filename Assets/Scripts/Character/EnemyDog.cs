@@ -10,13 +10,16 @@ using UnityEngine;
 
 public class EnemyDog : BattleCharacter
 {
-    private BattleMap _map;
+    private readonly BattleMap _map;
+    private readonly IReadOnlyCharacterBank _characterBank;
     private Ability _damage;
 
-    public EnemyDog(BattleMap map, BattleStats battleStats, IDamageCalculation damageCalculation)
+    public EnemyDog(BattleMap map, BattleStats battleStats, IDamageCalculation damageCalculation,
+        IReadOnlyCharacterBank characterBank)
         : base(BattleObjectSide.Enemy, battleStats, damageCalculation)
     {
         _map = map;
+        _characterBank = characterBank;
     }
 
     public void SetDamageAbility(Ability damage)
@@ -26,10 +29,7 @@ public class EnemyDog : BattleCharacter
 
     public override async void PlayTurn()
     {
-        var players = _map
-            .GetBattleObjectsInRadius(this, Math.Max(_map.Height, _map.Width), BattleObjectSide.Ally)
-            .Select(x => (BattleCharacter) x);
-        var nearestPlayer = SearchNearestPlayer(players);
+        var nearestPlayer = SearchNearestPlayer(_characterBank.GetAllies());
         if (TryAttack(nearestPlayer)) return;
         await Move(GetOptimalCoordinateToMove(nearestPlayer));
         TryAttack(nearestPlayer);
@@ -107,6 +107,6 @@ public class EnemyDog : BattleCharacter
         var objectOnCoordinate = _map.GetCell(x, y).GetObject();
         return objectOnCoordinate is NullBattleObject
                || (objectOnCoordinate is EnvironmentObject environmentObject &&
-               environmentObject.Side != BattleObjectSide.Obstacle);
+                   environmentObject.Side != BattleObjectSide.Obstacle);
     }
 }

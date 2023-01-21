@@ -28,7 +28,7 @@ MonoBehaviour:
     \u043D\u0430 \u0432\u0440\u0435\u043C\u044F \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044F
     \u044D\u0444\u0444\u0435\u043A\u0442\u0430 \"\u0421\u043A\u0440\u044B\u0442\""
   _coolDown: 3
-  _startCoolDown: 1
+  _startCoolDown: 0
   <Icon>k__BackingField: {fileID: 0}
   <ActionType>k__BackingField: 1
   _type: 0
@@ -40,6 +40,7 @@ MonoBehaviour:
     _targetType: 0
     _targetEffects:
     - Type: 5
+      MainEffect: 0
       HasProbability: 0
       Probability: 0
       Filter: 0
@@ -50,8 +51,10 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 3
       Multiplier: 0
+      ScaleFromWhom: 0
       BuffModificator: 20
       Duration: 0
       ConditionType: 2
@@ -61,10 +64,12 @@ MonoBehaviour:
       Distance: 0
       ShowInAbilityDescription: 0
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
     - Type: 5
+      MainEffect: 0
       HasProbability: 0
       Probability: 0
       Filter: 0
@@ -75,8 +80,10 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 0
       Multiplier: 1
+      ScaleFromWhom: 0
       BuffModificator: 0.5
       Duration: 0
       ConditionType: 2
@@ -86,12 +93,48 @@ MonoBehaviour:
       Distance: 0
       ShowInAbilityDescription: 0
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
+    - Type: 5
+      MainEffect: 0
+      HasProbability: 0
+      Probability: 0
+      Filter: 0
+      _damageHealTarget: 0
+      Amounts: 0
+      ScaleFrom: 0
+      Scale: 0
+      StepDelay: 0
+      Modificator: 0
+      ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
+      BuffType: 9
+      Multiplier: 0
+      ScaleFromWhom: 0
+      BuffModificator: 0
+      Duration: 0
+      ConditionType: 2
+      OverTimeType: 0
+      TickValue: 0
+      DamageType: 0
+      Distance: 0
+      ShowInAbilityDescription: 1
+      EffectView:
+        _effectName: "\u041C\u0430\u0441\u043A\u0438\u0440\u043E\u0432\u043A\u0430"
+        _effectIcon: {fileID: 21300000, guid: 748ae8b33df036b46a86e0387f1602cf, type: 3}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 1
     _hasAreaEffect: 0
     _areaRadius: 0
     _areaEffects: []
+    _hasPatternTargetEffect: 0
+    _hasMaxDistance: 0
+    _patternMaxDistance: 0
+    _pattern: []
+    _patternEffects: []
+    _lightTargetsSide: 0
   _passiveParams:
     _effects: []
     _triggerType: 0

@@ -17,7 +17,7 @@ namespace OrderElimination.BM
         {
             _environmentObject = environmentObject;
             _environmentObject.Destroyed += OnDestroyed;
-            BattleSimulation.RoundStarted += OnRoundStart;
+            BattleSimulation.PlayerTurnStarted += OnPlayerTurnStart;
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _spriteRenderer.sprite = image;
         }
@@ -44,10 +44,10 @@ namespace OrderElimination.BM
 
         private void OnDisable()
         {
-            BattleSimulation.RoundStarted -= OnRoundStart;
+            BattleSimulation.PlayerTurnStarted -= OnPlayerTurnStart;
         }
 
-        private void OnRoundStart()
+        private void OnPlayerTurnStart()
         {
             _environmentObject.OnRoundStart();
         }

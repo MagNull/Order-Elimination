@@ -11,8 +11,8 @@ using UIManagement;
 
 public class BattleSimulation : MonoBehaviour
 {
-    public static event Action RoundStarted;
-    public static event Action PlayerTurnEnd;
+    public static event Action PlayerTurnStarted;
+    public static event Action EnemyTurnStarted;
 
     public static event Action<BattleOutcome> BattleEnded;
 
@@ -74,7 +74,7 @@ public class BattleSimulation : MonoBehaviour
                 // Событие начала хода игрока отправляется один раз для каждого хода
                 if (_isTurnChanged)
                 {
-                    RoundStarted?.Invoke();
+                    PlayerTurnStarted?.Invoke();
                     _isTurnChanged = false;
                     Debug.Log("Начался ход игрока" % Colorize.Green);
                 }
@@ -83,7 +83,7 @@ public class BattleSimulation : MonoBehaviour
             {
                 if (_isTurnChanged)
                 {
-                    PlayerTurnEnd?.Invoke();
+                    EnemyTurnStarted?.Invoke();
                     _isTurnChanged = false;
                     Debug.Log("Начался ход противника" % Colorize.Red);
                 }
