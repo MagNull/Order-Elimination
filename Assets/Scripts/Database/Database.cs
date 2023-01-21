@@ -57,6 +57,12 @@ namespace OrderElimination
                 });
         }
 
+        public static void DeleteEnemyPosition(int index)
+        {
+            RestClient.Delete(DatabaseLink + $"{_id}" + $"/{index}" + "/EnemyPosition" + ".json");
+            PlayerPrefs.DeleteKey($"{index}:CountMove");
+        }
+
         public static void DeleteSave(int index)
         {
             RestClient.Delete(DatabaseLink + $"{_id}" + $"/{index}" + ".json");
@@ -106,7 +112,7 @@ namespace OrderElimination
             PlayerPrefs.SetInt($"{saveIndex}:Money", save.Money);
         }
 
-        public static void SetBattleOutcome(BattleOutcome outcome)
+        private static void SetBattleOutcome(BattleOutcome outcome)
         {
             PlayerPrefs.SetString($"{StrategyMap.SaveIndex}:BattleOutcome", outcome.ToString());
         }
