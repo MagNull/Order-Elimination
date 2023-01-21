@@ -8,13 +8,13 @@ namespace OrderElimination
 {
     public class Database : MonoBehaviour
     {
-        public static readonly string DatabaseLink = "https://orderelimination-default-rtdb.firebaseio.com/";
+        public static readonly string[] SquadNames = { "Squad 0", "Squad 1" };
+        private static readonly string DatabaseLink = "https://orderelimination-default-rtdb.firebaseio.com/";
         private static readonly string _id = "b4e1c7e5-ff55-495e-b6c9-e63da38c2306";
         private static readonly int SaveCount = 3;
         
         private List<Save> _saves;
         public static event Action<int, string> LoadSave;
-        public static int SaveIndex { get; private set; }
 
         private void Awake()
         {
@@ -33,12 +33,16 @@ namespace OrderElimination
         {
             var count = 0;
             foreach (var save in saves)
-                RestClient.Put<Save>(DatabaseLink + $"{_id}" + $"/{count++}" + ".json", save);
+            {
+                PutSaveToDatabase(save, count);
+                count++;
+            }
         }
 
         public static void PutSaveToDatabase(Save save, int saveIndex)
         {
             RestClient.Put<Save>(DatabaseLink + $"{_id}" + $"/{saveIndex}" + ".json", save);
+            SetPlayerPrefs(save, saveIndex);
         }
 
         private void RetrieveSaveFromDatabase()
@@ -57,14 +61,16 @@ namespace OrderElimination
         {
             RestClient.Delete(DatabaseLink + $"{_id}" + $"/{index}" + ".json");
             PlayerPrefs.DeleteKey($"{index}");
-            PlayerPrefs.DeleteKey($"{SaveIndex}:Squad 0");
-            PlayerPrefs.DeleteKey($"{SaveIndex}:Squad 1");
-            PlayerPrefs.DeleteKey($"{SaveIndex}:Squad 0:isMove");
-            PlayerPrefs.DeleteKey($"{SaveIndex}:Squad 1:isMove");
-            PlayerPrefs.DeleteKey($"{SaveIndex}:CountMove");
-            PlayerPrefs.DeleteKey($"{SaveIndex}:EnemySquad");
-            PlayerPrefs.DeleteKey($"{SaveIndex}:BattleOutcome");
-            PlayerPrefs.DeleteKey($"{SaveIndex}:Money");
+            foreach (var squadName in SquadNames)
+            {
+                PlayerPrefs.DeleteKey($"{index}:{squadName}");
+                PlayerPrefs.DeleteKey($"{index}:{squadName}:isMove");
+            }
+            
+            PlayerPrefs.DeleteKey($"{index}:CountMove");
+            PlayerPrefs.DeleteKey($"{index}:EnemySquad");
+            PlayerPrefs.DeleteKey($"{index}:BattleOutcome");
+            PlayerPrefs.DeleteKey($"{index}:Money");
         }
 
         public void LoadTextToSaves()
@@ -75,33 +81,34 @@ namespace OrderElimination
 
         private void SetMediatorBySelectedSave(int saveIndex)
         {
-            SaveIndex = saveIndex;
-            SetMediator(_saves[saveIndex]);
+            SetPlayerPrefs(_saves[saveIndex], saveIndex);
         }
 
         public void SetNewGame(int saveIndex)
         {
-            SaveIndex = saveIndex;
             PutSaveToDatabase(new Save(), saveIndex);
-            SetMediator(new Save());
+            SetPlayerPrefs(new Save(), saveIndex);
         }
 
-        private void SetMediator(Save save)
+        private static void SetPlayerPrefs(Save save, int saveIndex)
         {
-            PlayerPrefs.SetInt($"SaveIndex", SaveIndex);
-            PlayerPrefs.SetString($"{SaveIndex}:Squad 0", save.SquadPositions[0].ToString());
-            PlayerPrefs.SetString($"{SaveIndex}:Squad 1", save.SquadPositions[0].ToString());
-            PlayerPrefs.SetInt($"{SaveIndex}:Squad 0:isMove", save.IsMoveSquads[0] ? 1 : 0);
-            PlayerPrefs.SetInt($"{SaveIndex}:Squad 1:isMove", save.IsMoveSquads[1] ? 1 : 0);
-            PlayerPrefs.SetInt($"{SaveIndex}:CountMove", save.CountMove);
-            PlayerPrefs.SetString($"{SaveIndex}:EnemySquad", save.EnemyPosition.ToString());
-            PlayerPrefs.SetString($"{SaveIndex}:BattleOutcome", BattleOutcome.Neither.ToString());
-            PlayerPrefs.SetInt($"{SaveIndex}:Money", save.Money);
+            PlayerPrefs.SetInt($"SaveIndex", saveIndex);
+            var count = 0;
+            foreach (var squadName in SquadNames)
+            {
+                PlayerPrefs.SetString($"{saveIndex}:{squadName}", save.SquadPositions[count].ToString());
+                PlayerPrefs.SetInt($"{saveIndex}:{squadName}:isMove", save.IsMoveSquads[count++] ? 1 : 0);
+            }
+            
+            PlayerPrefs.SetInt($"{saveIndex}:CountMove", save.CountMove);
+            PlayerPrefs.SetString($"{saveIndex}:EnemySquad", save.EnemyPosition.ToString());
+            PlayerPrefs.SetString($"{saveIndex}:BattleOutcome", BattleOutcome.Neither.ToString());
+            PlayerPrefs.SetInt($"{saveIndex}:Money", save.Money);
         }
 
         public static void SetBattleOutcome(BattleOutcome outcome)
         {
-            PlayerPrefs.SetString($"{SaveIndex}:BattleOutcome", outcome.ToString());
+            PlayerPrefs.SetString($"{StrategyMap.SaveIndex}:BattleOutcome", outcome.ToString());
         }
 
         private void OnDisable()

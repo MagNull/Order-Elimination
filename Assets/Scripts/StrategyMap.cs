@@ -51,6 +51,7 @@ namespace OrderElimination
             _enemySquad = null;
             _pointsInfo = Resources.LoadAll<PlanetInfo>("");
             InputClass.onFinishMove += OnFinishMove;
+            InputClass.onSaveData += SaveData;
         }
 
         private void Start()
@@ -128,8 +129,8 @@ namespace OrderElimination
             {
                 SetEnemySquad(_creator.CreateEnemySquad(position));
             }
-            // else
-            //     Database.DeleteEnemySquadPosition();
+            else
+                SaveData();
         }
 
         private void SetEnemySquad(EnemySquad enemySquad)
@@ -137,8 +138,8 @@ namespace OrderElimination
             _enemySquad = enemySquad;
             var position = enemySquad.transform.position;
             FindNearestPoint(position).SetEnemy(true);
-            //Database.SaveEnemySquadPosition(position);
-            PlayerPrefs.SetString($"{SaveIndex}:EnemySquad", position.ToString());
+            
+            SaveData();
         }
 
         private void UpdateSettings()
@@ -161,7 +162,7 @@ namespace OrderElimination
             foreach (var squad in _squads)
             {
                 squad.Move(FindNearestPoint(squad.transform.position));
-                squad.SetAlreadyMove(PlayerPrefs.GetInt($"{SaveIndex}:Squad {count}:isMove") == 1);
+                squad.SetAlreadyMove(PlayerPrefs.GetInt($"{SaveIndex}:Squad {count++}:isMove") == 1);
                 squad.onActiveSquadPanel += SetActiveSquadListPanel;
             }
         }
@@ -201,9 +202,34 @@ namespace OrderElimination
             ((SquadListPanel)UIController.SceneInstance.OpenPanel(PanelType.SquadList)).UpdateSquadListPanel(squad.Members);
         }
 
+        private void SaveData()
+        {
+            if (this.IsDestroyed())
+                return;
+            var positions = new List<Vector3>();
+            var isMoveSquads = new List<bool>();
+            foreach (var squad in _squads)
+            {
+                if(squad.IsDestroyed())
+                    continue;
+                var position = squad.transform.position;
+                positions.Add(position);
+                isMoveSquads.Add(squad.AlreadyMove);
+            }
+
+            var enemyPosition = Vector3.zero;
+            if (_enemySquad is not null)
+                enemyPosition = EnemySquad.transform.position;
+            var money = PlayerPrefs.GetInt($"{SaveIndex}:Money");
+            var save = new Save(CountMove, enemyPosition, isMoveSquads, positions, money);
+            
+            Database.PutSaveToDatabase(save, SaveIndex);
+        }
+
         private void OnDisable()
         {
             InputClass.onFinishMove -= OnFinishMove;
+            InputClass.onSaveData -= SaveData;
         }
     }
 }
