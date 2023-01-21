@@ -65,7 +65,7 @@ MonoBehaviour:
         _displayAsMainEffect: 0
         _displayWhenApplied: 0
     - Type: 0
-      MainEffect: 1
+      MainEffect: 0
       HasProbability: 0
       Probability: 0
       Filter: 0
@@ -97,10 +97,11 @@ MonoBehaviour:
     _areaRadius: 0
     _areaEffects: []
     _hasPatternTargetEffect: 1
+    _hasMaxDistance: 1
+    _patternMaxDistance: 1
     _pattern:
-    - {x: 1, y: 0}
-    - {x: 1, y: 1}
-    - {x: 1, y: -1}
+    - {x: 0, y: 1}
+    - {x: 0, y: -1}
     _patternEffects:
     - Type: 6
       MainEffect: 0
