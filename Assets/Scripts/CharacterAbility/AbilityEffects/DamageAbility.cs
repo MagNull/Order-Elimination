@@ -62,7 +62,11 @@ namespace CharacterAbility.AbilityEffects
                 AbilityScaleFrom.Health => (int) (stats.UnmodifiedHealth * _attackScale),
                 AbilityScaleFrom.Movement => (int) (stats.UnmodifiedMovement * _attackScale),
                 AbilityScaleFrom.Distance => Mathf.RoundToInt(stats.Attack *
-                    (battleMap.GetStraightDistance(_caster, target) - 1)),
+                                                              (battleMap.GetStraightDistance(_caster, target) - 1)),
+                AbilityScaleFrom.Rivals =>
+                    (int)(_battleMap.GetBattleObjectsInRadius(_caster, 1,
+                              _caster.Side == BattleObjectSide.Ally ? BattleObjectSide.Enemy : BattleObjectSide.Ally).Count *
+                     _attackScale) * stats.Attack,
                 _ => throw new ArgumentOutOfRangeException()
             };
             return damage;

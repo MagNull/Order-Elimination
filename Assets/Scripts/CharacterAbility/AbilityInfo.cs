@@ -38,7 +38,8 @@ namespace CharacterAbility
         Attack,
         Health,
         Movement,
-        Distance
+        Distance,
+        Rivals
     }
 
     public enum OverTimeAbilityType
