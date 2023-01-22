@@ -91,6 +91,7 @@ public class BattleCharacter : IActor
 
         _battleStats.Armor -= damageTaken.armorDamage;
         _battleStats.Health -= damageTaken.healthDamage;
+        
         Damaged?.Invoke(takeDamageInfo);
 
         if (_battleStats.Health > 0)

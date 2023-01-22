@@ -35,7 +35,7 @@ namespace CharacterAbility
                         if(_nextEffect is ContreffectAbility)
                             _nextEffect.Use(info.Attacker, _caster.Stats);
                         else
-                            _nextEffect?.Use(target, stats);
+                            _nextEffect.Use(target, stats);
                     };
                     break;
                 case PassiveAbilityParams.PassiveTriggerType.Movement:
