@@ -51,7 +51,7 @@ namespace UIManagement.Elements
 
         private void OnHold(HoldableButton button, float holdTime) => Holded?.Invoke(this);
 
-        private void OnAbilityCasted() => AbilityButtonUsed?.Invoke();
+        private void OnAbilityCasted(ActionType _) => AbilityButtonUsed?.Invoke();
 
         public void Select()
         {

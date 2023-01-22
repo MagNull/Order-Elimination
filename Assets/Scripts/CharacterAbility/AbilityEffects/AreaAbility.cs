@@ -21,7 +21,6 @@ namespace CharacterAbility.AbilityEffects
 
         protected override async UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
-            Debug.Log("Area");
             var targets = _battleMap.GetBattleObjectsInRadius(target, _radius);
             targets.Remove(target);
             foreach (var battleObject in targets)

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -32,7 +33,7 @@ public class RandomBattleMusicPicker : MonoBehaviour
         await UniTask.Delay(TimeSpan.FromSeconds(clip.length));
         PlayRandomMusic();
     }
-    
+
     private void PlayTutorialMusic()
     {
         _audioSource.clip = _tutorialMusic;

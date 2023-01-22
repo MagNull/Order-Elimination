@@ -9,7 +9,7 @@ public class CellView : MonoBehaviour
     public event Action<CellView> CellClicked;
 
     [SerializeField]
-    private Renderer _renderer;
+    private SpriteRenderer _renderer;
     [SerializeField]
     private Color _selectedColor;
     [SerializeField]
@@ -19,6 +19,8 @@ public class CellView : MonoBehaviour
     [FormerlySerializedAs("_environmentColor")]
     [SerializeField]
     private Color _obstacleColor;
+    [SerializeField]
+    private Color _characterSelectedColor;
     [SerializeField]
     private Color _allyColor;
     private Color _deselectColor;
@@ -30,7 +32,7 @@ public class CellView : MonoBehaviour
 
     public void Start()
     {
-        _basicColor = _renderer == null ? Color.white : _renderer.material.color;
+        _basicColor = _renderer == null ? Color.white : _renderer.color;
     }
 
     public void BindModel(Cell model)
@@ -40,7 +42,7 @@ public class CellView : MonoBehaviour
 
     public void Light()
     {
-        _renderer.material.color = _model.GetObject().Side switch
+        _renderer.color = _model.GetObject().Side switch
         {
             BattleObjectSide.None => _lightColor,
             BattleObjectSide.Obstacle => _obstacleColor,
@@ -49,27 +51,34 @@ public class CellView : MonoBehaviour
             BattleObjectSide.Ally => _allyColor,
             _ => throw new ArgumentOutOfRangeException()
         };
+        if (_model.GetObject() is BattleCharacter battleCharacter &&
+            ((BattleCharacterView) battleCharacter.View).IsSelected)
+        {
+            _renderer.color = _characterSelectedColor;
+        }
     }
 
     public void Delight()
     {
-        if(_renderer != null)
-            _renderer.material.color = _basicColor;
+        if (_renderer != null)
+            _renderer.color = _basicColor;
     }
 
     public void Select()
     {
-        _deselectColor = _renderer.material.color;
-        _renderer.material.color = _selectedColor;
+        _deselectColor = _renderer.color;
+        _renderer.color = _selectedColor;
     }
 
-    public void Deselect() => _renderer.material.color = _deselectColor;
+    public void Deselect()
+    {
+        _renderer.color = _deselectColor;
+    }
 
     private void OnMouseDown()
     {
-        if(EventSystem.current.IsPointerOverGameObject())
+        if (EventSystem.current.IsPointerOverGameObject())
             return;
-        Debug.Log(Model.GetObject() + " clicked");
         CellClicked?.Invoke(this);
     }
 }

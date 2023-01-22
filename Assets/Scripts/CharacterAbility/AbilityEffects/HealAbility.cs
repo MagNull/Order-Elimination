@@ -26,7 +26,6 @@ namespace CharacterAbility.AbilityEffects
 
         protected override async UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
-            BattleCharacter targetCharacter = target.View.GetComponent<BattleCharacterView>().Model;
             var heal = _abilityScaleFrom switch
             {
                 AbilityScaleFrom.Attack => _healAmount + (int) (stats.Attack * _scale),
@@ -35,7 +34,7 @@ namespace CharacterAbility.AbilityEffects
                 _ => throw new ArgumentOutOfRangeException()
             };
             for (var i = 0; i < _healAmount; i++)
-                targetCharacter.TakeRecover(heal, stats.Accuracy, _damageHealTarget);
+                target.TakeRecover(heal, stats.Accuracy, _damageHealTarget);
             await UseNext(target, stats);
         }
     }

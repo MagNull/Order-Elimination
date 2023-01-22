@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using OrderElimination;
+using OrderElimination.BM;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UIManagement.trashToRemove_Mockups;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -21,7 +23,8 @@ namespace CharacterAbility
         ConditionalBuff,
         Modificator,
         Stun,
-        Contreffect
+        Contreffect,
+        ObjectSpawn
     }
 
     public enum BuffConditionType
@@ -36,7 +39,8 @@ namespace CharacterAbility
         Attack,
         Health,
         Movement,
-        Distance
+        Distance,
+        Rivals
     }
 
     public enum OverTimeAbilityType
@@ -55,7 +59,10 @@ namespace CharacterAbility
         Evasion, //%
         IncomingDamageIncrease,
         IncomingAccuracy, //%
-        IncomingDamageReduction
+        IncomingDamageReduction,
+        Concealment,
+        OutcomingAttack,
+        OutcomingAccuracy//TODO: Wait buff refactoring
     }
 
     public enum ScaleFromWhom
@@ -109,16 +116,22 @@ namespace CharacterAbility
         [ShowIf("@Type == AbilityEffectType.Modificator && Modificator == ModificatorType.Accuracy")]
         public int ModificatorValue;
 
+        [ShowIf("@Type == AbilityEffectType.ObjectSpawn")]
+        public EnvironmentInfo ObjectInfo;
+
         [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
         public Buff_Type BuffType;
         [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
+        public bool IsUnique;
+        [ShowIf("@(Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff) && BuffType != Buff_Type.Concealment")]
         public bool Multiplier;
-        [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
+        [ShowIf("@(Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff) && BuffType != Buff_Type.Concealment")]
         public ScaleFromWhom ScaleFromWhom;
         [FormerlySerializedAs("BuffValue")]
-        [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
+        [ShowIf("@(Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff) && BuffType != Buff_Type.Concealment")]
         public float BuffModificator;
-        [ShowIf("@Type == AbilityEffectType.OverTime || Type == AbilityEffectType.TickingBuff")]
+        [ShowIf(
+            "@Type == AbilityEffectType.OverTime || Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ObjectSpawn")]
         public int Duration;
         [ShowIf("@Type == AbilityEffectType.ConditionalBuff")]
         public BuffConditionType ConditionType;
@@ -138,6 +151,10 @@ namespace CharacterAbility
 
         [ShowIf("@Type == AbilityEffectType.Contreffect")]
         public int Distance;
+
+        [ShowIf("@BuffType == Buff_Type.OutcomingAttack || BuffType == Buff_Type.OutcomingAccuracy")]
+        [SerializeReference]
+        public ITickEffect[] TriggerEffects;
 
         public bool ShowInAbilityDescription;
         [ShowIf("@" + nameof(ShowInAbilityDescription) + " == true")]
@@ -167,6 +184,8 @@ namespace CharacterAbility
         [SerializeField]
         [Range(0, 10)]
         private int _startCoolDown;
+        [SerializeField]
+        private bool _notTriggerCast;
 
         [field: SerializeField] public Sprite Icon { get; private set; }
 
@@ -198,6 +217,8 @@ namespace CharacterAbility
         public AbilityType Type => _type;
 
         public PassiveAbilityParams PassiveParams => _passiveParams;
+
+        public bool NotTriggerCast => _notTriggerCast;
 
         private void OnValidate()
         {
@@ -241,13 +262,30 @@ namespace CharacterAbility
         [ShowIf("_hasAreaEffect")]
         [SerializeField]
         private int _areaRadius;
-        [ShowIf("_hasAreaEffect")]
-        [SerializeField]
-        private BattleObjectSide _lightTargetsSide;
 
         [ShowIf("_hasAreaEffect")]
         [SerializeField]
         private AbilityEffect[] _areaEffects;
+
+        [HideInInspector]
+        [SerializeField]
+        private bool _hasPatternTargetEffect;
+        [HideInInspector]
+        [SerializeField]
+        private bool _hasMaxDistance;
+        [ShowIf("_hasMaxDistance")]
+        [SerializeField]
+        private int _patternMaxDistance;
+        [ShowIf("_hasPatternTargetEffect")]
+        [SerializeField]
+        private Vector2Int[] _pattern;
+        [ShowIf("_hasPatternTargetEffect")]
+        [SerializeField]
+        private AbilityEffect[] _patternEffects;
+
+        [ShowIf("@_hasAreaEffect || _hasPatternTargetEffect")]
+        [SerializeField]
+        private BattleObjectSide _lightTargetsSide;
 
         #endregion
 
@@ -271,9 +309,33 @@ namespace CharacterAbility
 
         public BattleObjectSide LightTargetsSide => _lightTargetsSide;
 
+        public bool HasPatternTargetEffect => _hasPatternTargetEffect;
+
+        public Vector2Int[] Pattern => _pattern;
+
+        public AbilityEffect[] PatternEffects => _patternEffects;
+
+        public bool HasMaxDistance => _hasMaxDistance;
+
+        public int PatternMaxDistance => _patternMaxDistance;
+
         #endregion
 
         #region Buttons
+
+        [HideIf("@!_hasPatternTargetEffect || _hasMaxDistance"), Button]
+        private void AddMaxDistance()
+        {
+            _hasMaxDistance = true;
+            _patternMaxDistance = 0;
+        }
+
+        [ShowIf("@_hasPatternTargetEffect && _hasMaxDistance"), Button]
+        private void RemoveMaxDistance()
+        {
+            _hasMaxDistance = false;
+            _patternMaxDistance = 999;
+        }
 
         [HideIf("_hasTarget"), Button]
         private void AddTarget() => _hasTarget = true;
@@ -306,6 +368,17 @@ namespace CharacterAbility
             _targetEffects = Array.Empty<AbilityEffect>();
         }
 
+        [HideIf("_hasPatternTargetEffect"), Button]
+        private void AddPatternTargetEffect() => _hasPatternTargetEffect = true;
+
+        [ShowIf("_hasPatternTargetEffect"), Button]
+        private void RemovePatternTargetEffect()
+        {
+            _hasPatternTargetEffect = false;
+            _pattern = Array.Empty<Vector2Int>();
+            _hasMaxDistance = false;
+        }
+
         #endregion
     }
 
@@ -324,8 +397,14 @@ namespace CharacterAbility
         [SerializeField]
         private PassiveTriggerType _triggerType;
 
+        [ShowIf("@_triggerType == PassiveTriggerType.Movement")]
+        [SerializeField]
+        private BattleObjectSide _moveToTrigger;
+
         public AbilityEffect[] Effects => _effects;
 
         public PassiveTriggerType TriggerType => _triggerType;
+
+        public BattleObjectSide MoveToTrigger => _moveToTrigger;
     }
 }

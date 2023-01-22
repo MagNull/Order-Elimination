@@ -3,20 +3,22 @@ using CharacterAbility.AbilityEffects;
 using Cysharp.Threading.Tasks;
 using OrderElimination;
 using OrderElimination.Battle;
-using OrderElimination.BattleMap;
+using OrderElimination.BM;
 using UnityEngine;
 
 namespace CharacterAbility
 {
     public class PassiveAbility : Ability
     {
+        private readonly BattleObjectSide _moveToTrigger;
         private readonly PassiveAbilityParams.PassiveTriggerType _passiveTriggerType;
         private readonly Ability _nextEffect;
 
-        public PassiveAbility(IBattleObject caster, PassiveAbilityParams.PassiveTriggerType passiveTriggerType,
+        public PassiveAbility(IBattleObject caster, BattleObjectSide moveToTrigger, PassiveAbilityParams.PassiveTriggerType passiveTriggerType,
             Ability nextEffect, BattleObjectSide filter, float probability) : base(caster, false, nextEffect, filter,
             probability)
         {
+            _moveToTrigger = moveToTrigger;
             _passiveTriggerType = passiveTriggerType;
             _nextEffect = nextEffect;
         }
@@ -39,7 +41,9 @@ namespace CharacterAbility
                 case PassiveAbilityParams.PassiveTriggerType.Movement:
                     target.Moved += (from, to) =>
                     {
-                        if(to.GetObject() is EnvironmentObject)
+                        if(_moveToTrigger == BattleObjectSide.None)
+                            _nextEffect?.Use(target, stats);
+                        else if(to.GetObject().Side == _moveToTrigger)
                             _nextEffect?.Use(target, stats);
                     };
                     break;

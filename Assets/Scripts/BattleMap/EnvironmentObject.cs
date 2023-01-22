@@ -1,52 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CharacterAbility;
 using CharacterAbility.BuffEffects;
 using OrderElimination.Battle;
 using UnityEngine;
 
-namespace OrderElimination.BattleMap
+namespace OrderElimination.BM
 {
-    public class EnvironmentObject : IBattleObject
+    [Serializable]
+    public class EnvironmentObject : IBattleObject, IEquatable<EnvironmentObject>
     {
         public event Action<Cell, Cell> Moved;
         public event Action<TakeDamageInfo> Damaged;
+        public event Action Destroyed;
+
         private bool _isWalkable;
+        private readonly BattleMap _map;
         private readonly ITickEffect[] _enterBuffs;
         private readonly BattleStats _stats;
+        private int _lifeTime;
 
+        public IReadOnlyList<ITickEffect> AllEffects => new List<ITickEffect>();
         public IReadOnlyBattleStats Stats => _stats;
         public BattleObjectSide Side => _isWalkable ? BattleObjectSide.Environment : BattleObjectSide.Obstacle;
-        public GameObject View { get; set; }
 
-        public EnvironmentObject(ITickEffect[] enterBuffs, GameObject view, BattleStats stats, bool isWalkable)
+        public IBattleObjectView View { get; set; }
+
+        public EnvironmentObject(ITickEffect[] enterBuffs, IBattleObjectView view, BattleStats stats, bool isWalkable,
+            BattleMap map,
+            int lifeTime = 999)
         {
             View = view;
             _enterBuffs = enterBuffs;
             _stats = stats;
             _isWalkable = isWalkable;
+            _map = map;
+            _lifeTime = lifeTime;
         }
 
         public int GetAccuracyFrom(IBattleObject attacker)
         {
-            throw new NotImplementedException();
+            return 100;
         }
 
         public void OnEnter(IBattleObject battleObject)
         {
-            Debug.Log(_enterBuffs.Length);
             foreach (var buff in _enterBuffs) battleObject.AddTickEffect(buff);
         }
 
         public void OnMoved(Cell from, Cell to)
         {
-            throw new NotImplementedException();
         }
 
         public void OnLeave(IBattleObject battleObject)
         {
-            foreach (var buff in _enterBuffs) battleObject.RemoveTickEffect(buff);
-            Debug.Log(battleObject.View.name + " left " + View.name);
+            foreach (var buff in _enterBuffs) buff.RemoveTickEffect(battleObject);
         }
 
         public TakeDamageInfo TakeDamage(DamageInfo damageInfo)
@@ -56,12 +65,10 @@ namespace OrderElimination.BattleMap
 
         public void TakeRecover(int value, int accuracy, DamageHealTarget damageHealTarget)
         {
-            
         }
 
         public void AddTickEffect(ITickEffect effect)
         {
-            
         }
 
         public void RemoveTickEffect(ITickEffect effect)
@@ -89,6 +96,36 @@ namespace OrderElimination.BattleMap
         public IReadOnlyList<IncomingBuff> GetTickEffects(IncomingBuff tickEffectType)
         {
             throw new NotImplementedException();
+        }
+
+        public void OnRoundStart()
+        {
+            _lifeTime--;
+
+            if (_lifeTime > 0)
+                return;
+
+            Destroy();
+            Destroyed?.Invoke();
+        }
+
+        private void Destroy()
+        {
+            var cellObj = _map.GetCell(this).GetObject();
+            var cellObjCoord = _map.GetCoordinate(cellObj);
+            _map.DestroyObject(this);
+            if (cellObj == this)
+                return;
+
+            OnLeave(cellObj);
+            _map.MoveTo(cellObj, cellObjCoord.x, cellObjCoord.y);
+        }
+
+        public bool Equals(EnvironmentObject other)
+        {
+            return other is not null && other.Side == Side &&
+                   other._enterBuffs.All(ef => _enterBuffs.Any(e2 => e2.Equals(ef))) &&
+                   other._lifeTime == _lifeTime;
         }
     }
 }

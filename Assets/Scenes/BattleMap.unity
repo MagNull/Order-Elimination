@@ -562,6 +562,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _width: 8
   _height: 8
+  _activeEnvironmentObjects:
+    m_Keys: []
+    m_Values: []
 --- !u!4 &246195460
 Transform:
   m_ObjectHideFlags: 0
@@ -4484,9 +4487,9 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: dc7552cb19317d642ad2af92d805c557, type: 2}
     - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
     - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
+    - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
     - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}

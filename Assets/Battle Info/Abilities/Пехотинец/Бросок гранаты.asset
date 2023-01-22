@@ -26,7 +26,8 @@ MonoBehaviour:
     \u0432\u044B \u0434\u043E\u043B\u0436\u043D\u044B \u0443\u0431\u0438\u0442\u044C
     \u043A\u043E\u0433\u043E-\u0442\u043E \u043A\u0440\u043E\u043C\u0435 \u0441\u0435\u0431\u044F\"."
   _coolDown: 3
-  _startCoolDown: 1
+  _startCoolDown: 0
+  _notTriggerCast: 0
   <Icon>k__BackingField: {fileID: 21300000, guid: c4aff6d74b951b446a9c4a0bd68eb2a4, type: 3}
   <ActionType>k__BackingField: 1
   _type: 0
@@ -49,6 +50,7 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 0
       Multiplier: 0
       ScaleFromWhom: 0
@@ -59,6 +61,7 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 1
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 1
       EffectView:
         _effectName: 
@@ -77,16 +80,18 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: 0
-      Duration: 5
+      Duration: 3
       ConditionType: 0
       OverTimeType: 0
       TickValue: 5
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 1
       EffectView:
         _effectName: "\u041A\u0440\u043E\u0432\u043E\u0442\u0435\u0447\u0435\u043D\u0438\u0435"
@@ -105,6 +110,7 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 0
       Multiplier: 0
       ScaleFromWhom: 0
@@ -115,6 +121,7 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 1
       EffectView:
         _effectName: "\u041E\u0433\u043B\u0443\u0448\u0435\u043D\u0438\u0435"
@@ -123,7 +130,6 @@ MonoBehaviour:
         _displayWhenApplied: 1
     _hasAreaEffect: 1
     _areaRadius: 1
-    _lightTargetsSide: 0
     _areaEffects:
     - Type: 0
       MainEffect: 1
@@ -137,6 +143,7 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 0
       Multiplier: 0
       ScaleFromWhom: 0
@@ -147,6 +154,7 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 1
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 0
       EffectView:
         _effectName: 
@@ -165,6 +173,7 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 0
       Multiplier: 0
       ScaleFromWhom: 0
@@ -175,6 +184,7 @@ MonoBehaviour:
       TickValue: 5
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 0
       EffectView:
         _effectName: "\u041A\u0440\u043E\u0432\u043E\u0442\u0435\u0447\u0435\u043D\u0438\u0435"
@@ -193,6 +203,7 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 0
       Multiplier: 0
       ScaleFromWhom: 0
@@ -203,12 +214,22 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 0
       EffectView:
         _effectName: "\u041E\u0433\u043B\u0443\u0448\u0435\u043D\u0438\u0435"
         _effectIcon: {fileID: 21300000, guid: ae3a0e6ca55c6c648af6030633593efc, type: 3}
         _displayAsMainEffect: 0
         _displayWhenApplied: 1
+    _hasPatternTargetEffect: 0
+    _hasMaxDistance: 0
+    _patternMaxDistance: 0
+    _pattern: []
+    _patternEffects: []
+    _lightTargetsSide: 0
   _passiveParams:
     _effects: []
     _triggerType: 0
+  references:
+    version: 2
+    RefIds: []
