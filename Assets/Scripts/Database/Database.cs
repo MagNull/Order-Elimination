@@ -9,24 +9,26 @@ namespace OrderElimination
     public class Database : MonoBehaviour
     {
         public static readonly string[] SquadNames = { "Squad 0", "Squad 1" };
-        private static readonly string DatabaseLink = "https://orderelimination-default-rtdb.firebaseio.com/users";
-        private static readonly string _id = "b4e1c7e5-ff55-495e-b6c9-e63da38c2306";
+        private static readonly string DatabaseLink = "https://orderelimination-default-rtdb.firebaseio.com/users/";
         private static readonly int SaveCount = 3;
-        
+
         private List<Save> _saves;
         public static event Action<int, string> LoadSave;
 
         private void Awake()
         {
-            // _saves = new List<Save>();
-            // SavesMenu.LoadClicked += SetMediatorBySelectedSave;
-            // SavesMenu.NewGameClicked += SetNewGame;
-            // BattleSimulation.BattleEnded += SetBattleOutcome;
+            _saves = new List<Save>();
+            SavesMenu.LoadClicked += SetMediatorBySelectedSave;
+            SavesMenu.NewGameClicked += SetNewGame;
+            BattleSimulation.BattleEnded += SetBattleOutcome;
+            AuthManager.OnUserLogin += SetLogin;
+            StartMenu.OnPlayerLogin += RetrieveSaveFromDatabase;
         }
 
-        private void Start()
+        public void SetLogin(string login)
         {
-            //RetrieveSaveFromDatabase();
+            PlayerPrefs.SetString("Id", login);
+            RetrieveSaveFromDatabase();
         }
 
         public static void SendToDatabase(UserData userData, string separator)
@@ -57,15 +59,17 @@ namespace OrderElimination
 
         public static void PutSaveToDatabase(Save save, int saveIndex)
         {
-            RestClient.Put<Save>(DatabaseLink + $"{_id}" + $"/{saveIndex}" + ".json", save);
+            RestClient.Put<Save>(DatabaseLink + $"{PlayerPrefs.GetString("Id")}/Saves" + $"/{saveIndex}" + ".json", save);
             SetPlayerPrefs(save, saveIndex);
         }
 
         private void RetrieveSaveFromDatabase()
         {
-            _saves.Clear();
+            if (!PlayerPrefs.HasKey("Id"))
+                return;
+            _saves = new List<Save>();
             RestClient
-                .GetArray<Save>(DatabaseLink + $"{_id}"  + ".json")
+                .GetArray<Save>(DatabaseLink + $"{PlayerPrefs.GetString("Id")}/Saves"  + ".json")
                 .Then(response =>
                 {
                     _saves.AddRange(response);
@@ -75,13 +79,13 @@ namespace OrderElimination
 
         public static void DeleteEnemyPosition(int index)
         {
-            RestClient.Delete(DatabaseLink + $"{_id}" + $"/{index}" + "/EnemyPosition" + ".json");
+            RestClient.Delete(DatabaseLink + $"{PlayerPrefs.GetString("Id")}/Saves" + $"/{index}" + "/EnemyPosition" + ".json");
             PlayerPrefs.DeleteKey($"{index}:CountMove");
         }
 
         public static void DeleteSave(int index)
         {
-            RestClient.Delete(DatabaseLink + $"{_id}" + $"/{index}" + ".json");
+            RestClient.Delete(DatabaseLink + $"{PlayerPrefs.GetString("Id")}/Saves" + $"/{index}" + ".json");
             PlayerPrefs.DeleteKey($"{index}");
             foreach (var squadName in SquadNames)
             {
@@ -97,6 +101,7 @@ namespace OrderElimination
 
         public void LoadTextToSaves()
         {
+            Debug.Log("LoadSaves");
             for (var i = 0; i < _saves.Count; i++)
                 LoadSave?.Invoke(i, $"Игра {i + 1}, ход {_saves[i].CountMove}");
         }

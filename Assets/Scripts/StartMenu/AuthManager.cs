@@ -10,6 +10,7 @@ namespace OrderElimination
     public class AuthManager : MonoBehaviour
     {
         public GameObject loginForm;
+        public GameObject registerForm;
 
         [Header("Login / Sign In")] 
         public TMP_InputField signInEmail;
@@ -29,23 +30,12 @@ namespace OrderElimination
 
         public static Action OnUserSignIn;
         public static Action OnUserSignUp;
+        public static event Action<string> OnUserLogin;
 
         private void Start()
         {
             OnUserSignUp += SignUp;
             OnUserSignIn += SignIn;
-        }
-
-        private void OnEnable()
-        {
-            OnUserSignUp += SignUp;
-            OnUserSignIn += SignIn;
-        }
-
-        private void OnDisable()
-        {
-            OnUserSignUp -= SignUp;
-            OnUserSignIn -= SignIn;
         }
 
         private void OnDestroy()
@@ -68,6 +58,7 @@ namespace OrderElimination
                 foreach (var keyValuePair in dict)
                 {
                     loginForm.SetActive(false);
+                    OnUserLogin?.Invoke(keyValuePair.Value.Login);
                     break;
                 }
             }
@@ -174,6 +165,8 @@ namespace OrderElimination
 
                 var userData = new UserData(email, login, password);
                 Database.SendToDatabase(userData, login);
+                registerForm.SetActive(false);
+                loginForm.SetActive(true);
             }
             catch (Exception e)
             {
