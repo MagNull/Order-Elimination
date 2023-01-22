@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CharacterAbility;
 using CharacterAbility.BuffEffects;
 using OrderElimination;
@@ -45,13 +46,15 @@ public class BattleCharacter : IActor
     public IReadOnlyList<IncomingBuff> IncomingTickEffects => _incomingTickEffects;
     public IReadOnlyList<StatsBuffEffect> CurrentBuffEffects => _buffEffects;
 
+    public IReadOnlyList<ITickEffect> AllEffects =>
+        _buffEffects;
+
     public BattleObjectSide Side => _side;
     public IBattleObjectView View { get; set; }
 
     public IReadOnlyList<ActionType> AvailableActions => _actionBank.AvailableActions;
 
     public IReadOnlyBattleStats Stats => _battleStats;
-
 
     public BattleCharacter(BattleObjectSide side, BattleStats battleStats, IDamageCalculation damageCalculation)
     {
@@ -77,7 +80,6 @@ public class BattleCharacter : IActor
             ArmorDamage = damageTaken.armorDamage,
             CancelType = damageTaken.cancelType,
             Attacker = damageInfo.Attacker,
-            Target = this
         };
 
         if (_battleStats.AdditionalArmor > 0)
@@ -86,6 +88,7 @@ public class BattleCharacter : IActor
             _battleStats.AdditionalArmor -= armorDamage;
             takeDamageInfo.ArmorDamage -= armorDamage;
         }
+
         _battleStats.Armor -= damageTaken.armorDamage;
         _battleStats.Health -= damageTaken.healthDamage;
         Damaged?.Invoke(takeDamageInfo);
@@ -119,13 +122,13 @@ public class BattleCharacter : IActor
                 _battleStats.Health += value;
                 break;
         }
+
         var takeDamageInfo = new TakeDamageInfo
         {
             HealthDamage = 0,
             ArmorDamage = 0,
             CancelType = 0,
             Attacker = this,
-            Target = this
         };
         Damaged?.Invoke(takeDamageInfo);
     }
@@ -141,6 +144,19 @@ public class BattleCharacter : IActor
         foreach (var effect in _incomingTickEffects)
         {
             accuracy = effect.GetModifiedValue(accuracy, Buff_Type.IncomingAccuracy);
+        }
+        if (attacker is not BattleCharacter attackerCharacter)
+            return accuracy;
+        
+        var info = new DamageInfo()
+        {
+            Attacker = attacker,
+            Target = this,
+        };
+        foreach (var effect in attackerCharacter.CurrentTickEffects.Where(ef => ef is OutcomingBuff))
+        {
+            info.Accuracy = accuracy;
+            accuracy = ((OutcomingBuff) effect).GetModifiedInfo(info).Accuracy;
         }
 
         accuracy = Mathf.Clamp(accuracy, 0, 100);
@@ -171,7 +187,7 @@ public class BattleCharacter : IActor
 
         EffectAdded?.Invoke(effect);
     }
-    
+
     public virtual void PlayTurn()
     {
     }
@@ -191,6 +207,7 @@ public class BattleCharacter : IActor
                 _tickEffects.Remove(effect);
                 break;
         }
+
         EffectRemoved?.Invoke(effect);
     }
 
@@ -205,10 +222,10 @@ public class BattleCharacter : IActor
     public void AddAction(ActionType actionType) => _actionBank.AddAction(actionType);
 
     public void ClearActions() => _actionBank.ClearActions();
-    
+
     public void OnCasted(ActionType actionType)
     {
-        if(actionType == ActionType.Movement)
+        if (actionType == ActionType.Movement)
             return;
         Casted?.Invoke();
     }

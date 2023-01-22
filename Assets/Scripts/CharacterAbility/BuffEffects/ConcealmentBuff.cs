@@ -6,8 +6,8 @@ namespace CharacterAbility.BuffEffects
     {
         private readonly CharactersBank _characterBank;
 
-        public ConcealmentBuff(int duration, CharactersBank characterBank, ITickEffectView effectView) 
-            : base(duration, effectView)
+        public ConcealmentBuff(int duration, bool isUnique, CharactersBank characterBank, ITickEffectView effectView) 
+            : base(duration, effectView, isUnique)
         {
             _characterBank = characterBank;
         }
@@ -18,6 +18,11 @@ namespace CharacterAbility.BuffEffects
                 return;
             
             _characterBank.RemoveCharacter(battleCharacter);
+        }
+
+        public override bool Equals(ITickEffect tickEffect)
+        {
+            return tickEffect is ConcealmentBuff concealmentBuff && concealmentBuff.Duration == Duration;
         }
 
         protected override void OnEndTick(ITickTarget target)

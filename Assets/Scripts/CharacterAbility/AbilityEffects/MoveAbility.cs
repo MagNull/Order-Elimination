@@ -21,7 +21,6 @@ namespace CharacterAbility.AbilityEffects
 
         protected override async UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
-            Debug.Log("Enter");
             Vector2Int targetPosition = _battleMap.GetCoordinate(target);
             if (target is not NullBattleObject && target is not EnvironmentObject)
             {

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CharacterAbility;
+using CharacterAbility.BuffEffects;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -50,6 +52,14 @@ namespace OrderElimination.Battle
             foreach (var incomingAttackBuff in incomingDebuffs)
             {
                 damageInfo = incomingAttackBuff.GetModifiedInfo(damageInfo);
+            }
+            
+            if(damageInfo.Attacker is not BattleCharacter battleCharacter)
+                return;
+            
+            foreach (var effect in battleCharacter.CurrentTickEffects.Where(ef => ef is OutcomingBuff))
+            {
+                damageInfo = ((OutcomingBuff) effect).GetModifiedInfo(damageInfo);
             }
         }
     }

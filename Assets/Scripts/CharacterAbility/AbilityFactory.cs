@@ -47,7 +47,8 @@ namespace CharacterAbility
             {
                 AbilityInfo.AbilityType.Active => new ActiveAbility(caster, ability,
                     abilityInfo.ActiveParams.TargetType == TargetType.Self, BattleObjectSide.None),
-                AbilityInfo.AbilityType.Passive => new PassiveAbility(caster, abilityInfo.PassiveParams.TriggerType,
+                AbilityInfo.AbilityType.Passive => new PassiveAbility(caster, abilityInfo.PassiveParams.MoveToTrigger,
+                    abilityInfo.PassiveParams.TriggerType,
                     ability, BattleObjectSide.None, 100),
                 _ => throw new Exception("Unknown ability type")
             };
@@ -114,7 +115,7 @@ namespace CharacterAbility
                             effectDesc._damageHealTarget,
                             effectDesc.OverTimeType,
                             effectDesc.Duration,
-                            effectDesc.TickValue, effectDesc.Filter,
+                            effectDesc.TickValue, effectDesc.IsUnique, effectDesc.Filter,
                             effectDesc.EffectView);
                         break;
                     case AbilityEffectType.TickingBuff:
@@ -122,14 +123,17 @@ namespace CharacterAbility
                             effectDesc.BuffType,
                             effectDesc.BuffModificator, effectDesc.ScaleFromWhom, effectDesc.Duration,
                             effectDesc.Filter,
-                            effectDesc.DamageType, effectDesc.Multiplier, effectDesc.EffectView, _objectResolver);
+                            effectDesc.DamageType, effectDesc.Multiplier, effectDesc.IsUnique, effectDesc.EffectView,
+                            _objectResolver,
+                            effectDesc.TriggerEffects);
                         break;
                     case AbilityEffectType.ConditionalBuff:
                         ability = new ConditionalBuffAbility(caster, effectDesc.MainEffect, ability, probability,
                             effectDesc.BuffType,
                             effectDesc.BuffModificator, effectDesc.ScaleFromWhom, effectDesc.ConditionType,
                             effectDesc.Filter,
-                            effectDesc.DamageType, effectDesc.Multiplier, effectDesc.EffectView, _objectResolver);
+                            effectDesc.DamageType, effectDesc.Multiplier, effectDesc.IsUnique, effectDesc.EffectView,
+                            _objectResolver);
                         break;
                     case AbilityEffectType.Stun:
                         ability = new StunAbility(caster, effectDesc.MainEffect, ability, probability,

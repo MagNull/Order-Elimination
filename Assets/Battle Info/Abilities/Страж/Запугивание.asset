@@ -25,6 +25,7 @@ MonoBehaviour:
   _description: 
   _coolDown: 0
   _startCoolDown: 0
+  _notTriggerCast: 0
   <Icon>k__BackingField: {fileID: 0}
   <ActionType>k__BackingField: 1
   _type: 0
@@ -36,6 +37,7 @@ MonoBehaviour:
     _targetType: 3
     _targetEffects:
     - Type: 4
+      MainEffect: 0
       HasProbability: 1
       Probability: 90
       Filter: 2
@@ -46,6 +48,7 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 3
       Multiplier: 0
       ScaleFromWhom: 0
@@ -56,13 +59,15 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
-      ShowInAbilityDescription: 0
+      TriggerEffects: []
+      ShowInAbilityDescription: 1
       EffectView:
         _effectName: 
         _effectIcon: {fileID: 0}
         _displayAsMainEffect: 0
-        _displayWhenApplied: 0
+        _displayWhenApplied: 1
     - Type: 4
+      MainEffect: 0
       HasProbability: 1
       Probability: 90
       Filter: 2
@@ -73,6 +78,7 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 3
       Multiplier: 0
       ScaleFromWhom: 0
@@ -83,6 +89,7 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 0
       EffectView:
         _effectName: 
@@ -90,6 +97,7 @@ MonoBehaviour:
         _displayAsMainEffect: 0
         _displayWhenApplied: 0
     - Type: 4
+      MainEffect: 0
       HasProbability: 0
       Probability: 0
       Filter: 2
@@ -100,6 +108,7 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 0
       Multiplier: 1
       ScaleFromWhom: 0
@@ -110,6 +119,7 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 0
       EffectView:
         _effectName: 
@@ -120,6 +130,7 @@ MonoBehaviour:
     _areaRadius: 1
     _areaEffects:
     - Type: 4
+      MainEffect: 0
       HasProbability: 1
       Probability: 90
       Filter: 2
@@ -130,6 +141,7 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 3
       Multiplier: 0
       ScaleFromWhom: 0
@@ -140,13 +152,15 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 1
       EffectView:
         _effectName: 
         _effectIcon: {fileID: 21300000, guid: 8f7797d10d9321642a806c4164dcc5fd, type: 3}
         _displayAsMainEffect: 0
-        _displayWhenApplied: 0
+        _displayWhenApplied: 1
     - Type: 4
+      MainEffect: 0
       HasProbability: 1
       Probability: 90
       Filter: 2
@@ -157,6 +171,7 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 4
       Multiplier: 0
       ScaleFromWhom: 0
@@ -167,6 +182,7 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 0
       EffectView:
         _effectName: 
@@ -174,6 +190,7 @@ MonoBehaviour:
         _displayAsMainEffect: 0
         _displayWhenApplied: 0
     - Type: 4
+      MainEffect: 0
       HasProbability: 0
       Probability: 0
       Filter: 2
@@ -184,6 +201,7 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 0
       Multiplier: 1
       ScaleFromWhom: 0
@@ -194,12 +212,22 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 0
       EffectView:
         _effectName: 
         _effectIcon: {fileID: 0}
         _displayAsMainEffect: 0
         _displayWhenApplied: 0
+    _hasPatternTargetEffect: 0
+    _hasMaxDistance: 0
+    _patternMaxDistance: 0
+    _pattern: []
+    _patternEffects: []
+    _lightTargetsSide: 0
   _passiveParams:
     _effects: []
     _triggerType: 0
+  references:
+    version: 2
+    RefIds: []

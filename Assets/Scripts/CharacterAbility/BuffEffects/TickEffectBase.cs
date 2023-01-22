@@ -10,17 +10,22 @@ namespace CharacterAbility.BuffEffects
         private int _duration;
         public int Duration => _duration;
 
+        public bool IsUnique => _isUnique;
+
         [SerializeField]
         private ITickEffectView _effectView;
+        [SerializeField]
+        private bool _isUnique;
         private readonly int _startDuration;
 
         public ITickEffectView GetEffectView() => _effectView;
 
-        protected TickEffectBase(int duration, ITickEffectView effectView)
+        protected TickEffectBase(int duration, ITickEffectView effectView, bool isUnique)
         {
             _duration = duration;
             _startDuration = duration;
             _effectView = effectView;
+            _isUnique = isUnique;
         }
 
         public virtual void Tick(ITickTarget target)
@@ -28,7 +33,6 @@ namespace CharacterAbility.BuffEffects
             if (_duration == _startDuration)
                 OnStartTick(target);
             _duration--;
-            OnTicked(target);
             if (_duration <= 0)
             {
                 OnEndTick(target);
@@ -42,8 +46,9 @@ namespace CharacterAbility.BuffEffects
             target.RemoveTickEffect(this);
         }
 
-        //TODO: Think about it
+        public abstract bool Equals(ITickEffect tickEffect);
 
+        //TODO: Think about it
         protected virtual void OnEndTick(ITickTarget target)
         {
         }
@@ -52,8 +57,5 @@ namespace CharacterAbility.BuffEffects
         {
         }
 
-        protected virtual void OnTicked(ITickTarget target)
-        {
-        }
     }
 }

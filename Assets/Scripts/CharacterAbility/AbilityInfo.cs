@@ -5,6 +5,7 @@ using System.Reflection;
 using OrderElimination;
 using OrderElimination.BM;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UIManagement.trashToRemove_Mockups;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -59,7 +60,9 @@ namespace CharacterAbility
         IncomingDamageIncrease,
         IncomingAccuracy, //%
         IncomingDamageReduction,
-        Concealment
+        Concealment,
+        OutcomingAttack,
+        OutcomingAccuracy//TODO: Wait buff refactoring
     }
 
     public enum ScaleFromWhom
@@ -118,6 +121,8 @@ namespace CharacterAbility
 
         [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
         public Buff_Type BuffType;
+        [ShowIf("@Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff")]
+        public bool IsUnique;
         [ShowIf("@(Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff) && BuffType != Buff_Type.Concealment")]
         public bool Multiplier;
         [ShowIf("@(Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff) && BuffType != Buff_Type.Concealment")]
@@ -146,6 +151,10 @@ namespace CharacterAbility
 
         [ShowIf("@Type == AbilityEffectType.Contreffect")]
         public int Distance;
+
+        [ShowIf("@BuffType == Buff_Type.OutcomingAttack || BuffType == Buff_Type.OutcomingAccuracy")]
+        [SerializeReference]
+        public ITickEffect[] TriggerEffects;
 
         public bool ShowInAbilityDescription;
         [ShowIf("@" + nameof(ShowInAbilityDescription) + " == true")]
@@ -388,8 +397,14 @@ namespace CharacterAbility
         [SerializeField]
         private PassiveTriggerType _triggerType;
 
+        [ShowIf("@_triggerType == PassiveTriggerType.Movement")]
+        [SerializeField]
+        private BattleObjectSide _moveToTrigger;
+
         public AbilityEffect[] Effects => _effects;
 
         public PassiveTriggerType TriggerType => _triggerType;
+
+        public BattleObjectSide MoveToTrigger => _moveToTrigger;
     }
 }

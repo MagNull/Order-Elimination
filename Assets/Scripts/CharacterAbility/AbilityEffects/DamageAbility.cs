@@ -33,11 +33,11 @@ namespace CharacterAbility.AbilityEffects
 
         protected override async UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
-            Debug.Log("Attck " + stats.Attack);
             var damage = ApplyScalability(target, stats, _battleMap);
             var attackInfo = new DamageInfo
             {
                 Attacker = _caster,
+                Target = target,
                 Accuracy = stats.Accuracy,
                 Damage = damage,
                 DamageType = _damageType,

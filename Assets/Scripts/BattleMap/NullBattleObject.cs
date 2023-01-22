@@ -15,6 +15,8 @@ namespace OrderElimination.BM
 
         public event Action Died;
 
+        public IReadOnlyList<ITickEffect> AllEffects => new List<ITickEffect>();
+
         public BattleObjectSide Side => BattleObjectSide.None;
 
         public IBattleObjectView View

@@ -26,10 +26,11 @@ MonoBehaviour:
     2 \u0443\u0434\u0430\u0440\u0430 \u043F\u043E \u0446\u0435\u043B\u0438, \u043D\u0430\u043D\u043E\u0441\u044F
     \u0434\u0432\u043E\u0439\u043D\u043E\u0439 \u0443\u0440\u043E\u043D \u043F\u043E
     \u0411\u0440\u043E\u043D\u0435."
-  _coolDown: 1
+  _coolDown: 0
   _startCoolDown: 0
+  _notTriggerCast: 0
   <Icon>k__BackingField: {fileID: 21300000, guid: 5cfee3c370c7c3440acc1406ebc0a721, type: 3}
-  <ActionType>k__BackingField: 1
+  <ActionType>k__BackingField: 3
   _type: 0
   _activeParams:
     _hasTarget: 1
@@ -48,8 +49,9 @@ MonoBehaviour:
       ScaleFrom: 0
       Scale: 0
       StepDelay: 0
-      Modificator: 1
-      ModificatorValue: -79
+      Modificator: 0
+      ModificatorValue: 100
+      ObjectInfo: {fileID: 0}
       BuffType: 0
       Multiplier: 0
       ScaleFromWhom: 0
@@ -60,6 +62,7 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 0
       EffectView:
         _effectName: 
@@ -78,6 +81,7 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 0
       Multiplier: 0
       ScaleFromWhom: 0
@@ -88,6 +92,7 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 3
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 1
       EffectView:
         _effectName: 
@@ -106,16 +111,18 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: 0
-      Duration: 5
+      Duration: 3
       ConditionType: 0
       OverTimeType: 0
       TickValue: 5
       DamageType: 3
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 1
       EffectView:
         _effectName: "\u041A\u0440\u043E\u0432\u043E\u0442\u0435\u0447\u0435\u043D\u0438\u0435"
@@ -124,8 +131,16 @@ MonoBehaviour:
         _displayWhenApplied: 1
     _hasAreaEffect: 0
     _areaRadius: 0
-    _lightTargetsSide: 0
     _areaEffects: []
+    _hasPatternTargetEffect: 0
+    _hasMaxDistance: 0
+    _patternMaxDistance: 0
+    _pattern: []
+    _patternEffects: []
+    _lightTargetsSide: 0
   _passiveParams:
     _effects: []
     _triggerType: 0
+  references:
+    version: 2
+    RefIds: []
