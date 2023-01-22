@@ -33,7 +33,7 @@ MonoBehaviour:
       Data: 1|CharacterAbility.IncomingBuff, Assembly-CSharp
     - Name: _duration
       Entry: 3
-      Data: -131
+      Data: -149
     - Name: _effectView
       Entry: 7
       Data: 2|CharacterAbility.EffectView, Assembly-CSharp
@@ -52,9 +52,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: _isUnique
+      Entry: 5
+      Data: false
     - Name: _modificator
       Entry: 4
-      Data: -10
+      Data: -15
     - Name: _incomingBuffType
       Entry: 3
       Data: 7

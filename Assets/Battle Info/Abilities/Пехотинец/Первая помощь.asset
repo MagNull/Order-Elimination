@@ -29,7 +29,8 @@ MonoBehaviour:
     \u0436\u0438\u0437\u043D\u0435\u043D\u043D\u043E \u043D\u0435\u043E\u0431\u0445\u043E\u0434\u0438\u043C\u043E
     \u0430\u0432\u0430\u043D\u0433\u0430\u0440\u0434\u043D\u044B\u043C \u0431\u043E\u0439\u0446\u0430\u043C."
   _coolDown: 5
-  _startCoolDown: 2
+  _startCoolDown: 0
+  _notTriggerCast: 0
   <Icon>k__BackingField: {fileID: 21300000, guid: 6d54b2b2bac3e834f8d4f79511498f04, type: 3}
   <ActionType>k__BackingField: 1
   _type: 0
@@ -41,17 +42,20 @@ MonoBehaviour:
     _targetType: 2
     _targetEffects:
     - Type: 1
+      MainEffect: 0
       HasProbability: 0
       Probability: 0
       Filter: 0
-      _damageHealTarget: 0
-      Amounts: 0
+      _damageHealTarget: 1
+      Amounts: 1
       ScaleFrom: 1
       Scale: 0.2
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 0
+      IsUnique: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: 0
@@ -61,6 +65,7 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 1
       EffectView:
         _effectName: 
@@ -70,6 +75,19 @@ MonoBehaviour:
     _hasAreaEffect: 0
     _areaRadius: 0
     _areaEffects: []
+    _hasPatternTargetEffect: 0
+    _hasMaxDistance: 0
+    _patternMaxDistance: 0
+    _pattern: []
+    _patternEffects: []
+    _lightTargetsSide: 0
   _passiveParams:
     _effects: []
     _triggerType: 0
+    _moveToTrigger:
+      rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

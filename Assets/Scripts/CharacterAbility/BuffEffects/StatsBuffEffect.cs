@@ -113,7 +113,7 @@ namespace CharacterAbility.BuffEffects
                    Math.Abs(statsBuffEffect.Modifier - Modifier) < 0.01f &&
                    statsBuffEffect.IsMultiplier == IsMultiplier &&
                    statsBuffEffect.ScaleFromWhom == ScaleFromWhom &&
-                   statsBuffEffect.Duration == Duration;
+                   statsBuffEffect.StartDuration == StartDuration;
         }
     }
 }

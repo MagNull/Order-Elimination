@@ -29,6 +29,7 @@ MonoBehaviour:
     \u044D\u0444\u0444\u0435\u043A\u0442\u0430 \"\u0421\u043A\u0440\u044B\u0442\""
   _coolDown: 3
   _startCoolDown: 0
+  _notTriggerCast: 1
   <Icon>k__BackingField: {fileID: 0}
   <ActionType>k__BackingField: 1
   _type: 0
@@ -53,6 +54,7 @@ MonoBehaviour:
       ModificatorValue: 0
       ObjectInfo: {fileID: 0}
       BuffType: 3
+      IsUnique: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: 20
@@ -62,6 +64,7 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 0
       EffectView:
         _effectName: 
@@ -82,6 +85,7 @@ MonoBehaviour:
       ModificatorValue: 0
       ObjectInfo: {fileID: 0}
       BuffType: 0
+      IsUnique: 0
       Multiplier: 1
       ScaleFromWhom: 0
       BuffModificator: 0.5
@@ -91,6 +95,7 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 0
       EffectView:
         _effectName: 
@@ -111,6 +116,7 @@ MonoBehaviour:
       ModificatorValue: 0
       ObjectInfo: {fileID: 0}
       BuffType: 9
+      IsUnique: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: 0
@@ -120,6 +126,7 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 1
       EffectView:
         _effectName: "\u041C\u0430\u0441\u043A\u0438\u0440\u043E\u0432\u043A\u0430"
@@ -138,3 +145,10 @@ MonoBehaviour:
   _passiveParams:
     _effects: []
     _triggerType: 0
+    _moveToTrigger:
+      rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
