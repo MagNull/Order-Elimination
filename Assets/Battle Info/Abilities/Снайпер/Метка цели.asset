@@ -27,7 +27,7 @@ MonoBehaviour:
     \u0446\u0435\u043B\u0438."
   _coolDown: 2
   _startCoolDown: 0
-  <Icon>k__BackingField: {fileID: 21300000, guid: 408ea852436e1554a93e095663f7a38a, type: 3}
+  <Icon>k__BackingField: {fileID: 21300000, guid: e2dbf868ad294a24d8c6457dbd811249, type: 3}
   <ActionType>k__BackingField: 1
   _type: 0
   _activeParams:
@@ -38,6 +38,7 @@ MonoBehaviour:
     _targetType: 1
     _targetEffects:
     - Type: 4
+      MainEffect: 0
       HasProbability: 0
       Probability: 0
       Filter: 0
@@ -61,11 +62,12 @@ MonoBehaviour:
       ShowInAbilityDescription: 1
       EffectView:
         _effectName: "\u041C\u0435\u0442\u043A\u0430"
-        _effectIcon: {fileID: 21300000, guid: 5725ced29463b774c80b9bfc87fcf383, type: 3}
+        _effectIcon: {fileID: 21300000, guid: e2dbf868ad294a24d8c6457dbd811249, type: 3}
         _displayAsMainEffect: 0
         _displayWhenApplied: 1
     _hasAreaEffect: 0
     _areaRadius: 0
+    _lightTargetsSide: 0
     _areaEffects: []
   _passiveParams:
     _effects: []

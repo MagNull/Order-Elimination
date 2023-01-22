@@ -29,7 +29,7 @@ MonoBehaviour:
     \u043D\u0430 25%."
   _coolDown: 1
   _startCoolDown: 1
-  <Icon>k__BackingField: {fileID: 21300000, guid: 8c38225e7dd7cf347ac26d59bfd93448, type: 3}
+  <Icon>k__BackingField: {fileID: 21300000, guid: 48bfb8cd70c42354cae3ebab21704bc1, type: 3}
   <ActionType>k__BackingField: 1
   _type: 1
   _activeParams:
@@ -41,10 +41,12 @@ MonoBehaviour:
     _targetEffects: []
     _hasAreaEffect: 0
     _areaRadius: 0
+    _lightTargetsSide: 0
     _areaEffects: []
   _passiveParams:
     _effects:
     - Type: 4
+      MainEffect: 0
       HasProbability: 0
       Probability: 0
       Filter: 0
@@ -69,7 +71,7 @@ MonoBehaviour:
       EffectView:
         _effectName: "\u0423\u0432\u0435\u043B\u0438\u0447\u0435\u043D\u0438\u0435
           \u0443\u0440\u043E\u043D\u0430"
-        _effectIcon: {fileID: 21300000, guid: 8c38225e7dd7cf347ac26d59bfd93448, type: 3}
+        _effectIcon: {fileID: 21300000, guid: 48bfb8cd70c42354cae3ebab21704bc1, type: 3}
         _displayAsMainEffect: 0
         _displayWhenApplied: 1
     _triggerType: 2
