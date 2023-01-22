@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace OrderElimination.Start
 {
     public class StartMenu : MonoBehaviour
     {
-        [FormerlySerializedAs("_saves")] [SerializeField] private SavesMenu savesMenu;
+        [SerializeField] private SavesMenu savesMenu;
         private Button _playButton;
         private Button _settingsButton;
         private Button _exitButton;

@@ -9,7 +9,7 @@ namespace OrderElimination
     public class Database : MonoBehaviour
     {
         public static readonly string[] SquadNames = { "Squad 0", "Squad 1" };
-        private static readonly string DatabaseLink = "https://orderelimination-default-rtdb.firebaseio.com/";
+        private static readonly string DatabaseLink = "https://orderelimination-default-rtdb.firebaseio.com/users";
         private static readonly string _id = "b4e1c7e5-ff55-495e-b6c9-e63da38c2306";
         private static readonly int SaveCount = 3;
         
@@ -18,15 +18,31 @@ namespace OrderElimination
 
         private void Awake()
         {
-            _saves = new List<Save>();
-            SavesMenu.LoadClicked += SetMediatorBySelectedSave;
-            SavesMenu.NewGameClicked += SetNewGame;
-            BattleSimulation.BattleEnded += SetBattleOutcome;
+            // _saves = new List<Save>();
+            // SavesMenu.LoadClicked += SetMediatorBySelectedSave;
+            // SavesMenu.NewGameClicked += SetNewGame;
+            // BattleSimulation.BattleEnded += SetBattleOutcome;
         }
 
         private void Start()
         {
-            RetrieveSaveFromDatabase();
+            //RetrieveSaveFromDatabase();
+        }
+
+        public static void SendToDatabase(UserData userData, string separator)
+        {
+            RestClient.Put<UserData>(DatabaseLink + "/" + separator + ".json", userData);
+        }
+
+        public static void GetUserByLogin(string login,
+            Action<RequestException, ResponseHelper, UserData> getInfoCallback)
+        {
+            RestClient.Get<UserData>($"{DatabaseLink}/{login}.json", getInfoCallback);
+        }
+
+        public static void FindUserByEmail(string email, Action<RequestException, ResponseHelper> getInfoCallback)
+        {
+            RestClient.Get($"{DatabaseLink}.json?orderBy=%22Email%22&equalTo=%22{email}%22", getInfoCallback);
         }
 
         public static void PutSaveToDatabase(List<Save> saves)
