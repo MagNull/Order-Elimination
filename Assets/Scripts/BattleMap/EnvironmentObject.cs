@@ -15,9 +15,11 @@ namespace OrderElimination.BM
         public event Action<TakeDamageInfo> Damaged;
         public event Action Destroyed;
 
+        [SerializeField]
         private bool _isWalkable;
         private readonly BattleMap _map;
-        private readonly ITickEffect[] _enterBuffs;
+        [SerializeReference]
+        private ITickEffect[] _enterBuffs;
         private readonly BattleStats _stats;
         private int _lifeTime;
 
@@ -124,8 +126,7 @@ namespace OrderElimination.BM
         public bool Equals(EnvironmentObject other)
         {
             return other is not null && other.Side == Side &&
-                   other._enterBuffs.All(ef => _enterBuffs.Any(e2 => e2.Equals(ef))) &&
-                   other._lifeTime == _lifeTime;
+                   other._enterBuffs.All(ef => _enterBuffs.Any(e2 => e2.Equals(ef)));
         }
     }
 }

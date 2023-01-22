@@ -398,13 +398,13 @@ namespace CharacterAbility
         private PassiveTriggerType _triggerType;
 
         [ShowIf("@_triggerType == PassiveTriggerType.Movement")]
-        [SerializeField]
-        private BattleObjectSide _moveToTrigger;
+        [SerializeReference]
+        private IBattleObject _moveToTrigger;
 
         public AbilityEffect[] Effects => _effects;
 
         public PassiveTriggerType TriggerType => _triggerType;
 
-        public BattleObjectSide MoveToTrigger => _moveToTrigger;
+        public IBattleObject MoveToTrigger => _moveToTrigger;
     }
 }

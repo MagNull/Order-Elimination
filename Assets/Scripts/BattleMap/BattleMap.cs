@@ -68,7 +68,7 @@ public class BattleMap : MonoBehaviour
     {
         var boPos = GetCoordinate(battleObject);
         _destroyedObjectsCoordinates.Add(battleObject, new Vector2Int(boPos.x, boPos.y));
-        SetCell(boPos.x, boPos.y, new NullBattleObject());
+        //SetCell(boPos.x, boPos.y, new NullBattleObject());
         if (battleObject is EnvironmentObject && _activeEnvironmentObjects.ContainsKey(boPos))
         {
             _activeEnvironmentObjects.Remove(boPos);
@@ -100,7 +100,7 @@ public class BattleMap : MonoBehaviour
             return coordinates;
 
         if (obj is EnvironmentObject env && _activeEnvironmentObjects.ContainsValue(env))
-            return _activeEnvironmentObjects.First(x => x.Value == env).Key;
+            return _activeEnvironmentObjects.FirstOrDefault(x => x.Value == env).Key;
 
         Debug.LogWarning($"$Объект {obj.View.GameObject.name} не найден на поле!");
         return new Vector2Int(-1, -1);

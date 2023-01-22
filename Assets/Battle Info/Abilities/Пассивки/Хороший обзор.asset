@@ -115,7 +115,22 @@ MonoBehaviour:
         _displayAsMainEffect: 0
         _displayWhenApplied: 1
     _triggerType: 1
-    _moveToTrigger: 1
+    _moveToTrigger:
+      rid: 6532532245758214146
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 6532532245758214146
+      type: {class: EnvironmentObject, ns: OrderElimination.BM, asm: Assembly-CSharp}
+      data:
+        _isWalkable: 1
+        _enterBuffs:
+        - rid: 6532532245758214147
+    - rid: 6532532245758214147
+      type: {class: StatsBuffEffect, ns: CharacterAbility.BuffEffects, asm: Assembly-CSharp}
+      data:
+        _duration: 998
+        _isUnique: 0
+        _statType: 3
+        _modifier: 10
+        _isMultiplier: 0
