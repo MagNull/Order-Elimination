@@ -12,6 +12,8 @@ namespace CharacterAbility.BuffEffects
 
         public bool IsUnique => _isUnique;
 
+        public int StartDuration => _startDuration;
+
         [SerializeField]
         private ITickEffectView _effectView;
         [SerializeField]

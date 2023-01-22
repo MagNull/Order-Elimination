@@ -62,7 +62,6 @@ namespace CharacterAbility
         public int GetModifiedValue(int value, Buff_Type buffType)
         {
             var newValue = value;
-            Debug.Log(buffType + " " + IncomingBuffType);
             if (IncomingBuffType != buffType)
                 return newValue;
             switch (IncomingBuffType)

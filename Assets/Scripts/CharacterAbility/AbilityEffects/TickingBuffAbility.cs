@@ -48,14 +48,10 @@ namespace CharacterAbility.AbilityEffects
             InitBuff();
             if (_buff.IsUnique && target.AllEffects.Any(ef => ef.Equals(_buff)))
             {
-                Debug.Log(target.View.GameObject.name);
-                Debug.Log(target.AllEffects[0].GetEffectView().EffectName);
                 await UseNext(target, stats);
                 return;
             }
-
-            Debug.Log("Da");
-
+            
             target.AddTickEffect(_buff);
             await UseNext(target, stats);
         }

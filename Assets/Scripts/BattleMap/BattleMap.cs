@@ -100,7 +100,7 @@ public class BattleMap : MonoBehaviour
             return coordinates;
 
         if (obj is EnvironmentObject env && _activeEnvironmentObjects.ContainsValue(env))
-            return _activeEnvironmentObjects.First(x => x.Value == env).Key;
+            return _activeEnvironmentObjects.FirstOrDefault(x => x.Value == env).Key;
 
         Debug.LogWarning($"$Объект {obj.View.GameObject.name} не найден на поле!");
         return new Vector2Int(-1, -1);
@@ -163,7 +163,7 @@ public class BattleMap : MonoBehaviour
             return;
         }
 
-        if (objCoord != new Vector2Int(-1, -1))
+        if (objCoord != new Vector2Int(-1, -1) && obj is BattleCharacter)
         {
             obj.OnMoved(GetCell(obj), GetCell(x, y));
             if (_activeEnvironmentObjects.ContainsKey(objCoord))
@@ -244,22 +244,6 @@ public class BattleMap : MonoBehaviour
         if (coord.y < _height - 1 && coord.x > 0)
             neighbours.Add(new Vector2Int(coord.x - 1, coord.y + 1));
         return neighbours;
-    }
-
-    private Vector2Int GetCellCoordinate(Cell cell)
-    {
-        for (var i = 0; i < _cellGrid.GetLength(0); i++)
-        {
-            for (var j = 0; j < _cellGrid.GetLength(1); j++)
-            {
-                if (_cellGrid[i, j] == cell)
-                {
-                    return new Vector2Int(i, j);
-                }
-            }
-        }
-
-        throw new ArgumentException("Cell not found");
     }
 
     private void SetCell(int x, int y, IBattleObject obj)

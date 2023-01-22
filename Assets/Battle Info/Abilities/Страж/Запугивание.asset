@@ -50,6 +50,7 @@ MonoBehaviour:
       ModificatorValue: 0
       ObjectInfo: {fileID: 0}
       BuffType: 3
+      IsUnique: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: -30
@@ -79,7 +80,8 @@ MonoBehaviour:
       Modificator: 0
       ModificatorValue: 0
       ObjectInfo: {fileID: 0}
-      BuffType: 3
+      BuffType: 4
+      IsUnique: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: -1
@@ -110,6 +112,7 @@ MonoBehaviour:
       ModificatorValue: 0
       ObjectInfo: {fileID: 0}
       BuffType: 0
+      IsUnique: 0
       Multiplier: 1
       ScaleFromWhom: 0
       BuffModificator: -0.3
@@ -143,6 +146,7 @@ MonoBehaviour:
       ModificatorValue: 0
       ObjectInfo: {fileID: 0}
       BuffType: 3
+      IsUnique: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: -30
@@ -173,6 +177,7 @@ MonoBehaviour:
       ModificatorValue: 0
       ObjectInfo: {fileID: 0}
       BuffType: 4
+      IsUnique: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: -1
@@ -203,6 +208,7 @@ MonoBehaviour:
       ModificatorValue: 0
       ObjectInfo: {fileID: 0}
       BuffType: 0
+      IsUnique: 0
       Multiplier: 1
       ScaleFromWhom: 0
       BuffModificator: -0.3
@@ -224,10 +230,14 @@ MonoBehaviour:
     _patternMaxDistance: 0
     _pattern: []
     _patternEffects: []
-    _lightTargetsSide: 0
+    _lightTargetsSide: 2
   _passiveParams:
     _effects: []
     _triggerType: 0
+    _moveToTrigger:
+      rid: -2
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

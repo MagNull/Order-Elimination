@@ -5,6 +5,7 @@ using CharacterAbility;
 using CharacterAbility.BuffEffects;
 using OrderElimination;
 using OrderElimination.Battle;
+using OrderElimination.BM;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -91,6 +92,7 @@ public class BattleCharacter : IActor
 
         _battleStats.Armor -= damageTaken.armorDamage;
         _battleStats.Health -= damageTaken.healthDamage;
+        
         Damaged?.Invoke(takeDamageInfo);
 
         if (_battleStats.Health > 0)
@@ -128,7 +130,7 @@ public class BattleCharacter : IActor
             HealthDamage = 0,
             ArmorDamage = 0,
             CancelType = 0,
-            Attacker = this,
+            Attacker = new NullBattleObject(),
         };
         Damaged?.Invoke(takeDamageInfo);
     }
