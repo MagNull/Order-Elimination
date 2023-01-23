@@ -22,8 +22,7 @@ public class BattleMapDirector
     public void InitializeMap()
     {
         var grid = _generator.GenerateGrid(_battleMapView.Map.Width, _battleMapView.Map.Height);
-
-
+        
         _battleMapView.Map.Init(grid.Model);
         _battleMapView.Init(grid.View);
         

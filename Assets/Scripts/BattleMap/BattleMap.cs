@@ -42,7 +42,7 @@ public class BattleMap : MonoBehaviour
             throw new ArgumentException($"Cell ({x}, {y}) not found");
         return _cellGrid[x, y];
     }
-    
+
     public Cell GetCell(Vector2Int point)
     {
         if (point.x < 0 || point.x > _width - 1 || point.y < 0 || point.y > _height - 1)
@@ -89,14 +89,14 @@ public class BattleMap : MonoBehaviour
         return Mathf.FloorToInt(Mathf.Sqrt(Mathf.Pow(obj1Crd.x - obj2Crd.x, 2) +
                                            Mathf.Pow(obj1Crd.y - obj2Crd.y, 2)));
     }
-    
+
     public int GetStraightDistance(IBattleObject obj1, Vector2Int pos)
     {
         Vector2Int obj1Crd = GetCoordinate(obj1);
         return Mathf.FloorToInt(Mathf.Sqrt(Mathf.Pow(obj1Crd.x - pos.x, 2) +
                                            Mathf.Pow(obj1Crd.y - pos.y, 2)));
     }
-    
+
     public int GetPathDistance(IBattleObject origin, IBattleObject destination)
     {
         var destinationCrd = GetCoordinate(destination);
@@ -246,9 +246,9 @@ public class BattleMap : MonoBehaviour
         return path;
     }
 
-    public Vector2Int GetOptimalPosition(IBattleObject origin, IBattleObject target, int optimalDistance)
+    public Vector2Int GetOptimalPosition(IBattleObject origin, IBattleObject target, int radius, int optimalDistance)
     {
-        var availableCells = GetEmptyObjectsInRadius(origin, optimalDistance);
+        var availableCells = GetEmptyObjectsInRadius(origin, radius);
         IBattleObject optimalPos = null;
         IBattleObject closestPos = origin;
         foreach (var pos in availableCells)
@@ -258,13 +258,14 @@ public class BattleMap : MonoBehaviour
             {
                 optimalPos = pos;
             }
-            if(distance < GetStraightDistance(closestPos, target))
+
+            if (distance < GetStraightDistance(closestPos, target))
             {
                 closestPos = pos;
             }
         }
 
-        if(optimalPos == null)
+        if (optimalPos == null)
             return GetCoordinate(closestPos);
         return GetCoordinate(optimalPos);
     }
