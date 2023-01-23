@@ -8,7 +8,6 @@ using UIManagement.Elements;
 using System.Linq;
 using Sirenix.OdinInspector;
 using OrderElimination;
-//using UIManagement.trashToRemove_Mockups;
 
 namespace UIManagement
 {
@@ -28,8 +27,8 @@ namespace UIManagement
         [SerializeReference]
         private List<AbilityInfo> _ignoredActiveAbilities;
 
-        private Character _currentCharacterInfo;
-        private BattleCharacterView _currentBattleCharacterInfo;
+        protected Character _currentCharacterInfo;
+        protected BattleCharacterView _currentBattleCharacterInfo;
 
         protected override void Initialize()
         {
