@@ -1,4 +1,4 @@
-using OrderElimination.BattleMap;
+using OrderElimination.BM;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,12 +49,19 @@ namespace UIManagement.Elements
 
         public void UpdateCharacterInfo(BattleCharacterView characterView)
         {
+            if(characterView == null)
+            {
+                HideInfo();
+                return;
+            }
+
+            var battleCharacter = (BattleCharacter)characterView.Model;
             if (currentCharacterView != null)
             {
-                currentCharacterView.Model.Damaged -= OnCharacterDamaged;
-                currentCharacterView.Model.EffectAdded -= OnCharacterEffectAdded;
-                currentCharacterView.Model.EffectRemoved -= OnCharacterEffectRemoved;
-                currentCharacterView.Model.Died -= OnCharacterDied;
+                battleCharacter.Damaged -= OnCharacterDamaged;
+                battleCharacter.EffectAdded -= OnCharacterEffectAdded;
+                battleCharacter.EffectRemoved -= OnCharacterEffectRemoved;
+                battleCharacter.Died -= OnCharacterDied;
             }
 
             currentCharacterView = characterView;
@@ -65,18 +72,18 @@ namespace UIManagement.Elements
             }
 
             ShowInfo();
-            characterView.Model.Damaged += OnCharacterDamaged;
-            characterView.Model.EffectAdded += OnCharacterEffectAdded;
-            characterView.Model.EffectRemoved += OnCharacterEffectRemoved;
-            characterView.Model.Died += OnCharacterDied;
+            battleCharacter.Damaged += OnCharacterDamaged;
+            battleCharacter.EffectAdded += OnCharacterEffectAdded;
+            battleCharacter.EffectRemoved += OnCharacterEffectRemoved;
+            battleCharacter.Died += OnCharacterDied;
             var stats = characterView.Model.Stats;
             _healthBar.SetValue(stats.Health, 0, stats.UnmodifiedHealth);
             _armorBar.SetValue(stats.Armor + stats.AdditionalArmor, 0, 
                 stats.UnmodifiedArmor + stats.AdditionalArmor);
 
-            var effects = characterView.Model.CurrentBuffEffects
-                .Concat(characterView.Model.CurrentTickEffects)
-                .Concat(characterView.Model.IncomingTickEffects)
+            var effects = battleCharacter.CurrentBuffEffects
+                .Concat(battleCharacter.CurrentTickEffects)
+                .Concat(battleCharacter.IncomingTickEffects)
                 .ToArray();
             //.Where()
             _effectsList.UpdateEffects(effects);

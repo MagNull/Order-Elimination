@@ -5,7 +5,7 @@ using CharacterAbility.BuffEffects;
 using OrderElimination.Battle;
 using UnityEngine;
 
-namespace OrderElimination.BattleMap
+namespace OrderElimination.BM
 {
     public class NullBattleObject : IBattleObject
     {
@@ -15,9 +15,11 @@ namespace OrderElimination.BattleMap
 
         public event Action Died;
 
+        public IReadOnlyList<ITickEffect> AllEffects => new List<ITickEffect>();
+
         public BattleObjectSide Side => BattleObjectSide.None;
 
-        public GameObject View
+        public IBattleObjectView View
         {
             get
             {
@@ -46,8 +48,7 @@ namespace OrderElimination.BattleMap
 
         public void TakeRecover(int value, int accuracy, DamageHealTarget damageHealTarget)
         { 
-            Debug.LogError("Try take heal from null battle object");
-            throw new NullReferenceException();
+            Debug.LogWarning("Try take heal from null battle object");
         }
 
         public void AddTickEffect(ITickEffect effect)
@@ -74,7 +75,6 @@ namespace OrderElimination.BattleMap
         public void OnTurnStart()
         { 
             Debug.LogWarning("Try call OnTurnStart from null battle object");
-            throw new NullReferenceException();
         }
 
         public void AddBuffEffect(StatsBuffEffect statsBuffEffect)

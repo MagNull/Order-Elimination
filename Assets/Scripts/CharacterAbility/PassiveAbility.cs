@@ -3,20 +3,23 @@ using CharacterAbility.AbilityEffects;
 using Cysharp.Threading.Tasks;
 using OrderElimination;
 using OrderElimination.Battle;
-using OrderElimination.BattleMap;
+using OrderElimination.BM;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace CharacterAbility
 {
     public class PassiveAbility : Ability
     {
+        private readonly IBattleObject _moveToTrigger;
         private readonly PassiveAbilityParams.PassiveTriggerType _passiveTriggerType;
         private readonly Ability _nextEffect;
 
-        public PassiveAbility(IBattleObject caster, PassiveAbilityParams.PassiveTriggerType passiveTriggerType,
+        public PassiveAbility(IBattleObject caster, IBattleObject moveToTrigger, PassiveAbilityParams.PassiveTriggerType passiveTriggerType,
             Ability nextEffect, BattleObjectSide filter, float probability) : base(caster, false, nextEffect, filter,
             probability)
         {
+            _moveToTrigger = moveToTrigger;
             _passiveTriggerType = passiveTriggerType;
             _nextEffect = nextEffect;
         }
@@ -33,14 +36,24 @@ namespace CharacterAbility
                         if(_nextEffect is ContreffectAbility)
                             _nextEffect.Use(info.Attacker, _caster.Stats);
                         else
-                            _nextEffect?.Use(target, stats);
+                            _nextEffect.Use(target, stats);
                     };
                     break;
                 case PassiveAbilityParams.PassiveTriggerType.Movement:
                     target.Moved += (from, to) =>
                     {
-                        if(to.GetObject() is EnvironmentObject)
+                        if (_moveToTrigger == null || _moveToTrigger is NullBattleObject)
+                        {
+                            Debug.Log("Not Used");
                             _nextEffect?.Use(target, stats);
+                        }
+                        else if (_moveToTrigger is EnvironmentObject environmentObject &&
+                                 to.GetObject() is EnvironmentObject toEnv &&
+                                 toEnv.Equals(environmentObject))
+                        {
+                            Debug.Log("Used");
+                            _nextEffect?.Use(target, stats);
+                        }
                     };
                     break;
                 case PassiveAbilityParams.PassiveTriggerType.Spawn:

@@ -6,7 +6,7 @@ using DG.Tweening;
 using OrderElimination.Battle;
 using TMPro;
 
-public class BattleCharacterView : MonoBehaviour
+public class BattleCharacterView : MonoBehaviour, IBattleObjectView
 {
     [SerializeField]
     private BattleCharacter _character;
@@ -31,7 +31,7 @@ public class BattleCharacterView : MonoBehaviour
 
     private bool _selected = false;
 
-    public BattleCharacter Model => _character;
+    public IBattleObject Model => _character;
     public AbilityView[] ActiveAbilitiesView => _activeAbilitiesView;
     public AbilityView[] PassiveAbilitiesView => _passiveAbilitiesView;
     public string CharacterName { get; private set; }
@@ -40,8 +40,10 @@ public class BattleCharacterView : MonoBehaviour
 
     public bool IsSelected => _selected;
 
+    public GameObject GameObject => gameObject;
     public LineRenderer FireLine => _fireLine;
 
+    public event Action<IBattleObjectView> Disabled;
     public static event Action<BattleCharacterView> Selected;
     public static event Action<BattleCharacterView> Deselected;
 
@@ -54,28 +56,37 @@ public class BattleCharacterView : MonoBehaviour
         _character = character;
         _character.Damaged += OnDamaged;
         _character.Died += OnDied;
-        BattleSimulation.RoundStarted += OnRoundStart;
+        
+        switch (Model.Side)
+        {
+            case BattleObjectSide.Ally:
+                BattleSimulation.PlayerTurnStarted += OnTurnStart;
+                break;
+            case BattleObjectSide.Enemy:
+                BattleSimulation.EnemyTurnStarted += OnTurnStart;
+                break;
+        }
 
         _activeAbilitiesView = activeAbilitiesView;
         _passiveAbilitiesView = passiveAbilitiesView;
         CharacterName = characterName;
         Icon = avatarIcon;
         AvatarFull = avatarFull;
-
+        
         HideAccuracy();
     }
 
-    private void OnDamaged(TakeDamageInfo info)
+    public void OnDamaged(TakeDamageInfo info)
     {
         if (info is {ArmorDamage: 0, HealthDamage: 0})
         {
             switch (info.CancelType)
             {
                 case DamageCancelType.Miss:
-                    _textEmitter.Emit("Miss", Color.yellow);
+                    EmmitText("Miss", Color.yellow);
                     break;
                 case DamageCancelType.Dodge:
-                    _textEmitter.Emit("Dodge", Color.green);
+                    EmmitText("Dodge", Color.green);
                     break;
             }
 
@@ -86,7 +97,18 @@ public class BattleCharacterView : MonoBehaviour
         {
             _renderer.DOColor(Color.white, _damagedDuration / 2);
         };
-        _textEmitter.Emit((info.ArmorDamage + info.HealthDamage).ToString(), Color.red);
+        EmmitText((info.ArmorDamage + info.HealthDamage).ToString(), Color.red);
+    }
+    
+    public void EmmitText(string text, Color color, float fontSize = -1)
+    {
+        _textEmitter.Emit(text, color, fontSize);
+    }
+
+    public void Disable()
+    {
+        gameObject.SetActive(false);
+        Disabled?.Invoke(this);
     }
 
     public void SetImage(Sprite image) => _renderer.sprite = image;
@@ -118,24 +140,36 @@ public class BattleCharacterView : MonoBehaviour
     private async void OnDied(BattleCharacter battleCharacter)
     {
         Debug.Log(gameObject.name + " died" % Colorize.DarkRed);
-        for(var i = 0; i < _dieFadeTimes - 1; i++)
+        for (var i = 0; i < _dieFadeTimes - 1; i++)
         {
             await _renderer.DOColor(Color.clear, _dieDuration / (_dieFadeTimes * 4)).AsyncWaitForCompletion();
             await _renderer.DOColor(Color.white, _dieDuration / (_dieFadeTimes * 4)).AsyncWaitForCompletion();
         }
+
         await _renderer.DOColor(Color.clear, _dieDuration / _dieFadeTimes * 2).AsyncWaitForCompletion();
         _renderer.gameObject.SetActive(false);
+        Disable();
     }
 
     private void OnDisable()
     {
         _character.Damaged -= OnDamaged;
         _character.Died -= OnDied;
-        BattleSimulation.RoundStarted -= OnRoundStart;
+        
+        switch (Model.Side)
+        {
+            case BattleObjectSide.Ally:
+                BattleSimulation.PlayerTurnStarted -= OnTurnStart;
+                break;
+            case BattleObjectSide.Enemy:
+                BattleSimulation.EnemyTurnStarted -= OnTurnStart;
+                break;
+        }
+        
         _character.ClearTickEffects();
     }
 
-    private void OnRoundStart()
+    private void OnTurnStart()
     {
         Deselect();
         _character.OnTurnStart();

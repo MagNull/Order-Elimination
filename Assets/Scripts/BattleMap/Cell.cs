@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using OrderElimination.BattleMap;
+using OrderElimination.BM;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 

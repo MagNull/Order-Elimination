@@ -1,22 +1,35 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace OrderElimination.Start
 {
     public class StartMenu : MonoBehaviour
     {
-        [SerializeField] private Saves _saves;
+        [SerializeField] private SavesMenu savesMenu;
+        [SerializeField] private GameObject loginForm;
         private Button _playButton;
         private Button _settingsButton;
         private Button _exitButton;
+
+        public static event Action OnPlayerLogin;
 
         private void Awake()
         {
             _playButton = GameObject.Find("PlayButton").GetComponent<Button>();
             _exitButton = GameObject.Find("ExitButton").GetComponent<Button>();
 
-            Saves.ExitSavesWindow += SetActiveButtons;
+            SavesMenu.ExitSavesWindow += SetActiveButtons;
             Settings.ExitSettingsWindow += SetActiveButtons;
+        }
+
+        private void Start()
+        {
+            if (!PlayerPrefs.HasKey("Id"))
+            {
+                loginForm.SetActive(true);
+            }
+            OnPlayerLogin?.Invoke();
         }
 
         private void SetActiveButtons(bool isActive)
@@ -32,7 +45,7 @@ namespace OrderElimination.Start
         public void StartButtonClicked()
         {
             SetActiveButtons(false);
-            _saves.SetActive(true);
+            savesMenu.SetActive(true);
         }
 
         public void SettingsButtonClicked()

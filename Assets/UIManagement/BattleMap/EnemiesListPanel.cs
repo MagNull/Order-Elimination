@@ -21,8 +21,7 @@ namespace UIManagement.Elements
         private float _enemyDisappearTime = 0.3f;
         [SerializeField]
         private Ease _enemyDisappearEase = Ease.Flash;
-        private Dictionary<BattleCharacter, CharacterBattleStatsPanel> _characterPanels
-            = new Dictionary<BattleCharacter, CharacterBattleStatsPanel>();
+        private Dictionary<IBattleObject, CharacterBattleStatsPanel> _characterPanels = new();
 
         public void Populate(BattleCharacterView[] enemies)
         {
@@ -45,9 +44,9 @@ namespace UIManagement.Elements
                 Destroy(e.gameObject);
         }
 
-        public void RemoveItem(BattleCharacterView character) => RemoveItem(character.Model);
+        public void RemoveItem(IBattleObjectView character) => RemoveItem(character.Model);
 
-        public void RemoveItem(BattleCharacter characterView)
+        public void RemoveItem(IBattleObject characterView)
         {
             if (!_characterPanels.ContainsKey(characterView))
                 return;

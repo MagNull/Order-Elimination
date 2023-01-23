@@ -16,6 +16,7 @@ namespace OrderElimination
         public static event Action<Squad, PlanetPoint> TargetSelected;
         public static event Action onFinishMove;
         public static event Action<bool> onPauseClicked;
+        public static event Action onSaveData;
 
         private void Awake() 
         { 
@@ -26,7 +27,7 @@ namespace OrderElimination
 
         private void Start()
         {
-            Squad.onMove += SavePositions;
+            Squad.onMove += SaveData;
         }
 
         public void ClickOnPanel()
@@ -73,29 +74,9 @@ namespace OrderElimination
             PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:{selectedSquad.name}:isMove", 1);
         }
 
-        private void SavePositions()
+        private void SaveData()
         {
-            if (this.IsDestroyed())
-                return;
-            var squads = _selectableObjects.GetSquads();
-            var count = 0;
-            var positions = new List<Vector3>();
-            var isMoveSquads = new List<bool>();
-            foreach (var squad in squads)
-            {
-                if(squad.IsDestroyed())
-                    continue;
-                var position = squad.transform.position;
-                positions.Add(position);
-                isMoveSquads.Add(squad.AlreadyMove);
-                PlayerPrefs.SetString($"{StrategyMap.SaveIndex}:Squad {count}", position.ToString());
-                _database.SaveData($"Squad {count++}", position);
-            }
-            
-            PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:CountMove", StrategyMap.CountMove);
-            Database.SaveCountMove(StrategyMap.CountMove);
-            Database.SaveIsMoveSquads(isMoveSquads);
-            _database.LoadTextToSaves();
+            onSaveData?.Invoke();
         }
 
         public void ResetDatabase()
@@ -111,13 +92,7 @@ namespace OrderElimination
             foreach (var squad in squads)
                 squad.SetAlreadyMove(false);
             
-            PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:Squad 0:isMove", 0);
-            PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:Squad 1:isMove", 0);
-            StrategyMap.AddCountMove();
-            PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:CountMove", StrategyMap.CountMove);
-            Database.SaveCountMove(StrategyMap.CountMove);
-            Database.SaveIsMoveSquads(new List<bool>{false, false});
-            _database.LoadTextToSaves();
+            SaveData();
             onFinishMove?.Invoke();
         }
         
@@ -129,7 +104,7 @@ namespace OrderElimination
 
         public void OnDestroy()
         {
-            Squad.onMove -= SavePositions;
+            Squad.onMove -= SaveData;
         }
     }
 }

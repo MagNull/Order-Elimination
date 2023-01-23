@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CharacterAbility;
+using CharacterAbility.BuffEffects;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -13,7 +15,6 @@ namespace OrderElimination.Battle
         {
             ApplyModifications(ref damageInfo, armor, incomingDebuffs);
 
-            Debug.Log(damageInfo.Accuracy);
             bool hitRoll = Random.Range(0, 100) <= damageInfo.Accuracy;
             if (!hitRoll)
                 return (0, 0, DamageCancelType.Miss);
@@ -51,6 +52,14 @@ namespace OrderElimination.Battle
             foreach (var incomingAttackBuff in incomingDebuffs)
             {
                 damageInfo = incomingAttackBuff.GetModifiedInfo(damageInfo);
+            }
+            
+            if(damageInfo.Attacker is not BattleCharacter battleCharacter)
+                return;
+            
+            foreach (var effect in battleCharacter.CurrentTickEffects.Where(ef => ef is OutcomingBuff))
+            {
+                damageInfo = ((OutcomingBuff) effect).GetModifiedInfo(damageInfo);
             }
         }
     }

@@ -2,308 +2,146 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using OrderElimination.Start;
+using Proyecto26;
 
 namespace OrderElimination
 {
     public class Database : MonoBehaviour
     {
-        private static string _id = "b4e1c7e5-ff55-495e-b6c9-e63da38c2306";
-        
-        private Dictionary<int, List<Vector3>> _allPositions;
-        private Dictionary<int, Vector3> _enemySquadPositions;
-        private Dictionary<int, List<bool>> _isMovesSquadsOnSaves;
-        private Dictionary<int, int> _moneyInSaves;
-        private Dictionary<int, int> _allCountMove;
+        public static readonly string[] SquadNames = { "Squad 0", "Squad 1" };
+        private static readonly string DatabaseLink = "https://orderelimination-default-rtdb.firebaseio.com/users/";
+        private static readonly int SaveCount = 3;
+
+        private List<Save> _saves;
         public static event Action<int, string> LoadSave;
-        public static int SaveIndex { get; private set; }
 
         private void Awake()
         {
-            Debug.Log("Awake DB");
-            Saves.LoadClicked += SetMediatorBySelectedSave;
-            Saves.NewGameClicked += SetNewGame;
+            _saves = new List<Save>();
+            SavesMenu.LoadClicked += SetMediatorBySelectedSave;
+            SavesMenu.NewGameClicked += SetNewGame;
             BattleSimulation.BattleEnded += SetBattleOutcome;
+            AuthManager.OnUserLogin += SetLogin;
+            StartMenu.OnPlayerLogin += RetrieveSaveFromDatabase;
         }
 
-        private void Start()
+        public void SetLogin(string login)
         {
-            // _allPositions = new Dictionary<int, List<Vector3>>();
-            // _isMovesSquadsOnSaves = new Dictionary<int, List<bool>>();
-            // _allCountMove = new Dictionary<int, int>();
-            // _moneyInSaves = new Dictionary<int, int>();
-            // _enemySquadPositions = new Dictionary<int, Vector3>();
-            LoadTextToSaves();
-            // LoadPositionsToSaves();
-            // LoadEnemySquadPositionToSaves();
-            // LoadMoney();
-            // LoadIsMoveSquads();
+            PlayerPrefs.SetString("Id", login);
+            RetrieveSaveFromDatabase();
         }
 
-        private static string GetIdFromFile()
+        public static void SendToDatabase(UserData userData, string separator)
         {
-            return _id;
+            RestClient.Put<UserData>(DatabaseLink + "/" + separator + ".json", userData);
         }
 
-        public void SaveData(string squadName, Vector3 position)
+        public static void GetUserByLogin(string login,
+            Action<RequestException, ResponseHelper, UserData> getInfoCallback)
         {
-            // var dataSnapshot = FirebaseDatabase
-            //     .DefaultInstance
-            //     .GetReference(GetIdFromFile())
-            //     .Child("Saves")
-            //     .Child(SaveIndex.ToString());
-            // dataSnapshot
-            //     .Child("Positions")
-            //     .Child(squadName)
-            //     .SetValueAsync(position.ToString());
-            // var dateTime = DateTime.Now;
-            // dataSnapshot
-            //     .Child("Time")
-            //     .SetValueAsync($"{dateTime.ToShortTimeString()} - {dateTime.ToShortDateString()}");
+            RestClient.Get<UserData>($"{DatabaseLink}/{login}.json", getInfoCallback);
+        }
+
+        public static void FindUserByEmail(string email, Action<RequestException, ResponseHelper> getInfoCallback)
+        {
+            RestClient.Get($"{DatabaseLink}.json?orderBy=%22Email%22&equalTo=%22{email}%22", getInfoCallback);
+        }
+
+        public static void PutSaveToDatabase(List<Save> saves)
+        {
+            var count = 0;
+            foreach (var save in saves)
+            {
+                PutSaveToDatabase(save, count);
+                count++;
+            }
+        }
+
+        public static void PutSaveToDatabase(Save save, int saveIndex)
+        {
+            RestClient.Put<Save>(DatabaseLink + $"{PlayerPrefs.GetString("Id")}/Saves" + $"/{saveIndex}" + ".json", save);
+            SetPlayerPrefs(save, saveIndex);
+        }
+
+        private void RetrieveSaveFromDatabase()
+        {
+            if (!PlayerPrefs.HasKey("Id"))
+                return;
+            _saves = new List<Save>();
+            RestClient
+                .GetArray<Save>(DatabaseLink + $"{PlayerPrefs.GetString("Id")}/Saves"  + ".json")
+                .Then(response =>
+                {
+                    _saves.AddRange(response);
+                    LoadTextToSaves();
+                });
+        }
+
+        public static void DeleteEnemyPosition(int index)
+        {
+            RestClient.Delete(DatabaseLink + $"{PlayerPrefs.GetString("Id")}/Saves" + $"/{index}" + "/EnemyPosition" + ".json");
+            PlayerPrefs.DeleteKey($"{index}:CountMove");
         }
 
         public static void DeleteSave(int index)
         {
-            // FirebaseDatabase
-            //     .DefaultInstance
-            //     .GetReference(GetIdFromFile())
-            //     .Child("Saves")
-            //     .Child(index.ToString())
-            //     .RemoveValueAsync();
-            
+            RestClient.Delete(DatabaseLink + $"{PlayerPrefs.GetString("Id")}/Saves" + $"/{index}" + ".json");
             PlayerPrefs.DeleteKey($"{index}");
-            PlayerPrefs.DeleteKey($"{SaveIndex}:Squad 0");
-            PlayerPrefs.DeleteKey($"{SaveIndex}:Squad 1");
-            PlayerPrefs.DeleteKey($"{SaveIndex}:Squad 0:isMove");
-            PlayerPrefs.DeleteKey($"{SaveIndex}:Squad 1:isMove");
-            PlayerPrefs.DeleteKey($"{SaveIndex}:CountMove");
-            PlayerPrefs.DeleteKey($"{SaveIndex}:EnemySquad");
-            PlayerPrefs.DeleteKey($"{SaveIndex}:BattleOutcome");
-            PlayerPrefs.DeleteKey($"{SaveIndex}:Money");
-        }
-
-        public static void SaveCountMove(int countMove, string child = "CountMove")
-        {
-            SaveChild(child, countMove.ToString());
-        }
-
-        public static void SaveEnemySquadPosition(Vector3 position, string child = "EnemyPosition")
-        {
-            SaveChild(child, position.ToString());
-        }
-
-        public static void SaveIsMoveSquads(List<bool> isMoveSquads)
-        {
-            // var dbRef = FirebaseDatabase
-            //     .DefaultInstance
-            //     .GetReference(GetIdFromFile())
-            //     .Child("Saves")
-            //     .Child(SaveIndex.ToString())
-            //     .Child("IsMove");
-            // var count = 0;
-            // foreach (var isMoveSquad in isMoveSquads)
-            //     dbRef.Child($"Squad {count++}").SetValueAsync(isMoveSquad.ToString());
-        }
-
-        public static void SaveMoney(int money, string child = "Money")
-        {
-            SaveChild(child, money.ToString());
-        }
-
-        public static void SaveChild(string child, string value)
-        {
-            // FirebaseDatabase
-            //     .DefaultInstance
-            //     .GetReference(GetIdFromFile())
-            //     .Child("Saves")
-            //     .Child(SaveIndex.ToString())
-            //     .Child(child)
-            //     .SetValueAsync(value);
-        }
-        
-        public static void DeleteEnemySquadPosition(string child = "EnemyPosition")
-        {
-            DeleteChild(child);
-        }
-
-        public static void DeleteChild(string child)
-        {
-            // FirebaseDatabase
-            //     .DefaultInstance
-            //     .GetReference(GetIdFromFile())
-            //     .Child("Saves")
-            //     .Child(SaveIndex.ToString())
-            //     .Child(child)
-            //     .RemoveValueAsync();
-        }
-
-        public async void LoadTextToSaves()
-        {
-            // var dataSnapshot = await GetSavesDataSnapshot();
-            //
-            // for (var i = 0; i < 3; i++)
-            // {
-            //     if(!dataSnapshot.Child($"{i}").Child("CountMove").Exists)
-            //         continue;
-            //     var countMove = Convert.ToInt32(dataSnapshot.Child($"{i}").Child("CountMove").Value.ToString());
-            //     if (countMove == -1)
-            //         continue;
-            //     var timeString = dataSnapshot.Child($"{i}").Child("Time").Value.ToString();
-            //     LoadSave?.Invoke(i, $"Игра {i + 1}, ход {countMove} ({timeString})");
-            //     _allCountMove[i] = countMove;
-            // }
-            for (var i = 0; i < 3; i++)
+            foreach (var squadName in SquadNames)
             {
-                if (!PlayerPrefs.HasKey($"{i}:CountMove"))
-                    continue;
-                var countMove = PlayerPrefs.GetInt($"{i}:CountMove");
-                LoadSave?.Invoke(i, $"Игра {i + 1}, ход {countMove}");
+                PlayerPrefs.DeleteKey($"{index}:{squadName}");
+                PlayerPrefs.DeleteKey($"{index}:{squadName}:isMove");
             }
+            
+            PlayerPrefs.DeleteKey($"{index}:CountMove");
+            PlayerPrefs.DeleteKey($"{index}:EnemySquad");
+            PlayerPrefs.DeleteKey($"{index}:BattleOutcome");
+            PlayerPrefs.DeleteKey($"{index}:Money");
         }
 
-        private async void LoadPositionsToSaves()
+        public void LoadTextToSaves()
         {
-            // var dataSnapshot = await GetSavesDataSnapshot();
-            // for (var i = 0; i < dataSnapshot.ChildrenCount; i++)
-            // {
-            //     var positionsSnapshot = dataSnapshot.Child($"{i}").Child("Positions");
-            //     if (!positionsSnapshot.Child("Squad 0").Exists)
-            //         return;
-            //     var firstSquadPositionString = positionsSnapshot.Child("Squad 0").Value.ToString();
-            //     var secondSquadPositionString = positionsSnapshot.Child("Squad 1").Value.ToString();
-            //     
-            //     var positions = new List<Vector3>
-            //     {
-            //         firstSquadPositionString.GetVectorFromString(),
-            //         secondSquadPositionString.GetVectorFromString()
-            //     };
-            //     
-            //     _allPositions[i] = positions;
-            // }
+            Debug.Log("LoadSaves");
+            for (var i = 0; i < _saves.Count; i++)
+                LoadSave?.Invoke(i, $"Игра {i + 1}, ход {_saves[i].CountMove}");
         }
-
-        private async void LoadIsMoveSquads()
-        {
-            // var dataSnapshot = await GetSavesDataSnapshot();
-            //
-            // for (var i = 0; i < dataSnapshot.ChildrenCount; i++)
-            // {
-            //     var isMoveSnapshot = dataSnapshot.Child($"{i}").Child("IsMove");
-            //     var firstSquadIsMove = "False";
-            //     var secondSquadIsMove = "False";
-            //     
-            //     if (isMoveSnapshot.Child("Squad 0").Exists)
-            //         firstSquadIsMove = isMoveSnapshot.Child("Squad 0").Value.ToString();
-            //     if (isMoveSnapshot.Child("Squad 1").Exists)
-            //         secondSquadIsMove = isMoveSnapshot.Child("Squad 1").Value.ToString();
-            //     
-            //     var isMoveSquads = new List<bool>
-            //     {
-            //         firstSquadIsMove != "False",
-            //         secondSquadIsMove != "False"
-            //     };
-            //     
-            //     _isMovesSquadsOnSaves[i] = isMoveSquads;
-            // }
-        }
-
-        private async void LoadMoney()
-        {
-            // var dataSnapshot = await GetSavesDataSnapshot();
-            //
-            // for (var i = 0; i < dataSnapshot.ChildrenCount; i++)
-            // {
-            //     var money = dataSnapshot.Child($"{i}").Child("Money").Exists
-            //         ? dataSnapshot.Child($"{i}").Child("Money").Value.ToString()
-            //         : "0";
-            //     _moneyInSaves[i] = Convert.ToInt32(money);
-            // }
-        }
-
-        private async void LoadEnemySquadPositionToSaves()
-        {
-            // var dataSnapshot = await GetSavesDataSnapshot();
-            //
-            // for (var i = 0; i < dataSnapshot.ChildrenCount; i++)
-            // {
-            //     if (!dataSnapshot.Child($"{i}").Child("EnemyPosition").Exists)
-            //     {
-            //         _enemySquadPositions[i] = Vector3.zero;    
-            //         continue;
-            //     }
-            //         
-            //     var positionString = dataSnapshot.Child($"{i}").Child("EnemyPosition").Value.ToString();
-            //     _enemySquadPositions[i] = positionString.GetVectorFromString();
-            // }
-        }
-
-        // private async Task<DataSnapshot> GetSavesDataSnapshot()
-        // {
-        //     return await FirebaseDatabase
-        //         .DefaultInstance
-        //         .GetReference(GetIdFromFile())
-        //         .Child("Saves")
-        //         .GetValueAsync();
-        // }
 
         private void SetMediatorBySelectedSave(int saveIndex)
         {
-            // if (SceneManager.GetActiveScene().name != "StartMenu")
-            //     return;
-            // SaveIndex = saveIndex;
-            // SetMediator(_allPositions[saveIndex], _isMovesSquadsOnSaves[saveIndex], _allCountMove[saveIndex],
-            //     _enemySquadPositions[saveIndex], _moneyInSaves[saveIndex]);
-            PlayerPrefs.SetInt($"SaveIndex", saveIndex);
-            PlayerPrefs.SetString($"{SaveIndex}:BattleOutcome", BattleOutcome.Neither.ToString());
+            SetPlayerPrefs(_saves[saveIndex], saveIndex);
         }
 
         public void SetNewGame(int saveIndex)
         {
-            var positions = new List<Vector3>
-            {
-                new Vector3(50, 150, 0),
-                new Vector3(150, 110, 0)
-            };
-            SaveIndex = saveIndex;
-            SetMediator(positions, new List<bool>{false, false} ,0, Vector3.zero, 0);
-            // SaveData("Squad 0", new Vector3(50, 150, 0));
-            // SaveData("Squad 1", new Vector3(150, 110, 0));
-            // SaveCountMove(0);
+            PutSaveToDatabase(new Save(), saveIndex);
+            SetPlayerPrefs(new Save(), saveIndex);
         }
 
-        private void SetMediator(List<Vector3> positions, List<bool> isMoveSquads, int countMove, Vector3 enemyPosition, int money)
+        private static void SetPlayerPrefs(Save save, int saveIndex)
         {
-            PlayerPrefs.SetInt($"SaveIndex", SaveIndex);
-            //StartMenuMediator.SetSaveIndex(SaveIndex);
+            PlayerPrefs.SetInt($"SaveIndex", saveIndex);
+            var count = 0;
+            foreach (var squadName in SquadNames)
+            {
+                PlayerPrefs.SetString($"{saveIndex}:{squadName}", save.SquadPositions[count].ToString());
+                PlayerPrefs.SetInt($"{saveIndex}:{squadName}:isMove", save.IsMoveSquads[count++] ? 1 : 0);
+            }
             
-            PlayerPrefs.SetString($"{SaveIndex}:Squad 0", positions[0].ToString());
-            PlayerPrefs.SetString($"{SaveIndex}:Squad 1", positions[1].ToString());
-            //StartMenuMediator.SetPositionsInSave(positions);
-            
-            PlayerPrefs.SetInt($"{SaveIndex}:Squad 0:isMove", isMoveSquads[0] ? 1 : 0);
-            PlayerPrefs.SetInt($"{SaveIndex}:Squad 1:isMove", isMoveSquads[1] ? 1 : 0);
-            //StartMenuMediator.SetIsMoveSquads(isMoveSquads);
-            
-            PlayerPrefs.SetInt($"{SaveIndex}:CountMove", countMove);
-            //StartMenuMediator.SetCountMove(countMove);
-            
-            PlayerPrefs.SetString($"{SaveIndex}:EnemySquad", enemyPosition.ToString());
-            //StartMenuMediator.SetEnemySquadPosition(enemyPosition);
-            
-            PlayerPrefs.SetString($"{SaveIndex}:BattleOutcome", BattleOutcome.Neither.ToString());
-            
-            PlayerPrefs.SetInt($"{SaveIndex}:Money", money);
-            //StartMenuMediator.SetMoney(money);
+            PlayerPrefs.SetInt($"{saveIndex}:CountMove", save.CountMove);
+            PlayerPrefs.SetString($"{saveIndex}:EnemySquad", save.EnemyPosition.ToString());
+            PlayerPrefs.SetString($"{saveIndex}:BattleOutcome", BattleOutcome.Neither.ToString());
+            PlayerPrefs.SetInt($"{saveIndex}:Money", save.Money);
         }
-        
-        public static void SetBattleOutcome(BattleOutcome outcome)
+
+        private static void SetBattleOutcome(BattleOutcome outcome)
         {
-            PlayerPrefs.SetString($"{SaveIndex}:BattleOutcome", outcome.ToString());
+            PlayerPrefs.SetString($"{StrategyMap.SaveIndex}:BattleOutcome", outcome.ToString());
         }
 
         private void OnDisable()
         {
-            Saves.LoadClicked -= SetMediatorBySelectedSave;
-            Saves.NewGameClicked -= SetNewGame;
+            SavesMenu.LoadClicked -= SetMediatorBySelectedSave;
+            SavesMenu.NewGameClicked -= SetNewGame;
         }
     }
 }

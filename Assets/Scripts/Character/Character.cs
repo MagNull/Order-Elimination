@@ -10,7 +10,6 @@ namespace OrderElimination
     {
         [SerializeField]
         private BattleStats _battleStats;
-        // [SerializeField]
         private StrategyStats _strategyStats;
         [SerializeField]
         private string _name;
@@ -24,7 +23,7 @@ namespace OrderElimination
         [SerializeField]
         private AbilityInfo[] _passiveAbilities;
         
-        public BattleStats GetBattleStats() => _battleStats;
+        public IReadOnlyBattleStats GetBattleStats() => _battleStats;
 
         public string GetName() => _name;
         public Sprite GetViewIcon() => _viewIcon;

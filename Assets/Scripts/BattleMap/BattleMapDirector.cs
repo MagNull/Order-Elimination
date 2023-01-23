@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using OrderElimination.BattleMap;
+using OrderElimination.BM;
 using UnityEngine;
 using UnityEngine.Rendering;
 using VContainer;

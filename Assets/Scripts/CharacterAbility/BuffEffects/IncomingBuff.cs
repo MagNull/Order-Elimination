@@ -22,8 +22,8 @@ namespace CharacterAbility
 
         public DamageType DamageType => _damageType;
 
-        public IncomingBuff(Buff_Type incomingBuffType, int duration, float modificator, ITickEffectView view,
-            DamageType damageType = DamageType.None) : base(duration, view)
+        public IncomingBuff(bool isUnique, Buff_Type incomingBuffType, int duration, float modificator, ITickEffectView view,
+            DamageType damageType = DamageType.None) : base(duration, view, isUnique)
         {
             _incomingBuffType = incomingBuffType;
             _modificator = modificator;
@@ -62,7 +62,6 @@ namespace CharacterAbility
         public int GetModifiedValue(int value, Buff_Type buffType)
         {
             var newValue = value;
-            Debug.Log(buffType + " " + IncomingBuffType);
             if (IncomingBuffType != buffType)
                 return newValue;
             switch (IncomingBuffType)
@@ -87,6 +86,12 @@ namespace CharacterAbility
             }
 
             return newValue;
+        }
+
+        public override bool Equals(ITickEffect tickEffect)
+        {
+            return tickEffect is IncomingBuff buff && buff.IncomingBuffType == IncomingBuffType &&
+                   buff.DamageType == DamageType && Math.Abs(buff.Modificator - Modificator) < 0.01f;
         }
     }
 }

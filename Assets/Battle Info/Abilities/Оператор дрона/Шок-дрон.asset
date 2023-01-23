@@ -22,9 +22,11 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _name: "\u0428\u043E\u043A-\u0434\u0440\u043E\u043D"
-  _description: 
+  _description: "\u0414\u0440\u043E\u043D \u0430\u0442\u0430\u043A\u0443\u0435\u0442
+    1 \u0446\u0435\u043B\u044C."
   _coolDown: 3
   _startCoolDown: 1
+  _notTriggerCast: 0
   <Icon>k__BackingField: {fileID: 0}
   <ActionType>k__BackingField: 1
   _type: 0
@@ -47,7 +49,9 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 0
+      IsUnique: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: 0
@@ -57,6 +61,7 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 0
       EffectView:
         _effectName: 
@@ -75,7 +80,9 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 0
+      IsUnique: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: 0
@@ -85,10 +92,11 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 1
       EffectView:
         _effectName: "\u041E\u0433\u043B\u0443\u0448\u0435\u043D\u0438\u0435"
-        _effectIcon: {fileID: 21300000, guid: 02800fb9cff14da47a04572790384d8b, type: 3}
+        _effectIcon: {fileID: 21300000, guid: 11688cec37146e14d9c2ad9f5617cacc, type: 3}
         _displayAsMainEffect: 0
         _displayWhenApplied: 0
     - Type: 4
@@ -103,7 +111,9 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 7
+      IsUnique: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: 10
@@ -113,16 +123,29 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 1
       EffectView:
         _effectName: "\u0412\u0445\u043E\u0434\u044F\u0449\u0430\u044F \u043C\u0435\u0442\u043A\u043E\u0441\u0442\u044C"
-        _effectIcon: {fileID: 21300000, guid: 5725ced29463b774c80b9bfc87fcf383, type: 3}
+        _effectIcon: {fileID: 21300000, guid: e2dbf868ad294a24d8c6457dbd811249, type: 3}
         _displayAsMainEffect: 0
         _displayWhenApplied: 1
     _hasAreaEffect: 0
     _areaRadius: 0
-    _lightTargetsSide: 0
     _areaEffects: []
+    _hasPatternTargetEffect: 0
+    _hasMaxDistance: 0
+    _patternMaxDistance: 0
+    _pattern: []
+    _patternEffects: []
+    _lightTargetsSide: 0
   _passiveParams:
     _effects: []
     _triggerType: 0
+    _moveToTrigger:
+      rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

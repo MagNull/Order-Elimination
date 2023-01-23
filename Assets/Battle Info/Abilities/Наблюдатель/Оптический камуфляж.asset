@@ -26,10 +26,11 @@ MonoBehaviour:
     \u043D\u0435\u0432\u0438\u0434\u0438\u043C\u044B\u043C \u0434\u043B\u044F \u0432\u0440\u0430\u0433\u0430
     \u0438 \u043F\u043E\u043B\u0443\u0447\u0430\u0435\u0442 \u0443\u0441\u0438\u043B\u0435\u043D\u0438\u0435
     \u043D\u0430 \u0432\u0440\u0435\u043C\u044F \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044F
-    \u044D\u0444\u0444\u0435\u043A\u0442\u0430 \"\u0421\u043A\u0440\u044B\u0442\""
+    \u044D\u0444\u0444\u0435\u043A\u0442\u0430 \"\u0421\u043A\u0440\u044B\u0442\"."
   _coolDown: 3
-  _startCoolDown: 1
-  <Icon>k__BackingField: {fileID: 0}
+  _startCoolDown: 0
+  _notTriggerCast: 1
+  <Icon>k__BackingField: {fileID: 21300000, guid: 5a2b0dbb12b1d8c45a1e56c229b7929e, type: 3}
   <ActionType>k__BackingField: 1
   _type: 0
   _activeParams:
@@ -40,6 +41,7 @@ MonoBehaviour:
     _targetType: 0
     _targetEffects:
     - Type: 5
+      MainEffect: 0
       HasProbability: 0
       Probability: 0
       Filter: 0
@@ -50,8 +52,11 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 3
+      IsUnique: 0
       Multiplier: 0
+      ScaleFromWhom: 0
       BuffModificator: 20
       Duration: 0
       ConditionType: 2
@@ -59,12 +64,15 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 0
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
     - Type: 5
+      MainEffect: 0
       HasProbability: 0
       Probability: 0
       Filter: 0
@@ -75,8 +83,11 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 0
+      IsUnique: 0
       Multiplier: 1
+      ScaleFromWhom: 0
       BuffModificator: 0.5
       Duration: 0
       ConditionType: 2
@@ -84,14 +95,60 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 0
       EffectView:
-        DisplayAsMainEffect: 0
-        EffectName: 
-        EffectIcon: {fileID: 0}
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
+    - Type: 5
+      MainEffect: 0
+      HasProbability: 0
+      Probability: 0
+      Filter: 0
+      _damageHealTarget: 0
+      Amounts: 0
+      ScaleFrom: 0
+      Scale: 0
+      StepDelay: 0
+      Modificator: 0
+      ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
+      BuffType: 9
+      IsUnique: 0
+      Multiplier: 0
+      ScaleFromWhom: 0
+      BuffModificator: 0
+      Duration: 0
+      ConditionType: 2
+      OverTimeType: 0
+      TickValue: 0
+      DamageType: 0
+      Distance: 0
+      TriggerEffects: []
+      ShowInAbilityDescription: 1
+      EffectView:
+        _effectName: "\u041C\u0430\u0441\u043A\u0438\u0440\u043E\u0432\u043A\u0430"
+        _effectIcon: {fileID: 21300000, guid: 5a2b0dbb12b1d8c45a1e56c229b7929e, type: 3}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 1
     _hasAreaEffect: 0
     _areaRadius: 0
     _areaEffects: []
+    _hasPatternTargetEffect: 0
+    _hasMaxDistance: 0
+    _patternMaxDistance: 0
+    _pattern: []
+    _patternEffects: []
+    _lightTargetsSide: 0
   _passiveParams:
     _effects: []
     _triggerType: 0
+    _moveToTrigger:
+      rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
