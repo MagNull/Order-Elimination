@@ -130,15 +130,15 @@ public class BattleMapView : MonoBehaviour
 
     private async void OnPlayerTurnStarted()
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(_moveDuration));
-        foreach (var cellView in _cellViewGrid)
-        {
-            if (cellView.Model.GetObject().View is not BattleCharacterView battleCharacterView ||
-                !cellView.Model.GetObject().View.GameObject ||
-                battleCharacterView.Model.Side != BattleObjectSide.Ally) continue;
-            CellClicked?.Invoke(cellView);
-            return;
-        }
+        // await UniTask.Delay(TimeSpan.FromSeconds(_moveDuration));
+        // foreach (var cellView in _cellViewGrid)
+        // {
+        //     if (cellView.Model.GetObject().View is not BattleCharacterView battleCharacterView ||
+        //         !cellView.Model.GetObject().View.GameObject ||
+        //         battleCharacterView.Model.Side != BattleObjectSide.Ally) continue;
+        //     CellClicked?.Invoke(cellView);
+        //     return;
+        // }
     }
 
     private void OnBattleEnded(BattleOutcome obj)
