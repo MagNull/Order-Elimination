@@ -32,9 +32,24 @@ public class BattleCharacterFactory : MonoBehaviour
         //TODO: Generation Enemy 
         if (side == BattleObjectSide.Enemy)
         {
-            character = new EnemyDog(_map,
+            character = new RandomEnemyAI(_map,
                 new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation(), _characterBank);
-            ((EnemyDog) character).SetDamageAbility(_abilityFactory.CreateAbility(_bite, character));
+            List<AIAbility> abilitiesInfo = new List<AIAbility>();
+            foreach (var activeAbilityInfo in info.GetActiveAbilityInfos())
+            {
+                var ability = _abilityFactory.CreateAbility(activeAbilityInfo, character);
+                var aiInfo = new AIAbility
+                (
+                    activeAbilityInfo.ActiveParams.Distance,
+                    activeAbilityInfo.ActiveParams.TargetType,
+                    ability,
+                    activeAbilityInfo.Name,
+                    activeAbilityInfo.CoolDown,
+                    activeAbilityInfo.StartCoolDown
+                );
+                abilitiesInfo.Add(aiInfo);
+            }
+            ((RandomEnemyAI) character).SetAbilities(abilitiesInfo);
         }
         else
         {

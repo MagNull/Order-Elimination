@@ -13,17 +13,20 @@ public class RandomBattleMusicPicker : MonoBehaviour
     private AudioClip[] _musicClips;
     [SerializeField]
     private AudioClip _tutorialMusic;
+    [SerializeField]
     private AudioSource _audioSource;
 
-    private void Awake()
+    private void OnEnable()
     {
-        _audioSource = GetComponent<AudioSource>();
+        //_audioSource = GetComponent<AudioSource>();
         if (PlayerPrefs.GetInt("Battle Tutorial") > 0)
             PlayTutorialMusic();
         else
             PlayRandomMusic();
     }
 
+    
+    //TODO: Fix missing reference exception
     private async void PlayRandomMusic()
     {
         AudioClip clip = _musicClips[Random.Range(0, _musicClips.Length)];

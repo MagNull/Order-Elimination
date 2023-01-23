@@ -10,23 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd1984226b6f4b5ea94fb3b7f3b16efb, type: 3}
-  m_Name: EnemyDog
+  m_Name: "\u041E\u0442\u0433\u043E\u043B\u043E\u0441\u043E\u043A \u041F\u0435\u0445\u043E\u0442\u0438\u043D\u0435\u0446"
   m_EditorClassIdentifier: 
   _battleStats:
-    _health: 50
-    _attack: 35
-    _armor: 150
+    _health: 65
+    _attack: 16
+    _armor: 80
     _additionalArmor: 0
-    _evasion: 15
-    _accuracy: 90
-    _movement: 4
+    _evasion: 5
+    _accuracy: 65
+    _movement: 3
     _damageModificator: 0
-  _name: "\u041A\u0430\u043C\u043D\u0435\u0433\u0440\u044B\u0437"
-  _viewIcon: {fileID: 21300000, guid: a8d51c883384c47469807e601a9966d3, type: 3}
-  _viewAvatar: {fileID: 21300000, guid: 6ed07c7d456c1774ab44cebfab1985c9, type: 3}
+  _name: "\u041E\u0442\u0433\u043E\u043B\u043E\u0441\u043E\u043A \u041F\u0435\u0445\u043E\u0442\u0438\u043D\u0435\u0446"
+  _viewIcon: {fileID: 21300000, guid: 565bd5d332ad53e49a0ec471bcc27a34, type: 3}
+  _viewAvatar: {fileID: 21300000, guid: 856fe320e10ecec479c0ea2647d07651, type: 3}
   _activeAbilities:
   - {fileID: 11400000, guid: 3ef3dd1e10ae14c459a2b63ac475b655, type: 2}
   - {fileID: 11400000, guid: 1f1ac44a52e9c1b42af6cbde4ab199fe, type: 2}
   - {fileID: 11400000, guid: d7840239298761b46a8c41212f6e086e, type: 2}
   - {fileID: 11400000, guid: 7f5a612399b088d4da1c7c069bf2429f, type: 2}
-  _passiveAbilities: []
+  _passiveAbilities:
+  - {fileID: 11400000, guid: 5a2e57dedfeb7b0459fbdf733ee57215, type: 2}
+  - {fileID: 11400000, guid: 7cc000f6fbba76a44a5bb81734f2c4a3, type: 2}

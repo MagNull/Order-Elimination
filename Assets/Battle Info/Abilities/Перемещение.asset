@@ -22,9 +22,11 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _name: "\u041F\u0435\u0440\u0435\u043C\u0435\u0449\u0435\u043D\u0438\u0435"
-  _description: 
+  _description: "\u0411\u043E\u0435\u0446 \u043F\u0435\u0440\u0435\u043C\u0435\u0441\u0442\u0438\u0442\u0441\u044F
+    \u043D\u0430 \u0443\u043A\u0430\u0437\u0430\u043D\u043D\u0443\u044E \u043A\u043B\u0435\u0442\u043A\u0443."
   _coolDown: 1
   _startCoolDown: 0
+  _notTriggerCast: 0
   <Icon>k__BackingField: {fileID: 21300000, guid: 71c02e5907336674f94326e5e1a76dcc, type: 3}
   <ActionType>k__BackingField: 0
   _type: 0
@@ -36,6 +38,7 @@ MonoBehaviour:
     _targetType: 4
     _targetEffects:
     - Type: 2
+      MainEffect: 0
       HasProbability: 0
       Probability: 0
       Filter: 0
@@ -46,7 +49,9 @@ MonoBehaviour:
       StepDelay: 0.2
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 0
+      IsUnique: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: 0
@@ -56,6 +61,7 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 0
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 1
       EffectView:
         _effectName: 
@@ -65,6 +71,19 @@ MonoBehaviour:
     _hasAreaEffect: 0
     _areaRadius: 0
     _areaEffects: []
+    _hasPatternTargetEffect: 0
+    _hasMaxDistance: 0
+    _patternMaxDistance: 0
+    _pattern: []
+    _patternEffects: []
+    _lightTargetsSide: 0
   _passiveParams:
     _effects: []
     _triggerType: 0
+    _moveToTrigger:
+      rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

@@ -12,7 +12,13 @@ namespace UIManagement.Elements
     [RequireComponent(typeof(HoldableButton)), DisallowMultipleComponent]
     public class AbilityButton : MonoBehaviour
     {
-        public event Action AbilityButtonUsed;
+        [SerializeField]
+        private Image _abilityIcon;
+        [SerializeField]
+        private TextMeshProUGUI _abilityName;
+        [SerializeField]
+        private HoldableButton _button;
+        public HoldableButton HoldableButton => _button;
 
         private Sprite _noSelectedAbilityIcon;
         public Sprite NoSelectedAbilityIcon
@@ -28,13 +34,7 @@ namespace UIManagement.Elements
         public AbilityView AbilityView { get; private set; }
         public event Action<AbilityButton> Clicked;
         public event Action<AbilityButton> Holded;
-        [SerializeField]
-        private Image _abilityIcon;
-        [SerializeField]
-        private TextMeshProUGUI _abilityName;
-        [SerializeField]
-        private HoldableButton _button;
-        public HoldableButton HoldableButton => _button;
+        public event Action AbilityButtonUsed;
 
         private void Awake()
         {
