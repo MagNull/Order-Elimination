@@ -1,4 +1,4 @@
-using OrderElimination.BattleMap;
+using OrderElimination.BM;
 using UnityEngine;
 
 public class CellGridGenerator : MonoBehaviour

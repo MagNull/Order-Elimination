@@ -15,10 +15,12 @@ public class BattleCharacterFactory : MonoBehaviour
     private AbilityFactory _abilityFactory;
     [SerializeField]
     private AbilityInfo _bite;
+    private IReadOnlyCharacterBank _characterBank;
 
     [Inject]
-    public void Construct(AbilityFactory abilityFactory)
+    public void Construct(AbilityFactory abilityFactory, IReadOnlyCharacterBank characterBank)
     {
+        _characterBank = characterBank;
         _abilityFactory = abilityFactory;
     }
 
@@ -31,7 +33,7 @@ public class BattleCharacterFactory : MonoBehaviour
         if (side == BattleObjectSide.Enemy)
         {
             character = new EnemyDog(_map,
-                new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation());
+                new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation(), _characterBank);
             ((EnemyDog) character).SetDamageAbility(_abilityFactory.CreateAbility(_bite, character));
         }
         else
@@ -48,7 +50,7 @@ public class BattleCharacterFactory : MonoBehaviour
             info.GetViewIcon(),
             info.GetViewAvatar());
 
-        character.View = battleCharacterView.gameObject;
+        character.View = battleCharacterView.gameObject.GetComponent<IBattleObjectView>();
         return character;
     }
 
@@ -64,7 +66,7 @@ public class BattleCharacterFactory : MonoBehaviour
         for (var i = 0; i < infos.Count; i++)
         {
             characters.Add(Create(infos[i], side));
-            characters.Last().View.name = name + " " + i;
+            characters.Last().View.GameObject.name = name + " " + i;
         }
 
         return characters;

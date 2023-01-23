@@ -1,24 +1,26 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using OrderElimination;
-using UnityEngine;
+using OrderElimination.Battle;
 using VContainer;
 
 [Serializable]
 public class CharacterArrangeDirector
 {
     private readonly BattleCharacterFactory _characterFactory;
+    private readonly CharactersBank _charactersBank;
     private readonly List<IBattleCharacterInfo> _enemiesInfo;
 
     private BattleMap _arrangementMap;
     private CharactersMediator _charactersMediator;
 
     [Inject]
-    private CharacterArrangeDirector(CharactersMediator charactersMediator, BattleCharacterFactory characterFactory)
+    private CharacterArrangeDirector(CharactersMediator charactersMediator, BattleCharacterFactory characterFactory,
+        CharactersBank charactersBank)
     {
         _charactersMediator = charactersMediator;
         _characterFactory = characterFactory;
+        _charactersBank = charactersBank;
         _enemiesInfo = _charactersMediator.GetBattleEnemyInfo();
     }
 
@@ -44,6 +46,8 @@ public class CharacterArrangeDirector
             enemySquad[i].Died += OnCharacterDied;
             _arrangementMap.MoveTo(enemySquad[i], _arrangementMap.Width - 1, i);
         }
+        
+        _charactersBank.AddCharactersRange(characters);
 
         return characters;
     }
@@ -51,6 +55,7 @@ public class CharacterArrangeDirector
     private void OnCharacterDied(BattleCharacter battleObject)
     {
         _arrangementMap.DestroyObject(battleObject);
+        _charactersBank.RemoveCharacter(battleObject);
         battleObject.Died -= OnCharacterDied;
     }
 }

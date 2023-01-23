@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using OrderElimination;
 using UnityEngine;
@@ -11,12 +12,12 @@ namespace CharacterAbility.AbilityEffects
         private readonly OverTimeAbilityType _overTimeAbilityType;
         private readonly int _duration;
         private readonly int _tickValue;
-        private ITickEffect _tickEffect;
+        private readonly bool _isUnique;
         private ITickEffectView _effectView;
 
         public OverTimeAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability,
             DamageHealTarget damageHealTarget, OverTimeAbilityType overTimeAbilityType,
-            int duration, int tickValue, BattleObjectSide filter, DamageType damageType, ITickEffectView view) : base(
+            int duration, int tickValue, bool isUnique, BattleObjectSide filter, ITickEffectView view) : base(
             caster, isMain, nextEffect, filter,
             probability)
         {
@@ -24,6 +25,7 @@ namespace CharacterAbility.AbilityEffects
             _overTimeAbilityType = overTimeAbilityType;
             _duration = duration;
             _tickValue = tickValue;
+            _isUnique = isUnique;
             _effectView = view;
         }
 
@@ -31,10 +33,19 @@ namespace CharacterAbility.AbilityEffects
         {
             var tickEffect = _overTimeAbilityType switch
             {
-                OverTimeAbilityType.Damage => new DamageOverTimeEffect(_damageHealTarget, _tickValue, _duration, _effectView),
-                OverTimeAbilityType.Heal => new DamageOverTimeEffect(_damageHealTarget, _tickValue, _duration, _effectView),
+                OverTimeAbilityType.Damage => new DamageOverTimeEffect(_damageHealTarget, _tickValue, _duration,
+                    _isUnique,
+                    _effectView),
+                OverTimeAbilityType.Heal => new DamageOverTimeEffect(_damageHealTarget, _tickValue, _duration,
+                    _isUnique,
+                    _effectView),
                 _ => throw new ArgumentOutOfRangeException(nameof(_overTimeAbilityType), _overTimeAbilityType, null)
             };
+            if (tickEffect.IsUnique && target.AllEffects.Any(ef => ef.Equals(tickEffect)))
+            {
+                await UseNext(target, stats);
+                return;
+            }
             target.AddTickEffect(tickEffect);
 
             await UseNext(target, stats);

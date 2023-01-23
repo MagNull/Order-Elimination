@@ -22,12 +22,16 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _name: "\u0422\u043E\u0447\u043D\u044B\u0439 \u0432\u044B\u0441\u0442\u0440\u0435\u043B"
-  _description: "\u0414\u0430\u0439\u0442\u0435 \u0441\u043D\u0430\u0439\u043F\u0435\u0440\u0443
-    \u0432\u0440\u0435\u043C\u0435\u043D\u044F \u043D\u0430 \u043F\u043E\u0434\u0433\u043E\u0442\u043E\u0432\u043A\u0443,
-    \u0447\u0442\u043E\u0431\u044B \u0443\u0432\u0438\u0434\u0435\u0442\u044C \u0435\u0433\u043E
-    \u0432\u043E \u0432\u0441\u0435\u0439 \u043A\u0440\u0430\u0441\u0435."
+  _description: "\u0415\u0441\u043B\u0438 \u0431\u043E\u0435\u0446 \u043D\u0435 \u043F\u0435\u0440\u0435\u0434\u0432\u0438\u0433\u0430\u043B\u0441\u044F,
+    \u043C\u043E\u0436\u043D\u043E \u0441\u0434\u0435\u043B\u0430\u0442\u044C \u0443\u0441\u0438\u043B\u0435\u043D\u043D\u044B\u0439
+    \u0432\u044B\u0441\u0442\u0440\u0435\u043B.\n\u041C\u043E\u0436\u043D\u043E \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u044C
+    \u0442\u043E\u043B\u044C\u043A\u043E \u0435\u0441\u043B\u0438 \u0431\u043E\u0435\u0446
+    \u043D\u0435 \u043F\u0440\u0435\u0434\u043F\u0440\u0438\u043D\u0438\u043C\u0430\u043B
+    \u0434\u0440\u0443\u0433\u0438\u0445 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439
+    \u0432 \u044D\u0442\u043E\u043C \u0445\u043E\u0434\u0443."
   _coolDown: 1
   _startCoolDown: 0
+  _notTriggerCast: 0
   <Icon>k__BackingField: {fileID: 21300000, guid: 59d6ee10d55fe2748b1726b2b2dede83, type: 3}
   <ActionType>k__BackingField: 2
   _type: 0
@@ -50,7 +54,9 @@ MonoBehaviour:
       StepDelay: 0
       Modificator: 0
       ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
       BuffType: 0
+      IsUnique: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: 0
@@ -60,6 +66,7 @@ MonoBehaviour:
       TickValue: 0
       DamageType: 2
       Distance: 0
+      TriggerEffects: []
       ShowInAbilityDescription: 1
       EffectView:
         _effectName: 
@@ -68,8 +75,20 @@ MonoBehaviour:
         _displayWhenApplied: 0
     _hasAreaEffect: 0
     _areaRadius: 0
-    _lightTargetsSide: 0
     _areaEffects: []
+    _hasPatternTargetEffect: 0
+    _hasMaxDistance: 0
+    _patternMaxDistance: 0
+    _pattern: []
+    _patternEffects: []
+    _lightTargetsSide: 0
   _passiveParams:
     _effects: []
     _triggerType: 0
+    _moveToTrigger:
+      rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

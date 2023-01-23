@@ -179,7 +179,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 1
-  m_Spacing: 17
+  m_Spacing: 20
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -562,6 +562,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _width: 8
   _height: 8
+  _activeEnvironmentObjects:
+    m_Keys: []
+    m_Values: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!4 &246195460
 Transform:
   m_ObjectHideFlags: 0
@@ -828,7 +834,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 100
+  m_Spacing: 70
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -885,11 +891,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4348735063725258877, guid: 0d5b985be2f358d488519fa56fc1d384, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 86
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4348735063725258877, guid: 0d5b985be2f358d488519fa56fc1d384, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 86
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4348735063725258877, guid: 0d5b985be2f358d488519fa56fc1d384, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3720,15 +3726,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2134820545498950732, guid: 3f57e9f7ecaf59446bfb09ee9f0277a5, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 88
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2134820545498950732, guid: 3f57e9f7ecaf59446bfb09ee9f0277a5, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 88
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2134820545498950732, guid: 3f57e9f7ecaf59446bfb09ee9f0277a5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 31
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 2134820545498950732, guid: 3f57e9f7ecaf59446bfb09ee9f0277a5, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -4467,7 +4473,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1908500042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4484,9 +4490,9 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: dc7552cb19317d642ad2af92d805c557, type: 2}
-    - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
-    - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
+    - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
+    - {fileID: 11400000, guid: 04588733ccd1f2a4bb0aad35a508b4de, type: 2}
+    - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
     - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -6140,11 +6146,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4348735063725258877, guid: 0d5b985be2f358d488519fa56fc1d384, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 86
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4348735063725258877, guid: 0d5b985be2f358d488519fa56fc1d384, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 86
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4348735063725258877, guid: 0d5b985be2f358d488519fa56fc1d384, type: 3}
       propertyPath: m_LocalPosition.x

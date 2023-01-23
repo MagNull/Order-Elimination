@@ -12,4 +12,6 @@ public interface IActor : IBattleObject
     public void AddAction(ActionType actionType);
 
     public void ClearActions();
+
+    public void OnCasted(ActionType actionType);
 }

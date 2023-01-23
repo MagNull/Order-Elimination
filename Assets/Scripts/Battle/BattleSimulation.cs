@@ -3,16 +3,17 @@ using UnityEngine;
 using System;
 using System.Linq;
 using CharacterAbility;
+using Cysharp.Threading.Tasks;
 using OrderElimination;
-using OrderElimination.BattleMap;
+using OrderElimination.BM;
 using VContainer;
 using UIManagement.Elements;
 using UIManagement;
 
 public class BattleSimulation : MonoBehaviour
 {
-    public static event Action RoundStarted;
-    public static event Action PlayerTurnEnd;
+    public static event Action PlayerTurnStarted;
+    public static event Action EnemyTurnStarted;
 
     public static event Action<BattleOutcome> BattleEnded;
 
@@ -52,6 +53,7 @@ public class BattleSimulation : MonoBehaviour
     public void Start()
     {
         InitializeBattlefield();
+        _battleMapDirector.MapView.InitStartUnitSelection();
     }
 
     public void Update()
@@ -74,7 +76,7 @@ public class BattleSimulation : MonoBehaviour
                 // Событие начала хода игрока отправляется один раз для каждого хода
                 if (_isTurnChanged)
                 {
-                    RoundStarted?.Invoke();
+                    PlayerTurnStarted?.Invoke();
                     _isTurnChanged = false;
                     Debug.Log("Начался ход игрока" % Colorize.Green);
                 }
@@ -83,7 +85,7 @@ public class BattleSimulation : MonoBehaviour
             {
                 if (_isTurnChanged)
                 {
-                    PlayerTurnEnd?.Invoke();
+                    EnemyTurnStarted?.Invoke();
                     _isTurnChanged = false;
                     Debug.Log("Начался ход противника" % Colorize.Red);
                 }
@@ -102,10 +104,6 @@ public class BattleSimulation : MonoBehaviour
         }
 
     }
-
-    // Тестовые методы
-    public void AwardPlayerVictory() => _outcome = BattleOutcome.Victory;
-    public void AwardPlayerDefeat() => _outcome = BattleOutcome.Defeat;
 
     public void CheckBattleOutcome()
     {
@@ -165,13 +163,12 @@ public class BattleSimulation : MonoBehaviour
 
         var enemies = _characters
             .Where(c => c.Side == BattleObjectSide.Enemy)
-            .Select(c => c.View.GetComponent<BattleCharacterView>())
+            .Select(c => c.View.GameObject.GetComponent<BattleCharacterView>())
             .ToArray();
         _enemiesListPanel.Populate(enemies);
         foreach (var e in enemies)
         {
-            e.Model.Died -= _enemiesListPanel.RemoveItem;
-            e.Model.Died += _enemiesListPanel.RemoveItem;
+            e.Disabled += _enemiesListPanel.RemoveItem;
         }
         _abilityViewBinder.BindAbilityButtons(_battleMapDirector.MapView, _abilityPanel, _currentTurn);
         //TODO затрагивает UI

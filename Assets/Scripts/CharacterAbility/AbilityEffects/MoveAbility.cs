@@ -2,7 +2,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using OrderElimination;
-using OrderElimination.BattleMap;
+using OrderElimination.BM;
 using UnityEngine;
 
 namespace CharacterAbility.AbilityEffects
@@ -40,9 +40,8 @@ namespace CharacterAbility.AbilityEffects
 
             var path = _battleMap.GetShortestPath(_caster, targetPosition.x, targetPosition.y);
 
-            var turnEnded = false;
             CancellationTokenSource cancellationToken = new CancellationTokenSource();
-            BattleSimulation.PlayerTurnEnd += () => cancellationToken.Cancel();
+            BattleSimulation.EnemyTurnStarted += () => cancellationToken.Cancel();
             var canceled = false;
             foreach (var cell in path)
             {

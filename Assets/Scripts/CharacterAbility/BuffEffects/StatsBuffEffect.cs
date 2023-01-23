@@ -9,24 +9,31 @@ namespace CharacterAbility.BuffEffects
         [SerializeField]
         private Buff_Type _statType;
         [SerializeField]
-        private readonly float _modifier;
-        private float _buffedValueAddition;
+        private float _modifier;
+        [SerializeField]
+        private bool _isMultiplier;
+        [SerializeField]
+        private readonly ScaleFromWhom _scaleFromWhom;
         public float Modifier => _modifier;
+        private float _buffedValueAddition;
 
-        public bool IsMultiplier { get; }
-        public ScaleFromWhom ScaleFromWhom { get; }
+        public bool IsMultiplier => _isMultiplier;
+
+        public ScaleFromWhom ScaleFromWhom => _scaleFromWhom;
 
         public Buff_Type StatType => _statType;
 
         public IBattleObject Caster { get; }
 
-        public StatsBuffEffect(Buff_Type statType, float modifier, ScaleFromWhom scaleFromWhom, int duration,
-            bool isMultiplier, IBattleObject caster, ITickEffectView tickEffectView) : base(duration, tickEffectView)
+        public StatsBuffEffect(bool isUnique, Buff_Type statType, float modifier, ScaleFromWhom scaleFromWhom,
+            int duration,
+            bool isMultiplier, IBattleObject caster, ITickEffectView tickEffectView) : base(duration, tickEffectView,
+            isUnique)
         {
             _statType = statType;
             _modifier = modifier;
-            ScaleFromWhom = scaleFromWhom;
-            IsMultiplier = isMultiplier;
+            _scaleFromWhom = scaleFromWhom;
+            _isMultiplier = isMultiplier;
             Caster = caster;
         }
 
@@ -53,8 +60,7 @@ namespace CharacterAbility.BuffEffects
                     break;
                 case Buff_Type.AdditionalArmor:
                     newStats.AdditionalArmor =
-                        GetModifiedValue(target.Stats.AdditionalArmor, scaleTarget.Stats.UnmodifiedArmor) -
-                        scaleTarget.Stats.UnmodifiedArmor;
+                        GetModifiedValue(target.Stats.AdditionalArmor, scaleTarget.Stats.UnmodifiedArmor);
                     break;
             }
 
@@ -92,12 +98,21 @@ namespace CharacterAbility.BuffEffects
         private int GetModifiedValue(int value, int scaleValue)
         {
             _buffedValueAddition = IsMultiplier ? scaleValue * (1 + Modifier) - value : Modifier;
-            return Mathf.RoundToInt(IsMultiplier ? scaleValue * (1 + Modifier) : value + Modifier);
+            return Mathf.RoundToInt(IsMultiplier ? value + scaleValue * Modifier : value + Modifier);
         }
 
         private int GetUnmodifiedValue(int value)
         {
             return Mathf.RoundToInt(value - _buffedValueAddition);
+        }
+
+        public override bool Equals(ITickEffect tickEffect)
+        {
+            return tickEffect is StatsBuffEffect statsBuffEffect && statsBuffEffect.StatType == StatType &&
+                   Math.Abs(statsBuffEffect.Modifier - Modifier) < 0.01f &&
+                   statsBuffEffect.IsMultiplier == IsMultiplier &&
+                   statsBuffEffect.ScaleFromWhom == ScaleFromWhom &&
+                   statsBuffEffect.StartDuration == StartDuration;
         }
     }
 }

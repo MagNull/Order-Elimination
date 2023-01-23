@@ -3,7 +3,7 @@ using CharacterAbility.BuffEffects;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace OrderElimination.BattleMap
+namespace OrderElimination.BM
 {
     [CreateAssetMenu( fileName = "Environment Object", menuName = "Map/Environment Object" )]
     public class EnvironmentInfo : SerializedScriptableObject

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IBattleCharacterInfo
 {
-    public BattleStats GetBattleStats();
+    public IReadOnlyBattleStats GetBattleStats();
     public string GetName();
     public Sprite GetViewIcon();
     public Sprite GetViewAvatar();

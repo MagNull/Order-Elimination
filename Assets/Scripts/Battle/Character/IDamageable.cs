@@ -29,6 +29,7 @@ public struct DamageInfo
     public int Accuracy;
     public DamageType DamageType;
     public IBattleObject Attacker;
+    public IBattleObject Target;
     public DamageModificator DamageModificator;
     public DamageHealTarget DamageHealTarget;
 }
@@ -38,7 +39,6 @@ public struct TakeDamageInfo
     public int ArmorDamage;
     public DamageCancelType CancelType;
     public IBattleObject Attacker;
-    public IBattleObject Target;
 }
 
 public interface IDamageable
