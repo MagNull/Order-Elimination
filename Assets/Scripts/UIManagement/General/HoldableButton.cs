@@ -26,6 +26,8 @@ namespace UIManagement.Elements
         [SerializeField]
         public int MillisecondsToHold = 700;
         [SerializeField]
+        public Color DefaultTint = Color.white;
+        [SerializeField]
         public Color ClickUnavalableTint = Color.white;
 
         [SerializeField]
@@ -56,9 +58,15 @@ namespace UIManagement.Elements
 
         public void UpdateVisuals()
         {
-            targetGraphic.color = Color.white;
+            targetGraphic.color = DefaultTint;
             if (!ClickAvailable)
                 targetGraphic.color = ClickUnavalableTint;
+        }
+
+        public void SetImageTint(Color tintColor)
+        {
+            DefaultTint = tintColor;
+            UpdateVisuals();
         }
 
         protected override void OnEnable()

@@ -96,8 +96,8 @@ namespace CharacterAbility
                 if (statsBuffEffect.ScaleFromWhom == ScaleFromWhom.Target)
                 {
                     value = statsBuffEffect.IsMultiplier
-                    ? $"+{statsBuffEffect.Modifier * 100}%"
-                    : $"+{statsBuffEffect.Modifier}";
+                    ? $"{(statsBuffEffect.Modifier > 1 ? "+" : "")}{statsBuffEffect.Modifier * 100}%"
+                    : $"{(statsBuffEffect.Modifier >= 0 ? "+" : "")}{statsBuffEffect.Modifier}";
                 }
                 else if (statsBuffEffect.ScaleFromWhom == ScaleFromWhom.Caster)
                 {
@@ -111,7 +111,8 @@ namespace CharacterAbility
                         Buff_Type.AdditionalArmor => statsBuffEffect.Caster.Stats.UnmodifiedArmor,
                         _ => throw new NotImplementedException()
                     };
-                    value = $"{GetModifiedValue(statValue, statValue)}";
+                    var modValue = GetModifiedValue(statValue, statValue);
+                    value = $"{(modValue > 0 ? "+" : "")}{modValue}";
                 }
                 else
                     throw new NotImplementedException();
@@ -133,7 +134,8 @@ namespace CharacterAbility
                 switch (incomingBuff.IncomingBuffType)
                 {
                     case Buff_Type.IncomingAccuracy:
-                        result.AddDisplayedParameter("Вход. точность", $"+{ incomingBuff.Modificator }");
+                        var sign = incomingBuff.Modificator >= 0 ? "+" : "";
+                        result.AddDisplayedParameter("Вход. точность", $"{sign}{ incomingBuff.Modificator }");
                         break;
                     case Buff_Type.IncomingDamageIncrease:
                         result.AddDisplayedParameter("Урон взрывом", $"+{ (incomingBuff.Modificator - 1) * 100 }%");
@@ -214,12 +216,12 @@ namespace CharacterAbility
             {
                 result.AddDisplayedParameter("Дальность", casterStats.UnmodifiedMovement);
             }
-            else if (effect.Type == AbilityEffectType.Stun)
-            {
-
-            }
             else if (effect.Type != AbilityEffectType.Modificator)
-                throw new NotImplementedException($"EffectType {effect.Type} cannot be displayed since it is not implemented.");
+            {
+                var message = $"EffectType {effect.Type} cannot be displayed since it's parameters haven't been described.";
+                Debug.LogError(message);
+                //throw new NotImplementedException(message);
+            }
             return result;
         }
 

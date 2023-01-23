@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,25 +15,22 @@ namespace UIManagement
 {
     public class SquadListPanel : UIPanel
     {
-        [SerializeField] private CharacterList _characterList;
+        [SerializeField] private CharacterAvatarsList _characterList;
         public override PanelType PanelType => PanelType.SquadList;
-
-        public void UpdateSquadListPanel(List<BattleCharacterView> squadCharacters)
-        {
-            Debug.Log("1");
-            _characterList.HasExperienceRecieved = false;
-            _characterList.HasMaintenanceCost = true;
-            _characterList.HasParameters = true;
-            _characterList.Add(squadCharacters.ToArray());
-        }
         
-        public void UpdateSquadListPanel(List<Character> squadCharacters)
+        [Button]
+        public void UpdateSquadInfo(List<Character> squadCharacters)
         {
             _characterList.Clear();
-            _characterList.HasExperienceRecieved = false;
-            _characterList.HasMaintenanceCost = false;
-            _characterList.HasParameters = false;
-            _characterList.Add(squadCharacters.ToArray());
+            _characterList.Populate(squadCharacters.ToArray());
+            _characterList.ElementHolded -= OnCharacterAvatarHolded;
+            _characterList.ElementHolded += OnCharacterAvatarHolded;
+        }
+
+        private void OnCharacterAvatarHolded(CharacterClickableAvatar characterAvatar)
+        {
+            var characterPanel = (CharacterDescriptionPanel)UIController.SceneInstance.OpenPanel(PanelType.CharacterDescription);
+            characterPanel.UpdateCharacterDescription(characterAvatar.CurrentCharacterInfo);
         }
     }
 }

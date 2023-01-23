@@ -28,6 +28,8 @@ namespace OrderElimination
         [SerializeField]
         [Range(0, float.MaxValue)]
         private float _expirience;
+        [SerializeField]
+        private int _currencyReward;
 
         public Vector3 Position => _position;
         public IReadOnlyList<PathInfo> Paths => _paths;
@@ -36,6 +38,7 @@ namespace OrderElimination
         public float ChanceOfFighting => _chanceOfFighting;
         public float ChanceOfFightingBack => _chanceOfFightingBack;
         public float Experience => _expirience;
+        public int CurrencyReward => _currencyReward;
 
         public List<IBattleCharacterInfo> Enemies => _enemies;
     }

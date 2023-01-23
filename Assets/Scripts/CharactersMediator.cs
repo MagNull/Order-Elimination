@@ -18,5 +18,8 @@ namespace OrderElimination
 
         public List<IBattleCharacterInfo> GetBattleCharactersInfo() => _battleStatsList;
         public List<IBattleCharacterInfo> GetBattleEnemyInfo() => _enemies;
+
+        public PlanetInfo PlanetInfo { get; set; }
+
     }
 }

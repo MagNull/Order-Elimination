@@ -19,6 +19,8 @@ namespace UIManagement
         private UIController _panelController;
         [SerializeField]
         private Sprite _noSelectedAbilityIcon;
+        [SerializeField]
+        private Color _selectedAbilityTint;
         private Dictionary<AbilityView, AbilityButton> _buttonsByView = new();
         private AbilityView[] _currentPassiveSkills;
 
@@ -60,13 +62,23 @@ namespace UIManagement
             }
         }
 
-        public void Select(AbilityView abilityView)
+        private void Select(AbilityView abilityView)
         {
             if (abilityView == null)
                 return;
             if (!_buttonsByView.ContainsKey(abilityView))
                 throw new KeyNotFoundException($"No ability \"{abilityView.Name}\" assigned.");
             _buttonsByView[abilityView].Select();
+        }
+
+        public void SelectFirstAvailableAbility()
+        {
+            var firstAvailableAbilityButton = _activeAbilityButtons.FirstOrDefault(b => b.AbilityView.CanCast);
+            if (firstAvailableAbilityButton != null)
+            {
+                OnActiveAbilityButtonClicked(firstAvailableAbilityButton);
+                firstAvailableAbilityButton.Select();
+            }
         }
 
         public void AssignAbilities(AbilityView[] activeAbilitiesView, AbilityView[] passiveAbilitiesView)
@@ -85,7 +97,7 @@ namespace UIManagement
 
             for (var j = 0; j < passiveAbilitiesView.Length; j++)
             {
-                _passiveAbilityButtons[j].AssignAbilityView(passiveAbilitiesView[j]);
+                _passiveAbilityButtons[j].AssignAbilityView(passiveAbilitiesView[j].AbilityInfo);
             }
 
             _currentPassiveSkills = passiveAbilitiesView;
@@ -112,10 +124,17 @@ namespace UIManagement
         {
             foreach (var button in _activeAbilityButtons)
             {
-                if (button != abilityButton)
+                button.HoldableButton.SetImageTint(Color.white);
+                if (button == abilityButton)
                 {
-                    button.CancelAbilityCast();
+                    var tint = button.AbilityView.Casting
+                        ? Color.white
+                        : _selectedAbilityTint;
+                    button.HoldableButton.SetImageTint(tint);
+
                 }
+                else
+                    button.CancelAbilityCast();
             }
         }
 
@@ -136,7 +155,7 @@ namespace UIManagement
         private void OnPassiveAbilityButtonClicked(SmallAbilityButton skillButton)
         {
             var panel = _panelController.OpenPanel(PanelType.PassiveSkillsDescription) as PassiveSkillDescriptionPanel;
-            panel.AssignPassiveSkillsDescription(_currentPassiveSkills);
+            panel.AssignPassiveSkillsDescription(_currentPassiveSkills.Select(v => v.AbilityInfo).ToArray());
         }
     }
 }

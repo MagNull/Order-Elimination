@@ -103,7 +103,7 @@ namespace UIManagement.Elements
         private void OnAvatarButtonPressed(HoldableButton avatarButton)
         {
             var characterDescriptionPanel =
-                (CharacterDescriptionPanel) UIController.SceneInstance.OpenPanel(PanelType.CharacterDetails);
+                (CharacterDescriptionPanel) UIController.SceneInstance.OpenPanel(PanelType.CharacterDescription);
             characterDescriptionPanel.UpdateCharacterDescription(currentCharacterView);
         }
 

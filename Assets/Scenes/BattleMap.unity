@@ -1024,17 +1024,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f1ebf8ef4b5c3e4eabdc4908dc7f1a0, type: 3}
---- !u!114 &510975900 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7757086359464916482, guid: 8f1ebf8ef4b5c3e4eabdc4908dc7f1a0, type: 3}
-  m_PrefabInstance: {fileID: 510975899}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6551670daf961648abc7bd511af8e7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &537977522
 GameObject:
   m_ObjectHideFlags: 0
@@ -1247,6 +1236,7 @@ MonoBehaviour:
   - {fileID: 501649043}
   _panelController: {fileID: 303436862}
   _noSelectedAbilityIcon: {fileID: 21300000, guid: f764553ebf728194a84366e09d32151a, type: 3}
+  _selectedAbilityTint: {r: 0, g: 1, b: 0.5594096, a: 1}
 --- !u!222 &700708827
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2638,17 +2628,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63d619c25f30b624db0226f6dac55674, type: 3}
---- !u!114 &965101512 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3269158279692303121, guid: 63d619c25f30b624db0226f6dac55674, type: 3}
-  m_PrefabInstance: {fileID: 965101511}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6551670daf961648abc7bd511af8e7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &965101513 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2451998882916656243, guid: 63d619c25f30b624db0226f6dac55674, type: 3}
@@ -3153,8 +3132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d3b83d650f83b44d957e0e2574a0a0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _winWindow: {fileID: 510975900}
-  _defeatWindow: {fileID: 965101512}
 --- !u!1 &1239340652
 GameObject:
   m_ObjectHideFlags: 0
@@ -4222,6 +4199,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 20fa44539c2bdd540a6ddbf2cc32ccfe, type: 3}
   - {fileID: 8300000, guid: 99c27bb601dc7e34890b0f27ba42fadc, type: 3}
   _tutorialMusic: {fileID: 8300000, guid: 66d526ef30eaf3a45a0e50133e9ad2cc, type: 3}
+  _audioSource: {fileID: 1746944115}
 --- !u!82 &1746944115
 AudioSource:
   m_ObjectHideFlags: 0

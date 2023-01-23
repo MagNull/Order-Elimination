@@ -13,11 +13,12 @@ public class RandomBattleMusicPicker : MonoBehaviour
     private AudioClip[] _musicClips;
     [SerializeField]
     private AudioClip _tutorialMusic;
+    [SerializeField]
     private AudioSource _audioSource;
 
-    private void Awake()
+    private void OnEnable()
     {
-        _audioSource = GetComponent<AudioSource>();
+        //_audioSource = GetComponent<AudioSource>();
         if (PlayerPrefs.GetInt("Battle Tutorial") > 0)
             PlayTutorialMusic();
         else

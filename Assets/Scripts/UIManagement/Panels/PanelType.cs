@@ -13,7 +13,7 @@ namespace UIManagement
         ExplorationResult, // Exploration - исследование // Scouting - разведка
         BattleVictory, 
         BattleDefeat, 
-        CharacterDetails, 
+        CharacterDescription, 
         AbilityDescription,
         PassiveSkillsDescription,
         EffectsDesriptionList

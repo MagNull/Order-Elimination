@@ -9,61 +9,19 @@ using UnityEngine.UI;
 
 namespace UIManagement.trashToRemove_Mockups
 {
-    public class ExplorationResult
-    {
-        public int PrimaryCurrencyRecieved = Random.Range(0, 500);
-        public int SpecialCurrencyRecieved = Random.Range(0, 20);
-        public int ExperienceAmount = Random.Range(0, 200);
-        public List<BattleCharacterView> SquadCharacters = GetSquadCharacters();
-        public List<Powerup> PowerupsRecieved = GetPowerups();
-
-        private static List<BattleCharacterView> GetSquadCharacters()
-        {
-            var characters = new BattleCharacterView[Random.Range(1, 5)];
-            for (var i = 0; i < characters.Length; i++)
-            {
-                characters[i] = null;
-            }
-            return characters.ToList();
-        }
-
-        private static List<Powerup> GetPowerups()
-        {
-            var powerups = new Powerup[Random.Range(1, 5)];
-            for (var i = 0; i < powerups.Length; i++)
-            {
-                powerups[i] = new Powerup();
-            }
-            return powerups.ToList();
-        }
-    }
-
     public class BattleResult
     {
-        public int PrimaryCurrencyRecieved = Random.Range(0, 500);
-        public int SpecialCurrencyRecieved = Random.Range(0, 20);
-        public int ExperienceAmount = Random.Range(0, 200);
-        public List<BattleCharacterView> SquadCharacters = GetSquadCharacters();
-        public List<Powerup> PowerupsRecieved = GetPowerups();
+        public readonly BattleOutcome Outcome;
+        public readonly Character[] SquadCharacters;
+        public readonly int PrimaryCurrencyReceived;
+        public readonly int SpecialCurrencyReceived;
 
-        private static List<BattleCharacterView> GetSquadCharacters()
+        public BattleResult(BattleOutcome outcome, Character[] squadCharacters, int primaryCurrencyReceived, int specialCurrencyReceived)
         {
-            var characters = new BattleCharacterView[Random.Range(1, 5)];
-            for (var i = 0; i < characters.Length; i++)
-            {
-                characters[i] = new BattleCharacterView();
-            }
-            return characters.ToList();
-        }
-
-        private static List<Powerup> GetPowerups()
-        {
-            var powerups = new Powerup[Random.Range(1, 20)];
-            for (var i = 0; i < powerups.Length; i++)
-            {
-                powerups[i] = new Powerup();
-            }
-            return powerups.ToList();
+            Outcome = outcome;
+            SquadCharacters = squadCharacters;
+            PrimaryCurrencyReceived = primaryCurrencyReceived;
+            SpecialCurrencyReceived = specialCurrencyReceived;
         }
     }
 
@@ -71,25 +29,6 @@ namespace UIManagement.trashToRemove_Mockups
     {
         public Sprite Icon;
     }
-
-    #region Character
-
-    public class StrategyStats
-    {
-        public float BuyPrice { get; } = Random.Range(10, 800);
-        public float MaintenanceCost { get; } = Random.Range(10, 800);
-    }
-
-    public class Character
-    {
-        public string Name { get; } = $"Soldier {Random.Range(0, 76)}";
-        public bool IsDead = Random.Range(0, 100) < 20;
-        private readonly BattleStats battleStats = new BattleStats();
-        private readonly StrategyStats strategyStats = new StrategyStats();
-        public IReadOnlyBattleStats GetBattleStats() => battleStats;
-        public StrategyStats GetStrategyStats() => strategyStats;
-    }
-    #endregion Character
 
     public class Localization
     {
@@ -105,7 +44,7 @@ namespace UIManagement.trashToRemove_Mockups
             {PanelType.BattleDefeat, "Поражение"}, 
             {PanelType.AbilityDescription, "Описание способности"}, 
             {PanelType.PassiveSkillsDescription, "Пассивные навыки"}, 
-            {PanelType.CharacterDetails, "Информация о бойце"}, 
+            {PanelType.CharacterDescription, "Информация о бойце"}, 
             {PanelType.EffectsDesriptionList, "Описание эффектов"}, 
         };
         private Dictionary<ValueUnits, string> _unitNames
@@ -123,8 +62,10 @@ namespace UIManagement.trashToRemove_Mockups
                 { Buff_Type.Attack, "Атака" },
                 { Buff_Type.Health, "Здоровье" },
                 { Buff_Type.Evasion, "Уклонение" },
-                { Buff_Type.IncomingAccuracy, "Входящая точность" },
-                { Buff_Type.IncomingDamageIncrease, "Входящий урон" },
+                { Buff_Type.IncomingAccuracy, "Вход. точность" },
+                { Buff_Type.IncomingDamageIncrease, "Вход. урон" },
+                { Buff_Type.Accuracy, "Точность" },
+                { Buff_Type.AdditionalArmor, "Доп. броня" },
         };
         private Dictionary<OverTimeAbilityType, string> _overtimeTypeNames
             = new Dictionary<OverTimeAbilityType, string>()
@@ -147,39 +88,5 @@ namespace UIManagement.trashToRemove_Mockups
 
         //public static void SetSoundVolume(float fractuteValue) { }
         //public static void SetMusicVolume(float fractuteValue) { }
-    }
-
-    public class PlanetPointOrderInfo
-    {
-        public class OrderInfoParameter
-        {
-            public readonly string Name;
-            public readonly string Description;
-            public float Value;
-            [SerializeField] private readonly Sprite _icon;
-
-            public OrderInfoParameter(string name, float value, string description = "")
-            {
-                Name = name; Value = value; Description = description;
-            }
-
-            public override string ToString()
-                => $"{Name}: {Value}";
-        }
-
-        public List<OrderInfoParameter> ExplorationParameters
-            = new List<OrderInfoParameter>()
-            {
-                new OrderInfoParameter("Предметы", 20, "Шанс находки предметов"),
-                new OrderInfoParameter("Опыт", 30, "Процент получаемого опыта"),
-                new OrderInfoParameter("Шанс отпора", 10, "Вероятность начала боя"),
-            };
-
-        public float ExploreItemsFindChance = 20;
-        public float ExploreExperiencePercent = 30;
-        public float ExploreAmbushChance = 10;
-        public float BattleItemsFindChance = 30;
-        public float BattleExperiencePercent = 100;
-        public int BattleEnemyLevel = Random.Range(1, 8);
     }
 }
