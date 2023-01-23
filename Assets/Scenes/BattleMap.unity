@@ -1108,7 +1108,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1136108542}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BattleSimulation, Assembly-CSharp
         m_MethodName: CheckBattleOutcome
         m_Mode: 1
@@ -1236,7 +1236,7 @@ MonoBehaviour:
   - {fileID: 501649043}
   _panelController: {fileID: 303436862}
   _noSelectedAbilityIcon: {fileID: 21300000, guid: f764553ebf728194a84366e09d32151a, type: 3}
-  _selectedAbilityTint: {r: 0, g: 0, b: 0, a: 0}
+  _selectedAbilityTint: {r: 0, g: 1, b: 0.5594096, a: 1}
 --- !u!222 &700708827
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3081,7 +3081,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1136108543}
-  - component: {fileID: 1136108542}
+  - component: {fileID: 1136108545}
   - component: {fileID: 1136108544}
   m_Layer: 0
   m_Name: Battle Simulator
@@ -3090,7 +3090,34 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1136108542
+--- !u!4 &1136108543
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136108541}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1136108544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136108541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d3b83d650f83b44d957e0e2574a0a0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1136108545
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3124,7 +3151,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 4
     - Name: 
       Entry: 7
       Data: 
@@ -3146,10 +3173,56 @@ MonoBehaviour:
       Data: 0
     - Name: 
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: 
       Entry: 8
       Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
     - Name: 
       Entry: 7
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
@@ -3171,6 +3244,134 @@ MonoBehaviour:
     - Name: 
       Entry: 3
       Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 7
+      Data: 4|System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 3
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -3191,14 +3392,18 @@ MonoBehaviour:
       Data: 
     - Name: _enemyPositions
       Entry: 7
-      Data: 3|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[System.Collections.Generic.List`1[[UnityEngine.Vector2Int,
+      Data: 6|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[System.Collections.Generic.List`1[[UnityEngine.Vector2Int,
         UnityEngine.CoreModule]], mscorlib]], mscorlib
     - Name: comparer
-      Entry: 9
-      Data: 1
+      Entry: 7
+      Data: 7|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 4
     - Name: 
       Entry: 7
       Data: 
@@ -3207,11 +3412,11 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 7
-      Data: 4|System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
+      Data: 8|System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
         mscorlib
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 5
     - Name: 
       Entry: 7
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
@@ -3245,6 +3450,276 @@ MonoBehaviour:
     - Name: 
       Entry: 3
       Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 7
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 3
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 7
+      Data: 9|System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 5
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 7
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 3
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 5
+    - Name: 
+      Entry: 3
+      Data: 7
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 7
+      Data: 10|System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 5
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 7
+    - Name: 
+      Entry: 3
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 3
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 5
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 7
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 7
+      Data: 11|System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 5
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 3
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 5
+    - Name: 
+      Entry: 3
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 3
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 3
+      Data: 6
     - Name: 
       Entry: 8
       Data: 
@@ -3266,33 +3741,6 @@ MonoBehaviour:
   _abilityPanel: {fileID: 700708824}
   _selectedPlayerCharacterStatsPanel: {fileID: 1660044134}
   _enemiesListPanel: {fileID: 1239340654}
---- !u!4 &1136108543
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1136108541}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1136108544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1136108541}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d3b83d650f83b44d957e0e2574a0a0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1239340652
 GameObject:
   m_ObjectHideFlags: 0
@@ -3552,7 +4000,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1136108542}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BattleSimulation, Assembly-CSharp
         m_MethodName: EndTurn
         m_Mode: 1
@@ -4040,7 +4488,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1455424413}
-  - component: {fileID: 1455424412}
+  - component: {fileID: 1455424414}
   m_Layer: 0
   m_Name: Bootstrap
   m_TagString: Untagged
@@ -4048,7 +4496,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1455424412
+--- !u!4 &1455424413
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455424411}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1740.561, y: 335.61203, z: 0.02429752}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1455424414
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4070,23 +4533,118 @@ MonoBehaviour:
   _battleMapDirector:
     _generator: {fileID: 246195457}
     _battleMapView: {fileID: 246195458}
-    _environmentObjects: []
+    _environmentObjects:
+    - m_Keys:
+      - {x: 1, y: 4}
+      - {x: 2, y: 0}
+      - {x: 5, y: 1}
+      - {x: 5, y: 4}
+      - {x: 5, y: 6}
+      - {x: 3, y: 4}
+      - {x: 1, y: 5}
+      - {x: 1, y: 6}
+      - {x: 4, y: 2}
+      - {x: 4, y: 3}
+      - {x: 4, y: 7}
+      - {x: 6, y: 6}
+      m_Values:
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 1a7c0bcf01e08c243ad4ea350defc9e4, type: 2}
+      - {fileID: 11400000, guid: 8effdc832b65f4744a8bad02d31428dd, type: 2}
+      - {fileID: 11400000, guid: 1a7c0bcf01e08c243ad4ea350defc9e4, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 8effdc832b65f4744a8bad02d31428dd, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+    - m_Keys:
+      - {x: 1, y: 5}
+      - {x: 2, y: 3}
+      - {x: 3, y: 3}
+      - {x: 3, y: 4}
+      - {x: 3, y: 5}
+      - {x: 3, y: 7}
+      - {x: 5, y: 5}
+      - {x: 4, y: 0}
+      - {x: 4, y: 1}
+      - {x: 4, y: 2}
+      - {x: 6, y: 3}
+      m_Values:
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 1a7c0bcf01e08c243ad4ea350defc9e4, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 8effdc832b65f4744a8bad02d31428dd, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 8effdc832b65f4744a8bad02d31428dd, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+    - m_Keys:
+      - {x: 0, y: 3}
+      - {x: 1, y: 4}
+      - {x: 1, y: 6}
+      - {x: 2, y: 4}
+      - {x: 2, y: 5}
+      - {x: 2, y: 6}
+      - {x: 3, y: 2}
+      - {x: 3, y: 7}
+      - {x: 5, y: 2}
+      - {x: 5, y: 3}
+      - {x: 6, y: 1}
+      - {x: 6, y: 4}
+      m_Values:
+      - {fileID: 11400000, guid: 8effdc832b65f4744a8bad02d31428dd, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 1a7c0bcf01e08c243ad4ea350defc9e4, type: 2}
+      - {fileID: 11400000, guid: 8effdc832b65f4744a8bad02d31428dd, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 8effdc832b65f4744a8bad02d31428dd, type: 2}
+      - {fileID: 11400000, guid: 1a7c0bcf01e08c243ad4ea350defc9e4, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+    - m_Keys:
+      - {x: 0, y: 1}
+      - {x: 1, y: 0}
+      - {x: 0, y: 5}
+      - {x: 1, y: 5}
+      - {x: 1, y: 6}
+      - {x: 3, y: 1}
+      - {x: 4, y: 1}
+      - {x: 4, y: 2}
+      - {x: 6, y: 0}
+      - {x: 4, y: 6}
+      - {x: 4, y: 7}
+      - {x: 5, y: 6}
+      - {x: 5, y: 4}
+      - {x: 6, y: 4}
+      - {x: 7, y: 4}
+      - {x: 7, y: 3}
+      m_Values:
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 8effdc832b65f4744a8bad02d31428dd, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 1a7c0bcf01e08c243ad4ea350defc9e4, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 1a7c0bcf01e08c243ad4ea350defc9e4, type: 2}
+      - {fileID: 11400000, guid: 8effdc832b65f4744a8bad02d31428dd, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+      - {fileID: 11400000, guid: 1a7c0bcf01e08c243ad4ea350defc9e4, type: 2}
+      - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
   _environmentPrefab: {fileID: 3350515415389505561, guid: 43c1b81a6e6ed494fba8e0e055489a6f, type: 3}
---- !u!4 &1455424413
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1455424411}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1740.561, y: 335.61203, z: 0.02429752}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1462709064 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1529572858322336351, guid: 815b3c51ed3aea54385d980a8b11f453, type: 3}
@@ -4618,6 +5176,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
     - {fileID: 11400000, guid: 04588733ccd1f2a4bb0aad35a508b4de, type: 2}
     - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
+    - {fileID: 11400000, guid: 2729f2cc473847d4ca78de3920cf6fca, type: 2}
     - {fileID: 11400000, guid: 9461f9304513865429fcf3420fd25287, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -4652,10 +5211,13 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 10
       Data: 3
+    - Name: 
+      Entry: 10
+      Data: 4
     - Name: 
       Entry: 13
       Data: 
