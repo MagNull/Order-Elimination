@@ -134,6 +134,7 @@ public class BattleMapView : MonoBehaviour
         foreach (var cellView in _cellViewGrid)
         {
             if (cellView.Model.GetObject().View is not BattleCharacterView battleCharacterView ||
+                !cellView.Model.GetObject().View.GameObject ||
                 battleCharacterView.Model.Side != BattleObjectSide.Ally) continue;
             CellClicked?.Invoke(cellView);
             return;
