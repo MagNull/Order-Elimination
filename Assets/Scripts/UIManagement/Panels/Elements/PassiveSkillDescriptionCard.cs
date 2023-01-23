@@ -13,11 +13,11 @@ namespace UIManagement.Elements
         [SerializeField] private TextMeshProUGUI _name;
         [SerializeField] private TextMeshProUGUI _description;
 
-        public void AssignPassiveSkill(AbilityView skillView)
+        public void AssignPassiveSkill(AbilityInfo passiveSkillInfo)
         {
-            _icon.sprite = skillView.AbilityIcon;
-            _name.text = skillView.Name;
-            _description.text = skillView.AbilityInfo.Description;
+            _icon.sprite = passiveSkillInfo.Icon;
+            _name.text = passiveSkillInfo.Name;
+            _description.text = passiveSkillInfo.Description;
         }
     } 
 }

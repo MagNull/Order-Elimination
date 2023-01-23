@@ -19,7 +19,7 @@ namespace UIManagement
             Initialize();
         }
 
-        public void AssignPassiveSkillsDescription(AbilityView[] passiveSkills)
+        public void AssignPassiveSkillsDescription(AbilityInfo[] passiveSkills)
         {
             var previousCards = _skillCards.ToArray();
             _skillCards.Clear();

@@ -27,7 +27,7 @@ public class AbilityViewBinder
             _selectedCharacterView.Select();
             abilityPanel.AssignAbilities(characterView.ActiveAbilitiesView, characterView.PassiveAbilitiesView);
             //TODO(Сано): Автовыбор перемещения независимо от порядка
-            abilityPanel.Select(characterView.ActiveAbilitiesView.FirstOrDefault(a => a.CanCast));
+            abilityPanel.SelectFirstAvailableAbility();
         };
     }
 }

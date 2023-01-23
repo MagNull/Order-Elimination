@@ -25,7 +25,7 @@ namespace UIManagement.Elements
                     _iconComponent.sprite = value;
             }
         }
-        public AbilityView AbilityView { get; private set; }
+        public AbilityInfo AbilityInfo { get; private set; }
         public event Action<SmallAbilityButton> Clicked;
 
         private void Awake()
@@ -38,16 +38,16 @@ namespace UIManagement.Elements
 
         private void OnClick(HoldableButton button) => Clicked?.Invoke(this);
 
-        public void AssignAbilityView(AbilityView abilityView)
+        public void AssignAbilityView(AbilityInfo abilityInfo)
         {
-            AbilityView = abilityView;
-            _iconComponent.sprite = AbilityView.AbilityIcon;
+            AbilityInfo = abilityInfo;
+            _iconComponent.sprite = AbilityInfo.Icon;
             _button.interactable = true;
         }
 
         public void RemoveAbilityView()
         {
-            AbilityView = null;
+            AbilityInfo = null;
             _iconComponent.sprite = NoIconAvailableSprite;
             _button.interactable = false;
         }

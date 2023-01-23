@@ -36,6 +36,16 @@ public class BattleSimulation : MonoBehaviour
 
     private List<BattleCharacter> _characters;
 
+    public BattleCharacterView[] Allies => _characters
+            .Where(c => c.Side == BattleObjectSide.Ally)
+            .Select(c => c.View.GetComponent<BattleCharacterView>())
+            .ToArray();
+
+    public BattleCharacterView[] Enemies => _characters
+            .Where(c => c.Side == BattleObjectSide.Enemy)
+            .Select(c => c.View.GetComponent<BattleCharacterView>())
+            .ToArray();
+
     [Inject]
     private void Construct(CharacterArrangeDirector characterArrangeDirector, BattleMapDirector battleMapDirector)
     {
@@ -163,10 +173,7 @@ public class BattleSimulation : MonoBehaviour
         _characterArrangeDirector.SetArrangementMap(_battleMapDirector.Map);
         _characters = _characterArrangeDirector.Arrange();
 
-        var enemies = _characters
-            .Where(c => c.Side == BattleObjectSide.Enemy)
-            .Select(c => c.View.GetComponent<BattleCharacterView>())
-            .ToArray();
+        var enemies = Enemies;
         _enemiesListPanel.Populate(enemies);
         foreach (var e in enemies)
         {

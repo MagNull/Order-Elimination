@@ -8,6 +8,7 @@ using UIManagement.Elements;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UIManagement.trashToRemove_Mockups;
+using OrderElimination;
 
 namespace UIManagement
 {
@@ -73,6 +74,44 @@ namespace UIManagement
             // if (abilityInfo.ActiveParams.HasAreaEffect)
             //     _abilityParameters.Add(null, "Радиус: ", abilityInfo.ActiveParams.AreaRadius.ToString(),
             //         ValueUnits.Cells);
+            _abilityParameters.Add(null, "Откат: ", abilityInfo.CoolDown.ToString(), ValueUnits.Turns);
+        }
+
+        public void UpdateAbilityDescription(AbilityInfo abilityView, IReadOnlyBattleStats casterStats)
+        {
+            var abilityInfo = abilityView;
+
+            _abilityName.text = abilityInfo.Name;
+            _abilityDescription.text = abilityInfo.Description;
+            _abilityIcon.sprite = abilityInfo.Icon;
+            _abilityParameters.Clear();
+
+            foreach (var e in _effectsHolder.GetComponentsInChildren<EffectDescriptionWindow>())
+                Destroy(e.gameObject);
+            Effects = new List<EffectDescriptionWindow>();
+
+            foreach (var effect in abilityInfo.ActiveParams.TargetEffects.Concat(abilityInfo.ActiveParams.AreaEffects)
+                         .Where(e => e.ShowInAbilityDescription))
+            {
+                if (effect.EffectView.DisplayAsMainEffect)
+                {
+                    foreach (var mainP in effect.GetDisplayableParameters(casterStats))
+                    {
+                        _abilityParameters.Add(null, mainP.Key, mainP.Value);
+                    }
+
+                    continue;
+                }
+
+                var newEffectWindow = Instantiate(_effectDescriptionPrefab, _effectsHolder);
+                newEffectWindow.UpdateEffectDescription(effect, casterStats);
+                Effects.Add(newEffectWindow);
+            }
+
+            if (abilityInfo.ActiveParams.HasTarget && !abilityInfo.ActiveParams.DistanceFromMovement &&
+                abilityInfo.ActiveParams.Distance != 0)
+                _abilityParameters.Add(null, "Дальность: ", abilityInfo.ActiveParams.Distance.ToString(),
+                    ValueUnits.Cells);
             _abilityParameters.Add(null, "Откат: ", abilityInfo.CoolDown.ToString(), ValueUnits.Turns);
         }
     }
