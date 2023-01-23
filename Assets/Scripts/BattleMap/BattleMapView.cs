@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using OrderElimination.BM;
 using UnityEngine;
@@ -21,17 +22,20 @@ public class BattleMapView : MonoBehaviour
 
     public BattleMap Map => _battleMap;
 
-    public float MoveDuration => _moveDuration;
+    public void InitStartUnitSelection()
+    {
+        BattleSimulation.PlayerTurnStarted += OnPlayerTurnStarted;
+    }
 
     public void OnEnable()
     {
-        BattleSimulation.BattleEnded += OnBattleEnded;
         _battleMap.CellChanged += OnCellChanged;
     }
 
     public void OnDisable()
     {
         BattleSimulation.BattleEnded -= OnBattleEnded;
+        BattleSimulation.PlayerTurnStarted -= OnPlayerTurnStarted;
         _battleMap.CellChanged -= OnCellChanged;
     }
 
@@ -43,6 +47,8 @@ public class BattleMapView : MonoBehaviour
         {
             cellView.CellClicked += OnCellClicked;
         }
+
+        BattleSimulation.PlayerTurnStarted += OnPlayerTurnStarted;
     }
 
     public CellView GetCell(int x, int y)
@@ -118,7 +124,20 @@ public class BattleMapView : MonoBehaviour
         {
             cell?.Delight();
         }
+
         _lightedCells.Clear();
+    }
+
+    private async void OnPlayerTurnStarted()
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(_moveDuration));
+        foreach (var cellView in _cellViewGrid)
+        {
+            if (cellView.Model.GetObject().View is not BattleCharacterView battleCharacterView ||
+                battleCharacterView.Model.Side != BattleObjectSide.Ally) continue;
+            CellClicked?.Invoke(cellView);
+            return;
+        }
     }
 
     private void OnBattleEnded(BattleOutcome obj)
@@ -128,7 +147,7 @@ public class BattleMapView : MonoBehaviour
 
     private void OnCellClicked(CellView cellView)
     {
-        if(_battleEnded)
+        if (_battleEnded)
             return;
         CellClicked?.Invoke(cellView);
     }
@@ -138,6 +157,6 @@ public class BattleMapView : MonoBehaviour
         var obj = cell.GetObject();
         if (obj is NullBattleObject)
             return;
-        obj.View.GameObject.transform.DOMove(GetCell(obj).transform.position, _moveDuration) ;
+        obj.View.GameObject.transform.DOMove(GetCell(obj).transform.position, _moveDuration);
     }
 }

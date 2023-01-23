@@ -21,7 +21,6 @@ public class AbilityViewBinder
                 || characterView.IsSelected
                 || abilityPanel.AbilityCasing)
                 return;
-
             _selectedCharacterView?.Deselect();
             _selectedCharacterView = characterView;
             _selectedCharacterView.Select();

@@ -25,8 +25,8 @@ MonoBehaviour:
   _description: "\n\u0414\u0430\u0435\u0442 \u0430\u0431\u043B\u0430\u0442\u0438\u0432\u043D\u0443\u044E
     \u0431\u0440\u043E\u043D\u044E = \u0411\u0440\u043E\u043D\u044F/3, \u043D\u0430
     2 \u0445\u043E\u0434\u0430."
-  _coolDown: 0
-  _startCoolDown: 0
+  _coolDown: 3
+  _startCoolDown: 2
   _notTriggerCast: 0
   <Icon>k__BackingField: {fileID: 0}
   <ActionType>k__BackingField: 1
@@ -65,8 +65,9 @@ MonoBehaviour:
       TriggerEffects: []
       ShowInAbilityDescription: 0
       EffectView:
-        _effectName: 
-        _effectIcon: {fileID: 0}
+        _effectName: "\u0410\u0431\u043B\u0430\u0442\u0438\u0432\u043D\u044B\u0439
+          \u0449\u0438\u0442"
+        _effectIcon: {fileID: 21300000, guid: df2cafcf5686233418fe4983189fcfe3, type: 3}
         _displayAsMainEffect: 0
         _displayWhenApplied: 0
     _hasAreaEffect: 0

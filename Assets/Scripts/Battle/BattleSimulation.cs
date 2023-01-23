@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using CharacterAbility;
+using Cysharp.Threading.Tasks;
 using OrderElimination;
 using OrderElimination.BM;
 using VContainer;
@@ -52,6 +53,7 @@ public class BattleSimulation : MonoBehaviour
     public void Start()
     {
         InitializeBattlefield();
+        _battleMapDirector.MapView.InitStartUnitSelection();
     }
 
     public void Update()
@@ -102,10 +104,6 @@ public class BattleSimulation : MonoBehaviour
         }
 
     }
-
-    // Тестовые методы
-    public void AwardPlayerVictory() => _outcome = BattleOutcome.Victory;
-    public void AwardPlayerDefeat() => _outcome = BattleOutcome.Defeat;
 
     public void CheckBattleOutcome()
     {
@@ -170,7 +168,6 @@ public class BattleSimulation : MonoBehaviour
         _enemiesListPanel.Populate(enemies);
         foreach (var e in enemies)
         {
-            //e.Model.Died -= _enemiesListPanel.RemoveItem;
             e.Disabled += _enemiesListPanel.RemoveItem;
         }
         _abilityViewBinder.BindAbilityButtons(_battleMapDirector.MapView, _abilityPanel, _currentTurn);

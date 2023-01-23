@@ -60,8 +60,7 @@ namespace CharacterAbility.BuffEffects
                     break;
                 case Buff_Type.AdditionalArmor:
                     newStats.AdditionalArmor =
-                        GetModifiedValue(target.Stats.AdditionalArmor, scaleTarget.Stats.UnmodifiedArmor) -
-                        scaleTarget.Stats.UnmodifiedArmor;
+                        GetModifiedValue(target.Stats.AdditionalArmor, scaleTarget.Stats.UnmodifiedArmor);
                     break;
             }
 
@@ -99,7 +98,7 @@ namespace CharacterAbility.BuffEffects
         private int GetModifiedValue(int value, int scaleValue)
         {
             _buffedValueAddition = IsMultiplier ? scaleValue * (1 + Modifier) - value : Modifier;
-            return Mathf.RoundToInt(IsMultiplier ? scaleValue * (1 + Modifier) : value + Modifier);
+            return Mathf.RoundToInt(IsMultiplier ? value + scaleValue * Modifier : value + Modifier);
         }
 
         private int GetUnmodifiedValue(int value)
