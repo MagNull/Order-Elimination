@@ -44,14 +44,12 @@ namespace CharacterAbility
                     {
                         if (_moveToTrigger == null || _moveToTrigger is NullBattleObject)
                         {
-                            Debug.Log("Not Used");
                             _nextEffect?.Use(target, stats);
                         }
                         else if (_moveToTrigger is EnvironmentObject environmentObject &&
                                  to.GetObject() is EnvironmentObject toEnv &&
                                  toEnv.Equals(environmentObject))
                         {
-                            Debug.Log("Used");
                             _nextEffect?.Use(target, stats);
                         }
                     };

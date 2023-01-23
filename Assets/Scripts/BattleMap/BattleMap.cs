@@ -42,6 +42,13 @@ public class BattleMap : MonoBehaviour
             throw new ArgumentException($"Cell ({x}, {y}) not found");
         return _cellGrid[x, y];
     }
+    
+    public Cell GetCell(Vector2Int point)
+    {
+        if (point.x < 0 || point.x > _width - 1 || point.y < 0 || point.y > _height - 1)
+            throw new ArgumentException($"Cell ({point.x}, {point.y}) not found");
+        return _cellGrid[point.x, point.y];
+    }
 
     public Cell GetCell(IBattleObject battleObject)
     {
@@ -82,6 +89,20 @@ public class BattleMap : MonoBehaviour
         return Mathf.FloorToInt(Mathf.Sqrt(Mathf.Pow(obj1Crd.x - obj2Crd.x, 2) +
                                            Mathf.Pow(obj1Crd.y - obj2Crd.y, 2)));
     }
+    
+    public int GetStraightDistance(IBattleObject obj1, Vector2Int pos)
+    {
+        Vector2Int obj1Crd = GetCoordinate(obj1);
+        return Mathf.FloorToInt(Mathf.Sqrt(Mathf.Pow(obj1Crd.x - pos.x, 2) +
+                                           Mathf.Pow(obj1Crd.y - pos.y, 2)));
+    }
+    
+    public int GetPathDistance(IBattleObject origin, IBattleObject destination)
+    {
+        var destinationCrd = GetCoordinate(destination);
+        var path = GetShortestPath(origin, destinationCrd.x, destinationCrd.y);
+        return path.Count;
+    }
 
     public Vector2Int GetCoordinate(IBattleObject obj)
     {
@@ -119,7 +140,7 @@ public class BattleMap : MonoBehaviour
         {
             var patternElementRotated = Quaternion.FromToRotation(Vector2.right, (Vector2) directionVector)
                                         * (Vector2) patternElement;
-            
+
             var newPoint = new Vector2Int(center.x + Mathf.RoundToInt(patternElementRotated.x),
                 center.y + Mathf.RoundToInt(patternElementRotated.y));
             if ((newPoint - sourcePos).magnitude > maxDistance)
@@ -127,6 +148,7 @@ public class BattleMap : MonoBehaviour
                 newPoint = sourcePos +
                            Vector2Int.RoundToInt(Vector2.ClampMagnitude(newPoint - sourcePos, maxDistance));
             }
+
             if (ExistCoordinate(newPoint))
             {
                 var cell = GetCell(newPoint.x, newPoint.y);
@@ -222,6 +244,29 @@ public class BattleMap : MonoBehaviour
         }
 
         return path;
+    }
+
+    public Vector2Int GetOptimalPosition(IBattleObject origin, IBattleObject target, int optimalDistance)
+    {
+        var availableCells = GetEmptyObjectsInRadius(origin, optimalDistance);
+        IBattleObject optimalPos = null;
+        IBattleObject closestPos = origin;
+        foreach (var pos in availableCells)
+        {
+            var distance = GetStraightDistance(pos, target);
+            if (distance == optimalDistance)
+            {
+                optimalPos = pos;
+            }
+            if(distance < GetStraightDistance(closestPos, target))
+            {
+                closestPos = pos;
+            }
+        }
+
+        if(optimalPos == null)
+            return GetCoordinate(closestPos);
+        return GetCoordinate(optimalPos);
     }
 
     private List<Vector2Int> GetNeighbours(Vector2Int coord)

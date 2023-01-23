@@ -24,6 +24,8 @@ public class RandomBattleMusicPicker : MonoBehaviour
             PlayRandomMusic();
     }
 
+    
+    //TODO: Fix missing reference exception
     private async void PlayRandomMusic()
     {
         AudioClip clip = _musicClips[Random.Range(0, _musicClips.Length)];
