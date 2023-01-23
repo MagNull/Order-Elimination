@@ -21,8 +21,12 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _name: 
-  _description: 
+  _name: "\u041A\u0430\u0437\u043D\u044C"
+  _description: "\u0411\u043E\u0435\u0446 \u0430\u0442\u0430\u043A\u0443\u0435\u0442
+    1 \u0446\u0435\u043B\u044C, \u0443\u0440\u043E\u043D \u0437\u0430\u0432\u0438\u0441\u0438\u0442
+    \u043E\u0442 \u043A\u043E\u043B-\u0432\u0430 \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A\u043E\u0432
+    \u0432\u043E\u043A\u0440\u0443\u0433.\n\u0414\u0432\u043E\u0439\u043D\u043E\u0439
+    \u0443\u0440\u043E\u043D \u043F\u043E \u0411\u0440\u043E\u043D\u0435."
   _coolDown: 0
   _startCoolDown: 0
   _notTriggerCast: 0
@@ -50,6 +54,7 @@ MonoBehaviour:
       ModificatorValue: 0
       ObjectInfo: {fileID: 0}
       BuffType: 0
+      IsUnique: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: 0
@@ -78,6 +83,10 @@ MonoBehaviour:
   _passiveParams:
     _effects: []
     _triggerType: 0
+    _moveToTrigger:
+      rid: -2
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

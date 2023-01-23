@@ -23,9 +23,8 @@ MonoBehaviour:
     SerializationNodes: []
   _name: "\u041F\u0443\u0442\u044C \u0432\u043E\u0438\u043D\u0430"
   _description: "\u0411\u043E\u0435\u0446 \u043D\u0430\u043D\u043E\u0441\u0438\u0442
-    2 \u0443\u0434\u0430\u0440\u0430 \u043F\u043E \u0446\u0435\u043B\u0438, \u043D\u0430\u043D\u043E\u0441\u044F
-    \u0434\u0432\u043E\u0439\u043D\u043E\u0439 \u0443\u0440\u043E\u043D \u043F\u043E
-    \u0411\u0440\u043E\u043D\u0435."
+    2 \u0443\u0434\u0430\u0440\u0430 \u043F\u043E \u0446\u0435\u043B\u0438.\n\u0414\u0432\u043E\u0439\u043D\u043E\u0439
+    \u0443\u0440\u043E\u043D \u043F\u043E \u0411\u0440\u043E\u043D\u0435."
   _coolDown: 0
   _startCoolDown: 0
   _notTriggerCast: 0
@@ -53,6 +52,7 @@ MonoBehaviour:
       ModificatorValue: 100
       ObjectInfo: {fileID: 0}
       BuffType: 0
+      IsUnique: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: 0
@@ -83,6 +83,7 @@ MonoBehaviour:
       ModificatorValue: 0
       ObjectInfo: {fileID: 0}
       BuffType: 0
+      IsUnique: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: 0
@@ -113,6 +114,7 @@ MonoBehaviour:
       ModificatorValue: 0
       ObjectInfo: {fileID: 0}
       BuffType: 0
+      IsUnique: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: 0
@@ -126,7 +128,7 @@ MonoBehaviour:
       ShowInAbilityDescription: 1
       EffectView:
         _effectName: "\u041A\u0440\u043E\u0432\u043E\u0442\u0435\u0447\u0435\u043D\u0438\u0435"
-        _effectIcon: {fileID: 21300000, guid: e65351c0de91ddc439fcc7868477b38e, type: 3}
+        _effectIcon: {fileID: 21300000, guid: e2cfd33bc68d30d4581e994ccc3fcb5f, type: 3}
         _displayAsMainEffect: 0
         _displayWhenApplied: 1
     _hasAreaEffect: 0
@@ -141,6 +143,10 @@ MonoBehaviour:
   _passiveParams:
     _effects: []
     _triggerType: 0
+    _moveToTrigger:
+      rid: -2
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
