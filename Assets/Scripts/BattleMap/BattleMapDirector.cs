@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using OrderElimination.BM;
 using UnityEngine;
 using UnityEngine.Rendering;
 using VContainer;
-using Random = System.Random;
 
 [Serializable]
 public class BattleMapDirector
@@ -15,22 +13,20 @@ public class BattleMapDirector
     [SerializeField]
     private BattleMapView _battleMapView;
     [SerializeField]
-    private List<SerializedDictionary<Vector2Int, EnvironmentInfo>> _environmentObjects = new();
+    private SerializedDictionary<Vector2Int, EnvironmentInfo> _environmentObjects = new();
 
     private EnvironmentFactory _environmentFactory;
     public BattleMap Map => _battleMapView.Map;
     public BattleMapView MapView => _battleMapView;
 
-    public int InitializeMap()
+    public void InitializeMap()
     {
         var grid = _generator.GenerateGrid(_battleMapView.Map.Width, _battleMapView.Map.Height);
-
+        
         _battleMapView.Map.Init(grid.Model);
         _battleMapView.Init(grid.View);
-        var mapIndex = GetRandomMapIndex();
         
-        AddEnvironmentObjects(mapIndex);
-        return mapIndex;
+        AddEnvironmentObjects();
     }
 
     [Inject]
@@ -39,23 +35,17 @@ public class BattleMapDirector
         _environmentFactory = environmentFactory;
     }
 
-    private void AddEnvironmentObjects(int mapIndex)
+    private void AddEnvironmentObjects()
     {
         if (_environmentObjects.Count == 0)
             return;
 
-        var environmentObjects = _environmentObjects[mapIndex]
+        var environmentObjects = _environmentObjects
             .Select(v => (CoordinateSpace: v.Key, Object: _environmentFactory.Create(v.Value)));
         foreach (var environmentObject in environmentObjects)
         {
             var coords = environmentObject.CoordinateSpace;
             _battleMapView.Map.MoveTo(environmentObject.Object, coords.x, coords.y);
         }
-    }
-
-    private int GetRandomMapIndex()
-    {
-        var rnd = new Random();
-        return rnd.Next(0, _environmentObjects.Count);
     }
 }
