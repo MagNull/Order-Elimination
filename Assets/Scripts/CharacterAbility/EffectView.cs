@@ -216,12 +216,12 @@ namespace CharacterAbility
             {
                 result.AddDisplayedParameter("Дальность", casterStats.UnmodifiedMovement);
             }
-            else if (effect.Type == AbilityEffectType.Stun)
-            {
-
-            }
             else if (effect.Type != AbilityEffectType.Modificator)
-                throw new NotImplementedException($"EffectType {effect.Type} cannot be displayed since it is not implemented.");
+            {
+                var message = $"EffectType {effect.Type} cannot be displayed since it's parameters haven't been described.";
+                Debug.LogError(message);
+                //throw new NotImplementedException(message);
+            }
             return result;
         }
 
