@@ -15,6 +15,7 @@ public class AbilityViewBinder
         mapView.CellClicked += cell =>
         {
             if (cell.Model.GetObject() is NullBattleObject ||
+                !cell.Model.GetObject().View.GameObject ||
                 !cell.Model.GetObject().View.GameObject.TryGetComponent(out BattleCharacterView characterView)
                 || characterView.Model.Side != BattleObjectSide.Ally
                 || currentTurn != BattleObjectSide.Ally
