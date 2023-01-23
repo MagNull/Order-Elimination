@@ -12,7 +12,12 @@ public class AbilityViewBinder
 
     public void BindAbilityButtons(BattleMapView mapView, AbilityPanel abilityPanel, BattleObjectSide currentTurn)
     {
-        mapView.CellClicked += cell =>
+        mapView.CellClicked += OnCellClicked(abilityPanel, currentTurn);
+    }
+
+    private Action<CellView> OnCellClicked(AbilityPanel abilityPanel, BattleObjectSide currentTurn)
+    {
+        return cell =>
         {
             if (cell.Model.GetObject() is NullBattleObject ||
                 !cell.Model.GetObject().View.GameObject ||
@@ -29,5 +34,10 @@ public class AbilityViewBinder
             //TODO(Сано): Автовыбор перемещения независимо от порядка
             abilityPanel.Select(characterView.ActiveAbilitiesView.FirstOrDefault(a => a.CanCast));
         };
+    }
+
+    public void OnDisable(BattleMapView mapView, AbilityPanel abilityPanel)
+    {
+        mapView.CellClicked -= OnCellClicked(abilityPanel, BattleObjectSide.Ally);
     }
 }
