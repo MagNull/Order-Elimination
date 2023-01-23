@@ -22,7 +22,10 @@ public class BattleVictoryPanel : UIPanel
         _primaryCurrency.text = battleResult.PrimaryCurrencyReceived.ToString();
         _characterList.Clear();
         _characterList.Populate(battleResult.SquadCharacters);
-
+        if (battleResult.Outcome == BattleOutcome.Defeat)
+            _pageSwitcher.DisablePage(1);
+        else
+            _pageSwitcher.EnablePage(1);
     }
 
     protected override void Initialize()
