@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using OrderElimination;
 using OrderElimination.Battle;
+using UnityEngine;
+using UnityEngine.Rendering;
 using VContainer;
 
 [Serializable]
@@ -26,7 +28,8 @@ public class CharacterArrangeDirector
 
     public void SetArrangementMap(BattleMap map) => _arrangementMap = map;
 
-    public List<BattleCharacter> Arrange()
+    public List<BattleCharacter> Arrange(List<Vector2Int> unitPositions,
+        List<Vector2Int> enemyPositions)
     {
         var characters = new List<BattleCharacter>();
 
@@ -36,7 +39,7 @@ public class CharacterArrangeDirector
         {
             characters.Add(playerSquad[i]);
             playerSquad[i].Died += OnCharacterDied;
-            _arrangementMap.MoveTo(playerSquad[i], 0, 2 * i);
+            _arrangementMap.MoveTo(playerSquad[i], unitPositions[i].x, unitPositions[i].y);
         }
 
         List<BattleCharacter> enemySquad = _characterFactory.CreateEnemySquad(_enemiesInfo);
@@ -44,7 +47,7 @@ public class CharacterArrangeDirector
         {
             characters.Add(enemySquad[i]);
             enemySquad[i].Died += OnCharacterDied;
-            _arrangementMap.MoveTo(enemySquad[i], _arrangementMap.Width - 1, i);
+            _arrangementMap.MoveTo(enemySquad[i], enemyPositions[i].x, enemyPositions[i].y);
         }
         
         _charactersBank.AddCharactersRange(characters);
