@@ -6,11 +6,13 @@ using CharacterAbility;
 using Cysharp.Threading.Tasks;
 using OrderElimination;
 using OrderElimination.BM;
+using Sirenix.OdinInspector;
 using VContainer;
 using UIManagement.Elements;
 using UIManagement;
+using UnityEngine.Rendering;
 
-public class BattleSimulation : MonoBehaviour
+public class BattleSimulation : SerializedMonoBehaviour
 {
     public static event Action PlayerTurnStarted;
     public static event Action EnemyTurnStarted;
@@ -28,6 +30,10 @@ public class BattleSimulation : MonoBehaviour
     private CharacterBattleStatsPanel _selectedPlayerCharacterStatsPanel;
     [SerializeField]
     private EnemiesListPanel _enemiesListPanel;
+    [SerializeField]
+    private Dictionary<int, List<Vector2Int>> _unitPositions = new();
+    [SerializeField]
+    private Dictionary<int, List<Vector2Int>> _enemyPositions = new();
 
     private BattleObjectSide _currentTurn;
     private BattleOutcome _outcome;
@@ -61,24 +67,24 @@ public class BattleSimulation : MonoBehaviour
         CheckBattleOutcome();
         if (_outcome != BattleOutcome.Neither)
         {
-            // По завершении сражения событие отправляется единожды
+            // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             if (_isBattleEnded) return;
             BattleEnded?.Invoke(_outcome);
             _selectedPlayerCharacterStatsPanel.HideInfo();
             _abilityPanel.ResetAbilityButtons();
             _isBattleEnded = true;
-            Debug.LogFormat("Сражение завершено - победил {0}", _outcome == BattleOutcome.Victory ? "игрок" : "ИИ");
+            Debug.LogFormat("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅ {0}", _outcome == BattleOutcome.Victory ? "пїЅпїЅпїЅпїЅпїЅ" : "пїЅпїЅ");
         }
         else
         {
             if (_currentTurn == BattleObjectSide.Ally)
             {
-                // Событие начала хода игрока отправляется один раз для каждого хода
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
                 if (_isTurnChanged)
                 {
                     PlayerTurnStarted?.Invoke();
                     _isTurnChanged = false;
-                    Debug.Log("Начался ход игрока" % Colorize.Green);
+                    Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ" % Colorize.Green);
                 }
             }
             else if (_currentTurn == BattleObjectSide.Enemy)
@@ -87,10 +93,10 @@ public class BattleSimulation : MonoBehaviour
                 {
                     EnemyTurnStarted?.Invoke();
                     _isTurnChanged = false;
-                    Debug.Log("Начался ход противника" % Colorize.Red);
+                    Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ" % Colorize.Red);
                 }
 
-                // Действия ИИ
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ
                 var enemies = _characters
                     .Select(x => x)
                     .Where(x => x.Side == BattleObjectSide.Enemy);
@@ -136,8 +142,8 @@ public class BattleSimulation : MonoBehaviour
             : (isThereAnyAliveEnemy ? BattleOutcome.Neither : BattleOutcome.Victory);
     }
 
-    // Вызывается извне класса, например кнопкой на экране
-    // Влияет на Update()
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ Update()
     public void EndTurn()
     {
         _abilityPanel.ResetAbilityButtons();
@@ -154,12 +160,12 @@ public class BattleSimulation : MonoBehaviour
         _currentTurn = BattleObjectSide.Ally;
         _outcome = BattleOutcome.Neither;
 
-        // Создаём поле боя
-        _battleMapDirector.InitializeMap();
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
+        var mapIndex = _battleMapDirector.InitializeMap();
 
-        // Расставляем юнитов
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         _characterArrangeDirector.SetArrangementMap(_battleMapDirector.Map);
-        _characters = _characterArrangeDirector.Arrange();
+        _characters = _characterArrangeDirector.Arrange(_unitPositions[mapIndex], _enemyPositions[mapIndex]);
 
         var enemies = _characters
             .Where(c => c.Side == BattleObjectSide.Enemy)
@@ -171,7 +177,7 @@ public class BattleSimulation : MonoBehaviour
             e.Disabled += _enemiesListPanel.RemoveItem;
         }
         _abilityViewBinder.BindAbilityButtons(_battleMapDirector.MapView, _abilityPanel, _currentTurn);
-        //TODO затрагивает UI
+        //TODO пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ UI
         BattleCharacterView.Selected += _selectedPlayerCharacterStatsPanel.UpdateCharacterInfo;
         BattleCharacterView.Deselected += info => _selectedPlayerCharacterStatsPanel.HideInfo();
     }
