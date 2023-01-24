@@ -70,7 +70,7 @@ namespace OrderElimination
 
         private void SignIn()
         {
-            var email = signInEmail.text;
+            var email = signInEmail.text.ToLower();
             var password = signInPassword.text;
             SignIn(email, password);
         }
@@ -97,14 +97,14 @@ namespace OrderElimination
             }
             catch (Exception e)
             {
-                signInMessage.text = exception.Message;
+                signInMessage.text = "Неверный логин или пароль";
                 signInMessage.color = Color.red;
             }
         }
 
         private void SignUp()
         {
-            var email = signUpEmail.text;
+            var email = signUpEmail.text.ToLower();
             var login = signUpLogin.text;
             var password = signUpPassword.text;
 
@@ -139,7 +139,7 @@ namespace OrderElimination
                         signUpMessage.color = Color.red;
                     }
                 }
-                else if (signUpPassword.text.Length < 6 && signUpConfirmPassword.text.Length < 6)
+                else if (signUpPassword.text.Length < 6 || signUpConfirmPassword.text.Length < 6)
                 {
                     signUpMessage.text = "Password not enough lenght!";
                     signUpMessage.color = Color.red;
@@ -150,13 +150,18 @@ namespace OrderElimination
                     signUpMessage.color = Color.red;
                 }
             }
+            else
+            {
+                signUpMessage.text = "Account with same mail/login have in system";
+                signUpMessage.color = Color.red;
+            }
         }
 
         private void SignUpCallback(RequestException exception, ResponseHelper helper, AuthData data)
         {
             try
             {
-                var email = signUpEmail.text;
+                var email = signUpEmail.text.ToLower();
                 var login = signUpLogin.text;
                 var password = signUpPassword.text;
                 
@@ -173,6 +178,13 @@ namespace OrderElimination
                 signUpMessage.text = e.Message;
                 signUpMessage.color = Color.red;
             }
+        }
+
+        public void LogOut()
+        {
+            if (!PlayerPrefs.HasKey("Id"))
+                PlayerPrefs.DeleteKey("Id");
+            loginForm.SetActive(true);
         }
     }
 
