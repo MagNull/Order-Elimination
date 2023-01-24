@@ -181,4 +181,9 @@ public class BattleSimulation : SerializedMonoBehaviour
         BattleCharacterView.Selected += _selectedPlayerCharacterStatsPanel.UpdateCharacterInfo;
         BattleCharacterView.Deselected += info => _selectedPlayerCharacterStatsPanel.HideInfo();
     }
+
+    private void OnDisable()
+    {
+        _abilityViewBinder.OnDisable(_battleMapDirector.MapView, _abilityPanel);
+    }
 }
