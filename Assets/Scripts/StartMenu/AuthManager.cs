@@ -97,7 +97,7 @@ namespace OrderElimination
             }
             catch (Exception e)
             {
-                signInMessage.text = exception.Message;
+                signInMessage.text = "Неверный логин или пароль";
                 signInMessage.color = Color.red;
             }
         }
@@ -149,6 +149,11 @@ namespace OrderElimination
                     signUpMessage.text = "Account with same login have in system";
                     signUpMessage.color = Color.red;
                 }
+            }
+            else
+            {
+                signUpMessage.text = "Account with same mail/login have in system";
+                signUpMessage.color = Color.red;
             }
         }
 
