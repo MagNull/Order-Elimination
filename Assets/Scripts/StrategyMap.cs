@@ -178,7 +178,9 @@ namespace OrderElimination
 
             var emptyPoints = _planetPoints.Where(point => point.CountSquadOnPoint == 0).ToList();
             var rnd = new Random();
-            var planetPoint = emptyPoints[rnd.Next(0, emptyPoints.Count - 1)];
+            var planetPoint = emptyPoints[rnd.Next(0, emptyPoints.Count)];
+            while(planetPoint.PointNumber == 4)
+                planetPoint = emptyPoints[rnd.Next(0, emptyPoints.Count)];
             var position = Vector3.zero;
             if (!planetPoint.IsDestroyed())
                 position = planetPoint.transform.position + new Vector3(-IconSize, IconSize + 10f);
