@@ -2,6 +2,7 @@
 using CharacterAbility;
 using OrderElimination.Battle;
 using OrderElimination.BM;
+using UIManagement.Elements;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -34,6 +35,7 @@ namespace OrderElimination
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_battleCharacterFactory);
             builder.RegisterComponent(_battleMapDirector);
+            builder.RegisterComponent(_battleMapView);
 
             builder.Register<SceneTransition>(Lifetime.Singleton);
 
