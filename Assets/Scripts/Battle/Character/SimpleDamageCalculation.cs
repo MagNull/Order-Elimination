@@ -24,27 +24,24 @@ namespace OrderElimination.Battle
                 if (evasionRoll)
                     return (0, 0, DamageCancelType.Dodge);
             }
-
-            var incomingArmorDamage = damageInfo.DamageModificator == DamageModificator.DoubleArmor 
-                ? 2 * damageInfo.Damage
-                : damageInfo.Damage;
-            var clampedArmorDamage = Mathf.Clamp(incomingArmorDamage, 0, armor);
-            var healthDamage = (incomingArmorDamage - clampedArmorDamage) / 2;
-            healthDamage = damageInfo.DamageModificator == DamageModificator.DoubleHealth
-                ? 2 * healthDamage
-                : healthDamage;
+            
+            int maximumArmorDamage = damageInfo.DamageModificator == DamageModificator.DoubleArmor ? armor / 2 : armor;
+            int armorDamage = Mathf.Min(maximumArmorDamage, damageInfo.Damage);
+            var healthDamage = damageInfo.Damage - armorDamage;
             switch (damageInfo.DamageHealTarget)
             {
                 case DamageHealTarget.OnlyArmor:
                     healthDamage = 0;
                     break;
                 case DamageHealTarget.OnlyHealth:
-                    clampedArmorDamage = 0;
+                    armorDamage = 0;
                     healthDamage = damageInfo.Damage;
                     break;
             }
 
-            return (healthDamage, clampedArmorDamage, DamageCancelType.None);
+            return (healthDamage,
+                damageInfo.DamageModificator == DamageModificator.DoubleArmor ? armorDamage * 2 : armorDamage,
+                DamageCancelType.None);
         }
 
         private static void ApplyModifications(ref DamageInfo damageInfo, int armor, List<IncomingBuff> incomingDebuffs)
@@ -53,10 +50,10 @@ namespace OrderElimination.Battle
             {
                 damageInfo = incomingAttackBuff.GetModifiedInfo(damageInfo);
             }
-            
-            if(damageInfo.Attacker is not BattleCharacter battleCharacter)
+
+            if (damageInfo.Attacker is not BattleCharacter battleCharacter)
                 return;
-            
+
             foreach (var effect in battleCharacter.CurrentTickEffects.Where(ef => ef is OutcomingBuff))
             {
                 damageInfo = ((OutcomingBuff) effect).GetModifiedInfo(damageInfo);

@@ -43,15 +43,10 @@ namespace CharacterAbility
                     target.Moved += (from, to) =>
                     {
                         if (_moveToTrigger == null || _moveToTrigger is NullBattleObject)
-                        {
                             _nextEffect?.Use(target, stats);
-                        }
                         else if (_moveToTrigger is EnvironmentObject environmentObject &&
                                  to.GetObject() is EnvironmentObject toEnv &&
-                                 toEnv.Equals(environmentObject))
-                        {
-                            _nextEffect?.Use(target, stats);
-                        }
+                                 toEnv.Equals(environmentObject)) _nextEffect?.Use(target, stats);
                     };
                     break;
                 case PassiveAbilityParams.PassiveTriggerType.Spawn:

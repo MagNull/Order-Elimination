@@ -90,6 +90,7 @@ public class BattleCharacter : IActor
             takeDamageInfo.ArmorDamage -= armorDamage;
         }
 
+        //TODO: Additional armor
         _battleStats.Armor -= damageTaken.armorDamage;
         _battleStats.Health -= damageTaken.healthDamage;
         

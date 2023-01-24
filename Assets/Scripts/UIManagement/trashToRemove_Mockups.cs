@@ -9,6 +9,36 @@ using UnityEngine.UI;
 
 namespace UIManagement.trashToRemove_Mockups
 {
+    public class CharacterUpgradeTransaction
+    {
+        public Character TargetCharacter { get; }
+        public int Cost => 250;
+
+        public const int MaximumLevelCap = 10;
+
+        private Information _playerInformation;
+
+        public CharacterUpgradeTransaction(Character target, Information playerInformation)
+        {
+            TargetCharacter = target;
+            playerInformation = _playerInformation;
+        }
+
+        public bool TryUpgrade()
+        {
+            var availableMoney = 250 * 4;
+            //availableMoney = _playerInformation.Money;
+            if (Cost > availableMoney)
+                return false;
+            else
+            {
+                availableMoney -= Cost;
+                //_playerInformation.SetMoney(availableMoney);
+                throw new System.NotImplementedException();
+            }
+        }
+    }
+
     public class BattleResult
     {
         public readonly BattleOutcome Outcome;
@@ -23,11 +53,6 @@ namespace UIManagement.trashToRemove_Mockups
             PrimaryCurrencyReceived = primaryCurrencyReceived;
             SpecialCurrencyReceived = specialCurrencyReceived;
         }
-    }
-
-    public class Powerup : ScriptableObject
-    {
-        public Sprite Icon;
     }
 
     public class Localization
@@ -46,6 +71,7 @@ namespace UIManagement.trashToRemove_Mockups
             {PanelType.PassiveSkillsDescription, "Пассивные навыки"}, 
             {PanelType.CharacterDescription, "Информация о бойце"}, 
             {PanelType.EffectsDesriptionList, "Описание эффектов"}, 
+            {PanelType.CharacterUpgradable, "Информация о бойце"}, 
         };
         private Dictionary<ValueUnits, string> _unitNames
             = new Dictionary<ValueUnits, string>()
