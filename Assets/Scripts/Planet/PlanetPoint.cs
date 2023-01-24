@@ -15,10 +15,22 @@ namespace OrderElimination
         private PlanetInfo _planetInfo;
         private PlanetView _planetView;
         private List<Path> _paths;
+        private int _pointNumber;
         public bool HasEnemy { get; private set; }
         public static event Action<PlanetPoint> Onclick;
 
         public int CountSquadOnPoint => _countSquadOnPoint;
+
+        public int PointNumber
+        {
+            get => _pointNumber;
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException("Planet point < 0");
+                _pointNumber = value;
+            }
+        }
 
         private void Awake()
         {
