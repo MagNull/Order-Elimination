@@ -84,7 +84,7 @@ public class BattleSimulation : SerializedMonoBehaviour
                 {
                     PlayerTurnStarted?.Invoke();
                     _isTurnChanged = false;
-                    Debug.Log("������� ��� ������" % Colorize.Green);
+                    Debug.Log("Начался ход игрока" % Colorize.Green);
                 }
             }
             else if (_currentTurn == BattleObjectSide.Enemy)
@@ -93,7 +93,7 @@ public class BattleSimulation : SerializedMonoBehaviour
                 {
                     EnemyTurnStarted?.Invoke();
                     _isTurnChanged = false;
-                    Debug.Log("������� ��� ����������" % Colorize.Red);
+                    Debug.Log("Начался ход ИИ" % Colorize.Red);
                 }
 
                 // �������� ��
