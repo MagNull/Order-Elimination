@@ -3217,7 +3217,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 3
-      Data: 4
+      Data: 3
     - Name: $v
       Entry: 7
       Data: 5|System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
@@ -3275,7 +3275,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 3
-      Data: 3
+      Data: 4
     - Name: $v
       Entry: 7
       Data: 6|System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
@@ -3606,64 +3606,16 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 5
+      Data: 1
     - Name: 
       Entry: 7
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
     - Name: 
       Entry: 3
-      Data: 4
+      Data: 7
     - Name: 
       Entry: 3
-      Data: 4
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
-    - Name: 
-      Entry: 3
-      Data: 4
-    - Name: 
-      Entry: 3
-      Data: 5
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
-    - Name: 
-      Entry: 3
-      Data: 5
-    - Name: 
-      Entry: 3
-      Data: 5
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
-    - Name: 
-      Entry: 3
-      Data: 6
-    - Name: 
-      Entry: 3
-      Data: 5
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
-    - Name: 
-      Entry: 3
-      Data: 6
-    - Name: 
-      Entry: 3
-      Data: 6
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -3688,16 +3640,64 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 5
     - Name: 
       Entry: 7
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
     - Name: 
       Entry: 3
-      Data: 7
+      Data: 4
     - Name: 
       Entry: 3
-      Data: 0
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 3
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 5
+    - Name: 
+      Entry: 3
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 3
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 3
+      Data: 6
     - Name: 
       Entry: 8
       Data: 
@@ -4588,8 +4588,6 @@ MonoBehaviour:
       - {fileID: 11400000, guid: 8effdc832b65f4744a8bad02d31428dd, type: 2}
       - {fileID: 11400000, guid: 1a7c0bcf01e08c243ad4ea350defc9e4, type: 2}
       - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
-    - m_Keys: []
-      m_Values: []
     - m_Keys:
       - {x: 0, y: 1}
       - {x: 1, y: 0}
@@ -4624,6 +4622,8 @@ MonoBehaviour:
       - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
       - {fileID: 11400000, guid: 1a7c0bcf01e08c243ad4ea350defc9e4, type: 2}
       - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+    - m_Keys: []
+      m_Values: []
   _environmentPrefab: {fileID: 3350515415389505561, guid: 43c1b81a6e6ed494fba8e0e055489a6f, type: 3}
 --- !u!114 &1462709064 stripped
 MonoBehaviour:
@@ -5136,7 +5136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1908500042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5207,7 +5207,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1908500041}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -1740.561, y: 335.61203, z: 0.02429752}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
