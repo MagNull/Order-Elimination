@@ -59,13 +59,13 @@ namespace UIManagement.Elements
 
         public void UpdateCharacterInfo(BattleCharacterView characterView)
         {
-            if(characterView == null)
+            if (characterView == null)
             {
                 HideInfo();
                 return;
             }
 
-            var battleCharacter = (BattleCharacter)characterView.Model;
+            var battleCharacter = (BattleCharacter) characterView.Model;
             if (currentCharacterView != null)
             {
                 battleCharacter.Damaged -= OnCharacterDamaged;
@@ -88,7 +88,7 @@ namespace UIManagement.Elements
             battleCharacter.Died += OnCharacterDied;
             var stats = characterView.Model.Stats;
             _healthBar.SetValue(stats.Health, 0, stats.UnmodifiedHealth);
-            _armorBar.SetValue(stats.Armor + stats.AdditionalArmor, 0, 
+            _armorBar.SetValue(stats.Armor + stats.AdditionalArmor, 0,
                 stats.UnmodifiedArmor + stats.AdditionalArmor);
 
             var effects = battleCharacter.CurrentBuffEffects
@@ -103,13 +103,15 @@ namespace UIManagement.Elements
         public void Highlight(Color highlightColor)
         {
             _panelHighlightImage.color = highlightColor;
-            _highlightTweener = _panelHighlightImage.DOBlendableColor(Color.white, _highlightFadeTime).SetEase(_highlightFadeEase);
+            // _highlightTweener = _panelHighlightImage.DOBlendableColor(Color.white, _highlightFadeTime)
+            //     .SetEase(_highlightFadeEase);
         }
 
         public void KillHighlightProcess()
         {
-            if (_highlightTweener != null)
-                _highlightTweener.Complete();
+            // if (_highlightTweener != null)
+            //     _highlightTweener.Complete();
+            _panelHighlightImage.color = Color.white;
         }
 
         private void OnCharacterEffectAdded(ITickEffect effect) => UpdateCharacterInfo(currentCharacterView);
