@@ -6371,6 +6371,10 @@ PrefabInstance:
         \u044D\u0442\u0443 \u0442\u043E\u0447\u043A\u0443!"
       objectReference: {fileID: 0}
     - target: {fileID: 2886092919794771636, guid: 37a9d0c9e617a784d90efcb19bad8c21, type: 3}
+      propertyPath: _tutorialStages.Array.data[2].Delay
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2886092919794771636, guid: 37a9d0c9e617a784d90efcb19bad8c21, type: 3}
       propertyPath: _tutorialStages.Array.data[1].ClickTargets.Array.data[0]
       value: 
       objectReference: {fileID: 1895784584}
@@ -6476,7 +6480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2886092919794771642, guid: 37a9d0c9e617a784d90efcb19bad8c21, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37a9d0c9e617a784d90efcb19bad8c21, type: 3}

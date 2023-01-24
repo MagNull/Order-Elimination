@@ -98,8 +98,6 @@ public class RandomEnemyAI : BattleCharacter
         switch (_currentAIAbility.TargetType)
         {
             case TargetType.Self:
-                if (_map.GetBattleObjectsInRadius(this, 1, BattleObjectSide.Ally).Count == 0)
-                    return false;
                 _currentAIAbility.Use(this, Stats);
                 break;
             case TargetType.Ally:
