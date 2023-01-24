@@ -98,6 +98,8 @@ public class RandomEnemyAI : BattleCharacter
         switch (_currentAIAbility.TargetType)
         {
             case TargetType.Self:
+                if (_map.GetBattleObjectsInRadius(this, 1, BattleObjectSide.Ally).Count == 0)
+                    return false;
                 _currentAIAbility.Use(this, Stats);
                 break;
             case TargetType.Ally:
@@ -148,6 +150,6 @@ public class RandomEnemyAI : BattleCharacter
 
     private async UniTask Move(Vector2Int coordinate)
     {
-        await _map.MoveTo(this, coordinate.x, coordinate.y);
+        await _map.MoveTo(this, coordinate.x, coordinate.y, .2f);
     }
 }
