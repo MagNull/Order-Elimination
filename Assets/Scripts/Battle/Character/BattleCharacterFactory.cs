@@ -32,8 +32,13 @@ public class BattleCharacterFactory : MonoBehaviour
         //TODO: Generation Enemy 
         if (side == BattleObjectSide.Enemy)
         {
+            //TODO: Remove
+            IDamageCalculation damageCalculation = info.GetName() == "Раненый Камнегрыз"
+                ? new PerfectHitDamageCalculation()
+                : new SimpleDamageCalculation();
+
             character = new RandomEnemyAI(_map,
-                new BattleStats(info.GetBattleStats()), new SimpleDamageCalculation(), _characterBank);
+                new BattleStats(info.GetBattleStats()), damageCalculation, _characterBank);
             List<AIAbility> abilitiesInfo = new List<AIAbility>();
             foreach (var activeAbilityInfo in info.GetActiveAbilityInfos())
             {
@@ -49,6 +54,7 @@ public class BattleCharacterFactory : MonoBehaviour
                 );
                 abilitiesInfo.Add(aiInfo);
             }
+
             ((RandomEnemyAI) character).SetAbilities(abilitiesInfo);
         }
         else
