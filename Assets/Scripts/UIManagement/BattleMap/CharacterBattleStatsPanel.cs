@@ -1,3 +1,4 @@
+using DG.Tweening;
 using OrderElimination.BM;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace UIManagement.Elements
 {
     public class CharacterBattleStatsPanel : MonoBehaviour
     {
+        [Header("Components")]
         [SerializeField]
         private Image _avatar;
         [SerializeField]
@@ -19,10 +21,21 @@ namespace UIManagement.Elements
         private HoldableButton _avatarButton;
         [SerializeField]
         private EffectsList _effectsList;
+        [SerializeField]
+        private Image _panelHighlightImage;
         private BattleCharacterView currentCharacterView;
 
+        [Header("Parameters")]
+        [SerializeField]
+        private float _highlightFadeTime = 0.7f;
+        [SerializeField]
+        private Ease _highlightFadeEase = Ease.Flash;
         [SerializeField]
         private bool _isClickingAvatarAvailable;
+        [SerializeField]
+        private bool _isHoldingAvatarAvailable;
+
+        private Tweener _highlightTweener;
 
         public bool IsClickingAvatarAvailable
         {
@@ -33,9 +46,6 @@ namespace UIManagement.Elements
                 _avatarButton.ClickAvailable = value;
             }
         }
-
-        [SerializeField]
-        private bool _isHoldingAvatarAvailable;
 
         public bool IsHoldingAvatarAvailable
         {
@@ -88,6 +98,18 @@ namespace UIManagement.Elements
             //.Where()
             _effectsList.UpdateEffects(effects);
             _avatar.sprite = characterView.Icon;
+        }
+
+        public void Highlight(Color highlightColor)
+        {
+            _panelHighlightImage.color = highlightColor;
+            _highlightTweener = _panelHighlightImage.DOBlendableColor(Color.white, _highlightFadeTime).SetEase(_highlightFadeEase);
+        }
+
+        public void KillHighlightProcess()
+        {
+            if (_highlightTweener != null)
+                _highlightTweener.Complete();
         }
 
         private void OnCharacterEffectAdded(ITickEffect effect) => UpdateCharacterInfo(currentCharacterView);
