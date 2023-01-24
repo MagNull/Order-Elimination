@@ -150,9 +150,11 @@ namespace OrderElimination
 
         private void UpdatePlanetPointSettings()
         {
+            var count = 0;
             foreach (var point in _planetPoints)
             {
                 point.SetPath(_paths.Where(x => x.StartPoint == point));
+                point.PointNumber = count++;
             }
         }
 

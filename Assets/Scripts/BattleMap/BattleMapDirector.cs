@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OrderElimination;
 using OrderElimination.BM;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -17,6 +18,8 @@ public class BattleMapDirector
     [SerializeField]
     private List<SerializedDictionary<Vector2Int, EnvironmentInfo>> _environmentObjects = new();
 
+    private CharactersMediator _charactersMediator;
+
     private EnvironmentFactory _environmentFactory;
     public BattleMap Map => _battleMapView.Map;
     public BattleMapView MapView => _battleMapView;
@@ -27,16 +30,16 @@ public class BattleMapDirector
 
         _battleMapView.Map.Init(grid.Model);
         _battleMapView.Init(grid.View);
-        var mapIndex = GetRandomMapIndex();
         
-        AddEnvironmentObjects(mapIndex);
-        return mapIndex;
+        AddEnvironmentObjects(_charactersMediator.PointNumber);
+        return _charactersMediator.PointNumber;
     }
 
     [Inject]
-    private void Construct(EnvironmentFactory environmentFactory)
+    private void Construct(EnvironmentFactory environmentFactory, CharactersMediator charactersMediator)
     {
         _environmentFactory = environmentFactory;
+        _charactersMediator = charactersMediator;
     }
 
     private void AddEnvironmentObjects(int mapIndex)
