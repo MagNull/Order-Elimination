@@ -70,7 +70,7 @@ namespace OrderElimination
 
         private void SignIn()
         {
-            var email = signInEmail.text;
+            var email = signInEmail.text.ToLower();
             var password = signInPassword.text;
             SignIn(email, password);
         }
@@ -104,7 +104,7 @@ namespace OrderElimination
 
         private void SignUp()
         {
-            var email = signUpEmail.text;
+            var email = signUpEmail.text.ToLower();
             var login = signUpLogin.text;
             var password = signUpPassword.text;
 
@@ -139,7 +139,7 @@ namespace OrderElimination
                         signUpMessage.color = Color.red;
                     }
                 }
-                else if (signUpPassword.text.Length < 6 && signUpConfirmPassword.text.Length < 6)
+                else if (signUpPassword.text.Length < 6 || signUpConfirmPassword.text.Length < 6)
                 {
                     signUpMessage.text = "Password not enough lenght!";
                     signUpMessage.color = Color.red;
@@ -156,7 +156,7 @@ namespace OrderElimination
         {
             try
             {
-                var email = signUpEmail.text;
+                var email = signUpEmail.text.ToLower();
                 var login = signUpLogin.text;
                 var password = signUpPassword.text;
                 
