@@ -9,7 +9,7 @@ namespace OrderElimination
     public class Database : MonoBehaviour
     {
         public static readonly string[] SquadNames = { "Squad 0", "Squad 1" };
-        private static readonly string DatabaseLink = "https://orderelimination-default-rtdb.firebaseio.com/users/";
+        private static readonly string DatabaseLink = "https://eliminationcopy-default-rtdb.firebaseio.com/users/";
         private static readonly int SaveCount = 3;
 
         private List<Save> _saves;

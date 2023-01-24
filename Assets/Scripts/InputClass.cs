@@ -92,8 +92,8 @@ namespace OrderElimination
             foreach (var squad in squads)
                 squad.SetAlreadyMove(false);
             
-            SaveData();
             onFinishMove?.Invoke();
+            SaveData();
         }
         
         public void PauseButtonClicked()

@@ -172,6 +172,7 @@ namespace OrderElimination
 
         private void OnFinishMove()
         {
+            AddCountMove();
             if (_enemySquad != null)
                 return;
 

@@ -26,7 +26,7 @@ namespace OrderElimination
         public TMP_Text signInMessage;
         public TMP_Text signUpMessage;
 
-        private string AUTH_KEY = "AIzaSyCb6he9vNRTd46ZJ_moJTqmAuPi7OrV8AI";
+        private string AUTH_KEY = "AIzaSyCU9is2eVObujGy9-FqtqO6IHagePunw3Y";
 
         public static Action OnUserSignIn;
         public static Action OnUserSignUp;
