@@ -179,6 +179,13 @@ namespace OrderElimination
                 signUpMessage.color = Color.red;
             }
         }
+
+        public void LogOut()
+        {
+            if (!PlayerPrefs.HasKey("Id"))
+                PlayerPrefs.DeleteKey("Id");
+            loginForm.SetActive(true);
+        }
     }
 
     [Serializable]
