@@ -29,8 +29,9 @@ namespace UIManagement
 
         private void OnCharacterAvatarHolded(CharacterClickableAvatar characterAvatar)
         {
-            var characterPanel = (CharacterDescriptionPanel)UIController.SceneInstance.OpenPanel(PanelType.CharacterDescription);
-            characterPanel.UpdateCharacterDescription(characterAvatar.CurrentCharacterInfo);
+            var upgradeTransaction = new CharacterUpgradeTransaction(characterAvatar.CurrentCharacterInfo, null);
+            var characterPanel = (CharacterUpgradePanel)UIController.SceneInstance.OpenPanel(PanelType.CharacterUpgradable);
+            characterPanel.UpdateCharacterUpgradeDescription(upgradeTransaction);
         }
     }
 }

@@ -67,11 +67,14 @@ namespace CharacterAbility
         private static readonly Dictionary<Buff_Type, ValueUnits> _buffUnits = new Dictionary<Buff_Type, ValueUnits>()
         {
             {Buff_Type.Attack, ValueUnits.None }, 
+            {Buff_Type.OutcomingAttack, ValueUnits.None }, 
             {Buff_Type.Health, ValueUnits.None }, 
             {Buff_Type.Evasion, ValueUnits.Percents }, 
             {Buff_Type.IncomingAccuracy, ValueUnits.Percents }, 
+            {Buff_Type.OutcomingAccuracy, ValueUnits.Percents }, 
             {Buff_Type.IncomingDamageIncrease, ValueUnits.None }, 
             {Buff_Type.Movement, ValueUnits.Cells }, 
+            {Buff_Type.AdditionalArmor, ValueUnits.None }, 
         };
 
         public static ValueUnits GetBuffUnits(Buff_Type buffType) => _buffUnits[buffType];
