@@ -56,11 +56,42 @@ MonoBehaviour:
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: 10
-      Duration: 3
+      Duration: 2
       ConditionType: 0
       OverTimeType: 0
       TickValue: 0
       DamageType: 2
+      Distance: 0
+      TriggerEffects: []
+      ShowInAbilityDescription: 1
+      EffectView:
+        _effectName: "\u041C\u0435\u0442\u043A\u0430"
+        _effectIcon: {fileID: 21300000, guid: e2dbf868ad294a24d8c6457dbd811249, type: 3}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 1
+    - Type: 4
+      MainEffect: 0
+      HasProbability: 0
+      Probability: 0
+      Filter: 0
+      _damageHealTarget: 0
+      Amounts: 0
+      ScaleFrom: 0
+      Scale: 0
+      StepDelay: 0
+      Modificator: 0
+      ModificatorValue: 0
+      ObjectInfo: {fileID: 0}
+      BuffType: 6
+      IsUnique: 1
+      Multiplier: 0
+      ScaleFromWhom: 0
+      BuffModificator: 1.4
+      Duration: 2
+      ConditionType: 0
+      OverTimeType: 0
+      TickValue: 0
+      DamageType: 0
       Distance: 0
       TriggerEffects: []
       ShowInAbilityDescription: 1

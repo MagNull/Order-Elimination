@@ -37,6 +37,37 @@ MonoBehaviour:
     _distance: 4
     _targetType: 1
     _targetEffects:
+    - Type: 6
+      MainEffect: 0
+      HasProbability: 0
+      Probability: 0
+      Filter: 0
+      _damageHealTarget: 0
+      Amounts: 0
+      ScaleFrom: 0
+      Scale: 0
+      StepDelay: 0
+      Modificator: 0
+      ModificatorValue: 100
+      ObjectInfo: {fileID: 0}
+      BuffType: 0
+      IsUnique: 0
+      Multiplier: 0
+      ScaleFromWhom: 0
+      BuffModificator: 0
+      Duration: 0
+      ConditionType: 0
+      OverTimeType: 0
+      TickValue: 0
+      DamageType: 0
+      Distance: 0
+      TriggerEffects: []
+      ShowInAbilityDescription: 0
+      EffectView:
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 0
+        _displayWhenApplied: 0
     - Type: 0
       MainEffect: 1
       HasProbability: 0
@@ -68,7 +99,7 @@ MonoBehaviour:
         _effectIcon: {fileID: 0}
         _displayAsMainEffect: 0
         _displayWhenApplied: 0
-    - Type: 7
+    - Type: 4
       MainEffect: 0
       HasProbability: 0
       Probability: 0
@@ -81,12 +112,12 @@ MonoBehaviour:
       Modificator: 0
       ModificatorValue: 0
       ObjectInfo: {fileID: 0}
-      BuffType: 0
-      IsUnique: 0
+      BuffType: 3
+      IsUnique: 1
       Multiplier: 0
       ScaleFromWhom: 0
-      BuffModificator: 0
-      Duration: 0
+      BuffModificator: 50
+      Duration: 1
       ConditionType: 0
       OverTimeType: 0
       TickValue: 0
@@ -95,10 +126,10 @@ MonoBehaviour:
       TriggerEffects: []
       ShowInAbilityDescription: 1
       EffectView:
-        _effectName: "\u041E\u0433\u043B\u0443\u0448\u0435\u043D\u0438\u0435"
-        _effectIcon: {fileID: 21300000, guid: 11688cec37146e14d9c2ad9f5617cacc, type: 3}
+        _effectName: "\u041E\u0441\u043B\u0435\u043F\u043B\u0435\u043D\u0438\u0435"
+        _effectIcon: {fileID: 21300000, guid: d1619a4fb33d6854d966652252196048, type: 3}
         _displayAsMainEffect: 0
-        _displayWhenApplied: 0
+        _displayWhenApplied: 1
     - Type: 4
       MainEffect: 0
       HasProbability: 0
@@ -113,7 +144,7 @@ MonoBehaviour:
       ModificatorValue: 0
       ObjectInfo: {fileID: 0}
       BuffType: 7
-      IsUnique: 0
+      IsUnique: 1
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: 10

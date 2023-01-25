@@ -15,15 +15,18 @@ MonoBehaviour:
   _battleStats:
     _health: 50
     _attack: 35
-    _armor: 150
+    _armor: 100
     _additionalArmor: 0
-    _evasion: 0
-    _accuracy: 90
+    _evasion: 10
+    _accuracy: 80
     _movement: 4
     _damageModificator: 0
+  _strategyStats:
+    CostOfUpgrade: 0
   _name: "\u041A\u0430\u043C\u043D\u0435\u0433\u0440\u044B\u0437"
   _viewIcon: {fileID: 21300000, guid: a8d51c883384c47469807e601a9966d3, type: 3}
   _viewAvatar: {fileID: 21300000, guid: 6ed07c7d456c1774ab44cebfab1985c9, type: 3}
   _activeAbilities:
   - {fileID: 11400000, guid: 6c7e7a688e8448e4f9fd68c2c4810fc6, type: 2}
+  - {fileID: 11400000, guid: aed5904ef3b073049ad9559999329274, type: 2}
   _passiveAbilities: []

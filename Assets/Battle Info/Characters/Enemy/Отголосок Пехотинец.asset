@@ -14,13 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _battleStats:
     _health: 65
-    _attack: 16
+    _attack: 20
     _armor: 80
     _additionalArmor: 0
     _evasion: 5
-    _accuracy: 65
+    _accuracy: 77
     _movement: 3
     _damageModificator: 0
+  _strategyStats:
+    CostOfUpgrade: 0
   _name: "\u041E\u0442\u0433\u043E\u043B\u043E\u0441\u043E\u043A \u041F\u0435\u0445\u043E\u0442\u0438\u043D\u0435\u0446"
   _viewIcon: {fileID: 21300000, guid: 565bd5d332ad53e49a0ec471bcc27a34, type: 3}
   _viewAvatar: {fileID: 21300000, guid: 856fe320e10ecec479c0ea2647d07651, type: 3}

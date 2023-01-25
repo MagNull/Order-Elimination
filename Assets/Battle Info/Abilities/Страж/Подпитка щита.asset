@@ -24,9 +24,8 @@ MonoBehaviour:
   _name: "\u041F\u043E\u0434\u043F\u0438\u0442\u043A\u0430 \u0449\u0438\u0442\u0430"
   _description: "\u0411\u043E\u0435\u0446 \u0432\u0440\u0435\u043C\u0435\u043D\u043D\u043E
     \u0443\u0441\u0438\u043B\u0438\u0432\u0430\u0435\u0442 \u0441\u0432\u043E\u0439
-    \u0431\u0430\u043A\u043B\u0435\u0440.\n\u0414\u0430\u0435\u0442 \u0430\u0431\u043B\u0430\u0442\u0438\u0432\u043D\u0443\u044E
-    \u0431\u0440\u043E\u043D\u044E = \u0411\u0440\u043E\u043D\u044F/3, \u043D\u0430
-    2 \u0445\u043E\u0434\u0430."
+    \u0431\u0430\u043A\u043B\u0435\u0440.\n\u0414\u0430\u0435\u0442 \u0434\u043E\u043F.
+    33% \u0431\u0440\u043E\u043D\u0438 , \u043D\u0430 2 \u0445\u043E\u0434\u0430."
   _coolDown: 3
   _startCoolDown: 2
   _notTriggerCast: 0
@@ -65,13 +64,13 @@ MonoBehaviour:
       DamageType: 0
       Distance: 0
       TriggerEffects: []
-      ShowInAbilityDescription: 0
+      ShowInAbilityDescription: 1
       EffectView:
         _effectName: "\u0410\u0431\u043B\u0430\u0442\u0438\u0432\u043D\u044B\u0439
           \u0449\u0438\u0442"
         _effectIcon: {fileID: 21300000, guid: df2cafcf5686233418fe4983189fcfe3, type: 3}
-        _displayAsMainEffect: 0
-        _displayWhenApplied: 0
+        _displayAsMainEffect: 1
+        _displayWhenApplied: 1
     _hasAreaEffect: 0
     _areaRadius: 0
     _areaEffects: []
