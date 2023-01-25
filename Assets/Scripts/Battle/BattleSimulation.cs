@@ -75,12 +75,7 @@ public class BattleSimulation : SerializedMonoBehaviour
         if (_outcome != BattleOutcome.Neither)
         {
             // �� ���������� �������� ������� ������������ ��������
-            if (_isBattleEnded) return;
-            BattleEnded?.Invoke(_outcome);
-            _selectedPlayerCharacterStatsPanel.HideInfo();
-            _abilityPanel.ResetAbilityButtons();
-            _isBattleEnded = true;
-            Debug.LogFormat("�������� ��������� - ������� {0}", _outcome == BattleOutcome.Victory ? "�����" : "��");
+            EndBattle();
         }
         else
         {
@@ -117,6 +112,16 @@ public class BattleSimulation : SerializedMonoBehaviour
         }
     }
 
+    private void EndBattle()
+    {
+        if (_isBattleEnded) return;
+        BattleEnded?.Invoke(_outcome);
+        _selectedPlayerCharacterStatsPanel.HideInfo();
+        _abilityPanel.ResetAbilityButtons();
+        _isBattleEnded = true;
+        Debug.LogFormat("�������� ��������� - ������� {0}", _outcome == BattleOutcome.Victory ? "�����" : "��");
+    }
+
     public void CheckBattleOutcome()
     {
         if (_outcome != BattleOutcome.Neither)
@@ -146,6 +151,8 @@ public class BattleSimulation : SerializedMonoBehaviour
         _outcome = !isThereAnyAliveAlly
             ? BattleOutcome.Defeat
             : (isThereAnyAliveEnemy ? BattleOutcome.Neither : BattleOutcome.Victory);
+        if(_outcome != BattleOutcome.Neither)
+            EndBattle();
     }
 
     public void EndTurn()
@@ -181,6 +188,11 @@ public class BattleSimulation : SerializedMonoBehaviour
         {
             e.Disabled += _enemiesListPanel.RemoveItem;
             e.Disabled += view => _characters.Remove((BattleCharacter) view.Model);
+        }
+
+        foreach (var battleCharacter in _characters)
+        {
+            battleCharacter.Died += _ => CheckBattleOutcome();
         }
 
         _abilityViewBinder.BindAbilityButtons(_battleMapDirector.MapView, _abilityPanel, _currentTurn);
