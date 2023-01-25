@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1984226b6f4b5ea94fb3b7f3b16efb, type: 3}
   m_Name: "\u0410\u0432\u0430\u043D\u0433\u0430\u0440\u0434"
   m_EditorClassIdentifier: 
+  _baseStats:
+    _health: 100
+    _attack: 35
+    _armor: 150
+    _additionalArmor: 0
+    _evasion: 10
+    _accuracy: 90
+    _movement: 4
+    _damageModificator: 0
   _battleStats:
     _health: 100
     _attack: 35

@@ -10,38 +10,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd1984226b6f4b5ea94fb3b7f3b16efb, type: 3}
-  m_Name: "\u041E\u0442\u0433\u043E\u043B\u043E\u0441\u043E\u043A \u041E\u043F\u0435\u0440\u0430\u0442\u043E\u0440
-    \u0434\u0440\u043E\u043D\u0430"
+  m_Name: "\u041E\u043F\u0435\u0440\u0430\u0442\u043E\u0440"
   m_EditorClassIdentifier: 
   _baseStats:
-    _health: 0
-    _attack: 0
-    _armor: 0
+    _health: 75
+    _attack: 15
+    _armor: 75
     _additionalArmor: 0
-    _evasion: 0
-    _accuracy: 0
-    _movement: 0
+    _evasion: 10
+    _accuracy: 85
+    _movement: 3
     _damageModificator: 0
   _battleStats:
-    _health: 65
-    _attack: 12
-    _armor: 65
+    _health: 75
+    _attack: 15
+    _armor: 75
     _additionalArmor: 0
-    _evasion: 5
-    _accuracy: 77
+    _evasion: 10
+    _accuracy: 85
     _movement: 3
     _damageModificator: 0
   _strategyStats:
-    CostOfUpgrade: 0
-    HealthGrowth: 0
-    AttackGrowth: 0
-    ArmorGrowth: 0
+    CostOfUpgrade: 250
+    HealthGrowth: 1
+    AttackGrowth: 2
+    ArmorGrowth: 2
     EvasionGrowth: 0
-    AccuracyGrowth: 0
-  _name: "\u041E\u0442\u0433\u043E\u043B\u043E\u0441\u043E\u043A \u041E\u043F\u0435\u0440\u0430\u0442\u043E\u0440
-    \u0434\u0440\u043E\u043D\u0430"
-  _viewIcon: {fileID: 21300000, guid: 0fed32cbd24b46a43bd420883846350c, type: 3}
-  _viewAvatar: {fileID: 21300000, guid: a4dd2d05be26653408b3438521969534, type: 3}
+    AccuracyGrowth: 1
+  _name: "\u041E\u043F\u0435\u0440\u0430\u0442\u043E\u0440"
+  _viewIcon: {fileID: 21300000, guid: b63955137660b2b4d887aea0a0015273, type: 3}
+  _viewAvatar: {fileID: 21300000, guid: 0e49d1736c6d2f14eadacad27bcbae4b, type: 3}
   _activeAbilities:
   - {fileID: 11400000, guid: 377b9520ee2226943b6a5eed2b1f24c3, type: 2}
   - {fileID: 11400000, guid: 69253bf5b2cd75b42afac92ec737c1c1, type: 2}
