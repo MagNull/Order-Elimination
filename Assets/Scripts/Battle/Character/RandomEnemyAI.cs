@@ -63,7 +63,7 @@ public class RandomEnemyAI : BattleCharacter
     {
         _abilities = abilityAIInfo;
     }
-    
+
     public void SetMoveAbility(Ability moveAbility)
     {
         _moveAbility = moveAbility;
@@ -101,6 +101,8 @@ public class RandomEnemyAI : BattleCharacter
 
     private bool TryAttack(BattleCharacter nearestPlayer)
     {
+        if (!TrySpendAction(ActionType.Ability))
+            return false;
         switch (_currentAIAbility.TargetType)
         {
             case TargetType.Self:
@@ -109,9 +111,11 @@ public class RandomEnemyAI : BattleCharacter
             case TargetType.Ally:
                 var allies =
                     _map.GetBattleObjectsInRadius(nearestPlayer, _currentAIAbility.Distance, BattleObjectSide.Enemy);
-                if (allies.Count == 0 || _map.GetStraightDistance(this, nearestPlayer) > _currentAIAbility.Distance)
-                    return false;
-                _currentAIAbility.Use(allies[0], Stats);
+                if (allies.Count == 0 || _map.GetStraightDistance(this, allies[0]) > _currentAIAbility.Distance)
+                    _currentAIAbility.Use(this, Stats);
+                else
+                    _currentAIAbility.Use(allies[0], Stats);
+
                 break;
             case TargetType.All:
             case TargetType.Enemy:
@@ -154,6 +158,8 @@ public class RandomEnemyAI : BattleCharacter
 
     private async UniTask Move(Vector2Int coordinate)
     {
+        if (!TrySpendAction(ActionType.Movement))
+            return;
         await _moveAbility.Use(_map.GetCell(coordinate).GetObject(), Stats);
     }
 }
