@@ -24,7 +24,7 @@ public class AbilityViewBinder
                 !cell.Model.GetObject().View.GameObject ||
                 !cell.Model.GetObject().View.GameObject.TryGetComponent(out BattleCharacterView characterView)
                 || characterView.Model.Side != BattleObjectSide.Ally
-                || currentTurn != BattleObjectSide.Ally
+                || BattleSimulation.CurrentTurn != BattleObjectSide.Ally
                 || characterView.IsSelected
                 || abilityPanel.AbilityCasing)
                 return;

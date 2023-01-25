@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CharacterAbility;
 using CharacterAbility.BuffEffects;
+using Cysharp.Threading.Tasks;
 using OrderElimination;
 using OrderElimination.Battle;
 using OrderElimination.BM;
@@ -191,8 +192,9 @@ public class BattleCharacter : IActor
         EffectAdded?.Invoke(effect);
     }
 
-    public virtual void PlayTurn()
+    public virtual UniTask PlayTurn()
     {
+        return UniTask.CompletedTask;
     }
 
     public void RemoveTickEffect(ITickEffect effect)

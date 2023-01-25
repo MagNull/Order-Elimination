@@ -40,7 +40,7 @@ public class BattleCharacterFactory : MonoBehaviour
             character = new RandomEnemyAI(_map,
                 new BattleStats(info.GetBattleStats()), damageCalculation, _characterBank);
             List<AIAbility> abilitiesInfo = new List<AIAbility>();
-            foreach (var activeAbilityInfo in info.GetActiveAbilityInfos())
+            foreach (var activeAbilityInfo in info.GetActiveAbilityInfos().Skip(1))
             {
                 var ability = _abilityFactory.CreateAbility(activeAbilityInfo, character);
                 var aiInfo = new AIAbility
@@ -54,6 +54,9 @@ public class BattleCharacterFactory : MonoBehaviour
                 );
                 abilitiesInfo.Add(aiInfo);
             }
+            
+            var moveAbility = _abilityFactory.CreateAbility(info.GetActiveAbilityInfos()[0], character);
+            ((RandomEnemyAI) character).SetMoveAbility(moveAbility);
 
             ((RandomEnemyAI) character).SetAbilities(abilitiesInfo);
         }

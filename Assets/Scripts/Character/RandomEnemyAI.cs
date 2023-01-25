@@ -47,6 +47,7 @@ public class RandomEnemyAI : BattleCharacter
 {
     private readonly BattleMap _map;
     private readonly IReadOnlyCharacterBank _characterBank;
+    private Ability _moveAbility;
     private List<AIAbility> _abilities;
     private AIAbility _currentAIAbility;
 
@@ -62,8 +63,13 @@ public class RandomEnemyAI : BattleCharacter
     {
         _abilities = abilityAIInfo;
     }
+    
+    public void SetMoveAbility(Ability moveAbility)
+    {
+        _moveAbility = moveAbility;
+    }
 
-    public override async void PlayTurn()
+    public override async UniTask PlayTurn()
     {
         TickCoolDowns();
         var nearestPlayer = SearchNearestPlayer(_characterBank.GetAllies());
@@ -148,6 +154,6 @@ public class RandomEnemyAI : BattleCharacter
 
     private async UniTask Move(Vector2Int coordinate)
     {
-        await _map.MoveTo(this, coordinate.x, coordinate.y, .2f);
+        await _moveAbility.Use(_map.GetCell(coordinate).GetObject(), Stats);
     }
 }

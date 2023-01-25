@@ -35,13 +35,18 @@ public class BattleSimulation : SerializedMonoBehaviour
     [SerializeField]
     private Dictionary<int, List<Vector2Int>> _enemyPositions = new();
 
-    private BattleObjectSide _currentTurn;
+    [SerializeField]
+    private static BattleObjectSide _currentTurn;
+    
     private BattleOutcome _outcome;
 
     private bool _isBattleEnded = false;
     private bool _isTurnChanged = true;
 
     private List<BattleCharacter> _characters;
+    private bool _enemyTurn = false;
+
+    public static BattleObjectSide CurrentTurn => _currentTurn;
 
     [Inject]
     private void Construct(CharacterArrangeDirector characterArrangeDirector, BattleMapDirector battleMapDirector)
@@ -60,9 +65,10 @@ public class BattleSimulation : SerializedMonoBehaviour
     {
         InitializeBattlefield();
         _battleMapDirector.MapView.InitStartUnitSelection();
+        SimulateBattle();
     }
 
-    public void Update()
+    public async void SimulateBattle()
     {
         CheckBattleOutcome();
         if (_outcome != BattleOutcome.Neither)
@@ -79,7 +85,6 @@ public class BattleSimulation : SerializedMonoBehaviour
         {
             if (_currentTurn == BattleObjectSide.Ally)
             {
-                // ������� ������ ���� ������ ������������ ���� ��� ��� ������� ����
                 if (_isTurnChanged)
                 {
                     PlayerTurnStarted?.Invoke();
@@ -95,20 +100,19 @@ public class BattleSimulation : SerializedMonoBehaviour
                     _isTurnChanged = false;
                     Debug.Log("Начался ход ИИ" % Colorize.Red);
                 }
-
-                // �������� ��
+                
+                _enemyTurn = true;
                 var enemies = _characters
                     .Select(x => x)
                     .Where(x => x.Side == BattleObjectSide.Enemy);
                 foreach (var enemy in enemies)
                 {
-                    enemy.PlayTurn();
+                    await enemy.PlayTurn();
                 }
-
+                _enemyTurn = false;
                 EndTurn();
             }
         }
-
     }
 
     public void CheckBattleOutcome()
@@ -141,15 +145,16 @@ public class BattleSimulation : SerializedMonoBehaviour
             ? BattleOutcome.Defeat
             : (isThereAnyAliveEnemy ? BattleOutcome.Neither : BattleOutcome.Victory);
     }
-
-    // ���������� ����� ������, �������� ������� �� ������
-    // ������ �� Update()
+    
     public void EndTurn()
     {
+        if(_enemyTurn)
+            return;
         _abilityPanel.ResetAbilityButtons();
         _selectedPlayerCharacterStatsPanel.HideInfo();
         SwitchTurn();
         _isTurnChanged = true;
+        SimulateBattle();
     }
 
     public void SwitchTurn() => _currentTurn =
