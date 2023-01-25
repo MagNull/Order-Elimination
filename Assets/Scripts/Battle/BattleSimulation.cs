@@ -38,7 +38,7 @@ public class BattleSimulation : SerializedMonoBehaviour
 
     [SerializeField]
     private static BattleObjectSide _currentTurn;
-    
+
     private BattleOutcome _outcome;
 
     private bool _isBattleEnded = false;
@@ -101,7 +101,7 @@ public class BattleSimulation : SerializedMonoBehaviour
                     _isTurnChanged = false;
                     Debug.Log("Начался ход ИИ" % Colorize.Red);
                 }
-                
+
                 _enemyTurn = true;
                 var enemies = _characters
                     .Select(x => x)
@@ -110,6 +110,7 @@ public class BattleSimulation : SerializedMonoBehaviour
                 {
                     await enemy.PlayTurn();
                 }
+
                 _enemyTurn = false;
                 EndTurn();
             }
@@ -146,10 +147,10 @@ public class BattleSimulation : SerializedMonoBehaviour
             ? BattleOutcome.Defeat
             : (isThereAnyAliveEnemy ? BattleOutcome.Neither : BattleOutcome.Victory);
     }
-    
+
     public void EndTurn()
     {
-        if(_enemyTurn)
+        if (_enemyTurn)
             return;
         _abilityPanel.ResetAbilityButtons();
         _selectedPlayerCharacterStatsPanel.HideInfo();
@@ -166,10 +167,8 @@ public class BattleSimulation : SerializedMonoBehaviour
         _currentTurn = BattleObjectSide.Ally;
         _outcome = BattleOutcome.Neither;
 
-        // ������ ���� ���
         var mapIndex = _battleMapDirector.InitializeMap();
 
-        // ����������� ������
         _characterArrangeDirector.SetArrangementMap(_battleMapDirector.Map);
         _characters = _characterArrangeDirector.Arrange(_unitPositions[mapIndex], _enemyPositions[mapIndex]);
 
@@ -181,7 +180,9 @@ public class BattleSimulation : SerializedMonoBehaviour
         foreach (var e in enemies)
         {
             e.Disabled += _enemiesListPanel.RemoveItem;
+            e.Disabled += view => _characters.Remove((BattleCharacter) view.Model);
         }
+
         _abilityViewBinder.BindAbilityButtons(_battleMapDirector.MapView, _abilityPanel, _currentTurn);
         //TODO ����������� UI
         BattleCharacterView.Selected += _selectedPlayerCharacterStatsPanel.UpdateCharacterInfo;

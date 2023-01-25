@@ -73,6 +73,9 @@ public class BattleCharacter : IActor
 
     public TakeDamageInfo TakeDamage(DamageInfo damageInfo)
     {
+        if (_battleStats.Health <= 0)
+            return new TakeDamageInfo();
+        
         var damageTaken =
             _damageCalculation.CalculateDamage(damageInfo, _battleStats.Armor + _battleStats.AdditionalArmor,
                 _battleStats.Evasion, _incomingTickEffects);

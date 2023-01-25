@@ -139,7 +139,6 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
 
     private async void OnDied(BattleCharacter battleCharacter)
     {
-        Debug.Log(gameObject.name + " died" % Colorize.DarkRed);
         for (var i = 0; i < _dieFadeTimes - 1; i++)
         {
             await _renderer.DOColor(Color.clear, _dieDuration / (_dieFadeTimes * 4)).AsyncWaitForCompletion();
@@ -167,6 +166,8 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
         }
         
         _character.ClearTickEffects();
+        
+        Destroy(gameObject);
     }
 
     private void OnTurnStart()
