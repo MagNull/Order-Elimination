@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using OrderElimination;
 using TMPro;
 using UIManagement.Debugging;
 using UIManagement.Elements;
@@ -16,11 +17,13 @@ namespace UIManagement
     public class SquadListPanel : UIPanel
     {
         [SerializeField] private CharacterAvatarsList _characterList;
+        private Information _playerInfo;
         public override PanelType PanelType => PanelType.SquadList;
         
         [Button]
-        public void UpdateSquadInfo(List<Character> squadCharacters)
+        public void UpdateSquadInfo(List<Character> squadCharacters, Information playerInfo)
         {
+            _playerInfo = playerInfo;
             _characterList.Clear();
             _characterList.Populate(squadCharacters.ToArray());
             _characterList.ElementHolded -= OnCharacterAvatarHolded;
@@ -29,7 +32,7 @@ namespace UIManagement
 
         private void OnCharacterAvatarHolded(CharacterClickableAvatar characterAvatar)
         {
-            var upgradeTransaction = new CharacterUpgradeTransaction(characterAvatar.CurrentCharacterInfo, null);
+            var upgradeTransaction = new CharacterUpgradeTransaction(characterAvatar.CurrentCharacterInfo, _playerInfo);
             var characterPanel = (CharacterUpgradePanel)UIController.SceneInstance.OpenPanel(PanelType.CharacterUpgradable);
             characterPanel.UpdateCharacterUpgradeDescription(upgradeTransaction);
         }

@@ -6,10 +6,10 @@ namespace OrderElimination
     public struct StrategyStats
     {
         public int CostOfUpgrade;
-        public readonly int HealthGrowth;
-        public readonly int ArmorGrowth;
-        public readonly int AttackGrowth;
-        public readonly int AccuracyGrowth;
-        public readonly int EvasionGrowth;
+        public int HealthGrowth;
+        public int AttackGrowth;
+        public int ArmorGrowth;
+        public int EvasionGrowth;
+        public int AccuracyGrowth;
     }
 }

@@ -22,7 +22,12 @@ MonoBehaviour:
     _movement: 4
     _damageModificator: 0
   _strategyStats:
-    CostOfUpgrade: 0
+    CostOfUpgrade: 250
+    HealthGrowth: 1
+    AttackGrowth: 2
+    ArmorGrowth: 2
+    EvasionGrowth: 1
+    AccuracyGrowth: 0
   _name: "\u0410\u0432\u0430\u043D\u0433\u0430\u0440\u0434"
   _viewIcon: {fileID: 21300000, guid: 92048caf1ede0b047813c866a2d0dfa2, type: 3}
   _viewAvatar: {fileID: 21300000, guid: e25d54ec6e9dfdf4ead58bc3d6235afe, type: 3}

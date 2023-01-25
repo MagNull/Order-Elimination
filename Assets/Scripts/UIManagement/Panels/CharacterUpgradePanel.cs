@@ -9,6 +9,7 @@ using System.Linq;
 using Sirenix.OdinInspector;
 using OrderElimination;
 using System;
+using DefaultNamespace;
 using UIManagement.trashToRemove_Mockups;
 
 namespace UIManagement
@@ -19,6 +20,7 @@ namespace UIManagement
         [SerializeField] private HoldableButton _upgradeButton;
         [SerializeField] private TextMeshProUGUI _upgradeText;
         [SerializeField] private TextMeshProUGUI _upgradeCost;
+        [SerializeField] private TextEmitter _textEmitter;
         private CharacterUpgradeTransaction _currentUpgradeTransaction;
 
         public void UpdateCharacterUpgradeDescription(CharacterUpgradeTransaction transaction)
@@ -33,6 +35,8 @@ namespace UIManagement
         private void OnUpgradeButtonClicked(HoldableButton button)
         {
             var upgradeResult = _currentUpgradeTransaction.TryUpgrade();
+            if(upgradeResult)
+                _textEmitter.Emit($"-{_currentUpgradeTransaction.Cost}", Color.yellow);
         }
     }
 }

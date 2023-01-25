@@ -31,6 +31,7 @@ namespace DefaultNamespace
             await UniTask.WaitUntil(() => Time.time - _lastEmitTime >= _delayBetweenSpawn);
             _lastEmitTime = Time.time;
             var textInstance = Instantiate(_textPrefab, transform);
+            textInstance.gameObject.SetActive(true);
             textInstance.fontSize = fontSize > 0 ? fontSize : _standardFontSize;
             textInstance.text = text;
             textInstance.color = color;

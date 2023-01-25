@@ -1,5 +1,6 @@
 ﻿using System;
 using CharacterAbility;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -8,6 +9,7 @@ namespace OrderElimination
     [CreateAssetMenu(fileName = "CharacterInfo", menuName = "Character")]
     public class Character : ScriptableObject, IBattleCharacterInfo
     {
+        [SerializeField]
         private BattleStats _baseStats;
         [SerializeField]
         private BattleStats _battleStats;
@@ -52,18 +54,33 @@ namespace OrderElimination
                 UnmodifiedAttack = _strategyStats.AttackGrowth + _battleStats.UnmodifiedAttack
             };
             
+            Debug.Log($"Health: Old - {_battleStats.UnmodifiedHealth}, New - {battleStats.UnmodifiedHealth}");
+            Debug.Log($"Health: Old - {_battleStats.UnmodifiedArmor}, New - {battleStats.UnmodifiedArmor}");
+            Debug.Log($"Health: Old - {_battleStats.UnmodifiedAccuracy}, New - {battleStats.UnmodifiedAccuracy}");
+            Debug.Log($"Health: Old - {_battleStats.UnmodifiedEvasion}, New - {battleStats.UnmodifiedEvasion}");
+            Debug.Log($"Health: Old - {_battleStats.UnmodifiedAttack}, New - {battleStats.UnmodifiedAttack}");
             _battleStats = battleStats;
+        }
+
+        public void Awake()
+        {
+            Debug.Log("Awake");
         }
 
         private void OnValidate()
         {
-            _baseStats = _battleStats;
             _battleStats.UnmodifiedHealth = _battleStats.Health;
             _battleStats.UnmodifiedArmor = _battleStats.Armor;
             _battleStats.UnmodifiedAttack = _battleStats.Attack;
             _battleStats.UnmodifiedAccuracy = _battleStats.Accuracy;
             _battleStats.UnmodifiedEvasion = _battleStats.Evasion;
             _battleStats.UnmodifiedMovement = _battleStats.Movement;
+        }
+
+        [Button]
+        public void ResetStats()
+        {
+            _battleStats = _baseStats;
         }
     }
 }

@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1984226b6f4b5ea94fb3b7f3b16efb, type: 3}
   m_Name: "\u041F\u0435\u0445\u043E\u0442\u0438\u043D\u0435\u0446"
   m_EditorClassIdentifier: 
+  _baseStats:
+    _health: 75
+    _attack: 25
+    _armor: 100
+    _additionalArmor: 0
+    _evasion: 10
+    _accuracy: 85
+    _movement: 3
+    _damageModificator: 0
   _battleStats:
     _health: 75
     _attack: 25
@@ -22,7 +31,12 @@ MonoBehaviour:
     _movement: 3
     _damageModificator: 0
   _strategyStats:
-    CostOfUpgrade: 0
+    CostOfUpgrade: 250
+    HealthGrowth: 1
+    AttackGrowth: 2
+    ArmorGrowth: 2
+    EvasionGrowth: 0
+    AccuracyGrowth: 1
   _name: "\u041F\u0435\u0445\u043E\u0442\u0438\u043D\u0435\u0446"
   _viewIcon: {fileID: 21300000, guid: 565bd5d332ad53e49a0ec471bcc27a34, type: 3}
   _viewAvatar: {fileID: 21300000, guid: 856fe320e10ecec479c0ea2647d07651, type: 3}

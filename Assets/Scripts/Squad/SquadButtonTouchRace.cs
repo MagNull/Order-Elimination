@@ -16,7 +16,6 @@ namespace OrderElimination
             if (_isRacePressed )
             {
                 _time += Time.deltaTime;
-                Debug.Log(_time);
             }
 
             if (_time > 0.8)
