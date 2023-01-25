@@ -12,6 +12,7 @@ using UIManagement.Elements;
 using UIManagement;
 using UnityEngine.Rendering;
 
+//TODO: Need full refactoring first of all
 public class BattleSimulation : SerializedMonoBehaviour
 {
     public static event Action PlayerTurnStarted;
