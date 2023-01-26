@@ -13,7 +13,9 @@ namespace OrderElimination
         public int Money => _money;
         private int _moveCount;
 
-        private void Start()
+        public Action OnUpdateMoney;
+        
+        private void Awake()
         {
             if (PlayerPrefs.GetString($"{StrategyMap.SaveIndex}:BattleOutcome") == BattleOutcome.Victory.ToString())
             {
@@ -29,6 +31,7 @@ namespace OrderElimination
         {
             _moneyText.text = money.ToString();
             _money = money;
+            OnUpdateMoney?.Invoke();
         }
 
         public void SetMoveCount(int moveCount)

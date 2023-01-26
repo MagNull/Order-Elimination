@@ -54,6 +54,7 @@ namespace OrderElimination
             _pointsInfo = Resources.LoadAll<PlanetInfo>("");
             InputClass.onFinishMove += OnFinishMove;
             InputClass.onSaveData += SaveData;
+            _playerInformation.OnUpdateMoney += SaveData;
         }
 
         private void Start()
@@ -226,7 +227,7 @@ namespace OrderElimination
             var enemyPosition = Vector3.zero;
             if (_enemySquad is not null)
                 enemyPosition = EnemySquad.transform.position;
-            var money = PlayerPrefs.GetInt($"{SaveIndex}:Money");
+            var money = _playerInformation.Money;
             var save = new Save(CountMove, enemyPosition, isMoveSquads, positions, money);
             
             Database.PutSaveToDatabase(save, SaveIndex);
