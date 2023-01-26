@@ -27,15 +27,15 @@ namespace UIManagement.Elements
 
         [Header("Parameters")]
         [SerializeField]
-        private float _highlightFadeTime = 0.7f;
+        private float _highlightTime = 0.7f;
         [SerializeField]
-        private Ease _highlightFadeEase = Ease.Flash;
+        private Ease _highlightEase = Ease.Flash;
         [SerializeField]
         private bool _isClickingAvatarAvailable;
         [SerializeField]
         private bool _isHoldingAvatarAvailable;
 
-        private Tweener _highlightTweener;
+        private List<Tweener> _highlightTweeners = new ();
 
         public bool IsClickingAvatarAvailable
         {
@@ -103,14 +103,17 @@ namespace UIManagement.Elements
         public void Highlight(Color highlightColor)
         {
             _panelHighlightImage.color = highlightColor;
-            // _highlightTweener = _panelHighlightImage.DOBlendableColor(Color.white, _highlightFadeTime)
-            //     .SetEase(_highlightFadeEase);
+            transform.localScale = Vector3.one * 1.1f;
+            _highlightTweeners.Add(transform.DOScale(1, _highlightTime / 2.5f).SetEase(_highlightEase));
+
+            //_highlightTweeners.Add(_panelHighlightImage.DOBlendableColor(Color.white, _highlightTime)
+            //    .SetEase(_highlightEase));
         }
 
         public void KillHighlightProcess()
         {
-            // if (_highlightTweener != null)
-            //     _highlightTweener.Complete();
+            foreach (var t in _highlightTweeners)
+                t.Complete();
             _panelHighlightImage.color = Color.white;
         }
 

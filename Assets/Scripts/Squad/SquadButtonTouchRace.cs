@@ -8,8 +8,8 @@ namespace OrderElimination
     {
         private float _time = 0;
         private bool _isRacePressed = false;
-        public event Action onPointerDown;
-        public event Action onActiveSquadPanel;
+        public event Action Clicked;
+        public event Action Holded;
         
         void Update ()
         {
@@ -20,7 +20,7 @@ namespace OrderElimination
 
             if (_time > 0.8)
             {
-                onActiveSquadPanel?.Invoke();
+                Holded?.Invoke();
                 PointerUp();
             }
         }
@@ -35,7 +35,7 @@ namespace OrderElimination
             _isRacePressed = false;
             if (_time < 0.5)
             {
-                onPointerDown?.Invoke();
+                Clicked?.Invoke();
             }
 
             _time = 0;

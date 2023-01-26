@@ -429,6 +429,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 5.12, y: 5.12}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &436855450 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6811709170171255873, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
+  m_PrefabInstance: {fileID: 7208725858282699637}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &436855452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436855450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e46bea13450b8441b6246cea06175a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &700708824 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7208725858983283885, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
@@ -1970,10 +1987,6 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 8076464380066710141, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
-    - target: {fileID: 8076464380066710141, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
-      propertyPath: _tutorialStages.Array.data[3].UnmaskUIs.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8767081308898979156, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

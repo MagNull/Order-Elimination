@@ -26,7 +26,6 @@ namespace OrderElimination
             get => _pointNumber;
             set
             {
-                Debug.Log(value);
                 if (value < 0)
                     throw new ArgumentException("Planet point < 0");
                 _pointNumber = value;
