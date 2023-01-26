@@ -12,6 +12,7 @@ using UIManagement.Elements;
 using UIManagement;
 using UnityEngine.Rendering;
 
+//TODO: Need full refactoring first of all
 public class BattleSimulation : SerializedMonoBehaviour
 {
     public static event Action PlayerTurnStarted;
@@ -35,13 +36,18 @@ public class BattleSimulation : SerializedMonoBehaviour
     [SerializeField]
     private Dictionary<int, List<Vector2Int>> _enemyPositions = new();
 
-    private BattleObjectSide _currentTurn;
+    [SerializeField]
+    private static BattleObjectSide _currentTurn;
+
     private BattleOutcome _outcome;
 
     private bool _isBattleEnded = false;
     private bool _isTurnChanged = true;
 
     private List<BattleCharacter> _characters;
+    private bool _enemyTurn = false;
+
+    public static BattleObjectSide CurrentTurn => _currentTurn;
 
     [Inject]
     private void Construct(CharacterArrangeDirector characterArrangeDirector, BattleMapDirector battleMapDirector)
@@ -60,26 +66,21 @@ public class BattleSimulation : SerializedMonoBehaviour
     {
         InitializeBattlefield();
         _battleMapDirector.MapView.InitStartUnitSelection();
+        SimulateBattle();
     }
 
-    public void Update()
+    public async void SimulateBattle()
     {
         CheckBattleOutcome();
         if (_outcome != BattleOutcome.Neither)
         {
             // �� ���������� �������� ������� ������������ ��������
-            if (_isBattleEnded) return;
-            BattleEnded?.Invoke(_outcome);
-            _selectedPlayerCharacterStatsPanel.HideInfo();
-            _abilityPanel.ResetAbilityButtons();
-            _isBattleEnded = true;
-            Debug.LogFormat("�������� ��������� - ������� {0}", _outcome == BattleOutcome.Victory ? "�����" : "��");
+            EndBattle();
         }
         else
         {
             if (_currentTurn == BattleObjectSide.Ally)
             {
-                // ������� ������ ���� ������ ������������ ���� ��� ��� ������� ����
                 if (_isTurnChanged)
                 {
                     PlayerTurnStarted?.Invoke();
@@ -96,19 +97,29 @@ public class BattleSimulation : SerializedMonoBehaviour
                     Debug.Log("Начался ход ИИ" % Colorize.Red);
                 }
 
-                // �������� ��
+                _enemyTurn = true;
                 var enemies = _characters
                     .Select(x => x)
                     .Where(x => x.Side == BattleObjectSide.Enemy);
                 foreach (var enemy in enemies)
                 {
-                    enemy.PlayTurn();
+                    await enemy.PlayTurn();
                 }
 
+                _enemyTurn = false;
                 EndTurn();
             }
         }
+    }
 
+    private void EndBattle()
+    {
+        if (_isBattleEnded) return;
+        BattleEnded?.Invoke(_outcome);
+        _selectedPlayerCharacterStatsPanel.HideInfo();
+        _abilityPanel.ResetAbilityButtons();
+        _isBattleEnded = true;
+        Debug.LogFormat("�������� ��������� - ������� {0}", _outcome == BattleOutcome.Victory ? "�����" : "��");
     }
 
     public void CheckBattleOutcome()
@@ -140,16 +151,19 @@ public class BattleSimulation : SerializedMonoBehaviour
         _outcome = !isThereAnyAliveAlly
             ? BattleOutcome.Defeat
             : (isThereAnyAliveEnemy ? BattleOutcome.Neither : BattleOutcome.Victory);
+        if(_outcome != BattleOutcome.Neither)
+            EndBattle();
     }
 
-    // ���������� ����� ������, �������� ������� �� ������
-    // ������ �� Update()
     public void EndTurn()
     {
+        if (_enemyTurn)
+            return;
         _abilityPanel.ResetAbilityButtons();
         _selectedPlayerCharacterStatsPanel.HideInfo();
         SwitchTurn();
         _isTurnChanged = true;
+        SimulateBattle();
     }
 
     public void SwitchTurn() => _currentTurn =
@@ -160,10 +174,8 @@ public class BattleSimulation : SerializedMonoBehaviour
         _currentTurn = BattleObjectSide.Ally;
         _outcome = BattleOutcome.Neither;
 
-        // ������ ���� ���
         var mapIndex = _battleMapDirector.InitializeMap();
 
-        // ����������� ������
         _characterArrangeDirector.SetArrangementMap(_battleMapDirector.Map);
         _characters = _characterArrangeDirector.Arrange(_unitPositions[mapIndex], _enemyPositions[mapIndex]);
 
@@ -175,7 +187,14 @@ public class BattleSimulation : SerializedMonoBehaviour
         foreach (var e in enemies)
         {
             e.Disabled += _enemiesListPanel.RemoveItem;
+            e.Disabled += view => _characters.Remove((BattleCharacter) view.Model);
         }
+
+        foreach (var battleCharacter in _characters)
+        {
+            battleCharacter.Died += _ => CheckBattleOutcome();
+        }
+
         _abilityViewBinder.BindAbilityButtons(_battleMapDirector.MapView, _abilityPanel, _currentTurn);
         //TODO ����������� UI
         BattleCharacterView.Selected += _selectedPlayerCharacterStatsPanel.UpdateCharacterInfo;

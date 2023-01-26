@@ -15,12 +15,12 @@ namespace OrderElimination.Battle
         {
             ApplyModifications(ref damageInfo, armor, incomingDebuffs);
 
-            bool hitRoll = Random.Range(0, 100) <= damageInfo.Accuracy;
+            var hitRoll = Random.Range(0, 100) <= damageInfo.Accuracy;
             if (!hitRoll)
                 return (0, 0, DamageCancelType.Miss);
             if (damageInfo.DamageHealTarget != DamageHealTarget.OnlyHealth)
             {
-                bool evasionRoll = Random.Range(0, 100) <= evasion;
+                var evasionRoll = Random.Range(0, 100) <= evasion;
                 if (evasionRoll)
                     return (0, 0, DamageCancelType.Dodge);
             }

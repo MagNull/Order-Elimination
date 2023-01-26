@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1984226b6f4b5ea94fb3b7f3b16efb, type: 3}
   m_Name: "\u041E\u0442\u0433\u043E\u043B\u043E\u0441\u043E\u043A \u041D\u0430\u0431\u043B\u044E\u0434\u0430\u0442\u0435\u043B\u044C"
   m_EditorClassIdentifier: 
+  _baseStats:
+    _health: 0
+    _attack: 0
+    _armor: 0
+    _additionalArmor: 0
+    _evasion: 0
+    _accuracy: 0
+    _movement: 0
+    _damageModificator: 0
   _battleStats:
     _health: 65
     _attack: 10
@@ -23,10 +32,16 @@ MonoBehaviour:
     _damageModificator: 0
   _strategyStats:
     CostOfUpgrade: 0
+    HealthGrowth: 0
+    AttackGrowth: 0
+    ArmorGrowth: 0
+    EvasionGrowth: 0
+    AccuracyGrowth: 0
   _name: "\u041E\u0442\u0433\u043E\u043B\u043E\u0441\u043E\u043A \u041D\u0430\u0431\u043B\u044E\u0434\u0430\u0442\u0435\u043B\u044C"
-  _viewIcon: {fileID: 21300000, guid: 0688d49df80e6a04f857c6e4b64b8767, type: 3}
-  _viewAvatar: {fileID: 21300000, guid: b7784b2b2e710004b8a7a9a045bf58e2, type: 3}
+  _viewIcon: {fileID: 21300000, guid: 1dcb6f325a999ce4d9dc667c6e27c63f, type: 3}
+  _viewAvatar: {fileID: 21300000, guid: a9b00ce4ed4fcd04dab9ce4afe0e5726, type: 3}
   _activeAbilities:
+  - {fileID: 11400000, guid: 7ea274e1f1087a34990a8cbed181dcae, type: 2}
   - {fileID: 11400000, guid: 9ad3665590ceb2245acf75b20d6ab9ba, type: 2}
   - {fileID: 11400000, guid: dc2c1ecbc251c9642bcd8e7caa100ef2, type: 2}
   - {fileID: 11400000, guid: f03a378b83c7354429fcdaa60839df73, type: 2}

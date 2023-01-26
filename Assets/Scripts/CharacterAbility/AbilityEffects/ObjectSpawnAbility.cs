@@ -34,12 +34,9 @@ namespace CharacterAbility.AbilityEffects
 
             var targetCoordinate = _battleMap.GetCoordinate(target);
             var envObject = _environmentFactory.Create(_environmentInfo, _lifeTime);
-            await _battleMap.MoveTo(envObject, targetCoordinate.x, targetCoordinate.y, 0)
-                .ContinueWith(() =>
-                {
-                    if (target is not NullBattleObject or EnvironmentObject)
-                        _battleMap.MoveTo(target, targetCoordinate.x, targetCoordinate.y, 0);
-                });
+            await _battleMap.MoveTo(envObject, targetCoordinate.x, targetCoordinate.y, 0);
+            if (target is not NullBattleObject or EnvironmentObject)
+                await _battleMap.MoveTo(target, targetCoordinate.x, targetCoordinate.y, 0);
             await UseNext(_battleMap.GetCell(targetCoordinate.x, targetCoordinate.y).GetObject(), stats);
         }
     }

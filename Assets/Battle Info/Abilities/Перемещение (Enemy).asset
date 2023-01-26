@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 712c7d7e8793431d90ef1998c6ea77d7, type: 3}
-  m_Name: "\u0414\u0440\u043E\u043D-\u0437\u0430\u0449\u0438\u0442\u043D\u0438\u043A"
+  m_Name: "\u041F\u0435\u0440\u0435\u043C\u0435\u0449\u0435\u043D\u0438\u0435 (Enemy)"
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,24 +21,23 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _name: "\u0414\u0440\u043E\u043D- \u0437\u0430\u0449\u0438\u0442\u043D\u0438\u043A"
-  _description: "\u0414\u0440\u043E\u043D \u0434\u0430\u0435\u0442 \u0441\u043E\u044E\u0437\u043D\u0438\u043A\u0443
-    \u044D\u043D\u0435\u0440\u0433\u0435\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0439
-    \u0449\u0438\u0442 \u043D\u0430 1 \u0445\u043E\u0434."
-  _coolDown: 2
-  _startCoolDown: 1
+  _name: "\u041F\u0435\u0440\u0435\u043C\u0435\u0449\u0435\u043D\u0438\u0435"
+  _description: "\u0411\u043E\u0435\u0446 \u043F\u0435\u0440\u0435\u043C\u0435\u0441\u0442\u0438\u0442\u0441\u044F
+    \u043D\u0430 \u0443\u043A\u0430\u0437\u0430\u043D\u043D\u0443\u044E \u043A\u043B\u0435\u0442\u043A\u0443."
+  _coolDown: 1
+  _startCoolDown: 0
   _notTriggerCast: 0
-  <Icon>k__BackingField: {fileID: 21300000, guid: bbc350c204ded624d9a593d11b7cb063, type: 3}
-  <ActionType>k__BackingField: 1
+  <Icon>k__BackingField: {fileID: 21300000, guid: 94046d13d573e464aa6ca640df40ceb2, type: 3}
+  <ActionType>k__BackingField: 0
   _type: 0
   _activeParams:
     _hasTarget: 1
     _hasTargetEffect: 1
-    _distanceFromMovement: 0
-    _distance: 4
-    _targetType: 2
+    _distanceFromMovement: 1
+    _distance: 0
+    _targetType: 4
     _targetEffects:
-    - Type: 4
+    - Type: 2
       MainEffect: 0
       HasProbability: 0
       Probability: 0
@@ -47,16 +46,16 @@ MonoBehaviour:
       Amounts: 0
       ScaleFrom: 0
       Scale: 0
-      StepDelay: 0
+      StepDelay: 0.3
       Modificator: 0
       ModificatorValue: 0
       ObjectInfo: {fileID: 0}
-      BuffType: 2
+      BuffType: 0
       IsUnique: 0
-      Multiplier: 1
-      ScaleFromWhom: 1
-      BuffModificator: 0.33
-      Duration: 1
+      Multiplier: 0
+      ScaleFromWhom: 0
+      BuffModificator: 0
+      Duration: 0
       ConditionType: 0
       OverTimeType: 0
       TickValue: 0
@@ -65,10 +64,10 @@ MonoBehaviour:
       TriggerEffects: []
       ShowInAbilityDescription: 1
       EffectView:
-        _effectName: "\u042D\u043D\u0435\u0440\u0433. \u0449\u0438\u0442"
-        _effectIcon: {fileID: 21300000, guid: a0506965fc7cd5a4eb219605c409589e, type: 3}
-        _displayAsMainEffect: 0
-        _displayWhenApplied: 1
+        _effectName: 
+        _effectIcon: {fileID: 0}
+        _displayAsMainEffect: 1
+        _displayWhenApplied: 0
     _hasAreaEffect: 0
     _areaRadius: 0
     _areaEffects: []
