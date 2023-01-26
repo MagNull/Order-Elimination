@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using VContainer;
 using VContainer.Unity;
 using UIManagement.Elements;
+using UnityEngine.Serialization;
 
 namespace OrderElimination
 {
@@ -21,10 +22,12 @@ namespace OrderElimination
         private EnemySquad _tutorialEnemySquadPrefab;
         [SerializeField]
         private Path _pathPrefab;
+        [FormerlySerializedAs("_firstButtonSquadPrefab")]
         [SerializeField]
-        private HoldableButton _firstButtonSquadPrefab;
+        private HoldableButton _firstButtonSquad;
+        [FormerlySerializedAs("_secondButtonSquadPrefab")]
         [SerializeField]
-        private HoldableButton _secondButtonSquadPrefab;
+        private HoldableButton _secondButtonSquad;
         [SerializeField]
         private GameObject _parent;
 
@@ -63,8 +66,7 @@ namespace OrderElimination
 
         public HoldableButton CreateSquadButton(Vector3 position, bool isFirstSquad)
         {
-            var button = Instantiate(isFirstSquad ? _firstButtonSquadPrefab : _secondButtonSquadPrefab, position, Quaternion.identity, _parent.transform);
-            return button;
+            return isFirstSquad ? _firstButtonSquad : _secondButtonSquad;
         }
 
         public EnemySquad CreateEnemySquad(Vector3 position)

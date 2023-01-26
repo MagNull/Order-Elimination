@@ -31,7 +31,7 @@ namespace Tutorial
         }
         
         [Button]
-        private void ResetAllTutorials()
+        public void ResetAllTutorials()
         {
             PlayerPrefs.SetInt("Battle Tutorial", 1);
             PlayerPrefs.SetInt("Strategy Tutorial", 1);
