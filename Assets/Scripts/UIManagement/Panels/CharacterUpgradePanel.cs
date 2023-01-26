@@ -36,7 +36,10 @@ namespace UIManagement
         {
             var upgradeResult = _currentUpgradeTransaction.TryUpgrade();
             if(upgradeResult)
+            {
                 _textEmitter.Emit($"-{_currentUpgradeTransaction.Cost}", Color.yellow);
+                UpdateCharacterDescription(_currentCharacterInfo);
+            }
         }
     }
 }

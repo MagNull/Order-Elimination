@@ -7,6 +7,7 @@ using UIManagement;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using VContainer;
+using UIManagement.Elements;
 
 namespace OrderElimination
 {
@@ -20,7 +21,7 @@ namespace OrderElimination
         private SquadView _view;
         private SquadPresenter _presenter;
         private SquadCommander _commander;
-        private SquadButtonTouchRace _buttonOnOrderPanel;
+        private HoldableButton _buttonOnOrderPanel;
         private CharactersMediator _charactersMediator;
         public static event Action<Squad> Selected;
         public static event Action<Squad> Unselected;
@@ -62,7 +63,7 @@ namespace OrderElimination
             _model.Move(planetPoint);
         }
 
-        private void ActiveSquadPanel()
+        private void ActiveSquadPanel(HoldableButton button, float holdTime)
         {
             onActiveSquadPanel?.Invoke(this);
         }
@@ -80,10 +81,12 @@ namespace OrderElimination
             AlreadyMove = isAlreadyMove;
         }
 
-        public void SetOrderButton(SquadButtonTouchRace button)
+        public void SetOrderButton(HoldableButton button)
         {
             _buttonOnOrderPanel = button;
-            _buttonOnOrderPanel.Clicked += Select;
+            _buttonOnOrderPanel.Clicked -= OnClicked;
+            _buttonOnOrderPanel.Clicked += OnClicked;
+            _buttonOnOrderPanel.Holded -= ActiveSquadPanel;
             _buttonOnOrderPanel.Holded += ActiveSquadPanel;
         }
 
@@ -96,6 +99,8 @@ namespace OrderElimination
         {
             _buttonOnOrderPanel.gameObject.SetActive(isActive);
         }
+
+        public void OnClicked(HoldableButton button) => Select();
 
         public void Select()
         {

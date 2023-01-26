@@ -139,19 +139,19 @@ namespace CharacterAbility
             }
             else if (effect is IncomingBuff incomingBuff)
             {
+                var buffName = Localization.Current.GetBuffName(incomingBuff.IncomingBuffType);
                 switch (incomingBuff.IncomingBuffType)
                 {
                     case Buff_Type.IncomingAccuracy:
                         var sign = incomingBuff.Modificator >= 0 ? "+" : "";
-                        var buffName = Localization.Current.GetBuffName(incomingBuff.IncomingBuffType);
                         result.AddDisplayedParameter(buffName, $"{sign}{ incomingBuff.Modificator }%");
                         break;
                     case Buff_Type.IncomingDamageIncrease:
-                        result.AddDisplayedParameter("Урон взрывом", $"+{ (incomingBuff.Modificator - 1) * 100 }%");
+                        result.AddDisplayedParameter(buffName, $"+{ (incomingBuff.Modificator - 1) * 100 }%");
                         break;
                     case Buff_Type.IncomingDamageReduction:
                         var dmgReduction = Mathf.RoundToInt((1 - (1 / incomingBuff.Modificator)) * 100);
-                        result.AddDisplayedParameter("Урон взрывом", $"-{ dmgReduction }%");
+                        result.AddDisplayedParameter(buffName, $"-{ dmgReduction }%");
                         break;
                     default:
                         throw new NotImplementedException();
@@ -251,7 +251,7 @@ namespace CharacterAbility
                 if (effect.Type == AbilityEffectType.TickingBuff)
                 {
                     var valuePrefix = effect.BuffModificator > 0 ? "+" : "";
-                    var value = effect.Multiplier ? effect.BuffModificator * 100 : effect.BuffModificator;
+                    var value = effect.Multiplier ? (effect.BuffModificator - 1) * 100 : effect.BuffModificator;
                     result.AddDisplayedParameter(
                         Localization.Current.GetBuffName(effect.BuffType),
                         $"{valuePrefix}{value}",

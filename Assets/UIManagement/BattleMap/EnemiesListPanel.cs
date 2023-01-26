@@ -30,7 +30,6 @@ namespace UIManagement.Elements
         [Inject]
         public void Construct(BattleMapView battleMapView)
         {
-            Debug.Log(name + "Construct");
             battleMapView.CellClicked -= OnCellClicked;
             battleMapView.CellClicked += OnCellClicked;
         }
