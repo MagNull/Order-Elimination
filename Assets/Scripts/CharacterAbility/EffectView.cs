@@ -271,8 +271,6 @@ namespace CharacterAbility
             {
                 result.AddDisplayedParameter("Дальность", casterStats.UnmodifiedMovement);
             }
-            else if (effect.Type == AbilityEffectType.Stun)
-            { }
             else if (effect.Type == AbilityEffectType.ConditionalBuff)
             {
                 if (effect.BuffType != Buff_Type.Concealment)
