@@ -61,6 +61,8 @@ namespace OrderElimination
         {
             SaveIndex = PlayerPrefs.GetInt("SaveIndex");
             CountMove = PlayerPrefs.GetInt($"{SaveIndex}:CountMove");
+            _playerInformation.SetMoneyWithBattleOutcome();
+            _playerInformation.SetMoveCount(PlayerPrefs.GetInt($"{SaveIndex}:CountMove"));
             Deserialize();
             UpdateSettings();
         }
