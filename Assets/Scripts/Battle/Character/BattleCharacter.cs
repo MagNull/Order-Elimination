@@ -172,12 +172,12 @@ public class BattleCharacter : IActor
 
     public void OnTurnStart()
     {
-        TickEffects();
         if (!_tickEffects.Any(ef => ef is StunBuff))
         {
             Debug.Log("Check");
             RefreshActions();
         }
+        TickEffects();
     }
 
     public void AddTickEffect(ITickEffect effect)
