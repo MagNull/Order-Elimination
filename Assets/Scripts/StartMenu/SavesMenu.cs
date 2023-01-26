@@ -19,6 +19,7 @@ namespace OrderElimination.Start
         private void Awake()
         {
             Database.LoadSave += SetSaveText;
+            AuthManager.OnUserLogout += ClearSaveText;
             foreach (var save in _saves)
                 save.DeleteSave += DeleteSave;
             SaveClicked(0);
@@ -50,6 +51,12 @@ namespace OrderElimination.Start
         public void SetSaveText(int index, string text)
         {
             _saves[index].SetText(text);
+        }
+
+        public void ClearSaveText()
+        {
+            foreach (var save in _saves)
+                save.SetText("");
         }
 
         public void LoadButtonClicked()

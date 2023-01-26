@@ -31,6 +31,7 @@ namespace OrderElimination
         public static Action OnUserSignIn;
         public static Action OnUserSignUp;
         public static event Action<string> OnUserLogin;
+        public static event Action OnUserLogout;
 
         private void Start()
         {
@@ -182,8 +183,8 @@ namespace OrderElimination
 
         public void LogOut()
         {
-            if (!PlayerPrefs.HasKey("Id"))
-                PlayerPrefs.DeleteKey("Id");
+            PlayerPrefs.DeleteKey("Id");
+            OnUserLogout?.Invoke();
             loginForm.SetActive(true);
         }
     }
