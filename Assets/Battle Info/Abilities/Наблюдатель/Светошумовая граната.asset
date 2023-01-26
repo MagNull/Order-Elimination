@@ -40,7 +40,7 @@ MonoBehaviour:
     _distance: 3
     _targetType: 3
     _targetEffects:
-    - Type: 7
+    - Type: 4
       MainEffect: 0
       HasProbability: 1
       Probability: 50
@@ -53,12 +53,12 @@ MonoBehaviour:
       Modificator: 0
       ModificatorValue: 0
       ObjectInfo: {fileID: 0}
-      BuffType: 0
+      BuffType: 12
       IsUnique: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: 0
-      Duration: 0
+      Duration: 1
       ConditionType: 0
       OverTimeType: 0
       TickValue: 0
@@ -136,7 +136,7 @@ MonoBehaviour:
     _hasAreaEffect: 1
     _areaRadius: 1
     _areaEffects:
-    - Type: 7
+    - Type: 4
       MainEffect: 0
       HasProbability: 1
       Probability: 50
@@ -149,12 +149,12 @@ MonoBehaviour:
       Modificator: 0
       ModificatorValue: 0
       ObjectInfo: {fileID: 0}
-      BuffType: 0
+      BuffType: 12
       IsUnique: 0
       Multiplier: 0
       ScaleFromWhom: 0
       BuffModificator: 0
-      Duration: 0
+      Duration: 1
       ConditionType: 0
       OverTimeType: 0
       TickValue: 0
