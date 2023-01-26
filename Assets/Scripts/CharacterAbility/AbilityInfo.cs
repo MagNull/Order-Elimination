@@ -22,7 +22,6 @@ namespace CharacterAbility
         TickingBuff,
         ConditionalBuff,
         Modificator,
-        Stun,
         Contreffect,
         ObjectSpawn
     }
@@ -62,7 +61,8 @@ namespace CharacterAbility
         IncomingDamageReduction,
         Concealment,
         OutcomingAttack,
-        OutcomingAccuracy//TODO: Wait buff refactoring
+        OutcomingAccuracy,//TODO: Wait buff refactoring
+        Stun
     }
 
     public enum ScaleFromWhom

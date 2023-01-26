@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 712c7d7e8793431d90ef1998c6ea77d7, type: 3}
-  m_Name: "\u0423\u0441\u0442\u0440\u0430\u0448\u0435\u043D\u0438\u0435"
+  m_Name: "\u0423\u0441\u0442\u0440\u0430\u0448\u0435\u043D\u0438\u0435 (Enemy)"
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -45,7 +45,7 @@ MonoBehaviour:
       MainEffect: 0
       HasProbability: 1
       Probability: 90
-      Filter: 2
+      Filter: 3
       _damageHealTarget: 0
       Amounts: 0
       ScaleFrom: 0
@@ -76,7 +76,7 @@ MonoBehaviour:
       MainEffect: 0
       HasProbability: 1
       Probability: 90
-      Filter: 2
+      Filter: 3
       _damageHealTarget: 0
       Amounts: 0
       ScaleFrom: 0
@@ -107,7 +107,7 @@ MonoBehaviour:
       MainEffect: 0
       HasProbability: 0
       Probability: 0
-      Filter: 2
+      Filter: 3
       _damageHealTarget: 0
       Amounts: 0
       ScaleFrom: 0
@@ -141,7 +141,7 @@ MonoBehaviour:
       MainEffect: 0
       HasProbability: 1
       Probability: 90
-      Filter: 2
+      Filter: 3
       _damageHealTarget: 0
       Amounts: 0
       ScaleFrom: 0
@@ -172,7 +172,7 @@ MonoBehaviour:
       MainEffect: 0
       HasProbability: 1
       Probability: 90
-      Filter: 2
+      Filter: 3
       _damageHealTarget: 0
       Amounts: 0
       ScaleFrom: 0
@@ -203,7 +203,7 @@ MonoBehaviour:
       MainEffect: 0
       HasProbability: 0
       Probability: 0
-      Filter: 2
+      Filter: 3
       _damageHealTarget: 0
       Amounts: 0
       ScaleFrom: 0

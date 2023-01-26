@@ -429,6 +429,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 5.12, y: 5.12}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &436855450 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6811709170171255873, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
+  m_PrefabInstance: {fileID: 7208725858282699637}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &436855452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436855450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e46bea13450b8441b6246cea06175a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &700708824 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7208725858983283885, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
@@ -587,7 +604,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 5
     - Name: 
       Entry: 7
       Data: 
@@ -821,44 +838,24 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _enemyPositions
-      Entry: 7
-      Data: 6|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[System.Collections.Generic.List`1[[UnityEngine.Vector2Int,
-        UnityEngine.CoreModule]], mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 7|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
-        mscorlib]], mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 4
-    - Name: 
       Entry: 7
       Data: 
     - Name: $k
       Entry: 3
-      Data: 0
+      Data: 4
     - Name: $v
       Entry: 7
-      Data: 8|System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
+      Data: 6|System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
         mscorlib
     - Name: 
       Entry: 12
-      Data: 5
+      Data: 3
     - Name: 
       Entry: 7
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
     - Name: 
       Entry: 3
-      Data: 7
+      Data: 0
     - Name: 
       Entry: 3
       Data: 0
@@ -870,7 +867,7 @@ MonoBehaviour:
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
     - Name: 
       Entry: 3
-      Data: 7
+      Data: 0
     - Name: 
       Entry: 3
       Data: 2
@@ -882,34 +879,10 @@ MonoBehaviour:
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
     - Name: 
       Entry: 3
-      Data: 7
+      Data: 0
     - Name: 
       Entry: 3
       Data: 4
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
-    - Name: 
-      Entry: 3
-      Data: 7
-    - Name: 
-      Entry: 3
-      Data: 6
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
-    - Name: 
-      Entry: 3
-      Data: 6
-    - Name: 
-      Entry: 3
-      Data: 3
     - Name: 
       Entry: 8
       Data: 
@@ -923,11 +896,31 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _enemyPositions
+      Entry: 7
+      Data: 7|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[System.Collections.Generic.List`1[[UnityEngine.Vector2Int,
+        UnityEngine.CoreModule]], mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 8|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 5
+    - Name: 
       Entry: 7
       Data: 
     - Name: $k
       Entry: 3
-      Data: 1
+      Data: 0
     - Name: $v
       Entry: 7
       Data: 9|System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
@@ -952,6 +945,88 @@ MonoBehaviour:
       Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
     - Name: 
       Entry: 3
+      Data: 7
+    - Name: 
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 7
+    - Name: 
+      Entry: 3
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 7
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 3
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 7
+      Data: 10|System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 5
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 7
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
       Data: 6
     - Name: 
       Entry: 3
@@ -1012,7 +1087,7 @@ MonoBehaviour:
       Data: 2
     - Name: $v
       Entry: 7
-      Data: 10|System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
+      Data: 11|System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
         mscorlib
     - Name: 
       Entry: 12
@@ -1094,7 +1169,7 @@ MonoBehaviour:
       Data: 3
     - Name: $v
       Entry: 7
-      Data: 11|System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
+      Data: 12|System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
         mscorlib
     - Name: 
       Entry: 12
@@ -1156,6 +1231,40 @@ MonoBehaviour:
     - Name: 
       Entry: 3
       Data: 6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 7
+      Data: 13|System.Collections.Generic.List`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 7
+    - Name: 
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -1359,6 +1468,8 @@ MonoBehaviour:
       - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
       - {fileID: 11400000, guid: 1a7c0bcf01e08c243ad4ea350defc9e4, type: 2}
       - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
+    - m_Keys: []
+      m_Values: []
   _environmentPrefab: {fileID: 3350515415389505561, guid: 43c1b81a6e6ed494fba8e0e055489a6f, type: 3}
 --- !u!114 &1660044134 stripped
 MonoBehaviour:
@@ -1555,6 +1666,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 04588733ccd1f2a4bb0aad35a508b4de, type: 2}
     - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
     - {fileID: 11400000, guid: 2729f2cc473847d4ca78de3920cf6fca, type: 2}
+    - {fileID: 11400000, guid: cdb88470c4b68c341bad38dde4ae1989, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -1588,10 +1700,13 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 10
       Data: 3
+    - Name: 
+      Entry: 10
+      Data: 4
     - Name: 
       Entry: 13
       Data: 
@@ -1822,6 +1937,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4864967664982409162, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
+      propertyPath: _ignoredActiveAbilities.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4864967664982409162, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
+      propertyPath: _ignoredActiveAbilities.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7ea274e1f1087a34990a8cbed181dcae, type: 2}
     - target: {fileID: 6364508241495018905, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1950,6 +2073,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8076464380066710135, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8076464380066710141, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
       propertyPath: _battleMapView
       value: 
@@ -1957,11 +2084,11 @@ PrefabInstance:
     - target: {fileID: 8076464380066710141, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 8076464380066710141, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 8076464380066710141, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
       propertyPath: _tutorialStages.Array.data[3].UnmaskUIs.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 7208725858282699638}
     - target: {fileID: 8767081308898979156, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2042,5 +2169,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8963756273051942623, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
+      propertyPath: _ignoredActiveAbilities.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8963756273051942623, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
+      propertyPath: _ignoredActiveAbilities.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7ea274e1f1087a34990a8cbed181dcae, type: 2}
+    - target: {fileID: 8963756273051942623, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
+      propertyPath: _ignoredActiveAbilities.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 377b9520ee2226943b6a5eed2b1f24c3, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
+--- !u!224 &7208725858282699638 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3051640005696794610, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
+  m_PrefabInstance: {fileID: 7208725858282699637}
+  m_PrefabAsset: {fileID: 0}

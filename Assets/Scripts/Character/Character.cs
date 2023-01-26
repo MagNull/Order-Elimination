@@ -26,7 +26,7 @@ namespace OrderElimination
         private AbilityInfo[] _activeAbilities;
         [SerializeField]
         private AbilityInfo[] _passiveAbilities;
-        
+
         public IReadOnlyBattleStats GetBattleStats() => _battleStats;
 
         public string GetName() => _name;
@@ -45,16 +45,21 @@ namespace OrderElimination
 
         public void Upgrade()
         {
-            var battleStats = new BattleStats(_battleStats) 
+            var battleStats = new BattleStats(_battleStats)
             {
+                Health = _strategyStats.HealthGrowth + _battleStats.UnmodifiedHealth,
                 UnmodifiedHealth = _strategyStats.HealthGrowth + _battleStats.UnmodifiedHealth,
+                Armor = _strategyStats.ArmorGrowth + _battleStats.UnmodifiedArmor,
                 UnmodifiedArmor = _strategyStats.ArmorGrowth + _battleStats.UnmodifiedArmor,
+                Accuracy = _strategyStats.AccuracyGrowth + _battleStats.UnmodifiedAccuracy,
                 UnmodifiedAccuracy = _strategyStats.AccuracyGrowth + _battleStats.UnmodifiedAccuracy,
+                Evasion = _strategyStats.EvasionGrowth + _battleStats.UnmodifiedEvasion,
                 UnmodifiedEvasion = _strategyStats.EvasionGrowth + _battleStats.UnmodifiedEvasion,
+                Attack = _strategyStats.AttackGrowth + _battleStats.UnmodifiedAttack,
                 UnmodifiedAttack = _strategyStats.AttackGrowth + _battleStats.UnmodifiedAttack
             };
             _strategyStats.Lvl++;
-            
+
             Debug.Log($"Health: Old - {_battleStats.UnmodifiedHealth}, New - {battleStats.UnmodifiedHealth}");
             Debug.Log($"Health: Old - {_battleStats.UnmodifiedArmor}, New - {battleStats.UnmodifiedArmor}");
             Debug.Log($"Health: Old - {_battleStats.UnmodifiedAccuracy}, New - {battleStats.UnmodifiedAccuracy}");

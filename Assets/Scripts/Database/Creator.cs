@@ -3,6 +3,7 @@ using System;
 using Unity.VisualScripting;
 using VContainer;
 using VContainer.Unity;
+using UIManagement.Elements;
 
 namespace OrderElimination
 {
@@ -21,27 +22,28 @@ namespace OrderElimination
         [SerializeField]
         private Path _pathPrefab;
         [SerializeField]
-        private SquadButtonTouchRace _firstButtonSquadPrefab;
+        private HoldableButton _firstButtonSquadPrefab;
         [SerializeField]
-        private SquadButtonTouchRace _secondButtonSquadPrefab;
+        private HoldableButton _secondButtonSquadPrefab;
         [SerializeField]
         private GameObject _parent;
 
         private IObjectResolver _objectResolver;
-        private static int num = 0;
+        private int _num = 0;
         public static event Action<ISelectable> Created;
 
         [Inject]
         private void Construct(IObjectResolver resolver)
         {
             _objectResolver = resolver;
+            _num = 0;
         }
 
         public PlanetPoint CreatePlanetPoint(PlanetInfo planetInfo)
         {
             var planetPoint = Instantiate(_planetPointPrefab, planetInfo.Position, Quaternion.identity, _parent.transform);
-            planetPoint.name = num.ToString();
-            num++;
+            planetPoint.name = _num.ToString();
+            _num++;
             Created?.Invoke(planetPoint);
             return planetPoint;
         }
@@ -59,7 +61,7 @@ namespace OrderElimination
             return path;
         }
 
-        public SquadButtonTouchRace CreateSquadButton(Vector3 position, bool isFirstSquad)
+        public HoldableButton CreateSquadButton(Vector3 position, bool isFirstSquad)
         {
             var button = Instantiate(isFirstSquad ? _firstButtonSquadPrefab : _secondButtonSquadPrefab, position, Quaternion.identity, _parent.transform);
             return button;

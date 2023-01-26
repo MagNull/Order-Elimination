@@ -135,10 +135,6 @@ namespace CharacterAbility
                             effectDesc.DamageType, effectDesc.Multiplier, effectDesc.IsUnique, effectDesc.EffectView,
                             _objectResolver);
                         break;
-                    case AbilityEffectType.Stun:
-                        ability = new StunAbility(caster, effectDesc.MainEffect, ability, probability,
-                            effectDesc.Filter);
-                        break;
 
                     case AbilityEffectType.Contreffect:
                         ability = new ContreffectAbility(caster, effectDesc.MainEffect, ability, effectDesc.Filter,

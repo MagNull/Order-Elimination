@@ -80,6 +80,7 @@ MonoBehaviour:
       - rid: 6532532242177064961
       - rid: 6532532242177064964
       - rid: 6532532242177064967
+      - rid: 6532532336351248384
       ShowInAbilityDescription: 0
       EffectView:
         _effectName: 
@@ -174,3 +175,8 @@ MonoBehaviour:
         _statType: 3
         _modifier: -30
         _isMultiplier: 0
+    - rid: 6532532336351248384
+      type: {class: StunBuff, ns: CharacterAbility.BuffEffects, asm: Assembly-CSharp}
+      data:
+        _duration: 1
+        _isUnique: 0

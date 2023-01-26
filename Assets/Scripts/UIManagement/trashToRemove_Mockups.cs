@@ -77,8 +77,9 @@ namespace UIManagement.trashToRemove_Mockups
         {
                 { ValueUnits.None, "" },
                 { ValueUnits.Percents, "%" },
-                { ValueUnits.Cells, " клет." },
-                { ValueUnits.Turns, " ход." },
+                { ValueUnits.Cells, "" },
+                { ValueUnits.Turns, " ход" },
+                { ValueUnits.Enemies, " враг" },
         };
         private Dictionary<Buff_Type, string> _buffNames
             = new Dictionary<Buff_Type, string>()
@@ -87,10 +88,14 @@ namespace UIManagement.trashToRemove_Mockups
                 { Buff_Type.Attack, "Атака" },
                 { Buff_Type.Health, "Здоровье" },
                 { Buff_Type.Evasion, "Уклонение" },
-                { Buff_Type.IncomingAccuracy, "Вход. точность" },
-                { Buff_Type.IncomingDamageIncrease, "Вход. урон" },
+                { Buff_Type.IncomingAccuracy, "Вх. точность" },
+                { Buff_Type.IncomingDamageIncrease, "Вх. урон" },
+                { Buff_Type.OutcomingAccuracy, "Вых. точность" },
+                { Buff_Type.OutcomingAttack, "Вых. урон" },
                 { Buff_Type.Accuracy, "Точность" },
+                { Buff_Type.Concealment, "Скрытность" },
                 { Buff_Type.AdditionalArmor, "Доп. броня" },
+                { Buff_Type.Stun, "Оглушение" },
         };
         private Dictionary<OverTimeAbilityType, string> _overtimeTypeNames
             = new Dictionary<OverTimeAbilityType, string>()

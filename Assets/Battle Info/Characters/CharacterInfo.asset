@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd1984226b6f4b5ea94fb3b7f3b16efb, type: 3}
-  m_Name: Tutorial Dog
+  m_Name: CharacterInfo
   m_EditorClassIdentifier: 
   _baseStats:
     _health: 0
@@ -22,13 +22,13 @@ MonoBehaviour:
     _movement: 0
     _damageModificator: 0
   _battleStats:
-    _health: 5
-    _attack: 20
-    _armor: 5
+    _health: 0
+    _attack: 0
+    _armor: 0
     _additionalArmor: 0
     _evasion: 0
-    _accuracy: 100
-    _movement: 4
+    _accuracy: 0
+    _movement: 0
     _damageModificator: 0
   _strategyStats:
     Lvl: 0
@@ -38,10 +38,8 @@ MonoBehaviour:
     ArmorGrowth: 0
     EvasionGrowth: 0
     AccuracyGrowth: 0
-  _name: "\u0420\u0430\u043D\u0435\u043D\u044B\u0439 \u041A\u0430\u043C\u043D\u0435\u0433\u0440\u044B\u0437"
-  _viewIcon: {fileID: 21300000, guid: a8d51c883384c47469807e601a9966d3, type: 3}
-  _viewAvatar: {fileID: 21300000, guid: 6ed07c7d456c1774ab44cebfab1985c9, type: 3}
-  _activeAbilities:
-  - {fileID: 11400000, guid: 7ea274e1f1087a34990a8cbed181dcae, type: 2}
-  - {fileID: 11400000, guid: 6c7e7a688e8448e4f9fd68c2c4810fc6, type: 2}
+  _name: 
+  _viewIcon: {fileID: 0}
+  _viewAvatar: {fileID: 0}
+  _activeAbilities: []
   _passiveAbilities: []

@@ -47,7 +47,7 @@ namespace Tutorial
             _unmasks.ForEach(u => u.gameObject.SetActive(false));
             gameObject.SetActive(false);
             await UniTask.Delay(300);
-            _strategyMap.SpawnEnemy(2);
+            _strategyMap.SpawnEnemy(3);
             foreach (var stage in _tutorialStages)
             {
                 await ProceedStage(stage);
@@ -58,6 +58,12 @@ namespace Tutorial
         private async Task ProceedStage(StrategyTutorialStage stage)
         {
             gameObject.SetActive(true);
+            bool stateBefore = true;
+            if (!stage.NeedMoveToPlanet && stage.ClickTargets.Length > 0)
+            {
+                stateBefore = stage.ClickTargets[0].gameObject.activeSelf;
+                stage.ClickTargets[0].gameObject.SetActive(true);
+            }
             _tutorialText.text = stage.Text;
             stage.AppearingObject.SetActive(true);
 
@@ -107,6 +113,10 @@ namespace Tutorial
             gameObject.SetActive(false);
             _activeCutoutCounter = 0;
 
+            if (!stage.NeedMoveToPlanet && stage.ClickTargets.Length > 0)
+            {
+                stage.ClickTargets[0].gameObject.SetActive(stateBefore);
+            }
             await UniTask.Delay(TimeSpan.FromSeconds(stage.Delay));
         }
 
