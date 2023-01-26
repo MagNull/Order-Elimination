@@ -29,20 +29,21 @@ namespace OrderElimination
         private GameObject _parent;
 
         private IObjectResolver _objectResolver;
-        private static int num = 0;
+        private int _num = 0;
         public static event Action<ISelectable> Created;
 
         [Inject]
         private void Construct(IObjectResolver resolver)
         {
             _objectResolver = resolver;
+            _num = 0;
         }
 
         public PlanetPoint CreatePlanetPoint(PlanetInfo planetInfo)
         {
             var planetPoint = Instantiate(_planetPointPrefab, planetInfo.Position, Quaternion.identity, _parent.transform);
-            planetPoint.name = num.ToString();
-            num++;
+            planetPoint.name = _num.ToString();
+            _num++;
             Created?.Invoke(planetPoint);
             return planetPoint;
         }

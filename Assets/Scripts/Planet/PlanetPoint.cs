@@ -12,6 +12,7 @@ namespace OrderElimination
     {
         [ShowInInspector]
         private int _countSquadOnPoint;
+        [SerializeField]
         private PlanetInfo _planetInfo;
         private PlanetView _planetView;
         private List<Path> _paths;

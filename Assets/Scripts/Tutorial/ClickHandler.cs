@@ -23,6 +23,7 @@ namespace Tutorial
 
         private void OnClicked()
         {
+            Debug.Log("Clicked");
             Clicked?.Invoke();
             Destroy(this);
         }
