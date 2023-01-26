@@ -83,8 +83,8 @@ namespace OrderElimination
         public void SetOrderButton(SquadButtonTouchRace button)
         {
             _buttonOnOrderPanel = button;
-            _buttonOnOrderPanel.onPointerDown += Select;
-            _buttonOnOrderPanel.onActiveSquadPanel += ActiveSquadPanel;
+            _buttonOnOrderPanel.Clicked += Select;
+            _buttonOnOrderPanel.Holded += ActiveSquadPanel;
         }
 
         private void SetPlanetPoint(PlanetPoint planetPoint)

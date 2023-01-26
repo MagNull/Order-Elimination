@@ -27,7 +27,9 @@ namespace CharacterAbility
         None,
         Percents,
         Cells,
-        Turns
+        Turns,
+        Enemies,
+
     }
 
     public interface ITickEffectView
@@ -70,11 +72,14 @@ namespace CharacterAbility
             {Buff_Type.OutcomingAttack, ValueUnits.None }, 
             {Buff_Type.Health, ValueUnits.None }, 
             {Buff_Type.Evasion, ValueUnits.Percents }, 
+            {Buff_Type.Accuracy, ValueUnits.Percents }, 
             {Buff_Type.IncomingAccuracy, ValueUnits.Percents }, 
             {Buff_Type.OutcomingAccuracy, ValueUnits.Percents }, 
-            {Buff_Type.IncomingDamageIncrease, ValueUnits.None }, 
+            {Buff_Type.IncomingDamageIncrease, ValueUnits.None },
+            {Buff_Type.IncomingDamageReduction, ValueUnits.None },
             {Buff_Type.Movement, ValueUnits.Cells }, 
             {Buff_Type.AdditionalArmor, ValueUnits.None }, 
+            {Buff_Type.Concealment, ValueUnits.None }, 
         };
 
         public static ValueUnits GetBuffUnits(Buff_Type buffType) => _buffUnits[buffType];
@@ -138,7 +143,8 @@ namespace CharacterAbility
                 {
                     case Buff_Type.IncomingAccuracy:
                         var sign = incomingBuff.Modificator >= 0 ? "+" : "";
-                        result.AddDisplayedParameter("Вход. точность", $"{sign}{ incomingBuff.Modificator }");
+                        var buffName = Localization.Current.GetBuffName(incomingBuff.IncomingBuffType);
+                        result.AddDisplayedParameter(buffName, $"{sign}{ incomingBuff.Modificator }%");
                         break;
                     case Buff_Type.IncomingDamageIncrease:
                         result.AddDisplayedParameter("Урон взрывом", $"+{ (incomingBuff.Modificator - 1) * 100 }%");
@@ -151,21 +157,38 @@ namespace CharacterAbility
                         throw new NotImplementedException();
                 }
             }
+            else if (effect is ConcealmentBuff concealmentBuff)
+            {
+
+            }
+            else if (effect is OutcomingBuff outcomingBuff)
+            {
+                var buffName = Localization.Current.GetBuffName(outcomingBuff.OutcomingBuffType);
+                switch (outcomingBuff.OutcomingBuffType)
+                {
+                    case Buff_Type.OutcomingAccuracy:
+                        var sign = outcomingBuff.Modificator >= 0 ? "+" : "";
+                        result.AddDisplayedParameter(buffName, $"{sign}{ outcomingBuff.Modificator }%");
+                        break;
+                    case Buff_Type.OutcomingAttack:
+                        result.AddDisplayedParameter(buffName, $"{ outcomingBuff.Modificator * 100 }%");
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
             else
                 throw new NotImplementedException();
             result.AddDisplayedParameter("Длительность", tickEffect.Duration);
             return result;
         }
 
-
-
-
-
         public static Dictionary<string, string> GetDisplayableParameters(
             this AbilityEffect effect, IReadOnlyBattleStats casterStats)
         {
             var result = new Dictionary<string, string>();
             if (effect.HasProbability) result.AddDisplayedParameter("Шанс", effect.Probability.ToString(), ValueUnits.Percents);
+
             if (effect.Type == AbilityEffectType.Damage || effect.Type == AbilityEffectType.Heal)
             {
                 int damageHealSize;
@@ -185,6 +208,10 @@ namespace CharacterAbility
                         damageHealSize = casterStats.Attack;
                         valueEnding = $" /{Localization.Current.GetUnits(ValueUnits.Cells)}";
                         break;
+                    case AbilityScaleFrom.Rivals:
+                        damageHealSize = casterStats.Attack;
+                        valueEnding = $" /{Localization.Current.GetUnits(ValueUnits.Enemies)}";
+                        break;
                     default:
                         throw new ArgumentException();
                 }
@@ -194,20 +221,41 @@ namespace CharacterAbility
                 if (effect.Type == AbilityEffectType.Heal)
                     result.AddDisplayedParameter("Лечение", displayedValue);
             }
-            else if (effect.Type == AbilityEffectType.Modificator && effect.Modificator == ModificatorType.Accuracy)
+            else if (effect.Type == AbilityEffectType.Modificator)
             {
-                var valuePrefix = effect.ModificatorValue > 0 ? "+" : "";
-                result.AddDisplayedParameter("Точность", $"{valuePrefix}{effect.ModificatorValue}", ValueUnits.Percents);
+                string buffName;
+                string valuePrefix = effect.ModificatorValue > 0 ? "+" : "";
+                string value = (effect.Multiplier ? effect.ModificatorValue * 100 : effect.ModificatorValue).ToString();
+                ValueUnits units;
+                if (effect.Modificator == ModificatorType.Accuracy)
+                {
+                    buffName = "Точность";
+                    units = ValueUnits.Percents;
+                }
+                else if (effect.Modificator == ModificatorType.DoubleArmorDamage)
+                {
+                    buffName = "Двойной урон броне";
+                    units = ValueUnits.None;
+                }
+                else if (effect.Modificator == ModificatorType.DoubleHealthDamage)
+                {
+                    buffName = "Двойной урон ОЗ";
+                    units = ValueUnits.None;
+                }
+                else
+                    throw new NotImplementedException();
+                result.AddDisplayedParameter(buffName, $"{valuePrefix}{value}", units);
             }
             else if (effect.Type == AbilityEffectType.TickingBuff || effect.Type == AbilityEffectType.OverTime)
             {
                 if (effect.Type == AbilityEffectType.TickingBuff)
                 {
                     var valuePrefix = effect.BuffModificator > 0 ? "+" : "";
+                    var value = effect.Multiplier ? effect.BuffModificator * 100 : effect.BuffModificator;
                     result.AddDisplayedParameter(
                         Localization.Current.GetBuffName(effect.BuffType),
-                        $"{valuePrefix}{effect.BuffModificator}",
-                        EffectView.GetBuffUnits(effect.BuffType));
+                        $"{valuePrefix}{value}",
+                        effect.Multiplier ? ValueUnits.Percents : EffectView.GetBuffUnits(effect.BuffType));
                 }
                 if (effect.Type == AbilityEffectType.OverTime)
                 {
@@ -219,9 +267,23 @@ namespace CharacterAbility
             {
                 result.AddDisplayedParameter("Дальность", casterStats.UnmodifiedMovement);
             }
-            else if (effect.Type != AbilityEffectType.Modificator)
+            else if (effect.Type == AbilityEffectType.Stun)
+            { }
+            else if (effect.Type == AbilityEffectType.ConditionalBuff)
             {
-                var message = $"EffectType {effect.Type} cannot be displayed since it's parameters haven't been described.";
+                if (effect.BuffType != Buff_Type.Concealment)
+                {
+
+                    string buffName = Localization.Current.GetBuffName(effect.BuffType);
+                    string valuePrefix = effect.BuffModificator > 0 ? "+" : "";
+                    string value = (effect.Multiplier ? effect.BuffModificator * 100 : effect.BuffModificator).ToString();
+                    var units = EffectView.GetBuffUnits(effect.BuffType);
+                    result.AddDisplayedParameter(buffName, $"{valuePrefix}{value}", units);
+                }
+            }
+            else
+            {
+                var message = $"EffectType {effect.Type} cannot be displayed since it's parameters haven't been described in {nameof(GetDisplayableParameters)}.";
                 Debug.LogError(message);
                 //throw new NotImplementedException(message);
             }
