@@ -206,16 +206,18 @@ namespace CharacterAbility
                         break;
                     case AbilityScaleFrom.Distance:
                         damageHealSize = casterStats.Attack;
-                        valueEnding = $" /{Localization.Current.GetUnits(ValueUnits.Cells)}";
+                        valueEnding = "";
+                        //valueEnding = $" /{Localization.Current.GetUnits(ValueUnits.Cells)}";
                         break;
                     case AbilityScaleFrom.Rivals:
                         damageHealSize = casterStats.Attack;
-                        valueEnding = $" /{Localization.Current.GetUnits(ValueUnits.Enemies)}";
+                        valueEnding = "";
+                        //valueEnding = $" /{Localization.Current.GetUnits(ValueUnits.Enemies)}";
                         break;
                     default:
                         throw new ArgumentException();
                 }
-                var displayedValue = $"{damageHealSize * effect.Scale}{valueEnding}";
+                var displayedValue = $"{Mathf.RoundToInt(damageHealSize * effect.Scale)}{valueEnding}";
                 if (effect.Type == AbilityEffectType.Damage)
                     result.AddDisplayedParameter("Урон", displayedValue);
                 if (effect.Type == AbilityEffectType.Heal)
@@ -251,7 +253,9 @@ namespace CharacterAbility
                 if (effect.Type == AbilityEffectType.TickingBuff)
                 {
                     var valuePrefix = effect.BuffModificator > 0 ? "+" : "";
-                    var value = effect.Multiplier ? (effect.BuffModificator - 1) * 100 : effect.BuffModificator;
+                    var value = effect.Multiplier ? (effect.BuffModificator) * 100 : effect.BuffModificator;
+                    if (effect.BuffType == Buff_Type.IncomingDamageIncrease)
+                        value = effect.Multiplier ? (effect.BuffModificator - 1) * 100 : effect.BuffModificator;
                     result.AddDisplayedParameter(
                         Localization.Current.GetBuffName(effect.BuffType),
                         $"{valuePrefix}{value}",
