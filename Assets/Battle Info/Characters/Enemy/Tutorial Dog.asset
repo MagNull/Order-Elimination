@@ -22,7 +22,7 @@ MonoBehaviour:
     _movement: 0
     _damageModificator: 0
   _battleStats:
-    _health: 5
+    _health: 100
     _attack: 20
     _armor: 5
     _additionalArmor: 0
@@ -31,6 +31,7 @@ MonoBehaviour:
     _movement: 4
     _damageModificator: 0
   _strategyStats:
+    Lvl: 0
     CostOfUpgrade: 0
     HealthGrowth: 0
     AttackGrowth: 0

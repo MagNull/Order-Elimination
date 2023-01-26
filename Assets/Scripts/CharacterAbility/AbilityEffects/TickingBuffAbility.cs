@@ -96,6 +96,7 @@ namespace CharacterAbility.AbilityEffects
                 Buff_Type.OutcomingAccuracy => new OutcomingBuff(_isUnique, Buff_Type.OutcomingAccuracy, _value, 9999,
                     _tickEffectView,
                     _triggerEffects),
+                Buff_Type.Stun => new StunBuff(_duration, _tickEffectView, _isUnique),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

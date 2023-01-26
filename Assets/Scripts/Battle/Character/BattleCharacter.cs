@@ -173,7 +173,11 @@ public class BattleCharacter : IActor
     public void OnTurnStart()
     {
         TickEffects();
-        RefreshActions();
+        if (!_tickEffects.Any(ef => ef is StunBuff))
+        {
+            Debug.Log("Check");
+            RefreshActions();
+        }
     }
 
     public void AddTickEffect(ITickEffect effect)
@@ -186,6 +190,10 @@ public class BattleCharacter : IActor
             case StatsBuffEffect statsBuffEffect:
                 _buffEffects.Add(statsBuffEffect);
                 _battleStats = statsBuffEffect.Apply(this);
+                break;
+            case StunBuff stun:
+                stun.Apply(this);
+                _tickEffects.Add(stun);
                 break;
             default:
                 _tickEffects.Add(effect);
@@ -288,6 +296,8 @@ public class ActionBank
             case ActionType.Movement:
             case ActionType.Ability:
             default:
+                if (_availableActions.All(action => action != actionType))
+                    return false;
                 _availableActions.Remove(actionType);
                 return true;
         }

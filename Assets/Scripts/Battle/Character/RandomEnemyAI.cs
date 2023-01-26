@@ -160,6 +160,7 @@ public class RandomEnemyAI : BattleCharacter
     {
         if (!TrySpendAction(ActionType.Movement))
             return;
+        Debug.Log("Can move");
         await _moveAbility.Use(_map.GetCell(coordinate).GetObject(), Stats);
     }
 }
