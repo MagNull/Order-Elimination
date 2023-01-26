@@ -22,7 +22,6 @@ namespace CharacterAbility
         TickingBuff,
         ConditionalBuff,
         Modificator,
-        Stun,
         Contreffect,
         ObjectSpawn
     }
