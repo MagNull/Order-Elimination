@@ -80,6 +80,7 @@ namespace CharacterAbility
             {Buff_Type.Movement, ValueUnits.Cells }, 
             {Buff_Type.AdditionalArmor, ValueUnits.None }, 
             {Buff_Type.Concealment, ValueUnits.None }, 
+            {Buff_Type.Stun, ValueUnits.Turns }, 
         };
 
         public static ValueUnits GetBuffUnits(Buff_Type buffType) => _buffUnits[buffType];
@@ -177,6 +178,10 @@ namespace CharacterAbility
                         throw new NotImplementedException();
                 }
             }
+            else if (effect is StunBuff stunBuff)
+            {
+
+            }
             else
                 throw new NotImplementedException();
             result.AddDisplayedParameter("Длительность", tickEffect.Duration);
@@ -250,7 +255,7 @@ namespace CharacterAbility
             }
             else if (effect.Type == AbilityEffectType.TickingBuff || effect.Type == AbilityEffectType.OverTime)
             {
-                if (effect.Type == AbilityEffectType.TickingBuff)
+                if (effect.Type == AbilityEffectType.TickingBuff && effect.BuffType != Buff_Type.Stun)
                 {
                     var valuePrefix = effect.BuffModificator > 0 ? "+" : "";
                     var value = effect.Multiplier ? (effect.BuffModificator) * 100 : effect.BuffModificator;

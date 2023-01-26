@@ -95,6 +95,7 @@ namespace UIManagement.trashToRemove_Mockups
                 { Buff_Type.Accuracy, "Точность" },
                 { Buff_Type.Concealment, "Скрытность" },
                 { Buff_Type.AdditionalArmor, "Доп. броня" },
+                { Buff_Type.Stun, "Оглушение" },
         };
         private Dictionary<OverTimeAbilityType, string> _overtimeTypeNames
             = new Dictionary<OverTimeAbilityType, string>()
