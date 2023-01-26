@@ -53,6 +53,7 @@ namespace OrderElimination
                 UnmodifiedEvasion = _strategyStats.EvasionGrowth + _battleStats.UnmodifiedEvasion,
                 UnmodifiedAttack = _strategyStats.AttackGrowth + _battleStats.UnmodifiedAttack
             };
+            _strategyStats.Lvl++;
             
             Debug.Log($"Health: Old - {_battleStats.UnmodifiedHealth}, New - {battleStats.UnmodifiedHealth}");
             Debug.Log($"Health: Old - {_battleStats.UnmodifiedArmor}, New - {battleStats.UnmodifiedArmor}");

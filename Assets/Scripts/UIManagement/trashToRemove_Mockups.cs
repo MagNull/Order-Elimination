@@ -26,6 +26,8 @@ namespace UIManagement.trashToRemove_Mockups
 
         public bool TryUpgrade()
         {
+            if (TargetCharacter.GetStrategyStats().Lvl >= MaximumLevelCap)
+                return false;
             var availableMoney = _playerInformation.Money;
             if (Cost > availableMoney)
                 return false;
