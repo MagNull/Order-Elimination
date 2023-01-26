@@ -2,6 +2,7 @@
 using OrderElimination.Start;
 using TMPro;
 using UnityEngine;
+using VContainer;
 
 namespace OrderElimination
 {
@@ -10,17 +11,23 @@ namespace OrderElimination
         [SerializeField] private TMP_Text _moneyText;
         [SerializeField] private TMP_Text _moveCountText;
         private int _money;
-        public int Money => _money;
         private int _moveCount;
-
+        private CharactersMediator _charactersMediator;
+        public int Money => _money;
         public Action OnUpdateMoney;
+        
+        [Inject]
+        private void Construct(CharactersMediator charactersMediator)
+        {
+            _charactersMediator = charactersMediator;
+        }      
         
         private void Awake()
         {
             if (PlayerPrefs.GetString($"{StrategyMap.SaveIndex}:BattleOutcome") == BattleOutcome.Victory.ToString())
             {
                 var money = PlayerPrefs.GetInt($"{StrategyMap.SaveIndex}:Money");
-                PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:Money", money + 1000);
+                PlayerPrefs.SetInt($"{StrategyMap.SaveIndex}:Money", money + _charactersMediator.PlanetInfo.CurrencyReward);
             }
             SetMoney(PlayerPrefs.GetInt($"{StrategyMap.SaveIndex}:Money"));
             SetMoveCount(PlayerPrefs.GetInt($"{StrategyMap.SaveIndex}:CountMove"));
