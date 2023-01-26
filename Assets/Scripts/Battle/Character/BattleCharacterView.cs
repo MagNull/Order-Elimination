@@ -56,11 +56,12 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
         _character = character;
         _character.Damaged += OnDamaged;
         _character.Died += OnDied;
-        
+
         switch (Model.Side)
         {
             case BattleObjectSide.Ally:
                 BattleSimulation.PlayerTurnStarted += OnTurnStart;
+                _character.ActionBankChanged += OnActionBankChanged;
                 break;
             case BattleObjectSide.Enemy:
                 BattleSimulation.EnemyTurnStarted += OnTurnStart;
@@ -92,10 +93,10 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
 
             return;
         }
-
+        var startColor = _renderer.color;
         _renderer.DOColor(Color.red, _damagedDuration / 2).onComplete += () =>
         {
-            _renderer.DOColor(Color.white, _damagedDuration / 2);
+            _renderer.DOColor(startColor, _damagedDuration / 2);
         };
         EmmitText((info.ArmorDamage + info.HealthDamage).ToString(), Color.red);
     }
@@ -150,6 +151,12 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
         Disable();
     }
 
+    private void OnActionBankChanged(ActionBank actionBank)
+    {
+        _renderer.DOComplete();
+        _renderer.color = actionBank.AvailableActions.Count <= 0 ? Color.grey : Color.white;
+    }
+
     private void OnDisable()
     {
         _character.Damaged -= OnDamaged;
@@ -159,6 +166,7 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
         {
             case BattleObjectSide.Ally:
                 BattleSimulation.PlayerTurnStarted -= OnTurnStart;
+                _character.ActionBankChanged -= OnActionBankChanged;
                 break;
             case BattleObjectSide.Enemy:
                 BattleSimulation.EnemyTurnStarted -= OnTurnStart;
