@@ -131,7 +131,7 @@ namespace CharacterAbility
         [ShowIf("@(Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff) && BuffType != Buff_Type.Concealment")]
         public float BuffModificator;
         [ShowIf(
-            "@Type == AbilityEffectType.OverTime || Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ObjectSpawn")]
+            "@Type == AbilityEffectType.OverTime || Type == AbilityEffectType.TickingBuff || Type == AbilityEffectType.ConditionalBuff || Type == AbilityEffectType.ObjectSpawn")]
         public int Duration;
         [ShowIf("@Type == AbilityEffectType.ConditionalBuff")]
         public BuffConditionType ConditionType;

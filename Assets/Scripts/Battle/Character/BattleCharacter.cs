@@ -28,6 +28,8 @@ public class BattleCharacter : IActor
     public event Action<BattleCharacter> Died;
     public event Action<ITickEffect> EffectAdded;
     public event Action<ITickEffect> EffectRemoved;
+    
+    public event Action<ActionBank> ActionBankChanged;
 
     [ShowInInspector]
     private readonly List<ITickEffect> _tickEffects;
@@ -51,6 +53,7 @@ public class BattleCharacter : IActor
     public IReadOnlyList<ITickEffect> AllEffects =>
         _buffEffects;
 
+    public bool IsAlive => _battleStats.Health > 0;
     public BattleObjectSide Side => _side;
     public IBattleObjectView View { get; set; }
 
@@ -232,12 +235,21 @@ public class BattleCharacter : IActor
     public bool TrySpendAction(ActionType actionType)
     {
         var actionPerformed = _actionBank.TrySpendAction(actionType);
+        ActionBankChanged?.Invoke(_actionBank);
         return actionPerformed;
     }
 
-    public void AddAction(ActionType actionType) => _actionBank.AddAction(actionType);
+    public void AddAction(ActionType actionType)
+    {
+        _actionBank.AddAction(actionType);
+        ActionBankChanged?.Invoke(_actionBank);
+    }
 
-    public void ClearActions() => _actionBank.ClearActions();
+    public void ClearActions()
+    {
+        _actionBank.ClearActions();
+        ActionBankChanged?.Invoke(_actionBank);
+    }
 
     public void OnCasted(ActionType actionType)
     {
@@ -264,7 +276,11 @@ public class BattleCharacter : IActor
         }
     }
 
-    private void RefreshActions() => _actionBank.RefreshActions();
+    private void RefreshActions()
+    {
+        _actionBank.RefreshActions();
+        ActionBankChanged?.Invoke(_actionBank);
+    }
 }
 
 [Serializable]

@@ -5,6 +5,8 @@ public interface IBattleObject : ITickTarget,
     IBuffTarget, IMovable
 {
     public BattleObjectSide Side { get; }
+
+    public bool IsAlive { get; }
     public IBattleObjectView View { get; }
 
     public int GetAccuracyFrom(IBattleObject attacker);

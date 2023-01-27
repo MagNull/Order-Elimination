@@ -129,6 +129,7 @@ namespace CharacterAbility
                 foreach (var selectedObj in _selectedCellViews.Select(cell => cell.Model.GetObject()))
                 {
                     if (selectedObj is not NullBattleObject &&
+                        selectedObj.View.GameObject &&
                         selectedObj.View.GameObject.TryGetComponent(out BattleCharacterView view))
                         view.HideAccuracy();
                 }

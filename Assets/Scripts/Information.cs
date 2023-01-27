@@ -10,6 +10,7 @@ namespace OrderElimination
     {
         [SerializeField] private TMP_Text _moneyText;
         [SerializeField] private TMP_Text _moveCountText;
+        [SerializeField]
         private int _money;
         private int _moveCount;
         private CharactersMediator _charactersMediator;

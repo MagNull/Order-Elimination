@@ -26,6 +26,7 @@ namespace OrderElimination.BM
         public IReadOnlyList<ITickEffect> AllEffects => new List<ITickEffect>();
         public IReadOnlyBattleStats Stats => _stats;
         public BattleObjectSide Side => _isWalkable ? BattleObjectSide.Environment : BattleObjectSide.Obstacle;
+        public bool IsAlive => true;
 
         public IBattleObjectView View { get; set; }
 

@@ -177,6 +177,8 @@ public class BattleMap : MonoBehaviour
 
     public async UniTask MoveTo(IBattleObject obj, int x, int y, float delay = -1)
     {
+        if(!obj.IsAlive)
+            return;
         Vector2Int objCoord = GetCoordinate(obj);
         //TODO: Fix environment move
         if (obj is EnvironmentObject && _activeEnvironmentObjects.ContainsKey(new Vector2Int(x, y)))

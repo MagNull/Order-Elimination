@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using CharacterAbility;
+using Cysharp.Threading.Tasks;
 using DefaultNamespace;
 using DG.Tweening;
 using OrderElimination.Battle;
@@ -56,11 +57,12 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
         _character = character;
         _character.Damaged += OnDamaged;
         _character.Died += OnDied;
-        
+
         switch (Model.Side)
         {
             case BattleObjectSide.Ally:
                 BattleSimulation.PlayerTurnStarted += OnTurnStart;
+                _character.ActionBankChanged += OnActionBankChanged;
                 break;
             case BattleObjectSide.Enemy:
                 BattleSimulation.EnemyTurnStarted += OnTurnStart;
@@ -72,7 +74,7 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
         CharacterName = characterName;
         Icon = avatarIcon;
         AvatarFull = avatarFull;
-        
+
         HideAccuracy();
     }
 
@@ -93,13 +95,14 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
             return;
         }
 
+        var startColor = _renderer.color;
         _renderer.DOColor(Color.red, _damagedDuration / 2).onComplete += () =>
         {
-            _renderer.DOColor(Color.white, _damagedDuration / 2);
+            _renderer.DOColor(startColor, _damagedDuration / 2);
         };
         EmmitText((info.ArmorDamage + info.HealthDamage).ToString(), Color.red);
     }
-    
+
     public void EmmitText(string text, Color color, float fontSize = -1)
     {
         _textEmitter.Emit(text, color, fontSize);
@@ -150,23 +153,34 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
         Disable();
     }
 
+    private async void OnActionBankChanged(ActionBank actionBank)
+    {
+        await UniTask.WaitUntil(() =>
+        {
+            Color color = _renderer.color;
+            return color == Color.grey || color == Color.white;
+        });
+        _renderer.color = actionBank.AvailableActions.Count <= 0 ? Color.grey : Color.white;
+    }
+
     private void OnDisable()
     {
         _character.Damaged -= OnDamaged;
         _character.Died -= OnDied;
-        
+
         switch (Model.Side)
         {
             case BattleObjectSide.Ally:
                 BattleSimulation.PlayerTurnStarted -= OnTurnStart;
+                _character.ActionBankChanged -= OnActionBankChanged;
                 break;
             case BattleObjectSide.Enemy:
                 BattleSimulation.EnemyTurnStarted -= OnTurnStart;
                 break;
         }
-        
+
         _character.ClearTickEffects();
-        
+
         Destroy(gameObject);
     }
 
