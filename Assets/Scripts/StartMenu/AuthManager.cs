@@ -78,7 +78,7 @@ namespace OrderElimination
 
         private void SignIn(string email, string password)
         {
-            signInMessage.text = "Search Account...";
+            signInMessage.text = "Поиск аккаунта...";
             signInMessage.color = Color.white;
 
             var data = "{\"email\":\"" + email + "\",\"password\":\"" + password + "\",\"returnSecureToken\":true}";
@@ -92,7 +92,7 @@ namespace OrderElimination
         {
             try
             {
-                signInMessage.text = "Account Initialized";
+                signInMessage.text = "Аккаунт инциализирован";
                 signInMessage.color = Color.green;
                 GetUserByEmail(data.email);
             }
@@ -112,7 +112,7 @@ namespace OrderElimination
             var isEmailEmpty = string.IsNullOrEmpty(email) || string.IsNullOrWhiteSpace(email);
             var isPasswordEmpty = string.IsNullOrEmpty(password) || string.IsNullOrWhiteSpace(password);
 
-            signUpMessage.text = "Waiting, you'r account creating...";
+            signUpMessage.text = "Подождите, ваш аккаунт создается...";
             signUpMessage.color = Color.white;
 
             if (!string.IsNullOrEmpty(login))
@@ -136,24 +136,24 @@ namespace OrderElimination
                     }
                     else if (signUpPassword.text != signUpConfirmPassword.text)
                     {
-                        signUpMessage.text = "Password not equals";
+                        signUpMessage.text = "Пароли разные";
                         signUpMessage.color = Color.red;
                     }
                 }
                 else if (signUpPassword.text.Length < 6 || signUpConfirmPassword.text.Length < 6)
                 {
-                    signUpMessage.text = "Password not enough lenght!";
+                    signUpMessage.text = "Пароль слишком короткий";
                     signUpMessage.color = Color.red;
                 }
                 else
                 {
-                    signUpMessage.text = "Account with same login have in system";
+                    signUpMessage.text = "Аккаунт с таким логином уже существует";
                     signUpMessage.color = Color.red;
                 }
             }
             else
             {
-                signUpMessage.text = "Account with same mail/login have in system";
+                signUpMessage.text = "Аккаунт с такой почтой/логином уже существует";
                 signUpMessage.color = Color.red;
             }
         }
@@ -166,7 +166,7 @@ namespace OrderElimination
                 var login = signUpLogin.text;
                 var password = signUpPassword.text;
                 
-                signUpMessage.text = "Account created";
+                signUpMessage.text = "Аккаунт создан";
                 signUpMessage.color = Color.green;
 
                 var userData = new UserData(email, login, password);
