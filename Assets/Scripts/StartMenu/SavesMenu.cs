@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,8 +11,11 @@ namespace OrderElimination.Start
     {
         [SerializeField] private Button _loadButton;
         [SerializeField] private List<SaveButton> _saves;
+        [SerializeField] private Image _blackout;
         private int _selectedSaveIndex;
         private Image _selectedSavesImages;
+        public float DURATION = 0.6f;
+        public float END_VALUE = 0.8f;
         public static event Action<bool> ExitSavesWindow;
         public static event Action<int> LoadClicked;
         public static event Action<int> NewGameClicked;
@@ -26,6 +30,7 @@ namespace OrderElimination.Start
             _loadButton.interactable = true;
             
             SetActive(false);
+            _blackout.gameObject.SetActive(false);
         }
         
 
@@ -59,14 +64,18 @@ namespace OrderElimination.Start
                 save.SetText("");
         }
 
-        public void LoadButtonClicked()
+        public async void LoadButtonClicked()
         {
+            _blackout.gameObject.SetActive(true);
+            await _blackout.DOFade(END_VALUE, DURATION).AsyncWaitForCompletion();
             LoadClicked?.Invoke(_selectedSaveIndex);
             SceneManager.LoadScene(1);
         }
 
-        public void NewGameButtonClicked()
+        public async void NewGameButtonClicked()
         {
+            _blackout.gameObject.SetActive(true);
+            await _blackout.DOFade(END_VALUE, DURATION).AsyncWaitForCompletion();
             NewGameClicked?.Invoke(_selectedSaveIndex);
             SceneManager.LoadScene(1);
         }
