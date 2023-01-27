@@ -168,10 +168,20 @@ namespace OrderElimination
             var count = 0;
             foreach (var squad in _squads)
             {
-                var isMove = PlayerPrefs.GetInt($"{SaveIndex}:Squad {count++}:isMove") == 1;
+                var isMove = PlayerPrefs.GetInt($"{SaveIndex}:Squad {count}:isMove") == 1;
                 squad.Move(FindNearestPoint(squad.transform.position));
                 squad.SetAlreadyMove(isMove);
                 squad.onActiveSquadPanel += SetActiveSquadListPanel;
+                var characterCount = 0;
+                foreach (var member in squad.Members)
+                {
+                    if (CharacterStatsMediator.Instance.CharacterStats.Count == 0)
+                        member.ResetStats();
+                    else 
+                        member.SetLevel(CharacterStatsMediator.Instance.CharacterStats[count].Stats[characterCount++].Lvl);
+                }
+
+                count++;
             }
         }
 
@@ -230,13 +240,41 @@ namespace OrderElimination
             if (_enemySquad is not null)
                 enemyPosition = EnemySquad.transform.position;
             var money = _playerInformation.Money;
-            var save = new Save(CountMove, enemyPosition, isMoveSquads, positions, money);
-            
+            var save = new Save(CountMove, enemyPosition, isMoveSquads, positions, money, GetStrategyStats());
             Database.PutSaveToDatabase(save, SaveIndex);
+        }
+
+        private List<CharacterStats> GetStrategyStats()
+        {
+            var stats = new List<CharacterStats>();
+            var countSquad = 0;
+            foreach (var squad in _squads)
+            {
+                var countCharacter = 0;
+                var temp = new List<StrategyStats>();
+                foreach(var character in squad.Members)
+                {
+                    var characterStrategyStats = character.GetStrategyStats();
+                    temp.Add(characterStrategyStats);
+                    countCharacter++;
+                }
+                
+                var characterStats = new CharacterStats(temp);
+                stats.Add(characterStats);
+                countSquad++;
+            }
+
+            return stats;
+        }
+        
+        private void OnApplicationQuit()
+        {
+            SaveData();
         }
 
         private void OnDisable()
         {
+            SaveData();
             InputClass.onFinishMove -= OnFinishMove;
             InputClass.onSaveData -= SaveData;
         }

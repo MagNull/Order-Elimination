@@ -109,12 +109,14 @@ namespace OrderElimination
         private void SetMediatorBySelectedSave(int saveIndex)
         {
             SetPlayerPrefs(_saves[saveIndex], saveIndex);
+            CharacterStatsMediator.SetCharacterStats(_saves[saveIndex].CharacterStats);
         }
 
         public void SetNewGame(int saveIndex)
         {
             PutSaveToDatabase(new Save(), saveIndex);
             SetPlayerPrefs(new Save(), saveIndex);
+            CharacterStatsMediator.SetCharacterStats(new List<CharacterStats>());
         }
 
         private static void SetPlayerPrefs(Save save, int saveIndex)

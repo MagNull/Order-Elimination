@@ -43,6 +43,14 @@ namespace OrderElimination
             throw new System.NotImplementedException();
         }
 
+        public void SetLevel(int level)
+        {
+            if (_strategyStats.Lvl == level)
+                return;
+            for(var i = _strategyStats.Lvl; i <= level; i++)
+                Upgrade();
+        }
+
         public void Upgrade()
         {
             var battleStats = new BattleStats(_battleStats)
@@ -87,6 +95,7 @@ namespace OrderElimination
         public void ResetStats()
         {
             _battleStats = _baseStats;
+            _strategyStats.Lvl = 1;
         }
     }
 }
