@@ -8,26 +8,32 @@ namespace OrderElimination
     {
         [SerializeField]
         private int _health;
+        [SerializeField]
         private int _unmodifiedHealth;
         [SerializeField]
         private int _attack;
+        [SerializeField]
         private int _unmodifiedAttack;
         [SerializeField]
         private int _armor;
+        [SerializeField]
         private int _unmodifiedArmor;
         [SerializeField]
         private int _additionalArmor;
         [SerializeField]
         private int _evasion;
+        [SerializeField]
         private int _unmodifiedEvasion;
         [SerializeField]
         private int _accuracy;
+        [SerializeField]
         private int _unmodifiedAccuracy;
         [SerializeField]
         private int _movement;
         [SerializeField]
-        private DamageModificator _damageModificator;
         private int _unmodifiedMovement;
+        [SerializeField]
+        private DamageModificator _damageModificator;
 
         public BattleStats(IReadOnlyBattleStats other)
         {
