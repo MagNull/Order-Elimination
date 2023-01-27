@@ -172,7 +172,7 @@ namespace OrderElimination
                 var userData = new UserData(email, login, password);
                 Database.SendToDatabase(userData, login);
                 registerForm.SetActive(false);
-                loginForm.SetActive(true);
+                OnUserLogin?.Invoke(login);
             }
             catch (Exception e)
             {
