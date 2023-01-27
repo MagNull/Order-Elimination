@@ -79,6 +79,8 @@ namespace OrderElimination
         public void SetAlreadyMove(bool isAlreadyMove)
         {
             AlreadyMove = isAlreadyMove;
+            if(!isAlreadyMove)
+                _view.OnReadyMove();
         }
 
         public void SetOrderButton(HoldableButton button)
