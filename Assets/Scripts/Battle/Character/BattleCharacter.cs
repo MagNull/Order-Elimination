@@ -53,6 +53,7 @@ public class BattleCharacter : IActor
     public IReadOnlyList<ITickEffect> AllEffects =>
         _buffEffects;
 
+    public bool IsAlive => _battleStats.Health > 0;
     public BattleObjectSide Side => _side;
     public IBattleObjectView View { get; set; }
 

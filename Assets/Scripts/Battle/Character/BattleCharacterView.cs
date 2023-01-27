@@ -73,7 +73,7 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
         CharacterName = characterName;
         Icon = avatarIcon;
         AvatarFull = avatarFull;
-        
+
         HideAccuracy();
     }
 
@@ -93,6 +93,7 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
 
             return;
         }
+
         var startColor = _renderer.color;
         _renderer.DOColor(Color.red, _damagedDuration / 2).onComplete += () =>
         {
@@ -100,7 +101,7 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
         };
         EmmitText((info.ArmorDamage + info.HealthDamage).ToString(), Color.red);
     }
-    
+
     public void EmmitText(string text, Color color, float fontSize = -1)
     {
         _textEmitter.Emit(text, color, fontSize);
@@ -161,7 +162,7 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
     {
         _character.Damaged -= OnDamaged;
         _character.Died -= OnDied;
-        
+
         switch (Model.Side)
         {
             case BattleObjectSide.Ally:
@@ -172,9 +173,9 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
                 BattleSimulation.EnemyTurnStarted -= OnTurnStart;
                 break;
         }
-        
+
         _character.ClearTickEffects();
-        
+
         Destroy(gameObject);
     }
 

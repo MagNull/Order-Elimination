@@ -18,6 +18,7 @@ namespace OrderElimination.BM
         public IReadOnlyList<ITickEffect> AllEffects => new List<ITickEffect>();
 
         public BattleObjectSide Side => BattleObjectSide.None;
+        public bool IsAlive => true;
 
         public IBattleObjectView View
         {

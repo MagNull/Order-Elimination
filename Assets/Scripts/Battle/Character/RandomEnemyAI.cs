@@ -101,7 +101,7 @@ public class RandomEnemyAI : BattleCharacter
 
     private bool TryAttack(BattleCharacter nearestPlayer)
     {
-        if (!TrySpendAction(ActionType.Ability))
+        if (!CanSpendAction(ActionType.Ability))
             return false;
         switch (_currentAIAbility.TargetType)
         {
