@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using CharacterAbility;
+using Cysharp.Threading.Tasks;
 using DefaultNamespace;
 using DG.Tweening;
 using OrderElimination.Battle;
@@ -152,9 +153,13 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
         Disable();
     }
 
-    private void OnActionBankChanged(ActionBank actionBank)
+    private async void OnActionBankChanged(ActionBank actionBank)
     {
-        _renderer.DOComplete();
+        await UniTask.WaitUntil(() =>
+        {
+            Color color = _renderer.color;
+            return color == Color.grey || color == Color.white;
+        });
         _renderer.color = actionBank.AvailableActions.Count <= 0 ? Color.grey : Color.white;
     }
 

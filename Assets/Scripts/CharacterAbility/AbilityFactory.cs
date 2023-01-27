@@ -130,7 +130,7 @@ namespace CharacterAbility
                     case AbilityEffectType.ConditionalBuff:
                         ability = new ConditionalBuffAbility(caster, effectDesc.MainEffect, ability, probability,
                             effectDesc.BuffType,
-                            effectDesc.BuffModificator, effectDesc.ScaleFromWhom, effectDesc.ConditionType,
+                            effectDesc.BuffModificator, effectDesc.Duration, effectDesc.ScaleFromWhom, effectDesc.ConditionType,
                             effectDesc.Filter,
                             effectDesc.DamageType, effectDesc.Multiplier, effectDesc.IsUnique, effectDesc.EffectView,
                             _objectResolver);

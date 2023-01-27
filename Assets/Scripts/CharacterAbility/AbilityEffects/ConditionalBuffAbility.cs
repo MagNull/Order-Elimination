@@ -14,6 +14,7 @@ namespace CharacterAbility.AbilityEffects
     {
         private readonly Buff_Type _buffType;
         private readonly float _value;
+        private readonly int _duration;
         private readonly ScaleFromWhom _scaleFromWhom;
         private readonly BuffConditionType _conditionType;
         private readonly DamageType _damageType;
@@ -26,12 +27,13 @@ namespace CharacterAbility.AbilityEffects
         //TODO: Refactor DI in BuffAbilities
         public ConditionalBuffAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability,
             Buff_Type buffType,
-            float value, ScaleFromWhom scaleFromWhom, BuffConditionType conditionType, BattleObjectSide filter,
+            float value, int duration, ScaleFromWhom scaleFromWhom, BuffConditionType conditionType, BattleObjectSide filter,
             DamageType damageType, bool isMultiplier, bool isUnique, ITickEffectView tickEffectView, IObjectResolver objectResolver) :
             base(caster, isMain, nextEffect, filter, probability)
         {
             _buffType = buffType;
             _value = value;
+            _duration = duration;
             _scaleFromWhom = scaleFromWhom;
             _conditionType = conditionType;
             _damageType = damageType;
@@ -96,26 +98,26 @@ namespace CharacterAbility.AbilityEffects
         {
             _buff = _buffType switch
             {
-                Buff_Type.Evasion => new StatsBuffEffect(_isUnique,Buff_Type.Evasion, _value, _scaleFromWhom, 9999,
+                Buff_Type.Evasion => new StatsBuffEffect(_isUnique,Buff_Type.Evasion, _value, _scaleFromWhom, _duration,
                     _isMultiplier, _caster, _tickEffectView),
-                Buff_Type.Accuracy => new StatsBuffEffect(_isUnique,Buff_Type.Accuracy, _value, _scaleFromWhom, 9999,
+                Buff_Type.Accuracy => new StatsBuffEffect(_isUnique,Buff_Type.Accuracy, _value, _scaleFromWhom, _duration,
                     _isMultiplier, _caster, _tickEffectView),
-                Buff_Type.Attack => new StatsBuffEffect(_isUnique,Buff_Type.Attack, _value, _scaleFromWhom, 9999, _isMultiplier,
+                Buff_Type.Attack => new StatsBuffEffect(_isUnique,Buff_Type.Attack, _value, _scaleFromWhom, _duration, _isMultiplier,
                     _caster, _tickEffectView),
-                Buff_Type.Health => new StatsBuffEffect(_isUnique,Buff_Type.Health, _value, _scaleFromWhom, 9999, _isMultiplier,
+                Buff_Type.Health => new StatsBuffEffect(_isUnique,Buff_Type.Health, _value, _scaleFromWhom, _duration, _isMultiplier,
                     _caster, _tickEffectView),
-                Buff_Type.Movement => new StatsBuffEffect(_isUnique,Buff_Type.Movement, _value, _scaleFromWhom, 9999,
+                Buff_Type.Movement => new StatsBuffEffect(_isUnique,Buff_Type.Movement, _value, _scaleFromWhom, _duration,
                     _isMultiplier, _caster, _tickEffectView),
                 Buff_Type.AdditionalArmor => new StatsBuffEffect(_isUnique,Buff_Type.AdditionalArmor, _value, _scaleFromWhom,
-                    9999,
+                    _duration,
                     _isMultiplier, _caster, _tickEffectView),
-                Buff_Type.IncomingAccuracy => new IncomingBuff(_isUnique,Buff_Type.IncomingAccuracy, 9999,
+                Buff_Type.IncomingAccuracy => new IncomingBuff(_isUnique,Buff_Type.IncomingAccuracy, _duration,
                     _value, _tickEffectView, _damageType),
-                Buff_Type.IncomingDamageIncrease => new IncomingBuff(_isUnique,Buff_Type.IncomingDamageIncrease, 9999,
+                Buff_Type.IncomingDamageIncrease => new IncomingBuff(_isUnique,Buff_Type.IncomingDamageIncrease, _duration,
                     _value, _tickEffectView, _damageType),
-                Buff_Type.IncomingDamageReduction => new IncomingBuff(_isUnique,Buff_Type.IncomingDamageReduction, 9999,
+                Buff_Type.IncomingDamageReduction => new IncomingBuff(_isUnique,Buff_Type.IncomingDamageReduction, _duration,
                     _value, _tickEffectView, _damageType),
-                Buff_Type.Concealment => new ConcealmentBuff(9999, _isUnique,_objectResolver.Resolve<CharactersBank>(),
+                Buff_Type.Concealment => new ConcealmentBuff(_duration, _isUnique,_objectResolver.Resolve<CharactersBank>(),
                     _tickEffectView),
                 _ => throw new ArgumentOutOfRangeException()
             };
