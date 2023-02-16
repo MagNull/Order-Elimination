@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace OrderElimination
 {
-    public class PlanetPoint : MonoBehaviour, ISelectable
+    public class PlanetPoint : MonoBehaviour
     {
         [ShowInInspector]
         private int _countSquadOnPoint;
@@ -105,11 +105,6 @@ namespace OrderElimination
         public void Select()
         {
             Onclick?.Invoke(this);
-        }
-
-        public void Unselect()
-        {
-            throw new NotImplementedException();
         }
     }
 }

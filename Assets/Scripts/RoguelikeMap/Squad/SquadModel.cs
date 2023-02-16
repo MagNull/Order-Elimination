@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OrderElimination
 {
-    public class SquadModel : ISelectable, IMovable
+    public class SquadModel
     {
         private readonly List<Character> _members;
         private int _rang;

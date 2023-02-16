@@ -22,8 +22,6 @@ namespace OrderElimination.Start
         
         private void Awake()
         {
-            Database.LoadSave += SetSaveText;
-            AuthManager.OnUserLogout += ClearSaveText;
             foreach (var save in _saves)
                 save.DeleteSave += DeleteSave;
             SaveClicked(0);
@@ -88,7 +86,6 @@ namespace OrderElimination.Start
 
         private void DeleteSave()
         {
-            Database.DeleteSave(_selectedSaveIndex);
             _loadButton.interactable = false;
         }
     }

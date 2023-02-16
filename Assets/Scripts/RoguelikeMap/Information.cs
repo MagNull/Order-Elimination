@@ -25,7 +25,7 @@ namespace OrderElimination
         
         private void Start()
         {
-            InputClass.onFinishMove += AddMoveCount;
+            //InputClass.onFinishMove += AddMoveCount;
         }
 
         public void SetMoney(int money)
@@ -37,8 +37,8 @@ namespace OrderElimination
 
         public void SetMoneyWithBattleOutcome()
         {
-            var money = PlayerPrefs.GetInt($"{StrategyMap.SaveIndex}:Money");
-            if (PlayerPrefs.GetString($"{StrategyMap.SaveIndex}:BattleOutcome") == BattleOutcome.Victory.ToString())
+            var money = PlayerPrefs.GetInt($"{Player.SaveIndex}:Money");
+            if (PlayerPrefs.GetString($"{Player.SaveIndex}:BattleOutcome") == BattleOutcome.Victory.ToString())
                 money += _charactersMediator.PlanetInfo.CurrencyReward;
             _moneyText.text = money.ToString();
             _money = money;
@@ -58,7 +58,7 @@ namespace OrderElimination
 
         private void OnDisable()
         {
-            InputClass.onFinishMove -= AddMoveCount;
+            //InputClass.onFinishMove -= AddMoveCount;
         }
     }
 }

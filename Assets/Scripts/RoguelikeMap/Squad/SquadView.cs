@@ -7,6 +7,7 @@ namespace OrderElimination
 {
     public class SquadView
     {
+        public const float IconSize = 50f;
         public float DURATION = 0.6f;
         public float END_VALUE = 0.8f;
         private Transform _transform;
@@ -20,8 +21,8 @@ namespace OrderElimination
         public void OnMove(PlanetPoint planetPoint)
         {
             var target = planetPoint.transform.position +
-                         new Vector3(-StrategyMap.IconSize + (planetPoint.CountSquadOnPoint - 1) * 100f,
-                             StrategyMap.IconSize + 10f);
+                         new Vector3(-IconSize + (planetPoint.CountSquadOnPoint - 1) * 100f,
+                             IconSize + 10f);
             var tween = _transform.DOMove(target, 0.5f);
             _transform.GetComponent<SpriteRenderer>().DOColor(Color.grey, DURATION);
             tween.OnComplete(() => onEndAnimation?.Invoke());

@@ -11,7 +11,7 @@ using UIManagement.Elements;
 
 namespace OrderElimination
 {
-    public class Squad : SerializedMonoBehaviour, ISquad, ISelectable
+    public class Squad : SerializedMonoBehaviour, ISquad
     {
         [OdinSerialize]
         [ShowInInspector]
@@ -45,7 +45,6 @@ namespace OrderElimination
             _view = new SquadView(transform);
             _presenter = new SquadPresenter(_model, _view, null);
             _view.onEndAnimation += StartAttack;
-            InputClass.onPauseClicked += SetActiveButtonOnOrderPanel;
             SavesMenu.ExitSavesWindow += SetActiveButtonOnOrderPanel;
             Settings.ExitSettingsWindow += SetActiveButtonOnOrderPanel;
         }
@@ -129,7 +128,6 @@ namespace OrderElimination
         {
             _presenter.Unsubscribe();
             _view.onEndAnimation -= StartAttack;
-            InputClass.onPauseClicked -= SetActiveButtonOnOrderPanel;
             SavesMenu.ExitSavesWindow -= SetActiveButtonOnOrderPanel;
             Settings.ExitSettingsWindow -= SetActiveButtonOnOrderPanel;
         }
