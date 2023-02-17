@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c682b0bae1680d48becdfdfe16809b5, type: 3}
-  m_Name: Point C
+  m_Name: Point B
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 7be5600522a123a4595c53b6b173a4a7, type: 2}
-    - {fileID: 11400000, guid: 8461a20f43795594cbe00ebbabe08b55, type: 2}
+    - {fileID: 11400000, guid: 9461f9304513865429fcf3420fd25287, type: 2}
+    - {fileID: 11400000, guid: cdb88470c4b68c341bad38dde4ae1989, type: 2}
     - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -52,14 +52,13 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  _position: {x: 500, y: 50, z: 0}
+  _position: {x: 250, y: 400, z: 0}
   _paths:
-  - {fileID: 11400000, guid: c179e0b0c58ad00439db4aad40986de5, type: 2}
-  - {fileID: 11400000, guid: e68b5b66c3a910247abcdd44f3475cec, type: 2}
-  - {fileID: 11400000, guid: 1b710de649381a74090bcfbd29a73f58, type: 2}
-  _spriteIcon: {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _pointPrefab: {fileID: 5720600642734748331, guid: d505935a2b5f73945b1c5ecb76f4e265, type: 3}
   "_\u0441hanceOfItems": 0
   _chanceOfFighting: 0
   _chanceOfFightingBack: 0
   _expirience: 0
-  _currencyReward: 465
+  _currencyReward: 490

@@ -10,16 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c682b0bae1680d48becdfdfe16809b5, type: 3}
-  m_Name: Point E
+  m_Name: Point C
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+    - {fileID: 11400000, guid: 7be5600522a123a4595c53b6b173a4a7, type: 2}
     - {fileID: 11400000, guid: 8461a20f43795594cbe00ebbabe08b55, type: 2}
-    - {fileID: 11400000, guid: 1f6151b456f616343bbd2806f780dee0, type: 2}
-    - {fileID: 11400000, guid: cdb88470c4b68c341bad38dde4ae1989, type: 2}
+    - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -37,28 +36,30 @@ MonoBehaviour:
       Data: 0
     - Name: 
       Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 10
       Data: 1
     - Name: 
       Entry: 10
       Data: 2
     - Name: 
       Entry: 10
-      Data: 3
+      Data: 2
+    - Name: 
+      Entry: 10
+      Data: 2
     - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-  _position: {x: 750, y: 50, z: 0}
+  _position: {x: 500, y: 50, z: 0}
   _paths:
-  - {fileID: 11400000, guid: 34144333a81c03143920f606554d5eec, type: 2}
-  _spriteIcon: {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _pointPrefab: {fileID: 2659112266566283513, guid: cacb9373209fc534a9d501acc1b137e7, type: 3}
   "_\u0441hanceOfItems": 0
   _chanceOfFighting: 0
   _chanceOfFightingBack: 0
   _expirience: 0
-  _currencyReward: 460
+  _currencyReward: 465
