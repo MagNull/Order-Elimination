@@ -35,15 +35,8 @@ namespace OrderElimination
 
         public void StartAttack()
         {
-            var order = CreateAttackOrder();
-            order.Start();
-        }
-
-        public AttackOrder CreateAttackOrder()
-        {
-            if (_squad == null || _target == null)
-                throw new System.Exception("Characteristics are not set");
-            return new AttackOrder(_target, _squad, _objectResolver);
+            // var order = CreateAttackOrder();
+            // order.Start();
         }
     }
 }
