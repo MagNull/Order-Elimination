@@ -9,7 +9,7 @@ namespace OrderElimination
     public class PlanetInfo : SerializedScriptableObject
     {
         [SerializeField] private Vector3 _position;
-        [SerializeField] private List<PathInfo> _paths;
+        [SerializeField] private List<PlanetInfo> _paths;
         [SerializeField] private GameObject _pointPrefab;
         
         [Range(0, 1)] 
@@ -28,7 +28,7 @@ namespace OrderElimination
         private int _currencyReward;
 
         public Vector3 Position => _position;
-        public IReadOnlyList<PathInfo> Paths => _paths;
+        public IReadOnlyList<PlanetInfo> Paths => _paths;
         public GameObject Prefab => _pointPrefab;
         public float ChanceOfItems => _сhanceOfItems;
         public float ChanceOfFighting => _chanceOfFighting;

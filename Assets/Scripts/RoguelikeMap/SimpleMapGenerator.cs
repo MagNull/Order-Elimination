@@ -18,15 +18,9 @@ namespace OrderElimination
         }
         //VERY VERY COOL CRUTCH TODO: Add Paths to points 
 
-<<<<<<< Updated upstream
         public List<IPoint> GenerateMap()
         {
             var pointsList = new List<IPoint>();
-=======
-        public List<PlanetPoint> GenerateMap()
-        {
-            var pointsList = new List<PlanetPoint>();
->>>>>>> Stashed changes
             var path = "Points\\" + numberOfMap.ToString();
             var pointsInfo = Resources.LoadAll<PointInfo>(path);
             
@@ -34,13 +28,9 @@ namespace OrderElimination
 
             for (var i = 0; i < pointsInfo.Length; i++)
             {
-<<<<<<< Updated upstream
                 var info = pointsInfo[i];
                 var point = CreatePoint(info);
                 
-=======
-                var point = CreatePlanetPoint(info);
->>>>>>> Stashed changes
                 pointsList.Add(point);
                 point.PointNumber = i;
             }
@@ -58,7 +48,6 @@ namespace OrderElimination
             return pointsList;
         }
 
-<<<<<<< Updated upstream
         private void SetPaths(ref List<IPoint> points, ref List<PointInfo> infos)
         {
             throw new NotImplementedException();
@@ -74,21 +63,4 @@ namespace OrderElimination
             return point;
         }
     }
-=======
-        private PlanetPoint CreatePlanetPoint(PlanetInfo info)
-        {
-            var pointObj = Instantiate(info.Prefab, info.Position, Quaternion.identity, _parent);
-            var point = pointObj.GetComponent<IPlanetPoint>();
-            //var point = (IPlanetPoint)GetComponent(typeof(IPlanetPoint));
-
-            Debug.Log(point!=null);
-
-            point.SetPlanetInfo(info);
-            
-            for (var path in point.)
-            
-            return point;
-        }
-    }   
->>>>>>> Stashed changes
 }
