@@ -16,7 +16,7 @@ public class BattleMapDirector
     [SerializeField]
     private BattleMapView _battleMapView;
     [SerializeField]
-    private List<SerializedDictionary<Vector2Int, EnvironmentInfo>> _environmentObjects = new();
+    private List<Dictionary<Vector2Int, EnvironmentInfo>> _environmentObjects = new();
 
     private CharactersMediator _charactersMediator;
 

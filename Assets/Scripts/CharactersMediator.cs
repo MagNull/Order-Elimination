@@ -23,7 +23,7 @@ namespace OrderElimination
         public List<IBattleCharacterInfo> GetBattleEnemyInfo() => _enemies;
         public int PointNumber => _pointNumber;
 
-        public PlanetInfo PlanetInfo { get; set; }
+        public PointInfo PointInfo { get; set; }
 
     }
 }
