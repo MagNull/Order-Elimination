@@ -2,10 +2,10 @@
 {
     public abstract class Order
     {
-        protected IPoint _target;
+        protected Point _target;
         protected Squad _squad;
 
-        public Order(IPoint target, Squad squad)
+        public Order(Point target, Squad squad)
         {
             _target = target;
             _squad = squad;

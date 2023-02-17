@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6256596657128005553}
   - component: {fileID: 1153897808531369736}
-  - component: {fileID: 3542972179027166383}
+  - component: {fileID: 4591659698562840609}
   m_Layer: 0
   m_Name: BossBattlePoint
   m_TagString: Untagged
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3542972179027166383
+--- !u!114 &4591659698562840609
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,7 +94,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 8414116920630973637}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ffe96fed6795ad4690892f2f394ed33, type: 3}
+  m_Script: {fileID: 11500000, guid: 0eaab85ffeb4449ab1068a52e6687dbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _planetInfo: {fileID: 0}
+  pointInfo: {fileID: 0}
+  _linePrefab: {fileID: 7843405887477132991, guid: fe7a2fb0c4301934a95ede2e72ce1426, type: 3}

@@ -27,7 +27,7 @@ namespace OrderElimination
         public static event Action<Squad> Unselected;
         public static event Action onMove;
         public event Action<Squad> onActiveSquadPanel;
-        public IPoint Point => _presenter.Point;
+        public Point Point => _presenter.Point;
         public int AmountOfCharacters => _model.AmountOfMembers;
         public List<Character> Members => _testSquadMembers;
         public bool AlreadyMove { get; private set; }
@@ -53,7 +53,7 @@ namespace OrderElimination
 
         public void Remove(Character member) => _model.RemoveCharacter(member);
 
-        public void Move(IPoint point)
+        public void Move(Point point)
         {
             AlreadyMove = true;
             Point?.RemoveSquad();
@@ -91,7 +91,7 @@ namespace OrderElimination
             _buttonOnOrderPanel.Holded += ActiveSquadPanel;
         }
 
-        private void SetPlanetPoint(IPoint point)
+        private void SetPlanetPoint(Point point)
         {
             _presenter.UpdatePlanetPoint(point);
         }

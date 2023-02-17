@@ -4,10 +4,10 @@
     {
         private readonly SquadModel _model;
         private readonly SquadView _view;
-        private IPoint _point;
-        public IPoint Point => _point;
+        private Point _point;
+        public Point Point => _point;
 
-        public SquadPresenter(SquadModel model, SquadView view, IPoint point)
+        public SquadPresenter(SquadModel model, SquadView view, Point point)
         {
             _model = model;
             _view = view;
@@ -34,7 +34,7 @@
             }
         }
 
-        public void UpdatePlanetPoint(IPoint point)
+        public void UpdatePlanetPoint(Point point)
         {
             Unsubscribe();
             _point = point;

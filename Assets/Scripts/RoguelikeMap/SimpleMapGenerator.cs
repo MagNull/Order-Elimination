@@ -9,18 +9,12 @@ namespace OrderElimination
 {
     public class SimpleMapGenerator : IMapGenerator
     {
-        [SerializeField] private int numberOfMap = 0;
-        [SerializeField] private Transform _parent;
-
-        private void Start()
+        public int numberOfMap { get; set; }
+        private Transform _parent;
+        // TODO: Fix null reference
+        public List<Point> GenerateMap()
         {
-            GenerateMap();
-        }
-        //VERY VERY COOL CRUTCH TODO: Add Paths to points 
-
-        public List<IPoint> GenerateMap()
-        {
-            var pointsList = new List<IPoint>();
+            var pointsList = new List<Point>();
             var path = "Points\\" + numberOfMap.ToString();
             var pointsInfo = Resources.LoadAll<PointInfo>(path);
             
@@ -35,7 +29,7 @@ namespace OrderElimination
                 point.PointNumber = i;
             }
             Debug.Log("Generate points: " + pointsList.Count);
-
+            
             foreach (var info in pointsInfo)
             {
                 pointsList
@@ -43,22 +37,23 @@ namespace OrderElimination
                     .SetNextPoints(pointsList
                         .Where(x => (info.NextPoints
                             .Contains(x.GetPlanetInfo()))));
+                Debug.Log("Next points: " + pointsList[0].NextPoints.Count);
             }
             
             return pointsList;
         }
 
-        private void SetPaths(ref List<IPoint> points, ref List<PointInfo> infos)
+        private void SetPaths(ref List<Point> points, ref List<PointInfo> infos)
         {
             throw new NotImplementedException();
         }
 
-        private IPoint CreatePoint(PointInfo info)
+        private Point CreatePoint(PointInfo info)
         {
             var pointObj = GameObject.Instantiate(info.Prefab, info.Position, Quaternion.identity, _parent);
-            var point = pointObj.GetComponent<IPoint>();
-            Debug.Log(point!=null);
-            // var point = (IPlanetPoint)GetComponent(typeof(IPlanetPoint));
+            var point = pointObj.GetComponent<Point>();
+            //var point = (Point)pointObj.GetComponent(typeof(Point));
+            Debug.Log(point.HasEnemy);
             point.SetPlanetInfo(info);
             return point;
         }

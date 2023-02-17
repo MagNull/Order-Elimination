@@ -18,7 +18,7 @@ namespace OrderElimination
         }
 
         //TODO(Иван): Magic numbers
-        public void OnMove(IPoint point)
+        public void OnMove(Point point)
         {
             var target = point.transform.position +
                          new Vector3(-IconSize + (point.CountSquadOnPoint - 1) * 100f,

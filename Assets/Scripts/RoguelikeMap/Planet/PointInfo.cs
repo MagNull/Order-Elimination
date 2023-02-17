@@ -11,8 +11,6 @@ namespace OrderElimination
         [SerializeField]
         private GameObject _pointPrefab;
         [SerializeField]
-        private Sprite _spriteIcon;
-        [SerializeField]
         private Vector3 _position;
         [SerializeField]
         private List<PointInfo> _nextPoints;
@@ -29,7 +27,6 @@ namespace OrderElimination
 
         public Vector3 Position => _position;
         public IReadOnlyList<PointInfo> NextPoints => _nextPoints;
-        public Sprite SpriteIcon => _spriteIcon;
         public GameObject Prefab => _pointPrefab;
         public float ChanceOfItems => _сhanceOfItems;
         public float Experience => _expirience;

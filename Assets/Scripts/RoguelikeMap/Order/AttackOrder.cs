@@ -10,7 +10,7 @@ namespace OrderElimination
         private readonly IObjectResolver _objectResolver;
 
         [Inject]
-        public AttackOrder(IPoint target, Squad squad, IObjectResolver objectResolver) : base(target, squad)
+        public AttackOrder(Point target, Squad squad, IObjectResolver objectResolver) : base(target, squad)
         {
             _objectResolver = objectResolver;
         }

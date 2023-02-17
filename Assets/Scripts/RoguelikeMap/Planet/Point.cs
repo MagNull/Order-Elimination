@@ -9,21 +9,20 @@ using UnityEngine.Serialization;
 
 namespace OrderElimination
 {
-    public abstract class IPoint : MonoBehaviour
+    public abstract class Point : MonoBehaviour
     {
         [ShowInInspector]
         private int _countSquadOnPoint;
-        [FormerlySerializedAs("_planetInfo")] [SerializeField]
         private PointInfo pointInfo;
         private PointView _pointView;
-        private List<IPoint> _nextPoints;
+        private List<Point> _nextPoints;
         private int _pointNumber;
         [SerializeField] 
         private GameObject _linePrefab;
         public bool HasEnemy { get; private set; }
-        public static event Action<IPoint> Onclick;
+        public static event Action<Point> Onclick;
 
-        public IReadOnlyList<IPoint> NextPoints => _nextPoints;
+        public IReadOnlyList<Point> NextPoints => _nextPoints;
         public int CountSquadOnPoint => _countSquadOnPoint;
 
         public int PointNumber
@@ -40,7 +39,7 @@ namespace OrderElimination
         private void Awake()
         {
             _pointView = new PointView(transform, _linePrefab);
-            _nextPoints = new List<IPoint>();
+            _nextPoints = new List<Point>();
         }
 
         public PointInfo GetPlanetInfo() => pointInfo;
@@ -62,13 +61,13 @@ namespace OrderElimination
             this.pointInfo = pointInfo;
         }
         
-        public void SetNextPoint(IPoint end)
+        public void SetNextPoint(Point end)
         {
             _nextPoints.Add(end);
             _pointView.SetPath(end.transform.position);
         }
         
-        public void SetNextPoints(IEnumerable<IPoint> paths)
+        public void SetNextPoints(IEnumerable<Point> paths)
         {
             _nextPoints.AddRange(paths);
             foreach (var path in paths)

@@ -8,9 +8,9 @@ namespace OrderElimination
     {
         private readonly IObjectResolver _objectResolver;
         private Image _attackImage;
-        private IPoint _target;
+        private Point _target;
         private Squad _squad;
-        public IPoint Target => _target;
+        public Point Target => _target;
         public Squad Squad => _squad;
 
         [Inject]
@@ -20,7 +20,7 @@ namespace OrderElimination
             _attackImage = attackImage;
         }
 
-        public void Set(Squad squad, IPoint target)
+        public void Set(Squad squad, Point target)
         {
             _squad = squad;
             _target = target;
