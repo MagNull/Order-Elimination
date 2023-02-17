@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace OrderElimination
 {
-    public class PlanetPoint : MonoBehaviour
+    public class PlanetPoint : MonoBehaviour, IPlanetPoint
     {
         [ShowInInspector]
         private int _countSquadOnPoint;

@@ -4,26 +4,22 @@ using UnityEngine;
 
 namespace OrderElimination
 {
+    
     [CreateAssetMenu(fileName = "PlanetInfo", menuName = "Planet/New PlanetInfo")]
     public class PlanetInfo : SerializedScriptableObject
     {
-        [SerializeField]
-        private Vector3 _position;
-        [SerializeField]
-        private List<PathInfo> _paths;
-        [SerializeField]
-        private Sprite _spriteIcon;
-        [SerializeField]
+        [SerializeField] private Vector3 _position;
+        [SerializeField] private List<PlanetInfo> _paths;
+        [SerializeField] private GameObject _pointPrefab;
+        
+        [Range(0, 1)] 
+        [SerializeField] private float _сhanceOfItems;
         [Range(0, 1)]
-        private float _сhanceOfItems;
-        [SerializeField]
+        [SerializeField] private float _chanceOfFighting;
         [Range(0, 1)]
-        private float _chanceOfFighting;
-        [SerializeField]
-        [Range(0, 1)]
-        private float _chanceOfFightingBack;
-        [SerializeField]
-        private List<IBattleCharacterInfo> _enemies;
+        [SerializeField] private float _chanceOfFightingBack;
+        
+        [SerializeField] private List<IBattleCharacterInfo> _enemies;
 
         [SerializeField]
         [Range(0, float.MaxValue)]
@@ -32,8 +28,8 @@ namespace OrderElimination
         private int _currencyReward;
 
         public Vector3 Position => _position;
-        public IReadOnlyList<PathInfo> Paths => _paths;
-        public Sprite SpriteIcon => _spriteIcon;
+        public IReadOnlyList<PlanetInfo> Paths => _paths;
+        public GameObject Prefab => _pointPrefab;
         public float ChanceOfItems => _сhanceOfItems;
         public float ChanceOfFighting => _chanceOfFighting;
         public float ChanceOfFightingBack => _chanceOfFightingBack;
