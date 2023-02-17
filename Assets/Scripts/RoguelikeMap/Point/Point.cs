@@ -10,13 +10,14 @@ namespace OrderElimination
         public PointInfo PointInfo { get; protected set; }
         public PointView PointView { get; protected set; }
         public List<Point> NextPoints { get; protected set; }
+        
         public int PointNumber { get; protected set; }
+        public event Action<Point> OnSelected; 
 
-        // private void Awake()
-        // {
-        //     _pointView = new PointView(transform);
-        //     _nextPoints = new List<IPoint>();
-        // }
+        private void Awake()
+        {
+            NextPoints = new List<Point>();
+        }
 
         public void IncreasePoint() => PointView.Increase();
         public void DecreasePoint() => PointView.Decrease();
@@ -76,7 +77,7 @@ namespace OrderElimination
 
         public void Select()
         {
-            // Onclick?.Invoke(this);
+            OnSelected?.Invoke(this);
         }
     }
 }

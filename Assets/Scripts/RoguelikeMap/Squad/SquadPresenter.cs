@@ -17,21 +17,11 @@
         public void Subscribe()
         {
             _model.Moved += _view.OnMove;
-            if (_point != null)
-            {
-                _model.Selected += _point.ShowPaths;
-                _model.Unselected += _point.HidePaths;
-            }
         }
 
         public void Unsubscribe()
         {
             _model.Moved -= _view.OnMove;
-            if (_point != null)
-            {
-                _model.Selected -= _point.ShowPaths;
-                _model.Unselected -= _point.HidePaths;
-            }
         }
 
         public void UpdatePlanetPoint(Point point)

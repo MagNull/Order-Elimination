@@ -11,10 +11,10 @@ namespace RoguelikeMap
     {
         [SerializeField]
         private CharactersMediator _charactersMediatorPrefab;
-        [SerializeField] 
-        private Image _attackImage;
-        [SerializeField] 
-        private Information _playerInformation;
+        // [SerializeField] 
+        // private Image _attackImage;
+        // [SerializeField] 
+        // private Information _playerInformation;
         [SerializeField]
         private Squad _squad;
 
@@ -27,9 +27,10 @@ namespace RoguelikeMap
             builder.RegisterComponent(mediator);
             builder.Register<SquadCommander>(Lifetime.Singleton);
             builder.Register<SceneTransition>(Lifetime.Singleton);
-            builder.RegisterComponent(_playerInformation);
-            builder.RegisterComponent(_attackImage);
+            // builder.RegisterComponent(_playerInformation);
+            // builder.RegisterComponent(_attackImage);
             builder.RegisterComponent(_squad);
+            builder.Register<SimpleMapGenerator>(Lifetime.Singleton).As<IMapGenerator>();
         }
     }
 }

@@ -23,8 +23,7 @@ namespace OrderElimination
         private SquadCommander _commander;
         private HoldableButton _buttonOnOrderPanel;
         private CharactersMediator _charactersMediator;
-        public static event Action<Squad> Selected;
-        public static event Action<Squad> Unselected;
+        public event Action<Squad> OnSelected;
         public static event Action onMove;
         public event Action<Squad> onActiveSquadPanel;
         public Point Point => _presenter.Point;
@@ -47,7 +46,6 @@ namespace OrderElimination
             _view.onEndAnimation += StartAttack;
             SavesMenu.ExitSavesWindow += SetActiveButtonOnOrderPanel;
             Settings.ExitSettingsWindow += SetActiveButtonOnOrderPanel;
-            
         }
 
         public void Add(Character member) => _model.Add(member);
@@ -56,8 +54,8 @@ namespace OrderElimination
 
         public void Move(Point point)
         {
-            AlreadyMove = true;
-            SetPlanetPoint(point);
+            //AlreadyMove = true;
+            SetPoint(point);
             _model.Move(point);
         }
 
@@ -116,7 +114,7 @@ namespace OrderElimination
             _buttonOnOrderPanel.Holded += ActiveSquadPanel;
         }
 
-        private void SetPlanetPoint(Point point)
+        private void SetPoint(Point point)
         {
             _presenter.UpdatePlanetPoint(point);
         }
@@ -132,14 +130,8 @@ namespace OrderElimination
         {
             if (AlreadyMove)
                 return;
-            Selected?.Invoke(this);
+            OnSelected?.Invoke(this);
             _model.Select();
-        }
-
-        public void Unselect()
-        {
-            Unselected?.Invoke(null);
-            _model.Unselect();
         }
 
         public void DistributeExperience(float expirience) => _model.DistributeExpirience(expirience);
