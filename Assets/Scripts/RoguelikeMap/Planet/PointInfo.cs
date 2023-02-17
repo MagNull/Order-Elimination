@@ -19,12 +19,6 @@ namespace OrderElimination
         [Range(0, 1)] 
         [SerializeField]
         private float _сhanceOfItems;
-        [Range(0, 1)]
-        [SerializeField]
-        private float _chanceOfFighting;
-        [Range(0, 1)]
-        [SerializeField]
-        private float _chanceOfFightingBack;
         [SerializeField]
         private List<IBattleCharacterInfo> _enemies;
         [SerializeField]
@@ -38,8 +32,6 @@ namespace OrderElimination
         public Sprite SpriteIcon => _spriteIcon;
         public GameObject Prefab => _pointPrefab;
         public float ChanceOfItems => _сhanceOfItems;
-        public float ChanceOfFighting => _chanceOfFighting;
-        public float ChanceOfFightingBack => _chanceOfFightingBack;
         public float Experience => _expirience;
         public int CurrencyReward => _currencyReward;
 
