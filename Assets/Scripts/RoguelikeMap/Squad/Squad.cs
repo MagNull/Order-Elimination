@@ -27,7 +27,7 @@ namespace OrderElimination
         public static event Action<Squad> Unselected;
         public static event Action onMove;
         public event Action<Squad> onActiveSquadPanel;
-        public IPoint Point => _presenter.Point;
+        public Point Point => _presenter.Point;
         public int AmountOfCharacters => _model.AmountOfMembers;
         public List<Character> Members => _testSquadMembers;
         public bool AlreadyMove { get; private set; }
@@ -47,17 +47,36 @@ namespace OrderElimination
             _view.onEndAnimation += StartAttack;
             SavesMenu.ExitSavesWindow += SetActiveButtonOnOrderPanel;
             Settings.ExitSettingsWindow += SetActiveButtonOnOrderPanel;
+            
         }
 
         public void Add(Character member) => _model.Add(member);
 
         public void Remove(Character member) => _model.RemoveCharacter(member);
 
-        public void Move(IPoint point)
+        public void Move(Point point)
         {
             AlreadyMove = true;
             SetPlanetPoint(point);
             _model.Move(point);
+        }
+
+        public void Move(Vector3 position)
+        {
+            if (CheckOutScreenBoundaries(position))
+                throw new ArgumentException("Squad has exited the screen boundaries");
+            _model.Move(position);
+        }
+
+        private bool CheckOutScreenBoundaries(Vector3 position)
+        {
+            var mainCamera = Camera.main;
+            var screenBounds = mainCamera.ScreenToWorldPoint(
+                new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
+            return position.x < -screenBounds.x 
+                   || position.x > screenBounds.x 
+                   || position.y < -screenBounds.y 
+                   || position.y > screenBounds.y;
         }
 
         private void ActiveSquadPanel(HoldableButton button, float holdTime)
@@ -97,7 +116,7 @@ namespace OrderElimination
             _buttonOnOrderPanel.Holded += ActiveSquadPanel;
         }
 
-        private void SetPlanetPoint(IPoint point)
+        private void SetPlanetPoint(Point point)
         {
             _presenter.UpdatePlanetPoint(point);
         }

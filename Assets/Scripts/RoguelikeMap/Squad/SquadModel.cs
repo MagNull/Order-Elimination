@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace OrderElimination
 {
@@ -10,7 +11,7 @@ namespace OrderElimination
         public int AmountOfMembers => _members.Count;
         public IReadOnlyList<Character> Members => _members;
 
-        public event Action<IPoint> Moved;
+        public event Action<Vector3> Moved;
         public event Action Selected;
         public event Action Unselected;
 
@@ -45,9 +46,14 @@ namespace OrderElimination
             }
         }
 
-        public void Move(IPoint point)
+        public void Move(Point point)
         {
-            Moved?.Invoke(point);
+            Move(point.transform.position);
+        }
+
+        public void Move(Vector3 position)
+        {
+            Moved?.Invoke(position);
         }
 
         public void Select() => Selected?.Invoke();

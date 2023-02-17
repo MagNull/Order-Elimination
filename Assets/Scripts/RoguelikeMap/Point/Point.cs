@@ -5,11 +5,11 @@ using UnityEngine.EventSystems;
 
 namespace OrderElimination
 {
-    public interface IPoint
+    public abstract class Point : MonoBehaviour
     {
         public PointInfo PointInfo { get; protected set; }
         public PointView PointView { get; protected set; }
-        public List<IPoint> NextPoints { get; protected set; }
+        public List<Point> NextPoints { get; protected set; }
         public int PointNumber { get; protected set; }
 
         // private void Awake()
@@ -36,13 +36,13 @@ namespace OrderElimination
         {
             PointInfo = pointInfo;
         }
-        
-        public void SetNextPoint(IPoint end)
+
+        public void SetNextPoint(Point end)
         {
             NextPoints.Add(end);
         }
-        
-        public void SetNextPoints(IEnumerable<IPoint> paths)
+
+        public void SetNextPoints(IEnumerable<Point> paths)
         {
             NextPoints.AddRange(paths);
         }
@@ -70,6 +70,7 @@ namespace OrderElimination
                 Debug.Log("Blocked");
                 return;
             }
+
             Select();
         }
 

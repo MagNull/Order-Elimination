@@ -6,6 +6,6 @@ namespace OrderElimination
 {
     public interface IMapGenerator
     {
-        public List<IPoint> GenerateMap();
+        public List<Point> GenerateMap();
     }
 }

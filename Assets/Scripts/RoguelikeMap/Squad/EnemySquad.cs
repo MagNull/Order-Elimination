@@ -15,7 +15,7 @@ namespace OrderElimination
         private SquadModel _model;
         private Button _rectangleOnPanelButton;
         private CharactersMediator _charactersMediator;
-        public IPoint Point { get; private set; }
+        public Point Point { get; private set; }
         public int AmountOfCharacters => _model.AmountOfMembers;
         public IReadOnlyList<Character> Members => _model.Members;
         public bool AlreadyMove = false;
@@ -36,14 +36,14 @@ namespace OrderElimination
 
         public void Remove(Character member) => _model.RemoveCharacter(member);
 
-        public void Move(IPoint point)
+        public void Move(Point point)
         {
             AlreadyMove = true;
             SetPlanetPoint(point);
             _model.Move(point);
         }
 
-        private void SetPlanetPoint(IPoint point)
+        private void SetPlanetPoint(Point point)
         {
             Point = point;
         }

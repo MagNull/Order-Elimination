@@ -18,11 +18,8 @@ namespace OrderElimination
         }
 
         //TODO(Иван): Magic numbers
-        public void OnMove(IPoint point)
+        public void OnMove(Vector3 position)
         {
-            if (point is not MonoBehaviour obj)
-                return;
-            var position = obj.transform.position;
             var target = position +
                          new Vector3(-IconSize,
                              IconSize + 10f);
