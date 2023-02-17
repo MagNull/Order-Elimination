@@ -5,7 +5,7 @@ using UnityEngine;
 namespace OrderElimination
 {
     
-    [CreateAssetMenu(fileName = "PlanetInfo", menuName = "Planet/New PlanetInfo")]
+    //[CreateAssetMenu(fileName = "PlanetInfo", menuName = "Planet/New PlanetInfo")]
     public class PlanetInfo : SerializedScriptableObject
     {
         [SerializeField] private Vector3 _position;

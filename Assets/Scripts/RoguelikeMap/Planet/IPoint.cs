@@ -18,6 +18,8 @@ namespace OrderElimination
         private PointView _pointView;
         private List<IPoint> _nextPoints;
         private int _pointNumber;
+        [SerializeField] 
+        private GameObject _linePrefab;
         public bool HasEnemy { get; private set; }
         public static event Action<IPoint> Onclick;
 
@@ -37,7 +39,7 @@ namespace OrderElimination
 
         private void Awake()
         {
-            _pointView = new PointView(transform);
+            _pointView = new PointView(transform, _linePrefab);
             _nextPoints = new List<IPoint>();
         }
 
@@ -63,27 +65,26 @@ namespace OrderElimination
         public void SetNextPoint(IPoint end)
         {
             _nextPoints.Add(end);
+            _pointView.SetPath(end.transform.position);
         }
         
         public void SetNextPoints(IEnumerable<IPoint> paths)
         {
             _nextPoints.AddRange(paths);
+            foreach (var path in paths)
+            {
+                _pointView.SetPath(path.transform.position);
+            }
         }
 
         public void ShowPaths()
         {
-            // foreach (var path in _paths)
-            // {
-            //     path.ActivateSprite(true);
-            // }
+            _pointView.ShowPaths();
         }
 
         public void HidePaths()
         {
-            // foreach (var path in _paths.Where(path => !path.IsDestroyed()))
-            // {
-            //     path.ActivateSprite(false);
-            // }
+            _pointView.HidePaths();
         }
 
         private void OnMouseDown()
