@@ -39,8 +39,6 @@ namespace OrderElimination
         public void Move(IPoint point)
         {
             AlreadyMove = true;
-            Point?.RemoveSquad();
-            point?.AddSquad();
             SetPlanetPoint(point);
             _model.Move(point);
         }

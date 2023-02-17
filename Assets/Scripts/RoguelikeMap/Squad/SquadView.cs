@@ -20,8 +20,11 @@ namespace OrderElimination
         //TODO(Иван): Magic numbers
         public void OnMove(IPoint point)
         {
-            var target = point.transform.position +
-                         new Vector3(-IconSize + (point.CountSquadOnPoint - 1) * 100f,
+            if (point is not MonoBehaviour obj)
+                return;
+            var position = obj.transform.position;
+            var target = position +
+                         new Vector3(-IconSize,
                              IconSize + 10f);
             var tween = _transform.DOMove(target, 0.5f);
             _transform.GetComponent<SpriteRenderer>().DOColor(Color.grey, DURATION);

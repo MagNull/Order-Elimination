@@ -56,8 +56,6 @@ namespace OrderElimination
         public void Move(IPoint point)
         {
             AlreadyMove = true;
-            Point?.RemoveSquad();
-            point?.AddSquad();
             SetPlanetPoint(point);
             _model.Move(point);
         }
@@ -70,10 +68,18 @@ namespace OrderElimination
         public void StartAttack()
         {
             onMove?.Invoke();
-            if (!Point.HasEnemy)
-                return;
-            _commander.Set(this, Point);
+            // if (!Point.HasEnemy)
+            //     return;
+            //_commander.Set(this, Point);
         }
+        
+        public void VisitSafeZonePoint(){}
+        
+        public void VisitShopPoint(){}
+        
+        public void VisitBattlePoint(){}
+        
+        public void VisitEventPoint(){}
 
         public void SetAlreadyMove(bool isAlreadyMove)
         {
