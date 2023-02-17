@@ -10,7 +10,7 @@ namespace OrderElimination
         public int AmountOfMembers => _members.Count;
         public IReadOnlyList<Character> Members => _members;
 
-        public event Action<PlanetPoint> Moved;
+        public event Action<IPoint> Moved;
         public event Action Selected;
         public event Action Unselected;
 
@@ -45,9 +45,9 @@ namespace OrderElimination
             }
         }
 
-        public void Move(PlanetPoint planetPoint)
+        public void Move(IPoint point)
         {
-            Moved?.Invoke(planetPoint);
+            Moved?.Invoke(point);
         }
 
         public void Select() => Selected?.Invoke();

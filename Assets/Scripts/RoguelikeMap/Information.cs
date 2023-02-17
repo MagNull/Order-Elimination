@@ -39,7 +39,7 @@ namespace OrderElimination
         {
             var money = PlayerPrefs.GetInt($"{Player.SaveIndex}:Money");
             if (PlayerPrefs.GetString($"{Player.SaveIndex}:BattleOutcome") == BattleOutcome.Victory.ToString())
-                money += _charactersMediator.PlanetInfo.CurrencyReward;
+                money += _charactersMediator.PointInfo.CurrencyReward;
             _moneyText.text = money.ToString();
             _money = money;
         }

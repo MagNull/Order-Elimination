@@ -5,21 +5,23 @@ using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 namespace OrderElimination
 {
-    public class PlanetPoint : MonoBehaviour
+    public abstract class IPoint : MonoBehaviour
     {
         [ShowInInspector]
         private int _countSquadOnPoint;
-        [SerializeField]
-        private PlanetInfo _planetInfo;
-        private PlanetView _planetView;
-        private List<Path> _paths;
+        [FormerlySerializedAs("_planetInfo")] [SerializeField]
+        private PointInfo pointInfo;
+        private PointView _pointView;
+        private List<IPoint> _nextPoints;
         private int _pointNumber;
         public bool HasEnemy { get; private set; }
-        public static event Action<PlanetPoint> Onclick;
+        public static event Action<IPoint> Onclick;
 
+        public IReadOnlyList<IPoint> NextPoints => _nextPoints;
         public int CountSquadOnPoint => _countSquadOnPoint;
 
         public int PointNumber
@@ -35,14 +37,14 @@ namespace OrderElimination
 
         private void Awake()
         {
-            _planetView = new PlanetView(transform);
-            _paths = new List<Path>();
+            _pointView = new PointView(transform);
+            _nextPoints = new List<IPoint>();
         }
 
-        public PlanetInfo GetPlanetInfo() => _planetInfo;
+        public PointInfo GetPlanetInfo() => pointInfo;
 
-        public void IncreasePoint() => _planetView.Increase();
-        public void DecreasePoint() => _planetView.Decrease();
+        public void IncreasePoint() => _pointView.Increase();
+        public void DecreasePoint() => _pointView.Decrease();
         
         public void RemoveSquad() => _countSquadOnPoint--;
         public void AddSquad() => _countSquadOnPoint++;
@@ -53,43 +55,35 @@ namespace OrderElimination
             AddSquad();
         }
 
-        public void SetPlanetInfo(PlanetInfo planetInfo)
+        public void SetPlanetInfo(PointInfo pointInfo)
         {
-            _planetInfo = planetInfo;
+            this.pointInfo = pointInfo;
         }
         
-        public void SetPath(Path path)
+        public void SetNextPoint(IPoint end)
         {
-            _paths.Add(path);
+            _nextPoints.Add(end);
         }
         
-        public void SetPath(IEnumerable<Path> paths)
+        public void SetNextPoints(IEnumerable<IPoint> paths)
         {
-            _paths.AddRange(paths);
-        }
-
-        public IReadOnlyList<PlanetPoint> GetNextPoints()
-        {
-            List<PlanetPoint> nextPoints = new List<PlanetPoint>();
-            foreach(var path in _paths)
-                nextPoints.Add(path.EndPoint);
-            return nextPoints;
+            _nextPoints.AddRange(paths);
         }
 
         public void ShowPaths()
         {
-            foreach (var path in _paths)
-            {
-                path.ActivateSprite(true);
-            }
+            // foreach (var path in _paths)
+            // {
+            //     path.ActivateSprite(true);
+            // }
         }
 
         public void HidePaths()
         {
-            foreach (var path in _paths.Where(path => !path.IsDestroyed()))
-            {
-                path.ActivateSprite(false);
-            }
+            // foreach (var path in _paths.Where(path => !path.IsDestroyed()))
+            // {
+            //     path.ActivateSprite(false);
+            // }
         }
 
         private void OnMouseDown()

@@ -10,7 +10,7 @@ namespace OrderElimination
         private readonly IObjectResolver _objectResolver;
 
         [Inject]
-        public AttackOrder(PlanetPoint target, Squad squad, IObjectResolver objectResolver) : base(target, squad)
+        public AttackOrder(IPoint target, Squad squad, IObjectResolver objectResolver) : base(target, squad)
         {
             _objectResolver = objectResolver;
         }
@@ -22,7 +22,7 @@ namespace OrderElimination
             charactersMediator.SetSquad(battleStatsList);
             charactersMediator.SetEnemies(_target.GetPlanetInfo().Enemies);
             charactersMediator.SetPointNumber(_target.PointNumber);
-            charactersMediator.PlanetInfo = _target.GetPlanetInfo();
+            charactersMediator.PointInfo = _target.GetPlanetInfo();
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();
         }

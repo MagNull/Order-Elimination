@@ -4,40 +4,40 @@
     {
         private readonly SquadModel _model;
         private readonly SquadView _view;
-        private PlanetPoint _planetPoint;
-        public PlanetPoint PlanetPoint => _planetPoint;
+        private IPoint _point;
+        public IPoint Point => _point;
 
-        public SquadPresenter(SquadModel model, SquadView view, PlanetPoint planetPoint)
+        public SquadPresenter(SquadModel model, SquadView view, IPoint point)
         {
             _model = model;
             _view = view;
-            _planetPoint = planetPoint;
+            _point = point;
         }
 
         public void Subscribe()
         {
             _model.Moved += _view.OnMove;
-            if (_planetPoint != null)
+            if (_point != null)
             {
-                _model.Selected += _planetPoint.ShowPaths;
-                _model.Unselected += _planetPoint.HidePaths;
+                _model.Selected += _point.ShowPaths;
+                _model.Unselected += _point.HidePaths;
             }
         }
 
         public void Unsubscribe()
         {
             _model.Moved -= _view.OnMove;
-            if (_planetPoint != null)
+            if (_point != null)
             {
-                _model.Selected -= _planetPoint.ShowPaths;
-                _model.Unselected -= _planetPoint.HidePaths;
+                _model.Selected -= _point.ShowPaths;
+                _model.Unselected -= _point.HidePaths;
             }
         }
 
-        public void UpdatePlanetPoint(PlanetPoint planetPoint)
+        public void UpdatePlanetPoint(IPoint point)
         {
             Unsubscribe();
-            _planetPoint = planetPoint;
+            _point = point;
             Subscribe();
         }
     }

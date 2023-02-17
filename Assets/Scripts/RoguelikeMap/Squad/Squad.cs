@@ -27,7 +27,7 @@ namespace OrderElimination
         public static event Action<Squad> Unselected;
         public static event Action onMove;
         public event Action<Squad> onActiveSquadPanel;
-        public PlanetPoint PlanetPoint => _presenter.PlanetPoint;
+        public IPoint Point => _presenter.Point;
         public int AmountOfCharacters => _model.AmountOfMembers;
         public List<Character> Members => _testSquadMembers;
         public bool AlreadyMove { get; private set; }
@@ -53,13 +53,13 @@ namespace OrderElimination
 
         public void Remove(Character member) => _model.RemoveCharacter(member);
 
-        public void Move(PlanetPoint planetPoint)
+        public void Move(IPoint point)
         {
             AlreadyMove = true;
-            PlanetPoint?.RemoveSquad();
-            planetPoint?.AddSquad();
-            SetPlanetPoint(planetPoint);
-            _model.Move(planetPoint);
+            Point?.RemoveSquad();
+            point?.AddSquad();
+            SetPlanetPoint(point);
+            _model.Move(point);
         }
 
         private void ActiveSquadPanel(HoldableButton button, float holdTime)
@@ -70,9 +70,9 @@ namespace OrderElimination
         public void StartAttack()
         {
             onMove?.Invoke();
-            if (!PlanetPoint.HasEnemy)
+            if (!Point.HasEnemy)
                 return;
-            _commander.Set(this, PlanetPoint);
+            _commander.Set(this, Point);
         }
 
         public void SetAlreadyMove(bool isAlreadyMove)
@@ -91,9 +91,9 @@ namespace OrderElimination
             _buttonOnOrderPanel.Holded += ActiveSquadPanel;
         }
 
-        private void SetPlanetPoint(PlanetPoint planetPoint)
+        private void SetPlanetPoint(IPoint point)
         {
-            _presenter.UpdatePlanetPoint(planetPoint);
+            _presenter.UpdatePlanetPoint(point);
         }
 
         public void SetActiveButtonOnOrderPanel(bool isActive)

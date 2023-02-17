@@ -5,12 +5,12 @@ using UnityEngine;
 namespace OrderElimination
 {
     [CreateAssetMenu(fileName = "PlanetInfo", menuName = "Planet/New PlanetInfo")]
-    public class PlanetInfo : SerializedScriptableObject
+    public class PointInfo : SerializedScriptableObject
     {
         [SerializeField]
         private Vector3 _position;
         [SerializeField]
-        private List<PathInfo> _paths;
+        private List<IPoint> _nextPoints;
         [SerializeField]
         private Sprite _spriteIcon;
         [SerializeField]
@@ -32,7 +32,7 @@ namespace OrderElimination
         private int _currencyReward;
 
         public Vector3 Position => _position;
-        public IReadOnlyList<PathInfo> Paths => _paths;
+        public IReadOnlyList<IPoint> NextPoints => _nextPoints;
         public Sprite SpriteIcon => _spriteIcon;
         public float ChanceOfItems => _сhanceOfItems;
         public float ChanceOfFighting => _chanceOfFighting;

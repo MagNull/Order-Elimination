@@ -18,10 +18,10 @@ namespace OrderElimination
         }
 
         //TODO(Иван): Magic numbers
-        public void OnMove(PlanetPoint planetPoint)
+        public void OnMove(IPoint point)
         {
-            var target = planetPoint.transform.position +
-                         new Vector3(-IconSize + (planetPoint.CountSquadOnPoint - 1) * 100f,
+            var target = point.transform.position +
+                         new Vector3(-IconSize + (point.CountSquadOnPoint - 1) * 100f,
                              IconSize + 10f);
             var tween = _transform.DOMove(target, 0.5f);
             _transform.GetComponent<SpriteRenderer>().DOColor(Color.grey, DURATION);

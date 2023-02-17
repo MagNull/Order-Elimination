@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace OrderElimination
 {
-    public class PlanetView
+    public class PointView
     {
         private Transform _transform;
 
-        public PlanetView(Transform transform)
+        public PointView(Transform transform)
         {
             _transform = transform;
         }
