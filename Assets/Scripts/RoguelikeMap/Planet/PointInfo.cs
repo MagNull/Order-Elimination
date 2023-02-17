@@ -8,29 +8,25 @@ namespace OrderElimination
     [CreateAssetMenu(fileName = "PlanetInfo", menuName = "Planet/New PlanetInfo")]
     public class PointInfo : SerializedScriptableObject
     {
-<<<<<<< HEAD:Assets/Scripts/RoguelikeMap/Planet/PointInfo.cs
+        [SerializeField]
+        private GameObject _pointPrefab;
+        [SerializeField]
+        private Sprite _spriteIcon;
         [SerializeField]
         private Vector3 _position;
         [SerializeField]
         private List<IPoint> _nextPoints;
-        [SerializeField]
-        private Sprite _spriteIcon;
-        [SerializeField]
-=======
-        [SerializeField] private Vector3 _position;
-        [SerializeField] private List<PlanetInfo> _paths;
-        [SerializeField] private GameObject _pointPrefab;
-        
         [Range(0, 1)] 
-        [SerializeField] private float _сhanceOfItems;
->>>>>>> MapGeneration:Assets/Scripts/RoguelikeMap/Planet/PlanetInfo.cs
+        [SerializeField]
+        private float _сhanceOfItems;
         [Range(0, 1)]
-        [SerializeField] private float _chanceOfFighting;
+        [SerializeField]
+        private float _chanceOfFighting;
         [Range(0, 1)]
-        [SerializeField] private float _chanceOfFightingBack;
-        
-        [SerializeField] private List<IBattleCharacterInfo> _enemies;
-
+        [SerializeField]
+        private float _chanceOfFightingBack;
+        [SerializeField]
+        private List<IBattleCharacterInfo> _enemies;
         [SerializeField]
         [Range(0, float.MaxValue)]
         private float _expirience;
@@ -40,7 +36,6 @@ namespace OrderElimination
         public Vector3 Position => _position;
         public IReadOnlyList<IPoint> NextPoints => _nextPoints;
         public Sprite SpriteIcon => _spriteIcon;
-        public IReadOnlyList<PlanetInfo> Paths => _paths;
         public GameObject Prefab => _pointPrefab;
         public float ChanceOfItems => _сhanceOfItems;
         public float ChanceOfFighting => _chanceOfFighting;

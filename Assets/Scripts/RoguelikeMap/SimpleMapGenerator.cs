@@ -17,9 +17,9 @@ namespace OrderElimination
         }
         //VERY VERY COOL CRUTCH TODO: Add Paths to points 
 
-        public List<IPlanetPoint> GenerateMap()
+        public List<IPoint> GenerateMap()
         {
-            var pointsList = new List<IPlanetPoint>();
+            var pointsList = new List<IPoint>();
             var path = "Points\\" + numberOfMap.ToString();
             var pointsInfo = Resources.LoadAll<PlanetInfo>(path);
             
@@ -28,7 +28,7 @@ namespace OrderElimination
             foreach (var info in pointsInfo)
             {
                 var pointObj = Instantiate(info.Prefab, info.Position, Quaternion.identity, _parent);
-                var point = pointObj.GetComponent<IPlanetPoint>();
+                var point = pointObj.GetComponent<IPoint>();
                 Debug.Log(point!=null);
                 // var point = (IPlanetPoint)GetComponent(typeof(IPlanetPoint));
                 pointsList.Add(point);
@@ -36,5 +36,5 @@ namespace OrderElimination
             Debug.Log("Generate points: " + pointsList.Count);
             return pointsList;
         }
-    }   
+    }
 }
