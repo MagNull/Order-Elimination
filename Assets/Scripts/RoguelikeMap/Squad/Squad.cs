@@ -158,14 +158,6 @@ namespace OrderElimination
             Settings.ExitSettingsWindow -= SetActiveButtonOnOrderPanel;
         }
 
-        private void OnMouseDown()
-        {
-            if (EventSystem.current.IsPointerOverGameObject())
-            {
-                Debug.Log("Blocked");
-                return;
-            }
-            Select();
-        }
+        private void OnMouseDown() => Select();
     }
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -3533895058923832982}
   - component: {fileID: 8181054313122963724}
   - component: {fileID: -1517958916625231546}
+  - component: {fileID: 5724959999090518437}
   m_Layer: 0
   m_Name: SafeZonePoint
   m_TagString: Untagged
@@ -112,3 +113,29 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &5724959999090518437
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2659112266566283513}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 148, y: 123}
+    newSize: {x: 148, y: 123}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 148, y: 123}
+  m_EdgeRadius: 0

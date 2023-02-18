@@ -61,16 +61,7 @@ namespace OrderElimination
             // }
         }
 
-        private void OnMouseDown()
-        {
-            if (EventSystem.current.IsPointerOverGameObject())
-            {
-                Debug.Log("Blocked");
-                return;
-            }
-
-            Select();
-        }
+        private void OnMouseDown() => Select();
 
         public void Select()
         {
