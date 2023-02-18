@@ -59,12 +59,6 @@ namespace OrderElimination
             _model.Move(point);
         }
 
-        public void Move(Vector3 position)
-        {
-            if (CheckOutScreenBoundaries(position))
-                throw new ArgumentException("Squad has exited the screen boundaries");
-            _model.Move(position);
-        }
 
         private bool CheckOutScreenBoundaries(Vector3 position)
         {
@@ -142,6 +136,7 @@ namespace OrderElimination
 
         public void Select()
         {
+            Debug.Log("Squad selected");
             if (AlreadyMove)
                 return;
             OnSelected?.Invoke(this);

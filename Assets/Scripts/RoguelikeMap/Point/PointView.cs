@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 
@@ -31,6 +32,8 @@ namespace OrderElimination
         {
             var line = Object.Instantiate(_pathPrefab, _transform);
             var lineRenderer = line.GetComponent<LineRenderer>();
+            lineRenderer.SetWidth(7, 7);
+            lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
             lineRenderer.SetPosition(0, _transform.position);
             lineRenderer.SetPosition(1, path);
             _paths.Add(lineRenderer);

@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c682b0bae1680d48becdfdfe16809b5, type: 3}
-  m_Name: Point B
+  m_Name: Point G
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 9461f9304513865429fcf3420fd25287, type: 2}
-    - {fileID: 11400000, guid: cdb88470c4b68c341bad38dde4ae1989, type: 2}
     - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+    - {fileID: 11400000, guid: 8461a20f43795594cbe00ebbabe08b55, type: 2}
+    - {fileID: 11400000, guid: 1f6151b456f616343bbd2806f780dee0, type: 2}
+    - {fileID: 11400000, guid: cdb88470c4b68c341bad38dde4ae1989, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -36,16 +37,16 @@ MonoBehaviour:
       Data: 0
     - Name: 
       Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 10
       Data: 1
     - Name: 
       Entry: 10
       Data: 2
     - Name: 
       Entry: 10
-      Data: 2
-    - Name: 
-      Entry: 10
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 13
       Data: 
@@ -53,9 +54,9 @@ MonoBehaviour:
       Entry: 8
       Data: 
   _pointPrefab: {fileID: 6726622157222742597, guid: 8885d36206496c5468934e18455d60ae, type: 3}
-  _position: {x: -600, y: 300, z: 1}
+  _position: {x: -200, y: -300, z: 1}
   _nextPoints:
-  - {fileID: 11400000, guid: 851009ef13d28b349a47e57e9a0accd9, type: 2}
+  - {fileID: 11400000, guid: 1e468d0074f7e974eac9d90fb2a7a276, type: 2}
   "_\u0441hanceOfItems": 0
   _expirience: 0
-  _currencyReward: 490
+  _currencyReward: 460

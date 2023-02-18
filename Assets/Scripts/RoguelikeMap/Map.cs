@@ -28,19 +28,12 @@ namespace RoguelikeMap
 
         private void Start()
         {
-            //_points = _mapGenerator.GenerateMap();
+            _points = _mapGenerator.GenerateMap();
             OnShowPath?.Invoke(_points);
-            //SetSquadPosition();
-            for(var i = 0; i < _points.Count; i++)
-            {
-                _points[i].ShowPaths();
-                _points[i].OnSelected += SelectPoint;
-                if (i == _points.Count - 1)
-                    break;
-                _points[i].SetNextPoint(_points[i + 1]);
-            }
+            SetSquadPosition();
+            foreach (var point in _points)
+                point.OnSelected += SelectPoint;
 
-            _squad.Move(_points.First());
             _squad.OnSelected += SelectSquad;
         }
         
@@ -51,6 +44,7 @@ namespace RoguelikeMap
         
         public void UnselectSquad()
         {
+            Debug.Log("Unselect Squad");
             _isSquadSelected = false;
         }
 
@@ -68,7 +62,23 @@ namespace RoguelikeMap
             var position = PlayerPrefs.HasKey(SquadPositionPrefPath)
                 ? PlayerPrefs.GetString(SquadPositionPrefPath).GetVectorFromString()
                 : _points.First().transform.position;
-            _squad.Move(position);
+            var nearestPoint = FindNearestPoint(position);
+            _squad.Move(nearestPoint);
+        }
+
+        public OrderElimination.Point FindNearestPoint(Vector3 position)
+        {
+            OrderElimination.Point nearestPoint = null;
+            var minDistance = double.MaxValue;
+            foreach (var point in _points)
+            {
+                var distance = Vector3.Distance(position, point.transform.position);
+                if (!(minDistance > distance)) continue;
+                minDistance = distance;
+                nearestPoint = point;
+            }
+
+            return nearestPoint;
         }
     }
 }

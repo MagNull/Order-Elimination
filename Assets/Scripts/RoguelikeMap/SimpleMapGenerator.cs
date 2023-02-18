@@ -13,16 +13,17 @@ namespace OrderElimination
         private readonly int _numberOfMap;
         private Transform _parent;
 
-        public SimpleMapGenerator(int numberOfMap)
+        public SimpleMapGenerator(int numberOfMap, Transform parent)
         {
             _numberOfMap = numberOfMap;
+            _parent = parent;
         }
 
         public List<Point> GenerateMap()
         {
             // Load PointInfo
             var pointsList = new List<Point>();
-            var path = "Points\\" + _numberOfMap.ToString();
+            var path = "Points\\" + _numberOfMap;
             var pointsInfo = Resources.LoadAll<PointInfo>(path);
             
             // Generate points
@@ -39,11 +40,13 @@ namespace OrderElimination
             foreach (var info in pointsInfo)
             {
                 var p = pointsList
-                    .First(x => x.GetPlanetInfo() == info);
+                    .First(x => x.PointInfo == info);
                 if (p != null)
                     p.SetNextPoints(pointsList
                         .Where(x => (info.NextPoints
-                            .Contains(x.GetPlanetInfo()))));
+                            .Contains(x.PointInfo))));
+                
+                p.ShowPaths();
             }
             
             return pointsList;
@@ -53,7 +56,7 @@ namespace OrderElimination
         {
             var pointObj = Object.Instantiate(info.Prefab, info.Position, Quaternion.identity, _parent);
             var point = pointObj.GetComponent<Point>();
-            Debug.Log(point.HasEnemy);
+            //Debug.Log(point.HasEnemy);
             point.SetPlanetInfo(info);
             return point;
         }

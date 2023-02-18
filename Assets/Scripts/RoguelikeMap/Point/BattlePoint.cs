@@ -14,7 +14,7 @@ namespace RoguelikeMap.Point
             _enemies = new List<Character>();
         }
 
-        public void Visit(Squad squad)
+        public override void Visit(Squad squad)
         {
             squad.VisitBattlePoint(this);
         }

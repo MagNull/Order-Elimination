@@ -16,12 +16,12 @@ namespace OrderElimination
         public Point Target => _target;
         public Squad Squad => _squad;
 
-        [Inject]
-        public SquadCommander(IObjectResolver objectResolver, GameObject image)
-        {
-            _objectResolver = objectResolver;
-            _image = image;
-        }
+        // [Inject]
+        // public SquadCommander(IObjectResolver objectResolver, GameObject image)
+        // {
+        //     _objectResolver = objectResolver;
+        //     _image = image;
+        // }
 
         public void Set(Squad squad, Point target)
         {
