@@ -6,14 +6,15 @@ namespace OrderElimination
 {
     public class PointView
     {
-        private Transform _transform;
-        private GameObject _pathPrefab;
-        private List<LineRenderer> _paths;
+        private readonly Transform _transform;
+        private readonly GameObject _pathPrefab;
+        private readonly List<LineRenderer> _paths;
 
         public PointView(Transform transform, GameObject pathPrefab)
         {
             _transform = transform;
             _pathPrefab = pathPrefab;
+            _paths = new List<LineRenderer>();
         }
 
         public void Increase()
@@ -28,7 +29,7 @@ namespace OrderElimination
 
         public void SetPath(Vector3 path)
         {
-            var line = GameObject.Instantiate(_pathPrefab, _transform);
+            var line = Object.Instantiate(_pathPrefab, _transform);
             var lineRenderer = line.GetComponent<LineRenderer>();
             lineRenderer.SetPosition(0, _transform.position);
             lineRenderer.SetPosition(1, path);

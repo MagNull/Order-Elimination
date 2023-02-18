@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace OrderElimination
 {
-    
     [CreateAssetMenu(fileName = "PointInfo", menuName = "Point/New PointInfo")]
     public class PointInfo : SerializedScriptableObject
     {

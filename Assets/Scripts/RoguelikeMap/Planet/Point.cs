@@ -13,7 +13,7 @@ namespace OrderElimination
     {
         [ShowInInspector]
         private int _countSquadOnPoint;
-        private PointInfo pointInfo;
+        private PointInfo _pointInfo;
         private PointView _pointView;
         private List<Point> _nextPoints;
         private int _pointNumber;
@@ -42,7 +42,7 @@ namespace OrderElimination
             _nextPoints = new List<Point>();
         }
 
-        public PointInfo GetPlanetInfo() => pointInfo;
+        public PointInfo GetPlanetInfo() => _pointInfo;
 
         public void IncreasePoint() => _pointView.Increase();
         public void DecreasePoint() => _pointView.Decrease();
@@ -58,7 +58,7 @@ namespace OrderElimination
 
         public void SetPlanetInfo(PointInfo pointInfo)
         {
-            this.pointInfo = pointInfo;
+            _pointInfo = pointInfo;
         }
         
         public void SetNextPoint(Point end)
