@@ -4,18 +4,19 @@ using UnityEngine;
 
 namespace OrderElimination
 {
-    
-    [CreateAssetMenu(fileName = "PlanetInfo", menuName = "Planet/New PlanetInfo")]
+    [CreateAssetMenu(fileName = "PointInfo", menuName = "Point/New PointInfo")]
     public class PointInfo : SerializedScriptableObject
     {
         [SerializeField]
         private GameObject _pointPrefab;
         [SerializeField]
-        private Sprite _spriteIcon;
-        [SerializeField]
         private Vector3 _position;
         [SerializeField]
+<<<<<<< HEAD:Assets/Scripts/RoguelikeMap/Point/PointInfo.cs
         private List<Point> _nextPoints;
+=======
+        private List<PointInfo> _nextPoints;
+>>>>>>> MapGeneration:Assets/Scripts/RoguelikeMap/Planet/PointInfo.cs
         [Range(0, 1)] 
         [SerializeField]
         private float _сhanceOfItems;
@@ -28,8 +29,12 @@ namespace OrderElimination
         private int _currencyReward;
 
         public Vector3 Position => _position;
+<<<<<<< HEAD:Assets/Scripts/RoguelikeMap/Point/PointInfo.cs
         public IReadOnlyList<Point> NextPoints => _nextPoints;
         public Sprite SpriteIcon => _spriteIcon;
+=======
+        public IReadOnlyList<PointInfo> NextPoints => _nextPoints;
+>>>>>>> MapGeneration:Assets/Scripts/RoguelikeMap/Planet/PointInfo.cs
         public GameObject Prefab => _pointPrefab;
         public float ChanceOfItems => _сhanceOfItems;
         public float Experience => _expirience;

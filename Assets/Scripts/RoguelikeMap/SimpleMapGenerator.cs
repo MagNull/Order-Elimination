@@ -1,40 +1,61 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using OrderElimination;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace OrderElimination
 {
-    public class SimpleMapGenerator : MonoBehaviour, IMapGenerator
+    public class SimpleMapGenerator : IMapGenerator
     {
-        [SerializeField] private int numberOfMap = 0;
-        [SerializeField] private Transform _parent;
+        private readonly int _numberOfMap;
+        private Transform _parent;
 
-        private void Start()
+        public SimpleMapGenerator(int numberOfMap)
         {
-            GenerateMap();
+            _numberOfMap = numberOfMap;
         }
-        //VERY VERY COOL CRUTCH TODO: Add Paths to points 
 
         public List<Point> GenerateMap()
         {
+            // Load PointInfo
             var pointsList = new List<Point>();
-            var path = "Points\\" + numberOfMap.ToString();
-            var pointsInfo = Resources.LoadAll<PlanetInfo>(path);
+            var path = "Points\\" + _numberOfMap.ToString();
+            var pointsInfo = Resources.LoadAll<PointInfo>(path);
             
-            Debug.Log("Load PointInfo: " + pointsInfo.Length);
-
+            // Generate points
+            for (var i = 0; i < pointsInfo.Length; i++)
+            {
+                var info = pointsInfo[i];
+                var point = CreatePoint(info);
+                
+                pointsList.Add(point);
+                point.PointNumber = i;
+            }
+            
+            // Initialize paths
             foreach (var info in pointsInfo)
             {
-                var pointObj = Instantiate(info.Prefab, info.Position, Quaternion.identity, _parent);
-                var point = pointObj.GetComponent<Point>();
-                Debug.Log(point!=null);
-                // var point = (IPlanetPoint)GetComponent(typeof(IPlanetPoint));
-                pointsList.Add(point);
+                var p = pointsList
+                    .First(x => x.GetPlanetInfo() == info);
+                if (p != null)
+                    p.SetNextPoints(pointsList
+                        .Where(x => (info.NextPoints
+                            .Contains(x.GetPlanetInfo()))));
             }
-            Debug.Log("Generate points: " + pointsList.Count);
+            
             return pointsList;
+        }
+
+        private Point CreatePoint(PointInfo info)
+        {
+            var pointObj = Object.Instantiate(info.Prefab, info.Position, Quaternion.identity, _parent);
+            var point = pointObj.GetComponent<Point>();
+            Debug.Log(point.HasEnemy);
+            point.SetPlanetInfo(info);
+            return point;
         }
     }
 }
