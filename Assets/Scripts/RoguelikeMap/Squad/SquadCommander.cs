@@ -10,18 +10,18 @@ namespace OrderElimination
     public class SquadCommander
     {
         private readonly IObjectResolver _objectResolver;
-        private GameObject _image;
+        private DialogWindow _window;
         private Point _target;
         private Squad _squad;
         public Point Target => _target;
         public Squad Squad => _squad;
 
-        // [Inject]
-        // public SquadCommander(IObjectResolver objectResolver, GameObject image)
-        // {
-        //     _objectResolver = objectResolver;
-        //     _image = image;
-        // }
+        [Inject]
+        public SquadCommander(IObjectResolver objectResolver, DialogWindow window)
+        {
+            _objectResolver = objectResolver;
+            _window = window;
+        }
 
         public void Set(Squad squad, Point target)
         {
@@ -30,26 +30,28 @@ namespace OrderElimination
             PlayAnimation();
         }
 
-        public void ShowBattleImage()
+        public void ShowBattleImage(DialogWindowData data)
         {
-            
+            _window.SetData(data);
+            _window.PlayAnimation();
         }
 
-        public void ShowEventImage(DialogWindowFormat window)
+        public void ShowEventImage(DialogWindowData data)
         {
-            var text = _image.GetComponent<TMP_Text>();
-            text.text = window.Text;
+            _window.SetData(data);
+            _window.PlayAnimation();
         }
 
-        public void ShowShopImage(DialogWindowFormat window)
+        public void ShowShopImage(DialogWindowData data)
         {
-            var text = _image.GetComponent<TMP_Text>();
-            text.text = window.Text;
+            _window.SetData(data);
+            _window.PlayAnimation();
         }
 
-        public void ShowSafeZoneImage(string text)
+        public void ShowSafeZoneImage(DialogWindowData data)
         {
-            
+            _window.SetData(data);
+            _window.PlayAnimation();
         }
         
         public void PlayAnimation()

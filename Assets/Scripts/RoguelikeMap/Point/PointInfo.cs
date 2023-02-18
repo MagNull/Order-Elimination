@@ -23,6 +23,9 @@ namespace OrderElimination
         private float _expirience;
         [SerializeField]
         private int _currencyReward;
+        [SerializeField]
+        public string Text { get; private set; }
+        
 
         public Vector3 Position => _position;
         public IReadOnlyList<PointInfo> NextPoints => _nextPoints;
