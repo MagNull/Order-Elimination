@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System;
 using OrderElimination.Start;
+using RoguelikeMap;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UIManagement;
@@ -24,7 +25,6 @@ namespace OrderElimination
         private HoldableButton _buttonOnOrderPanel;
         private CharactersMediator _charactersMediator;
         public event Action<Squad> OnSelected;
-        public static event Action onMove;
         public event Action<Squad> onActiveSquadPanel;
         public Point Point => _presenter.Point;
         public int AmountOfCharacters => _model.AmountOfMembers;
@@ -84,19 +84,30 @@ namespace OrderElimination
 
         public void StartAttack()
         {
-            onMove?.Invoke();
-            // if (!Point.HasEnemy)
-            //     return;
-            //_commander.Set(this, Point);
+            _commander.Set(this, Point);
         }
-        
-        public void VisitSafeZonePoint(){}
-        
-        public void VisitShopPoint(){}
-        
-        public void VisitBattlePoint(){}
-        
-        public void VisitEventPoint(){}
+
+        public void VisitSafeZonePoint(Point point, string text)
+        {
+            SetPoint(point);
+            _commander.ShowSafeZoneImage(text);
+        }
+
+        public void VisitShopPoint(Point point, DialogWindowFormat window)
+        {
+            SetPoint(point);
+            _commander.ShowShopImage(window);
+        }
+
+        public void VisitBattlePoint(Point point)
+        {
+            SetPoint(point);
+        }
+
+        public void VisitEventPoint(Point point)
+        {
+            SetPoint(point);
+        }
 
         public void SetAlreadyMove(bool isAlreadyMove)
         {
@@ -116,6 +127,9 @@ namespace OrderElimination
 
         private void SetPoint(Point point)
         {
+            //AlreadyMove = true;
+            _commander.Set(this, point);
+            _model.Move(point);
             _presenter.UpdatePlanetPoint(point);
         }
 

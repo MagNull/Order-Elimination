@@ -6,7 +6,7 @@ namespace RoguelikeMap.Point
     {
         public void Visit(Squad squad)
         {
-            squad.VisitSafeZonePoint();
+            squad.VisitSafeZonePoint(this, "Safe Zone Point");
         }
     }
 }

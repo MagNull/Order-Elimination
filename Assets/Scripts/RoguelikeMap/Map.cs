@@ -59,7 +59,7 @@ namespace RoguelikeMap
             if (_isSquadSelected is false)
                 return;
             if(_squad.Point.NextPoints.Contains(point))
-                _squad.Move(point);
+                point.Visit(_squad);
             UnselectSquad();
         }
 
