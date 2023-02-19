@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
+using VContainer;
 
 namespace RoguelikeMap
 {
@@ -11,9 +13,19 @@ namespace RoguelikeMap
             _data = data;
         }
 
+        private void SetWindowByData()
+        {
+               
+        }
+
         public void PlayAnimation()
         {
-            
+            transform.DOMove(_data.TargetOnCanvas, 0.6f);
+        }
+
+        public void EndAnimation()
+        {
+            transform.DOMove(_data.TargetBehindCanvas, 0.6f);
         }
     }
 }

@@ -11,6 +11,8 @@ namespace RoguelikeMap
     
     public class DialogWindowData
     {
+        public Vector3 TargetOnCanvas { get; } = new Vector3(500, -350);
+        public Vector3 TargetBehindCanvas { get; } = new Vector3(1410, -350);
         public Vector3 TextPosition { get; private set; }
         public WindowFormat WindowFormat { get; private set; }
         public Vector3 ImagePosition { get; private set; }

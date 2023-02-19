@@ -15,8 +15,8 @@ namespace RoguelikeMap
         private GameObject _pathPrefab;
         [SerializeField]
         private Transform _pointsParent;
-        // [SerializeField] 
-        // private Image _attackImage;
+        [SerializeField] 
+        private DialogWindow _dialogWindow;
         // [SerializeField] 
         // private Information _playerInformation;
         [SerializeField]
@@ -31,11 +31,11 @@ namespace RoguelikeMap
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_squad);
             builder.RegisterComponent(_pathPrefab);
+            builder.RegisterComponent(_dialogWindow);
             
             builder.Register<SquadCommander>(Lifetime.Singleton);
             builder.Register<SceneTransition>(Lifetime.Singleton);
             // builder.RegisterComponent(_playerInformation);
-            // builder.RegisterComponent(_attackImage);
             
             var mapGenerator = new SimpleMapGenerator(0, _pointsParent);
             builder.RegisterInstance(mapGenerator).As<IMapGenerator>();

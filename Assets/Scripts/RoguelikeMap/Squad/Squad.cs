@@ -81,26 +81,28 @@ namespace OrderElimination
             _commander.Set(this, Point);
         }
 
-        public void VisitSafeZonePoint(Point point, string text)
+        public void VisitSafeZonePoint(Point point, DialogWindowData data)
         {
             SetPoint(point);
-            _commander.ShowSafeZoneImage(text);
+            _commander.ShowSafeZoneImage(data);
         }
 
-        public void VisitShopPoint(Point point, DialogWindowFormat window)
+        public void VisitShopPoint(Point point, DialogWindowData data)
         {
             SetPoint(point);
-            _commander.ShowShopImage(window);
+            _commander.ShowShopImage(data);
         }
 
-        public void VisitBattlePoint(Point point)
+        public void VisitBattlePoint(Point point, DialogWindowData data)
         {
             SetPoint(point);
+            _commander.ShowBattleImage(data);
         }
 
-        public void VisitEventPoint(Point point)
+        public void VisitEventPoint(Point point, DialogWindowData data)
         {
             SetPoint(point);
+            _commander.ShowEventImage(data);
         }
 
         public void SetAlreadyMove(bool isAlreadyMove)

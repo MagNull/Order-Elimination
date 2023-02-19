@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using OrderElimination;
+using UnityEngine;
 
 namespace RoguelikeMap.Point
 {
@@ -16,7 +17,7 @@ namespace RoguelikeMap.Point
 
         public override void Visit(Squad squad)
         {
-            squad.VisitBattlePoint(this);
+            squad.VisitBattlePoint(this, new DialogWindowData(WindowFormat.FullScreen, Vector3.zero, Vector3.one, PointInfo.Text));
         }
     }
 }
