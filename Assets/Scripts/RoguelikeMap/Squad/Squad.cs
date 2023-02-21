@@ -43,7 +43,7 @@ namespace OrderElimination
             _model = new SquadModel(_testSquadMembers);
             _view = new SquadView(transform);
             _presenter = new SquadPresenter(_model, _view, null);
-            _view.onEndAnimation += StartAttack;
+            _view.onEndAnimation += SetSquadCommander;
             SavesMenu.ExitSavesWindow += SetActiveButtonOnOrderPanel;
             Settings.ExitSettingsWindow += SetActiveButtonOnOrderPanel;
         }
@@ -76,10 +76,12 @@ namespace OrderElimination
             onActiveSquadPanel?.Invoke(this);
         }
 
-        public void StartAttack()
+        private void SetSquadCommander()
         {
             _commander.Set(this, Point);
         }
+
+        public void StartAttack() => _commander.StartAttack();
 
         public void VisitSafeZonePoint(Point point, DialogWindowData data)
         {
@@ -155,7 +157,7 @@ namespace OrderElimination
         private void OnDisable()
         {
             _presenter.Unsubscribe();
-            _view.onEndAnimation -= StartAttack;
+            _view.onEndAnimation -= SetSquadCommander;
             SavesMenu.ExitSavesWindow -= SetActiveButtonOnOrderPanel;
             Settings.ExitSettingsWindow -= SetActiveButtonOnOrderPanel;
         }

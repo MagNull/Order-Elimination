@@ -18,10 +18,9 @@ namespace UIManagement.trashToRemove_Mockups
 
         private Information _playerInformation;
 
-        public CharacterUpgradeTransaction(Character target, Information playerInformation)
+        public CharacterUpgradeTransaction(Character target)
         {
             TargetCharacter = target;
-            _playerInformation = playerInformation;
         }
 
         public bool TryUpgrade()

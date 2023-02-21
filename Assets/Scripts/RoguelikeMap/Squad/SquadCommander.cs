@@ -1,6 +1,8 @@
+using System.Linq;
 using DG.Tweening;
 using RoguelikeMap;
 using TMPro;
+using UIManagement;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
@@ -34,6 +36,7 @@ namespace OrderElimination
         {
             _window.SetData(data);
             _window.PlayAnimation();
+            ((SquadListPanel)UIController.SceneInstance.OpenPanel(PanelType.SquadList)).UpdateSquadInfo(Target.PointInfo.Enemies);
         }
 
         public void ShowEventImage(DialogWindowData data)
@@ -62,8 +65,14 @@ namespace OrderElimination
 
         public void StartAttack()
         {
-            // var order = CreateAttackOrder();
-            // order.Start();
+            var battleStatsList = _squad.Members.Cast<IBattleCharacterInfo>().ToList();
+            var charactersMediator = _objectResolver.Resolve<CharactersMediator>();
+            charactersMediator.SetSquad(battleStatsList);
+            charactersMediator.SetEnemies(_target.PointInfo.Enemies);
+            charactersMediator.SetPointNumber(_target.PointNumber);
+            charactersMediator.PointInfo = _target.PointInfo;
+            var sceneTransition = _objectResolver.Resolve<SceneTransition>();
+            sceneTransition.LoadBattleMap();
         }
     }
 }
