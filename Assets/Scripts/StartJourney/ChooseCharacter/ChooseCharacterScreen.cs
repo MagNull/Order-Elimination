@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -13,6 +14,8 @@ namespace OrderElimination
         private Transform _selected;
         [SerializeField]
         private Transform _notSelected;
+        [SerializeField]
+        private SquadMediator _squadMediator;
 
         [SerializeField] 
         private GameObject _characterButtonPref;
@@ -77,6 +80,15 @@ namespace OrderElimination
 
             _amountTextUI.text = _amountAvailable.ToString() + "$";
         }
-        
+
+        public void LoadGame()
+        {
+            if (_selectedCharacters.Count > 0)
+            {
+                _squadMediator.SetCharacters(_selectedCharacters);
+                DontDestroyOnLoad(_squadMediator.gameObject);
+                SceneManager.LoadScene("RougelikeMap");   
+            }
+        }
     }
 }
