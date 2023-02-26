@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Linq;
+using Cysharp.Threading.Tasks;
 using OrderElimination;
 using OrderElimination.BM;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace CharacterAbility.AbilityEffects
         public ObjectSpawnAbility(IBattleObject caster, EnvironmentInfo environmentInfo,
             EnvironmentFactory environmentFactory, int lifeTime, BattleMap battleMap,
             bool isMain, Ability nextEffect,
-            BattleObjectSide filter, float probability = 100) : base(caster, isMain, nextEffect, filter, probability)
+            BattleObjectType filter, float probability = 100) : base(caster, isMain, nextEffect, filter, probability)
         {
             _environmentInfo = environmentInfo;
             _environmentFactory = environmentFactory;
@@ -37,7 +38,7 @@ namespace CharacterAbility.AbilityEffects
             await _battleMap.MoveTo(envObject, targetCoordinate.x, targetCoordinate.y, 0);
             if (target is not NullBattleObject or EnvironmentObject)
                 await _battleMap.MoveTo(target, targetCoordinate.x, targetCoordinate.y, 0);
-            await UseNext(_battleMap.GetCell(targetCoordinate.x, targetCoordinate.y).GetObject(), stats);
+            await UseNext(_battleMap.GetCell(targetCoordinate.x, targetCoordinate.y).Objects.Last(), stats);
         }
     }
 }

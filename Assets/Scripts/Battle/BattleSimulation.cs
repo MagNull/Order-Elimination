@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using CharacterAbility;
 using Cysharp.Threading.Tasks;
 using OrderElimination;
@@ -12,7 +13,13 @@ using UIManagement.Elements;
 using UIManagement;
 using UnityEngine.Rendering;
 
-//TODO: Need full refactoring first of all
+public enum BattleState
+{
+    PlayerTurn,
+    EnemyTurn,
+    End
+}
+
 public class BattleSimulation : SerializedMonoBehaviour
 {
     public static event Action PlayerTurnStarted;
@@ -36,18 +43,13 @@ public class BattleSimulation : SerializedMonoBehaviour
     [SerializeField]
     private Dictionary<int, List<Vector2Int>> _enemyPositions = new();
 
-    [SerializeField]
-    private static BattleObjectSide _currentTurn;
-
     private BattleOutcome _outcome;
 
-    private bool _isBattleEnded = false;
-    private bool _isTurnChanged = true;
+    private static BattleState _battleState;
 
     private List<BattleCharacter> _characters;
-    private bool _enemyTurn = false;
 
-    public static BattleObjectSide CurrentTurn => _currentTurn;
+    public static BattleState BattleState => _battleState;
 
     [Inject]
     private void Construct(CharacterArrangeDirector characterArrangeDirector, BattleMapDirector battleMapDirector)
@@ -56,73 +58,19 @@ public class BattleSimulation : SerializedMonoBehaviour
         _characterArrangeDirector = characterArrangeDirector;
     }
 
+    private void Start()
+    {
+        InitializeBattlefield();
+        StartRound();
+    }
+
     private void Awake()
     {
         _characters = new List<BattleCharacter>();
         _abilityViewBinder = new AbilityViewBinder();
     }
 
-    public void Start()
-    {
-        InitializeBattlefield();
-        _battleMapDirector.MapView.InitStartUnitSelection();
-        SimulateBattle();
-    }
-
-    public async void SimulateBattle()
-    {
-        CheckBattleOutcome();
-        if (_outcome != BattleOutcome.Neither)
-        {
-            // �� ���������� �������� ������� ������������ ��������
-            EndBattle();
-        }
-        else
-        {
-            if (_currentTurn == BattleObjectSide.Ally)
-            {
-                if (_isTurnChanged)
-                {
-                    PlayerTurnStarted?.Invoke();
-                    _isTurnChanged = false;
-                    Debug.Log("Начался ход игрока" % Colorize.Green);
-                }
-            }
-            else if (_currentTurn == BattleObjectSide.Enemy)
-            {
-                if (_isTurnChanged)
-                {
-                    EnemyTurnStarted?.Invoke();
-                    _isTurnChanged = false;
-                    Debug.Log("Начался ход ИИ" % Colorize.Red);
-                }
-
-                _enemyTurn = true;
-                var enemies = _characters
-                    .Select(x => x)
-                    .Where(x => x.Side == BattleObjectSide.Enemy);
-                foreach (var enemy in enemies)
-                {
-                    await enemy.PlayTurn();
-                }
-
-                _enemyTurn = false;
-                EndTurn();
-            }
-        }
-    }
-
-    private void EndBattle()
-    {
-        if (_isBattleEnded) return;
-        BattleEnded?.Invoke(_outcome);
-        _selectedPlayerCharacterStatsPanel.HideInfo();
-        _abilityPanel.ResetAbilityButtons();
-        _isBattleEnded = true;
-        Debug.LogFormat("�������� ��������� - ������� {0}", _outcome == BattleOutcome.Victory ? "�����" : "��");
-    }
-
-    public void CheckBattleOutcome()
+    private void CheckBattleOutcome()
     {
         if (_outcome != BattleOutcome.Neither)
         {
@@ -136,12 +84,12 @@ public class BattleSimulation : SerializedMonoBehaviour
         {
             if (unit.Stats.Health > 0)
             {
-                if (unit.Side == BattleObjectSide.Ally)
+                if (unit.Type == BattleObjectType.Ally)
                 {
                     isThereAnyAliveAlly = true;
                 }
 
-                if (unit.Side == BattleObjectSide.Enemy)
+                if (unit.Type == BattleObjectType.Enemy)
                 {
                     isThereAnyAliveEnemy = true;
                 }
@@ -151,27 +99,72 @@ public class BattleSimulation : SerializedMonoBehaviour
         _outcome = !isThereAnyAliveAlly
             ? BattleOutcome.Defeat
             : (isThereAnyAliveEnemy ? BattleOutcome.Neither : BattleOutcome.Victory);
-        if(_outcome != BattleOutcome.Neither)
+        if (_outcome != BattleOutcome.Neither)
             EndBattle();
     }
 
     public void EndTurn()
     {
-        if (_enemyTurn)
-            return;
         _abilityPanel.ResetAbilityButtons();
         _selectedPlayerCharacterStatsPanel.HideInfo();
         SwitchTurn();
-        _isTurnChanged = true;
-        SimulateBattle();
+        StartRound();
     }
 
-    public void SwitchTurn() => _currentTurn =
-        _currentTurn == BattleObjectSide.Ally ? BattleObjectSide.Enemy : BattleObjectSide.Ally;
-
-    public void InitializeBattlefield()
+    private async void StartRound()
     {
-        _currentTurn = BattleObjectSide.Ally;
+        CheckBattleOutcome();
+        if (_outcome != BattleOutcome.Neither)
+        {
+            EndBattle();
+            return;
+        }
+
+        if (_battleState == BattleState.PlayerTurn)
+        {
+            Debug.Log("Начался ход игрока" % Colorize.Green);
+            PlayerTurnStarted?.Invoke();
+        }
+        else if (_battleState == BattleState.EnemyTurn)
+        {
+            EnemyTurnStarted?.Invoke();
+            await StartEnemyTurn();
+            Debug.Log("End");
+            EndTurn();
+        }
+    }
+
+    private async UniTask StartEnemyTurn()
+    {
+        Debug.Log("Начался ход ИИ" % Colorize.Red);
+
+        _battleState = BattleState.EnemyTurn;
+        var enemies = _characters
+            .Select(x => x)
+            .Where(x => x.Type == BattleObjectType.Enemy);
+        foreach (var enemy in enemies)
+        {
+            await enemy.PlayTurn();
+        }
+    }
+
+    private void EndBattle()
+    {
+        if (_battleState == BattleState.End) 
+            return;
+        BattleEnded?.Invoke(_outcome);
+        _selectedPlayerCharacterStatsPanel.HideInfo();
+        _abilityPanel.ResetAbilityButtons();
+        _battleState = BattleState.End;
+        Debug.LogFormat("�������� ��������� - ������� {0}", _outcome == BattleOutcome.Victory ? "�����" : "��");
+    }
+
+    private void SwitchTurn() => _battleState =
+        _battleState == BattleState.PlayerTurn ? BattleState.EnemyTurn : BattleState.PlayerTurn;
+
+    private void InitializeBattlefield()
+    {
+        _battleState = BattleState.PlayerTurn;
         _outcome = BattleOutcome.Neither;
 
         var mapIndex = _battleMapDirector.InitializeMap();
@@ -180,14 +173,15 @@ public class BattleSimulation : SerializedMonoBehaviour
         _characters = _characterArrangeDirector.Arrange(_unitPositions[mapIndex], _enemyPositions[mapIndex]);
 
         var enemies = _characters
-            .Where(c => c.Side == BattleObjectSide.Enemy)
+            .Where(c => c.Type == BattleObjectType.Enemy)
             .Select(c => c.View.GameObject.GetComponent<BattleCharacterView>())
             .ToArray();
+        
         _enemiesListPanel.Populate(enemies);
-        foreach (var e in enemies)
+        foreach (var enemy in enemies)
         {
-            e.Disabled += _enemiesListPanel.RemoveItem;
-            e.Disabled += view => _characters.Remove((BattleCharacter) view.Model);
+            enemy.Disabled += _enemiesListPanel.RemoveItem;
+            enemy.Disabled += view => _characters.Remove((BattleCharacter) view.Model);
         }
 
         foreach (var battleCharacter in _characters)
@@ -195,8 +189,8 @@ public class BattleSimulation : SerializedMonoBehaviour
             battleCharacter.Died += _ => CheckBattleOutcome();
         }
 
-        _abilityViewBinder.BindAbilityButtons(_battleMapDirector.MapView, _abilityPanel, _currentTurn);
-        //TODO ����������� UI
+        _abilityViewBinder.BindAbilityButtons(_battleMapDirector.MapView, _abilityPanel);
+
         BattleCharacterView.Selected += _selectedPlayerCharacterStatsPanel.UpdateCharacterInfo;
         BattleCharacterView.Deselected += info => _selectedPlayerCharacterStatsPanel.HideInfo();
     }

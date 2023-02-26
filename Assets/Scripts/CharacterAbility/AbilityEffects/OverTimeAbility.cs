@@ -17,7 +17,7 @@ namespace CharacterAbility.AbilityEffects
 
         public OverTimeAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability,
             DamageHealTarget damageHealTarget, OverTimeAbilityType overTimeAbilityType,
-            int duration, int tickValue, bool isUnique, BattleObjectSide filter, ITickEffectView view) : base(
+            int duration, int tickValue, bool isUnique, BattleObjectType filter, ITickEffectView view) : base(
             caster, isMain, nextEffect, filter,
             probability)
         {

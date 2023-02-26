@@ -24,7 +24,7 @@ namespace UIManagement.Elements
         private float _enemyDisappearTime = 0.3f;
         [SerializeField]
         private Ease _enemyDisappearEase = Ease.Flash;
-        private Dictionary<IBattleObject, CharacterBattleStatsPanel> _characterPanels = new ();
+        private Dictionary<IBattleObject, CharacterBattleStatsPanel> _characterPanels = new();
         //private List<CharacterBattleStatsPanel> _characterPanelsIds = new ();
 
         [Inject]
@@ -85,9 +85,9 @@ namespace UIManagement.Elements
 
             //_charactersScrollRect.verticalNormalizedPosition = 1f;// ((RectTransform)target.transform).localPosition.y;
             //0 - bottom 1 - top
-            var targetTransform = (RectTransform)target.transform;
-            var scrollTransform = (RectTransform)_charactersScrollRect.transform;
-            var contentTransform = (RectTransform)_charactersScrollRect.content.transform;
+            var targetTransform = (RectTransform) target.transform;
+            var scrollTransform = (RectTransform) _charactersScrollRect.transform;
+            var contentTransform = (RectTransform) _charactersScrollRect.content.transform;
             //targetTransform.offsetMin
             var halfElementHeight = targetTransform.rect.height / 2;
             var elementUpperBorder = targetTransform.position.y + halfElementHeight;
@@ -114,6 +114,7 @@ namespace UIManagement.Elements
                 var scrollValue = 1 - (deltaTop / (contentUpperBorder - contentLowerBorder));
                 DOTween.To(GetScrollViewPosition, SetScrollViewPosition, scrollValue, 0.2f);
             }
+
             foreach (var e in _characterPanels.Values)
                 e.KillHighlightProcess();
             target.Highlight(Color.red);
@@ -129,11 +130,14 @@ namespace UIManagement.Elements
 
         private void OnCellClicked(CellView cellView)
         {
-            var clickedObject = cellView.Model.GetObject();
-            if (clickedObject.Side != BattleObjectSide.Ally && _characterPanels.ContainsKey(clickedObject))
+            var clickedCell = cellView.Model.Objects;
+
+            foreach (var clickedObject in clickedCell)
             {
+                if (clickedObject.Type == BattleObjectType.Ally ||
+                    !_characterPanels.ContainsKey(clickedObject)) continue;
                 FocusCharacter(clickedObject);
             }
         }
-    } 
+    }
 }

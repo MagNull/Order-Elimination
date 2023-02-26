@@ -53,7 +53,7 @@ public class RandomEnemyAI : BattleCharacter
 
     public RandomEnemyAI(BattleMap map, BattleStats battleStats, IDamageCalculation damageCalculation,
         IReadOnlyCharacterBank characterBank)
-        : base(BattleObjectSide.Enemy, battleStats, damageCalculation)
+        : base(BattleObjectType.Enemy, battleStats, damageCalculation)
     {
         _map = map;
         _characterBank = characterBank;
@@ -110,7 +110,7 @@ public class RandomEnemyAI : BattleCharacter
                 break;
             case TargetType.Ally:
                 var allies =
-                    _map.GetBattleObjectsInRadius(nearestPlayer, _currentAIAbility.Distance, BattleObjectSide.Enemy);
+                    _map.GetBattleObjectsInRadius(nearestPlayer, _currentAIAbility.Distance, BattleObjectType.Enemy);
                 if (allies.Count == 0 || _map.GetStraightDistance(this, allies[0]) > _currentAIAbility.Distance)
                     _currentAIAbility.Use(this, Stats);
                 else
@@ -160,7 +160,6 @@ public class RandomEnemyAI : BattleCharacter
     {
         if (!TrySpendAction(ActionType.Movement))
             return;
-        Debug.Log("Can move");
-        await _moveAbility.Use(_map.GetCell(coordinate).GetObject(), Stats);
+        await _moveAbility.Use(_map.GetCell(coordinate.x, coordinate.y).Objects[0], Stats);
     }
 }

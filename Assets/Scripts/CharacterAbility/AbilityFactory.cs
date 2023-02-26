@@ -46,10 +46,10 @@ namespace CharacterAbility
             ability = abilityInfo.Type switch
             {
                 AbilityInfo.AbilityType.Active => new ActiveAbility(caster, ability,
-                    abilityInfo.ActiveParams.TargetType == TargetType.Self, BattleObjectSide.None),
+                    abilityInfo.ActiveParams.TargetType == TargetType.Self, BattleObjectType.None),
                 AbilityInfo.AbilityType.Passive => new PassiveAbility(caster, abilityInfo.PassiveParams.MoveToTrigger,
                     abilityInfo.PassiveParams.TriggerType,
-                    ability, BattleObjectSide.None, 100),
+                    ability, BattleObjectType.None, 100),
                 _ => throw new Exception("Unknown ability type")
             };
 
@@ -62,14 +62,14 @@ namespace CharacterAbility
             {
                 ability = AddEffects(abilityInfo.ActiveParams.AreaEffects, ability, caster);
                 ability = new AreaAbility(caster, ability, _battleMapView.Map, abilityInfo.ActiveParams.AreaRadius,
-                    BattleObjectSide.None);
+                    BattleObjectType.None);
             }
 
             if (abilityInfo.ActiveParams.HasPatternTargetEffect)
             {
                 ability = AddEffects(abilityInfo.ActiveParams.PatternEffects, ability, caster);
                 ability = new PatternTargetAbility(caster, abilityInfo.ActiveParams.Pattern, _battleMapView.Map,
-                    ability, BattleObjectSide.None, abilityInfo.ActiveParams.PatternMaxDistance);
+                    ability, BattleObjectType.None, abilityInfo.ActiveParams.PatternMaxDistance);
             }
 
             if (abilityInfo.ActiveParams.HasTargetEffect)
@@ -145,7 +145,7 @@ namespace CharacterAbility
                         ability = new ObjectSpawnAbility(caster, effectDesc.ObjectInfo,
                             _objectResolver.Resolve<EnvironmentFactory>(), effectDesc.Duration, _battleMapView.Map,
                             effectDesc.MainEffect,
-                            ability, BattleObjectSide.None);
+                            ability, BattleObjectType.None);
                         break;
                 }
             }

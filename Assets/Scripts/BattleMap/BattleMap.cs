@@ -4,12 +4,13 @@ using System;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using OrderElimination.BM;
+using Sirenix.Utilities;
 using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 
 public class BattleMap : MonoBehaviour
 {
-    public event Action<Cell> CellChanged;
+    public event Action<Cell, bool> CellChanged;
 
     [SerializeField]
     private int _width;
@@ -43,20 +44,13 @@ public class BattleMap : MonoBehaviour
         return _cellGrid[x, y];
     }
 
-    public Cell GetCell(Vector2Int point)
-    {
-        if (point.x < 0 || point.x > _width - 1 || point.y < 0 || point.y > _height - 1)
-            throw new ArgumentException($"Cell ({point.x}, {point.y}) not found");
-        return _cellGrid[point.x, point.y];
-    }
-
     public Cell GetCell(IBattleObject battleObject)
     {
         for (var x = 0; x < _cellGrid.GetLength(0); x++)
         {
             for (var y = 0; y < _cellGrid.GetLength(1); y++)
             {
-                if (_cellGrid[x, y].GetObject() == battleObject)
+                if (_cellGrid[x, y].Objects.Contains(battleObject))
                 {
                     return _cellGrid[x, y];
                 }
@@ -75,7 +69,7 @@ public class BattleMap : MonoBehaviour
     {
         var boPos = GetCoordinate(battleObject);
         _destroyedObjectsCoordinates.Add(battleObject, new Vector2Int(boPos.x, boPos.y));
-        SetCell(boPos.x, boPos.y, new NullBattleObject());
+        SetCell(boPos.x, boPos.y, new NullBattleObject(), true);
         if (battleObject is EnvironmentObject && _activeEnvironmentObjects.ContainsKey(boPos))
         {
             _activeEnvironmentObjects.Remove(boPos);
@@ -110,7 +104,7 @@ public class BattleMap : MonoBehaviour
         {
             for (var j = 0; j < _cellGrid.GetLength(1); j++)
             {
-                if (_cellGrid[i, j].GetObject() == obj)
+                if (_cellGrid[i, j].Objects.Contains(obj))
                 {
                     return new Vector2Int(i, j);
                 }
@@ -128,7 +122,7 @@ public class BattleMap : MonoBehaviour
     }
 
     public IList<IBattleObject> GetBattleObjectsInPatternArea(IBattleObject obj, IBattleObject source,
-        Vector2Int[] pattern, BattleObjectSide side = BattleObjectSide.None, int maxDistance = 999)
+        Vector2Int[] pattern, BattleObjectType type = BattleObjectType.None, int maxDistance = 999)
     {
         var center = GetCoordinate(obj);
         var sourcePos = GetCoordinate(source);
@@ -153,9 +147,9 @@ public class BattleMap : MonoBehaviour
             {
                 var cell = GetCell(newPoint.x, newPoint.y);
                 if (
-                    (side == BattleObjectSide.None || cell.GetObject().Side == side))
+                    type == BattleObjectType.None || cell.Objects.Any(x => x.Type == type))
                 {
-                    result.Add(cell.GetObject());
+                    result.AddRange(cell.Objects);
                 }
             }
         }
@@ -164,21 +158,43 @@ public class BattleMap : MonoBehaviour
     }
 
     public IList<IBattleObject> GetBattleObjectsInRadius(IBattleObject obj, int radius,
-        BattleObjectSide side = BattleObjectSide.None)
+        BattleObjectType type = BattleObjectType.None)
     {
         return GetObjectsInRadius(obj, radius,
-            battleObject => (side == BattleObjectSide.None || battleObject.Side == side));
+            battleObject => (type == BattleObjectType.None || battleObject.Type == type));
     }
 
     public IList<IBattleObject> GetEmptyObjectsInRadius(IBattleObject obj, int radius)
     {
-        return GetObjectsInRadius(obj, radius, battleObject => battleObject is NullBattleObject);
+        return GetObjectsInRadius(obj, radius, battleObject => battleObject is NullBattleObject, true);
     }
 
+    public void SpawnObject(IBattleObject obj, int x, int y)
+    {
+        SetCell(x, y, obj, false);
+        _cellGrid[x, y].AddObject(obj);
+    }
+
+    //TODO: Continue refactoring
     public async UniTask MoveTo(IBattleObject obj, int x, int y, float delay = -1)
     {
-        if(!obj.IsAlive)
+        var exist = false;
+        for (var i = 0; i < _cellGrid.GetLength(0); i++)
+        {
+            for (var j = 0; j < _cellGrid.GetLength(1); j++)
+            {
+                if (_cellGrid[i, j].Objects.Contains(obj))
+                {
+                    exist = true;
+                    break;
+                }
+            }
+        }
+
+        if (!exist)
             return;
+
+
         Vector2Int objCoord = GetCoordinate(obj);
         //TODO: Fix environment move
         if (obj is EnvironmentObject && _activeEnvironmentObjects.ContainsKey(new Vector2Int(x, y)))
@@ -192,15 +208,15 @@ public class BattleMap : MonoBehaviour
             obj.OnMoved(GetCell(obj), GetCell(x, y));
             if (_activeEnvironmentObjects.ContainsKey(objCoord))
             {
-                SetCell(objCoord.x, objCoord.y, _activeEnvironmentObjects[objCoord]);
+                SetCell(objCoord.x, objCoord.y, _activeEnvironmentObjects[objCoord], false);
                 _activeEnvironmentObjects[objCoord].OnLeave(obj);
                 _activeEnvironmentObjects.Remove(objCoord);
             }
             else
-                SetCell(objCoord.x, objCoord.y, new NullBattleObject());
+                SetCell(objCoord.x, objCoord.y, new NullBattleObject(), false);
         }
 
-        SetCell(x, y, obj);
+        SetCell(x, y, obj, true);
         if (delay <= 0)
             return;
         await UniTask.Delay(TimeSpan.FromSeconds(delay));
@@ -235,8 +251,8 @@ public class BattleMap : MonoBehaviour
             {
                 var neighbourCell = GetCell(neighbour.x, neighbour.y);
                 if (visited.Contains(neighbour) ||
-                    neighbourCell.GetObject() is BattleCharacter ||
-                    neighbourCell.GetObject().Side == BattleObjectSide.Obstacle)
+                    neighbourCell.Objects.Any(obj => obj is BattleCharacter ||
+                                                     obj.Type == BattleObjectType.Obstacle))
                     continue;
 
                 visited.Add(neighbour);
@@ -294,23 +310,37 @@ public class BattleMap : MonoBehaviour
         return neighbours;
     }
 
-    private void SetCell(int x, int y, IBattleObject obj)
+    private void SetCell(int x, int y, IBattleObject obj, bool tween)
     {
         if (x < 0 || x > _width - 1 || y < 0 || y > _height - 1)
             throw new ArgumentException($"Cell ({x}, {y}) not found");
         if (obj is null)
             throw new ArgumentException($"Try to set null in cell ({x},{y})");
-        if (obj is BattleCharacter && _cellGrid[x, y].GetObject() is EnvironmentObject environmentObject)
+        if (obj is BattleCharacter &&
+            _cellGrid[x, y].Objects.Skip(1).All(o => o is EnvironmentObject environmentObject))
         {
-            environmentObject.OnEnter(obj);
-            _activeEnvironmentObjects.Add(new Vector2Int(x, y), environmentObject);
+            if (_cellGrid[x, y].Objects.FirstOrDefault(o => o is EnvironmentObject) is EnvironmentObject
+                environmentObject)
+            {
+                environmentObject.OnEnter(obj);
+                _activeEnvironmentObjects.Add(new Vector2Int(x, y), environmentObject);
+            }
         }
 
-        _cellGrid[x, y].SetObject(obj);
-        CellChanged?.Invoke(_cellGrid[x, y]);
+        if (tween)
+        {
+            var oldCell = GetCell(obj);
+            oldCell.RemoveObject(obj);
+            CellChanged?.Invoke(oldCell, tween);
+        }
+
+        _cellGrid[x, y].AddObject(obj);
+        CellChanged?.Invoke(_cellGrid[x, y], tween);
     }
 
-    private IList<IBattleObject> GetObjectsInRadius(IBattleObject obj, int radius, Predicate<IBattleObject> predicate)
+    private IList<IBattleObject> GetObjectsInRadius(IBattleObject obj, int radius, Predicate<IBattleObject> predicate,
+        bool predicateForAll = false)
+
     {
         Vector2Int objCrd = GetCoordinate(obj);
         List<IBattleObject> objects = new List<IBattleObject>();
@@ -318,12 +348,17 @@ public class BattleMap : MonoBehaviour
         {
             for (var j = objCrd.y - radius; j <= objCrd.y + radius; j++)
             {
-                if (i >= 0 && i < _cellGrid.GetLength(0) && j >= 0 && j < _cellGrid.GetLength(1))
+                if (i < 0 || i >= _cellGrid.GetLength(0) || j < 0 || j >= _cellGrid.GetLength(1))
+                    continue;
+                var objectsToAdd = _cellGrid[i, j].Objects.Where(x => predicate(x)).ToList();
+                switch (predicateForAll)
                 {
-                    if (predicate(_cellGrid[i, j].GetObject()))
-                    {
-                        objects.Add(_cellGrid[i, j].GetObject());
-                    }
+                    case true when objectsToAdd.Count == _cellGrid[i, j].Objects.Count:
+                        objects.AddRange(objectsToAdd);
+                        break;
+                    case false when objectsToAdd.Any():
+                        objects.Add(objectsToAdd.First());
+                        break;
                 }
             }
         }

@@ -32,6 +32,16 @@ namespace OrderElimination.BM
             _spriteRenderer.sprite = image;
         }
 
+        public void ShowAccuracy(int probability)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void HideAccuracy()
+        {
+            throw new NotImplementedException();
+        }
+
         public void OnDamaged(TakeDamageInfo damageInfo)
         {
             

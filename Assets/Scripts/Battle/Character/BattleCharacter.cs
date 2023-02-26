@@ -38,7 +38,7 @@ public class BattleCharacter : IActor
     [ShowInInspector]
     private readonly List<StatsBuffEffect> _buffEffects;
     [ShowInInspector]
-    private readonly BattleObjectSide _side;
+    private readonly BattleObjectType _type;
     [SerializeField]
     private BattleStats _battleStats;
     private IDamageCalculation _damageCalculation;
@@ -54,17 +54,17 @@ public class BattleCharacter : IActor
         _buffEffects;
 
     public bool IsAlive => _battleStats.Health > 0;
-    public BattleObjectSide Side => _side;
+    public BattleObjectType Type => _type;
     public IBattleObjectView View { get; set; }
 
     public IReadOnlyList<ActionType> AvailableActions => _actionBank.AvailableActions;
 
     public IReadOnlyBattleStats Stats => _battleStats;
 
-    public BattleCharacter(BattleObjectSide side, BattleStats battleStats, IDamageCalculation damageCalculation)
+    public BattleCharacter(BattleObjectType type, BattleStats battleStats, IDamageCalculation damageCalculation)
     {
         _damageCalculation = damageCalculation;
-        _side = side;
+        _type = type;
         _battleStats = battleStats;
         _tickEffects = new List<ITickEffect>();
         _buffEffects = new List<StatsBuffEffect>();
@@ -96,8 +96,7 @@ public class BattleCharacter : IActor
             _battleStats.AdditionalArmor -= armorDamage;
             takeDamageInfo.ArmorDamage -= armorDamage;
         }
-
-        //TODO: Additional armor
+        
         _battleStats.Armor -= damageTaken.armorDamage;
         _battleStats.Health -= damageTaken.healthDamage;
         

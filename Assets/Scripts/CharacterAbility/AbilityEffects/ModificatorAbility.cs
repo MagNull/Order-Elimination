@@ -10,7 +10,7 @@ namespace CharacterAbility.AbilityEffects
         private readonly int _modificatorValue;
 
         public ModificatorAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability, ModificatorType modificatorType,
-            int modificatorValue, BattleObjectSide filter) : base(caster, isMain, nextEffect, filter, probability)
+            int modificatorValue, BattleObjectType filter) : base(caster, isMain, nextEffect, filter, probability)
         {
             _modificatorValue = modificatorValue;
             _modificatorType = modificatorType;

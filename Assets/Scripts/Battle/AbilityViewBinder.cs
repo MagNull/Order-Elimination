@@ -7,38 +7,41 @@ using OrderElimination.BM;
 using UIManagement;
 using UnityEngine;
 
-public class AbilityViewBinder 
+public class AbilityViewBinder
 {
     private BattleCharacterView _selectedCharacterView;
 
-    public void BindAbilityButtons(BattleMapView mapView, AbilityPanel abilityPanel, BattleObjectSide currentTurn)
+    public void BindAbilityButtons(BattleMapView mapView, AbilityPanel abilityPanel)
     {
-        mapView.CellClicked += OnCellClicked(abilityPanel, currentTurn);
+        mapView.CellClicked += OnCellClicked(abilityPanel);
     }
 
-    private Action<CellView> OnCellClicked(AbilityPanel abilityPanel, BattleObjectSide currentTurn)
+    private Action<CellView> OnCellClicked(AbilityPanel abilityPanel)
     {
         return cell =>
         {
-            if (cell.Model.GetObject() is NullBattleObject ||
-                !cell.Model.GetObject().View.GameObject ||
-                !cell.Model.GetObject().View.GameObject.TryGetComponent(out BattleCharacterView characterView)
-                || characterView.Model.Side != BattleObjectSide.Ally
-                || BattleSimulation.CurrentTurn != BattleObjectSide.Ally
-                || characterView.IsSelected
-                || abilityPanel.AbilityCasing)
+            if (!CheckCell(cell) || abilityPanel.AbilityCasing)
                 return;
+            var characterView = cell.Model.Objects.First(obj => obj is BattleCharacter).View.GameObject
+                .GetComponent<BattleCharacterView>();
             _selectedCharacterView?.Deselect();
             _selectedCharacterView = characterView;
             _selectedCharacterView.Select();
             abilityPanel.AssignAbilities(characterView.ActiveAbilitiesView, characterView.PassiveAbilitiesView);
-            //TODO(Сано): Автовыбор перемещения независимо от порядка
             abilityPanel.SelectFirstAvailableAbility();
         };
     }
 
+    private bool CheckCell(CellView cell)
+    {
+        return cell.Model.Contains(obj => obj is BattleCharacter, out var character) &&
+               character.Type == BattleObjectType.Ally &&
+               BattleSimulation.BattleState == BattleState.PlayerTurn &&
+               !character.View.GameObject.GetComponent<BattleCharacterView>().IsSelected;
+    }
+
     public void OnDisable(BattleMapView mapView, AbilityPanel abilityPanel)
     {
-        mapView.CellClicked -= OnCellClicked(abilityPanel, BattleObjectSide.Ally);
+        mapView.CellClicked -= OnCellClicked(abilityPanel);
     }
 }
