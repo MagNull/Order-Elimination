@@ -4,11 +4,12 @@ using UnityEngine;
 
 namespace OrderElimination
 {
-    public class SquadMediator : MonoBehaviour
+    public static class SquadMediator
     {
-        private List<Character> _characterList;
-        public List<Character> CharacterList => _characterList; 
-        public void SetCharacters(List<Character> characters)
+        private static List<Character> _characterList;
+        public static IReadOnlyList<Character> CharacterList => _characterList;
+
+        public static void SetCharacters(List<Character> characters)
         {
             _characterList = characters;
         }

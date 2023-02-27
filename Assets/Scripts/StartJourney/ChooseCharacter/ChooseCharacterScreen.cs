@@ -14,10 +14,8 @@ namespace OrderElimination
         private Transform _selected;
         [SerializeField]
         private Transform _notSelected;
-        [SerializeField]
-        private SquadMediator _squadMediator;
 
-        [SerializeField] 
+        [SerializeField]
         private GameObject _characterButtonPref;
         [SerializeField] 
         private GameObject _emptyButtonPref;
@@ -27,6 +25,8 @@ namespace OrderElimination
         private int _countOfCharacters = 2;
         [SerializeField] 
         private Text _amountTextUI;
+        [SerializeField] 
+        private List<Character> _characters;
 
         private List<Character> _selectedCharacters;
         private List<GameObject> _emptyCards;
@@ -39,8 +39,8 @@ namespace OrderElimination
             _selectedCharacters = new List<Character>();
             _amountTextUI.text = _amountAvailable.ToString() + "$";
             
-            var infos = Resources.LoadAll<Character>("Characters");
-            foreach (var info in infos)
+            //var infos = Resources.LoadAll<Character>("Characters");
+            foreach (var info in _characters)
             {
                 var characterCard = Instantiate(_characterButtonPref, _notSelected);
                 var characterCardInfo = characterCard.GetComponent<CharacterCard>();
@@ -55,7 +55,6 @@ namespace OrderElimination
                 var card = Instantiate(_emptyButtonPref, _selected);
                 _emptyCards.Add(card);
             }
-                
         }
 
         public void SelectCharacter(CharacterCard card)
@@ -83,12 +82,11 @@ namespace OrderElimination
 
         public void LoadGame()
         {
-            if (_selectedCharacters.Count > 0)
-            {
-                _squadMediator.SetCharacters(_selectedCharacters);
-                DontDestroyOnLoad(_squadMediator.gameObject);
-                SceneManager.LoadScene("RougelikeMap");   
-            }
+            if (_selectedCharacters.Count <= 0)
+                return;
+            
+            SquadMediator.SetCharacters(_selectedCharacters);
+            SceneManager.LoadScene("RougelikeMap");
         }
     }
 }
