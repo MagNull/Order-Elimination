@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd1984226b6f4b5ea94fb3b7f3b16efb, type: 3}
+  m_Name: 2
+  m_EditorClassIdentifier: 
+  _baseStats:
+    _health: 0
+    _unmodifiedHealth: 0
+    _attack: 0
+    _unmodifiedAttack: 0
+    _armor: 0
+    _unmodifiedArmor: 0
+    _additionalArmor: 0
+    _evasion: 0
+    _unmodifiedEvasion: 0
+    _accuracy: 0
+    _unmodifiedAccuracy: 0
+    _movement: 0
+    _unmodifiedMovement: 0
+    _damageModificator: 0
+  _battleStats:
+    _health: 0
+    _unmodifiedHealth: 0
+    _attack: 0
+    _unmodifiedAttack: 0
+    _armor: 0
+    _unmodifiedArmor: 0
+    _additionalArmor: 0
+    _evasion: 0
+    _unmodifiedEvasion: 0
+    _accuracy: 0
+    _unmodifiedAccuracy: 0
+    _movement: 0
+    _unmodifiedMovement: 0
+    _damageModificator: 0
+  _strategyStats:
+    Lvl: 0
+    CostOfUpgrade: 0
+    HealthGrowth: 0
+    AttackGrowth: 0
+    ArmorGrowth: 0
+    EvasionGrowth: 0
+    AccuracyGrowth: 0
+  _name: "\u0427\u0435\u043B 2"
+  _viewIcon: {fileID: 21300000, guid: b7784b2b2e710004b8a7a9a045bf58e2, type: 3}
+  _viewAvatar: {fileID: 21300000, guid: b7784b2b2e710004b8a7a9a045bf58e2, type: 3}
+  _activeAbilities: []
+  _passiveAbilities: []
