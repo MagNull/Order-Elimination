@@ -24,13 +24,13 @@ namespace OrderElimination
                          new Vector3(-IconSize,
                              IconSize + 10f);
             var tween = _transform.DOMove(target, 0.5f);
-            _transform.GetComponent<SpriteRenderer>().DOColor(Color.grey, DURATION);
+            //_transform.GetComponent<SpriteRenderer>().DOColor(Color.grey, DURATION);
             tween.OnComplete(() => onEndAnimation?.Invoke());
         }
 
         public void OnReadyMove()
         {
-            _transform.GetComponent<SpriteRenderer>().DOColor(Color.white, DURATION);
+            //_transform.GetComponent<SpriteRenderer>().DOColor(Color.white, DURATION);
         }
     }
 }
