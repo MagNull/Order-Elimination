@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using OrderElimination.Start;
 using RoguelikeMap;
 using Sirenix.OdinInspector;
@@ -48,6 +49,11 @@ namespace OrderElimination
             Settings.ExitSettingsWindow += SetActiveButtonOnOrderPanel;
         }
 
+        private void Start()
+        {
+            _testSquadMembers = SquadMediator.CharacterList.ToList();
+        }
+
         public void Add(Character member) => _model.Add(member);
 
         public void Remove(Character member) => _model.RemoveCharacter(member);
@@ -58,7 +64,6 @@ namespace OrderElimination
             SetPoint(point);
             _model.Move(point);
         }
-
 
         private bool CheckOutScreenBoundaries(Vector3 position)
         {
