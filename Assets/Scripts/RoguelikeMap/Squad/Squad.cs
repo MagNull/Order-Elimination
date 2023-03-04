@@ -5,9 +5,7 @@ using OrderElimination.Start;
 using RoguelikeMap;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using UIManagement;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using VContainer;
 using UIManagement.Elements;
 
@@ -26,11 +24,9 @@ namespace OrderElimination
         private HoldableButton _buttonOnOrderPanel;
         private CharactersMediator _charactersMediator;
         public event Action<Squad> OnSelected;
-        public event Action<Squad> onActiveSquadPanel;
         public Point Point => _presenter.Point;
         public int AmountOfCharacters => _model.AmountOfMembers;
         public List<Character> Members => _testSquadMembers;
-        public bool AlreadyMove { get; private set; }
         
         [Inject]
         private void Construct(CharactersMediator charactersMediator, SquadCommander commander)
@@ -54,31 +50,10 @@ namespace OrderElimination
             _testSquadMembers = SquadMediator.CharacterList.ToList();
         }
 
-        public void Add(Character member) => _model.Add(member);
-
-        public void Remove(Character member) => _model.RemoveCharacter(member);
-
         public void Move(Point point)
         {
-            //AlreadyMove = true;
             SetPoint(point);
             _model.Move(point);
-        }
-
-        private bool CheckOutScreenBoundaries(Vector3 position)
-        {
-            var mainCamera = Camera.main;
-            var screenBounds = mainCamera.ScreenToWorldPoint(
-                new Vector3(Screen.width, Screen.height, mainCamera.transform.position.z));
-            return position.x < -screenBounds.x 
-                   || position.x > screenBounds.x 
-                   || position.y < -screenBounds.y 
-                   || position.y > screenBounds.y;
-        }
-
-        private void ActiveSquadPanel(HoldableButton button, float holdTime)
-        {
-            onActiveSquadPanel?.Invoke(this);
         }
 
         private void SetSquadCommander()
@@ -112,22 +87,6 @@ namespace OrderElimination
             _commander.ShowEventImage(data);
         }
 
-        public void SetAlreadyMove(bool isAlreadyMove)
-        {
-            AlreadyMove = isAlreadyMove;
-            if(!isAlreadyMove)
-                _view.OnReadyMove();
-        }
-
-        public void SetOrderButton(HoldableButton button)
-        {
-            _buttonOnOrderPanel = button;
-            _buttonOnOrderPanel.Clicked -= OnClicked;
-            _buttonOnOrderPanel.Clicked += OnClicked;
-            _buttonOnOrderPanel.Holded -= ActiveSquadPanel;
-            _buttonOnOrderPanel.Holded += ActiveSquadPanel;
-        }
-
         private void SetPoint(Point point)
         {
             //AlreadyMove = true;
@@ -146,8 +105,6 @@ namespace OrderElimination
         public void Select()
         {
             Debug.Log("Squad selected");
-            if (AlreadyMove)
-                return;
             OnSelected?.Invoke(this);
             _model.Select();
         }

@@ -30,7 +30,6 @@ namespace OrderElimination
         {
             _squad = squad;
             _target = target;
-            PlayAnimation();
         }
 
         public void ShowBattleImage(DialogWindowData data)
@@ -59,12 +58,6 @@ namespace OrderElimination
             _window.SetData(data);
             _window.PlayAnimation();
             ((SafeZonePanel)UIController.SceneInstance.OpenPanel(PanelType.SafeZone)).UpdateSafeZoneInfo();
-        }
-        
-        public void PlayAnimation()
-        {
-            // var tween = _attackImage.DOFade(1, 0.5f);
-            // tween.OnComplete(StartAttack);
         }
 
         public void StartAttack()

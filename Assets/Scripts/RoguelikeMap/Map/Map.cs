@@ -10,8 +10,6 @@ namespace RoguelikeMap
     public class Map : MonoBehaviour
     {
         public string SquadPositionPrefPath = $"{SaveIndex}/Squad/Position";
-        // [SerializeField] 
-        // private ClickProcess _backgroundClick;
         
         public List<OrderElimination.Point> _points;
         private IMapGenerator _mapGenerator;
@@ -36,7 +34,6 @@ namespace RoguelikeMap
             foreach (var point in _points)
                 point.OnSelected += SelectPoint;
 
-            // /_backgroundClick.OnClick += UnselectSquad;
             _squad.OnSelected += SelectSquad;
         }
         

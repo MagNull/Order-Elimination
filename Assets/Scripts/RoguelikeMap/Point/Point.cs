@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace OrderElimination
 {
@@ -23,25 +19,11 @@ namespace OrderElimination
             PointView = new PointView(transform, _pathPrefab);
         }
 
-        public void IncreasePoint() => PointView.Increase();
-        public void DecreasePoint() => PointView.Decrease();
-
         public virtual void Visit(Squad squad){}
-
-        // public void SetEnemy(bool hasEnemy)
-        // {
-        //     HasEnemy = hasEnemy;
-        //     AddSquad();
-        // }
-
+        
         public void SetPlanetInfo(PointInfo pointInfo)
         {
             PointInfo = pointInfo;
-        }
-
-        public void SetNextPoint(Point end)
-        {
-            NextPoints.Add(end);
         }
 
         public void SetNextPoints(IEnumerable<Point> paths)
@@ -52,14 +34,6 @@ namespace OrderElimination
         }
 
         public void ShowPaths() => PointView.ShowPaths();
-
-        public void HidePaths()
-        {
-            // foreach (var path in _paths.Where(path => !path.IsDestroyed()))
-            // {
-            //     path.ActivateSprite(false);
-            // }
-        }
 
         private void OnMouseDown() => Select();
 
