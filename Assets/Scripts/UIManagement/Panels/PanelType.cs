@@ -10,13 +10,16 @@ namespace UIManagement
         Pause, 
         Order,
         SquadList,
-        ExplorationResult, // Exploration - исследование // Scouting - разведка
+        ExplorationResult, // Exploration - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ // Scouting - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         BattleVictory, 
         BattleDefeat, 
         CharacterDescription, 
         CharacterUpgradable, 
         AbilityDescription,
         PassiveSkillsDescription,
-        EffectsDesriptionList
+        EffectsDesriptionList,
+        Shop,
+        Event,
+        SafeZone
     }
 }

@@ -3,6 +3,7 @@ using DG.Tweening;
 using RoguelikeMap;
 using TMPro;
 using UIManagement;
+using UIManagement.Panels;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
@@ -43,18 +44,21 @@ namespace OrderElimination
         {
             _window.SetData(data);
             _window.PlayAnimation();
+            ((EventPanel)UIController.SceneInstance.OpenPanel(PanelType.Event)).UpdateEventInfo();
         }
 
         public void ShowShopImage(DialogWindowData data)
         {
             _window.SetData(data);
             _window.PlayAnimation();
+            ((ShopPanel)UIController.SceneInstance.OpenPanel(PanelType.Shop)).UpdateShopInfo();
         }
 
         public void ShowSafeZoneImage(DialogWindowData data)
         {
             _window.SetData(data);
             _window.PlayAnimation();
+            ((SafeZonePanel)UIController.SceneInstance.OpenPanel(PanelType.SafeZone)).UpdateSafeZoneInfo();
         }
         
         public void PlayAnimation()
