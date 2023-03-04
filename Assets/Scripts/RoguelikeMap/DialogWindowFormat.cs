@@ -4,6 +4,7 @@ namespace RoguelikeMap
 {
     public enum WindowFormat
     {
+        None,
         Small,
         Half,
         FullScreen

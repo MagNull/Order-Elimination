@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using RoguelikeMap;
 using UIManagement.Debugging;
 using UIManagement.Elements;
 using UnityEngine;
@@ -13,6 +14,9 @@ namespace UIManagement
 {
     public class UIController : MonoBehaviour
     {
+        public static float StartPosition { get; private set; } = 3000f;
+        private const float EndPositionHalfWindow = 1500f;
+        private const float EndPositionFullScreenWindow = 1000f;
         private List<IUIPanel> _panels = new List<IUIPanel>();
         private List<IUIPanel> _openedPanelsStack = new List<IUIPanel>();
         [SerializeField]
@@ -24,7 +28,7 @@ namespace UIManagement
         public static UIController SceneInstance { get; private set; }
 
         [Button, DisableInEditorMode]
-        public IUIPanel OpenPanel(PanelType panel)
+        public IUIPanel OpenPanel(PanelType panel, WindowFormat format = WindowFormat.None)
         {
             var panelToOpen = _panels.Single(p => p.PanelType == panel);
             _closingArea.gameObject.SetActive(true);
@@ -41,9 +45,26 @@ namespace UIManagement
             _openedPanelsStack.Add(panelToOpen);
 
             panelToOpen.Open();
-            panelTransform.localScale = Vector3.one * 0.1f;
-            panelTransform.DOScale(1, _windowOpeningTime).SetEase(_windowOpeningEase);
+            PlayOpenAnimation(panelTransform, format);
             return panelToOpen;
+        }
+
+        private void PlayOpenAnimation(Transform panelTransform, WindowFormat format)
+        {
+            switch (format)
+            {
+                case WindowFormat.Small:
+                case WindowFormat.Half:
+                    panelTransform.DOMoveX(EndPositionHalfWindow, 1f);
+                    break;
+                case WindowFormat.FullScreen:
+                    panelTransform.DOMoveX(EndPositionFullScreenWindow, 1f);
+                    break;
+                default:
+                    panelTransform.localScale = Vector3.one * 0.1f;
+                    panelTransform.DOScale(1, _windowOpeningTime).SetEase(_windowOpeningEase);
+                    break;
+            }
         }
 
         public void ClosePanel(PanelType panel)

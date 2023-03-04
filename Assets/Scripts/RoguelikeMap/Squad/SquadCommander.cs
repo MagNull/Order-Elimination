@@ -43,21 +43,21 @@ namespace OrderElimination
         {
             _window.SetData(data);
             _window.PlayAnimation();
-            ((EventPanel)UIController.SceneInstance.OpenPanel(PanelType.Event)).UpdateEventInfo();
+            ((EventPanel)UIController.SceneInstance.OpenPanel(PanelType.Event, WindowFormat.Half)).UpdateEventInfo();
         }
 
         public void ShowShopImage(DialogWindowData data)
         {
             _window.SetData(data);
             _window.PlayAnimation();
-            ((ShopPanel)UIController.SceneInstance.OpenPanel(PanelType.Shop)).UpdateShopInfo();
+            ((ShopPanel)UIController.SceneInstance.OpenPanel(PanelType.Shop, WindowFormat.FullScreen)).UpdateShopInfo();
         }
 
         public void ShowSafeZoneImage(DialogWindowData data)
         {
             _window.SetData(data);
             _window.PlayAnimation();
-            ((SafeZonePanel)UIController.SceneInstance.OpenPanel(PanelType.SafeZone)).UpdateSafeZoneInfo();
+            ((SafeZonePanel)UIController.SceneInstance.OpenPanel(PanelType.SafeZone, WindowFormat.Half)).UpdateSafeZoneInfo();
         }
 
         public void StartAttack()

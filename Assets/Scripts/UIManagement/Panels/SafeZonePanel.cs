@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 
 namespace UIManagement.Panels
 {
@@ -9,6 +10,11 @@ namespace UIManagement.Panels
         public void UpdateSafeZoneInfo()
         {
             Debug.Log("Update SafeZone Info");
+        }
+        
+        public override void Close()
+        {
+            transform.DOMoveX(UIController.StartPosition, 0.1f).OnComplete(() => base.Close());
         }
     }
 }
