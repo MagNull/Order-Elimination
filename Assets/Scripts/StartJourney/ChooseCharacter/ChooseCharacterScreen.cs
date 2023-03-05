@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
+using UIManagement;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -8,7 +10,7 @@ using UnityEngine.UI;
 
 namespace OrderElimination
 {
-    public class ChooseCharacterScreen : MonoBehaviour
+    public class ChooseCharacterScreen : UIPanel
     {
         [SerializeField]
         private Transform _selected;
@@ -28,18 +30,22 @@ namespace OrderElimination
         [SerializeField] 
         private List<Character> _characters;
 
+        public override PanelType PanelType => PanelType.SquadMembers;
+        
         private List<Character> _selectedCharacters;
         private List<GameObject> _emptyCards;
+        
         private void Start()
         {
             CreatePanel();
         }
-        public void CreatePanel()
+        
+        public void CreatePanel(float scale = 0)
         {
             _selectedCharacters = new List<Character>();
-            _amountTextUI.text = _amountAvailable.ToString() + "$";
+            if(_amountTextUI != null)
+                _amountTextUI.text = _amountAvailable.ToString() + "$";
             
-            //var infos = Resources.LoadAll<Character>("Characters");
             foreach (var info in _characters)
             {
                 var characterCard = Instantiate(_characterButtonPref, _notSelected);
@@ -78,6 +84,16 @@ namespace OrderElimination
             }
 
             _amountTextUI.text = _amountAvailable.ToString() + "$";
+        }
+
+        public void UpdateCharacterInfo(List<Character> characters)
+        {
+            _characters = characters;
+        }
+
+        public override void Close()
+        {
+            transform.DOMoveX(UIController.StartPosition, 0.1f).OnStepComplete(() => base.Close());
         }
 
         public void LoadGame()

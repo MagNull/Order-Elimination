@@ -16,6 +16,8 @@ namespace OrderElimination
         [OdinSerialize]
         [ShowInInspector]
         private List<Character> _testSquadMembers;
+        [SerializeField]
+        private SquadButtonTouchRace _proccesClick;
         private SquadInfo _squadInfo; 
         private SquadModel _model;
         private SquadView _view;
@@ -40,6 +42,8 @@ namespace OrderElimination
             _model = new SquadModel(_testSquadMembers);
             _view = new SquadView(transform);
             _presenter = new SquadPresenter(_model, _view, null);
+            _proccesClick.Clicked += Select;
+            _proccesClick.Holded += _commander.ShowSquadMembers;
             _view.onEndAnimation += SetSquadCommander;
             SavesMenu.ExitSavesWindow += SetActiveButtonOnOrderPanel;
             Settings.ExitSettingsWindow += SetActiveButtonOnOrderPanel;
@@ -89,7 +93,6 @@ namespace OrderElimination
 
         private void SetPoint(Point point)
         {
-            //AlreadyMove = true;
             _commander.Set(this, point);
             _model.Move(point);
             _presenter.UpdatePlanetPoint(point);
@@ -99,8 +102,6 @@ namespace OrderElimination
         {
             _buttonOnOrderPanel.gameObject.SetActive(isActive);
         }
-
-        public void OnClicked(HoldableButton button) => Select();
 
         public void Select()
         {
@@ -119,11 +120,11 @@ namespace OrderElimination
         private void OnDisable()
         {
             _presenter.Unsubscribe();
+            _proccesClick.Clicked -= Select;
+            _proccesClick.Holded -= _commander.ShowSquadMembers;
             _view.onEndAnimation -= SetSquadCommander;
             SavesMenu.ExitSavesWindow -= SetActiveButtonOnOrderPanel;
             Settings.ExitSettingsWindow -= SetActiveButtonOnOrderPanel;
         }
-
-        private void OnMouseDown() => Select();
     }
 }

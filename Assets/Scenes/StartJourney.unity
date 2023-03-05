@@ -308,12 +308,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775b240e605e72d41a5e5cfab0fe36ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _titleText: {fileID: 0}
+  _closingButton: {fileID: 0}
+  _isClosingByClickingOutside: 1
   _selected: {fileID: 1371300751}
   _notSelected: {fileID: 1589175577}
   _characterButtonPref: {fileID: 5809841624109694278, guid: 46af61c7af418f1468beb2ca38630730, type: 3}
   _emptyButtonPref: {fileID: 4564038743164466571, guid: 3ec24adaaf06b174e9aa56504b1b2d3b, type: 3}
-  _amountAvailable: 1000
-  _countOfCharacters: 2
+  _amountAvailable: 1200
+  _countOfCharacters: 3
   _amountTextUI: {fileID: 1617604091}
   _characters:
   - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}

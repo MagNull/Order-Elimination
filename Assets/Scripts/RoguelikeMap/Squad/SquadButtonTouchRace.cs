@@ -1,39 +1,43 @@
 using System;
-using UIManagement;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace OrderElimination
 {
     public class SquadButtonTouchRace : MonoBehaviour
     {
+        private int MillisecondsToHoldError => Math.Min(10, MillisecondsToHold);
+        [SerializeField]
+        public int MillisecondsToHold = 700;
         private float _time = 0;
         private bool _isRacePressed = false;
         public event Action Clicked;
         public event Action Holded;
         
-        void Update ()
-        {
-            if (_isRacePressed )
-            {
-                _time += Time.deltaTime;
-            }
-
-            if (_time > 0.8)
-            {
-                Holded?.Invoke();
-                PointerUp();
-            }
-        }
-        
-        public void PointerDown()
+        private void OnMouseDown()
         {
             _isRacePressed = true;
+            _time = Time.unscaledTime;
+            UniTask.Create(WaitUntilHoldTime);
         }
         
-        public void PointerUp()
+        private async UniTask WaitUntilHoldTime()
+        {
+            await UniTask.Delay(MillisecondsToHold, ignoreTimeScale: true);
+            if (!_isRacePressed)
+                return;
+            var holdTime = Time.unscaledTime - _time;
+            if (holdTime * 1000 + MillisecondsToHoldError >= MillisecondsToHold)
+            {
+                Holded?.Invoke();
+            }
+        }
+
+        private void OnMouseUp()
         {
             _isRacePressed = false;
-            if (_time < 0.5)
+            var holdTime = Time.unscaledTime - _time;
+            if (holdTime * 1000 + MillisecondsToHoldError < MillisecondsToHold)
             {
                 Clicked?.Invoke();
             }

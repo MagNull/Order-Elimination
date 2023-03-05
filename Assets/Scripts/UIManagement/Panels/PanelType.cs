@@ -20,6 +20,7 @@ namespace UIManagement
         EffectsDesriptionList,
         Shop,
         Event,
-        SafeZone
+        SafeZone,
+        SquadMembers
     }
 }

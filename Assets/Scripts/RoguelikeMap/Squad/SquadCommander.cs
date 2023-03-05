@@ -1,11 +1,7 @@
 using System.Linq;
-using DG.Tweening;
 using RoguelikeMap;
-using TMPro;
 using UIManagement;
 using UIManagement.Panels;
-using UnityEngine;
-using UnityEngine.UI;
 using VContainer;
 
 namespace OrderElimination
@@ -58,6 +54,13 @@ namespace OrderElimination
             _window.SetData(data);
             _window.PlayAnimation();
             ((SafeZonePanel)UIController.SceneInstance.OpenPanel(PanelType.SafeZone, WindowFormat.Half)).UpdateSafeZoneInfo();
+        }
+
+        public void ShowSquadMembers()
+        {
+            ((ChooseCharacterScreen)UIController.SceneInstance
+                .OpenPanel(PanelType.SquadMembers, WindowFormat.FullScreen))
+                .UpdateCharacterInfo(_squad.Members);
         }
 
         public void StartAttack()
