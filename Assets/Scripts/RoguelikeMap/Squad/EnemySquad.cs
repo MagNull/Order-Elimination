@@ -32,10 +32,6 @@ namespace OrderElimination
             _model = new SquadModel(_testSquadMembers);
         }
 
-        public void Add(Character member) => _model.Add(member);
-
-        public void Remove(Character member) => _model.RemoveCharacter(member);
-
         public void Move(Point point)
         {
             AlreadyMove = true;

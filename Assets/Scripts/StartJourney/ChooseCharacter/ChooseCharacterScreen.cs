@@ -19,8 +19,6 @@ namespace OrderElimination
 
         [SerializeField]
         private GameObject _characterButtonPref;
-        [SerializeField] 
-        private GameObject _emptyButtonPref;
         [SerializeField]
         private int _amountAvailable = 1000;
         [SerializeField] 
@@ -31,16 +29,17 @@ namespace OrderElimination
         private List<Character> _characters;
 
         public override PanelType PanelType => PanelType.SquadMembers;
+        public event Action<List<Character>> OnSelected;
         
         private List<Character> _selectedCharacters;
-        private List<GameObject> _emptyCards;
+        private List<Character> _unselectedCharacters;
         
         private void Start()
         {
             CreatePanel();
         }
         
-        public void CreatePanel(float scale = 0)
+        public void CreatePanel()
         {
             _selectedCharacters = new List<Character>();
             if(_amountTextUI != null)
@@ -54,13 +53,6 @@ namespace OrderElimination
                 UnityAction act = () => SelectCharacter(characterCardInfo);
                 characterCardInfo.Button.onClick.AddListener(act);
             }
-
-            _emptyCards = new List<GameObject>();
-            for (int i = 0; i < _countOfCharacters; i++)
-            {
-                var card = Instantiate(_emptyButtonPref, _selected);
-                _emptyCards.Add(card);
-            }
         }
 
         public void SelectCharacter(CharacterCard card)
@@ -70,29 +62,32 @@ namespace OrderElimination
                 _amountAvailable -= card.Cost;
                 card.transform.SetParent(_selected);
                 _selectedCharacters.Add(card.Character);
+                _unselectedCharacters.Remove(card.Character);
                 card.transform.SetSiblingIndex(_selectedCharacters.Count - 1);
-                _emptyCards[_selectedCharacters.Count - 1].SetActive(false);
                 card.Select();
             }
             else if (card._isSelected)
             {
                 _amountAvailable += card.Cost;
                 card.transform.SetParent(_notSelected);
+                _unselectedCharacters.Add(card.Character);
                 _selectedCharacters.Remove(card.Character);
-                _emptyCards[_selectedCharacters.Count].SetActive(true);
                 card.Select();
             }
 
-            _amountTextUI.text = _amountAvailable.ToString() + "$";
+            if(_amountTextUI != null)
+                _amountTextUI.text = _amountAvailable.ToString() + "$";
         }
 
         public void UpdateCharacterInfo(List<Character> characters)
         {
             _characters = characters;
+            _unselectedCharacters = characters;
         }
 
         public override void Close()
         {
+            OnSelected?.Invoke(_unselectedCharacters);
             transform.DOMoveX(UIController.StartPosition, 0.1f).OnStepComplete(() => base.Close());
         }
 

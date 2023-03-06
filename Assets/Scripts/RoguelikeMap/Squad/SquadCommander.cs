@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using RoguelikeMap;
 using UIManagement;
@@ -14,6 +16,7 @@ namespace OrderElimination
         private Squad _squad;
         public Point Target => _target;
         public Squad Squad => _squad;
+        public event Action<List<Character>> OnSelected;
 
         [Inject]
         public SquadCommander(IObjectResolver objectResolver, DialogWindow window)
@@ -27,6 +30,12 @@ namespace OrderElimination
             _squad = squad;
             _target = target;
         }
+        
+        private void SubscribeToEvents()
+        {
+            ((ChooseCharacterScreen)UIController.SceneInstance
+                .OpenPanel(PanelType.SquadMembers, WindowFormat.FullScreen)).OnSelected += OnSelected.Invoke;
+        }
 
         public void ShowBattleImage(DialogWindowData data)
         {
@@ -39,7 +48,7 @@ namespace OrderElimination
         {
             _window.SetData(data);
             _window.PlayAnimation();
-            ((EventPanel)UIController.SceneInstance.OpenPanel(PanelType.Event, WindowFormat.Half)).UpdateEventInfo();
+            ((EventPanel)UIController.SceneInstance.OpenPanel(PanelType.Event, WindowFormat.Small)).UpdateEventInfo();
         }
 
         public void ShowShopImage(DialogWindowData data)
@@ -53,7 +62,7 @@ namespace OrderElimination
         {
             _window.SetData(data);
             _window.PlayAnimation();
-            ((SafeZonePanel)UIController.SceneInstance.OpenPanel(PanelType.SafeZone, WindowFormat.Half)).UpdateSafeZoneInfo();
+            ((SafeZonePanel)UIController.SceneInstance.OpenPanel(PanelType.SafeZone, WindowFormat.Small)).UpdateSafeZoneInfo();
         }
 
         public void ShowSquadMembers()

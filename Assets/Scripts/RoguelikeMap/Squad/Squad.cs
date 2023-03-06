@@ -23,7 +23,6 @@ namespace OrderElimination
         private SquadView _view;
         private SquadPresenter _presenter;
         private SquadCommander _commander;
-        private HoldableButton _buttonOnOrderPanel;
         private CharactersMediator _charactersMediator;
         public event Action<Squad> OnSelected;
         public Point Point => _presenter.Point;
@@ -35,6 +34,7 @@ namespace OrderElimination
         {
             _charactersMediator = charactersMediator;
             _commander = commander;
+            _commander.OnSelected += SetSquadMembers;
         }
 
         private void Awake()
@@ -44,9 +44,6 @@ namespace OrderElimination
             _presenter = new SquadPresenter(_model, _view, null);
             _proccesClick.Clicked += Select;
             _proccesClick.Holded += _commander.ShowSquadMembers;
-            _view.onEndAnimation += SetSquadCommander;
-            SavesMenu.ExitSavesWindow += SetActiveButtonOnOrderPanel;
-            Settings.ExitSettingsWindow += SetActiveButtonOnOrderPanel;
         }
 
         private void Start()
@@ -60,9 +57,9 @@ namespace OrderElimination
             _model.Move(point);
         }
 
-        private void SetSquadCommander()
+        private void SetSquadMembers(List<Character> squadMembers)
         {
-            _commander.Set(this, Point);
+            _testSquadMembers = squadMembers;
         }
 
         public void StartAttack() => _commander.StartAttack();
@@ -98,11 +95,6 @@ namespace OrderElimination
             _presenter.UpdatePlanetPoint(point);
         }
 
-        public void SetActiveButtonOnOrderPanel(bool isActive)
-        {
-            _buttonOnOrderPanel.gameObject.SetActive(isActive);
-        }
-
         public void Select()
         {
             Debug.Log("Squad selected");
@@ -122,9 +114,6 @@ namespace OrderElimination
             _presenter.Unsubscribe();
             _proccesClick.Clicked -= Select;
             _proccesClick.Holded -= _commander.ShowSquadMembers;
-            _view.onEndAnimation -= SetSquadCommander;
-            SavesMenu.ExitSavesWindow -= SetActiveButtonOnOrderPanel;
-            Settings.ExitSettingsWindow -= SetActiveButtonOnOrderPanel;
         }
     }
 }
