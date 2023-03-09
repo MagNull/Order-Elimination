@@ -33,7 +33,7 @@ namespace OrderElimination
         
         private void SubscribeToEvents()
         {
-            ((ChooseCharacterScreen)UIController.SceneInstance
+            ((ChoosingCharacter)UIController.SceneInstance
                 .OpenPanel(PanelType.SquadMembers, WindowFormat.FullScreen)).OnSelected += OnSelected.Invoke;
         }
 
@@ -67,7 +67,7 @@ namespace OrderElimination
 
         public void ShowSquadMembers()
         {
-            ((ChooseCharacterScreen)UIController.SceneInstance
+            ((ChoosingCharacter)UIController.SceneInstance
                 .OpenPanel(PanelType.SquadMembers, WindowFormat.FullScreen))
                 .UpdateCharacterInfo(_squad.Members);
         }

@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace OrderElimination
 {
-    public class ChooseCharacterScreen : UIPanel
+    public class ChoosingCharacter : UIPanel
     {
         [SerializeField]
         private Transform _selected;
@@ -22,9 +22,10 @@ namespace OrderElimination
         [SerializeField]
         private int _amountAvailable = 1000;
         [SerializeField] 
-        private int _countOfCharacters = 2;
-        [SerializeField] 
-        private Text _amountTextUI;
+        private MoneyCounter _uiCounter;
+
+        private Wallet _wallet;
+        
         [SerializeField] 
         private List<Character> _characters;
 
@@ -37,14 +38,17 @@ namespace OrderElimination
         private void Start()
         {
             CreatePanel();
+            _unselectedCharacters = _characters;
         }
         
         public void CreatePanel()
         {
+            _wallet = new Wallet(0);
+            _uiCounter?.Initialize(_wallet);
+            _wallet.AddMoney(_amountAvailable);
+
             _selectedCharacters = new List<Character>();
-            if(_amountTextUI != null)
-                _amountTextUI.text = _amountAvailable.ToString() + "$";
-            
+
             foreach (var info in _characters)
             {
                 var characterCard = Instantiate(_characterButtonPref, _notSelected);
@@ -57,9 +61,9 @@ namespace OrderElimination
 
         public void SelectCharacter(CharacterCard card)
         {
-            if (!card._isSelected && _amountAvailable - card.Cost >= 0)
+            if (!card._isSelected && _wallet.Money - card.Cost >= 0)
             {
-                _amountAvailable -= card.Cost;
+                _wallet.SubtractMoney(card.Cost);
                 card.transform.SetParent(_selected);
                 _selectedCharacters.Add(card.Character);
                 _unselectedCharacters.Remove(card.Character);
@@ -68,15 +72,12 @@ namespace OrderElimination
             }
             else if (card._isSelected)
             {
-                _amountAvailable += card.Cost;
+                _wallet.AddMoney(card.Cost);
                 card.transform.SetParent(_notSelected);
                 _unselectedCharacters.Add(card.Character);
                 _selectedCharacters.Remove(card.Character);
                 card.Select();
             }
-
-            if(_amountTextUI != null)
-                _amountTextUI.text = _amountAvailable.ToString() + "$";
         }
 
         public void UpdateCharacterInfo(List<Character> characters)
