@@ -51,6 +51,11 @@ namespace OrderElimination
                 Upgrade();
         }
 
+        public void Heal(int healStat)
+        {
+            _battleStats.Health += healStat;
+        }
+
         public void Upgrade()
         {
             var battleStats = new BattleStats(_battleStats)

@@ -6,7 +6,9 @@ namespace OrderElimination
 {
     public class SquadModel
     {
-        private readonly List<Character> _members;
+        private const int HealStat = 10;
+        
+        private List<Character> _members;
         private int _rang;
         public int AmountOfMembers => _members.Count;
         public IReadOnlyList<Character> Members => _members;
@@ -38,11 +40,24 @@ namespace OrderElimination
             _members.Remove(member);
         }
 
-        public void DistributeExpirience(float expirience)
+        public void DistributeExperience(float expirience)
         {
             foreach (var character in _members)
             {
                 character.RaiseExperience(expirience / AmountOfMembers);
+            }
+        }
+
+        public void SetSquadMembers(List<Character> characters)
+        {
+            _members = characters;
+        }
+
+        public void HealCharacters()
+        {
+            foreach (var character in _members)
+            {
+                character.Heal(HealStat);
             }
         }
 

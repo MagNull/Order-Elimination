@@ -16,5 +16,16 @@ namespace UIManagement.Panels
         {
             transform.DOMoveX(UIController.StartPosition, 0.1f).OnStepComplete(() => base.Close());
         }
+
+        //TODO(coder): add loot to player inventory after create inventory system
+        public void Accept()
+        {
+            Close();
+        }
+
+        public void Decline()
+        {
+            Close();
+        }
     }
 }

@@ -848,7 +848,7 @@ GameObject:
   - component: {fileID: 239068714}
   - component: {fileID: 239068713}
   m_Layer: 5
-  m_Name: Accept
+  m_Name: HealAccept
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -918,7 +918,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 239068714}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 494566267}
+        m_TargetAssemblyTypeName: UIManagement.Panels.SafeZonePanel, Assembly-CSharp
+        m_MethodName: HealAccept
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &239068714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1072,7 +1084,7 @@ GameObject:
   - component: {fileID: 388307784}
   - component: {fileID: 388307783}
   m_Layer: 5
-  m_Name: Decline
+  m_Name: LootAccept
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1142,7 +1154,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 388307784}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 494566267}
+        m_TargetAssemblyTypeName: UIManagement.Panels.SafeZonePanel, Assembly-CSharp
+        m_MethodName: LootAccept
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &388307784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1325,7 +1349,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 448776613}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1818880669}
+        m_TargetAssemblyTypeName: UIManagement.Panels.EventPanel, Assembly-CSharp
+        m_MethodName: OnDecline
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &448776613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5550,7 +5586,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1736324793}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1818880669}
+        m_TargetAssemblyTypeName: UIManagement.Panels.EventPanel, Assembly-CSharp
+        m_MethodName: OnAccept
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1736324793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14596,6 +14644,10 @@ PrefabInstance:
     - target: {fileID: 2127218931880665109, guid: 3abd2cbaa0d13fd42aab551ef5e34a11, type: 3}
       propertyPath: m_Name
       value: ShopPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2127218931880665109, guid: 3abd2cbaa0d13fd42aab551ef5e34a11, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2127218931880665110, guid: 3abd2cbaa0d13fd42aab551ef5e34a11, type: 3}
       propertyPath: m_Pivot.x

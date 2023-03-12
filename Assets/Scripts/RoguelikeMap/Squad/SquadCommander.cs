@@ -17,6 +17,7 @@ namespace OrderElimination
         public Point Target => _target;
         public Squad Squad => _squad;
         public event Action<List<Character>> OnSelected;
+        public event Action OnHealAccept;
 
         [Inject]
         public SquadCommander(IObjectResolver objectResolver, DialogWindow window)
@@ -35,6 +36,8 @@ namespace OrderElimination
         {
             ((ChoosingCharacter)UIController.SceneInstance
                 .OpenPanel(PanelType.SquadMembers, WindowFormat.FullScreen)).OnSelected += OnSelected.Invoke;
+            ((SafeZonePanel)UIController.SceneInstance
+                .OpenPanel(PanelType.SafeZone, WindowFormat.FullScreen)).OnHealAccept += OnHealAccept.Invoke;
         }
 
         public void ShowBattleImage(DialogWindowData data)

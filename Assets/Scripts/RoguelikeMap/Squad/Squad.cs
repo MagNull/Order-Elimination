@@ -35,6 +35,7 @@ namespace OrderElimination
             _charactersMediator = charactersMediator;
             _commander = commander;
             _commander.OnSelected += SetSquadMembers;
+            _commander.OnHealAccept += HealCharacters;
         }
 
         private void Awake()
@@ -57,8 +58,11 @@ namespace OrderElimination
             _model.Move(point);
         }
 
+        private void HealCharacters() => _model.HealCharacters();
+
         private void SetSquadMembers(List<Character> squadMembers)
         {
+            _model.SetSquadMembers(squadMembers);
             _testSquadMembers = squadMembers;
         }
 
@@ -102,7 +106,7 @@ namespace OrderElimination
             _model.Select();
         }
 
-        public void DistributeExperience(float expirience) => _model.DistributeExpirience(expirience);
+        public void DistributeExperience(float expirience) => _model.DistributeExperience(expirience);
 
         private void OnEnable()
         {
