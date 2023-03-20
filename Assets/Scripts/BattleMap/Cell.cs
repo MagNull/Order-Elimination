@@ -5,9 +5,12 @@ using UnityEngine;
 using OrderElimination.BM;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using OrderElimination.AbilitySystem;
 
-public class Cell
+public class Cell : IActionTarget
 {
+    public IBattleEntity[] GetContainingEntities() => throw new NotImplementedException();
+
     private IBattleObject _object;
 
     public Cell()
