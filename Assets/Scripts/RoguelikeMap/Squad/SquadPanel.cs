@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using OrderElimination;
 using UnityEngine;
+using UnityEngine.UI;
+using VContainer;
 
 public class SquadPanel : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] 
+    private Image _iconPrefab;
+    [Inject]
+    public void Squad(Squad squad)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        foreach (var character in squad.Members)
+        {
+            var inst = Instantiate(_iconPrefab, transform);
+            inst.sprite = character.GetViewIcon();
+        }           
     }
 }
