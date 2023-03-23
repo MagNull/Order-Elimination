@@ -19,6 +19,7 @@ namespace OrderElimination.AbilitySystem
         public static bool IsStackable { get; }
         public EffectCharacter EffectCharacter { get; }
         public IBattleAction[] ActionsOnApply { get; }
+        public IBattleAction[] ActionsOnRemove { get; }
 
         public event Action<IEffect> Removed;//Destroyed Disposed Finished
     }
@@ -53,17 +54,28 @@ namespace OrderElimination.AbilitySystem
         public IBattleAction[] ActionsPerTick { get; }
     }
 
-    public class DamageReduceEffectTest
-    {
-        public List<ITickEffect> Effects;
+    //public class DamageReduceEffectTest
+    //{
+    //    public List<ITickEffect> Effects;
 
-        public IIncomingActionProcessingEffect<TAction>[] GetProcessingEffects<TAction>()
-            where TAction : IBattleAction
-        {
-            return Effects
-                .Select(e => e as IIncomingActionProcessingEffect<TAction>)
-                .Where(e => e != null)
-                .ToArray();
-        }
+    //    public IIncomingActionProcessingEffect<TAction>[] GetProcessingEffects<TAction>()
+    //        where TAction : IBattleAction
+    //    {
+    //        return Effects
+    //            .Select(e => e as IIncomingActionProcessingEffect<TAction>)
+    //            .Where(e => e != null)
+    //            .ToArray();
+    //    }
+    //}
+
+    //Неудобно. Невозможно будет отделить эффекты, обрабатывающие одинаковые типы данных. Н: шанс попадания(float) и шанс наложения эффекта(float)
+    public interface IncomingProcessingEffect<T> : IEffect
+    {
+        public T ProcessIncomingValue(T value);
+    }
+
+    public interface OutcomingProcessingEffect<T> : IEffect
+    {
+        public T ProcessOutcomingValue(T value);
     }
 }

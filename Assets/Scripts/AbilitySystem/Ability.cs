@@ -12,24 +12,24 @@ namespace OrderElimination.AbilitySystem
     //    AbilityModel Model;
     //}
 
-	public class Ability
-	{
-		public ICommonCondition[] AvailabilityConditions;
-		public ICellCondition[] CellConditions;
-		public ICellPattern Pattern;
-		// Действия по зонам(паттерну) способности
-		//Изменить на список Группа-Действия ?
-		public ActionInstruction[] ActionInstructions;
-        public ActionInstruction[] OnHitInstructions;
+    public class Ability
+    {
+        public ICommonCondition[] AvailabilityConditions;
+        public ICellCondition[] CellConditions;
+        public ICellPattern Pattern;
+        // Действия по зонам(паттерну) способности
+        //Изменить на список Группа-Действия ?
+        public ActionInstruction<Cell>[] CellActionInstructions;
+        public ActionInstruction<IBattleEntity>[] EntityActionInstructions;
 
-		public bool StartCast(IBattleContext battleContext, IAbilityUseContext useContext)
+        public bool StartCast(IBattleContext battleContext, IAbilityUseContext useContext)
         {
-			//if (!AvailabilityConditions.Any(c => c.IsConditionMet(battleContext, useContext.AbilityCaster)))
-			//	return false;
-   //         var availableCells = new List<Cell>();
-			//foreach (var cell in battleContext.BattleMapCells)
-			//	if (CellConditions.All(c => c.IsConditionMet(battleContext, useContext.AbilityCaster)))
-			//		availableCells.Add(cell);
+            //if (!AvailabilityConditions.Any(c => c.IsConditionMet(battleContext, useContext.AbilityCaster)))
+            //	return false;
+            //         var availableCells = new List<Cell>();
+            //foreach (var cell in battleContext.BattleMapCells)
+            //	if (CellConditions.All(c => c.IsConditionMet(battleContext, useContext.AbilityCaster)))
+            //		availableCells.Add(cell);
 
 
             //SelectionSystem.StartSelection(this.abilitySelectionSystem)
@@ -73,34 +73,53 @@ namespace OrderElimination.AbilitySystem
         }
 
         public void Use(IAbilityUseContext abilityUseContext)
-		{
-            foreach (var instruction in ActionInstructions) 
+        {
+            var actionUseContext = new ActionUseContext(abilityUseContext.BattleContext);
+            var entityActions = new Dictionary<IBattleEntity, List<IBattleAction<IBattleEntity>>>();
+
+            foreach (var instruction in CellActionInstructions)
+            {
+                foreach (var cell in instruction.TargetGroupsFilter.GetFilteredCells(abilityUseContext.TargetedCellGroups))
+                {
+                    //TODO Check Cell Conditions
+                    //TODO Подписать последующие Actions
+                    instruction.Action.Perform(actionUseContext, abilityUseContext.AbilityCaster, cell);
+                }
+            }
+
+            foreach (var instruction in EntityActionInstructions)
             {
                 //Cells that current instruction will run on
                 foreach (var cell in instruction.TargetGroupsFilter.GetFilteredCells(abilityUseContext.TargetedCellGroups))
                 {
-                    
-                    if (instruction.Action is ICellBattleAction)
+                    foreach (var entity in cell.GetContainingEntities())
                     {
-                        var actionUseContext =
-                            new ActionUseContext(abilityUseContext.BattleContext, abilityUseContext.AbilityCaster, cell);
-                        instruction.Action.Perform(abilityUseContext.BattleContext, actionUseContext);
+                        //TODO Check Entity Conditions
+                        //TODO Подписать последующие Actions
+                        if (!entityActions.ContainsKey(entity))
+                            entityActions.Add(entity, new List<IBattleAction<IBattleEntity>>());
+                        entityActions[entity]?.Add(instruction.Action);
+                        instruction.Action.Perform(actionUseContext, abilityUseContext.AbilityCaster, entity);
                     }
-                    //if action is CellAction
-                    //...
-                    //if action is EntityAction
-                    //...
-
-                    //if (instruction.Action.IsTargetAcceptable(cell))
-                    //    instruction.Action.Perform()
-
-                    //Действия с клеткой
-                    //Действия с нужными сущностями
-                    //Подписка ActionsOnSuccess
                 }
             }
-		}
-	}
+        }
+
+        public void HandleEntityInstruction(ActionInstruction<IBattleEntity> instruction)
+        {
+
+        }
+
+        public void HandleCellInstruction(ActionInstruction<IBattleEntity> instruction)
+        {
+            foreach (var cell in instruction.TargetGroupsFilter.GetFilteredCells(abilityUseContext.TargetedCellGroups))
+            {
+                //TODO Check Cell Conditions
+                //TODO Подписать последующие Actions
+                instruction.Action.Perform(actionUseContext, abilityUseContext.AbilityCaster, cell);
+            }
+        }
+    }
     public interface IAbilityUseContext
     {
         IBattleContext BattleContext { get; }
