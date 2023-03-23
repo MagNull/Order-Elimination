@@ -35,7 +35,7 @@ RectTransform:
   - {fileID: 6705566542170166825}
   - {fileID: 6830794070722728753}
   - {fileID: 1319873960128926270}
-  - {fileID: 3039626159979736896}
+  - {fileID: 3572407001205583024}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -94,10 +94,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dbb5cd6d62aaeb4499c3e2019249794, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pagePrefab: {fileID: 6163828617211476824, guid: 45445fd7aea88de47a08e4d475e8612f, type: 3}
   _counter: {fileID: 6830794070722728756}
-  _buttonPrefab: {fileID: 7651190416510816292, guid: d0783cfed6812054f97c6d57fab76517, type: 3}
-  _buttonsTransform: {fileID: 3039626159979736896}
+  _itemPrefab: {fileID: 3129909414553003332, guid: 5fb29bf846863b1409d39dcdca86a1f2, type: 3}
+  _shopList: {fileID: 3572407001205583024}
 --- !u!1 &2419781058448347669
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,7 +290,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &2668228344911696903
+--- !u!1 &5884610151715661671
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -299,22 +298,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3039626159979736896}
-  - component: {fileID: 3290938399590744457}
+  - component: {fileID: 3572407001205583024}
+  - component: {fileID: 3899765358132214316}
   m_Layer: 5
-  m_Name: Buttons
+  m_Name: ShopList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &3039626159979736896
+--- !u!224 &3572407001205583024
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2668228344911696903}
+  m_GameObject: {fileID: 5884610151715661671}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -325,35 +324,33 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -380, y: -382.97}
-  m_SizeDelta: {x: 860, y: -114.06}
+  m_AnchoredPosition: {x: 107.8094, y: -3.267}
+  m_SizeDelta: {x: 707.6531, y: 583.5089}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3290938399590744457
+--- !u!114 &3899765358132214316
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2668228344911696903}
+  m_GameObject: {fileID: 5884610151715661671}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 10
-    m_Right: 10
-    m_Top: 10
-    m_Bottom: 10
+    m_Left: 100
+    m_Right: 100
+    m_Top: 100
+    m_Bottom: 100
   m_ChildAlignment: 4
-  m_Spacing: 20
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 100, y: 100}
+  m_Spacing: {x: 100, y: 100}
+  m_Constraint: 0
+  m_ConstraintCount: 2
 --- !u!1 &8312277880519600654
 GameObject:
   m_ObjectHideFlags: 0
