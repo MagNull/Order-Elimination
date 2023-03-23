@@ -20,8 +20,8 @@ public class ShopPage : MonoBehaviour
         item.Initialize(ability);
     }
 
-    public void ChangeVisibility()
+    public void ChangeVisibility(bool status)
     {
-        gameObject.SetActive(!gameObject.activeInHierarchy);
+        gameObject.SetActive(status);
     }
 }

@@ -3845,6 +3845,8 @@ MonoBehaviour:
   autoRun: 1
   autoInjectGameObjects:
   - {fileID: 1570969711}
+  - {fileID: 1228976352}
+  _startMoney: 1000
   _charactersMediatorPrefab: {fileID: 1422321889289218424, guid: 92d0a280c590cac489aa4d276cc5be93, type: 3}
   _pathPrefab: {fileID: 7843405887477132991, guid: fe7a2fb0c4301934a95ede2e72ce1426, type: 3}
   _pointsParent: {fileID: 1441368203}
@@ -4378,6 +4380,11 @@ MonoBehaviour:
   _titleText: {fileID: 498797284}
   _closingButton: {fileID: 0}
   _isClosingByClickingOutside: 1
+--- !u!1 &1228976352 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2127218931880665109, guid: 3abd2cbaa0d13fd42aab551ef5e34a11, type: 3}
+  m_PrefabInstance: {fileID: 2127218932351785556}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1237674241
 GameObject:
   m_ObjectHideFlags: 0
@@ -14641,10 +14648,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 374548717}
     m_Modifications:
-    - target: {fileID: 755888425, guid: 3abd2cbaa0d13fd42aab551ef5e34a11, type: 3}
-      propertyPath: _buttonPrefab
-      value: 
-      objectReference: {fileID: 7651190416510816292, guid: d0783cfed6812054f97c6d57fab76517, type: 3}
     - target: {fileID: 2127218931880665109, guid: 3abd2cbaa0d13fd42aab551ef5e34a11, type: 3}
       propertyPath: m_Name
       value: ShopPanel
@@ -14735,6 +14738,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2127218931880665110, guid: 3abd2cbaa0d13fd42aab551ef5e34a11, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570573612362908341, guid: 3abd2cbaa0d13fd42aab551ef5e34a11, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570573612362908341, guid: 3abd2cbaa0d13fd42aab551ef5e34a11, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570573612362908341, guid: 3abd2cbaa0d13fd42aab551ef5e34a11, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4570573612362908341, guid: 3abd2cbaa0d13fd42aab551ef5e34a11, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
