@@ -70,6 +70,7 @@ namespace OrderElimination
 
         public void ShowSquadMembers()
         {
+            
             ((ChoosingCharacter)UIController.SceneInstance
                 .OpenPanel(PanelType.SquadMembers, WindowFormat.FullScreen))
                 .UpdateCharacterInfo(_squad.Members);

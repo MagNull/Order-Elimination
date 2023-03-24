@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using RoguelikeMap;
 
 namespace OrderElimination
 {
@@ -16,6 +17,7 @@ namespace OrderElimination
 
         public Button Button => _button;
 
+        private HealthBar _healthBar;
         [SerializeField] 
         private Image _cardImage;
         [SerializeField]
@@ -32,8 +34,12 @@ namespace OrderElimination
             _character = character;
             _cost = cost;
             _cardImage.sprite = character.GetViewAvatar();
-            _cardName.text = character.GetName();
-            _cardCost.text = cost.ToString() + "$";
+            _healthBar = GetComponentInChildren<HealthBar>();
+            _healthBar?.SetMaxHealth(character.GetBattleStats().UnmodifiedHealth);
+            if(_cardName is not null)
+                _cardName.text = character.GetName();
+            if(_cardCost is not null)
+                _cardCost.text = cost.ToString() + "$";
             _button.onClick = new Button.ButtonClickedEvent();
         }
 
