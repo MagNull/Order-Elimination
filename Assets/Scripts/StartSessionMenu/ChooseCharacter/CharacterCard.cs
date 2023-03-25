@@ -21,7 +21,7 @@ namespace OrderElimination
         [SerializeField] 
         private Image _cardImage;
         [SerializeField]
-        private Text _cardName;
+        private Image _costImage;
         [SerializeField]
         private Text _cardCost;
         [SerializeField] 
@@ -36,8 +36,6 @@ namespace OrderElimination
             _cardImage.sprite = character.GetViewAvatar();
             _healthBar = GetComponentInChildren<HealthBar>();
             _healthBar?.SetMaxHealth(character.GetBattleStats().UnmodifiedHealth);
-            if(_cardName is not null)
-                _cardName.text = character.GetName();
             if(_cardCost is not null)
                 _cardCost.text = cost.ToString() + "$";
             _button.onClick = new Button.ButtonClickedEvent();
@@ -46,7 +44,7 @@ namespace OrderElimination
         public void Select()
         {
             _isSelected = !_isSelected;
-            _cardCost.gameObject.SetActive(!_isSelected);
+            _costImage.gameObject.SetActive(!_isSelected);
         }
     }   
 }
