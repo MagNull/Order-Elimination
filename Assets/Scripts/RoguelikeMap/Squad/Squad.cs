@@ -6,8 +6,8 @@ using RoguelikeMap;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
+using UnityEngine.UI;
 using VContainer;
-using UIManagement.Elements;
 
 namespace OrderElimination
 {
@@ -18,7 +18,9 @@ namespace OrderElimination
         private List<Character> _testSquadMembers;
         [SerializeField]
         private SquadButtonTouchRace _proccesClick;
-        private SquadInfo _squadInfo; 
+        [SerializeField]
+        private Button _squadButton;
+        private SquadInfo _squadInfo;
         private SquadModel _model;
         private SquadView _view;
         private SquadPresenter _presenter;
@@ -45,6 +47,7 @@ namespace OrderElimination
             _presenter = new SquadPresenter(_model, _view, null);
             _proccesClick.Clicked += Select;
             _proccesClick.Holded += _commander.ShowSquadMembers;
+            _squadButton.onClick.AddListener(() => _commander.ShowSquadMembers());
         }
 
         private void Start()
