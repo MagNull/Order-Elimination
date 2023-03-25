@@ -79,5 +79,11 @@ namespace RoguelikeMap
 
             return nearestPoint;
         }
+
+        public void ReloadMap()
+        {
+            PlayerPrefs.DeleteKey(SquadPositionPrefPath);
+            SetSquadPosition();
+        }
     }
 }

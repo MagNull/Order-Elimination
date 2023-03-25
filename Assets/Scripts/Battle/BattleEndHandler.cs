@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UIManagement;
@@ -7,6 +8,7 @@ using VContainer;
 using UIManagement.trashToRemove_Mockups;
 using OrderElimination;
 using System.Linq;
+using RoguelikeMap;
 
 public class BattleEndHandler : MonoBehaviour
 {
@@ -47,8 +49,16 @@ public class BattleEndHandler : MonoBehaviour
         {
             var panel = (BattleDefeatPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleDefeat);
             panel.UpdateBattleResult(battleResultInfo);
-            panel.LastContinueButtonPressed -= _sceneTransition.LoadRoguelikeMap;
-            panel.LastContinueButtonPressed += _sceneTransition.LoadRoguelikeMap;
+            var action = new Action(() =>((ChoosingCharacter)UIController.SceneInstance
+                    .OpenPanel(PanelType.SquadMembers, WindowFormat.FullScreen))
+                .UpdateCharacterInfo(allies.ToList(), true));
+            panel.LastContinueButtonPressed -= action;
+            panel.LastContinueButtonPressed += action;
         }
+    }
+
+    public void ReloadGame()
+    {
+        _sceneTransition.LoadBattleMap();
     }
 }
