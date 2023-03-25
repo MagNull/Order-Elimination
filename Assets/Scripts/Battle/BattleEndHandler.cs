@@ -40,15 +40,15 @@ public class BattleEndHandler : MonoBehaviour
         {
             var panel = (BattleVictoryPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleVictory);
             panel.UpdateBattleResult(battleResultInfo);
-            panel.LastContinueButtonPressed -= _sceneTransition.LoadStrategyMap;
-            panel.LastContinueButtonPressed += _sceneTransition.LoadStrategyMap;
+            panel.LastContinueButtonPressed -= _sceneTransition.LoadRoguelikeMap;
+            panel.LastContinueButtonPressed += _sceneTransition.LoadRoguelikeMap;
         }
         else
         {
             var panel = (BattleDefeatPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleDefeat);
             panel.UpdateBattleResult(battleResultInfo);
-            panel.LastContinueButtonPressed -= _sceneTransition.LoadBattleMap;
-            panel.LastContinueButtonPressed += _sceneTransition.LoadBattleMap;
+            panel.LastContinueButtonPressed -= _sceneTransition.LoadRoguelikeMap;
+            panel.LastContinueButtonPressed += _sceneTransition.LoadRoguelikeMap;
         }
     }
 }
