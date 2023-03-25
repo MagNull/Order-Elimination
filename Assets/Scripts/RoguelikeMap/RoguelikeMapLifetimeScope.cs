@@ -20,8 +20,6 @@ namespace RoguelikeMap
         private Transform _pointsParent;
         [SerializeField] 
         private DialogWindow _dialogWindow;
-        // [SerializeField] 
-        // private Information _playerInformation;
         [SerializeField]
         private Squad _squad;
 

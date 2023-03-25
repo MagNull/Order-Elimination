@@ -72,7 +72,7 @@ namespace UIManagement.trashToRemove_Mockups
             {PanelType.CharacterUpgradable, "Информация о бойце"},
             {PanelType.Shop, "Торговец"},
             {PanelType.Event, "Событие"},
-            { PanelType.SquadMembers, "Список бойцов отряда" },
+            { PanelType.SquadMembers, "Выбор бойцов отряда" },
         };
         private Dictionary<ValueUnits, string> _unitNames
             = new Dictionary<ValueUnits, string>()

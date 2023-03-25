@@ -71,6 +71,8 @@ namespace OrderElimination
 
         public void StartAttack() => _commander.StartAttack();
 
+        public void ShowSquadMembers() => _commander.ShowSquadMembers();
+
         public void VisitSafeZonePoint(Point point, DialogWindowData data)
         {
             SetPoint(point);

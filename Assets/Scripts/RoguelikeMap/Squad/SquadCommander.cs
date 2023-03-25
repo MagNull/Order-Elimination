@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using RoguelikeMap;
+using RoguelikeMap.Point;
 using UIManagement;
 using UIManagement.Panels;
+using UnityEngine;
 using VContainer;
 
 namespace OrderElimination
@@ -70,14 +72,14 @@ namespace OrderElimination
 
         public void ShowSquadMembers()
         {
-            
             ((ChoosingCharacter)UIController.SceneInstance
                 .OpenPanel(PanelType.SquadMembers, WindowFormat.FullScreen))
-                .UpdateCharacterInfo(_squad.Members);
+                .UpdateCharacterInfo(_squad.Members, _target is BattlePoint);
         }
 
         public void StartAttack()
         {
+            SaveSquadPosition();
             var battleStatsList = _squad.Members.Cast<IBattleCharacterInfo>().ToList();
             var charactersMediator = _objectResolver.Resolve<CharactersMediator>();
             charactersMediator.SetSquad(battleStatsList);
@@ -86,6 +88,11 @@ namespace OrderElimination
             charactersMediator.PointInfo = _target.PointInfo;
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();
+        }
+
+        private void SaveSquadPosition()
+        {
+            PlayerPrefs.SetString(Map.SquadPositionPrefPath, _squad.transform.position.ToString());
         }
     }
 }

@@ -9,7 +9,7 @@ namespace RoguelikeMap
 {
     public class Map : MonoBehaviour
     {
-        public string SquadPositionPrefPath = $"{SaveIndex}/Squad/Position";
+        public static string SquadPositionPrefPath = $"{SaveIndex}/Squad/Position";
         
         public List<OrderElimination.Point> _points;
         private IMapGenerator _mapGenerator;

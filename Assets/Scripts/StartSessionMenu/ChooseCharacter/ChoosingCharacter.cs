@@ -16,6 +16,8 @@ namespace OrderElimination
         private Transform _selected;
         [SerializeField]
         private Transform _notSelected;
+        [SerializeField] 
+        private Button _startAttackButton;
 
         [SerializeField]
         private GameObject _characterButtonPref;
@@ -23,7 +25,7 @@ namespace OrderElimination
         private int _amountAvailable = 1000;
         [SerializeField] 
         private MoneyCounter _uiCounter;
-
+        
         private Wallet _wallet;
         
         [SerializeField] 
@@ -80,10 +82,11 @@ namespace OrderElimination
             }
         }
 
-        public void UpdateCharacterInfo(List<Character> characters)
+        public void UpdateCharacterInfo(List<Character> characters, bool isInteractableAttackButton = false)
         {
             _characters = characters;
             _unselectedCharacters = characters;
+            _startAttackButton.interactable = isInteractableAttackButton;
         }
 
         public override void Close()
