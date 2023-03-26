@@ -13,7 +13,8 @@ namespace OrderElimination
         public float EndUpgradeWidthPart = 0.9f;
         public float AnimationTime = 0.5f;
         public float ShiftPart = 50f;
-        public float PercentInPart = 5;
+        public int PercentInPart = 5;
+        private int MaxProgressCount = 6;
         
         [SerializeField]
         private List<Image> _progressBar;
@@ -28,8 +29,7 @@ namespace OrderElimination
 
         private int StartCostOfUpgrade = 200;
         public int CostOfUpgrade { get; private set; } = 200;
-        private int MaxProgressCount = 6;
-        private int _progressCount = 0;
+        public int ProgressCount { get; private set; } = 0;
 
         private void Start()
         {
@@ -46,28 +46,28 @@ namespace OrderElimination
         {
             if (availableMoney < CostOfUpgrade)
                 return false;
-            if (_progressCount == MaxProgressCount)
+            if (ProgressCount == MaxProgressCount)
                 return false;
             CostOfUpgrade += StartCostOfUpgrade;
-            _progressCount++;
+            ProgressCount++;
             VisualUpgrade();
             return true;
         }
 
         private void VisualUpgrade()
         {
-            var firstPart = _progressBar[_progressCount - 1];
+            var firstPart = _progressBar[ProgressCount - 1];
             firstPart.DOColor(Color.black, AnimationTime);
             var firstPartTransform = firstPart.transform;
             firstPartTransform.DOScaleX(StartUpgradeWidthPart, AnimationTime);
             firstPartTransform.DOMoveX(firstPartTransform.position.x - ShiftPart, AnimationTime);
             
-            var secondPartTransform = _progressBar[_progressCount].transform;
+            var secondPartTransform = _progressBar[ProgressCount].transform;
             secondPartTransform.transform.DOScaleX(EndUpgradeWidthPart, AnimationTime);
             secondPartTransform.transform.DOMoveX(secondPartTransform.position.x - ShiftPart, AnimationTime);
             
             _costText.text = $"{CostOfUpgrade}$";
-            _percentText.text = $"{(_progressCount + 1) * PercentInPart}%";
+            _percentText.text = $"{(ProgressCount + 1) * PercentInPart}%";
         }
     }
 }

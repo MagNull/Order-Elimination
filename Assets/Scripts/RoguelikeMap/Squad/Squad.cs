@@ -53,6 +53,9 @@ namespace OrderElimination
         private void Start()
         {
             _testSquadMembers = SquadMediator.CharacterList.ToList();
+            foreach(var member in _testSquadMembers)
+                member.Upgrade(SquadMediator.Stats);
+            SquadMediator.SetStatsCoefficient(new List<int>(){0, 0, 0, 0, 0});
         }
 
         public void Move(Point point)

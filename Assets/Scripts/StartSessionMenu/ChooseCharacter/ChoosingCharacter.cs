@@ -4,8 +4,6 @@ using DG.Tweening;
 using UIManagement;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace OrderElimination
@@ -21,10 +19,10 @@ namespace OrderElimination
 
         [SerializeField]
         private GameObject _characterButtonPref;
-        [SerializeField]
-        private int _amountAvailable = 1000;
         [SerializeField] 
         private MoneyCounter _uiCounter;
+        [SerializeField]
+        private MetaShop _metaShop;
         
         private Wallet _wallet;
         
@@ -42,12 +40,15 @@ namespace OrderElimination
             CreatePanel();
             _unselectedCharacters = _characters;
         }
+
+        public void SetWallet(Wallet wallet)
+        {
+            _wallet = wallet;
+        }
         
         public void CreatePanel()
         {
-            _wallet = new Wallet(0);
             _uiCounter?.Initialize(_wallet);
-            _wallet.AddMoney(_amountAvailable);
 
             _selectedCharacters = new List<Character>();
 
@@ -63,6 +64,9 @@ namespace OrderElimination
 
         public void SelectCharacter(CharacterCard card)
         {
+            // TODO(coder): Подумать как разобраться с заглушкой wallet
+            if (_wallet is null)
+                _wallet = new Wallet(10000);
             if (!card._isSelected && _wallet.Money - card.Cost >= 0)
             {
                 _wallet.SubtractMoney(card.Cost);
@@ -95,13 +99,12 @@ namespace OrderElimination
             transform.DOMoveX(UIController.StartPosition, 0.1f).OnStepComplete(() => base.Close());
         }
 
-        public void LoadGame()
+        public void SaveCharacters()
         {
             if (_selectedCharacters.Count <= 0)
                 return;
             
             SquadMediator.SetCharacters(_selectedCharacters);
-            SceneManager.LoadScene("RougelikeMap");
         }
     }
 }
