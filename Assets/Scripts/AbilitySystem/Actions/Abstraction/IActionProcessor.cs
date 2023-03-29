@@ -13,7 +13,7 @@ namespace OrderElimination.AbilitySystem
         public IEffect[] Effects { get; }
         //public EquipmentItem[] { get; }
 
-        public TAction ProcessOutcomingAction<TAction>(TAction action) where TAction : IBattleAction
+        public TAction ProcessOutcomingAction<TAction>(TAction action) where TAction : BattleAction<TAction>
         {
             var processedAction = action;
             foreach (var effect in GetOutcomingActionProcessingEffects<TAction>())
@@ -29,7 +29,7 @@ namespace OrderElimination.AbilitySystem
             return processedAction;
         }
 
-        public TAction ProcessIncomingAction<TAction>(TAction action) where TAction : IBattleAction
+        public TAction ProcessIncomingAction<TAction>(TAction action) where TAction : BattleAction<TAction>
         {
             var processedAction = action;
             foreach (var effect in GetIncomingActionProcessingEffects<TAction>())
@@ -46,7 +46,7 @@ namespace OrderElimination.AbilitySystem
         }
 
         protected IOutcomingActionProcessingEffect<TAction>[] GetOutcomingActionProcessingEffects<TAction>()
-            where TAction : IBattleAction
+            where TAction : BattleAction<TAction>
         {
             return Effects
                 .Select(e => e as IOutcomingActionProcessingEffect<TAction>)
@@ -55,7 +55,7 @@ namespace OrderElimination.AbilitySystem
         }
 
         protected IIncomingActionProcessingEffect<TAction>[] GetIncomingActionProcessingEffects<TAction>()
-            where TAction : IBattleAction
+            where TAction : BattleAction<TAction>
         {
             return Effects
                 .Select(e => e as IIncomingActionProcessingEffect<TAction>)

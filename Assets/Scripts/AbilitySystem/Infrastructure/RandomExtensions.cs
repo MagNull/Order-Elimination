@@ -8,6 +8,7 @@ namespace OrderElimination.Infrastructure
 {
     //TODO Значение в процентах может быть больше 100%, если его не обрезать.
     //В таком случае нужно убрать исключение для значений больше 1 (>100%).
+    //Аналогично для отрицательных значений.
     public static class RandomExtensions
     {
         /// <summary>

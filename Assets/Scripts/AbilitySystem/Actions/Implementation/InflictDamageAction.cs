@@ -21,11 +21,15 @@ namespace OrderElimination.AbilitySystem
         //public bool IgnoreDeadTargets { get; set; }
 
         //*При вызове Perform IBattleAction уже обработан.
-        public override InflictDamageAction GetModifiedAction(ActionUseContext useContext)
+        public override InflictDamageAction GetModifiedAction(
+            ActionExecutionContext useContext,
+            bool actionMakerProcessing = false,
+            bool targetProcessing = false)
         {
             var modifiedAction = this;
 
-            modifiedAction = useContext.ActionMaker.ActionProcessor.ProcessOutcomingAction(modifiedAction);
+            if (actionMakerProcessing)
+                modifiedAction = useContext.ActionMaker.ActionProcessor.ProcessOutcomingAction(modifiedAction);
 
             var modifiedAccuracy = modifiedAction.Accuracy;
             if (ObjectsAffectAccuracy)
@@ -45,13 +49,14 @@ namespace OrderElimination.AbilitySystem
             }
             modifiedAction.Accuracy = modifiedAccuracy;
 
-            modifiedAction = useContext.ActionTarget.ActionProcessor.ProcessIncomingAction(modifiedAction);
+            if (targetProcessing)
+                modifiedAction = useContext.ActionTarget.ActionProcessor.ProcessIncomingAction(modifiedAction);
             return modifiedAction;
         }
 
-        protected override bool Perform(ActionUseContext useContext)
+        protected override bool Perform(ActionExecutionContext useContext)
         {
-            //Обработка объектов на линии огня
+            //Обработка объектов на линии огня (перенесена в ModifiedPerform)
 
             //Проверка шанса попадания (точность)
             if (RandomExtensions.TryChance(Accuracy.GetValue(useContext)))
@@ -74,12 +79,5 @@ namespace OrderElimination.AbilitySystem
             }
             return false; //miss
         }
-    }
-
-    public class DamageInflictPerformResult : IBattleActionPerformResult<InflictDamageAction>
-    {
-        public InflictDamageAction Action => throw new System.NotImplementedException();
-        public bool IsPerformedSuccessfully => throw new System.NotImplementedException();
-        public DamageInfo DealtDamage => throw new System.NotImplementedException();
     }
 }

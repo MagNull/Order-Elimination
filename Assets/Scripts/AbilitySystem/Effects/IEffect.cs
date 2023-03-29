@@ -17,9 +17,11 @@ namespace OrderElimination.AbilitySystem
     public interface IEffect
     {
         public static bool IsStackable { get; }
-        //public EffectCharacter EffectCharacter { get; }
-        public IBattleAction[] ActionsOnApply { get; }
-        public IBattleAction[] ActionsOnRemove { get; }
+        public static bool UseApplierActionProcessor { get; } //Использовать обработчик, наложившего эффект?
+        public static IBattleAction[] ActionsOnApply { get; }
+        public static IBattleAction[] ActionsOnRemove { get; }
+        public IAbilitySystemActor EffectApplier { get; } 
+        public IAbilitySystemActor EffectHolder { get; }
         //RemovedByTriggers
         public event Action<IEffect> Removed;//Destroyed Disposed Finished
     }
@@ -30,12 +32,12 @@ namespace OrderElimination.AbilitySystem
         public event Action<ITemporaryEffect> EffectEnded;
     }
 
-    public interface IIncomingActionProcessingEffect<TAction> : IEffect where TAction : IBattleAction
+    public interface IIncomingActionProcessingEffect<TAction> : IEffect where TAction : BattleAction<TAction>
     {
         public TAction ProcessIncomingAction(TAction originalAction);
     }
 
-    public interface IOutcomingActionProcessingEffect<TAction> : IEffect where TAction : IBattleAction
+    public interface IOutcomingActionProcessingEffect<TAction> : IEffect where TAction : BattleAction<TAction>
     {
         public TAction ProcessOutcomingAction(TAction originalAction);
     }
@@ -46,19 +48,14 @@ namespace OrderElimination.AbilitySystem
         //Действия обязаны выполняться каждый промежуток ходов, пока активен эффект.
         //Действия должны прекратить выполняться при удалении эффекта.
         public IBattleAction[] ActionsPerTick { get; }
+        public void OnTick(IBattleContext battleContext)
+        {
+            foreach (var action in ActionsPerTick)
+            {
+                var actionMaker = UseApplierActionProcessor ? EffectApplier : null;
+                var actionContext = new ActionExecutionContext(battleContext, actionMaker, EffectHolder);
+                action.ModifiedPerform(actionContext);
+            }
+        }
     }
-
-    //public class DamageReduceEffectTest
-    //{
-    //    public List<ITickEffect> Effects;
-
-    //    public IIncomingActionProcessingEffect<TAction>[] GetProcessingEffects<TAction>()
-    //        where TAction : IBattleAction
-    //    {
-    //        return Effects
-    //            .Select(e => e as IIncomingActionProcessingEffect<TAction>)
-    //            .Where(e => e != null)
-    //            .ToArray();
-    //    }
-    //}
 }

@@ -86,6 +86,21 @@ namespace OrderElimination.Infrastructure
         }
     }
 
+    public class PointRelativePattern
+    {
+        public IEnumerable<Vector2Int> RelativePositions => _relativePositions;
+        private readonly HashSet<Vector2Int> _relativePositions = new HashSet<Vector2Int>();
+
+        public Vector2Int[] GetAbsolutePositions(Vector2Int originPoint)
+        {
+            return _relativePositions.Select(v => originPoint + v).ToArray();
+        }
+
+        public bool AddRelativePosition(Vector2Int offset) => _relativePositions.Add(offset);
+
+        public bool RemoveRelativePosition(Vector2Int offset) => _relativePositions.Remove(offset);
+    }
+
     public static class CellMath
     {
         public static CellIntersection[] GetIntersectionBetween(Vector2Int startPoint, Vector2Int endPoint, bool includeEnd = false, bool includeStart = false)

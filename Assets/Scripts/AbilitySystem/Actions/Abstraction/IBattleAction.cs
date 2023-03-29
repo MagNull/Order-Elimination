@@ -1,24 +1,16 @@
-using OrderElimination.AbilitySystem;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing.Text;
-using System.Linq;
-using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    //public interface IModifiableAction<TAction> where TAction : IBattleAction
-    //{
-    //    public TAction GetModifiedAction(ActionUseContext useContext);
-    //}
-
     [Obsolete("Интерфейс " + nameof(IBattleAction) + " является обобщающим. По возможности используйте BattleAction<TAction>.")]
     public interface IBattleAction
     {
         public event Action<IBattleAction> SuccessfullyPerformed;
         public event Action<IBattleAction> FailedToPerformed;
-        public bool ModifiedPerform(ActionUseContext useContext);
+        public bool ModifiedPerform(
+            ActionExecutionContext useContext, 
+            bool actionMakerProcessing = false,
+            bool targetProcessing = false);
     }
 
     public abstract class BattleAction<TAction> : IBattleAction where TAction : BattleAction<TAction>
@@ -40,17 +32,25 @@ namespace OrderElimination.AbilitySystem
             remove => FailedToPerformed -= value;
         }
 
-        public virtual TAction GetModifiedAction(ActionUseContext useContext)
+        public virtual TAction GetModifiedAction(
+            ActionExecutionContext useContext, 
+            bool actionMakerProcessing = false, 
+            bool targetProcessing = false)
         {
             var modifiedAction = (TAction)this;
-            modifiedAction = useContext.ActionMaker.ActionProcessor.ProcessOutcomingAction(modifiedAction);
-            modifiedAction = useContext.ActionTarget.ActionProcessor.ProcessIncomingAction(modifiedAction);
+            if (actionMakerProcessing)
+                modifiedAction = useContext.ActionMaker?.ActionProcessor.ProcessOutcomingAction(modifiedAction);
+            if (targetProcessing)
+                modifiedAction = useContext.ActionTarget.ActionProcessor.ProcessIncomingAction(modifiedAction);
             return modifiedAction;
         }
 
-        public bool ModifiedPerform(ActionUseContext useContext)
+        public bool ModifiedPerform(
+            ActionExecutionContext useContext, 
+            bool actionMakerProcessing = false, 
+            bool targetProcessing = false)
         {
-            var modifiedAction = GetModifiedAction(useContext);
+            var modifiedAction = GetModifiedAction(useContext, actionMakerProcessing, targetProcessing);
             var actionIsPerformed = modifiedAction.Perform(useContext);
             if (actionIsPerformed)
                 SuccessfullyPerformed?.Invoke(modifiedAction);
@@ -61,7 +61,7 @@ namespace OrderElimination.AbilitySystem
 
         //*При вызове Perform IBattleAction уже обработан.
         //Добавить out-параметр, дающий причину, по которой действие не было выполнено?
-        protected abstract bool Perform(ActionUseContext useContext);
+        protected abstract bool Perform(ActionExecutionContext useContext);
 
         //public void SubscribePerform(Action<IBattleAction> actionEvent)
         //{

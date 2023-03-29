@@ -10,9 +10,9 @@ namespace OrderElimination.AbilitySystem
     //TODO-КОНФИГУРАТОР Добавить кастомный редактор, чтобы можно было задавать ValueGetter формулой
     public class DependentParameter<TValue>// : DependentParameter<ActionUseContext, TValue>
     {
-        public Func<ActionUseContext, TValue> ValueGetter { get; set; } = context => default;
+        public Func<ActionExecutionContext, TValue> ValueGetter { get; set; } = context => default;
 
-        public TValue GetValue(ActionUseContext useContext) 
+        public TValue GetValue(ActionExecutionContext useContext) 
             => ValueGetter != null ? ValueGetter(useContext) : throw new InvalidOperationException();
     }
 

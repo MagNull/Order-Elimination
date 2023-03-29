@@ -13,7 +13,7 @@ namespace OrderElimination.AbilitySystem
         public IEffect Effect { get; set; }
         public float ApplyChance { get; set; }
 
-        protected override bool Perform(ActionUseContext useContext)
+        protected override bool Perform(ActionExecutionContext useContext)
         {
             if (RandomExtensions.TryChance(ApplyChance))
             {

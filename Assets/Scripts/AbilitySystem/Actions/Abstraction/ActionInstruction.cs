@@ -10,14 +10,11 @@ namespace OrderElimination.AbilitySystem
 {
     public class ActionInstruction
     {
-        //TargetCondition(враг/союзник/постройка/...), TargetHasEffectCondition, ...
-        public ICommonCondition[] CommonConditions { get; set; } //доступность Action'а
-        public ICellCondition[] CellConditions { get; set; } //доступность клетки
-        public ITargetCondition[] TargetEntityConditions { get; set; } //доступность сущности (для применения Action)
-        
-        public ExecutionGroupsFilter TargetGroupsFilter { get; set; } //К каким группам клеткок будет применяться действие(Main,Area,...)
+        public IActionCondition[] ActionCondition { get; set; }
+        public CellGroupsFilter TargetGroupsFilter { get; set; }
         //TODO Action нужно дублировать перед обработкой
-        public IBattleAction Action { get; set; } 
+        public IBattleAction Action { get; set; }
+        //При каждом успешном выполнении Action будут вызываться последующие инструкции (для каждого повторения)
         private int repeatNumber; public int RepeatNumber
         {
             get => repeatNumber;
@@ -26,31 +23,31 @@ namespace OrderElimination.AbilitySystem
                 if (value < 0) throw new ArgumentException();
                 repeatNumber = value;
             }
-        } //При каждом успешном выполнении Action будут вызываться последующие инструкции (для каждого повторения)
+        } 
         public List<ActionInstruction> InstructionsOnActionSuccess { get; } = new List<ActionInstruction>();
 
-        public bool ExecuteRecursive(AbilityUseContext abilityUseContext)
+        public bool ExecuteRecursive(AbilityExecutionContext abilityExecutionContext)
         {
-            var battleMap = abilityUseContext.BattleContext.BattleMap;
+            var battleMap = abilityExecutionContext.BattleContext.BattleMap;
             //TODO Check Basic Conditions
             foreach (var cell in TargetGroupsFilter
-                .GetFilteredCells(abilityUseContext.TargetedCellGroups)
+                .GetFilteredCells(abilityExecutionContext.TargetedCellGroups)
                 .Select(pos => battleMap[pos]))
             {
                 //TODO Check Cell Conditions
                 foreach (var entity in cell.GetContainingEntities())
                 {
                     //TODO Check Entity Conditions
-                    var actionUseContext = new ActionUseContext(
-                        abilityUseContext.BattleContext,
-                        abilityUseContext.AbilityCaster,
+                    var actionUseContext = new ActionExecutionContext(
+                        abilityExecutionContext.BattleContext,
+                        abilityExecutionContext.AbilityCaster,
                         entity);
                     for (var i = 0; i < RepeatNumber; i++)
                     {
                         if (Action.ModifiedPerform(actionUseContext))
                         {
                             foreach (var nextInstruction in InstructionsOnActionSuccess)
-                                nextInstruction.ExecuteRecursive(abilityUseContext);
+                                nextInstruction.ExecuteRecursive(abilityExecutionContext);
                         }
                     }
                 }
@@ -58,7 +55,7 @@ namespace OrderElimination.AbilitySystem
             return true;
         }
 
-        public void AddInstructionsAfter<TAction>(ActionInstruction instructionToAdd, bool copyParentTargetGroups) where TAction : IBattleAction
+        public void AddInstructionsAfter<TAction>(ActionInstruction instructionToAdd, bool copyParentTargetGroups) where TAction : BattleAction<TAction>
         {
             if (Action is TAction)
                 InstructionsOnActionSuccess.Add(instructionToAdd);

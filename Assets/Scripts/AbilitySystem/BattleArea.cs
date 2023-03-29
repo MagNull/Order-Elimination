@@ -1,36 +1,42 @@
-﻿using System;
+﻿using OrderElimination.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
     public class BattleArea
     {
-        public AreaPattern Pattern { get; set; }
-        public List<IBattleEntity> EntitiesInArea { get; set; }
+        public PointRelativePattern AreaPattern { get; set; }
+        public IEnumerable<IAbilitySystemActor> EntitiesInArea => _enitiesInArea;
+        public event Action<IAbilitySystemActor> EntityLeavedArea;
+        public event Action<IAbilitySystemActor> EntityEnteredArea;
 
-        public event Action<IBattleEntity> EntityLeavedArea;
-        public event Action<IBattleEntity> EntityEnteredArea;
+        private HashSet<IAbilitySystemActor> _enitiesInArea;
 
-        //TODO Optimize
-        public void UpdateArea(BattleMap battleMap)
+        public void UpdateArea(IBattleMap battleMap, Vector2Int areaOrigin)
         {
-            var currentEntities = new List<IBattleEntity>();//Pattern.GetEntitiesInArea(battleMap, startingPoint)
-            foreach (var entity in EntitiesInArea)
+            var currentEntities = AreaPattern
+                .GetAbsolutePositions(areaOrigin)
+                .Select(pos => battleMap.GetCell(pos))
+                .SelectMany(cell => cell.GetContainingEntities())
+                .ToHashSet();
+            foreach (var entity in _enitiesInArea)
             {
                 if (!currentEntities.Contains(entity))
                 {
-                    EntitiesInArea.Remove(entity);
+                    _enitiesInArea.Remove(entity);
                     EntityLeavedArea?.Invoke(entity);
                 }
             }
             foreach (var entity in currentEntities)
             {
-                if (!EntitiesInArea.Contains(entity))
+                if (!_enitiesInArea.Contains(entity))
                 {
-                    EntitiesInArea.Add(entity);
+                    _enitiesInArea.Add(entity);
                     EntityEnteredArea?.Invoke(entity);
                 }    
             }

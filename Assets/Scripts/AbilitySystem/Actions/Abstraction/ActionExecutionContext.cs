@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class ActionUseContext
+    public readonly struct ActionExecutionContext
     {
         public readonly IBattleContext BattleContext;
         public readonly IAbilitySystemActor ActionMaker;
@@ -24,7 +24,7 @@ namespace OrderElimination.AbilitySystem
         //public IBattleEntity EntityTarget => Target as IBattleEntity; //Сущность, с которой совершают действие
         //public Cell CellTarget => Target as Cell; //Клетка, с которой совершают действие
 
-        public ActionUseContext(IBattleContext battleContext, IAbilitySystemActor actionMaker, IAbilitySystemActor target)
+        public ActionExecutionContext(IBattleContext battleContext, IAbilitySystemActor actionMaker, IAbilitySystemActor target)
         {
             BattleContext = battleContext;
             ActionMaker = actionMaker;

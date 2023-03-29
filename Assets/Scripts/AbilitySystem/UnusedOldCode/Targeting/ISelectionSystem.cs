@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrderElimination.AbilitySystem
 {
-    public interface ISelectionSystem //SingleTargetSelection, NoTargetSelection, MultiTargetSelection
+    public interface ISelectionSystemOld //SingleTargetSelection, NoTargetSelection, MultiTargetSelection
     {
         public event Action SelectionAchieved;
         public event Action SelectionLost; //SelectionMissed/SelectionLost/SelectionFellBack – Выделение снова не выполнено/перестало быть допустимым

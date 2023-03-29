@@ -12,7 +12,7 @@ namespace OrderElimination.AbilitySystem
         public Func<float, float> ValueChanger { get; set; }
         public int Duration { get; set; } //TODO restrict min/max duration
 
-        protected override bool Perform(ActionUseContext useContext)
+        protected override bool Perform(ActionExecutionContext useContext)
         {
             var valueProcessor = ValueChanger;
             var targetedStatCharacter = useContext.ActionTarget.BattleStats.GetParameter(TargetedStat);
