@@ -17,10 +17,10 @@ namespace OrderElimination.AbilitySystem
     public interface IEffect
     {
         public static bool IsStackable { get; }
-        public EffectCharacter EffectCharacter { get; }
+        //public EffectCharacter EffectCharacter { get; }
         public IBattleAction[] ActionsOnApply { get; }
         public IBattleAction[] ActionsOnRemove { get; }
-
+        //RemovedByTriggers
         public event Action<IEffect> Removed;//Destroyed Disposed Finished
     }
 
@@ -30,27 +30,21 @@ namespace OrderElimination.AbilitySystem
         public event Action<ITemporaryEffect> EffectEnded;
     }
 
-    //public interface IActionProcessingEffect : IEffect
-    //{
-    //    public IBattleAction[] ProcessIncomingActions(IBattleAction[] originalActions);
-    //    public IBattleAction[] ProcessOutcomingActions(IBattleAction[] originalActions);
-    //}
-
-    //При таком варианте мы сразу знаем, какие действия обрабатывает эффект, но не можем при этом обрабатывать любое(случайное действие)
-    //Из-за этого придётся с помощью триггера на каст способности к данной цели перехватывать применение способности и менять его.
     public interface IIncomingActionProcessingEffect<TAction> : IEffect where TAction : IBattleAction
     {
-        public TAction ProcessIncomingAction(TAction originalAction); //CanBeNull
+        public TAction ProcessIncomingAction(TAction originalAction);
     }
 
     public interface IOutcomingActionProcessingEffect<TAction> : IEffect where TAction : IBattleAction
     {
-        public TAction ProcessOutcomingAction(TAction originalAction); //CanBeNull
+        public TAction ProcessOutcomingAction(TAction originalAction);
     }
 
     public interface ITickActionEffect : IEffect
     {
-        public int TickLength { get; }
+        public int TickLength { get; } // 1Tick = 1 ход
+        //Действия обязаны выполняться каждый промежуток ходов, пока активен эффект.
+        //Действия должны прекратить выполняться при удалении эффекта.
         public IBattleAction[] ActionsPerTick { get; }
     }
 
@@ -67,15 +61,4 @@ namespace OrderElimination.AbilitySystem
     //            .ToArray();
     //    }
     //}
-
-    //Неудобно. Невозможно будет отделить эффекты, обрабатывающие одинаковые типы данных. Н: шанс попадания(float) и шанс наложения эффекта(float)
-    public interface IncomingProcessingEffect<T> : IEffect
-    {
-        public T ProcessIncomingValue(T value);
-    }
-
-    public interface OutcomingProcessingEffect<T> : IEffect
-    {
-        public T ProcessOutcomingValue(T value);
-    }
 }

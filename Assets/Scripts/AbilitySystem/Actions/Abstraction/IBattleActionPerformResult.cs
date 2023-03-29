@@ -12,5 +12,6 @@ namespace OrderElimination.AbilitySystem
         public TAction Action { get; }
         public bool IsPerformedSuccessfully { get; }
         //PerformFailReason
+        //NewGeneratedActions
     }
 }

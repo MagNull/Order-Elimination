@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace OrderElimination.AbilitySystem
 {
-    public interface IActionTarget //То, что может быть целью IBattleAction: клетка, сущность, строение
+    public enum BattleSide
     {
-
+        Player,
+        Enemies,
+        Neutral
     }
 }

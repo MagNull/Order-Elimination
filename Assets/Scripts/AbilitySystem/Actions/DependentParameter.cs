@@ -14,8 +14,6 @@ namespace OrderElimination.AbilitySystem
 
         public TValue GetValue(ActionUseContext useContext) 
             => ValueGetter != null ? ValueGetter(useContext) : throw new InvalidOperationException();
-
-        public void SetValueGetter(Func<ActionUseContext, TValue> valueGetter) => ValueGetter = valueGetter;
     }
 
     //public abstract class DependentParameter<TContext, TValue>

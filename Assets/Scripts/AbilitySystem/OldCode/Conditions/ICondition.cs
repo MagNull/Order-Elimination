@@ -23,10 +23,10 @@ namespace OrderElimination.AbilitySystem
 
     public interface ICellCondition : ICondition
     {
-        public bool IsConditionMet(IBattleContext context, IBattleEntity caster, Cell targetCell);
+        public bool IsConditionMet(IBattleContext context, IAbilitySystemActor caster, Cell targetCell);
     }
 
-	public interface ITargetEntityCondition
+	public interface ITargetCondition
 	{
 		public bool IsConditionMet(IBattleContext battleContext, IBattleEntity caster, IBattleEntity target);
 	}
@@ -41,5 +41,17 @@ namespace OrderElimination.AbilitySystem
 		{
 			return context.GetDistanceBetween(caster, target) <= MaxDistance;
 		}
+    }
+
+    public class DistanceToTargetCondition : ITargetCondition
+    {
+        public float MaxDistance { get; }
+        //ICondition -> ICellTargetCondition
+        //IConditionContext
+        //IAbilityUseContext
+        public bool IsConditionMet(IBattleContext context, IBattleEntity caster, Cell target)
+        {
+            return context.GetDistanceBetween(caster, target) <= MaxDistance;
+        }
     }
 }

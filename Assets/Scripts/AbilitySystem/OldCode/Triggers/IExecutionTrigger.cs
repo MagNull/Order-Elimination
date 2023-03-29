@@ -14,7 +14,7 @@ namespace OrderElimination.AbilitySystem
         //public void UpdateTriggerState();
     }
 
-    public interface IExecutionTrigger<TTrigger> where TTrigger : IExecutionTrigger
+    public interface IExecutionTrigger<TTrigger> : IExecutionTrigger where TTrigger : IExecutionTrigger<TTrigger>
     {
         public event Action<TTrigger> Triggered;
     }

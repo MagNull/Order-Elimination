@@ -4,23 +4,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class CellTargetGroups: IEnumerable<Cell[]>
+    public class AbilityExecutionGroups: IEnumerable<Vector2Int[]> //TODO Make sturct
     {
-        public Cell[] MainTargets { get; }
-        public Cell[] AreaTargets { get; }
-        public Cell[][] SecondaryTargetGroups { get; }
+        public Vector2Int[] MainTargets { get; }
+        public Vector2Int[] AreaTargets { get; }
+        public Vector2Int[][] SecondaryTargetGroups { get; }
 
-        public CellTargetGroups(Cell[] mainTargets, Cell[] areaTargets = null, Cell[][] secondaryTargetGroups = null)
+        public AbilityExecutionGroups(Vector2Int[] mainTargets, Vector2Int[] areaTargets = null, Vector2Int[][] secondaryTargetGroups = null)
         {
             MainTargets = mainTargets;
             AreaTargets = areaTargets;
             SecondaryTargetGroups = secondaryTargetGroups;
         }
 
-        public IEnumerator<Cell[]> GetEnumerator()
+        public IEnumerator<Vector2Int[]> GetEnumerator()
         {
             yield return MainTargets;
             yield return AreaTargets;

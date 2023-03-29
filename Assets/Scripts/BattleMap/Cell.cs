@@ -7,9 +7,9 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using OrderElimination.AbilitySystem;
 
-public class Cell : IActionTarget
+public class Cell
 {
-    public IBattleEntity[] GetContainingEntities() => throw new NotImplementedException();
+    public IAbilitySystemActor[] GetContainingEntities() => throw new NotImplementedException();
 
     private IBattleObject _object;
 

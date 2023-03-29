@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Purchasing;
+using static OrderElimination.Infrastructure.CellMath;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -16,14 +17,30 @@ namespace OrderElimination.AbilitySystem
     //IDirectionPattern
     public interface ICellPattern 
     {
-        public CellTargetGroups GetAffectedCellGroups(BattleMap battleMap, Cell casterCell, Cell[] targetCells);
+        public AbilityExecutionGroups GetAffectedCellGroups(CellRangeBorders mapBorders, Vector2Int casterPosition, Vector2Int[] positionsInput);
+    }
+
+    public interface ICasterRelativePattern : ICellPattern
+    {
+        public AbilityExecutionGroups GetAffectedCellGroups(CellRangeBorders mapBorders, Vector2Int casterPosition);
+    }
+
+    public class SingleTargetCellPattern : ICellPattern
+    {
+        public AbilityExecutionGroups GetAffectedCellGroups(CellRangeBorders mapBorders, Vector2Int casterPosition, Vector2Int[] positionsInput)
+        {
+            if (positionsInput.Length == 0) throw new ArgumentException($"{nameof(positionsInput)} must contain at least 1 element.");
+            var mainTargets = new Vector2Int[1];
+            mainTargets[0] = positionsInput[0];
+            return new AbilityExecutionGroups(mainTargets);
+        }
     }
 
     public class AreaPattern : ICellPattern 
     {
         public int Radius { get; set; }
 
-        public CellTargetGroups GetAffectedCellGroups(BattleMap battleMap, Cell casterCell, Cell[] targetCells)
+        public AbilityExecutionGroups GetAffectedCellGroups(CellRangeBorders mapBorders, Vector2Int casterPosition, Vector2Int[] positionsInput)
         {
             var mainTargets = new List<Cell>();
             var areaTargets = new List<Cell>();

@@ -4,18 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class CellTargetGroupFilter
+    public class ExecutionGroupsFilter
     {
         private bool affectMainCells;
         private bool affectAreaCells;
         private Dictionary<int, bool> affectedSecondaryCells; //int secondaryCellGroupID, bool isAffected
 
-        public List<Cell> GetFilteredCells(CellTargetGroups cellGroups)
+        public List<Vector2Int> GetFilteredCells(AbilityExecutionGroups cellGroups)
         {
-            var affectedCells = new List<Cell>();
+            var affectedCells = new List<Vector2Int>();
             if (affectMainCells)
                 affectedCells = affectedCells.Concat(cellGroups.MainTargets).ToList();
             if (affectAreaCells)

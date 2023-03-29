@@ -3,48 +3,74 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing.Text;
+using System.Linq;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
+    //public interface IModifiableAction<TAction> where TAction : IBattleAction
+    //{
+    //    public TAction GetModifiedAction(ActionUseContext useContext);
+    //}
+
+    [Obsolete("Интерфейс " + nameof(IBattleAction) + " является обобщающим. По возможности используйте BattleAction<TAction>.")]
     public interface IBattleAction
     {
-        //public event Action<IBattleAction> SuccessfullyPerformed;
-        //public event Action<IBattleAction> FailedToPerformed;
+        public event Action<IBattleAction> SuccessfullyPerformed;
+        public event Action<IBattleAction> FailedToPerformed;
+        public bool ModifiedPerform(ActionUseContext useContext);
     }
 
-    public interface IBattleAction<TTarget> : IBattleAction where TTarget : IActionTarget
+    public abstract class BattleAction<TAction> : IBattleAction where TAction : BattleAction<TAction>
     {
-        public event Action<IBattleAction<TTarget>> SuccessfullyPerformed;
-        public event Action<IBattleAction<TTarget>> FailedToPerformed; // <-- Объяснить причину? // Возвращать ActionUseContext?
+        public event Action<TAction> SuccessfullyPerformed;
+        public event Action<TAction> FailedToPerformed;
 
-        //Добавить out-параметр, дающий причину, по которой действие не было выполнено?
-        public bool Perform(ActionUseContext useContext, IBattleEntity actionMaker, TTarget target);
-
-        public void SubscribePerform(Action<IBattleAction<IActionTarget>> actionEvent, ActionUseContext useContext, IBattleEntity actionMaker, TTarget target)
+        event Action<IBattleAction> IBattleAction.SuccessfullyPerformed
         {
-            actionEvent -= OnSubscribeActionEventCall;
-            actionEvent += OnSubscribeActionEventCall;
-            void OnSubscribeActionEventCall(IBattleAction<IActionTarget> subscribingAction)
-            {
-                Perform(useContext, actionMaker, target);
-            }
+            add => SuccessfullyPerformed += value;
+
+            remove => SuccessfullyPerformed -= value;
         }
-    }
 
-    public abstract class EntityBattleAction : IBattleAction<IBattleEntity>
-    {
-        public event Action<IBattleAction<IBattleEntity>> SuccessfullyPerformed;
-        public event Action<IBattleAction<IBattleEntity>> FailedToPerformed;
+        event Action<IBattleAction> IBattleAction.FailedToPerformed
+        {
+            add => FailedToPerformed += value;
 
-        public abstract bool Perform(ActionUseContext useContext, IBattleEntity actionMaker, IBattleEntity target);
-    }
+            remove => FailedToPerformed -= value;
+        }
 
-    public abstract class CellBattleAction : IBattleAction<Cell>
-    {
-        public event Action<IBattleAction<Cell>> SuccessfullyPerformed;
-        public event Action<IBattleAction<Cell>> FailedToPerformed;
+        public virtual TAction GetModifiedAction(ActionUseContext useContext)
+        {
+            var modifiedAction = (TAction)this;
+            modifiedAction = useContext.ActionMaker.ActionProcessor.ProcessOutcomingAction(modifiedAction);
+            modifiedAction = useContext.ActionTarget.ActionProcessor.ProcessIncomingAction(modifiedAction);
+            return modifiedAction;
+        }
 
-        public abstract bool Perform(ActionUseContext useContext, IBattleEntity actionMaker, Cell target);
+        public bool ModifiedPerform(ActionUseContext useContext)
+        {
+            var modifiedAction = GetModifiedAction(useContext);
+            var actionIsPerformed = modifiedAction.Perform(useContext);
+            if (actionIsPerformed)
+                SuccessfullyPerformed?.Invoke(modifiedAction);
+            else
+                FailedToPerformed?.Invoke(modifiedAction);
+            return actionIsPerformed;
+        }
+
+        //*При вызове Perform IBattleAction уже обработан.
+        //Добавить out-параметр, дающий причину, по которой действие не было выполнено?
+        protected abstract bool Perform(ActionUseContext useContext);
+
+        //public void SubscribePerform(Action<IBattleAction> actionEvent)
+        //{
+        //    actionEvent -= OnSubscribeActionEventCall;
+        //    actionEvent += OnSubscribeActionEventCall;
+        //    void OnSubscribeActionEventCall(IBattleAction subscribingAction)
+        //    {
+        //        ModifiedPerform(useContext);
+        //    }
+        //}
     }
 }

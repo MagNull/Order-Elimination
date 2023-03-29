@@ -8,7 +8,7 @@ namespace OrderElimination.AbilitySystem
 {
     public interface ISelectionSystem //SingleTargetSelection, NoTargetSelection, MultiTargetSelection
     {
-        public event Action<Cell[]> SelectionAchieved;
+        public event Action SelectionAchieved;
         public event Action SelectionLost; //SelectionMissed/SelectionLost/SelectionFellBack – Выделение снова не выполнено/перестало быть допустимым
         public bool IsSelectionAchieved { get; }
         public Cell[] GetSelection();

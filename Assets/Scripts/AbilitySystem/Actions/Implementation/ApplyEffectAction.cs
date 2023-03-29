@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class ApplyEffectAction : EntityBattleAction
+    public class ApplyEffectAction : BattleAction<ApplyEffectAction>
     {
         public IEffect Effect { get; set; }
-        public float ApplyFractionChance { get; set; }
+        public float ApplyChance { get; set; }
 
-        public override bool Perform(ActionUseContext useContext, IBattleEntity actionMaker, IBattleEntity target)
+        protected override bool Perform(ActionUseContext useContext)
         {
-            if (RandomExtensions.TryChanceFraction(ApplyFractionChance))
+            if (RandomExtensions.TryChance(ApplyChance))
             {
-                return target.ApplyEffect(Effect); 
+                return useContext.ActionTarget.ApplyEffect(Effect);
             }
             return false;
         }
