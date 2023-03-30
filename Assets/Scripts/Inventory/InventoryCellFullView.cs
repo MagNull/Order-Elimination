@@ -1,10 +1,10 @@
-﻿using TMPro;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Inventory
 {
-    public class InventoryCellView : MonoBehaviour
+    public class InventoryCellFullView : MonoBehaviour, IInventoryCellView
     {
         [SerializeField]
         private TextMeshProUGUI _descriptionText;
@@ -13,14 +13,29 @@ namespace Inventory
         [SerializeField]
         private Image _iconRenderer;
         
-        private Cell _cell;
+        private IReadOnlyCell _cell;
 
-        public void OnCellChanged(Cell newCell)
+        public void OnCellChanged(IReadOnlyCell newCell)
         {
+            if (newCell.ItemQuantity == 0)
+            {
+                Destroy(gameObject);
+                return;
+            }
             _cell = newCell;
             _nameText.text = _cell.Item.View.Name;
             _descriptionText.text = _cell.Item.View.Description;
             _iconRenderer.sprite = _cell.Item.View.Icon;
+        }
+
+        public void Enable()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void Disable()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

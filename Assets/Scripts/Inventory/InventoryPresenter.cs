@@ -6,10 +6,12 @@ namespace Inventory
     public class InventoryPresenter : MonoBehaviour
     {
         [SerializeField]
-        private InventoryView _inventoryView;
+        private PlayerInventoryView _inventoryView;
         [SerializeField]
         private ItemData[] _items;
         private Inventory _inventoryModel;
+
+        private Item _lastItem;
 
         private void Awake()
         {
@@ -18,6 +20,7 @@ namespace Inventory
 
         private void OnEnable()
         {
+            _inventoryView.UpdateCells(_inventoryModel.Cells);
             _inventoryModel.OnCellAdded += _inventoryView.OnCellAdded;
             _inventoryModel.OnCellChanged += _inventoryView.OnCellChanged;
         }
@@ -31,7 +34,14 @@ namespace Inventory
         [Button]
         public void AddItem()
         {
-            _inventoryModel.AddItem(new Item(_items[Random.Range(0, _items.Length)]));
+            _lastItem = new Item(_items[Random.Range(0, _items.Length)]);
+            _inventoryModel.AddItem(_lastItem);
+        }
+        
+        [Button]
+        public void RemoveItem()
+        {
+            _inventoryModel.RemoveItem(_lastItem);
         }
     }
 }

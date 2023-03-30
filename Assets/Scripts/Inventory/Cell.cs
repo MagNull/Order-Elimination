@@ -2,7 +2,7 @@
 
 namespace Inventory
 {
-    public class Cell
+    public class Cell : IReadOnlyCell
     {
         private readonly Item _item;
         private readonly int _itemQuantity;
@@ -20,5 +20,11 @@ namespace Inventory
             
             _item = itemQuantity == 0 ? null : item;
         }
+    }
+    
+    public interface IReadOnlyCell
+    {
+        Item Item { get; }
+        int ItemQuantity { get; }
     }
 }

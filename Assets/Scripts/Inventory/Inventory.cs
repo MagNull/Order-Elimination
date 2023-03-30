@@ -6,8 +6,8 @@ namespace Inventory
 {
     public class Inventory
     {
-        public event Action<Cell, Cell> OnCellChanged;
-        public event Action<Cell> OnCellAdded;
+        public event Action<IReadOnlyCell, IReadOnlyCell> OnCellChanged;
+        public event Action<IReadOnlyCell> OnCellAdded;
         
         private readonly List<Cell> _cells;
         private readonly int _size;
@@ -17,6 +17,8 @@ namespace Inventory
             _cells = new List<Cell>(size);
             _size = size;
         }
+
+        public IReadOnlyList<IReadOnlyCell> Cells => _cells;
 
         public void AddItem(Item item, int quantity = 1)
         {
