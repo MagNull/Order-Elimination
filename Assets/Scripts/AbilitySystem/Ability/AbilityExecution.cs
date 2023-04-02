@@ -11,26 +11,7 @@ namespace OrderElimination.AbilitySystem
         //Изменить на список Группа-Действия ?
         public ActionInstruction[] ActionInstructions;
 
-        public bool StartCast(IBattleContext battleContext, AbilityExecutionContext useContext)
-        {
-            //Start
-            //1. Show available cells
-            //2. Player selects target cell from available
-            //3. Ability shows affected cells by CellGroups (Main, Area, Secondary, ...)
-
-            //Player Confirms usage
-
-            //Execution
-            // Process ApplyingActions on Caster
-            // Process ApplyingActions on Target
-
-            //Usage
-            //Permorm Actions
-            // Run Triggers after usage
-            return true;
-        }
-
-        //TODO return AbilityExecutionResult
+        //TODO? return AbilityExecutionResult
         public void Execute(AbilityExecutionContext abilityExecutionContext)
         {
             foreach (var instruction in ActionInstructions)

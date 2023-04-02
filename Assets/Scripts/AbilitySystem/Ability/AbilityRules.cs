@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class AbilityConditions
+    public class AbilityRules
     {
         public ICommonCondition[] AvailabilityConditions;
         public ICellCondition[] CellConditions;

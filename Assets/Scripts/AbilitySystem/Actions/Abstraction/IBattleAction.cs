@@ -13,6 +13,11 @@ namespace OrderElimination.AbilitySystem
             bool targetProcessing = false);
     }
 
+    public interface IUndoableBattleAction
+    {
+        public bool Undo(IAbilitySystemActor undoTarget);
+    }
+
     public abstract class BattleAction<TAction> : IBattleAction where TAction : BattleAction<TAction>
     {
         public event Action<TAction> SuccessfullyPerformed;
@@ -60,7 +65,7 @@ namespace OrderElimination.AbilitySystem
         }
 
         //*При вызове Perform IBattleAction уже обработан.
-        //Добавить out-параметр, дающий причину, по которой действие не было выполнено?
+        //TODO Желательно заменить возврат bool или добавить out-параметр, дающий причину, по которой действие не было выполнено.
         protected abstract bool Perform(ActionExecutionContext useContext);
 
         //public void SubscribePerform(Action<IBattleAction> actionEvent)

@@ -17,6 +17,8 @@ namespace OrderElimination.Infrastructure
         /// </summary>
         public TValue ModifiedValue { get; private set; } = default;
 
+        public event Action<ProcessingParameter<TValue>> ValueChanged;
+
         private readonly List<Func<TValue, TValue>> modifyingFormulas = new List<Func<TValue, TValue>>();
 
         public ProcessingParameter(TValue initialValue = default)
@@ -28,25 +30,35 @@ namespace OrderElimination.Infrastructure
         {
             modifyingFormulas.Add(processor);
             ModifiedValue = GetRecalculatedModifiedValue();
+            ValueChanged?.Invoke(this);
         }
 
         public bool RemoveProcessor(Func<TValue, TValue> processor)
         {
             var wasRemoved = modifyingFormulas.Remove(processor);
-            ModifiedValue = GetRecalculatedModifiedValue();
+            if (wasRemoved)
+            {
+                ModifiedValue = GetRecalculatedModifiedValue();
+                ValueChanged?.Invoke(this);
+            }
             return wasRemoved;
         }
 
         public void RemoveAllProcessors()
         {
-            modifyingFormulas.Clear();
-            ModifiedValue = GetRecalculatedModifiedValue();
+            if (modifyingFormulas.Count > 0)
+            {
+                modifyingFormulas.Clear();
+                ModifiedValue = GetRecalculatedModifiedValue();
+                ValueChanged?.Invoke(this);
+            }
         }
 
         public void SetUnmodifiedValue(TValue value)
         {
             UnmodifiedValue = value;
             ModifiedValue = GetRecalculatedModifiedValue();
+            ValueChanged?.Invoke(this);
         }
 
         private TValue GetRecalculatedModifiedValue()
