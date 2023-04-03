@@ -21,7 +21,7 @@ public class BaseBattleResultWindow : MonoBehaviour
     {
         _nextButton.onClick.AddListener(() =>
         {
-            _sceneTransition.LoadStrategyMap();
+            _sceneTransition.LoadRoguelikeMap();
         });
     }
     

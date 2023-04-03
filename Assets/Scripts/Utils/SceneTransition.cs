@@ -9,7 +9,7 @@ namespace OrderElimination
             SceneManager.LoadSceneAsync("Scenes/BattleMap");
         }
 
-        public void LoadStrategyMap()
+        public void LoadRoguelikeMap()
         {
             SceneManager.LoadSceneAsync(1);
         }

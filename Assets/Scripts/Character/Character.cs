@@ -51,6 +51,30 @@ namespace OrderElimination
                 Upgrade();
         }
 
+        public void Heal(int healStat)
+        {
+            _battleStats.Health += healStat;
+        }
+
+        public void Upgrade(StrategyStats stats)
+        {
+            var battleStats = new BattleStats(_battleStats)
+            {
+                Health = _strategyStats.HealthGrowth * (1 + stats.HealthGrowth / 100),
+                UnmodifiedHealth = _strategyStats.HealthGrowth * (1 + stats.HealthGrowth / 100),
+                Armor = _strategyStats.ArmorGrowth * (1 + stats.ArmorGrowth / 100),
+                UnmodifiedArmor = _strategyStats.ArmorGrowth * (1 + stats.ArmorGrowth / 100),
+                Accuracy = _strategyStats.AccuracyGrowth * (1 + stats.AccuracyGrowth / 100),
+                UnmodifiedAccuracy = _strategyStats.AccuracyGrowth * (1 + stats.AccuracyGrowth / 100),
+                Evasion = _strategyStats.EvasionGrowth * (1 + stats.EvasionGrowth / 100),
+                UnmodifiedEvasion = _strategyStats.EvasionGrowth * (1 + stats.EvasionGrowth / 100),
+                Attack = _strategyStats.AttackGrowth * (1 + stats.AttackGrowth / 100),
+                UnmodifiedAttack = _strategyStats.AttackGrowth * (1 + stats.AttackGrowth / 100)
+            };
+
+            _battleStats = battleStats;
+        }
+        
         public void Upgrade()
         {
             var battleStats = new BattleStats(_battleStats)

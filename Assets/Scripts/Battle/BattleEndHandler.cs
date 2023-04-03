@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UIManagement;
@@ -7,6 +8,7 @@ using VContainer;
 using UIManagement.trashToRemove_Mockups;
 using OrderElimination;
 using System.Linq;
+using RoguelikeMap;
 
 public class BattleEndHandler : MonoBehaviour
 {
@@ -34,21 +36,29 @@ public class BattleEndHandler : MonoBehaviour
     {
         Debug.Log(outcome);
         var allies = _mediator.GetBattleCharactersInfo().Cast<Character>().ToArray();
-        var currentPlanetInfo = _mediator.PlanetInfo;
+        var currentPlanetInfo = _mediator.PointInfo;
         var battleResultInfo = new BattleResult(outcome, allies, currentPlanetInfo.CurrencyReward, 0);
         if (outcome == BattleOutcome.Victory)
         {
             var panel = (BattleVictoryPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleVictory);
             panel.UpdateBattleResult(battleResultInfo);
-            panel.LastContinueButtonPressed -= _sceneTransition.LoadStrategyMap;
-            panel.LastContinueButtonPressed += _sceneTransition.LoadStrategyMap;
+            panel.LastContinueButtonPressed -= _sceneTransition.LoadRoguelikeMap;
+            panel.LastContinueButtonPressed += _sceneTransition.LoadRoguelikeMap;
         }
         else
         {
             var panel = (BattleDefeatPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleDefeat);
             panel.UpdateBattleResult(battleResultInfo);
-            panel.LastContinueButtonPressed -= _sceneTransition.LoadBattleMap;
-            panel.LastContinueButtonPressed += _sceneTransition.LoadBattleMap;
+            var action = new Action(() =>((ChoosingCharacter)UIController.SceneInstance
+                    .OpenPanel(PanelType.SquadMembers, WindowFormat.FullScreen))
+                .UpdateCharacterInfo(allies.ToList(), true));
+            panel.LastContinueButtonPressed -= action;
+            panel.LastContinueButtonPressed += action;
         }
+    }
+
+    public void ReloadGame()
+    {
+        _sceneTransition.LoadBattleMap();
     }
 }

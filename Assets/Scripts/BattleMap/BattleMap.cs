@@ -21,7 +21,7 @@ public class BattleMap : MonoBehaviour
 
     private readonly Dictionary<IBattleObject, Vector2Int> _destroyedObjectsCoordinates = new();
     [SerializeField]
-    private SerializedDictionary<Vector2Int, EnvironmentObject> _activeEnvironmentObjects = new();
+    private Dictionary<Vector2Int, EnvironmentObject> _activeEnvironmentObjects = new();
 
     public int Width => _width;
 
@@ -117,7 +117,7 @@ public class BattleMap : MonoBehaviour
         if (obj is EnvironmentObject env && _activeEnvironmentObjects.ContainsValue(env))
             return _activeEnvironmentObjects.FirstOrDefault(x => x.Value == env).Key;
 
-        Debug.LogWarning($"$Объект {obj.View.GameObject.name} не найден на поле!");
+        Debug.LogWarning($"$пїЅпїЅпїЅпїЅпїЅпїЅ {obj.View.GameObject.name} пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ!");
         return new Vector2Int(-1, -1);
     }
 

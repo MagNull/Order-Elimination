@@ -18,6 +18,7 @@ namespace UIManagement.Elements
         [SerializeField] private Image _characterAvatar;
         [SerializeField] private HoldableButton _avatarButton;
         public Character CurrentCharacterInfo { get; private set; }
+        public IBattleCharacterInfo currentBattleCharacterInfo { get; private set; }
 
         public event Action<CharacterClickableAvatar> Clicked;
         public event Action<CharacterClickableAvatar> Holded;
@@ -32,6 +33,20 @@ namespace UIManagement.Elements
             CurrentCharacterInfo = character;
             _characterName.text = character.GetName();
             _characterAvatar.sprite = character.GetViewAvatar();
+            _avatarButton.Clicked += OnAvatarButtonClicked;
+            _avatarButton.Holded += OnAvatarButtonHolded;
+        }
+
+        public void UpdateCharacterInfo(IBattleCharacterInfo characterInfo)
+        {
+            if (characterInfo == null)
+            {
+                throw new InvalidOperationException();
+            }
+            RemoveCharacterInfo();
+            currentBattleCharacterInfo = characterInfo;
+            _characterName.text = characterInfo.GetName();
+            _characterAvatar.sprite = characterInfo.GetViewAvatar();
             _avatarButton.Clicked += OnAvatarButtonClicked;
             _avatarButton.Holded += OnAvatarButtonHolded;
         }

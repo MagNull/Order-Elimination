@@ -21,9 +21,17 @@ namespace UIManagement
         public override PanelType PanelType => PanelType.SquadList;
         
         [Button]
-        public void UpdateSquadInfo(List<Character> squadCharacters, Information playerInfo)
+        public void UpdateSquadInfo(List<Character> squadCharacters)
         {
-            _playerInfo = playerInfo;
+            _characterList.Clear();
+            _characterList.Populate(squadCharacters.ToArray());
+            _characterList.ElementHolded -= OnCharacterAvatarHolded;
+            _characterList.ElementHolded += OnCharacterAvatarHolded;
+        }
+        
+        [Button]
+        public void UpdateSquadInfo(List<IBattleCharacterInfo> squadCharacters)
+        {
             _characterList.Clear();
             _characterList.Populate(squadCharacters.ToArray());
             _characterList.ElementHolded -= OnCharacterAvatarHolded;
@@ -32,7 +40,7 @@ namespace UIManagement
 
         private void OnCharacterAvatarHolded(CharacterClickableAvatar characterAvatar)
         {
-            var upgradeTransaction = new CharacterUpgradeTransaction(characterAvatar.CurrentCharacterInfo, _playerInfo);
+            var upgradeTransaction = new CharacterUpgradeTransaction(characterAvatar.CurrentCharacterInfo);
             var characterPanel = (CharacterUpgradePanel)UIController.SceneInstance.OpenPanel(PanelType.CharacterUpgradable);
             characterPanel.UpdateCharacterUpgradeDescription(upgradeTransaction);
         }

@@ -18,10 +18,9 @@ namespace UIManagement.trashToRemove_Mockups
 
         private Information _playerInformation;
 
-        public CharacterUpgradeTransaction(Character target, Information playerInformation)
+        public CharacterUpgradeTransaction(Character target)
         {
             TargetCharacter = target;
-            _playerInformation = playerInformation;
         }
 
         public bool TryUpgrade()
@@ -70,7 +69,10 @@ namespace UIManagement.trashToRemove_Mockups
             {PanelType.PassiveSkillsDescription, "Пассивные навыки"}, 
             {PanelType.CharacterDescription, "Информация о бойце"}, 
             {PanelType.EffectsDesriptionList, "Описание эффектов"}, 
-            {PanelType.CharacterUpgradable, "Информация о бойце"}, 
+            {PanelType.CharacterUpgradable, "Информация о бойце"},
+            {PanelType.Shop, "Торговец"},
+            {PanelType.Event, "Событие"},
+            { PanelType.SquadMembers, "Выбор бойцов отряда" },
         };
         private Dictionary<ValueUnits, string> _unitNames
             = new Dictionary<ValueUnits, string>()
