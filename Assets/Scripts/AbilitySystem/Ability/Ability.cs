@@ -5,7 +5,7 @@
         public AbilityView View { get; private set; }
         public AbilityGameRepresentation GameRepresentation { get; private set; }
         public AbilityRules Rules { get; private set; }
-        public IAbilityCastSystem CastSystem { get; private set; }
+        public IAbilityTargetingSystem TargetingSystem { get; private set; }
         private AbilityExecution Execution;
 
         //В идеале нужно передавать представление карты для конкретного игрока/стороны — для наведения.
@@ -16,33 +16,33 @@
                 return false;
             var casterPosition = battleContext.BattleMap.GetCellPosition(caster);
             var mapBorders = battleContext.BattleMap.CellRangeBorders;
-            if (CastSystem is MultiTargetCastSystem multiTargetCastSystem)
+            if (TargetingSystem is MultiTargetTargetingSystem multiTargetCastSystem)
             {
                 var availableCells = Rules.GetAvailableCellPositions(battleContext, caster);
                 multiTargetCastSystem.SetAvailableCellsForSelection(availableCells);
             }
-            if (!CastSystem.StartTargeting(mapBorders, casterPosition))
+            if (!TargetingSystem.StartTargeting(mapBorders, casterPosition))
                 return false;
-            CastSystem.TargetingConfirmed += onSelectionConfirmed;
-            CastSystem.TargetingCanceled += onSelectionCanceled;
+            TargetingSystem.TargetingConfirmed += onSelectionConfirmed;
+            TargetingSystem.TargetingCanceled += onSelectionCanceled;
             return true;
 
             //Started casting. Now waiting until confirmation/cancellation.
 
-            void onSelectionConfirmed(IAbilityCastSystem targetingSystem)
+            void onSelectionConfirmed(IAbilityTargetingSystem targetingSystem)
             {
-                CastSystem.TargetingConfirmed -= onSelectionConfirmed;
-                CastSystem.TargetingCanceled -= onSelectionCanceled;
-                var executionGroups = CastSystem.ExtractCastTargetGroups();
+                TargetingSystem.TargetingConfirmed -= onSelectionConfirmed;
+                TargetingSystem.TargetingCanceled -= onSelectionCanceled;
+                var executionGroups = TargetingSystem.ExtractCastTargetGroups();
                 var abilityUseContext = new AbilityExecutionContext(battleContext, caster, executionGroups);
                 Execution.Execute(abilityUseContext);
-                CastSystem.CancelTargeting();
+                TargetingSystem.CancelTargeting();
             }
 
-            void onSelectionCanceled(IAbilityCastSystem targetingSystem)
+            void onSelectionCanceled(IAbilityTargetingSystem targetingSystem)
             {
-                CastSystem.TargetingConfirmed -= onSelectionConfirmed;
-                CastSystem.TargetingCanceled -= onSelectionCanceled;
+                TargetingSystem.TargetingConfirmed -= onSelectionConfirmed;
+                TargetingSystem.TargetingCanceled -= onSelectionCanceled;
             }
         }
     }

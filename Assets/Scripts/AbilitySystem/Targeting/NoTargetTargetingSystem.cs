@@ -4,15 +4,15 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class NoTargetCastSystem : IAbilityCastSystem
+    public class NoTargetTargetingSystem : IAbilityTargetingSystem
     {
         public bool IsTargeting { get; private set; }
         public bool IsConfirmed { get; private set; }
         public bool IsConfirmAvailable => IsTargeting && !IsConfirmed;
 
-        public event Action<IAbilityCastSystem> TargetingStarted;
-        public event Action<IAbilityCastSystem> TargetingConfirmed;
-        public event Action<IAbilityCastSystem> TargetingCanceled;
+        public event Action<IAbilityTargetingSystem> TargetingStarted;
+        public event Action<IAbilityTargetingSystem> TargetingConfirmed;
+        public event Action<IAbilityTargetingSystem> TargetingCanceled;
 
         public CasterRelativePattern CasterRelativePattern
         {

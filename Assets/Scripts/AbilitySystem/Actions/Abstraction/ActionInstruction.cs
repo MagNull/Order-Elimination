@@ -55,7 +55,7 @@ namespace OrderElimination.AbilitySystem
             return true;
         }
 
-        public void AddInstructionsAfter<TAction>(ActionInstruction instructionToAdd, bool copyParentTargetGroups) where TAction : BattleAction<TAction>
+        public void AddInstructionsAfterRecursive<TAction>(ActionInstruction instructionToAdd, bool copyParentTargetGroups) where TAction : BattleAction<TAction>
         {
             if (Action is TAction)
                 InstructionsOnActionSuccess.Add(instructionToAdd);
@@ -67,7 +67,7 @@ namespace OrderElimination.AbilitySystem
 
             //if (copyParentTargetGroups) instructionToAdd.TargetGroupsFilter = TargetGroupsFilter; 
             foreach (var nextInstruction in InstructionsOnActionSuccess)
-                nextInstruction.AddInstructionsAfter<TAction>(instructionToAdd, copyParentTargetGroups);
+                nextInstruction.AddInstructionsAfterRecursive<TAction>(instructionToAdd, copyParentTargetGroups);
         }
 
         public void RemoveInstructionsRecursive(ActionInstruction instructionToRemove)

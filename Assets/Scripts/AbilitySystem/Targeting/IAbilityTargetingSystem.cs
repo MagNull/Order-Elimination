@@ -8,15 +8,15 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public interface IAbilityCastSystem
+    public interface IAbilityTargetingSystem
     {
         public bool IsTargeting { get; }
         public bool IsConfirmed { get; }
         public bool IsConfirmAvailable { get; }
 
-        public event Action<IAbilityCastSystem> TargetingStarted;
-        public event Action<IAbilityCastSystem> TargetingConfirmed;
-        public event Action<IAbilityCastSystem> TargetingCanceled;
+        public event Action<IAbilityTargetingSystem> TargetingStarted;
+        public event Action<IAbilityTargetingSystem> TargetingConfirmed;
+        public event Action<IAbilityTargetingSystem> TargetingCanceled;
 
         public bool StartTargeting(CellRangeBorders mapBorders, Vector2Int casterPosition);
         public bool ConfirmTargeting();

@@ -7,15 +7,15 @@ using UnityEngine.Rendering.Universal;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class MultiTargetCastSystem : IAbilityCastSystem
+    public class MultiTargetTargetingSystem : IAbilityTargetingSystem
     {
         public bool IsTargeting { get; private set; }
         public bool IsConfirmed { get; private set; }
         public bool IsConfirmAvailable => IsTargeting && !IsConfirmed && NecessaryTargetsLeft == 0;
 
-        public event Action<IAbilityCastSystem> TargetingStarted;
-        public event Action<IAbilityCastSystem> TargetingConfirmed;
-        public event Action<IAbilityCastSystem> TargetingCanceled;
+        public event Action<IAbilityTargetingSystem> TargetingStarted;
+        public event Action<IAbilityTargetingSystem> TargetingConfirmed;
+        public event Action<IAbilityTargetingSystem> TargetingCanceled;
 
         //TODO закрыть set-теры
         //TODO для направленных систем - ограничить паттерны только для целей
@@ -55,9 +55,9 @@ namespace OrderElimination.AbilitySystem
 
         public IEnumerable<Vector2Int> AvailableCells => _availableCells;
 
-        public event Action<MultiTargetCastSystem> ConfirmationUnlocked;
-        public event Action<MultiTargetCastSystem> ConfirmationLocked;
-        public event Action<MultiTargetCastSystem> SelectionUpdated;
+        public event Action<MultiTargetTargetingSystem> ConfirmationUnlocked;
+        public event Action<MultiTargetTargetingSystem> ConfirmationLocked;
+        public event Action<MultiTargetTargetingSystem> SelectionUpdated;
 
         private ICellGroupDistributionPattern _targetPattern;
         private int _necessaryTargets;

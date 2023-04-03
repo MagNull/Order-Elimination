@@ -23,7 +23,7 @@ namespace OrderElimination.AbilitySystem
         public void AddInstructionsAfter<TAction>(ActionInstruction instructionToAdd, bool copyParentTargetGroups) where TAction : BattleAction<TAction>
         {
             foreach (var instruction in ActionInstructions)
-                instruction.AddInstructionsAfter<TAction>(instructionToAdd, copyParentTargetGroups);
+                instruction.AddInstructionsAfterRecursive<TAction>(instructionToAdd, copyParentTargetGroups);
         }
 
         public void RemoveInstructions(ActionInstruction instructionToRemove)

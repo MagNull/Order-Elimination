@@ -2,7 +2,7 @@
 
 namespace OrderElimination.AbilitySystem
 {
-    public class AbilityView //name, icon, effects
+    public class AbilityView
     {
         public string Name { get; set; }
         public string Description { get; set; }

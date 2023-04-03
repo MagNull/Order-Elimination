@@ -6,12 +6,12 @@ namespace OrderElimination.AbilitySystem
 {
 	public interface ICommonCondition
 	{
-		public bool IsConditionMet(IBattleContext context, IAbilitySystemActor caster);
+		public bool IsConditionMet(IBattleContext battleContext, IAbilitySystemActor caster);
 	}
 
     public interface ICellCondition
     {
-        public bool IsConditionMet(IBattleContext context, IAbilitySystemActor caster, Cell targetCell);
+        public bool IsConditionMet(IBattleContext battleContext, IAbilitySystemActor caster, Cell targetCell);
     }
 
 	public interface IActionCondition
