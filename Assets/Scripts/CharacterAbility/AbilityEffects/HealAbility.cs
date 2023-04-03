@@ -14,7 +14,7 @@ namespace CharacterAbility.AbilityEffects
         public HealAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability,
             DamageHealTarget damageHealTarget,
             int healAmount,
-            AbilityScaleFrom abilityScaleFrom, float scale, BattleObjectSide filter) : base(caster, isMain,
+            AbilityScaleFrom abilityScaleFrom, float scale, BattleObjectType filter) : base(caster, isMain,
             nextEffect, filter,
             probability)
         {

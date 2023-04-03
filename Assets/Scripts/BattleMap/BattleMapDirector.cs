@@ -52,7 +52,7 @@ public class BattleMapDirector
         foreach (var environmentObject in environmentObjects)
         {
             var coords = environmentObject.CoordinateSpace;
-            _battleMapView.Map.MoveTo(environmentObject.Object, coords.x, coords.y);
+            _battleMapView.Map.SpawnObject(environmentObject.Object, coords.x, coords.y);
         }
     }
 

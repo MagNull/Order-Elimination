@@ -26,7 +26,7 @@ namespace CharacterAbility.AbilityEffects
         //TODO: Refactor DI in BuffAbilities
         public TickingBuffAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability,
             Buff_Type buffType,
-            float value, ScaleFromWhom scaleFromWhom, int duration, BattleObjectSide filter, DamageType damageType,
+            float value, ScaleFromWhom scaleFromWhom, int duration, BattleObjectType filter, DamageType damageType,
             bool isMultiplier, bool isUnique, ITickEffectView tickEffectView, IObjectResolver objectResolver,
             ITickEffect[] triggerEffects) :
             base(caster, isMain, nextEffect, filter, probability)

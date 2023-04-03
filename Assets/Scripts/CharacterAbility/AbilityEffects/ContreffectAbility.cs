@@ -11,7 +11,7 @@ namespace CharacterAbility.AbilityEffects
         private readonly Func<IBattleObject, IBattleObject, int> _getDistance;
         private readonly int _distance;
 
-        public ContreffectAbility(IBattleObject caster, bool isMain, Ability nextEffect, BattleObjectSide filter, float probability,
+        public ContreffectAbility(IBattleObject caster, bool isMain, Ability nextEffect, BattleObjectType filter, float probability,
             Func<IBattleObject, IBattleObject, int> getDistance, int distance)
             : base(caster,isMain , nextEffect, filter, probability)
         {

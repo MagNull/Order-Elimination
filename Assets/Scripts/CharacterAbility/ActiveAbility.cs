@@ -9,7 +9,7 @@ namespace CharacterAbility.AbilityEffects
         private readonly bool _selfCast;
 
         public ActiveAbility(IBattleObject caster, Ability nextEffect, bool selfCast,
-            BattleObjectSide filter)
+            BattleObjectType filter)
             : base(caster, false, nextEffect, filter)
         {
             _nextEffect = nextEffect;

@@ -27,7 +27,7 @@ namespace CharacterAbility.AbilityEffects
         //TODO: Refactor DI in BuffAbilities
         public ConditionalBuffAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability,
             Buff_Type buffType,
-            float value, int duration, ScaleFromWhom scaleFromWhom, BuffConditionType conditionType, BattleObjectSide filter,
+            float value, int duration, ScaleFromWhom scaleFromWhom, BuffConditionType conditionType, BattleObjectType filter,
             DamageType damageType, bool isMultiplier, bool isUnique, ITickEffectView tickEffectView, IObjectResolver objectResolver) :
             base(caster, isMain, nextEffect, filter, probability)
         {
