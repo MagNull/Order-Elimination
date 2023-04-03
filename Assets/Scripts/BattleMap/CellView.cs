@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -28,7 +29,7 @@ public class CellView : MonoBehaviour
 
     private Cell _model;
 
-    public Cell Model => _model;
+    public IReadOnlyCell Model => _model;
 
     public void Start()
     {
@@ -42,20 +43,17 @@ public class CellView : MonoBehaviour
 
     public void Light()
     {
-        _renderer.color = _model.GetObject().Side switch
-        {
-            BattleObjectSide.None => _lightColor,
-            BattleObjectSide.Obstacle => _obstacleColor,
-            BattleObjectSide.Environment => _lightColor,
-            BattleObjectSide.Enemy => _enemyColor,
-            BattleObjectSide.Ally => _allyColor,
-            _ => throw new ArgumentOutOfRangeException()
-        };
-        if (_model.GetObject() is BattleCharacter battleCharacter &&
-            ((BattleCharacterView) battleCharacter.View).IsSelected)
-        {
+        if (_model.Objects.Any(obj => obj is BattleCharacter battleCharacter &&
+                                      ((BattleCharacterView) battleCharacter.View).IsSelected))
             _renderer.color = _characterSelectedColor;
-        }
+        else if (_model.Objects.Count == 1)
+            _renderer.color = _lightColor;
+        else if (_model.Objects.Count > 1 && _model.Objects.Any(obj => obj.Type == BattleObjectType.Enemy))
+            _renderer.color = _enemyColor;
+        else if (_model.Objects.Count > 1 && _model.Objects.Any(obj => obj.Type == BattleObjectType.Ally))
+            _renderer.color = _allyColor;
+        else
+            _renderer.color = _lightColor;
     }
 
     public void Delight()
@@ -67,7 +65,8 @@ public class CellView : MonoBehaviour
     public void Select()
     {
         _deselectColor = _renderer.color;
-        _renderer.color = _selectedColor;
+        var d =
+            _renderer.color = _selectedColor;
     }
 
     public void Deselect()

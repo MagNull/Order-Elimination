@@ -14,9 +14,9 @@ namespace CharacterAbility
         protected readonly float _probability;
         protected readonly IBattleObject _caster;
         private readonly bool _isMain;
-        private readonly BattleObjectSide _filter;
+        private readonly BattleObjectType _filter;
 
-        protected Ability(IBattleObject caster, bool isMain, Ability nextEffect, BattleObjectSide filter,
+        protected Ability(IBattleObject caster, bool isMain, Ability nextEffect, BattleObjectType filter,
             float probability = 100)
         {
             _caster = caster;
@@ -28,7 +28,7 @@ namespace CharacterAbility
 
         public async UniTask Use(IBattleObject target, IReadOnlyBattleStats stats)
         {
-            if (target.Side != _filter && _filter != BattleObjectSide.None || Random.Range(0, 100) > _probability)
+            if (target.Type != _filter && _filter != BattleObjectType.None || Random.Range(0, 100) > _probability)
             {
                 await UseNext(target, stats);
                 return;

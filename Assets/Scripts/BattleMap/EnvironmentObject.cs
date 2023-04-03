@@ -25,7 +25,7 @@ namespace OrderElimination.BM
 
         public IReadOnlyList<ITickEffect> AllEffects => new List<ITickEffect>();
         public IReadOnlyBattleStats Stats => _stats;
-        public BattleObjectSide Side => _isWalkable ? BattleObjectSide.Environment : BattleObjectSide.Obstacle;
+        public BattleObjectType Type => _isWalkable ? BattleObjectType.Environment : BattleObjectType.Obstacle;
         public bool IsAlive => true;
 
         public IBattleObjectView View { get; set; }
@@ -114,19 +114,18 @@ namespace OrderElimination.BM
 
         private void Destroy()
         {
-            var cellObj = _map.GetCell(this).GetObject();
-            var cellObjCoord = _map.GetCoordinate(cellObj);
+            var cell = _map.GetCell(this);
             _map.DestroyObject(this);
-            if (cellObj == this)
+            var character = cell.Objects.FirstOrDefault(obj => obj is BattleCharacter) as BattleCharacter;
+            if (character == null)
                 return;
 
-            OnLeave(cellObj);
-            _map.MoveTo(cellObj, cellObjCoord.x, cellObjCoord.y);
+            OnLeave(character);
         }
 
         public bool Equals(EnvironmentObject other)
         {
-            return other is not null && other.Side == Side &&
+            return other is not null && other.Type == Type &&
                    other._enterBuffs.All(ef => _enterBuffs.Any(e2 => e2.Equals(ef)));
         }
     }

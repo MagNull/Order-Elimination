@@ -24,13 +24,13 @@ public class BattleCharacterFactory : MonoBehaviour
         _abilityFactory = abilityFactory;
     }
 
-    public BattleCharacter Create(IBattleCharacterInfo info, BattleObjectSide side)
+    public BattleCharacter Create(IBattleCharacterInfo info, BattleObjectType type)
     {
         BattleCharacterView battleCharacterView = Instantiate(charPrefab);
         battleCharacterView.SetImage(info.GetViewIcon());
         BattleCharacter character;
         //TODO: Generation Enemy 
-        if (side == BattleObjectSide.Enemy)
+        if (type == BattleObjectType.Enemy)
         {
             //TODO: Remove
             IDamageCalculation damageCalculation = info.GetName() == "Раненый Камнегрыз"
@@ -62,7 +62,7 @@ public class BattleCharacterFactory : MonoBehaviour
         }
         else
         {
-            character = new BattleCharacter(side, new BattleStats(info.GetBattleStats()),
+            character = new BattleCharacter(type, new BattleStats(info.GetBattleStats()),
                 new SimpleDamageCalculation());
         }
 
@@ -79,17 +79,17 @@ public class BattleCharacterFactory : MonoBehaviour
     }
 
     public List<BattleCharacter> CreatePlayerSquad(List<IBattleCharacterInfo> infos) =>
-        CreateSquad(infos, BattleObjectSide.Ally, "Player");
+        CreateSquad(infos, BattleObjectType.Ally, "Player");
 
     public List<BattleCharacter> CreateEnemySquad(List<IBattleCharacterInfo> infos) =>
-        CreateSquad(infos, BattleObjectSide.Enemy, "Enemy");
+        CreateSquad(infos, BattleObjectType.Enemy, "Enemy");
 
-    private List<BattleCharacter> CreateSquad(List<IBattleCharacterInfo> infos, BattleObjectSide side, string name)
+    private List<BattleCharacter> CreateSquad(List<IBattleCharacterInfo> infos, BattleObjectType type, string name)
     {
         var characters = new List<BattleCharacter>(infos.Count);
         for (var i = 0; i < infos.Count; i++)
         {
-            characters.Add(Create(infos[i], side));
+            characters.Add(Create(infos[i], type));
             characters.Last().View.GameObject.name = name + " " + i;
         }
 

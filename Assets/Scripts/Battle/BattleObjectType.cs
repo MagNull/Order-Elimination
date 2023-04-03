@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BattleObjectSide 
+public enum BattleObjectType 
 {
     None,
     Environment,

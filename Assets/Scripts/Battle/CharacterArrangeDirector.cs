@@ -39,7 +39,7 @@ public class CharacterArrangeDirector
         {
             characters.Add(playerSquad[i]);
             playerSquad[i].Died += OnCharacterDied;
-            _arrangementMap.MoveTo(playerSquad[i], unitPositions[i].x, unitPositions[i].y);
+            _arrangementMap.SpawnObject(playerSquad[i], unitPositions[i].x, unitPositions[i].y);
         }
 
         List<BattleCharacter> enemySquad = _characterFactory.CreateEnemySquad(_enemiesInfo);
@@ -47,7 +47,7 @@ public class CharacterArrangeDirector
         {
             characters.Add(enemySquad[i]);
             enemySquad[i].Died += OnCharacterDied;
-            _arrangementMap.MoveTo(enemySquad[i], enemyPositions[i].x, enemyPositions[i].y);
+            _arrangementMap.SpawnObject(enemySquad[i], enemyPositions[i].x, enemyPositions[i].y);
         }
         
         _charactersBank.AddCharactersRange(characters);

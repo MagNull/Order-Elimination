@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using OrderElimination.BM;
 using UnityEngine;
 
+//TODO: Optimize some methods (find cell example)
 public class BattleMapView : MonoBehaviour
 {
     public event Action<CellView> CellClicked;
@@ -22,11 +24,6 @@ public class BattleMapView : MonoBehaviour
 
     public BattleMap Map => _battleMap;
 
-    public void InitStartUnitSelection()
-    {
-        BattleSimulation.PlayerTurnStarted += OnPlayerTurnStarted;
-    }
-
     public void OnEnable()
     {
         _battleMap.CellChanged += OnCellChanged;
@@ -35,8 +32,11 @@ public class BattleMapView : MonoBehaviour
     public void OnDisable()
     {
         BattleSimulation.BattleEnded -= OnBattleEnded;
-        BattleSimulation.PlayerTurnStarted -= OnPlayerTurnStarted;
         _battleMap.CellChanged -= OnCellChanged;
+        foreach (var cellView in _cellViewGrid)
+        {
+            cellView.CellClicked -= OnCellClicked;
+        }
     }
 
     public void Init(CellView[,] viewGrid)
@@ -47,8 +47,6 @@ public class BattleMapView : MonoBehaviour
         {
             cellView.CellClicked += OnCellClicked;
         }
-
-        BattleSimulation.PlayerTurnStarted += OnPlayerTurnStarted;
     }
 
     public CellView GetCell(int x, int y)
@@ -62,7 +60,7 @@ public class BattleMapView : MonoBehaviour
         {
             for (var j = 0; j < _cellViewGrid.GetLength(1); j++)
             {
-                if (_cellViewGrid[i, j].Model.GetObject() == battleObject)
+                if (_cellViewGrid[i, j].Model.Objects.Contains(battleObject))
                 {
                     return _cellViewGrid[i, j];
                 }
@@ -70,22 +68,6 @@ public class BattleMapView : MonoBehaviour
         }
 
         throw new ArgumentException("BattleObject not found");
-    }
-
-    public CellView GetCell(Cell cell)
-    {
-        for (var i = 0; i < _cellViewGrid.GetLength(0); i++)
-        {
-            for (var j = 0; j < _cellViewGrid.GetLength(1); j++)
-            {
-                if (_cellViewGrid[i, j].Model == cell)
-                {
-                    return _cellViewGrid[i, j];
-                }
-            }
-        }
-
-        throw new ArgumentException("Cell not found");
     }
 
     public void LightCellByDistance(int x, int y, int distance)
@@ -105,19 +87,6 @@ public class BattleMapView : MonoBehaviour
         }
     }
 
-    public void LightCell(int x, int y)
-    {
-        CellView cell = _cellViewGrid[x, y];
-        cell.Light();
-        _lightedCells.Add(cell);
-    }
-
-    public void LightCell(CellView cellView)
-    {
-        cellView.Light();
-        _lightedCells.Add(cellView);
-    }
-
     public void DelightCells()
     {
         foreach (var cell in _lightedCells)
@@ -128,22 +97,16 @@ public class BattleMapView : MonoBehaviour
         _lightedCells.Clear();
     }
 
-    private async void OnPlayerTurnStarted()
-    {
-        // await UniTask.Delay(TimeSpan.FromSeconds(_moveDuration));
-        // foreach (var cellView in _cellViewGrid)
-        // {
-        //     if (cellView.Model.GetObject().View is not BattleCharacterView battleCharacterView ||
-        //         !cellView.Model.GetObject().View.GameObject ||
-        //         battleCharacterView.Model.Side != BattleObjectSide.Ally) continue;
-        //     CellClicked?.Invoke(cellView);
-        //     return;
-        // }
-    }
-
     private void OnBattleEnded(BattleOutcome obj)
     {
         _battleEnded = true;
+    }
+
+    private void LightCell(int x, int y)
+    {
+        CellView cell = _cellViewGrid[x, y];
+        cell.Light();
+        _lightedCells.Add(cell);
     }
 
     private void OnCellClicked(CellView cellView)
@@ -153,11 +116,25 @@ public class BattleMapView : MonoBehaviour
         CellClicked?.Invoke(cellView);
     }
 
-    private void OnCellChanged(Cell cell)
+    private void OnCellChanged(Cell cell, bool tween)
     {
-        var obj = cell.GetObject();
-        if (obj is NullBattleObject)
+        var objs = cell.Objects;
+        if (objs.Count <= 1)
             return;
-        obj.View.GameObject.transform.DOMove(GetCell(obj).transform.position, _moveDuration);
+        foreach (var battleObject in objs)
+        {
+            if (battleObject is NullBattleObject)
+                continue;
+            if (tween)
+            {
+                Debug.Log("Move");
+                battleObject.View.GameObject.transform.DOMove(GetCell(battleObject).transform.position, _moveDuration);
+            }
+            else
+            {
+                Debug.Log("Spawn");
+                battleObject.View.GameObject.transform.position = GetCell(battleObject).transform.position;
+            }
+        }
     }
 }

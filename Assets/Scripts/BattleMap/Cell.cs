@@ -5,26 +5,49 @@ using UnityEngine;
 using OrderElimination.BM;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using OrderElimination.AbilitySystem;
 
-public class Cell
+public interface IReadOnlyCell
 {
-    public IAbilitySystemActor[] GetContainingEntities() => throw new NotImplementedException();
+    public IReadOnlyList<IBattleObject> Objects { get; }
+    public bool Contains(Predicate<IBattleObject> predicate, out IBattleObject result);
+}
 
-    private IBattleObject _object;
+public class Cell : IReadOnlyCell
+{
+    private readonly List<IBattleObject> _objects;
+
+    public IReadOnlyList<IBattleObject> Objects => _objects;
 
     public Cell()
     {
-        _object = new NullBattleObject();
+        _objects = new List<IBattleObject> {new NullBattleObject()};
     }
 
-    public IBattleObject GetObject()
+    public void AddObject(IBattleObject obj)
     {
-        return _object;
+        if (_objects.Contains(obj))
+        {
+            Debug.LogWarning("Try add existing object to cell");
+            return;
+        }
+
+        _objects.Add(obj);
     }
 
-    public void SetObject(IBattleObject obj)
+    public bool Contains(Predicate<IBattleObject> predicate, out IBattleObject result)
     {
-        _object = obj;
+        result = _objects.Find(predicate);
+        return result != null;
+    }
+
+    public void RemoveObject(IBattleObject obj)
+    {
+        if (!_objects.Contains(obj))
+        {
+            Debug.LogWarning("Try remove wrong object from cell");
+            return;
+        }
+
+        _objects.Remove(obj);
     }
 }
