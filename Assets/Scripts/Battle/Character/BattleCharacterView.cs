@@ -58,13 +58,13 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
         _character.Damaged += OnDamaged;
         _character.Died += OnDied;
 
-        switch (Model.Side)
+        switch (Model.Type)
         {
-            case BattleObjectSide.Ally:
+            case BattleObjectType.Ally:
                 BattleSimulation.PlayerTurnStarted += OnTurnStart;
                 _character.ActionBankChanged += OnActionBankChanged;
                 break;
-            case BattleObjectSide.Enemy:
+            case BattleObjectType.Enemy:
                 BattleSimulation.EnemyTurnStarted += OnTurnStart;
                 break;
         }
@@ -168,13 +168,13 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
         _character.Damaged -= OnDamaged;
         _character.Died -= OnDied;
 
-        switch (Model.Side)
+        switch (Model.Type)
         {
-            case BattleObjectSide.Ally:
+            case BattleObjectType.Ally:
                 BattleSimulation.PlayerTurnStarted -= OnTurnStart;
                 _character.ActionBankChanged -= OnActionBankChanged;
                 break;
-            case BattleObjectSide.Enemy:
+            case BattleObjectType.Enemy:
                 BattleSimulation.EnemyTurnStarted -= OnTurnStart;
                 break;
         }

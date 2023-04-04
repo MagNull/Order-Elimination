@@ -20,7 +20,7 @@ namespace CharacterAbility.AbilityEffects
             DamageType damageType,
             int damageAmounts,
             AbilityScaleFrom scaleFrom,
-            float attackScale, BattleObjectSide filter) :
+            float attackScale, BattleObjectType filter) :
             base(caster, isMain, nextEffect, filter, probability)
         {
             _scaleFrom = scaleFrom;
@@ -65,7 +65,7 @@ namespace CharacterAbility.AbilityEffects
                                                               (battleMap.GetStraightDistance(_caster, target) - 1)),
                 AbilityScaleFrom.Rivals =>
                     (int)(_battleMap.GetBattleObjectsInRadius(_caster, 1,
-                              _caster.Side == BattleObjectSide.Ally ? BattleObjectSide.Enemy : BattleObjectSide.Ally).Count *
+                              _caster.Type == BattleObjectType.Ally ? BattleObjectType.Enemy : BattleObjectType.Ally).Count *
                      _attackScale) * stats.Attack,
                 _ => throw new ArgumentOutOfRangeException()
             };

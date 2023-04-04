@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using CharacterAbility.AbilityEffects;
 using Cysharp.Threading.Tasks;
 using OrderElimination;
@@ -15,8 +16,9 @@ namespace CharacterAbility
         private readonly PassiveAbilityParams.PassiveTriggerType _passiveTriggerType;
         private readonly Ability _nextEffect;
 
-        public PassiveAbility(IBattleObject caster, IBattleObject moveToTrigger, PassiveAbilityParams.PassiveTriggerType passiveTriggerType,
-            Ability nextEffect, BattleObjectSide filter, float probability) : base(caster, false, nextEffect, filter,
+        public PassiveAbility(IBattleObject caster, IBattleObject moveToTrigger,
+            PassiveAbilityParams.PassiveTriggerType passiveTriggerType,
+            Ability nextEffect, BattleObjectType filter, float probability) : base(caster, false, nextEffect, filter,
             probability)
         {
             _moveToTrigger = moveToTrigger;
@@ -33,7 +35,7 @@ namespace CharacterAbility
                     {
                         if (info.CancelType != DamageCancelType.None)
                             return;
-                        if(_nextEffect is ContreffectAbility)
+                        if (_nextEffect is ContreffectAbility)
                             _nextEffect.Use(info.Attacker, _caster.Stats);
                         else
                             _nextEffect.Use(target, stats);
@@ -45,7 +47,7 @@ namespace CharacterAbility
                         if (_moveToTrigger == null || _moveToTrigger is NullBattleObject)
                             _nextEffect?.Use(target, stats);
                         else if (_moveToTrigger is EnvironmentObject environmentObject &&
-                                 to.GetObject() is EnvironmentObject toEnv &&
+                                 to.Contains(obj => obj is EnvironmentObject, out var toEnv) &&
                                  toEnv.Equals(environmentObject)) _nextEffect?.Use(target, stats);
                     };
                     break;

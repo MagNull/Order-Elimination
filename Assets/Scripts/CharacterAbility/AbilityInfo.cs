@@ -97,7 +97,7 @@ namespace CharacterAbility
         [ShowIf("HasProbability")]
         public float Probability;
         [ShowIf("@Type != AbilityEffectType.Move && Type != AbilityEffectType.Modificator")]
-        public BattleObjectSide Filter;
+        public BattleObjectType Filter;
         [ShowIf(
             "@Type == AbilityEffectType.Damage || Type == AbilityEffectType.Heal || Type == AbilityEffectType.OverTime")]
         public DamageHealTarget _damageHealTarget;
@@ -283,9 +283,10 @@ namespace CharacterAbility
         [SerializeField]
         private AbilityEffect[] _patternEffects;
 
+        [FormerlySerializedAs("_lightTargetsSide")]
         [ShowIf("@_hasAreaEffect || _hasPatternTargetEffect")]
         [SerializeField]
-        private BattleObjectSide _lightTargetsSide;
+        private BattleObjectType _lightTargetsType;
 
         #endregion
 
@@ -307,7 +308,7 @@ namespace CharacterAbility
 
         public bool DistanceFromMovement => _distanceFromMovement;
 
-        public BattleObjectSide LightTargetsSide => _lightTargetsSide;
+        public BattleObjectType LightTargetsType => _lightTargetsType;
 
         public bool HasPatternTargetEffect => _hasPatternTargetEffect;
 

@@ -24,9 +24,9 @@ namespace OrderElimination.Battle
         public void AddCharactersRange(IEnumerable<BattleCharacter> battleCharacters) =>
             _characters.AddRange(battleCharacters);
 
-        public List<BattleCharacter> GetEnemies() => _characters.FindAll(x => x.Side == BattleObjectSide.Enemy);
+        public List<BattleCharacter> GetEnemies() => _characters.FindAll(x => x.Type == BattleObjectType.Enemy);
 
-        public List<BattleCharacter> GetAllies() => _characters.FindAll(x => x.Side == BattleObjectSide.Ally);
+        public List<BattleCharacter> GetAllies() => _characters.FindAll(x => x.Type == BattleObjectType.Ally);
     }
 
     public interface IReadOnlyCharacterBank

@@ -126,10 +126,9 @@ namespace CharacterAbility
                 .SuppressCancellationThrow();
             if (targetSelection.IsCanceled)
             {
-                foreach (var selectedObj in _selectedCellViews.Select(cell => cell.Model.GetObject()))
+                foreach (var objs in _selectedCellViews)
                 {
-                    if (selectedObj is not NullBattleObject &&
-                        selectedObj.View.GameObject &&
+                    if (objs.Model.Contains(obj => obj is BattleCharacter, out var selectedObj) &&
                         selectedObj.View.GameObject.TryGetComponent(out BattleCharacterView view))
                         view.HideAccuracy();
                 }
@@ -138,11 +137,12 @@ namespace CharacterAbility
                 return true;
             }
 
-            IBattleObject target = targetSelection.Result;
+            IReadOnlyList<IBattleObject> targets = targetSelection.Result;
 
             if (!Caster.TrySpendAction(AbilityInfo.ActionType))
                 throw new Exception("Dont enough actions");
-            _ability.Use(target, Caster.Stats);
+            foreach (var target in targets) 
+                _ability.Use(target, Caster.Stats);
 
             _coolDownTimer = AbilityInfo.CoolDown;
             //TODO: Rework crutch
@@ -157,18 +157,19 @@ namespace CharacterAbility
             return true;
         }
 
-        private async UniTask<IBattleObject> SelectTarget()
+        private async UniTask<IReadOnlyList<IBattleObject>> SelectTarget()
         {
-            IBattleObject target = null;
+            IReadOnlyCell target = null;
             _casting = true;
 
             var cellConfirmed = false;
             List<IBattleObject> availableTargets = GetTargets();
+            Debug.Log(availableTargets.Count);
 
-            void OnCellClicked(CellView cell)
+            void OnCellClicked(CellView cellView)
             {
-                IBattleObject selected = cell.Model.GetObject();
-                if (!availableTargets.Contains(selected))
+                IReadOnlyCell selectedCell = cellView.Model;
+                if (!selectedCell.Objects.Any(obj => availableTargets.Contains(obj)))
                 {
                     if (AbilityInfo.ActionType != ActionType.Movement)
                         WrongTargetSelected();
@@ -178,7 +179,7 @@ namespace CharacterAbility
                 DeselectCells(_selectedCellViews);
                 _selectedCellViews.Clear();
 
-                if (selected == target)
+                if (selectedCell == target)
                 {
                     cellConfirmed = true;
                     return;
@@ -196,33 +197,32 @@ namespace CharacterAbility
 
                 if (AbilityInfo.ActiveParams.HasAreaEffect)
                 {
-                    var area = _battleMapView.Map.GetBattleObjectsInRadius(selected,
-                        AbilityInfo.ActiveParams.AreaRadius, AbilityInfo.ActiveParams.LightTargetsSide);
+                    var area = _battleMapView.Map.GetBattleObjectsInRadius(selectedCell.Objects[0],
+                        AbilityInfo.ActiveParams.AreaRadius, AbilityInfo.ActiveParams.LightTargetsType);
                     SelectSeveral(area);
                 }
 
                 if (AbilityInfo.ActiveParams.HasPatternTargetEffect)
                 {
-                    var pattern = _battleMapView.Map.GetBattleObjectsInPatternArea(selected,
-                        Caster, AbilityInfo.ActiveParams.Pattern, AbilityInfo.ActiveParams.LightTargetsSide,
+                    var pattern = _battleMapView.Map.GetBattleObjectsInPatternArea(selectedCell.Objects[0],
+                        Caster, AbilityInfo.ActiveParams.Pattern, AbilityInfo.ActiveParams.LightTargetsType,
                         AbilityInfo.ActiveParams.PatternMaxDistance);
                     SelectSeveral(pattern);
                 }
 
-                cell.Select();
-                _selectedCellViews.Add(cell);
+                cellView.Select();
+                _selectedCellViews.Add(cellView);
 
-                target = selected;
-                _casterView.FireLine.SetPosition(1, cell.transform.position);
+                target = selectedCell;
+                _casterView.FireLine.SetPosition(1, cellView.transform.position);
 
-                foreach (var selectedObj in _selectedCellViews.Select(selectedCellView =>
-                             selectedCellView.Model.GetObject()))
+                foreach (var cell in _selectedCellViews.Select(selectedCellView =>
+                             selectedCellView.Model))
                 {
-                    if (selectedObj is NullBattleObject || selectedObj == Caster ||
-                        !selectedObj.View.GameObject.TryGetComponent(out BattleCharacterView view))
+                    if (!cell.Contains(o => o is BattleCharacter, out var selectedObj))
                         continue;
                     var accuracy = selectedObj.GetAccuracyFrom(Caster);
-                    view.ShowAccuracy(accuracy);
+                    selectedObj.View.ShowAccuracy(accuracy);
                 }
             }
 
@@ -237,7 +237,7 @@ namespace CharacterAbility
 
             _battleMapView.CellClicked -= OnCellClicked;
 
-            return target;
+            return target.Objects;
         }
 
         private static void DeselectCells(List<CellView> selectedCellViews)
@@ -245,10 +245,9 @@ namespace CharacterAbility
             foreach (var cell in selectedCellViews)
             {
                 cell.Deselect();
-                var selectedObj = cell.Model.GetObject();
-                if (selectedObj is not NullBattleObject &&
-                    selectedObj.View.GameObject.TryGetComponent(out BattleCharacterView view))
-                    view.HideAccuracy();
+                var selectedCell = cell.Model;
+                if (selectedCell.Contains(obj => obj is BattleCharacter, out var character))
+                    character.View.HideAccuracy();
             }
         }
 
@@ -268,25 +267,25 @@ namespace CharacterAbility
                 case TargetType.Empty:
                     targets.AddRange(_battleMapView.Map.GetEmptyObjectsInRadius(Caster, _abilityDistance));
                     targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(Caster, _abilityDistance,
-                        BattleObjectSide.Environment));
+                        BattleObjectType.Environment));
                     break;
                 case TargetType.Enemy:
                     targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(Caster, _abilityDistance,
-                        BattleObjectSide.Enemy));
+                        BattleObjectType.Enemy));
                     break;
                 case TargetType.Ally:
                     targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(Caster, _abilityDistance,
-                        BattleObjectSide.Ally));
+                        BattleObjectType.Ally));
                     targets.Add(Caster);
                     break;
                 case TargetType.All:
                     targets.AddRange(_battleMapView.Map.GetEmptyObjectsInRadius(Caster, _abilityDistance));
                     targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(Caster, _abilityDistance,
-                        BattleObjectSide.Enemy));
+                        BattleObjectType.Enemy));
                     targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(Caster, _abilityDistance,
-                        BattleObjectSide.Ally));
+                        BattleObjectType.Ally));
                     targets.AddRange(_battleMapView.Map.GetBattleObjectsInRadius(Caster, _abilityDistance,
-                        BattleObjectSide.Environment));
+                        BattleObjectType.Environment));
                     targets.Add(Caster);
                     break;
                 default:

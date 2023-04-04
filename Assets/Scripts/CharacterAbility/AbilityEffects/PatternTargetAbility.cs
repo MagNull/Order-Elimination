@@ -8,11 +8,11 @@ namespace CharacterAbility.AbilityEffects
     {
         private readonly Vector2Int[] _pattern;
         private readonly BattleMap _battleMap;
-        private readonly BattleObjectSide _filter;
+        private readonly BattleObjectType _filter;
         private readonly int _maxDistance;
 
         public PatternTargetAbility(IBattleObject caster, Vector2Int[] pattern, BattleMap battleMap, Ability nextEffect,
-            BattleObjectSide filter, int maxDistance) :
+            BattleObjectType filter, int maxDistance) :
             base(caster, false, nextEffect, filter)
         {
             _pattern = pattern;

@@ -11,7 +11,7 @@ namespace CharacterAbility.AbilityEffects
         private readonly BattleMap _battleMap;
 
         public AreaAbility(IBattleObject caster, Ability areaEffects, BattleMap battleMap,
-            int radius, BattleObjectSide filter) :
+            int radius, BattleObjectType filter) :
             base(caster, false, null, filter)
         {
             _radius = radius;

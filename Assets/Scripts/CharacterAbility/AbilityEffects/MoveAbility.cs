@@ -13,7 +13,7 @@ namespace CharacterAbility.AbilityEffects
         private readonly float _stepDelay;
 
         public MoveAbility(IBattleObject caster, bool isMain, Ability nextEffect, float probability, BattleMap battleMap,
-            BattleObjectSide filter, float stepDelay) : base(caster, isMain, nextEffect, filter, probability)
+            BattleObjectType filter, float stepDelay) : base(caster, isMain, nextEffect, filter, probability)
         {
             _battleMap = battleMap;
             _stepDelay = stepDelay;
