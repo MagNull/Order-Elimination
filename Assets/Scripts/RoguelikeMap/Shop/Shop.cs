@@ -11,19 +11,19 @@ namespace OrderElimination
     {
         [SerializeField]
         private MoneyCounter _counter;
-        [SerializeField] 
+        [SerializeField]
         private ShopItem _itemPrefab;
         [SerializeField]
         private Transform _shopList;
-        
+
         private static Wallet _wallet;
-        private List<ShopItem> _shopItems = new List<ShopItem>();
+        private readonly List<ShopItem> _shopItems = new List<ShopItem>();
+
         [Inject]
         public void Wallet(Wallet wallet)
         {
             _wallet = wallet;
             _counter.Initialize(_wallet);
-            print(wallet.Money);
         }
 
         public void AddItems(List<FakeAbilityBase> abilityBases)
@@ -35,6 +35,7 @@ namespace OrderElimination
                 _shopItems.Add(item);
             }
         }
+
         public void AddItems(FakeAbilityBase ability)
         {
             var item = Instantiate(_itemPrefab, transform);
@@ -57,18 +58,20 @@ namespace OrderElimination
             {
                 _wallet.SubtractMoney(abil.Cost);
                 Debug.Log("Cost: " + item.Cost);
-                item.gameObject.SetActive(false);   
+                item.gameObject.SetActive(false);
             }
         }
+
         public void OnDisable()
         {
             ClearShop();
         }
+
         // stub
         private void OnEnable()
         {
             var abilities = Resources.LoadAll<FakeAbility>("TestAbility");
-            AddItems(abilities.Select(x=>(FakeAbilityBase)x).ToList());
+            AddItems(abilities.Select(x => (FakeAbilityBase) x).ToList());
         }
     }
 }

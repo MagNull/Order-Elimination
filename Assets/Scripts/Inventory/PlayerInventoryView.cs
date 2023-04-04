@@ -1,17 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Inventory
+namespace Inventory_Items
 {
-    public class PlayerInventoryView : SerializedMonoBehaviour
+    public class PlayerInventoryView : InventoryView
     {
+        public override event Action<IReadOnlyCell> CellClicked; 
+
         [SerializeField]
         private readonly Dictionary<IReadOnlyCell, IInventoryCellView> _cells = new();
         [SerializeField]
-        private InventoryCellFullView _cellViewPrefab;
+        private SimpleInventoryCellView _cellViewPrefab;
         [SerializeField]
         private GridLayoutGroup _cellContainer;
 
@@ -34,28 +37,38 @@ namespace Inventory
             }
         }
 
-        public void UpdateCells(IReadOnlyList<IReadOnlyCell> cells)
+        public override void UpdateCells(IReadOnlyList<IReadOnlyCell> cells)
         {
             foreach (var cell in cells.Where(cell => !_cells.ContainsKey(cell)))
                 OnCellAdded(cell);
         }
+        
 
-        public void OnCellChanged(IReadOnlyCell oldCell, IReadOnlyCell newCell)
+        public override void OnCellChanged(IReadOnlyCell oldCell, IReadOnlyCell newCell)
         {
             var cellView = _cells[oldCell];
             _cells.Remove(oldCell);
             cellView.OnCellChanged(newCell);
 
             if (newCell.ItemQuantity == 0)
+            {
+                cellView.Clicked -= OnCellClicked;
                 return;
+            }
             _cells.Add(newCell, cellView);
         }
 
-        public void OnCellAdded(IReadOnlyCell cell)
+        public override void OnCellAdded(IReadOnlyCell cell)
         {
             var cellView = Instantiate(_cellViewPrefab, _cellContainer.transform);
+            cellView.Clicked += OnCellClicked;
             cellView.OnCellChanged(cell);
             _cells.Add(cell, cellView);
+        }
+
+        private void OnCellClicked(IReadOnlyCell cell)
+        {
+            CellClicked?.Invoke(cell);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Inventory
+namespace Inventory_Items
 {
     public class Cell : IReadOnlyCell
     {

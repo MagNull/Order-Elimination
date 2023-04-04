@@ -14,27 +14,27 @@ namespace OrderElimination
         private Transform _selected;
         [SerializeField]
         private Transform _notSelected;
-        [SerializeField] 
+        [SerializeField]
         private Button _startAttackButton;
 
         [SerializeField]
         private GameObject _characterButtonPref;
-        [SerializeField] 
+        [SerializeField]
         private MoneyCounter _uiCounter;
         [SerializeField]
         private MetaShop _metaShop;
-        
+
         private Wallet _wallet;
-        
-        [SerializeField] 
+
+        [SerializeField]
         private List<Character> _characters;
 
         public override PanelType PanelType => PanelType.SquadMembers;
         public event Action<List<Character>> OnSelected;
-        
+
         private List<Character> _selectedCharacters;
         private List<Character> _unselectedCharacters;
-        
+
         private void Start()
         {
             CreatePanel();
@@ -45,13 +45,14 @@ namespace OrderElimination
         {
             _wallet = wallet;
         }
-        
+
         public void CreatePanel()
         {
             _uiCounter?.Initialize(_wallet);
 
             _selectedCharacters = new List<Character>();
 
+            Debug.Log("Da");
             foreach (var info in _characters)
             {
                 var characterCard = Instantiate(_characterButtonPref, _notSelected);
@@ -103,7 +104,7 @@ namespace OrderElimination
         {
             if (_selectedCharacters.Count <= 0)
                 return;
-            
+
             SquadMediator.SetCharacters(_selectedCharacters);
         }
     }

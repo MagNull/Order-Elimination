@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Inventory
+namespace Inventory_Items
 {
     public class Inventory
     {
@@ -54,6 +54,12 @@ namespace Inventory
             var newCell = new Cell(item, _cells[indexOfItem].ItemQuantity - quantity);
             OnCellChanged?.Invoke(_cells[indexOfItem], newCell);
             _cells[indexOfItem] = newCell;
+        }
+
+        public void MoveItemTo(Item item, Inventory other)
+        {
+            RemoveItem(item);
+            other.AddItem(item);
         }
     }
 }

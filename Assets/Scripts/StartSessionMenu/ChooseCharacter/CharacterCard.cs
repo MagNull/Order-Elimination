@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using RoguelikeMap;
+using UIManagement;
+using UIManagement.Elements;
 
 namespace OrderElimination
 {
@@ -26,6 +28,7 @@ namespace OrderElimination
         private Text _cardCost;
         [SerializeField] 
         private Button _button;
+        private HoldableButton _holdableButton;
 
         public bool _isSelected;
 
@@ -38,6 +41,9 @@ namespace OrderElimination
             _healthBar?.SetMaxHealth(character.GetBattleStats().UnmodifiedHealth);
             if(_cardCost is not null)
                 _cardCost.text = cost.ToString() + "$";
+            _holdableButton = GetComponent<HoldableButton>();
+            if (_holdableButton)
+                _holdableButton.Holded += OnHold;
             _button.onClick = new Button.ButtonClickedEvent();
         }
 
@@ -45,6 +51,13 @@ namespace OrderElimination
         {
             _isSelected = !_isSelected;
             _costImage.gameObject.SetActive(!_isSelected);
+        }
+
+        private void OnHold(HoldableButton b, float t)
+        {
+            var charDescPanel =
+                (CharacterDescriptionPanel) UIController.SceneInstance.OpenPanel(PanelType.CharacterDescription);
+            charDescPanel.UpdateCharacterDescription(_character);
         }
     }   
 }

@@ -1,21 +1,26 @@
-﻿using Sirenix.OdinInspector;
+﻿using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using Unity.VisualScripting;
 using UnityEngine;
+using VContainer;
+using Random = UnityEngine.Random;
 
-namespace Inventory
+namespace Inventory_Items
 {
-    public class InventoryPresenter : MonoBehaviour
+    public class InventoryPresenter : SerializedMonoBehaviour
     {
         [SerializeField]
-        private PlayerInventoryView _inventoryView;
+        protected InventoryView _inventoryView;
         [SerializeField]
         private ItemData[] _items;
-        private Inventory _inventoryModel;
+        protected Inventory _inventoryModel;
 
         private Item _lastItem;
-
-        private void Awake()
+        
+        [Inject]
+        public void Construct(Inventory inventory)
         {
-            _inventoryModel = new Inventory(100);
+            _inventoryModel = inventory;
         }
 
         private void OnEnable()
@@ -23,21 +28,33 @@ namespace Inventory
             _inventoryView.UpdateCells(_inventoryModel.Cells);
             _inventoryModel.OnCellAdded += _inventoryView.OnCellAdded;
             _inventoryModel.OnCellChanged += _inventoryView.OnCellChanged;
+            OnEnableAdditional();
+        }
+
+        protected virtual void OnEnableAdditional()
+        {
+            
         }
 
         private void OnDisable()
         {
             _inventoryModel.OnCellAdded -= _inventoryView.OnCellAdded;
             _inventoryModel.OnCellChanged -= _inventoryView.OnCellChanged;
+            OnDisableAdditional();
         }
-        
+
+        protected virtual void OnDisableAdditional()
+        {
+            
+        }
+
         [Button]
         public void AddItem()
         {
             _lastItem = new Item(_items[Random.Range(0, _items.Length)]);
             _inventoryModel.AddItem(_lastItem);
         }
-        
+
         [Button]
         public void RemoveItem()
         {

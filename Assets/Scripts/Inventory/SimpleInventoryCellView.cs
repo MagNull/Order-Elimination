@@ -1,11 +1,15 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Inventory
+namespace Inventory_Items
 {
-    public class InventoryCellFullView : MonoBehaviour, IInventoryCellView
+    public class SimpleInventoryCellView : MonoBehaviour, IInventoryCellView, IPointerDownHandler
     {
+        public event Action<IReadOnlyCell> Clicked;
+        
         [SerializeField]
         private TextMeshProUGUI _descriptionText;
         [SerializeField]
@@ -36,6 +40,12 @@ namespace Inventory
         public void Disable()
         {
             gameObject.SetActive(false);
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            Debug.Log("Click");
+            Clicked?.Invoke(_cell);
         }
     }
 }
