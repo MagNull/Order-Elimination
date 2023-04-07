@@ -76,28 +76,28 @@ namespace OrderElimination
 
         public void ShowSquadMembers() => _commander.ShowSquadMembers();
 
-        public void VisitSafeZonePoint(Point point, DialogWindowData data)
+        public void VisitSafeZonePoint(Point point)
         {
             SetPoint(point);
-            _commander.ShowSafeZoneImage(data);
+            _commander.ShowSafeZoneImage();
         }
 
-        public void VisitShopPoint(Point point, DialogWindowData data)
+        public void VisitShopPoint(Point point)
         {
             SetPoint(point);
-            _commander.ShowShopImage(data);
+            _commander.ShowShopImage();
         }
 
-        public void VisitBattlePoint(Point point, DialogWindowData data)
+        public void VisitBattlePoint(Point point)
         {
             SetPoint(point);
-            _commander.ShowBattleImage(data);
+            _commander.ShowBattleImage();
         }
 
-        public void VisitEventPoint(Point point, DialogWindowData data)
+        public void VisitEventPoint(Point point)
         {
             SetPoint(point);
-            _commander.ShowEventImage(data);
+            _commander.ShowEventImage();
         }
 
         private void SetPoint(Point point)

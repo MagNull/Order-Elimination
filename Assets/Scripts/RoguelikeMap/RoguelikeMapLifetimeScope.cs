@@ -18,8 +18,6 @@ namespace RoguelikeMap
         private GameObject _pathPrefab;
         [SerializeField]
         private Transform _pointsParent;
-        [SerializeField] 
-        private DialogWindow _dialogWindow;
         [SerializeField]
         private Squad _squad;
 
@@ -34,7 +32,6 @@ namespace RoguelikeMap
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_squad);
             builder.RegisterComponent(_pathPrefab);
-            builder.RegisterComponent(_dialogWindow);
             builder.RegisterComponent(wallet);
             
             builder.Register<SquadCommander>(Lifetime.Singleton);

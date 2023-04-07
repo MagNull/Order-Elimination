@@ -17,7 +17,7 @@ namespace RoguelikeMap.Point
 
         public override void Visit(Squad squad)
         {
-            squad.VisitBattlePoint(this, new DialogWindowData(WindowFormat.FullScreen, Vector3.zero, Vector3.one, PointInfo.Text));
+            squad.VisitBattlePoint(this);
         }
     }
 }

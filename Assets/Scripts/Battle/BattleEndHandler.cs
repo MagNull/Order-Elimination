@@ -50,7 +50,7 @@ public class BattleEndHandler : MonoBehaviour
             var panel = (BattleDefeatPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleDefeat);
             panel.UpdateBattleResult(battleResultInfo);
             var action = new Action(() =>((ChoosingCharacter)UIController.SceneInstance
-                    .OpenPanel(PanelType.SquadMembers, WindowFormat.FullScreen))
+                    .OpenPanel(PanelType.SquadMembers))
                 .UpdateCharacterInfo(allies.ToList(), true));
             panel.LastContinueButtonPressed -= action;
             panel.LastContinueButtonPressed += action;

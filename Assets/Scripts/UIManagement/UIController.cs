@@ -28,7 +28,7 @@ namespace UIManagement
         public static UIController SceneInstance { get; private set; }
 
         [Button, DisableInEditorMode]
-        public IUIPanel OpenPanel(PanelType panel, WindowFormat format = WindowFormat.None)
+        public IUIPanel OpenPanel(PanelType panel)
         {
             var panelToOpen = _panels.Single(p => p.PanelType == panel);
             _closingArea.gameObject.SetActive(true);
@@ -45,27 +45,24 @@ namespace UIManagement
             _openedPanelsStack.Add(panelToOpen);
 
             panelToOpen.Open();
-            PlayOpenAnimation(panelTransform, format);
+            panelTransform.localScale = Vector3.one * 0.1f;
+            panelTransform.DOScale(1, _windowOpeningTime).SetEase(_windowOpeningEase);
             return panelToOpen;
         }
 
-        private void PlayOpenAnimation(Transform panelTransform, WindowFormat format)
-        {
-            switch (format)
-            {
-                case WindowFormat.Small:
-                case WindowFormat.Half:
-                    panelTransform.DOMoveX(EndPositionHalfWindow, 1f);
-                    break;
-                case WindowFormat.FullScreen:
-                    panelTransform.DOMoveX(EndPositionFullScreenWindow, 1f);
-                    break;
-                default:
-                    panelTransform.localScale = Vector3.one * 0.1f;
-                    panelTransform.DOScale(1, _windowOpeningTime).SetEase(_windowOpeningEase);
-                    break;
-            }
-        }
+        // private void PlayOpenAnimation(Transform panelTransform)
+        // {
+        //     switch (format)
+        //     {
+        //         case WindowFormat.Small:
+        //         case WindowFormat.Half:
+        //             panelTransform.DOMoveX(EndPositionHalfWindow, 1f);
+        //             break;
+        //         case WindowFormat.FullScreen:
+        //             panelTransform.DOMoveX(EndPositionFullScreenWindow, 1f);
+        //             break;
+        //     }
+        // }
 
         public void ClosePanel(PanelType panel)
         {

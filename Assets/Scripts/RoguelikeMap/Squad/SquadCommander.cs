@@ -13,7 +13,6 @@ namespace OrderElimination
     public class SquadCommander
     {
         private readonly IObjectResolver _objectResolver;
-        private DialogWindow _window;
         private Point _target;
         private Squad _squad;
         public Point Target => _target;
@@ -22,10 +21,9 @@ namespace OrderElimination
         public event Action OnHealAccept;
 
         [Inject]
-        public SquadCommander(IObjectResolver objectResolver, DialogWindow window)
+        public SquadCommander(IObjectResolver objectResolver)
         {
             _objectResolver = objectResolver;
-            _window = window;
         }
 
         public void Set(Squad squad, Point target)
@@ -36,44 +34,42 @@ namespace OrderElimination
         
         private void SubscribeToEvents()
         {
+            //FullScreen
             ((ChoosingCharacter)UIController.SceneInstance
-                .OpenPanel(PanelType.SquadMembers, WindowFormat.FullScreen)).OnSelected += OnSelected.Invoke;
+                .OpenPanel(PanelType.SquadMembers)).OnSelected += OnSelected.Invoke;
+            //FullScreen
             ((SafeZonePanel)UIController.SceneInstance
-                .OpenPanel(PanelType.SafeZone, WindowFormat.FullScreen)).OnHealAccept += OnHealAccept.Invoke;
+                .OpenPanel(PanelType.SafeZone)).OnHealAccept += OnHealAccept.Invoke;
         }
 
-        public void ShowBattleImage(DialogWindowData data)
+        public void ShowBattleImage()
         {
-            _window.SetData(data);
-            _window.PlayAnimation();
             ((SquadListPanel)UIController.SceneInstance.OpenPanel(PanelType.SquadList)).UpdateSquadInfo(Target.PointInfo.Enemies);
         }
 
-        public void ShowEventImage(DialogWindowData data)
+        public void ShowEventImage()
         {
-            _window.SetData(data);
-            _window.PlayAnimation();
-            ((EventPanel)UIController.SceneInstance.OpenPanel(PanelType.Event, WindowFormat.Small)).UpdateEventInfo();
+            //Small
+            ((EventPanel)UIController.SceneInstance.OpenPanel(PanelType.Event)).UpdateEventInfo();
         }
 
-        public void ShowShopImage(DialogWindowData data)
+        public void ShowShopImage()
         {
-            _window.SetData(data);
-            _window.PlayAnimation();
-            ((ShopPanel)UIController.SceneInstance.OpenPanel(PanelType.Shop, WindowFormat.FullScreen)).UpdateShopInfo();
+            //FullScreen
+            ((ShopPanel)UIController.SceneInstance.OpenPanel(PanelType.Shop)).UpdateShopInfo();
         }
 
-        public void ShowSafeZoneImage(DialogWindowData data)
+        public void ShowSafeZoneImage()
         {
-            _window.SetData(data);
-            _window.PlayAnimation();
-            ((SafeZonePanel)UIController.SceneInstance.OpenPanel(PanelType.SafeZone, WindowFormat.Small)).UpdateSafeZoneInfo();
+            //Small
+            ((SafeZonePanel)UIController.SceneInstance.OpenPanel(PanelType.SafeZone)).UpdateSafeZoneInfo();
         }
 
         public void ShowSquadMembers()
         {
+            //FullScreen
             ((ChoosingCharacter)UIController.SceneInstance
-                .OpenPanel(PanelType.SquadMembers, WindowFormat.FullScreen))
+                .OpenPanel(PanelType.SquadMembers))
                 .UpdateCharacterInfo(_squad.Members, _target is BattlePoint);
         }
 
