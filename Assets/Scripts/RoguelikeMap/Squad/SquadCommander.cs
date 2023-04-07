@@ -35,42 +35,42 @@ namespace OrderElimination
         private void SubscribeToEvents()
         {
             //FullScreen
-            ((ChoosingCharacter)UIController.SceneInstance
-                .OpenPanel(PanelType.SquadMembers)).OnSelected += OnSelected.Invoke;
+            // ((ChoosingCharacter)UIController.SceneInstance
+            //     .OpenPanel(PanelType.SquadMembers)).OnSelected += OnSelected.Invoke;
             //FullScreen
-            ((SafeZonePanel)UIController.SceneInstance
-                .OpenPanel(PanelType.SafeZone)).OnHealAccept += OnHealAccept.Invoke;
+            // ((SafeZonePanel)UIController.SceneInstance
+            //     .OpenPanel(PanelType.SafeZone)).OnHealAccept += OnHealAccept.Invoke;
         }
 
         public void ShowBattleImage()
         {
-            ((SquadListPanel)UIController.SceneInstance.OpenPanel(PanelType.SquadList)).UpdateSquadInfo(Target.PointInfo.Enemies);
+            //((SquadListPanel)UIController.SceneInstance.OpenPanel(PanelType.SquadList)).UpdateSquadInfo(Target.PointInfo.Enemies);
         }
 
         public void ShowEventImage()
         {
             //Small
-            ((EventPanel)UIController.SceneInstance.OpenPanel(PanelType.Event)).UpdateEventInfo();
+            //((EventPanel)UIController.SceneInstance.OpenPanel(PanelType.Event)).UpdateEventInfo();
         }
 
         public void ShowShopImage()
         {
             //FullScreen
-            ((ShopPanel)UIController.SceneInstance.OpenPanel(PanelType.Shop)).UpdateShopInfo();
+            //((ShopPanel)UIController.SceneInstance.OpenPanel(PanelType.Shop)).UpdateShopInfo();
         }
 
         public void ShowSafeZoneImage()
         {
             //Small
-            ((SafeZonePanel)UIController.SceneInstance.OpenPanel(PanelType.SafeZone)).UpdateSafeZoneInfo();
+            //((SafeZonePanel)UIController.SceneInstance.OpenPanel(PanelType.SafeZone)).UpdateSafeZoneInfo();
         }
 
         public void ShowSquadMembers()
         {
             //FullScreen
-            ((ChoosingCharacter)UIController.SceneInstance
-                .OpenPanel(PanelType.SquadMembers))
-                .UpdateCharacterInfo(_squad.Members, _target is BattlePoint);
+            // ((ChoosingCharacter)UIController.SceneInstance
+            //     .OpenPanel(PanelType.SquadMembers))
+            //     .UpdateCharacterInfo(_squad.Members, _target is BattlePoint);
         }
 
         public void StartAttack()

@@ -8,29 +8,22 @@ using UnityEngine.UI;
 
 namespace OrderElimination
 {
-    public class ChoosingCharacter : UIPanel
+    public class ChoosingCharacter : MonoBehaviour
     {
         [SerializeField]
         private Transform _selected;
         [SerializeField]
         private Transform _notSelected;
-        [SerializeField] 
-        private Button _startAttackButton;
 
         [SerializeField]
         private GameObject _characterButtonPref;
         [SerializeField] 
         private MoneyCounter _uiCounter;
-        [SerializeField]
-        private MetaShop _metaShop;
         
         private Wallet _wallet;
         
         [SerializeField] 
         private List<Character> _characters;
-
-        public override PanelType PanelType => PanelType.SquadMembers;
-        public event Action<List<Character>> OnSelected;
         
         private List<Character> _selectedCharacters;
         private List<Character> _unselectedCharacters;
@@ -38,7 +31,6 @@ namespace OrderElimination
         private void Start()
         {
             CreatePanel();
-            _unselectedCharacters = _characters;
         }
 
         public void SetWallet(Wallet wallet)
@@ -48,9 +40,10 @@ namespace OrderElimination
         
         public void CreatePanel()
         {
-            _uiCounter?.Initialize(_wallet);
+            _uiCounter.Initialize(_wallet);
 
             _selectedCharacters = new List<Character>();
+            _unselectedCharacters = new List<Character>();
 
             foreach (var info in _characters)
             {
@@ -64,9 +57,6 @@ namespace OrderElimination
 
         public void SelectCharacter(CharacterCard card)
         {
-            // TODO(coder): Подумать как разобраться с заглушкой wallet
-            if (_wallet is null)
-                _wallet = new Wallet(10000);
             if (!card._isSelected && _wallet.Money - card.Cost >= 0)
             {
                 _wallet.SubtractMoney(card.Cost);
@@ -84,19 +74,6 @@ namespace OrderElimination
                 _selectedCharacters.Remove(card.Character);
                 card.Select();
             }
-        }
-
-        public void UpdateCharacterInfo(List<Character> characters, bool isInteractableAttackButton = false)
-        {
-            _characters = characters;
-            _unselectedCharacters = characters;
-            _startAttackButton.interactable = isInteractableAttackButton;
-        }
-
-        public override void Close()
-        {
-            OnSelected?.Invoke(_unselectedCharacters);
-            transform.DOMoveX(UIController.StartPosition, 0.1f).OnStepComplete(() => base.Close());
         }
 
         public void SaveCharacters()

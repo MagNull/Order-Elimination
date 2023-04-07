@@ -46,7 +46,7 @@ namespace OrderElimination
         {
             if (availableMoney < CostOfUpgrade)
                 return false;
-            if (ProgressCount == MaxProgressCount)
+            if (ProgressCount == MaxProgressCount - 1)
                 return false;
             CostOfUpgrade += StartCostOfUpgrade;
             ProgressCount++;

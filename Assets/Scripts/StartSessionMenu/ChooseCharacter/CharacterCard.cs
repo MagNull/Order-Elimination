@@ -36,8 +36,7 @@ namespace OrderElimination
             _cardImage.sprite = character.GetViewAvatar();
             _healthBar = GetComponentInChildren<HealthBar>();
             _healthBar?.SetMaxHealth(character.GetBattleStats().UnmodifiedHealth);
-            if(_cardCost is not null)
-                _cardCost.text = cost.ToString() + "$";
+            _cardCost.text = cost.ToString() + "$";
             _button.onClick = new Button.ButtonClickedEvent();
         }
 
