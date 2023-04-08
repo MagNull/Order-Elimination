@@ -1,9 +1,8 @@
 ﻿using OrderElimination;
-using UnityEngine;
 
-namespace RoguelikeMap.Point
+namespace RoguelikeMap.Points
 {
-    public class ShopPoint : OrderElimination.Point
+    public class ShopPoint : Points.Point
     {
         public override void Visit(Squad squad)
         {

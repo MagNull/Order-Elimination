@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RoguelikeMap.Point
+namespace RoguelikeMap.Points
 {
     public class PathView
     {

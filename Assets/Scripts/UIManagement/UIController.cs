@@ -14,9 +14,6 @@ namespace UIManagement
 {
     public class UIController : MonoBehaviour
     {
-        public static float StartPosition { get; private set; } = 3000f;
-        private const float EndPositionHalfWindow = 1500f;
-        private const float EndPositionFullScreenWindow = 970f;
         private List<IUIPanel> _panels = new List<IUIPanel>();
         private List<IUIPanel> _openedPanelsStack = new List<IUIPanel>();
         [SerializeField]

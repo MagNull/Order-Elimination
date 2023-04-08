@@ -1,9 +1,8 @@
 ﻿using OrderElimination;
-using UnityEngine;
 
-namespace RoguelikeMap.Point
+namespace RoguelikeMap.Points
 {
-    public class SafeZonePoint : OrderElimination.Point
+    public class SafeZonePoint : Points.Point
     {
         public override void Visit(Squad squad)
         {
