@@ -25,9 +25,9 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: Text
-      Entry: 1
-      Data: Event Point
+    - Name: PointType
+      Entry: 3
+      Data: 1
     - Name: _enemies
       Entry: 7
       Data: 0|System.Collections.Generic.List`1[[IBattleCharacterInfo, Assembly-CSharp]],
@@ -60,6 +60,4 @@ MonoBehaviour:
   _position: {x: 200, y: 300, z: 1}
   _nextPoints:
   - {fileID: 11400000, guid: bfce31036f0a9ac45a79de6654f87b4c, type: 2}
-  "_\u0441hanceOfItems": 0
-  _expirience: 0
   _currencyReward: 460

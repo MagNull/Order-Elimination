@@ -1,4 +1,6 @@
-﻿namespace OrderElimination
+﻿using RoguelikeMap.Points;
+
+namespace OrderElimination
 {
     public class SquadPresenter
     {

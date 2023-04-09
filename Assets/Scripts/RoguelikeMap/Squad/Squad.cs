@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using OrderElimination.Start;
 using RoguelikeMap;
+using RoguelikeMap.Points;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
@@ -85,13 +86,11 @@ namespace OrderElimination
         public void VisitShopPoint(Point point)
         {
             SetPoint(point);
-            _commander.ShowShopImage();
         }
 
         public void VisitBattlePoint(Point point)
         {
             SetPoint(point);
-            _commander.ShowBattleImage();
         }
 
         public void VisitEventPoint(Point point)

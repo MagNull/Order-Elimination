@@ -1,6 +1,6 @@
 using OrderElimination;
+using RoguelikeMap.Panels;
 using UnityEngine;
-using UnityEngine.UI;
 using VContainer;
 using VContainer.Unity;
 using Wallet = OrderElimination.Wallet;
@@ -20,6 +20,8 @@ namespace RoguelikeMap
         private Transform _pointsParent;
         [SerializeField]
         private Squad _squad;
+        [SerializeField]
+        private PanelGenerator _panelGenerator;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -36,9 +38,9 @@ namespace RoguelikeMap
             
             builder.Register<SquadCommander>(Lifetime.Singleton);
             builder.Register<SceneTransition>(Lifetime.Singleton);
-            // builder.RegisterComponent(_playerInformation);
             
             var mapGenerator = new SimpleMapGenerator(0, _pointsParent);
+            mapGenerator.SetPanelGenerator(_panelGenerator);
             builder.RegisterInstance(mapGenerator).As<IMapGenerator>();
         }
     }

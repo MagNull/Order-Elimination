@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using RoguelikeMap;
-using RoguelikeMap.Point;
-using UIManagement;
-using UIManagement.Panels;
+using RoguelikeMap.Map;
+using RoguelikeMap.Points;
 using UnityEngine;
 using VContainer;
 
@@ -42,21 +40,10 @@ namespace OrderElimination
             //     .OpenPanel(PanelType.SafeZone)).OnHealAccept += OnHealAccept.Invoke;
         }
 
-        public void ShowBattleImage()
-        {
-            //((SquadListPanel)UIController.SceneInstance.OpenPanel(PanelType.SquadList)).UpdateSquadInfo(Target.PointInfo.Enemies);
-        }
-
         public void ShowEventImage()
         {
             //Small
             //((EventPanel)UIController.SceneInstance.OpenPanel(PanelType.Event)).UpdateEventInfo();
-        }
-
-        public void ShowShopImage()
-        {
-            //FullScreen
-            //((ShopPanel)UIController.SceneInstance.OpenPanel(PanelType.Shop)).UpdateShopInfo();
         }
 
         public void ShowSafeZoneImage()

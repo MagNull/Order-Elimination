@@ -1,8 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using OrderElimination;
+using RoguelikeMap.Panels;
+using RoguelikeMap.Points;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -12,11 +11,17 @@ namespace OrderElimination
     {
         private readonly int _numberOfMap;
         private Transform _parent;
+        private PanelGenerator _panelGenerator;
 
         public SimpleMapGenerator(int numberOfMap, Transform parent)
         {
             _numberOfMap = numberOfMap;
             _parent = parent;
+        }
+
+        public void SetPanelGenerator(PanelGenerator panelGenerator)
+        {
+            _panelGenerator = panelGenerator;
         }
 
         public List<Point> GenerateMap()
@@ -57,7 +62,8 @@ namespace OrderElimination
             var pointObj = Object.Instantiate(info.Prefab, info.Position, Quaternion.identity, _parent);
             var point = pointObj.GetComponent<Point>();
             //Debug.Log(point.HasEnemy);
-            point.SetPlanetInfo(info);
+            point.SetPointInfo(info);
+            point.SetPanelGenerator(_panelGenerator);
             return point;
         }
     }
