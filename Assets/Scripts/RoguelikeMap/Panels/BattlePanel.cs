@@ -13,6 +13,8 @@ namespace RoguelikeMap.Panels
         private CharacterAvatarsList _characterList;
         [SerializeField]
         private Button _startAttackButton;
+
+        public event Action OnStartAttack;
         
         public void UpdateEnemies(List<IBattleCharacterInfo> enemies)
         {
@@ -22,6 +24,7 @@ namespace RoguelikeMap.Panels
 
         public void OnClickAttackButton()
         {
+            OnStartAttack?.Invoke();
             base.Close();
         }
     }

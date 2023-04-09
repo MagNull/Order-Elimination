@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using OrderElimination.Start;
 using RoguelikeMap;
+using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
@@ -19,13 +20,12 @@ namespace OrderElimination
         private List<Character> _testSquadMembers;
         [SerializeField]
         private SquadButtonTouchRace _proccesClick;
-        [SerializeField]
-        private Button _squadButton;
         private SquadInfo _squadInfo;
         private SquadModel _model;
         private SquadView _view;
         private SquadPresenter _presenter;
         private SquadCommander _commander;
+        private PanelGenerator _panelGenerator;
         private CharactersMediator _charactersMediator;
         public event Action<Squad> OnSelected;
         public Point Point => _presenter.Point;
@@ -33,10 +33,13 @@ namespace OrderElimination
         public List<Character> Members => _testSquadMembers;
         
         [Inject]
-        private void Construct(CharactersMediator charactersMediator, SquadCommander commander)
+        private void Construct(CharactersMediator charactersMediator, SquadCommander commander,
+            PanelGenerator panelGenerator)
         {
             _charactersMediator = charactersMediator;
             _commander = commander;
+            _panelGenerator = panelGenerator;
+            
             _commander.OnSelected += SetSquadMembers;
             _commander.OnHealAccept += HealCharacters;
         }
@@ -47,12 +50,11 @@ namespace OrderElimination
             _view = new SquadView(transform);
             _presenter = new SquadPresenter(_model, _view, null);
             _proccesClick.Clicked += Select;
-            _proccesClick.Holded += _commander.ShowSquadMembers;
-            _squadButton.onClick.AddListener(() => _commander.ShowSquadMembers());
         }
 
         private void Start()
         {
+            SetPanel();
             _testSquadMembers = SquadMediator.CharacterList.ToList();
             foreach(var member in _testSquadMembers)
                 member.Upgrade(SquadMediator.Stats);
@@ -73,31 +75,18 @@ namespace OrderElimination
             _testSquadMembers = squadMembers;
         }
 
+        private void SetPanel()
+        {
+            var squadMemberPanel = (SquadMembersPanel)_panelGenerator.GetPanelByPointInfo(PointType.SquadMembers);
+            squadMemberPanel.UpdateMembers(Members);
+            _view.SetPanel(squadMemberPanel);
+        }
+
         public void StartAttack() => _commander.StartAttack();
 
-        public void ShowSquadMembers() => _commander.ShowSquadMembers();
+        private void SetActiveSquadMembers(bool isActive) => _view.SetActivePanel(isActive);
 
-        public void VisitSafeZonePoint(Point point)
-        {
-            SetPoint(point);
-            _commander.ShowSafeZoneImage();
-        }
-
-        public void VisitShopPoint(Point point)
-        {
-            SetPoint(point);
-        }
-
-        public void VisitBattlePoint(Point point)
-        {
-            SetPoint(point);
-        }
-
-        public void VisitEventPoint(Point point)
-        {
-            SetPoint(point);
-            _commander.ShowEventImage();
-        }
+        public void Visit(Point point) => SetPoint(point);
 
         private void SetPoint(Point point)
         {
@@ -124,7 +113,6 @@ namespace OrderElimination
         {
             _presenter.Unsubscribe();
             _proccesClick.Clicked -= Select;
-            _proccesClick.Holded -= _commander.ShowSquadMembers;
         }
     }
 }

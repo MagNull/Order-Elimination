@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using RoguelikeMap.Map;
+using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using UnityEngine;
 using VContainer;
@@ -11,17 +12,21 @@ namespace OrderElimination
     public class SquadCommander
     {
         private readonly IObjectResolver _objectResolver;
+        private PanelGenerator _panelGenerator;
         private Point _target;
         private Squad _squad;
         public Point Target => _target;
         public Squad Squad => _squad;
         public event Action<List<Character>> OnSelected;
         public event Action OnHealAccept;
+        public event Action OnLootAccept;
 
         [Inject]
-        public SquadCommander(IObjectResolver objectResolver)
+        public SquadCommander(IObjectResolver objectResolver, PanelGenerator panelGenerator)
         {
             _objectResolver = objectResolver;
+            _panelGenerator = panelGenerator;
+            _panelGenerator.OnInitializedPanels += SubscribeToEvents;
         }
 
         public void Set(Squad squad, Point target)
@@ -32,32 +37,15 @@ namespace OrderElimination
         
         private void SubscribeToEvents()
         {
-            //FullScreen
-            // ((ChoosingCharacter)UIController.SceneInstance
-            //     .OpenPanel(PanelType.SquadMembers)).OnSelected += OnSelected.Invoke;
-            //FullScreen
-            // ((SafeZonePanel)UIController.SceneInstance
-            //     .OpenPanel(PanelType.SafeZone)).OnHealAccept += OnHealAccept.Invoke;
-        }
+            var safeZonePanel = (SafeZonePanel)_panelGenerator.GetPanelByPointInfo(PointType.SafeZone);
+            //safeZonePanel.OnLootAccept += OnLootAccept!.Invoke;
+            //safeZonePanel.OnHealAccept += OnHealAccept!.Invoke;
 
-        public void ShowEventImage()
-        {
-            //Small
-            //((EventPanel)UIController.SceneInstance.OpenPanel(PanelType.Event)).UpdateEventInfo();
-        }
+            var squadMembersPanel = (SquadMembersPanel)_panelGenerator.GetPanelByPointInfo(PointType.SquadMembers);
+            squadMembersPanel.OnSelected += OnSelected!.Invoke;
 
-        public void ShowSafeZoneImage()
-        {
-            //Small
-            //((SafeZonePanel)UIController.SceneInstance.OpenPanel(PanelType.SafeZone)).UpdateSafeZoneInfo();
-        }
-
-        public void ShowSquadMembers()
-        {
-            //FullScreen
-            // ((ChoosingCharacter)UIController.SceneInstance
-            //     .OpenPanel(PanelType.SquadMembers))
-            //     .UpdateCharacterInfo(_squad.Members, _target is BattlePoint);
+            var battlePanel = (BattlePanel)_panelGenerator.GetPanelByPointInfo(PointType.Battle);
+            battlePanel.OnStartAttack += StartAttack;
         }
 
         public void StartAttack()

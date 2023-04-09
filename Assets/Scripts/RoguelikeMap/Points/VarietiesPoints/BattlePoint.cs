@@ -1,18 +1,9 @@
-﻿using System.Collections.Generic;
-using OrderElimination;
-using RoguelikeMap.Panels;
+﻿using RoguelikeMap.Panels;
 
 namespace RoguelikeMap.Points.VarietiesPoints
 {
     public class BattlePoint : Point
     {
-        public override void Visit(Squad squad)
-        {
-            squad.VisitBattlePoint(this);
-            if(PointView is null)
-                InitializePointView();
-        }
-
         public override void InitializePointView()
         {
             var panel = (BattlePanel)_panelGenerator.GetPanelByPointInfo(PointType.Battle);

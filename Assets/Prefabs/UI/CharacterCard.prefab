@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5809841624109694274}
   - component: {fileID: 5809841624109694275}
   - component: {fileID: 5809841624109694272}
-  - component: {fileID: 82469547036186783}
+  - component: {fileID: 4089897780089222038}
   m_Layer: 5
   m_Name: CharacterCard
   m_TagString: Untagged
@@ -136,7 +136,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &82469547036186783
+--- !u!114 &4089897780089222038
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,14 +145,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5809841624109694278}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6905a5f527e846478470d54de6e1ea4, type: 3}
+  m_Script: {fileID: 11500000, guid: 7dec7f63cf6c4a64b6247ca97669017a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cardImage: {fileID: 5809841624342609720}
-  _cardName: {fileID: 0}
-  _cardCost: {fileID: 0}
-  _button: {fileID: 5809841624109694272}
   _isSelected: 0
+  _cardImage: {fileID: 5809841624342609720}
+  _button: {fileID: 5809841624109694272}
 --- !u!1 &5809841624342609726
 GameObject:
   m_ObjectHideFlags: 0

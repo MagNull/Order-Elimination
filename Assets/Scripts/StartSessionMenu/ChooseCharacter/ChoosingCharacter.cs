@@ -1,12 +1,10 @@
-using System;
 using System.Collections.Generic;
-using DG.Tweening;
-using UIManagement;
+using OrderElimination;
+using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
-namespace OrderElimination
+namespace StartSessionMenu.ChooseCharacter
 {
     public class ChoosingCharacter : MonoBehaviour
     {
@@ -48,14 +46,14 @@ namespace OrderElimination
             foreach (var info in _characters)
             {
                 var characterCard = Instantiate(_characterButtonPref, _notSelected);
-                var characterCardInfo = characterCard.GetComponent<CharacterCard>();
+                var characterCardInfo = characterCard.GetComponent<CharacterCardWithCost>();
                 characterCardInfo.InitializeCard(info, 400);
                 UnityAction act = () => SelectCharacter(characterCardInfo);
                 characterCardInfo.Button.onClick.AddListener(act);
             }
         }
 
-        public void SelectCharacter(CharacterCard card)
+        public void SelectCharacter(CharacterCardWithCost card)
         {
             if (!card._isSelected && _wallet.Money - card.Cost >= 0)
             {

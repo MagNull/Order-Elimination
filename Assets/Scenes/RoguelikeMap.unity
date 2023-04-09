@@ -371,7 +371,7 @@ GameObject:
   - component: {fileID: 639624796}
   - component: {fileID: 639624795}
   m_Layer: 5
-  m_Name: SquadButton
+  m_Name: SquadMembersButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -440,7 +440,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 639624796}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1155028019}
+        m_TargetAssemblyTypeName: OrderElimination.Squad, Assembly-CSharp
+        m_MethodName: SetActiveSquadMembers
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &639624796
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -676,7 +688,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
   _proccesClick: {fileID: 1155028024}
-  _squadButton: {fileID: 639624795}
 --- !u!212 &1155028020
 SpriteRenderer:
   m_ObjectHideFlags: 0

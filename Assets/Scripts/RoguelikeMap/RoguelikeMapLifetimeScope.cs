@@ -35,6 +35,7 @@ namespace RoguelikeMap
             builder.RegisterComponent(_squad);
             builder.RegisterComponent(_pathPrefab);
             builder.RegisterComponent(wallet);
+            builder.RegisterComponent(_panelGenerator);
             
             builder.Register<SquadCommander>(Lifetime.Singleton);
             builder.Register<SceneTransition>(Lifetime.Singleton);

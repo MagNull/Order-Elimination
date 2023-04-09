@@ -37,7 +37,9 @@ namespace RoguelikeMap.Points
 
         public virtual void Visit(Squad squad)
         {
-            InitializePointView();
+            squad.Visit(this);
+            if(PointView is null)
+                InitializePointView();
         }
         
         public void SetPointInfo(PointInfo pointInfo)

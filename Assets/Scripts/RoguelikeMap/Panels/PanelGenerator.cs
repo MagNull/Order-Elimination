@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using RoguelikeMap.Points;
 using UnityEngine;
@@ -11,6 +12,8 @@ namespace RoguelikeMap.Panels
         private const string Path = "Points\\Panels";
         
         private List<IPanel> _panels;
+
+        public event Action OnInitializedPanels;
         
         private void Start()
         {
@@ -23,6 +26,7 @@ namespace RoguelikeMap.Panels
         {
             foreach(var prefab in prefabs)
                 _panels.Add(Instantiate(prefab, _parent.position, Quaternion.identity, _parent));
+            OnInitializedPanels?.Invoke();
         }
         
         public IPanel GetPanelByPointInfo(PointType pointType)
