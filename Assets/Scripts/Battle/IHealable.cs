@@ -1,4 +1,4 @@
 public interface IHealable
 {
-    void TakeRecover(int value, int accuracy, DamageHealTarget damageHealTarget);
+    void TakeRecover(float value, float accuracy, DamageHealTarget damageHealTarget);
 }

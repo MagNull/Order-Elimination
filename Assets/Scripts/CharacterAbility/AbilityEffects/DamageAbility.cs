@@ -42,7 +42,6 @@ namespace CharacterAbility.AbilityEffects
                 Damage = damage,
                 DamageType = _damageType,
                 DamageHealTarget = _damageHealTarget,
-                DamageModificator = stats.DamageModificator
             };
             var success = false;
             for (var i = 0; i < _damageAmounts; i++)
@@ -54,7 +53,7 @@ namespace CharacterAbility.AbilityEffects
             await UseNext(target, stats, success);
         }
 
-        private int ApplyScalability(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)
+        private float ApplyScalability(IBattleObject target, IReadOnlyBattleStats stats, BattleMap battleMap)
         {
             var damage = _scaleFrom switch
             {

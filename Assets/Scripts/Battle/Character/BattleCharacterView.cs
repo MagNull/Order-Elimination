@@ -128,7 +128,7 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
         Deselected?.Invoke(this);
     }
 
-    public void ShowAccuracy(int probability)
+    public void ShowAccuracy(float probability)
     {
         _shootProbability.gameObject.SetActive(true);
         _shootProbability.text = probability.ToString();

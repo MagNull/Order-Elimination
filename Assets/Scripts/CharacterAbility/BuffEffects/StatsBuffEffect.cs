@@ -95,13 +95,13 @@ namespace CharacterAbility.BuffEffects
             return newStats;
         }
 
-        private int GetModifiedValue(int value, int scaleValue)
+        private float GetModifiedValue(float value, float scaleValue)
         {
             _buffedValueAddition = IsMultiplier ? scaleValue * (1 + Modifier) - value : Modifier;
             return Mathf.RoundToInt(IsMultiplier ? value + scaleValue * Modifier : value + Modifier);
         }
 
-        private int GetUnmodifiedValue(int value)
+        private int GetUnmodifiedValue(float value)
         {
             return Mathf.RoundToInt(value - _buffedValueAddition);
         }

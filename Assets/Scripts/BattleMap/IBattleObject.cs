@@ -9,5 +9,5 @@ public interface IBattleObject : ITickTarget,
     public bool IsAlive { get; }
     public IBattleObjectView View { get; }
 
-    public int GetAccuracyFrom(IBattleObject attacker);
+    public float GetAccuracyFrom(IBattleObject attacker);
 }

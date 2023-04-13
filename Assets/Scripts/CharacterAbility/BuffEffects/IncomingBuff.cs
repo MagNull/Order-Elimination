@@ -59,7 +59,7 @@ namespace CharacterAbility
             return info;
         }
 
-        public int GetModifiedValue(int value, Buff_Type buffType)
+        public float GetModifiedValue(float value, Buff_Type buffType)
         {
             var newValue = value;
             if (IncomingBuffType != buffType)

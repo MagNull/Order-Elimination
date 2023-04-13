@@ -28,7 +28,7 @@ public struct DamageInfo
     public float Damage;
     public float ArmorMultiplier;
     public float HealthMultiplier;
-    public int Accuracy;
+    public float Accuracy;
     public DamageType DamageType;
     public IBattleObject Attacker;
     public IBattleObject Target;
@@ -36,8 +36,8 @@ public struct DamageInfo
 }
 public struct TakeDamageInfo
 {
-    public int HealthDamage;
-    public int ArmorDamage;
+    public float HealthDamage;
+    public float ArmorDamage;
     public DamageCancelType CancelType;
     public IBattleObject Attacker;
 }

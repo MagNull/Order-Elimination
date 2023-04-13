@@ -94,7 +94,7 @@ namespace CharacterAbility
             var tickEffect = (TickEffectBase)effect;
             if (effect is StatsBuffEffect statsBuffEffect)
             {
-                int GetModifiedValue(int value, int scaleValue) 
+                int GetModifiedValue(float value, float scaleValue) 
                     => Mathf.RoundToInt(statsBuffEffect.IsMultiplier
                         ? scaleValue * (1 + statsBuffEffect.Modifier)
                         : value + statsBuffEffect.Modifier);
@@ -196,7 +196,7 @@ namespace CharacterAbility
 
             if (effect.Type == AbilityEffectType.Damage || effect.Type == AbilityEffectType.Heal)
             {
-                int damageHealSize;
+                float damageHealSize;
                 string valueEnding = effect.Amounts > 1 ? $" x {effect.Amounts}" : "";
                 switch (effect.ScaleFrom)
                 {
