@@ -7,6 +7,7 @@ using UnityEngine;
 public interface IBattleContext
 {
     public IBattleMap BattleMap => throw new NotImplementedException();
+    public IHitCalculation HitCalculation => throw new NotImplementedException();
     //public Player[] Players
     //public Player CurrentPlayer
     //Characters

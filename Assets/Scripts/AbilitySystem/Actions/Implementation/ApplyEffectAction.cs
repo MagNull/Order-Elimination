@@ -15,7 +15,7 @@ namespace OrderElimination.AbilitySystem
 
         protected override bool Perform(ActionExecutionContext useContext)
         {
-            if (RandomExtensions.TryChance(ApplyChance))
+            if (RandomExtensions.RollChance(ApplyChance))
             {
                 return useContext.ActionTarget.ApplyEffect(Effect);
             }

@@ -25,12 +25,13 @@ public enum DamageType
 
 public struct DamageInfo
 {
-    public int Damage;
+    public float Damage;
+    public float ArmorMultiplier;
+    public float HealthMultiplier;
     public int Accuracy;
     public DamageType DamageType;
     public IBattleObject Attacker;
     public IBattleObject Target;
-    public DamageModificator DamageModificator;
     public DamageHealTarget DamageHealTarget;
 }
 public struct TakeDamageInfo

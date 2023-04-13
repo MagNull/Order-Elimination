@@ -15,7 +15,7 @@ namespace OrderElimination.AbilitySystem
             throw new NotImplementedException();
         }
 
-        public bool IsAccepted(IBattleEntity targetingEntity)
+        public bool IsAccepted(IAbilitySystemActor targetingEntity)
         {
             throw new NotImplementedException();
         }

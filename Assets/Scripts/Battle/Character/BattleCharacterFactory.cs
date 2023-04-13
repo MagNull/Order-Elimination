@@ -33,9 +33,7 @@ public class BattleCharacterFactory : MonoBehaviour
         if (type == BattleObjectType.Enemy)
         {
             //TODO: Remove
-            IDamageCalculation damageCalculation = info.GetName() == "Раненый Камнегрыз"
-                ? new PerfectHitDamageCalculation()
-                : new SimpleDamageCalculation();
+            IDamageCalculation damageCalculation = new SimpleDamageCalculation();
 
             character = new RandomEnemyAI(_map,
                 new BattleStats(info.GetBattleStats()), damageCalculation, _characterBank);

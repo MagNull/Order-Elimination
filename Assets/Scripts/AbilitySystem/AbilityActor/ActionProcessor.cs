@@ -8,10 +8,19 @@ namespace OrderElimination.AbilitySystem
 {
     //TODO-ОБРАБОТКА объеденить список эффектов и взаимодействие с ними у Процессора и Актора. 
     //Либо вынести методы обработки в Актора.
-    public interface IActionProcessor
+    public class ActionProcessor
     {
-        public IEffect[] Effects { get; }
-        //public EquipmentItem[] { get; }
+        private readonly IEnumerable<IEffect> _effects;
+        //Equipments
+
+        private ActionProcessor(IEffectHolder effectHolder)//equipHolder
+        {
+            _effects = effectHolder.Effects;
+            //equip
+        }
+
+        public static ActionProcessor Create<TOwner>(TOwner owner) where TOwner : IEffectHolder
+            => new ActionProcessor(owner);
 
         public TAction ProcessOutcomingAction<TAction>(TAction action) where TAction : BattleAction<TAction>
         {
@@ -45,19 +54,19 @@ namespace OrderElimination.AbilitySystem
             return processedAction;
         }
 
-        protected IOutcomingActionProcessingEffect<TAction>[] GetOutcomingActionProcessingEffects<TAction>()
+        private IOutcomingActionProcessingEffect<TAction>[] GetOutcomingActionProcessingEffects<TAction>()
             where TAction : BattleAction<TAction>
         {
-            return Effects
+            return _effects
                 .Select(e => e as IOutcomingActionProcessingEffect<TAction>)
                 .Where(e => e != null)
                 .ToArray();
         }
 
-        protected IIncomingActionProcessingEffect<TAction>[] GetIncomingActionProcessingEffects<TAction>()
+        private IIncomingActionProcessingEffect<TAction>[] GetIncomingActionProcessingEffects<TAction>()
             where TAction : BattleAction<TAction>
         {
-            return Effects
+            return _effects
                 .Select(e => e as IIncomingActionProcessingEffect<TAction>)
                 .Where(e => e != null)
                 .ToArray();

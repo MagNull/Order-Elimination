@@ -5,11 +5,13 @@ using UnityEngine;
 using OrderElimination.BM;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using OrderElimination.AbilitySystem;
 
 public interface IReadOnlyCell
 {
     public IReadOnlyList<IBattleObject> Objects { get; }
     public bool Contains(Predicate<IBattleObject> predicate, out IBattleObject result);
+    public IEnumerable<IAbilitySystemActor> GetContainingEntities();
 }
 
 public class Cell : IReadOnlyCell
@@ -49,5 +51,10 @@ public class Cell : IReadOnlyCell
         }
 
         _objects.Remove(obj);
+    }
+
+    public IEnumerable<IAbilitySystemActor> GetContainingEntities()
+    {
+        return (IEnumerable<IAbilitySystemActor>)_objects;
     }
 }

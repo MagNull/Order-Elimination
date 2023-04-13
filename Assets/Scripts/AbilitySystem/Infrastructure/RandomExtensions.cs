@@ -17,7 +17,7 @@ namespace OrderElimination.Infrastructure
         /// <param name="chanceFraction"> Value between 0 and 1. </param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public static bool TryChance(float chanceFraction) => IsRandomValueInRange(0, 1, chanceFraction);
+        public static bool RollChance(float chanceFraction) => IsRandomValueInRange(0, 1, chanceFraction);
 
         //public static bool TryChanceInPercent(float chancePercent) => IsRandomValueInRange(0, 100, chancePercent);
 

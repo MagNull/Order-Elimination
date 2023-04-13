@@ -14,22 +14,37 @@ namespace OrderElimination.AbilitySystem
         Neutral
     }
 
+    public interface IEffectData
+    {
+        //EffectView?
+        public bool IsStackable { get; }
+        public bool UseApplierActionProcessor { get; } //Использовать обработчик, наложившего эффект?
+        public bool CanBeForceRemoved { get; }
+        public IBattleAction[] ActionsOnApply { get; }
+        public IBattleAction[] ActionsOnRemove { get; }
+        //RemovedByTriggers
+    }
+
+    public interface ITemporaryEffectData : IEffectData
+    {
+        public int ApplyingDuration { get; }
+    }
+
     public interface IEffect
     {
-        public static bool IsStackable { get; }
-        public static bool UseApplierActionProcessor { get; } //Использовать обработчик, наложившего эффект?
-        public static IBattleAction[] ActionsOnApply { get; }
-        public static IBattleAction[] ActionsOnRemove { get; }
+        public IEffectData EffectData { get; }
         public IAbilitySystemActor EffectApplier { get; } 
         public IAbilitySystemActor EffectHolder { get; }
-        //RemovedByTriggers
-        public event Action<IEffect> Removed;//Destroyed Disposed Finished
+        public event Action<IEffect> Finished;//Destroyed Removed Disposed Finished
+        public bool Activate(IAbilitySystemActor effectTarget);
+        public bool Deactivate();
     }
 
     public interface ITemporaryEffect : IEffect
     {
-        public int Duration { get; }
-        public event Action<ITemporaryEffect> EffectEnded;
+        public ITemporaryEffectData TemporaryEffectData { get; }
+        public int LeftDuration { get; }
+        public event Action<ITemporaryEffect> DurationEnded;
     }
 
     public interface IIncomingActionProcessingEffect<TAction> : IEffect where TAction : BattleAction<TAction>
@@ -42,20 +57,26 @@ namespace OrderElimination.AbilitySystem
         public TAction ProcessOutcomingAction(TAction originalAction);
     }
 
-    public interface ITickActionEffect : IEffect
+    public interface IPeriodicEffect : IEffect
     {
-        public int TickLength { get; } // 1Tick = 1 ход
+        public int PeriodLength { get; } // 1Tick = 1 ход
         //Действия обязаны выполняться каждый промежуток ходов, пока активен эффект.
         //Действия должны прекратить выполняться при удалении эффекта.
-        public IBattleAction[] ActionsPerTick { get; }
+        public IBattleAction[] ActionsPerPeriod { get; }
         public void OnTick(IBattleContext battleContext)
         {
-            foreach (var action in ActionsPerTick)
+            foreach (var action in ActionsPerPeriod)
             {
-                var actionMaker = UseApplierActionProcessor ? EffectApplier : null;
+                var actionMaker = EffectData.UseApplierActionProcessor ? EffectApplier : null;
                 var actionContext = new ActionExecutionContext(battleContext, actionMaker, EffectHolder);
                 action.ModifiedPerform(actionContext);
             }
         }
+    }
+
+    public interface IConditionalEffect : IEffect // == PeriodicEffect ??
+    {
+        //Triggers
+        //Actions
     }
 }

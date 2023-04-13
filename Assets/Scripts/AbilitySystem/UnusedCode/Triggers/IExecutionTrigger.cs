@@ -21,7 +21,7 @@ namespace OrderElimination.AbilitySystem
 
     public class TargetHitTrigger : IExecutionTrigger<TargetHitTrigger>, IExecutionTrigger
     {
-        public IBattleEntity Target;
+        //public IBattleEntity Target;
 
         public event Action<TargetHitTrigger> Triggered;
         public event Action<IExecutionTrigger> Trigerred;

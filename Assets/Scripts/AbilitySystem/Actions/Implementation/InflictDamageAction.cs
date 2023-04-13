@@ -56,28 +56,24 @@ namespace OrderElimination.AbilitySystem
 
         protected override bool Perform(ActionExecutionContext useContext)
         {
+            if (useContext.ActionTarget is not IHaveLifeStats damageable)
+                return false;
             //Обработка объектов на линии огня (перенесена в ModifiedPerform)
 
             //Проверка шанса попадания (точность)
-            if (RandomExtensions.TryChance(Accuracy.GetValue(useContext)))
+            var accuracy = Accuracy.GetValue(useContext);
+            var evasion = IgnoreEvasion || !useContext.ActionTarget.BattleStats.HasParameter(BattleStat.Evasion)
+                ? 0
+                : useContext.ActionTarget.BattleStats.GetParameter(BattleStat.Evasion).ModifiedValue;
+            var isSuccessful = useContext.BattleContext.HitCalculation.CalculateHitResult(accuracy, evasion, out var hitResult);
+            if (isSuccessful)
             {
-                DamageInfo givenDamage;
-                //TODO Apply ConditionalDamageModifiers
-                //
-                if (!IgnoreEvasion && useContext.ActionTarget.BattleStats.HasParameter(BattleStat.Evasion))
-                {
-                    var evasion = useContext.ActionTarget.BattleStats.GetParameter(BattleStat.Evasion);
-                    if (RandomExtensions.TryChance(evasion.ModifiedValue))
-                    {
-                        useContext.ActionTarget.TakeDamage(DamageInfo.GetValue(useContext), out givenDamage);
-                        return true;
-                    }
-                    return false; //evasion
-                }
-                useContext.ActionTarget.TakeDamage(DamageInfo.GetValue(useContext), out givenDamage);
+                //Calculate DamageInfo
+                var damageInfo = DamageInfo.GetValue(useContext);
+                useContext.ActionTarget.TakeDamage(damageInfo);
                 return true;
             }
-            return false; //miss
+            return false;
         }
     }
 }

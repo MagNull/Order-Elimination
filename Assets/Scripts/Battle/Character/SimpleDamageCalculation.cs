@@ -8,10 +8,11 @@ using Random = UnityEngine.Random;
 
 namespace OrderElimination.Battle
 {
+    //TODO refactor (move to HitCalculation and TakeDamage)
     public class SimpleDamageCalculation : IDamageCalculation
     {
-        public (int healthDamage, int armorDamage, DamageCancelType cancelType) CalculateDamage(DamageInfo damageInfo,
-            int armor, int evasion, List<IncomingBuff> incomingDebuffs)
+        public (float healthDamage, float armorDamage, DamageCancelType cancelType) CalculateDamage(DamageInfo damageInfo,
+            float armor, float evasion, List<IncomingBuff> incomingDebuffs)
         {
             ApplyModifications(ref damageInfo, armor, incomingDebuffs);
 
@@ -25,8 +26,8 @@ namespace OrderElimination.Battle
                     return (0, 0, DamageCancelType.Dodge);
             }
             
-            int maximumArmorDamage = damageInfo.DamageModificator == DamageModificator.DoubleArmor ? armor / 2 : armor;
-            int armorDamage = Mathf.Min(maximumArmorDamage, damageInfo.Damage);
+            float maximumArmorDamage = armor / damageInfo.ArmorMultiplier;
+            float armorDamage = Mathf.Min(maximumArmorDamage, damageInfo.Damage);
             var healthDamage = damageInfo.Damage - armorDamage;
             switch (damageInfo.DamageHealTarget)
             {
@@ -40,11 +41,11 @@ namespace OrderElimination.Battle
             }
 
             return (healthDamage,
-                damageInfo.DamageModificator == DamageModificator.DoubleArmor ? armorDamage * 2 : armorDamage,
+                armorDamage * damageInfo.ArmorMultiplier,
                 DamageCancelType.None);
         }
 
-        private static void ApplyModifications(ref DamageInfo damageInfo, int armor, List<IncomingBuff> incomingDebuffs)
+        private static void ApplyModifications(ref DamageInfo damageInfo, float armor, List<IncomingBuff> incomingDebuffs)
         {
             foreach (var incomingAttackBuff in incomingDebuffs)
             {

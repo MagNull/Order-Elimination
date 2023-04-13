@@ -7,6 +7,7 @@ namespace OrderElimination.AbilitySystem
     {
         public event Action<IBattleAction> SuccessfullyPerformed;
         public event Action<IBattleAction> FailedToPerformed;
+        //public int RepeatNumber
         public bool ModifiedPerform(
             ActionExecutionContext useContext, 
             bool actionMakerProcessing = false,
@@ -44,7 +45,7 @@ namespace OrderElimination.AbilitySystem
         {
             var modifiedAction = (TAction)this;
             if (actionMakerProcessing)
-                modifiedAction = useContext.ActionMaker?.ActionProcessor.ProcessOutcomingAction(modifiedAction);
+                modifiedAction = useContext.ActionMaker.ActionProcessor.ProcessOutcomingAction(modifiedAction);
             if (targetProcessing)
                 modifiedAction = useContext.ActionTarget.ActionProcessor.ProcessIncomingAction(modifiedAction);
             return modifiedAction;
