@@ -28,7 +28,7 @@ namespace OrderElimination
         [SerializeField]
         private AbilityInfo[] _passiveAbilities;
         
-        private readonly Inventory _inventory = new Inventory(3);
+        private Inventory _inventory = new Inventory(2);
 
         public Inventory Inventory => _inventory;
 
@@ -42,7 +42,13 @@ namespace OrderElimination
         public AbilityInfo[] GetPassiveAbilityInfos() => _passiveAbilities;
 
         public StrategyStats GetStrategyStats() => _strategyStats;
-        
+
+
+        [Button]
+        public void ResetInventory()
+        {
+            _inventory = new Inventory(2);
+        }
 
         public void RaiseExperience(float experience)
         {

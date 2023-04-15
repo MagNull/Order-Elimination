@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Inventory_Items
 {
-    public abstract class InventoryView : MonoBehaviour
+    public abstract class InventoryView : SerializedMonoBehaviour
     {
         public abstract event Action<IReadOnlyCell> CellClicked;
 

@@ -13,6 +13,7 @@ namespace Inventory_Items
         protected InventoryView _inventoryView;
         [SerializeField]
         private ItemData[] _items;
+        [SerializeField]
         protected Inventory _inventoryModel;
 
         private Item _lastItem;

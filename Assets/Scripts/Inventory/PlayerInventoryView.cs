@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +21,8 @@ namespace Inventory_Items
         {
             foreach (var cell in _cells)
             {
+                if(cell.Key.Item == null)
+                    continue;
                 if(cell.Key.Item.Type == (ItemType) itemType)
                     cell.Value.Enable();
                 else
