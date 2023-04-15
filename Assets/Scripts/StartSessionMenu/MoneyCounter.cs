@@ -12,8 +12,8 @@ namespace OrderElimination
         public void Initialize(Wallet wallet)
         {
             var textMesh = GetComponent<TextMeshProUGUI>();
-            textMesh.text = wallet.Money.ToString() + "$";
-            wallet.ChangeMoneyEvent.AddListener((money) => textMesh.text = money.ToString() + "$");
+            textMesh.text = wallet.Money.ToString();
+            wallet.ChangeMoneyEvent.AddListener((money) => textMesh.text = money.ToString());
         }
     }
 }
