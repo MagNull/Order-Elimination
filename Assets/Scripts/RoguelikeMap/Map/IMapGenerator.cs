@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using RoguelikeMap.Points;
 
-namespace OrderElimination
+namespace RoguelikeMap.Map
 {
     public interface IMapGenerator
     {

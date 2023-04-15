@@ -1,4 +1,5 @@
 using OrderElimination;
+using RoguelikeMap.Map;
 using RoguelikeMap.Panels;
 using UnityEngine;
 using VContainer;

@@ -3,6 +3,7 @@ using System.Linq;
 using OrderElimination;
 using UnityEngine;
 using VContainer;
+using Point = RoguelikeMap.Points.Point;
 
 namespace RoguelikeMap.Map
 {
@@ -10,7 +11,7 @@ namespace RoguelikeMap.Map
     {
         public static string SquadPositionPrefPath = $"{SaveIndex}/Squad/Position";
         
-        public List<Points.Point> _points;
+        public List<Point> _points;
         private IMapGenerator _mapGenerator;
         private Squad _squad;
         private bool _isSquadSelected;
@@ -43,7 +44,7 @@ namespace RoguelikeMap.Map
             _isSquadSelected = false;
         }
 
-        private void SelectPoint(Points.Point point)
+        private void SelectPoint(Point point)
         {
             if (_isSquadSelected is false)
                 return;
@@ -61,9 +62,9 @@ namespace RoguelikeMap.Map
             _squad.Move(nearestPoint);
         }
 
-        public Points.Point FindNearestPoint(Vector3 position)
+        public Point FindNearestPoint(Vector3 position)
         {
-            Points.Point nearestPoint = null;
+            Point nearestPoint = null;
             var minDistance = double.MaxValue;
             foreach (var point in _points)
             {

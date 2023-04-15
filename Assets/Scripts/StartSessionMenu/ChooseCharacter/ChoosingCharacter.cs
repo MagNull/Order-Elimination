@@ -23,8 +23,8 @@ namespace StartSessionMenu.ChooseCharacter
         [SerializeField] 
         private List<Character> _characters;
         
-        private List<Character> _selectedCharacters;
-        private List<Character> _unselectedCharacters;
+        private List<Character> _selectedCharacters = new List<Character>();
+        private List<Character> _unselectedCharacters = new List<Character>();
         
         private void Start()
         {

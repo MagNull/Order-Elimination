@@ -5,7 +5,7 @@ using RoguelikeMap.Points;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace OrderElimination
+namespace RoguelikeMap.Map
 {
     public class SimpleMapGenerator : IMapGenerator
     {
