@@ -4,9 +4,9 @@ namespace RoguelikeMap.Points
 {
     public class PointView
     {
-        private IPanel _panel;
+        private Panel _panel;
         
-        public PointView(IPanel panel)
+        public PointView(Panel panel)
         {
             _panel = panel;
             SetActivePanel(true);

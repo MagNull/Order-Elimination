@@ -1,6 +1,6 @@
 ﻿namespace RoguelikeMap.Panels
 {
-    public class ShopPanel : IPanel
+    public class ShopPanel : Panel
     {
         
     }

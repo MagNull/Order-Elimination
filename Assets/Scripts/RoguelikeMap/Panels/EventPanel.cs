@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RoguelikeMap.Panels
 {
-    public class EventPanel : IPanel
+    public class EventPanel : Panel
     {
         //TODO(coder): add loot to player inventory after create inventory system
         public void Accept()

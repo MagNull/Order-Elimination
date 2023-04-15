@@ -1,14 +1,11 @@
 using System.Collections.Generic;
 using System;
 using System.Linq;
-using OrderElimination.Start;
-using RoguelikeMap;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
-using UnityEngine.UI;
 using VContainer;
 
 namespace OrderElimination

@@ -13,15 +13,16 @@ namespace OrderElimination
         public float END_VALUE = 0.8f;
         
         private Transform _transform;
-        private IPanel _panel;
+        private Panel _panel;
         
         public event Action onEndAnimation;
+        
         public SquadView(Transform transform)
         {
             _transform = transform;
         }
 
-        public void SetPanel(IPanel panel)
+        public void SetPanel(Panel panel)
         {
             _panel = panel;
         }

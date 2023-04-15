@@ -17,13 +17,12 @@ namespace RoguelikeMap.Points
         public PointInfo PointInfo { get; protected set; }
         public PathView PathView { get; protected set; }
         public PointView PointView { get; protected set; }
-        public List<Point> NextPoints { get; protected set; }
+        public List<Point> NextPoints { get; protected set; } = new List<Point>();
         public int PointNumber { get; set; }
         public event Action<Point> OnSelected;
         
         private void Awake()
         {
-            NextPoints = new List<Point>();
             PathView = new PathView(transform, _pathPrefab);
         }
         

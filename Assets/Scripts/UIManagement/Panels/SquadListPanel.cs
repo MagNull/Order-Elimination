@@ -1,15 +1,8 @@
 using Sirenix.OdinInspector;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using OrderElimination;
-using TMPro;
-using UIManagement.Debugging;
 using UIManagement.Elements;
 using UIManagement.trashToRemove_Mockups;
 using UnityEngine;
-using UnityEngine.UI;
 using Character = OrderElimination.Character;
 
 namespace UIManagement
@@ -17,7 +10,6 @@ namespace UIManagement
     public class SquadListPanel : UIPanel
     {
         [SerializeField] private CharacterAvatarsList _characterList;
-        private Information _playerInfo;
         public override PanelType PanelType => PanelType.SquadList;
         
         [Button]

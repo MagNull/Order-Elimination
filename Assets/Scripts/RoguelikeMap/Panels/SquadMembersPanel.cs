@@ -8,7 +8,7 @@ using UnityEngine.Events;
 namespace RoguelikeMap.Panels
 {
     //TODO(coder): Merge with ChoosingCharacter.cs
-    public class SquadMembersPanel : IPanel
+    public class SquadMembersPanel : Panel
     {
         [SerializeField]
         private Transform _selected;

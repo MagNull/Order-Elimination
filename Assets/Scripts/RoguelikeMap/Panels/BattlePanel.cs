@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace RoguelikeMap.Panels
 {
-    public class BattlePanel : IPanel
+    public class BattlePanel : Panel
     {
         [SerializeField] 
         private CharacterAvatarsList _characterList;

@@ -3,7 +3,7 @@ using DG.Tweening;
 
 namespace RoguelikeMap.Panels
 {
-    public class SafeZonePanel : IPanel
+    public class SafeZonePanel : Panel
     {
         public event Action OnHealAccept;
         public event Action OnLootAccept;
