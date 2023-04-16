@@ -3164,17 +3164,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775b240e605e72d41a5e5cfab0fe36ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _selected: {fileID: 1371300751}
-  _notSelected: {fileID: 1589175577}
-  _startAttackButton: {fileID: 0}
+  _selectedTransform: {fileID: 1371300751}
+  _notSelectedTransform: {fileID: 1589175577}
   _characterButtonPref: {fileID: 5809841624109694278, guid: 46af61c7af418f1468beb2ca38630730, type: 3}
   _uiCounter: {fileID: 461454422}
-  _metaShop: {fileID: 365208847}
   _characters:
   - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
   - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
-  - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
   - {fileID: 11400000, guid: 04588733ccd1f2a4bb0aad35a508b4de, type: 2}
+  - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
   - {fileID: 11400000, guid: dc7552cb19317d642ad2af92d805c557, type: 2}
   - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
 --- !u!1 &1002972822
@@ -4655,6 +4653,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1461483436}
   m_CullTransparentMesh: 1
+--- !u!1 &1514633133
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1514633135}
+  - component: {fileID: 1514633134}
+  m_Layer: 0
+  m_Name: Bootstrap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1514633134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514633133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec92d14ab7a34114968bc12ebd55da4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentReference:
+    TypeName: 
+  autoRun: 1
+  autoInjectGameObjects:
+  - {fileID: 995960052}
+  - {fileID: 365208845}
+  StartMoney: 10000
+--- !u!4 &1514633135
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514633133}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1079.2324, y: 377.67062, z: 2.7674346}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1514891499
 GameObject:
   m_ObjectHideFlags: 0
@@ -4914,7 +4963,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8a9949c624245a5b23f351e24858aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _amountAvailable: 10000
   _metaShop: {fileID: 365208847}
   _choosingCharacter: {fileID: 995960054}
 --- !u!1 &1589175576

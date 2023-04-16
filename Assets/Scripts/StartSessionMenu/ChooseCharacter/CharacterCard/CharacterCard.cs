@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace StartSessionMenu.ChooseCharacter.CharacterCard
 {
-    public class ICharacterCard : MonoBehaviour
+    public class CharacterCard : MonoBehaviour
     {
         protected Character _character;
         public bool _isSelected;

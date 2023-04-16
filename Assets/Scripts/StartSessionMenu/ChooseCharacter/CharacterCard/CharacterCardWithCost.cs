@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 namespace StartSessionMenu.ChooseCharacter.CharacterCard
 {
-    public class CharacterCardWithCost : ICharacterCard
+    public class CharacterCardWithCost : CharacterCard
     {
-        private int _cost;
+        private int _cost = 400;
         public int Cost => _cost;
         
         [SerializeField]
@@ -14,12 +14,11 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         [SerializeField]
         private Text _cardCost;
 
-        public void InitializeCard(Character character, int cost)
+        public override void InitializeCard(Character character)
         {
             _character = character;
-            _cost = cost;
             _cardImage.sprite = character.GetViewAvatar();
-            _cardCost.text = cost + "$";
+            _cardCost.text = _cost + "$";
             _button.onClick = new Button.ButtonClickedEvent();
         }
 

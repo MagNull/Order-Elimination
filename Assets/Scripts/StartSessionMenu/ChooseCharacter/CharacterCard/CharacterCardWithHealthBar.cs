@@ -3,7 +3,7 @@ using RoguelikeMap;
 
 namespace StartSessionMenu.ChooseCharacter.CharacterCard
 {
-    public class CharacterCardWithHealthBar : ICharacterCard
+    public class CharacterCardWithHealthBar : CharacterCard
     {
         private HealthBar _healthBar;
 
