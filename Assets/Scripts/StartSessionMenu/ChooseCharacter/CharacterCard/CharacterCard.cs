@@ -1,5 +1,6 @@
 using OrderElimination;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace StartSessionMenu.ChooseCharacter.CharacterCard
@@ -7,7 +8,8 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
     public class CharacterCard : MonoBehaviour
     {
         protected Character _character;
-        public bool _isSelected;
+        [FormerlySerializedAs("_isSelected")] 
+        public bool IsSelected;
         
         [SerializeField] 
         protected Image _cardImage;
@@ -26,7 +28,7 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
 
         public virtual void Select()
         {
-            _isSelected = !_isSelected;
+            IsSelected = !IsSelected;
         }
     }
 }

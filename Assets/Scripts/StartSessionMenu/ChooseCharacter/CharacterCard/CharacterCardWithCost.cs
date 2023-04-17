@@ -24,7 +24,7 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
 
         public override void Select()
         {
-            _costImage.gameObject.SetActive(!_isSelected);
+            _costImage.gameObject.SetActive(IsSelected);
             base.Select();
         }
     }

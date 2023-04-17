@@ -47,13 +47,13 @@ namespace StartSessionMenu.ChooseCharacter
 
         private void SelectCharacter(CharacterCardWithCost card)
         {
-            if (!card._isSelected && _wallet.Money - card.Cost >= 0
+            if (!card.IsSelected && _wallet.Money - card.Cost >= 0
                 && _selectedCharacters.Count < MaxSquadSize)
             {
                 _wallet.SubtractMoney(card.Cost);
                 SelectCard(card);
             }
-            else if (card._isSelected)
+            else if (card.IsSelected)
             {
                 _wallet.AddMoney(card.Cost);
                 UnselectCard(card);

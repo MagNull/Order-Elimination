@@ -25,9 +25,9 @@ namespace RoguelikeMap.Panels
 
         private void SelectCharacter(CharacterCardWithHealthBar card)
         {
-            if (card._isSelected)
+            if (card.IsSelected)
                 SelectCard(card);
-            else if (!card._isSelected)
+            else if (!card.IsSelected)
                 UnselectCard(card);
         }
 
