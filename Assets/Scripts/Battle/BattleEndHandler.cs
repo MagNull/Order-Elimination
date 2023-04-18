@@ -12,6 +12,7 @@ using RoguelikeMap;
 
 public class BattleEndHandler : MonoBehaviour
 {
+    private int CurrencyReward = 300;
     private SceneTransition _sceneTransition;
     private CharactersMediator _mediator;
 
@@ -36,8 +37,7 @@ public class BattleEndHandler : MonoBehaviour
     {
         Debug.Log(outcome);
         var allies = _mediator.GetBattleCharactersInfo().Cast<Character>().ToArray();
-        var currentPlanetInfo = _mediator.PointInfo;
-        var battleResultInfo = new BattleResult(outcome, allies, currentPlanetInfo.CurrencyReward, 0);
+        var battleResultInfo = new BattleResult(outcome, allies, CurrencyReward, 0);
         if (outcome == BattleOutcome.Victory)
         {
             var panel = (BattleVictoryPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleVictory);

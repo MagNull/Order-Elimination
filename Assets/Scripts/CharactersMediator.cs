@@ -8,7 +8,7 @@ namespace OrderElimination
     public class CharactersMediator : SerializedMonoBehaviour
     {
         [OdinSerialize]
-        private List<IBattleCharacterInfo> _battleStatsList;
+        private IReadOnlyList<IBattleCharacterInfo> _battleStatsList;
 
         [OdinSerialize] private List<IBattleCharacterInfo> _enemies;
         private int _pointNumber;
@@ -20,7 +20,7 @@ namespace OrderElimination
 
         public void SetPointNumber(int pointNumber) => _pointNumber = pointNumber;
 
-        public List<IBattleCharacterInfo> GetBattleCharactersInfo() => _battleStatsList;
+        public IReadOnlyList<IBattleCharacterInfo> GetBattleCharactersInfo() => _battleStatsList;
         public List<IBattleCharacterInfo> GetBattleEnemyInfo() => _enemies;
         public int PointNumber => _pointNumber;
 

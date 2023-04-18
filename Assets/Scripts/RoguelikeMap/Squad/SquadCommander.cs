@@ -4,6 +4,7 @@ using System.Linq;
 using RoguelikeMap.Map;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
+using RoguelikeMap.Points.VarietiesPoints;
 using UnityEngine;
 using VContainer;
 
@@ -50,13 +51,15 @@ namespace OrderElimination
 
         public void StartAttack()
         {
+            if (_target is not BattlePoint battlePoint)
+                throw new ArgumentException("Is not valid point to attack");
             SaveSquadPosition();
             var battleStatsList = _squad.Members.Cast<IBattleCharacterInfo>().ToList();
             var charactersMediator = _objectResolver.Resolve<CharactersMediator>();
             charactersMediator.SetSquad(battleStatsList);
-            charactersMediator.SetEnemies(_target.PointInfo.Enemies);
+            //TODO(coder): enemies is IReadOnlyList<IBattleCharacterInfo> but SetEnemies need List<IBattleCharacterInfo>
+            charactersMediator.SetEnemies(battlePoint.Enemies.ToList());
             charactersMediator.SetPointNumber(_target.PointNumber);
-            charactersMediator.PointInfo = _target.PointInfo;
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();
         }

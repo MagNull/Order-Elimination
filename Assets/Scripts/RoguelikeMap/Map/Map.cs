@@ -11,7 +11,7 @@ namespace RoguelikeMap.Map
     {
         public static string SquadPositionPrefPath = $"{SaveIndex}/Squad/Position";
         
-        public List<Point> _points;
+        public IEnumerable<Point> _points;
         private IMapGenerator _mapGenerator;
         private Squad _squad;
         private bool _isSquadSelected;

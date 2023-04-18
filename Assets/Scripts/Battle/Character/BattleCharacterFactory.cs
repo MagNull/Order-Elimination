@@ -78,13 +78,13 @@ public class BattleCharacterFactory : MonoBehaviour
         return character;
     }
 
-    public List<BattleCharacter> CreatePlayerSquad(List<IBattleCharacterInfo> infos) =>
+    public List<BattleCharacter> CreatePlayerSquad(IReadOnlyList<IBattleCharacterInfo> infos) =>
         CreateSquad(infos, BattleObjectType.Ally, "Player");
 
-    public List<BattleCharacter> CreateEnemySquad(List<IBattleCharacterInfo> infos) =>
+    public List<BattleCharacter> CreateEnemySquad(IReadOnlyList<IBattleCharacterInfo> infos) =>
         CreateSquad(infos, BattleObjectType.Enemy, "Enemy");
 
-    private List<BattleCharacter> CreateSquad(List<IBattleCharacterInfo> infos, BattleObjectType type, string name)
+    private List<BattleCharacter> CreateSquad(IReadOnlyList<IBattleCharacterInfo> infos, BattleObjectType type, string name)
     {
         var characters = new List<BattleCharacter>(infos.Count);
         for (var i = 0; i < infos.Count; i++)
