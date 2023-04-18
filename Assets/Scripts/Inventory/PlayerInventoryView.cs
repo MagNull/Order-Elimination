@@ -17,6 +17,8 @@ namespace Inventory_Items
         [SerializeField]
         private GridLayoutGroup _cellContainer;
 
+        private readonly Stack<IInventoryCellView> _unusedCellViews = new();
+
         public void ShowItemWithType(int itemType)
         {
             foreach (var cell in _cells)
@@ -50,21 +52,26 @@ namespace Inventory_Items
             var cellView = _cells[oldCell];
             _cells.Remove(oldCell);
             cellView.OnCellChanged(newCell);
-
-            if (newCell.ItemQuantity == 0)
-            {
-                cellView.Clicked -= OnCellClicked;
-                return;
-            }
+            
             _cells.Add(newCell, cellView);
         }
 
         public override void OnCellAdded(IReadOnlyCell cell)
         {
-            var cellView = Instantiate(_cellViewPrefab, _cellContainer.transform);
+            var cellView = _unusedCellViews.Count > 0 ? _unusedCellViews.Pop() : Instantiate(_cellViewPrefab, _cellContainer.transform);
             cellView.Clicked += OnCellClicked;
+            cellView.Enable();
             cellView.OnCellChanged(cell);
             _cells.Add(cell, cellView);
+        }
+
+        public override void OnCellRemoved(IReadOnlyCell cell)
+        {
+            var cellView = _cells[cell];
+            _cells.Remove(cell);
+            cellView.Disable();
+            _unusedCellViews.Push(cellView);
+            cellView.Clicked -= OnCellClicked;
         }
 
         private void OnCellClicked(IReadOnlyCell cell)

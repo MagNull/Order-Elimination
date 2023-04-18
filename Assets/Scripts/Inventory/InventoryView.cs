@@ -12,5 +12,6 @@ namespace Inventory_Items
         public abstract void UpdateCells(IReadOnlyList<IReadOnlyCell> cells);
         public abstract void OnCellChanged(IReadOnlyCell oldCell, IReadOnlyCell newCell);
         public abstract void OnCellAdded(IReadOnlyCell cell);
+        public abstract void OnCellRemoved(IReadOnlyCell cell);
     }
 }

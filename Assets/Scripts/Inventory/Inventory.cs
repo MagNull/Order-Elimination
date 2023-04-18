@@ -9,6 +9,7 @@ namespace Inventory_Items
     public class Inventory
     {
         public event Action<IReadOnlyCell, IReadOnlyCell> OnCellChanged;
+        public event Action<IReadOnlyCell> OnCellRemoved;
         public event Action<IReadOnlyCell> OnCellAdded;
         
         [ShowInInspector]
@@ -55,6 +56,12 @@ namespace Inventory_Items
                 return;
             }
 
+            if (_cells[indexOfItem].ItemQuantity - quantity <= 0)
+            {
+                OnCellRemoved?.Invoke(_cells[indexOfItem]);
+                _cells.RemoveAt(indexOfItem);
+                return;
+            }
             var newCell = new Cell(item, _cells[indexOfItem].ItemQuantity - quantity);
             OnCellChanged?.Invoke(_cells[indexOfItem], newCell);
             _cells[indexOfItem] = newCell;

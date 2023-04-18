@@ -1,9 +1,12 @@
 ﻿using System;
+using Sirenix.OdinInspector;
 
 namespace Inventory_Items
 {
+    [Serializable]
     public class Cell : IReadOnlyCell
     {
+        [ShowInInspector]
         private readonly Item _item;
         private readonly int _itemQuantity;
 
@@ -18,7 +21,7 @@ namespace Inventory_Items
             
             _itemQuantity = itemQuantity;
             
-            _item = itemQuantity == 0 ? null : item;
+            _item = itemQuantity == 0 ? new Item() : item;
         }
     }
     

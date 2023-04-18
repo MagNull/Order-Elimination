@@ -10,8 +10,11 @@ namespace Inventory_Items
     {
         [SerializeField]
         private Dictionary<ItemType, Image> _cellViewByItemType = new();
+        [SerializeField]
+        private Sprite _emptyCellSprite;
 
         public override event Action<IReadOnlyCell> CellClicked;
+
         public override void UpdateCells(IReadOnlyList<IReadOnlyCell> cells)
         {
             foreach (var cell in cells)
@@ -30,6 +33,11 @@ namespace Inventory_Items
         {
             if (_cellViewByItemType.ContainsKey(cell.Item.Type))
                 _cellViewByItemType[cell.Item.Type].sprite = cell.Item.View.Icon;
+        }
+
+        public override void OnCellRemoved(IReadOnlyCell cell)
+        {
+            _cellViewByItemType[cell.Item.Type].sprite = _emptyCellSprite;
         }
     }
 }
