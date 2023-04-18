@@ -2,7 +2,7 @@
 {
     public class SafeZonePoint : Point
     {
-        public override void InitializePointView()
+        protected override void InitializePointView()
         {
             var panel = _panelGenerator.GetPanelByPointInfo(PointType.SafeZone);
             PointView = new PointView(panel);

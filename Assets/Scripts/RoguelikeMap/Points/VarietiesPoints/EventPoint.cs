@@ -2,7 +2,7 @@
 {
     public class EventPoint : Point
     {
-        public override void InitializePointView()
+        protected override void InitializePointView()
         {
             var panel = _panelGenerator.GetPanelByPointInfo(PointType.Event);
             PointView = new PointView(panel);

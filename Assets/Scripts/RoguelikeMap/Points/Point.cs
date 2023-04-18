@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using OrderElimination;
 using RoguelikeMap.Panels;
+using RoguelikeMap.Points.VarietiesPoints;
 using UnityEngine;
-using VContainer;
 
 namespace RoguelikeMap.Points
 {
@@ -14,7 +14,7 @@ namespace RoguelikeMap.Points
         
         protected PanelGenerator _panelGenerator;
         
-        public PointInfo PointInfo { get; protected set; }
+        public VarietiesPointInfo PointInfo { get; protected set; }
         public PathView PathView { get; protected set; }
         public PointView PointView { get; protected set; }
         public List<Point> NextPoints { get; protected set; } = new List<Point>();
@@ -27,7 +27,7 @@ namespace RoguelikeMap.Points
         }
         
         //When squad come to point
-        public virtual void InitializePointView()
+        protected virtual void InitializePointView()
         {
             var panel = _panelGenerator.GetPanelByPointInfo(PointInfo.PointType);
             PointView = new PointView(panel);
@@ -41,7 +41,7 @@ namespace RoguelikeMap.Points
                 InitializePointView();
         }
         
-        public void SetPointInfo(PointInfo pointInfo)
+        public void SetPointInfo(VarietiesPointInfo pointInfo)
         {
             PointInfo = pointInfo;
         }

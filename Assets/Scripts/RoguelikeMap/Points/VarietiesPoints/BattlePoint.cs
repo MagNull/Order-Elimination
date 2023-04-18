@@ -10,7 +10,7 @@ namespace RoguelikeMap.Points.VarietiesPoints
         public IReadOnlyList<IBattleCharacterInfo> Enemies => PointInfo.Enemies;
 
 
-        public override void InitializePointView()
+        protected override void InitializePointView()
         {
             var panel = (BattlePanel)_panelGenerator.GetPanelByPointInfo(PointType.Battle);
             panel.UpdateEnemies(PointInfo.Enemies);
