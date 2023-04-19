@@ -21,7 +21,6 @@ namespace UIManagement
         private Sprite _noSelectedAbilityIcon;
         [SerializeField]
         private Color _selectedAbilityTint;
-        private Dictionary<AbilityView, AbilityButton> _buttonsByView = new();
         private AbilityView[] _currentPassiveSkills;
 
         public bool AbilityCasing => _activeAbilityButtons.Any(ab => ab.AbilityView is {Casting: true} &&
@@ -62,15 +61,6 @@ namespace UIManagement
             }
         }
 
-        private void Select(AbilityView abilityView)
-        {
-            if (abilityView == null)
-                return;
-            if (!_buttonsByView.ContainsKey(abilityView))
-                throw new KeyNotFoundException($"No ability \"{abilityView.Name}\" assigned.");
-            _buttonsByView[abilityView].Select();
-        }
-
         public void SelectFirstAvailableAbility()
         {
             var firstAvailableAbilityButton = _activeAbilityButtons.FirstOrDefault(b => b.AbilityView.CanCast);
@@ -81,7 +71,7 @@ namespace UIManagement
             }
         }
 
-        public void AssignAbilities(AbilityView[] activeAbilitiesView, AbilityView[] passiveAbilitiesView)
+        public void old_AssignAbilities(AbilityView[] activeAbilitiesView, AbilityView[] passiveAbilitiesView)
         {
             if (activeAbilitiesView.Length > _activeAbilityButtons.Length
                 || passiveAbilitiesView.Length > _passiveAbilityButtons.Length)
@@ -90,9 +80,8 @@ namespace UIManagement
             for (var i = 0; i < activeAbilitiesView.Length; i++)
             {
                 _activeAbilityButtons[i].CancelAbilityCast();
-                _activeAbilityButtons[i].AssignAbilityView(activeAbilitiesView[i]);
+                _activeAbilityButtons[i].old_AssignAbilityView(activeAbilitiesView[i]);
                 _activeAbilityButtons[i].HoldableButton.HoldAvailable = true;
-                _buttonsByView.Add(activeAbilitiesView[i], _activeAbilityButtons[i]);
             }
 
             for (var j = 0; j < passiveAbilitiesView.Length; j++)
@@ -101,6 +90,27 @@ namespace UIManagement
             }
 
             _currentPassiveSkills = passiveAbilitiesView;
+        }
+
+        public void AssignAbilities(
+            OrderElimination.AbilitySystem.AbilityRunner[] activeAbilities,
+            OrderElimination.AbilitySystem.AbilityRunner[] passiveAbilities)
+        {
+            if (activeAbilities.Length > _activeAbilityButtons.Length
+                || passiveAbilities.Length > _passiveAbilityButtons.Length)
+                throw new ArgumentException();
+            ResetAbilityButtons();
+            for (var i = 0; i < activeAbilities.Length; i++)
+            {
+                _activeAbilityButtons[i].CancelAbilityCast();
+                _activeAbilityButtons[i].AssignAbiility(activeAbilities[i]);
+                _activeAbilityButtons[i].HoldableButton.HoldAvailable = true;
+            }
+
+            for (var j = 0; j < passiveAbilities.Length; j++)
+            {
+                //_passiveAbilityButtons[j].AssignAbilityView(passiveAbilities[j]);
+            }
         }
 
         public void ResetAbilityButtons()
@@ -116,7 +126,6 @@ namespace UIManagement
                 button.RemoveAbilityView();
             }
 
-            _buttonsByView.Clear();
             _currentPassiveSkills = null;
         }
 

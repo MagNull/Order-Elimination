@@ -25,15 +25,15 @@ namespace UIManagement.Elements
         public void SetValue(float currentValue, float minValue, float maxValue)
         {
             _textValueComponent.text = currentValue.ToString();
-            var normalizedValue = (currentValue - minValue) / (maxValue - minValue);
-            if (normalizedValue > 1 || normalizedValue < 0 || float.IsNaN(normalizedValue))
+            var scaledValue = (currentValue - minValue) / (maxValue - minValue);
+            if (float.IsNaN(scaledValue)) //scaledValue > 1 || scaledValue < 0 || 
             {
-                Debug.Log("Normalized value: " + normalizedValue + '\n' +
+                Debug.Log("Normalized value: " + scaledValue + '\n' +
                           "Max value: " + maxValue + '\n' +
                           "Min value: " + minValue + '\n');
                 throw new System.InvalidOperationException();
             }
-            DOTween.To(GetFillAmount, SetFillAmount, normalizedValue, 0.4f).SetEase(ValueChangeEase);
+            DOTween.To(GetFillAmount, SetFillAmount, scaledValue, 0.4f).SetEase(ValueChangeEase);
 
             float GetFillAmount() => FillAmount;
 

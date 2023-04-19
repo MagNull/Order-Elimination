@@ -10,14 +10,14 @@ namespace OrderElimination.AbilitySystem
 {
     public class ApplyEffectAction : BattleAction<ApplyEffectAction>
     {
-        public IEffect Effect { get; set; }
+        public IEffect EffectSample { get; set; }
         public float ApplyChance { get; set; }
 
         protected override bool Perform(ActionExecutionContext useContext)
         {
             if (RandomExtensions.RollChance(ApplyChance))
             {
-                return useContext.ActionTarget.ApplyEffect(Effect);
+                return useContext.ActionTarget.ApplyEffect(EffectSample, useContext.ActionMaker);
             }
             return false;
         }

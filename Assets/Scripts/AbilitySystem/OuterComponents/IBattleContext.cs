@@ -8,15 +8,16 @@ public interface IBattleContext
 {
     public IBattleMap BattleMap => throw new NotImplementedException();
     public IHitCalculation HitCalculation => throw new NotImplementedException();
+    public int CurrentRound { get; }
+    public BattleSide GetRelationship(IAbilitySystemActor entityA, IAbilitySystemActor entityB);
     //public Player[] Players
     //public Player CurrentPlayer
     //Characters
     //Structures
 
-    //Cell.GetEntities()
+    //Cell.GetCharacters()
     //Cell.GetStructures()
     //Cell.GetContainingObjects()
 
-    public int CurrentMove { get; }
-    public event Action<int> NewMoveBegun; //MoveInfo(moveNumber, activeSide, ...)
+    public event Action<IBattleContext> NewRoundStarted; //MoveInfo(moveNumber, activeSide, ...)
 }

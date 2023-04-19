@@ -27,7 +27,7 @@ public class AbilityViewBinder
             _selectedCharacterView?.Deselect();
             _selectedCharacterView = characterView;
             _selectedCharacterView.Select();
-            abilityPanel.AssignAbilities(characterView.ActiveAbilitiesView, characterView.PassiveAbilitiesView);
+            abilityPanel.old_AssignAbilities(characterView.ActiveAbilitiesView, characterView.PassiveAbilitiesView);
             abilityPanel.SelectFirstAvailableAbility();
         };
     }
@@ -42,6 +42,6 @@ public class AbilityViewBinder
 
     public void OnDisable(BattleMapView mapView, AbilityPanel abilityPanel)
     {
-        mapView.CellClicked -= OnCellClicked(abilityPanel);
+        mapView.CellClicked -= OnCellClicked(abilityPanel);//Такое не работает
     }
 }

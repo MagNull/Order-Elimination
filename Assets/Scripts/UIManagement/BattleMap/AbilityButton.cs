@@ -32,6 +32,7 @@ namespace UIManagement.Elements
             }
         }
         public AbilityView AbilityView { get; private set; }
+        public OrderElimination.AbilitySystem.AbilityRunner AbilityRunner { get; private set; }
         public event Action<AbilityButton> Clicked;
         public event Action<AbilityButton> Holded;
         public event Action AbilityButtonUsed;
@@ -60,7 +61,7 @@ namespace UIManagement.Elements
             AbilityView.Clicked();
         }
 
-        public void AssignAbilityView(AbilityView abilityView)
+        public void old_AssignAbilityView(AbilityView abilityView)
         {
             RemoveAbilityView();
             _abilityName.text = abilityView.Name;
@@ -69,6 +70,14 @@ namespace UIManagement.Elements
             AbilityView.Casted += OnAbilityCasted;
             _button.interactable = true;
             UpdateAvailability();
+        }
+
+        public void AssignAbiility(OrderElimination.AbilitySystem.AbilityRunner abilityRunner)
+        {
+            RemoveAbilityView();
+            AbilityRunner = abilityRunner;
+            _abilityName.text = AbilityRunner.AbilityData.View.Name;
+            _abilityIcon.sprite = AbilityRunner.AbilityData.View.Icon;
         }
 
         public void CancelAbilityCast() => AbilityView?.CancelCast();
@@ -81,6 +90,7 @@ namespace UIManagement.Elements
             if(AbilityView != null)
                 AbilityView.Casted -= OnAbilityCasted;
             AbilityView = null;
+            AbilityRunner = null;
             _button.interactable = false;
         }
 

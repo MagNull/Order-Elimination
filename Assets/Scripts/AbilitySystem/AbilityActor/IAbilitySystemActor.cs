@@ -1,13 +1,40 @@
-﻿using System;
+﻿using OrderElimination.Infrastructure;
+using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Linq;
+using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public abstract class IAbilitySystemActor : IHaveLifeStats, IEffectHolder
+    public class IAbilitySystemActor : IHaveBattleLifeStats, IEffectHolder, IMovable
     {
+        public IAbilitySystemActor(
+            IBattleMap battleMap, 
+            BattleStats battleStats, 
+            EntityType type, 
+            BattleSide side, 
+            AbilityData[] activeAbilities)//equipment
+        {
+            DeployedBattleMap = battleMap;
+            _battleStats = battleStats;
+            EntityType = type;
+            BattleSide = side;
+            foreach (var ability in activeAbilities)
+            {
+                ActiveAbilities.Add(new AbilityRunner(ability));
+            }
+            //foreach (var ability in passiveAbilities)
+            //{
+            //    PassiveAbilities.Add(new AbilityRunner(ability));
+            //}
+            foreach (var p in EnumExtensions.GetValues<ActionPoint>())
+            {
+                _actionPoints.Add(p, 0);
+            }
+        }
+
         #region IHaveLifeStats
-        public ILifeStats LifeStats => BattleStats;
+        public IBattleLifeStats LifeStats => _battleStats;
         public event Action<DealtDamageInfo> Damaged;
         public event Action<HealRecoveryInfo> Healed;
         public DealtDamageInfo TakeDamage(DamageInfo damageInfo)
@@ -23,40 +50,61 @@ namespace OrderElimination.AbilitySystem
             return recoveryInfo;
         }
         #endregion
-        public ActorType ActorType { get; }
-        //Side (player, enemy, neutral, ...)
 
-        public IBattleStats BattleStats { get; }
+        public EntityType EntityType { get; }
+        public BattleSide BattleSide { get; }
+        public IBattleStats BattleStats => _battleStats;
+
+        public IBattleMap DeployedBattleMap { get; }
+        public Vector2Int Position => DeployedBattleMap.GetPosition(this);
+        public void Move(Vector2Int destination)//Task to wait for
+        {
+            var origin = DeployedBattleMap.GetPosition(this);
+            //Wait for animations to finish
+            DeployedBattleMap.RemoveEntity(this);
+            DeployedBattleMap.PlaceEntity(this, destination);
+            MovedFromTo?.Invoke(origin, destination);
+        }
+        public event Action<Vector2Int, Vector2Int> MovedFromTo;
 
         public IReadOnlyDictionary<ActionPoint, int> ActionPoints => _actionPoints;
-        public void AddActionPoint(ActionPoint actionPoint, int value = 1)
+        public void AddActionPoints(ActionPoint actionPoint, int value = 1)
         {
-            if (!_actionPoints.ContainsKey(actionPoint))
-                _actionPoints.Add(actionPoint, 0);
+            if (value < 0) throw new ArgumentOutOfRangeException();
+            if (!_actionPoints.ContainsKey(actionPoint)) _actionPoints.Add(actionPoint, 0);
             _actionPoints[actionPoint] += value;
-
         }
-        public void RemoveActionPoint(ActionPoint actionPoint, int value = 1)
+        public void RemoveActionPoints(ActionPoint actionPoint, int value = 1)
         {
-            if (!_actionPoints.ContainsKey(actionPoint))
-                _actionPoints.Add(actionPoint, 0);
+            if (value < 0) throw new ArgumentOutOfRangeException();
+            if (!_actionPoints.ContainsKey(actionPoint)) throw new KeyNotFoundException();
             if (_actionPoints[actionPoint] < value) throw new ArgumentOutOfRangeException();
             _actionPoints[actionPoint] -= value;
 
         }
+        public void SetActionPoints(ActionPoint actionPoint, int value)
+        {
+            if (value < 0) throw new ArgumentOutOfRangeException();
+            if (!_actionPoints.ContainsKey(actionPoint)) 
+                _actionPoints.Add(actionPoint, 0);
+            _actionPoints[actionPoint] = value;
+        }
+        public List<AbilityRunner> ActiveAbilities { get; } = new List<AbilityRunner>();
+        public List<AbilityRunner> PassiveAbilities { get; } = new List<AbilityRunner>();
+        //public bool UseAbility(Ability ability, CellTargetGroups targets); //TODO return AbilityUseContext
 
         public ActionProcessor ActionProcessor { get; }
 
         #region IEffectHolder
         public IEnumerable<IEffect> Effects => _effects;
         public bool HasEffect(IEffect effect) => _effects.Contains(effect);
-        public bool CanApplyEffect(IEffect effect) => !HasEffect(effect) || effect.EffectData.IsStackable;
+        public bool CanApplyEffect(IEffect effect) => !HasEffect(effect) || effect.IsStackable;
         public event Action<IEffect> EffectAdded;
         public event Action<IEffect> EffectRemoved;
 
-        public bool ApplyEffect(IEffect effect)
+        public bool ApplyEffect(IEffect effect, IAbilitySystemActor applier)
         {
-            if (CanApplyEffect(effect) && effect.Activate(this))
+            if (CanApplyEffect(effect) && effect.Activate(this, applier))
             {
                 _effects.Add(effect);
                 return true;
@@ -66,34 +114,24 @@ namespace OrderElimination.AbilitySystem
 
         public bool RemoveEffect(IEffect effect)
         {
-            if (effect.EffectData.CanBeForceRemoved)
-                return _effects.Remove(effect);
+            if (effect.CanBeForceRemoved && _effects.Contains(effect) && effect.Deactivate())
+            {
+                _effects.Remove(effect);
+            }
             return false;
         }
         #endregion
 
-        //public Ability[] PossessedAbilities { get; }
-        //public bool UseAbility(Ability ability, CellTargetGroups targets); //TODO return AbilityUseContext
-
-
         //IBattleObstacle?
 
+        private readonly BattleStats _battleStats;
         private readonly HashSet<IEffect> _effects = new HashSet<IEffect>();
         private readonly Dictionary<ActionPoint, int> _actionPoints = new Dictionary<ActionPoint, int>();
     }
 
-    public interface IAbilitySystemActorView
+    public enum EntityType
     {
-        public IAbilitySystemActor Model { get; }
-        //public DamageInfo ShowModifiedDamage(DamageInfo incomingDamage);
-        //public float ShowModifiedAccuracy(float incomingAccuracy);
-        //public HealInfo ShowModifiedHeal(HealInfo incomingHeal);
-        //public TEffect ShowModifiedApplyingEffect<TEffect>(TEffect effect) where TEffect : IEffect;
-    }
-
-    public enum ActorType
-    {
-        Unit,
+        Character,
         MapObject
     }
 }

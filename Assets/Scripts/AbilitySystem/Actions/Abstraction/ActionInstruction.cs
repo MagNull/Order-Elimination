@@ -1,5 +1,6 @@
 ﻿using Mono.Cecil.Cil;
 using OrderElimination.AbilitySystem;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace OrderElimination.AbilitySystem
         public IActionCondition[] ActionCondition { get; set; }
         public CellGroupsFilter TargetGroupsFilter { get; set; }
         //TODO Action нужно дублировать перед обработкой
+        [ShowInInspector]
         public IBattleAction Action { get; set; }
         //При каждом успешном выполнении Action будут вызываться последующие инструкции (для каждого повторения)
         private int repeatNumber; public int RepeatNumber
@@ -30,12 +32,11 @@ namespace OrderElimination.AbilitySystem
         {
             var battleMap = abilityExecutionContext.BattleContext.BattleMap;
             //TODO Check Basic Conditions
-            foreach (var cell in TargetGroupsFilter
-                .GetFilteredCells(abilityExecutionContext.TargetedCellGroups)
-                .Select(pos => battleMap[pos]))
+            foreach (var pos in TargetGroupsFilter
+                .GetFilteredCells(abilityExecutionContext.TargetedCellGroups))
             {
                 //TODO Check Cell Conditions
-                foreach (var entity in cell.GetContainingEntities())
+                foreach (var entity in battleMap.GetContainingEntities(pos))
                 {
                     //TODO Check Entity Conditions
                     var actionUseContext = new ActionExecutionContext(

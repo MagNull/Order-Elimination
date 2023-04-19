@@ -1,4 +1,5 @@
-﻿using OrderElimination.Infrastructure;
+﻿using OrderElimination.AbilitySystem.OuterComponents;
+using OrderElimination.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,68 +9,23 @@ using Unity.VisualScripting;
 
 namespace OrderElimination.AbilitySystem
 {
-    public enum BattleStat
+    public interface IBattleStats
     {
-        MaxHealth,
-        MaxArmor,
-        AttackDamage,
-        Accuracy,
-        Evasion,
-        MaxMovementDistance
-    }
-
-    //public interface IBattleStats
-    //{
-    //    public bool HasParameter(BattleStat battleStat);
-
-    //    public ProcessingParameter<float> this[BattleStat battleStat] => GetParameter(battleStat);
-    //    public ProcessingParameter<float> GetParameter(BattleStat battleStat);
-    //}
-
-    public interface IBattleStats : ILifeStats//ICharacterBattleStats : IBattleStats
-    {
-        public ProcessingParameter<float> AttackDamage { get; }
-        public ProcessingParameter<float> Accuracy { get; }
-        public ProcessingParameter<float> Evasion { get; }
-        public ProcessingParameter<float> MaxMovementDistance { get; }
-
         public bool HasParameter(BattleStat battleStat);
 
         public ProcessingParameter<float> this[BattleStat battleStat] => GetParameter(battleStat);
-        public ProcessingParameter<float> GetParameter(BattleStat battleStat)
-        {
-            if (!HasParameter(battleStat)) throw new ArgumentException();
-            return battleStat switch
-            {
-                BattleStat.MaxHealth => MaxHealth,
-                BattleStat.MaxArmor => MaxArmor,
-                BattleStat.AttackDamage => AttackDamage,
-                BattleStat.Accuracy => Accuracy,
-                BattleStat.Evasion => Evasion,
-                BattleStat.MaxMovementDistance => MaxMovementDistance,
-                _ => throw new ArgumentException(),
-            };
-        }
-
-        //Можно заменить изменением ценой способности перемещения у конкретного персонажа. Тогда очки должны быть дробными (энергия).
-        //ActionPoint.MovementPoint: float
-        //public int MovementPointsPerMove { get; } //Очки перемещения, начислясляющиеся каждый ход
+        public ProcessingParameter<float> GetParameter(BattleStat battleStat);
     }
 
-    public interface ILifeStats
+    public class BattleStats : IBattleStats, IBattleLifeStats
     {
-        public float Health { get; set; }
-        public ProcessingParameter<float> MaxHealth { get; }
-        public float TotalArmor { get; set; }
-        public float PureArmor { get; set; } //Value between [0 and MaxArmor]
-        public float TemporaryArmor { get; } //Depletes first. Truncates at 0.
-        public void AddTemporaryArmor(TemporaryArmor armor);
-        public void RemoveTemporaryArmor(TemporaryArmor armor);
-        public ProcessingParameter<float> MaxArmor { get; } //ValueChanged += Update Armor
-    }
+        public ProcessingParameter<float> AttackDamage { get; } = new ProcessingParameter<float>();
+        public ProcessingParameter<float> Accuracy { get; } = new ProcessingParameter<float>();
+        public ProcessingParameter<float> Evasion { get; } = new ProcessingParameter<float>();
+        public ProcessingParameter<float> MaxMovementDistance { get; } = new ProcessingParameter<float>();
+        public ProcessingParameter<float> MaxHealth { get; } = new ProcessingParameter<float>();
+        public ProcessingParameter<float> MaxArmor { get; } = new ProcessingParameter<float>();
 
-    public class BattleStats : ILifeStats
-    {
         public float Health { get; set; }
         public float TotalArmor
         {
@@ -102,12 +58,92 @@ namespace OrderElimination.AbilitySystem
         public float PureArmor { get; set; }
         public float TemporaryArmor => _temporaryArmors.Sum(a => a.Value);
 
-        public ProcessingParameter<float> MaxHealth { get; }
-        public ProcessingParameter<float> MaxArmor { get; }
-
-        private readonly List<TemporaryArmor> _temporaryArmors = new List<TemporaryArmor>();
         public void AddTemporaryArmor(TemporaryArmor armor) => _temporaryArmors.Add(armor);
         public void RemoveTemporaryArmor(TemporaryArmor armor) => _temporaryArmors.Remove(armor);
+
+        public bool HasParameter(BattleStat battleStat)
+        {
+            if (battleStat == BattleStat.MaxHealth
+                || battleStat == BattleStat.MaxArmor
+                || battleStat == BattleStat.Accuracy
+                || battleStat == BattleStat.AttackDamage
+                || battleStat == BattleStat.Evasion
+                || battleStat == BattleStat.MaxMovementDistance)
+                return true;
+            return false;
+        }
+        public ProcessingParameter<float> this[BattleStat battleStat] => GetParameter(battleStat);
+        public ProcessingParameter<float> GetParameter(BattleStat battleStat)
+        {
+            if (!HasParameter(battleStat)) throw new ArgumentException();
+            return battleStat switch
+            {
+                BattleStat.MaxHealth => MaxHealth,
+                BattleStat.MaxArmor => MaxArmor,
+                BattleStat.AttackDamage => AttackDamage,
+                BattleStat.Accuracy => Accuracy,
+                BattleStat.Evasion => Evasion,
+                BattleStat.MaxMovementDistance => MaxMovementDistance,
+                _ => throw new ArgumentException(),
+            };
+        }
+
+        private readonly List<TemporaryArmor> _temporaryArmors = new List<TemporaryArmor>();
+
+        public BattleStats(ReadOnlyBaseStats baseStats)
+        {
+            MaxHealth.SetUnmodifiedValue(baseStats.MaxHealth);
+            MaxArmor.SetUnmodifiedValue(baseStats.MaxArmor);
+            AttackDamage.SetUnmodifiedValue(baseStats.AttackDamage);
+            Accuracy.SetUnmodifiedValue(baseStats.Accuracy);
+            Evasion.SetUnmodifiedValue(baseStats.Evasion);
+            MaxMovementDistance.SetUnmodifiedValue(baseStats.MaxMovementDistance);
+
+            Health = MaxHealth.ModifiedValue;
+            PureArmor = MaxArmor.ModifiedValue;
+
+            MaxArmor.ValueChanged += OnMaxArmorChanged;
+            MaxHealth.ValueChanged += OnMaxHealthChanged;
+        }
+        //Можно заменить изменением ценой способности перемещения у конкретного персонажа. Тогда очки должны быть дробными (энергия).
+        //ActionPoint.MovementPoint: float
+        //public int MovementPointsPerMove { get; } //Очки перемещения, начислясляющиеся каждый ход
+
+        private void OnMaxArmorChanged(ProcessingParameter<float> parameter)
+        {
+            var maxArmor = MaxArmor.ModifiedValue;
+            if (maxArmor < PureArmor)
+                PureArmor = maxArmor;
+        }
+
+        private void OnMaxHealthChanged(ProcessingParameter<float> parameter)
+        {
+            var maxHealth = MaxHealth.ModifiedValue;
+            if (maxHealth < Health)
+                Health = maxHealth;
+        }
+    }
+
+    public interface IBattleLifeStats
+    {
+        public float Health { get; set; }
+        public ProcessingParameter<float> MaxHealth { get; }
+        public float TotalArmor { get; set; }
+        public float PureArmor { get; set; } //Value between [0 and MaxArmor]
+        public float TemporaryArmor { get; } //Depletes first. Truncates at 0.
+        public void AddTemporaryArmor(TemporaryArmor armor);
+        public void RemoveTemporaryArmor(TemporaryArmor armor);
+        public ProcessingParameter<float> MaxArmor { get; } //ValueChanged += Update Armor
+    }
+
+    public enum BattleStat
+    {
+        MaxHealth,
+        MaxArmor,
+        AttackDamage,
+        Accuracy,
+        Evasion,
+        MaxMovementDistance
     }
 
     public class TemporaryArmor

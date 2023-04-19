@@ -29,8 +29,8 @@ namespace OrderElimination.AbilitySystem
             BattleContext = battleContext;
             ActionMaker = actionMaker;
             ActionTarget = target;
-            ActionMakerPosition = battleContext.BattleMap.GetCellPosition(actionMaker);
-            ActionTargetPosition = battleContext.BattleMap.GetCellPosition(target);
+            ActionMakerPosition = battleContext.BattleMap.GetPosition(actionMaker);
+            ActionTargetPosition = battleContext.BattleMap.GetPosition(target);
         }
     }
 }

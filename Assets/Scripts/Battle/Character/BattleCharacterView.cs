@@ -9,10 +9,14 @@ using TMPro;
 
 public class BattleCharacterView : MonoBehaviour, IBattleObjectView
 {
+    //Old System
     [SerializeField]
     private BattleCharacter _character;
     private AbilityView[] _activeAbilitiesView;
     private AbilityView[] _passiveAbilitiesView;
+    public IBattleObject Model => _character;
+
+    //
     [SerializeField]
     private SpriteRenderer _renderer;
     [SerializeField]
@@ -32,7 +36,6 @@ public class BattleCharacterView : MonoBehaviour, IBattleObjectView
 
     private bool _selected = false;
 
-    public IBattleObject Model => _character;
     public AbilityView[] ActiveAbilitiesView => _activeAbilitiesView;
     public AbilityView[] PassiveAbilitiesView => _passiveAbilitiesView;
     public string CharacterName { get; private set; }

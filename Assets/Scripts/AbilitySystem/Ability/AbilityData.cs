@@ -1,15 +1,21 @@
 ﻿using UnityEngine;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class AbilityData : ScriptableObject
+    [CreateAssetMenu(fileName = "AbilityData", menuName = "AbilitySystem/AbilityData")]
+    public class AbilityData : SerializedScriptableObject
     {
-        public AbilityView View { get; private set; }
-        public AbilityGameRepresentation GameRepresentation { get; private set; }
-        public AbilityRules Rules { get; private set; }
-        public IAbilityTargetingSystem TargetingSystem { get; private set; }
-        public AbilityExecution Execution { get; private set; }
-
-        
+        [ShowInInspector, OdinSerialize]
+        public AbilityView View { get; set; }
+        [ShowInInspector, OdinSerialize]
+        public AbilityGameRepresentation GameRepresentation { get; set; }
+        [ShowInInspector, OdinSerialize]
+        public AbilityRules Rules { get; set; }
+        [ShowInInspector, OdinSerialize]
+        public IAbilityTargetingSystem TargetingSystem { get; set; }
+        [ShowInInspector, OdinSerialize]
+        public AbilityExecution Execution { get; set; }
     }
 }

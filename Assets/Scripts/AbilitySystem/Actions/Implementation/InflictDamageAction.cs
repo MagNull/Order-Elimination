@@ -38,8 +38,8 @@ namespace OrderElimination.AbilitySystem
                 var intersections = CellMath.GetIntersectionBetween(useContext.ActionMakerPosition, useContext.ActionTargetPosition);
                 foreach (var intersection in intersections)
                 {
-                    foreach (var battleObstacle in battleMap[intersection.CellPosition]
-                        .GetContainingEntities()
+                    foreach (var battleObstacle in battleMap
+                        .GetContainingEntities(intersection.CellPosition)
                         .Select(e => e as IBattleObstacle)
                         .Where(o => o != null))
                     {
@@ -56,7 +56,7 @@ namespace OrderElimination.AbilitySystem
 
         protected override bool Perform(ActionExecutionContext useContext)
         {
-            if (useContext.ActionTarget is not IHaveLifeStats damageable)
+            if (useContext.ActionTarget is not IHaveBattleLifeStats damageable)
                 return false;
             //Обработка объектов на линии огня (перенесена в ModifiedPerform)
 

@@ -10,12 +10,12 @@ namespace OrderElimination.AbilitySystem
     //Либо вынести методы обработки в Актора.
     public class ActionProcessor
     {
-        private readonly IEnumerable<IEffect> _effects;
+        private readonly IEffectHolder _effectHolder;
         //Equipments
 
         private ActionProcessor(IEffectHolder effectHolder)//equipHolder
         {
-            _effects = effectHolder.Effects;
+            _effectHolder = effectHolder;
             //equip
         }
 
@@ -57,7 +57,8 @@ namespace OrderElimination.AbilitySystem
         private IOutcomingActionProcessingEffect<TAction>[] GetOutcomingActionProcessingEffects<TAction>()
             where TAction : BattleAction<TAction>
         {
-            return _effects
+            return _effectHolder
+                .Effects
                 .Select(e => e as IOutcomingActionProcessingEffect<TAction>)
                 .Where(e => e != null)
                 .ToArray();
@@ -66,7 +67,8 @@ namespace OrderElimination.AbilitySystem
         private IIncomingActionProcessingEffect<TAction>[] GetIncomingActionProcessingEffects<TAction>()
             where TAction : BattleAction<TAction>
         {
-            return _effects
+            return _effectHolder
+                .Effects
                 .Select(e => e as IIncomingActionProcessingEffect<TAction>)
                 .Where(e => e != null)
                 .ToArray();

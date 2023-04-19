@@ -116,7 +116,7 @@ namespace UIManagement.Elements
             }
 
             foreach (var e in _characterPanels.Values)
-                e.KillHighlightProcess();
+                e.KillHighlightAnimation();
             target.Highlight(Color.red);
 
             float GetScrollViewPosition() => _charactersScrollRect.verticalNormalizedPosition;

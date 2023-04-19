@@ -12,6 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1984226b6f4b5ea94fb3b7f3b16efb, type: 3}
   m_Name: "\u0410\u0432\u0430\u043D\u0433\u0430\u0440\u0434"
   m_EditorClassIdentifier: 
+  _baseBattleStats:
+    MaxHealth: 100
+    MaxArmor: 150
+    AttackDamage: 0
+    Accuracy: 0
+    Evasion: 0
+    MaxMovementDistance: 0
+  _entityType: 0
+  _activeAbilitiesData:
+  - {fileID: 11400000, guid: 14c36ed10a0f1c3468b20f78f24c7eb2, type: 2}
+  _passiveAbilitiesData: []
   _baseStats:
     _health: 100
     _unmodifiedHealth: 100

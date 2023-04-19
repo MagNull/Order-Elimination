@@ -20,8 +20,9 @@ namespace OrderElimination.AbilitySystem
         {
             return battleContext
                 .BattleMap
-                .Where(cell => CellConditions.All(c => c.IsConditionMet(battleContext, caster, cell)))
-                .Select(cell => battleContext.BattleMap.GetCellPosition(cell))
+                .CellRangeBorders
+                .EnumerateCellPositions()
+                .Where(pos => CellConditions.All(c => c.IsConditionMet(battleContext, caster, pos)))
                 .ToArray();
         }
 

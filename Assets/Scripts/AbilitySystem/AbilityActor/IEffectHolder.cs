@@ -14,7 +14,7 @@ namespace OrderElimination.AbilitySystem
 
         public bool HasEffect(IEffect effect);
         public bool CanApplyEffect(IEffect effect);// => !HasEffect(effect) || effect.EffectData.IsStackable;
-        public bool ApplyEffect(IEffect effect);
+        public bool ApplyEffect(IEffect effect, IAbilitySystemActor applier);
         public bool RemoveEffect(IEffect effect);
     }
 }

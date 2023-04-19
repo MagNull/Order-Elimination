@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.Design;
 using CharacterAbility;
+using OrderElimination.AbilitySystem;
 using OrderElimination.Battle;
 using OrderElimination.BM;
+using Sirenix.OdinInspector;
 using UIManagement.Elements;
 using UnityEngine;
 using VContainer;
@@ -14,7 +16,11 @@ namespace OrderElimination
         [SerializeField]
         private BattleCharacterFactory _battleCharacterFactory;
         [SerializeField]
-        private BattleMapView _battleMapView;
+        private BattleEntitiesFactory _battleEntitiesFactory;
+        [SerializeField]
+        private BattleMapView _battleMapView; 
+        [SerializeField]
+        private BattleMap _battleMap;
         [SerializeField]
         private BattleMapDirector _battleMapDirector;
         [SerializeField]
@@ -36,6 +42,8 @@ namespace OrderElimination
             builder.RegisterComponent(_battleCharacterFactory);
             builder.RegisterComponent(_battleMapDirector);
             builder.RegisterComponent(_battleMapView);
+            builder.RegisterComponent(_battleEntitiesFactory);
+            builder.RegisterComponent(_battleMap).As<IBattleMap>();
 
             builder.Register<SceneTransition>(Lifetime.Singleton);
 

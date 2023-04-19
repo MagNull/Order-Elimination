@@ -26,13 +26,13 @@ public class BattleMapView : MonoBehaviour
 
     public void OnEnable()
     {
-        _battleMap.CellChanged += OnCellChanged;
+        _battleMap.CellChangedOld += OnCellChanged;
     }
 
     public void OnDisable()
     {
         BattleSimulation.BattleEnded -= OnBattleEnded;
-        _battleMap.CellChanged -= OnCellChanged;
+        _battleMap.CellChangedOld -= OnCellChanged;
         foreach (var cellView in _cellViewGrid)
         {
             cellView.CellClicked -= OnCellClicked;
@@ -81,7 +81,7 @@ public class BattleMapView : MonoBehaviour
 
                 if (deltedX >= 0 && deltedX < _battleMap.Width && deltedY >= 0 && deltedY < _battleMap.Height)
                 {
-                    LightCell(deltedX, deltedY);
+                    HighlightCell(deltedX, deltedY, Color.white);
                 }
             }
         }
@@ -102,10 +102,10 @@ public class BattleMapView : MonoBehaviour
         _battleEnded = true;
     }
 
-    private void LightCell(int x, int y)
+    public void HighlightCell(int x, int y, Color color)
     {
         CellView cell = _cellViewGrid[x, y];
-        cell.Light();
+        cell.Highlight(color);
         _lightedCells.Add(cell);
     }
 

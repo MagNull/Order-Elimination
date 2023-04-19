@@ -8,8 +8,14 @@ namespace OrderElimination.AbilitySystem
 {
     public class AbilityRunner
     {
+        public AbilityRunner(AbilityData abilityData)
+        {
+            AbilityData = abilityData;
+        }
+
         public AbilityData AbilityData { get; private set; }
         public int Cooldown { get; private set; }
+        //event Unlocked
 
         //В идеале нужно передавать представление карты для конкретного игрока/стороны — для наведения.
         //Но при применении использовать реальный BattleMap (не представление)
@@ -19,7 +25,7 @@ namespace OrderElimination.AbilitySystem
                 return false;
             if (!AbilityData.Rules.IsAbilityAvailable(battleContext, caster, AbilityData.GameRepresentation.Cost))
                 return false;
-            var casterPosition = battleContext.BattleMap.GetCellPosition(caster);
+            var casterPosition = battleContext.BattleMap.GetPosition(caster);
             var mapBorders = battleContext.BattleMap.CellRangeBorders;
             if (AbilityData.TargetingSystem is MultiTargetTargetingSystem multiTargetCastSystem)
             {

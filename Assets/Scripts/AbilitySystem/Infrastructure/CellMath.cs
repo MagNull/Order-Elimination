@@ -19,14 +19,6 @@ namespace OrderElimination.Infrastructure
         public readonly int xMax;
         public readonly int yMax;
 
-        public CellRangeBorders(RectInt rect)
-        {
-            xMin = rect.xMin;
-            yMin = rect.yMin;
-            xMax = rect.xMax;
-            yMax = rect.yMax;
-        }
-
         public CellRangeBorders(Vector2Int start, Vector2Int end)
         {
             xMin = Math.Min(start.x, end.x);
@@ -47,7 +39,7 @@ namespace OrderElimination.Infrastructure
 
         public bool Contains(Vector2Int point) => Contains(point.x, point.y);
 
-        public Vector2Int[,] GetContainingCells()
+        public Vector2Int[,] GetContainingCellPositions()
         {
             var result = new Vector2Int[xMax - xMin + 1, yMax - yMin + 1];
             for (var y = yMin; y <= yMax; y++)

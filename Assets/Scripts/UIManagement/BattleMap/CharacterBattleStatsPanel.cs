@@ -1,4 +1,5 @@
 using DG.Tweening;
+using OrderElimination.AbilitySystem;
 using OrderElimination.BM;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace UIManagement.Elements
         private EffectsList _effectsList;
         [SerializeField]
         private Image _panelHighlightImage;
-        private BattleCharacterView currentCharacterView;
+        private BattleCharacterView _currentCharacterView;
 
         [Header("Parameters")]
         [SerializeField]
@@ -66,7 +67,7 @@ namespace UIManagement.Elements
             }
 
             var battleCharacter = (BattleCharacter) characterView.Model;
-            if (currentCharacterView != null)
+            if (_currentCharacterView != null)
             {
                 battleCharacter.Damaged -= OnCharacterDamaged;
                 battleCharacter.EffectAdded -= OnCharacterEffectAdded;
@@ -74,7 +75,7 @@ namespace UIManagement.Elements
                 battleCharacter.Died -= OnCharacterDied;
             }
 
-            currentCharacterView = characterView;
+            _currentCharacterView = characterView;
             if (characterView == null)
             {
                 HideInfo();
@@ -100,6 +101,15 @@ namespace UIManagement.Elements
             _avatar.sprite = characterView.Icon;
         }
 
+        public void UpdateEntityInfo(BattleEntityView entity)
+        {
+            _avatar.sprite = entity.BattleIcon;
+            var stats = entity.BattleEntity.LifeStats;
+            _healthBar.SetValue(stats.Health, 0, stats.MaxHealth.ModifiedValue);
+            _armorBar.SetValue(stats.TotalArmor, 0, stats.MaxArmor.ModifiedValue);
+            //entity.BattleEntity.Damaged += 
+        }
+
         public void Highlight(Color highlightColor)
         {
             _panelHighlightImage.color = highlightColor;
@@ -110,17 +120,17 @@ namespace UIManagement.Elements
             //    .SetEase(_highlightEase));
         }
 
-        public void KillHighlightProcess()
+        public void KillHighlightAnimation()
         {
             foreach (var t in _highlightTweeners)
                 t.Complete();
             _panelHighlightImage.color = Color.white;
         }
 
-        private void OnCharacterEffectAdded(ITickEffect effect) => UpdateCharacterInfo(currentCharacterView);
-        private void OnCharacterEffectRemoved(ITickEffect effect) => UpdateCharacterInfo(currentCharacterView);
+        private void OnCharacterEffectAdded(ITickEffect effect) => UpdateCharacterInfo(_currentCharacterView);
+        private void OnCharacterEffectRemoved(ITickEffect effect) => UpdateCharacterInfo(_currentCharacterView);
 
-        private void OnCharacterDamaged(TakeDamageInfo damageInfo) => UpdateCharacterInfo(currentCharacterView);
+        private void OnCharacterDamaged(TakeDamageInfo damageInfo) => UpdateCharacterInfo(_currentCharacterView);
 
         private void OnCharacterDied(BattleCharacter character) => UpdateCharacterInfo(null);
 
@@ -131,7 +141,7 @@ namespace UIManagement.Elements
         {
             var characterDescriptionPanel =
                 (CharacterDescriptionPanel) UIController.SceneInstance.OpenPanel(PanelType.CharacterDescription);
-            characterDescriptionPanel.UpdateCharacterDescription(currentCharacterView);
+            characterDescriptionPanel.UpdateCharacterDescription(_currentCharacterView);
         }
 
         public void HideInfo()

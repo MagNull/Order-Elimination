@@ -66,8 +66,8 @@ namespace UIManagement
             var passiveAbilities = characterInfo.GetPassiveAbilityInfos();
             _currentCharacterInfo = characterInfo;
             _currentBattleCharacterInfo = null;
-            _characterAvatar.sprite = characterInfo.GetViewAvatar();
-            _characterName.text = characterInfo.GetName();
+            _characterAvatar.sprite = characterInfo.Avatar;
+            _characterName.text = characterInfo.Name;
             UpdateBattleStats(battleStats);
             UpdateAbilityButtonsInfo(activeAbilities, passiveAbilities);
         }

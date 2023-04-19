@@ -2,9 +2,9 @@
 
 namespace OrderElimination.AbilitySystem
 {
-    public interface IHaveLifeStats
+    public interface IHaveBattleLifeStats
     {
-        public ILifeStats LifeStats { get; }
+        public IBattleLifeStats LifeStats { get; }
 
         public event Action<DealtDamageInfo> Damaged;
         public event Action<HealRecoveryInfo> Healed;
@@ -16,8 +16,8 @@ namespace OrderElimination.AbilitySystem
 
     public static class IHaveLifeStatsExtensions
     {
-        [Obsolete("Use " + nameof(IHaveLifeStats.TakeDamage) + " instead.")]
-        public static DealtDamageInfo NoEventTakeDamage(this IHaveLifeStats target, DamageInfo incomingDamage)
+        [Obsolete("Use " + nameof(IHaveBattleLifeStats.TakeDamage) + " instead.")]
+        public static DealtDamageInfo NoEventTakeDamage(this IHaveBattleLifeStats target, DamageInfo incomingDamage)
         {
             var damageRemainder = incomingDamage.Value;
             var armorDamage = 0f;
@@ -54,8 +54,8 @@ namespace OrderElimination.AbilitySystem
             return new DealtDamageInfo(healthDamage, armorDamage, incomingDamage.DamageType);
         }
 
-        [Obsolete("Use " + nameof(IHaveLifeStats.TakeHeal) + " instead.")]
-        public static HealRecoveryInfo NoEventTakeHeal(this IHaveLifeStats target, HealInfo incomingHeal)
+        [Obsolete("Use " + nameof(IHaveBattleLifeStats.TakeHeal) + " instead.")]
+        public static HealRecoveryInfo NoEventTakeHeal(this IHaveBattleLifeStats target, HealInfo incomingHeal)
         {
             var healRemainder = incomingHeal.Value;
             var armorRecovery = 0f;
@@ -92,20 +92,6 @@ namespace OrderElimination.AbilitySystem
                     throw new NotImplementedException();
             }
             return new HealRecoveryInfo(healthRecovery, armorRecovery);
-        }
-
-        public static void OnMaxArmorChanged(this IHaveLifeStats target)
-        {
-            var maxArmor = target.LifeStats.MaxArmor.ModifiedValue;
-            if (maxArmor < target.LifeStats.PureArmor)
-                target.LifeStats.PureArmor = maxArmor;
-        }
-
-        public static void OnMaxHealthChanged(this IHaveLifeStats target)
-        {
-            var maxHealth = target.LifeStats.MaxHealth.ModifiedValue;
-            if (maxHealth < target.LifeStats.Health)
-                target.LifeStats.Health = maxHealth;
         }
 
         private static float GetUnscaledStatMaxValue(float limitingValue, float damage, float multiplier)

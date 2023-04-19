@@ -11,7 +11,7 @@ namespace OrderElimination.AbilitySystem
 
     public interface ICellCondition
     {
-        public bool IsConditionMet(IBattleContext battleContext, IAbilitySystemActor caster, Cell targetCell);
+        public bool IsConditionMet(IBattleContext battleContext, IAbilitySystemActor caster, Vector2Int cellPosition);
     }
 
 	public interface IActionCondition
@@ -24,9 +24,9 @@ namespace OrderElimination.AbilitySystem
 		public float MinDistance { get; }
 		public float MaxDistance { get; }
 
-		public bool IsConditionMet(IBattleContext context, IAbilitySystemActor caster, Cell targetCell)
+		public bool IsConditionMet(IBattleContext context, IAbilitySystemActor caster, Vector2Int targetCell)
 		{
-			var casterCell = context.BattleMap.GetCell(caster);
+			var casterCell = context.BattleMap.GetPosition(caster);
 			var distanceToTarget = context.BattleMap.GetDistanceBetween(casterCell, targetCell);
 
             return distanceToTarget <= MaxDistance && distanceToTarget >= MinDistance;

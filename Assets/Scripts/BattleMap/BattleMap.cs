@@ -7,10 +7,66 @@ using OrderElimination.BM;
 using Sirenix.Utilities;
 using UnityEngine.Rendering;
 using UnityEngine.Serialization;
+using OrderElimination.Infrastructure;
+using OrderElimination.AbilitySystem;
 
-public class BattleMap : MonoBehaviour
+public class BattleMap : MonoBehaviour, IBattleMap
 {
-    public event Action<Cell, bool> CellChanged;
+    #region Refactored for IBattleMap
+    private Dictionary<IAbilitySystemActor, Vector2Int> _containedEntitiesPositions;
+
+    public CellRangeBorders CellRangeBorders { get; private set; }
+
+    public event Action<Vector2Int> CellChanged;
+
+    public IEnumerable<IAbilitySystemActor> GetContainingEntities(Vector2Int position)
+    {
+        if (!CellRangeBorders.Contains(position))
+            throw new ArgumentOutOfRangeException();
+        return GetCell(position.x, position.y).GetContainingEntities();
+    }
+
+    public Vector2Int GetPosition(IAbilitySystemActor entity)
+    {
+        if (!_containedEntitiesPositions.ContainsKey(entity))
+            throw new ArgumentException("Entity does not exist on the map.");
+        return _containedEntitiesPositions[entity];
+    }
+
+    public bool Contains(IAbilitySystemActor entity)
+        => _containedEntitiesPositions.ContainsKey(entity);
+
+    public void PlaceEntity(IAbilitySystemActor entity, Vector2Int position)
+    {
+        if (_containedEntitiesPositions.ContainsKey(entity))
+            throw new InvalidCastException("Entity already exists on the map.");
+        _containedEntitiesPositions.Add(entity, position);
+        GetCell(position.x, position.y).AddEntity(entity);
+        CellChanged?.Invoke(position);
+    }
+
+    public void RemoveEntity(IAbilitySystemActor entity)
+    {
+        if (!_containedEntitiesPositions.ContainsKey(entity))
+            throw new InvalidCastException("Entity does not exist on the map.");
+        var position = _containedEntitiesPositions[entity];
+        GetCell(position.x, position.y).RemoveEntity(entity);
+        _containedEntitiesPositions.Remove(entity);
+        CellChanged?.Invoke(position);
+    }
+
+    public float GetDistanceBetween(Vector2Int posA, Vector2Int posB)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool HasPathToDestination(IAbilitySystemActor walker, Vector2Int Destination, Predicate<Vector2Int> positionPredicate, out Vector2Int[] path)
+    {
+        throw new NotImplementedException();
+    }
+    #endregion
+
+    public event Action<Cell, bool> CellChangedOld;
 
     [SerializeField]
     private int _width;
@@ -27,9 +83,11 @@ public class BattleMap : MonoBehaviour
 
     public int Height => _height;
 
-    public void Init(Cell[,] modelGrid)
+    public void Init(Cell[,] modelGrid)// – Width, Height ??
     {
         _cellGrid = modelGrid;
+        CellRangeBorders = new CellRangeBorders(0, 0, Width - 1, Height - 1);
+        _containedEntitiesPositions = new Dictionary<IAbilitySystemActor, Vector2Int>();
     }
 
     public bool ExistCoordinate(Vector2Int point)
@@ -331,11 +389,11 @@ public class BattleMap : MonoBehaviour
         {
             var oldCell = GetCell(obj);
             oldCell.RemoveObject(obj);
-            CellChanged?.Invoke(oldCell, tween);
+            CellChangedOld?.Invoke(oldCell, tween);
         }
 
         _cellGrid[x, y].AddObject(obj);
-        CellChanged?.Invoke(_cellGrid[x, y], tween);
+        CellChangedOld?.Invoke(_cellGrid[x, y], tween);
     }
 
     private IList<IBattleObject> GetObjectsInRadius(IBattleObject obj, int radius, Predicate<IBattleObject> predicate,
