@@ -13,12 +13,12 @@ namespace RoguelikeMap.Points
         [SerializeField]
         private List<PointInfo> _nextPoints;
         [SerializeReference]
-        private VarietiesPoint _varietiesPoint;
+        private VarietiesPointInfo _varietiesPointInfo;
         
         public Vector3 Position => _position;
         public IReadOnlyList<PointInfo> NextPoints => _nextPoints;
-        public VarietiesPoint VarietiesPoint => _varietiesPoint;
-        public Sprite PointSprite => _varietiesPoint.PointSprite;
-        public PointType PointType => _varietiesPoint.PointType;
+        public VarietiesPointInfo VarietiesPointInfo => _varietiesPointInfo;
+        public Sprite PointSprite => _varietiesPointInfo.PointSprite;
+        public PointType PointType => _varietiesPointInfo.PointType;
     }
 }

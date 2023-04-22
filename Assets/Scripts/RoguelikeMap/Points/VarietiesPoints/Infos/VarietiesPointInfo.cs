@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace RoguelikeMap.Points.VarietiesPoints.Infos
 {
-    public class VarietiesPoint
+    public class VarietiesPointInfo
     {
         [SerializeField] 
         private Sprite _pointSprite;

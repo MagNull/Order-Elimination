@@ -80,7 +80,7 @@ namespace RoguelikeMap.Map
                 _ => throw new ArgumentOutOfRangeException("PointType not set or not valid type")
             };
 
-            point.SetPointInfo(info.VarietiesPoint);
+            point.SetPointInfo(info.VarietiesPointInfo);
             point.SetPanelGenerator(_panelGenerator);
             point.SetPathPrefab(_pathPrefab);
             return point;

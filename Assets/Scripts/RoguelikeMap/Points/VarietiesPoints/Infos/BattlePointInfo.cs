@@ -6,7 +6,7 @@ using UnityEngine;
 namespace RoguelikeMap.Points.VarietiesPoints.Infos
 {
     [Serializable]
-    public class BattlePointInfo : VarietiesPoint
+    public class BattlePointInfo : VarietiesPointInfo
     {
         [SerializeField]
         private List<Character> _enemies;

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace RoguelikeMap.Points.VarietiesPoints.Infos
 {
     [Serializable]
-    public class EventPointInfo : VarietiesPoint
+    public class EventPointInfo : VarietiesPointInfo
     {
         [SerializeReference]
         private EventInfo _startEventInfo;

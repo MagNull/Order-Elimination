@@ -12,7 +12,7 @@ namespace RoguelikeMap.Points
         private LineRenderer _pathPrefab;
         protected PanelGenerator _panelGenerator;
         
-        public VarietiesPoint PointInfo { get; protected set; }
+        public VarietiesPointInfo PointInfoInfo { get; protected set; }
         public PathView PathView { get; protected set; }
         public PointView PointView { get; protected set; }
         public List<Point> NextPoints { get; protected set; } = new List<Point>();
@@ -22,21 +22,21 @@ namespace RoguelikeMap.Points
         //When squad come to point
         protected virtual void InitializePointView()
         {
-            var panel = _panelGenerator.GetPanelByPointInfo(PointInfo.PointType);
+            var panel = _panelGenerator.GetPanelByPointInfo(PointInfoInfo.PointType);
             PointView = new PointView(panel);
             PointView.SetActivePanel(true);
         }
 
-        public void Visit(Squad squad)
+        public virtual void Visit(Squad squad)
         {
             squad.Visit(this);
             if(PointView is null)
                 InitializePointView();
         }
         
-        public void SetPointInfo(VarietiesPoint pointInfo)
+        public void SetPointInfo(VarietiesPointInfo pointInfoInfo)
         {
-            PointInfo = pointInfo ?? throw new ArgumentException("PointInfo is null");
+            PointInfoInfo = pointInfoInfo ?? throw new ArgumentException("PointInfo is null");
         }
 
         public void SetPanelGenerator(PanelGenerator panelGenerator)

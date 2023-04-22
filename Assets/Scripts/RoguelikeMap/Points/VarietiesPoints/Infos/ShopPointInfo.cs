@@ -5,7 +5,7 @@ using UnityEngine;
 namespace RoguelikeMap.Points.VarietiesPoints.Infos
 {
     [Serializable]
-    public class ShopPointInfo : VarietiesPoint
+    public class ShopPointInfo : VarietiesPointInfo
     {
         [SerializeField]
         private List<int> _itemsId;

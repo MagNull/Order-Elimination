@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Net.Mime;
 using Sirenix.OdinInspector;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace RoguelikeMap.Points.VarietiesPoints.Infos
@@ -9,6 +11,7 @@ namespace RoguelikeMap.Points.VarietiesPoints.Infos
     public class EventInfo
     {
         [SerializeField]
+        [HideIf("_isEnd")]
         private string _text;
         
         [SerializeField] 
@@ -26,11 +29,21 @@ namespace RoguelikeMap.Points.VarietiesPoints.Infos
         [SerializeField]
         [ShowIf("_isHaveItems")]
         private List<int> _itemsId;
+
+        [SerializeReference]
+        [HideIf("@this._isFork || this._isEnd")]
+        private EventInfo _nextStage;
         
-        [SerializeField]
-        [ShowIfGroup("_isFork")]
-        public EventPointInfo _isAcceptNextStage, _isDeclineNextStage;
+        [ShowIf("_isFork")]
+        [TabGroup("Answers")]
+        [SerializeReference]
+        private List<string> _answers;
         
+        [ShowIf("_isFork")]
+        [TabGroup("NextStages")]
+        [SerializeReference]
+        private List<EventInfo> _nextStages;
+
         public IReadOnlyList<int> ItemsId => _itemsId;
         public bool IsHaveItems => _itemsId.Count != 0;
         public bool IsEnd => _isEnd;
