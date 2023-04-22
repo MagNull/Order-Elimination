@@ -1,6 +1,7 @@
 using OrderElimination;
 using RoguelikeMap.Map;
 using RoguelikeMap.Panels;
+using RoguelikeMap.Points;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -20,6 +21,8 @@ namespace RoguelikeMap
         [SerializeField]
         private Transform _pointsParent;
         [SerializeField]
+        private Point _pointPrefab;
+        [SerializeField]
         private Squad _squad;
         [SerializeField]
         private PanelGenerator _panelGenerator;
@@ -37,13 +40,12 @@ namespace RoguelikeMap
             builder.RegisterComponent(_pathPrefab);
             builder.RegisterComponent(wallet);
             builder.RegisterComponent(_panelGenerator);
+            builder.RegisterComponent(_pointPrefab);
+            builder.RegisterComponent(_pointsParent);
             
             builder.Register<SquadCommander>(Lifetime.Singleton);
             builder.Register<SceneTransition>(Lifetime.Singleton);
-            
-            var mapGenerator = new SimpleMapGenerator(0, _pointsParent);
-            mapGenerator.SetPanelGenerator(_panelGenerator);
-            builder.RegisterInstance(mapGenerator).As<IMapGenerator>();
+            builder.Register<SimpleMapGenerator>(Lifetime.Singleton).As<IMapGenerator>();
         }
     }
 }

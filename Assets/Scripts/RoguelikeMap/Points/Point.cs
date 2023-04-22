@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using OrderElimination;
 using RoguelikeMap.Panels;
-using RoguelikeMap.Points.VarietiesPoints;
+using RoguelikeMap.Points.VarietiesPoints.Infos;
 using UnityEngine;
 
 namespace RoguelikeMap.Points
@@ -14,7 +14,7 @@ namespace RoguelikeMap.Points
         
         protected PanelGenerator _panelGenerator;
         
-        public VarietiesPointInfo PointInfo { get; protected set; }
+        public VarietiesPoint PointInfo { get; protected set; }
         public PathView PathView { get; protected set; }
         public PointView PointView { get; protected set; }
         public List<Point> NextPoints { get; protected set; } = new List<Point>();
@@ -41,7 +41,7 @@ namespace RoguelikeMap.Points
                 InitializePointView();
         }
         
-        public void SetPointInfo(VarietiesPointInfo pointInfo)
+        public void SetPointInfo(VarietiesPoint pointInfo)
         {
             PointInfo = pointInfo;
         }

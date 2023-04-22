@@ -15,49 +15,41 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
-    - {fileID: 11400000, guid: 8461a20f43795594cbe00ebbabe08b55, type: 2}
-    - {fileID: 11400000, guid: 1f6151b456f616343bbd2806f780dee0, type: 2}
-    - {fileID: 11400000, guid: cdb88470c4b68c341bad38dde4ae1989, type: 2}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: PointType
-      Entry: 3
-      Data: 1
-    - Name: _enemies
-      Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[IBattleCharacterInfo, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 5
-    - Name: 
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 10
-      Data: 1
-    - Name: 
-      Entry: 10
-      Data: 2
-    - Name: 
-      Entry: 10
-      Data: 3
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  _pointPrefab: {fileID: 5720600642734748331, guid: d505935a2b5f73945b1c5ecb76f4e265, type: 3}
+    SerializationNodes: []
   _position: {x: -200, y: 300, z: 1}
   _nextPoints:
   - {fileID: 11400000, guid: cfed4e92408c3a746bb83132b5a366a3, type: 2}
-  _currencyReward: 460
+  _varietiesPoint:
+    rid: 7872520255937445895
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 7872520255937445895
+      type: {class: EventPointInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
+      data:
+        _pointSprite: {fileID: -300597444, guid: 5897665c51c6ee04e8c18c5fa5db7853, type: 3}
+        _startEventInfo:
+          rid: 7872520255937445896
+    - rid: 7872520255937445896
+      type: {class: EventInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
+      data:
+        _text: 
+        _isEnd: 1
+        _isFork: 0
+        _isHaveItems: 0
+        _itemsId: 
+        _isAcceptNextStage:
+          _pointSprite: {fileID: 0}
+          _startEventInfo:
+            rid: -2
+        _isDeclineNextStage:
+          _pointSprite: {fileID: 0}
+          _startEventInfo:
+            rid: -2

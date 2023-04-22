@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using RoguelikeMap.Panels;
+using RoguelikeMap.Points.VarietiesPoints.Infos;
 
 namespace RoguelikeMap.Points.VarietiesPoints
 {
@@ -8,7 +8,6 @@ namespace RoguelikeMap.Points.VarietiesPoints
     {
         public new BattlePointInfo PointInfo => (BattlePointInfo)base.PointInfo;
         public IReadOnlyList<IBattleCharacterInfo> Enemies => PointInfo.Enemies;
-
 
         protected override void InitializePointView()
         {

@@ -3,31 +3,30 @@ using System.Linq;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using UnityEngine;
+using VContainer;
 using Object = UnityEngine.Object;
 
 namespace RoguelikeMap.Map
 {
     public class SimpleMapGenerator : IMapGenerator
     {
-        private readonly int _numberOfMap;
+        private readonly int _numberOfMap = 0;
         private Transform _parent;
         private PanelGenerator _panelGenerator;
+        private Point _pointPrefab;
 
-        public SimpleMapGenerator(int numberOfMap, Transform parent)
+        [Inject]
+        public SimpleMapGenerator(Point pointPrefab, PanelGenerator panelGenerator, Transform pointsParent)
         {
-            _numberOfMap = numberOfMap;
-            _parent = parent;
-        }
-
-        public void SetPanelGenerator(PanelGenerator panelGenerator)
-        {
+            _pointPrefab = pointPrefab;
             _panelGenerator = panelGenerator;
+            _parent = pointsParent;
         }
 
-        public List<Point> GenerateMap()
+        public IEnumerable<Point> GenerateMap()
         {
             // Load PointInfo
-            var pointsList = new List<Point>();
+            var pointsList = new List<(Point, PointInfo)>();
             var path = "Points\\" + _numberOfMap;
             var pointsInfo = Resources.LoadAll<PointInfo>(path);
             
@@ -37,32 +36,38 @@ namespace RoguelikeMap.Map
                 var info = pointsInfo[i];
                 var point = CreatePoint(info);
                 
-                pointsList.Add(point);
+                pointsList.Add((point, info));
                 point.PointNumber = i;
             }
             
             // Initialize paths
             foreach (var info in pointsInfo)
             {
-                var p = pointsList
-                    .First(x => x.PointInfo == info);
-                if (p != null)
-                    p.SetNextPoints(pointsList
-                        .Where(x => (info.NextPoints
-                            .Contains(x.PointInfo))));
+                var point = pointsList.First(x => x.Item2 == info);
+                if (point.Item1 != null)
+                {
+                    var nextPointsInfo = info.NextPoints;
+                    var nextPoints = pointsList
+                        .Where(x => nextPointsInfo.Contains(x.Item2))
+                        .Select(x => x.Item1);
+                    point.Item1.SetNextPoints(nextPoints);
+                }
                 
-                p.ShowPaths();
+                point.Item1.ShowPaths();
             }
             
-            return pointsList;
+            return pointsList.Select(x => x.Item1);
         }
 
         private Point CreatePoint(PointInfo info)
         {
-            var pointObj = Object.Instantiate(info.Prefab, info.Position, Quaternion.identity, _parent);
+            var pointObj = Object.Instantiate(_pointPrefab, info.Position, Quaternion.identity, _parent);
+            
+            var pointSprite = pointObj.GetComponent<SpriteRenderer>();
+            pointSprite.sprite = info.PointSprite;
+            
             var point = pointObj.GetComponent<Point>();
-            //Debug.Log(point.HasEnemy);
-            point.SetPointInfo(info);
+            point.SetPointInfo(info.VarietiesPoint);
             point.SetPanelGenerator(_panelGenerator);
             return point;
         }
