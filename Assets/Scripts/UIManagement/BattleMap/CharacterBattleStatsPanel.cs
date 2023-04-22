@@ -107,7 +107,19 @@ namespace UIManagement.Elements
             var stats = entity.BattleEntity.LifeStats;
             _healthBar.SetValue(stats.Health, 0, stats.MaxHealth.ModifiedValue);
             _armorBar.SetValue(stats.TotalArmor, 0, stats.MaxArmor.ModifiedValue);
+            entity.BattleEntity.Damaged -= OnDamaged;
+            entity.BattleEntity.Damaged += OnDamaged;
+            entity.BattleEntity.Healed -= OnHealed;
+            entity.BattleEntity.Healed += OnHealed;
             //entity.BattleEntity.Damaged += 
+            void OnDamaged(DealtDamageInfo damage)
+            {
+                UpdateEntityInfo(entity);
+            }
+            void OnHealed(HealRecoveryInfo heal)
+            {
+                UpdateEntityInfo(entity);
+            }
         }
 
         public void Highlight(Color highlightColor)

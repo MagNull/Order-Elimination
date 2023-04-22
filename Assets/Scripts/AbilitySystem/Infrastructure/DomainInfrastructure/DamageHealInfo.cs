@@ -12,17 +12,26 @@ namespace OrderElimination.AbilitySystem
         public float Value;
         public float ArmorMultiplier;
         public float HealthMultiplier;
-        public LifeStatsTarget HealTarget;
+        public DamagePriority HealTarget;
     }
 
-    public class DamageInfo
+    public readonly struct DamageInfo
     {
-        public float Value;
-        public float ArmorMultiplier;
-        public float HealthMultiplier;
-        public LifeStatsTarget DamageTarget;
-        public DamageType DamageType;
+        public readonly float Value;
+        public readonly float ArmorMultiplier;
+        public readonly float HealthMultiplier;
+        public readonly DamageType DamageType;
+        public readonly DamagePriority DamagePriority;
         //Attacker
+
+        public DamageInfo(float value, float armorMultiplier, float healthMultiplier, DamageType damageType, DamagePriority priority)
+        {
+            Value = value;
+            ArmorMultiplier = armorMultiplier;
+            HealthMultiplier = healthMultiplier;
+            DamageType = damageType;
+            DamagePriority = priority;
+        }
     }
 
     public readonly struct DealtDamageInfo
@@ -54,13 +63,13 @@ namespace OrderElimination.AbilitySystem
     }
     public enum DamageType
     {
-        None,
-        Explosion,
+        Melee,
         Shooting,
-        Cutting
+        Explosion,
+        Magic
     }
 
-    public enum LifeStatsTarget
+    public enum DamagePriority
     {
         ArmorFirst,
         HealthFirst,

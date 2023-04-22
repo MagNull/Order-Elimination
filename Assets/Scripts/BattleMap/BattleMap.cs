@@ -14,6 +14,7 @@ public class BattleMap : MonoBehaviour, IBattleMap
 {
     #region Refactored for IBattleMap
     private Dictionary<IAbilitySystemActor, Vector2Int> _containedEntitiesPositions;
+    private Dictionary<IReadOnlyCell, Vector2Int> _cellCoordinates;
 
     public CellRangeBorders CellRangeBorders { get; private set; }
 
@@ -32,6 +33,8 @@ public class BattleMap : MonoBehaviour, IBattleMap
             throw new ArgumentException("Entity does not exist on the map.");
         return _containedEntitiesPositions[entity];
     }
+
+    public Vector2Int GetPosition(IReadOnlyCell cell) => _cellCoordinates[cell];
 
     public bool Contains(IAbilitySystemActor entity)
         => _containedEntitiesPositions.ContainsKey(entity);
@@ -55,10 +58,8 @@ public class BattleMap : MonoBehaviour, IBattleMap
         CellChanged?.Invoke(position);
     }
 
-    public float GetDistanceBetween(Vector2Int posA, Vector2Int posB)
-    {
-        throw new NotImplementedException();
-    }
+    public float GetGameDistanceBetween(Vector2Int posA, Vector2Int posB)
+        => CellMath.GetRealDistanceBetween(posA, posB);
 
     public bool HasPathToDestination(IAbilitySystemActor walker, Vector2Int Destination, Predicate<Vector2Int> positionPredicate, out Vector2Int[] path)
     {
@@ -88,6 +89,14 @@ public class BattleMap : MonoBehaviour, IBattleMap
         _cellGrid = modelGrid;
         CellRangeBorders = new CellRangeBorders(0, 0, Width - 1, Height - 1);
         _containedEntitiesPositions = new Dictionary<IAbilitySystemActor, Vector2Int>();
+        _cellCoordinates = new Dictionary<IReadOnlyCell, Vector2Int>();
+        for (var x = 0; x < _cellGrid.GetLength(0); x++)
+        {
+            for (var y = 0; y < _cellGrid.GetLength(1); y++)
+            {
+                _cellCoordinates.Add(_cellGrid[x, y], new Vector2Int(x, y));
+            }
+        }
     }
 
     public bool ExistCoordinate(Vector2Int point)

@@ -555,7 +555,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8628464249794991384}
-  - component: {fileID: 4145147146878873825}
   - component: {fileID: -5129956471157022677}
   m_Layer: 0
   m_Name: EntityView
@@ -582,41 +581,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4145147146878873825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6985651201918075808}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bc7ec60565a0eb4193fd8386575b464, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _character:
-    _battleStats:
-      _health: 0
-      _unmodifiedHealth: 0
-      _attack: 0
-      _unmodifiedAttack: 0
-      _armor: 0
-      _unmodifiedArmor: 0
-      _additionalArmor: 0
-      _evasion: 0
-      _unmodifiedEvasion: 0
-      _accuracy: 0
-      _unmodifiedAccuracy: 0
-      _movement: 0
-      _unmodifiedMovement: 0
-      _damageModificator: 0
-  _renderer: {fileID: 7729018672302439658}
-  _shootProbability: {fileID: 8481314940250234073}
-  _fireLine: {fileID: 4423547670433112685}
-  _textEmitter: {fileID: 3381734834786162710}
-  _damagedDuration: 0.5
-  _dieDuration: 1
-  _dieFadeTimes: 3
 --- !u!114 &-5129956471157022677
 MonoBehaviour:
   m_ObjectHideFlags: 0

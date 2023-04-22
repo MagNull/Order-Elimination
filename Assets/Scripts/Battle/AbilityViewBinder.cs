@@ -27,8 +27,7 @@ public class AbilityViewBinder
             _selectedCharacterView?.Deselect();
             _selectedCharacterView = characterView;
             _selectedCharacterView.Select();
-            abilityPanel.old_AssignAbilities(characterView.ActiveAbilitiesView, characterView.PassiveAbilitiesView);
-            abilityPanel.SelectFirstAvailableAbility();
+            //abilityPanel.old_AssignAbilities(characterView.ActiveAbilitiesView, characterView.PassiveAbilitiesView);
         };
     }
 

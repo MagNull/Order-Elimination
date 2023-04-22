@@ -1,6 +1,8 @@
 using CharacterAbility;
 using OrderElimination.AbilitySystem;
+using OrderElimination.AbilitySystem.OuterComponents;
 using OrderElimination.Battle;
+using OrderElimination.BM;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,8 @@ public class BattleEntitiesFactory : MonoBehaviour
 {
     [SerializeField]
     private BattleEntityView _entityPrefab;
+    [SerializeField]
+    private Transform _entitiesParent;
     private IBattleMap _battleMap;
     private IObjectResolver _objectResolver;
 
@@ -22,29 +26,37 @@ public class BattleEntitiesFactory : MonoBehaviour
         _battleMap = objectResolver.Resolve<IBattleMap>();
     }
 
-    public CreatedEntity CreateBattleEntity(GameEntity gameEntity, BattleSide side)
+    public CreatedEntity CreateBattleCharacter(GameCharacter character, BattleSide side)
     {
-        var battleEntity = new IAbilitySystemActor(_battleMap, gameEntity.BattleStats, gameEntity.EntityType, side, gameEntity.PosessedActiveAbilities.ToArray());
+        var battleEntity = new IAbilitySystemActor(_battleMap, character.BattleStats, EntityType.Character, side, character.PosessedActiveAbilities.ToArray());
 
-        var entityView = _objectResolver.Instantiate(_entityPrefab);
-        var icon = gameEntity.EntityData.BattleIcon;
-        var name = gameEntity.EntityData.Name;
+        var entityView = _objectResolver.Instantiate(_entityPrefab, _entitiesParent);
+        var icon = character.EntityData.BattleIcon;
+        var name = character.EntityData.Name;
         entityView.Initialize(battleEntity, icon, name);
 
         return new CreatedEntity(entityView, battleEntity);
     }
 
-    public IEnumerable<CreatedEntity> CreateBattleEntities(IEnumerable<GameEntity> entities, BattleSide side)
-        => entities.Select(gameEntity => CreateBattleEntity(gameEntity, side));
-
-    //TODO: extract ouside battle
-    public GameEntity CreateGameEntity(IBattleEntityInfo entityInfo)
+    public CreatedEntity CreateBattleObject(EnvironmentInfo objectInfo, BattleSide side)
     {
-        return new GameEntity(entityInfo);
+        var stats = new ReadOnlyBaseStats(objectInfo.MaxHealth, 0, 0, 0, 0, 0);
+        var battleStats = new BattleStats(stats);
+        var activeAbilities = objectInfo.GetActiveAbilities().Select(a => AbilityFactory.CreateAbility(a)).ToArray();
+        var battleEntity = new IAbilitySystemActor(_battleMap, battleStats, EntityType.MapObject, side, activeAbilities);
+
+        var entityView = _objectResolver.Instantiate(_entityPrefab);
+        var icon = objectInfo.BattleIcon;
+        var name = objectInfo.Name;
+        entityView.Initialize(battleEntity, icon, name);
+
+        return new CreatedEntity(entityView, battleEntity);
     }
 
-    public IEnumerable<GameEntity> CreateGameEntities(IEnumerable<IBattleEntityInfo> entityInfos)
-        => entityInfos.Select(gameEntity => CreateGameEntity(gameEntity));
+    public IEnumerable<CreatedEntity> CreateBattleEntities(IEnumerable<GameCharacter> entities, BattleSide side)
+        => entities.Select(gameEntity => CreateBattleCharacter(gameEntity, side));
+    public IEnumerable<CreatedEntity> CreateBattleEntities(IEnumerable<EnvironmentInfo> entities, BattleSide side)
+        => entities.Select(gameEntity => CreateBattleObject(gameEntity, side));
 }
 
 public readonly struct CreatedEntity

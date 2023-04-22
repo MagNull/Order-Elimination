@@ -31,15 +31,14 @@ namespace UIManagement.Elements
                     _abilityIcon.sprite = value;
             }
         }
-        public AbilityView AbilityView { get; private set; }
+        public CharacterAbility.AbilityView AbilityView { get; private set; }
         public OrderElimination.AbilitySystem.AbilityRunner AbilityRunner { get; private set; }
         public event Action<AbilityButton> Clicked;
         public event Action<AbilityButton> Holded;
-        public event Action AbilityButtonUsed;
 
         private void Awake()
         {
-            RemoveAbilityView();
+            RemoveAbility();
             _button.Clicked += OnClick;
             _button.Holded += OnHold;
         }
@@ -47,56 +46,31 @@ namespace UIManagement.Elements
         private void OnClick(HoldableButton button)
         {
             Clicked?.Invoke(this);
-            Select();
         }
 
         private void OnHold(HoldableButton button, float holdTime) => Holded?.Invoke(this);
 
-        private void OnAbilityCasted(ActionType _) => AbilityButtonUsed?.Invoke();
-
-        public void Select()
-        {
-            //TODO Логика зависит от UI
-            //if (AbilityView.CanCast)
-            AbilityView.Clicked();
-        }
-
-        public void old_AssignAbilityView(AbilityView abilityView)
-        {
-            RemoveAbilityView();
-            _abilityName.text = abilityView.Name;
-            _abilityIcon.sprite = abilityView.AbilityIcon;
-            AbilityView = abilityView;
-            AbilityView.Casted += OnAbilityCasted;
-            _button.interactable = true;
-            UpdateAvailability();
-        }
-
         public void AssignAbiility(OrderElimination.AbilitySystem.AbilityRunner abilityRunner)
         {
-            RemoveAbilityView();
+            RemoveAbility();
             AbilityRunner = abilityRunner;
             _abilityName.text = AbilityRunner.AbilityData.View.Name;
             _abilityIcon.sprite = AbilityRunner.AbilityData.View.Icon;
+            _button.interactable = true;
         }
 
-        public void CancelAbilityCast() => AbilityView?.CancelCast();
-
-        public void RemoveAbilityView()
+        public void RemoveAbility()
         {
-            CancelAbilityCast();
             _abilityIcon.sprite = NoSelectedAbilityIcon;
+            HoldableButton.SetImageTint(Color.white);
             _abilityName.text = "";
-            if(AbilityView != null)
-                AbilityView.Casted -= OnAbilityCasted;
-            AbilityView = null;
             AbilityRunner = null;
             _button.interactable = false;
         }
 
-        public void UpdateAvailability()
+        public void SetClickAvailability(bool isClickAvailable)
         {
-            _button.ClickAvailable = AbilityView.CanCast;
+            _button.ClickAvailable = isClickAvailable;
         }
     }
 }

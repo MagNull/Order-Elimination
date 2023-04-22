@@ -22,9 +22,9 @@ namespace OrderElimination.AbilitySystem
             var damageRemainder = incomingDamage.Value;
             var armorDamage = 0f;
             var healthDamage = 0f;
-            switch (incomingDamage.DamageTarget)
+            switch (incomingDamage.DamagePriority)
             {
-                case LifeStatsTarget.ArmorFirst:
+                case DamagePriority.ArmorFirst:
                     armorDamage = GetUnscaledStatMaxValue(target.LifeStats.TotalArmor, damageRemainder, incomingDamage.ArmorMultiplier);
                     target.LifeStats.TotalArmor -= armorDamage * incomingDamage.ArmorMultiplier;
                     damageRemainder -= armorDamage;
@@ -32,7 +32,7 @@ namespace OrderElimination.AbilitySystem
                     healthDamage = GetUnscaledStatMaxValue(target.LifeStats.Health, damageRemainder, incomingDamage.HealthMultiplier);
                     target.LifeStats.Health -= healthDamage;
                     break;
-                case LifeStatsTarget.HealthFirst:
+                case DamagePriority.HealthFirst:
                     healthDamage = GetUnscaledStatMaxValue(target.LifeStats.Health, damageRemainder, incomingDamage.HealthMultiplier);
                     target.LifeStats.Health -= healthDamage * incomingDamage.HealthMultiplier;
                     damageRemainder -= healthDamage;
@@ -40,11 +40,11 @@ namespace OrderElimination.AbilitySystem
                     armorDamage = GetUnscaledStatMaxValue(target.LifeStats.TotalArmor, damageRemainder, incomingDamage.ArmorMultiplier);
                     target.LifeStats.Health -= armorDamage;
                     break;
-                case LifeStatsTarget.ArmorOnly:
+                case DamagePriority.ArmorOnly:
                     armorDamage = GetUnscaledStatMaxValue(target.LifeStats.TotalArmor, damageRemainder, incomingDamage.ArmorMultiplier);
                     target.LifeStats.Health -= armorDamage;
                     break;
-                case LifeStatsTarget.HealthOnly:
+                case DamagePriority.HealthOnly:
                     healthDamage = GetUnscaledStatMaxValue(target.LifeStats.Health, damageRemainder, incomingDamage.HealthMultiplier);
                     target.LifeStats.Health -= healthDamage;
                     break;
@@ -64,7 +64,7 @@ namespace OrderElimination.AbilitySystem
             var emptyHealth = target.LifeStats.MaxHealth.ModifiedValue - target.LifeStats.Health;
             switch (incomingHeal.HealTarget)
             {
-                case LifeStatsTarget.ArmorFirst:
+                case DamagePriority.ArmorFirst:
                     armorRecovery = GetUnscaledStatMaxValue(emptyArmor, healRemainder, incomingHeal.ArmorMultiplier);
                     target.LifeStats.PureArmor += armorRecovery * incomingHeal.ArmorMultiplier;
                     healRemainder -= armorRecovery;
@@ -72,7 +72,7 @@ namespace OrderElimination.AbilitySystem
                     healthRecovery = GetUnscaledStatMaxValue(emptyHealth, healRemainder, incomingHeal.HealthMultiplier);
                     target.LifeStats.Health += healthRecovery;
                     break;
-                case LifeStatsTarget.HealthFirst:
+                case DamagePriority.HealthFirst:
                     healthRecovery = GetUnscaledStatMaxValue(emptyHealth, healRemainder, incomingHeal.HealthMultiplier);
                     target.LifeStats.Health += healthRecovery * incomingHeal.HealthMultiplier;
                     healRemainder -= healthRecovery;
@@ -80,11 +80,11 @@ namespace OrderElimination.AbilitySystem
                     armorRecovery = GetUnscaledStatMaxValue(emptyArmor, healRemainder, incomingHeal.ArmorMultiplier);
                     target.LifeStats.Health += armorRecovery;
                     break;
-                case LifeStatsTarget.ArmorOnly:
+                case DamagePriority.ArmorOnly:
                     armorRecovery = GetUnscaledStatMaxValue(emptyArmor, healRemainder, incomingHeal.ArmorMultiplier);
                     target.LifeStats.Health += armorRecovery;
                     break;
-                case LifeStatsTarget.HealthOnly:
+                case DamagePriority.HealthOnly:
                     healthRecovery = GetUnscaledStatMaxValue(emptyHealth, healRemainder, incomingHeal.HealthMultiplier);
                     target.LifeStats.Health += healthRecovery;
                     break;

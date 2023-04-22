@@ -9,15 +9,15 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public struct CellGroupsContainer
+    public readonly struct CellGroupsContainer
     {
-        public IReadOnlyDictionary<int, Vector2Int[]> CellGroups => _cellGroups;
-        private readonly Dictionary<int, Vector2Int[]> _cellGroups;
+        public readonly IReadOnlyDictionary<int, Vector2Int[]> CellGroups;
 
-        public CellGroupsContainer(Dictionary<int, Vector2Int[]> cellGroups)
+        public CellGroupsContainer(IReadOnlyDictionary<int, Vector2Int[]> cellGroups)
         {
-            _cellGroups = new Dictionary<int, Vector2Int[]>();
-            _cellGroups = cellGroups;
+            if (cellGroups == null)
+                throw new ArgumentException();
+            CellGroups = cellGroups;
         }
 
         //TODO учитывать CellGroupDistributionPolicy

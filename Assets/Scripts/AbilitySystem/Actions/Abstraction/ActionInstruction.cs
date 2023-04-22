@@ -1,54 +1,105 @@
-﻿using Mono.Cecil.Cil;
+﻿using Cysharp.Threading.Tasks;
+using Mono.Cecil.Cil;
 using OrderElimination.AbilitySystem;
+using OrderElimination.AbilitySystem.Animations;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
+using VContainer;
+using static UnityEngine.EventSystems.EventTrigger;
 
 namespace OrderElimination.AbilitySystem
 {
     public class ActionInstruction
     {
-        public IActionCondition[] ActionCondition { get; set; }
-        public CellGroupsFilter TargetGroupsFilter { get; set; }
+        private int _repeatNumber = 1;
+
+        public ICommonCondition[] CommonConditions { get; set; }
+        public ICellCondition[] CellConditions { get; set; }
+        public ITargetCondition[] ActionConditions { get; set; }
+
+        [ShowInInspector, OdinSerialize]
+        public HashSet<int> AffectedCellGroups { get; set; } = new();
+
         //TODO Action нужно дублировать перед обработкой
-        [ShowInInspector]
+        [GUIColor(0, 1, 0)]
+        [ShowInInspector, OdinSerialize]
         public IBattleAction Action { get; set; }
+
         //При каждом успешном выполнении Action будут вызываться последующие инструкции (для каждого повторения)
-        private int repeatNumber; public int RepeatNumber
+        [ShowInInspector, OdinSerialize]
+        public int RepeatNumber
         {
-            get => repeatNumber;
+            get => _repeatNumber;
             set
             {
-                if (value < 0) throw new ArgumentException();
-                repeatNumber = value;
+                if (value < 1) value = 1;
+                _repeatNumber = value;
             }
-        } 
-        public List<ActionInstruction> InstructionsOnActionSuccess { get; } = new List<ActionInstruction>();
+        }
 
-        public bool ExecuteRecursive(AbilityExecutionContext abilityExecutionContext)
+        [ShowInInspector, OdinSerialize]
+        public List<ActionInstruction> InstructionsOnActionSuccess { get; set; } = new();
+
+        [GUIColor(1f, 0, 0)]
+        [ShowInInspector, OdinSerialize]
+        public IAbilityAnimation AnimationBeforeAction { get; set; }
+
+        public async UniTask<bool> ExecuteRecursive(AbilityExecutionContext abilityExecutionContext)
         {
-            var battleMap = abilityExecutionContext.BattleContext.BattleMap;
+            var battleContext = abilityExecutionContext.BattleContext;
+            var battleMap = battleContext.BattleMap;
             //TODO Check Basic Conditions
-            foreach (var pos in TargetGroupsFilter
-                .GetFilteredCells(abilityExecutionContext.TargetedCellGroups))
+            var animationSceneContext = battleContext.ObjectResolver.Resolve<AnimationSceneContext>();
+            var caster = abilityExecutionContext.AbilityCaster;
+            var casterPosition = caster.Position;
+            AnimationPlayContext animationContext;
+            foreach (var pos in abilityExecutionContext
+                .TargetedCellGroups
+                .CellGroups
+                .Where(e => AffectedCellGroups.Contains(e.Key))
+                .SelectMany(e => e.Value))
             {
                 //TODO Check Cell Conditions
-                foreach (var entity in battleMap.GetContainingEntities(pos))
+                //CellActions
+                if (Action.ActionTargets == ActionTargets.CellsOnly)
                 {
-                    //TODO Check Entity Conditions
-                    var actionUseContext = new ActionExecutionContext(
-                        abilityExecutionContext.BattleContext,
-                        abilityExecutionContext.AbilityCaster,
-                        entity);
+                    var cellActionUseContext = new ActionExecutionContext(
+                        battleContext, caster, null, pos);
+                    animationContext = new AnimationPlayContext(animationSceneContext, casterPosition, pos, caster, null);
                     for (var i = 0; i < RepeatNumber; i++)
                     {
-                        if (Action.ModifiedPerform(actionUseContext))
+                        if (AnimationBeforeAction != null)
+                            await AnimationBeforeAction.Play(animationContext);
+                        if (Action.ModifiedPerform(cellActionUseContext))
                         {
                             foreach (var nextInstruction in InstructionsOnActionSuccess)
-                                nextInstruction.ExecuteRecursive(abilityExecutionContext);
+                                await nextInstruction.ExecuteRecursive(abilityExecutionContext);
+                        }
+                    }
+                }
+                else if (Action.ActionTargets == ActionTargets.EntitiesOnly)
+                {
+                    var entitiesInCell = battleMap.GetContainingEntities(pos).ToArray();
+                    foreach (var entity in entitiesInCell)
+                    {
+                        //TODO Check Entity Conditions
+                        var entityActionUseContext = new ActionExecutionContext(battleContext, caster, entity);
+                        animationContext = new AnimationPlayContext(animationSceneContext, casterPosition, pos, caster, entity);
+                        for (var i = 0; i < RepeatNumber; i++)
+                        {
+                            if (AnimationBeforeAction != null)
+                                await AnimationBeforeAction.Play(animationContext);
+                            if (Action.ModifiedPerform(entityActionUseContext))
+                            {
+                                foreach (var nextInstruction in InstructionsOnActionSuccess)
+                                    await nextInstruction.ExecuteRecursive(abilityExecutionContext);
+                            }
                         }
                     }
                 }

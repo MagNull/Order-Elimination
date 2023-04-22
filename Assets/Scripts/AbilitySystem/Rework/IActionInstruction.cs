@@ -6,8 +6,7 @@ namespace OrderElimination.AbilitySystem.Rework
 {
     public interface IActionInstruction
     {
-        public IActionCondition[] ActionCondition { get; set; }
-        public CellGroupsFilter TargetGroupsFilter { get; set; }
+        public ITargetCondition[] ActionCondition { get; set; }
         //TODO Action нужно дублировать перед обработкой
         public IBattleAction Action { get; set; }
         //При каждом успешном выполнении Action будут вызываться последующие инструкции (для каждого повторения)

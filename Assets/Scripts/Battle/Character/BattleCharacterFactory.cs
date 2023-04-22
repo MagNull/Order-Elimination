@@ -13,13 +13,13 @@ public class BattleCharacterFactory : MonoBehaviour
     private BattleMap _map;
     [SerializeField]
     private BattleCharacterView charPrefab;
-    private AbilityFactory _abilityFactory;
+    private CharacterAbility.OldAbilityFactory _abilityFactory;
     [SerializeField]
     private AbilityInfo _bite;
     private IReadOnlyCharacterBank _characterBank;
 
     [Inject]
-    public void Construct(AbilityFactory abilityFactory, IReadOnlyCharacterBank characterBank)
+    public void Construct(CharacterAbility.OldAbilityFactory abilityFactory, IReadOnlyCharacterBank characterBank)
     {
         _characterBank = characterBank;
         _abilityFactory = abilityFactory;

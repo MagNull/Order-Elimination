@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,19 @@ namespace OrderElimination.AbilitySystem
         //Изменить на список Группа-Действия ?
         public ActionInstruction[] ActionInstructions;
 
+        public AbilityExecution(ActionInstruction[] actionInstructions)
+        {
+            if (actionInstructions == null)
+                throw new ArgumentNullException();
+            ActionInstructions = actionInstructions;
+        }
+
         //TODO? return AbilityExecutionResult
-        public void Execute(AbilityExecutionContext abilityExecutionContext)
+        public async UniTask Execute(AbilityExecutionContext abilityExecutionContext)
         {
             foreach (var instruction in ActionInstructions)
             {
-                instruction.ExecuteRecursive(abilityExecutionContext);
+                await instruction.ExecuteRecursive(abilityExecutionContext);
             }
         }
 

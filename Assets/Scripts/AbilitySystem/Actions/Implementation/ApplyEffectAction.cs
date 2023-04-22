@@ -10,6 +10,8 @@ namespace OrderElimination.AbilitySystem
 {
     public class ApplyEffectAction : BattleAction<ApplyEffectAction>
     {
+        public override ActionTargets ActionTargets => ActionTargets.EntitiesOnly;
+
         public IEffect EffectSample { get; set; }
         public float ApplyChance { get; set; }
 

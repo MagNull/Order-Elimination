@@ -29,6 +29,7 @@ public class CellView : MonoBehaviour
 
     private Cell _model;
 
+    public Color CurrentTint => _renderer == null ? Color.white : _renderer.color;
     public IReadOnlyCell Model => _model;
 
     public void Start()
@@ -43,7 +44,8 @@ public class CellView : MonoBehaviour
 
     public void Highlight(Color color)//pass enum CellHightlightColor instead
     {
-        _renderer.color = color;
+        if (_renderer != null)
+            _renderer.color = color;
     }
 
     public void Delight()

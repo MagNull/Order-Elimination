@@ -18,14 +18,14 @@ namespace OrderElimination
         [SerializeField]
         private EntityType _entityType;
         [SerializeReference]
-        private List<AbilityData> _activeAbilitiesData;
+        private AbilityBuilderData[] _activeAbilitiesData;
         [SerializeReference]
-        private List<AbilityData> _passiveAbilitiesData;
+        private AbilityBuilderData[] _passiveAbilitiesData;
 
         public ReadOnlyBaseStats BaseStats => _baseBattleStats;
-        public EntityType EntityType => _entityType;
-        public IReadOnlyList<AbilityData> GetActiveAbilities() => _activeAbilitiesData;
-        public IReadOnlyList<AbilityData> GetPassiveAbilities() => _passiveAbilitiesData;
+        //public EntityType EntityType => _entityType;
+        public AbilityBuilderData[] GetActiveAbilities() => _activeAbilitiesData;
+        public AbilityBuilderData[] GetPassiveAbilities() => _passiveAbilitiesData;
         //
 
         [SerializeField]

@@ -12,6 +12,9 @@ namespace OrderElimination
         [OdinSerialize] private List<IBattleCharacterInfo> _enemies;
         private int _pointNumber;
 
+        [OdinSerialize]
+        public BattleScenario BattleScenario { get; set; }
+
         private void Awake() => DontDestroyOnLoad(gameObject);
 
         public void SetSquad(List<IBattleCharacterInfo> battleStatsList) => _allies = battleStatsList;

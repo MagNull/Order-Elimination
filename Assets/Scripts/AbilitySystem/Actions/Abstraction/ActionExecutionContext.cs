@@ -24,13 +24,19 @@ namespace OrderElimination.AbilitySystem
         //public IBattleEntity EntityTarget => Target as IBattleEntity; //Сущность, с которой совершают действие
         //public Cell CellTarget => Target as Cell; //Клетка, с которой совершают действие
 
-        public ActionExecutionContext(IBattleContext battleContext, IAbilitySystemActor actionMaker, IAbilitySystemActor target)
+        public ActionExecutionContext(
+            IBattleContext battleContext,
+            IAbilitySystemActor actionMaker,
+            IAbilitySystemActor target,
+            Vector2Int? targetPosition = null)
         {
             BattleContext = battleContext;
             ActionMaker = actionMaker;
             ActionTarget = target;
             ActionMakerPosition = battleContext.BattleMap.GetPosition(actionMaker);
-            ActionTargetPosition = battleContext.BattleMap.GetPosition(target);
+            if (targetPosition == null)
+                targetPosition = battleContext.BattleMap.GetPosition(target);
+            ActionTargetPosition = targetPosition.Value;
         }
     }
 }

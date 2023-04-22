@@ -2,16 +2,24 @@ using System;
 
 namespace OrderElimination.AbilitySystem
 {
+    public enum ActionTargets
+    {
+        EntitiesOnly,
+        CellsOnly
+    }
+
     [Obsolete("Интерфейс " + nameof(IBattleAction) + " является обобщающим. По возможности используйте BattleAction<TAction>.")]
     public interface IBattleAction
     {
+        public ActionTargets ActionTargets { get; }
+
         public event Action<IBattleAction> SuccessfullyPerformed;
         public event Action<IBattleAction> FailedToPerformed;
         //public int RepeatNumber
         public bool ModifiedPerform(
             ActionExecutionContext useContext, 
-            bool actionMakerProcessing = false,
-            bool targetProcessing = false);
+            bool actionMakerProcessing = true,
+            bool targetProcessing = true);
     }
 
     public interface IUndoableBattleAction
@@ -21,6 +29,8 @@ namespace OrderElimination.AbilitySystem
 
     public abstract class BattleAction<TAction> : IBattleAction where TAction : BattleAction<TAction>
     {
+        public abstract ActionTargets ActionTargets { get; }
+
         public event Action<TAction> SuccessfullyPerformed;
         public event Action<TAction> FailedToPerformed;
 
@@ -40,21 +50,21 @@ namespace OrderElimination.AbilitySystem
 
         public virtual TAction GetModifiedAction(
             ActionExecutionContext useContext, 
-            bool actionMakerProcessing = false, 
-            bool targetProcessing = false)
+            bool actionMakerProcessing = true, 
+            bool targetProcessing = true)
         {
             var modifiedAction = (TAction)this;
-            if (actionMakerProcessing)
+            if (actionMakerProcessing && useContext.ActionMaker != null)
                 modifiedAction = useContext.ActionMaker.ActionProcessor.ProcessOutcomingAction(modifiedAction);
-            if (targetProcessing)
+            if (targetProcessing && useContext.ActionTarget != null)
                 modifiedAction = useContext.ActionTarget.ActionProcessor.ProcessIncomingAction(modifiedAction);
             return modifiedAction;
         }
 
         public bool ModifiedPerform(
             ActionExecutionContext useContext, 
-            bool actionMakerProcessing = false, 
-            bool targetProcessing = false)
+            bool actionMakerProcessing = true, 
+            bool targetProcessing = true)
         {
             var modifiedAction = GetModifiedAction(useContext, actionMakerProcessing, targetProcessing);
             var actionIsPerformed = modifiedAction.Perform(useContext);

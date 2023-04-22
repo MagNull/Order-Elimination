@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector.Editor;
+﻿using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,59 +11,6 @@ using UnityEngine;
 
 namespace OrderElimination.Infrastructure
 {
-    //https://dotnetfiddle.net - Unity online compiler
-
-    public readonly struct CellRangeBorders
-    {
-        public readonly int xMin;
-        public readonly int yMin;
-        public readonly int xMax;
-        public readonly int yMax;
-
-        public CellRangeBorders(Vector2Int start, Vector2Int end)
-        {
-            xMin = Math.Min(start.x, end.x);
-            yMin = Math.Min(start.y, end.y);
-            xMax = Math.Max(start.x, end.x);
-            yMax = Math.Max(start.y, end.y);
-        }
-
-        public CellRangeBorders(int xStart, int yStart, int xEnd, int yEnd)
-        {
-            xMin = Math.Min(xStart, xEnd);
-            yMin = Math.Min(yStart, yEnd);
-            xMax = Math.Max(xStart, xEnd);
-            yMax = Math.Max(yStart, yEnd);
-        }
-
-        public bool Contains(int x, int y) => (x >= xMin || y >= yMin || x <= xMax || y <= yMax);
-
-        public bool Contains(Vector2Int point) => Contains(point.x, point.y);
-
-        public Vector2Int[,] GetContainingCellPositions()
-        {
-            var result = new Vector2Int[xMax - xMin + 1, yMax - yMin + 1];
-            for (var y = yMin; y <= yMax; y++)
-            {
-                for (var x = xMin; x <= xMax; x++)
-                {
-                    result[x, y] = new Vector2Int(x, y);
-                }
-            }
-            return result;
-        }
-
-        public IEnumerable<Vector2Int> EnumerateCellPositions()
-        {
-            for (var y = yMin; y <= yMax; y++)
-            {
-                for (var x = xMin; x <= xMax; x++)
-                {
-                    yield return new Vector2Int(x, y);
-                }
-            }
-        }
-    }
 
     public readonly struct CellIntersection
     {
@@ -78,9 +26,11 @@ namespace OrderElimination.Infrastructure
         }
     }
 
+    [Serializable]
     public class PointRelativePattern
     {
         public IEnumerable<Vector2Int> RelativePositions => _relativePositions;
+        [ShowInInspector, SerializeField]
         private readonly HashSet<Vector2Int> _relativePositions = new HashSet<Vector2Int>();
 
         public Vector2Int[] GetAbsolutePositions(Vector2Int originPoint)
@@ -148,5 +98,15 @@ namespace OrderElimination.Infrastructure
             //Дальше платно
             throw new NotImplementedException();
         }
+
+        public static float GetRealDistanceBetween(Vector2Int posA, Vector2Int posB)
+        {
+            return (posB - posA).magnitude;
+        }
+
+        //public static float GetInterpolatedValue(float value, float minValue, float maxValue)
+        //{
+
+        //}
     }
 }

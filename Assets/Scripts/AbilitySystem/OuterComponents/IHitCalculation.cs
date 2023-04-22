@@ -16,26 +16,23 @@ namespace OrderElimination.AbilitySystem
 
     public interface IHitCalculation
     {
-        public bool CalculateHitResult(float accuracy, float evasion, out HitResult hitResult);
+        public HitResult CalculateHitResult(float accuracy, float evasion);
     }
 
     //Replace with universalHitCalculation class (perfect accuracy, no evasion, perfect evasion, etc...)
     public class StandartHitCalculation : IHitCalculation
     {
-        public bool CalculateHitResult(float accuracy, float evasion, out HitResult hitResult)
+        public HitResult CalculateHitResult(float accuracy, float evasion)
         {
             if (RandomExtensions.RollChance(accuracy))
             {
                 if (RandomExtensions.RollChance(evasion))
                 {
-                    hitResult = HitResult.Evasion;
-                    return false;
+                    return HitResult.Evasion;
                 }
-                hitResult = HitResult.Success;
-                return true;
+                return HitResult.Success;
             }
-            hitResult = HitResult.Miss;
-            return false;
+            return HitResult.Miss;
         }
     }
 }

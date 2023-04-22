@@ -17,6 +17,8 @@ namespace OrderElimination.AbilitySystem
         {
             DeployedBattleMap = battleMap;
             _battleStats = battleStats;
+            battleStats.HealthDepleted -= OnHealthDepleted;
+            battleStats.HealthDepleted += OnHealthDepleted;
             EntityType = type;
             BattleSide = side;
             foreach (var ability in activeAbilities)
@@ -31,16 +33,25 @@ namespace OrderElimination.AbilitySystem
             {
                 _actionPoints.Add(p, 0);
             }
+            _actionProcessor = new Lazy<ActionProcessor>(() => ActionProcessor.Create(this));
+
+            void OnHealthDepleted(IBattleLifeStats lifeStats)
+            {
+                Died?.Invoke(this);
+            }
         }
 
         #region IHaveLifeStats
         public IBattleLifeStats LifeStats => _battleStats;
+        public bool IsAlive => LifeStats.Health > 0;
         public event Action<DealtDamageInfo> Damaged;
         public event Action<HealRecoveryInfo> Healed;
+        public event Action<IAbilitySystemActor> Died;
         public DealtDamageInfo TakeDamage(DamageInfo damageInfo)
         {
             var dealtDamage = this.NoEventTakeDamage(damageInfo);
             Damaged?.Invoke(dealtDamage);
+            if (!IsAlive) Died?.Invoke(this);
             return dealtDamage;
         }
         public HealRecoveryInfo TakeHeal(HealInfo healInfo)
@@ -78,9 +89,20 @@ namespace OrderElimination.AbilitySystem
         {
             if (value < 0) throw new ArgumentOutOfRangeException();
             if (!_actionPoints.ContainsKey(actionPoint)) throw new KeyNotFoundException();
-            if (_actionPoints[actionPoint] < value) throw new ArgumentOutOfRangeException();
+            if (_actionPoints[actionPoint] < value) throw new ArgumentOutOfRangeException("Entity doesn't have enough points to be removed.");
             _actionPoints[actionPoint] -= value;
-
+        }
+        public void RemoveActionPoints(IReadOnlyDictionary<ActionPoint, int> actionPoints)
+        {
+            foreach (var point in actionPoints.Keys)
+            {
+                if (ActionPoints[point] < actionPoints[point])
+                    throw new ArgumentOutOfRangeException("Entity doesn't have enough points to be removed.");
+            }
+            foreach (var point in actionPoints.Keys)
+            {
+                RemoveActionPoints(point, actionPoints[point]);
+            }
         }
         public void SetActionPoints(ActionPoint actionPoint, int value)
         {
@@ -93,7 +115,7 @@ namespace OrderElimination.AbilitySystem
         public List<AbilityRunner> PassiveAbilities { get; } = new List<AbilityRunner>();
         //public bool UseAbility(Ability ability, CellTargetGroups targets); //TODO return AbilityUseContext
 
-        public ActionProcessor ActionProcessor { get; }
+        public ActionProcessor ActionProcessor => _actionProcessor.Value;
 
         #region IEffectHolder
         public IEnumerable<IEffect> Effects => _effects;
@@ -124,6 +146,7 @@ namespace OrderElimination.AbilitySystem
 
         //IBattleObstacle?
 
+        private readonly Lazy<ActionProcessor> _actionProcessor;
         private readonly BattleStats _battleStats;
         private readonly HashSet<IEffect> _effects = new HashSet<IEffect>();
         private readonly Dictionary<ActionPoint, int> _actionPoints = new Dictionary<ActionPoint, int>();

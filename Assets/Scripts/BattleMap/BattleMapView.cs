@@ -5,6 +5,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using OrderElimination.BM;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 //TODO: Optimize some methods (find cell example)
@@ -23,6 +24,25 @@ public class BattleMapView : MonoBehaviour
     private bool _battleEnded = false;
 
     public BattleMap Map => _battleMap;
+
+    /// <summary>
+    /// Interpolates game position between view Map View borders.
+    /// </summary>
+    /// <param name="gamePosition"></param>
+    /// <returns>Returns real world position.</returns>
+    public Vector2 GameToWorldPosition(Vector2 gamePosition)
+    {
+        var gameStartPoint = new Vector2Int(Map.CellRangeBorders.xMin, Map.CellRangeBorders.yMin);
+        var gameEndPoint = new Vector2Int(Map.CellRangeBorders.xMax, Map.CellRangeBorders.yMax);
+        var offset = GetCell(0, 0).transform.position;
+        var viewXBasis = GetCell(gameEndPoint.x, 0).transform.position;
+        var viewYBasis = GetCell(0, gameEndPoint.y).transform.position;
+
+        var xUnLerp = Mathf.InverseLerp(gameStartPoint.x, gameEndPoint.x, gamePosition.x);
+        var yUnLerp = Mathf.InverseLerp(gameStartPoint.y, gameEndPoint.y, gamePosition.y);
+
+        return offset + (viewXBasis - offset) * xUnLerp + (viewYBasis - offset) * yUnLerp;
+    }
 
     public void OnEnable()
     {

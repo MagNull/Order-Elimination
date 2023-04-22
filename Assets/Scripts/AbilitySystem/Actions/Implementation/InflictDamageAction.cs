@@ -5,17 +5,39 @@ using UnityEngine;
 using OrderElimination.Infrastructure;
 using Unity.Burst.CompilerServices;
 using System.Linq;
+using Sirenix.OdinInspector;
 
 namespace OrderElimination.AbilitySystem
 {
     public class InflictDamageAction : BattleAction<InflictDamageAction>
     {
+        public override ActionTargets ActionTargets => ActionTargets.EntitiesOnly;
+
         //Меняться будет только значение урона
         //Заменить DamageInfo на отдельную информацию об уроне и формулу для получения значения?
         //В таком случае DamageInfo будет собираться только перед отправкой в target.TakeDamage()
-        public DependentParameter<DamageInfo> DamageInfo { get; set; } 
-        public DependentParameter<float> Accuracy { get; set; }
+        [ShowInInspector, SerializeField]
+        public IContextDependentParameter<float> DamageSize { get; private set; }
+
+        [ShowInInspector, SerializeField]
+        public float ArmorMultiplier { get; private set; } = 1;
+
+        [ShowInInspector, SerializeField]
+        public float HealthMultiplier { get; private set; } = 1;
+
+        [ShowInInspector, SerializeField]
+        public DamageType DamageType { get; private set; }
+
+        [ShowInInspector, SerializeField]
+        public DamagePriority DamagePriority { get; private set; }
+
+        [ShowInInspector, SerializeField]
+        public IContextDependentParameter<float> Accuracy { get; private set; }
+
+        [ShowInInspector, SerializeField]
         public bool IgnoreEvasion { get; set; }
+
+        [ShowInInspector, SerializeField]
         public bool ObjectsAffectAccuracy { get; set; }
         //ConditionalDamageModifiers { get; set; } //по условиям цели изменяет наносимый урон
         //public bool IgnoreDeadTargets { get; set; }
@@ -23,12 +45,12 @@ namespace OrderElimination.AbilitySystem
         //*При вызове Perform IBattleAction уже обработан.
         public override InflictDamageAction GetModifiedAction(
             ActionExecutionContext useContext,
-            bool actionMakerProcessing = false,
-            bool targetProcessing = false)
+            bool actionMakerProcessing = true,
+            bool targetProcessing = true)
         {
             var modifiedAction = this;
 
-            if (actionMakerProcessing)
+            if (actionMakerProcessing && useContext.ActionMaker != null)
                 modifiedAction = useContext.ActionMaker.ActionProcessor.ProcessOutcomingAction(modifiedAction);
 
             var modifiedAccuracy = modifiedAction.Accuracy;
@@ -49,7 +71,7 @@ namespace OrderElimination.AbilitySystem
             }
             modifiedAction.Accuracy = modifiedAccuracy;
 
-            if (targetProcessing)
+            if (targetProcessing && useContext.ActionTarget != null)
                 modifiedAction = useContext.ActionTarget.ActionProcessor.ProcessIncomingAction(modifiedAction);
             return modifiedAction;
         }
@@ -65,11 +87,12 @@ namespace OrderElimination.AbilitySystem
             var evasion = IgnoreEvasion || !useContext.ActionTarget.BattleStats.HasParameter(BattleStat.Evasion)
                 ? 0
                 : useContext.ActionTarget.BattleStats.GetParameter(BattleStat.Evasion).ModifiedValue;
-            var isSuccessful = useContext.BattleContext.HitCalculation.CalculateHitResult(accuracy, evasion, out var hitResult);
-            if (isSuccessful)
+            var hitResult = useContext.BattleContext.HitCalculation.CalculateHitResult(accuracy, evasion);
+            if (hitResult == HitResult.Success)
             {
                 //Calculate DamageInfo
-                var damageInfo = DamageInfo.GetValue(useContext);
+                var damageSize = DamageSize.GetValue(useContext);
+                var damageInfo = new DamageInfo(damageSize, ArmorMultiplier, HealthMultiplier, DamageType, DamagePriority);
                 useContext.ActionTarget.TakeDamage(damageInfo);
                 return true;
             }

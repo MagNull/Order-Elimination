@@ -19,6 +19,9 @@ namespace OrderElimination.AbilitySystem
 
     public class BattleStats : IBattleStats, IBattleLifeStats
     {
+        private readonly List<TemporaryArmor> _temporaryArmors = new List<TemporaryArmor>();
+        private float _health;
+
         public ProcessingParameter<float> AttackDamage { get; } = new ProcessingParameter<float>();
         public ProcessingParameter<float> Accuracy { get; } = new ProcessingParameter<float>();
         public ProcessingParameter<float> Evasion { get; } = new ProcessingParameter<float>();
@@ -26,7 +29,20 @@ namespace OrderElimination.AbilitySystem
         public ProcessingParameter<float> MaxHealth { get; } = new ProcessingParameter<float>();
         public ProcessingParameter<float> MaxArmor { get; } = new ProcessingParameter<float>();
 
-        public float Health { get; set; }
+        public float Health
+        {
+            get => _health;
+            set
+            {
+                if (value > 0)
+                    _health = value;
+                else
+                {
+                    _health = 0;
+                    HealthDepleted?.Invoke(this);
+                }
+            }
+        }
         public float TotalArmor
         {
             get => PureArmor + TemporaryArmor;
@@ -37,7 +53,7 @@ namespace OrderElimination.AbilitySystem
                 if (value < TotalArmor)//dmg
                 {
                     //depletes TempArmor first, then Pure
-                    var remainder = -offset;
+                    var remainder = offset;
                     while (remainder > 0 && _temporaryArmors.Count > 0)
                     {
                         var removedPart = MathF.Min(_temporaryArmors[0].Value, remainder);
@@ -88,7 +104,7 @@ namespace OrderElimination.AbilitySystem
             };
         }
 
-        private readonly List<TemporaryArmor> _temporaryArmors = new List<TemporaryArmor>();
+        public event Action<IBattleLifeStats> HealthDepleted;
 
         public BattleStats(ReadOnlyBaseStats baseStats)
         {
@@ -134,6 +150,8 @@ namespace OrderElimination.AbilitySystem
         public void AddTemporaryArmor(TemporaryArmor armor);
         public void RemoveTemporaryArmor(TemporaryArmor armor);
         public ProcessingParameter<float> MaxArmor { get; } //ValueChanged += Update Armor
+
+        public event Action<IBattleLifeStats> HealthDepleted;
     }
 
     public enum BattleStat

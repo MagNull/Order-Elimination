@@ -25,13 +25,15 @@ namespace UIManagement.Elements
         public void SetValue(float currentValue, float minValue, float maxValue)
         {
             _textValueComponent.text = currentValue.ToString();
-            var scaledValue = (currentValue - minValue) / (maxValue - minValue);
+            var scaledValue = (currentValue - minValue);
+            if (scaledValue != 0)
+                scaledValue /= (maxValue - minValue);
             if (float.IsNaN(scaledValue)) //scaledValue > 1 || scaledValue < 0 || 
             {
                 Debug.Log("Normalized value: " + scaledValue + '\n' +
                           "Max value: " + maxValue + '\n' +
                           "Min value: " + minValue + '\n');
-                throw new System.InvalidOperationException();
+                throw new System.InvalidOperationException("Value is NaN");
             }
             DOTween.To(GetFillAmount, SetFillAmount, scaledValue, 0.4f).SetEase(ValueChangeEase);
 

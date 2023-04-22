@@ -11,66 +11,6 @@ using VContainer;
 [Serializable]
 public class CharacterArrangeDirector
 {
-    #region NewAbilitySystem
-    private readonly BattleEntitiesFactory _entitiesFactory;
-    private readonly Dictionary<IAbilitySystemActor, BattleEntityView> _viewsByEntities;
-    private readonly Dictionary<BattleEntityView, IAbilitySystemActor> _entitiesByViews;
-
-    public BattleEntityView GetViewByEntity(IAbilitySystemActor entity) => _viewsByEntities[entity];
-    public IAbilitySystemActor GetEntityByView(BattleEntityView view) => _entitiesByViews[view];
-
-    //public IAbilitySystemActor[] ArrangeEntities(IEnumerable<Vector2Int> alliesPositions,
-    //    IEnumerable<Vector2Int> enemyPositions)
-    //{
-    //    var characters = new List<IAbilitySystemActor>();
-    //    var gameAllies = _entitiesFactory.CreateGameEntities(_charactersMediator.GetPlayerCharactersInfo());
-    //    var gameEnemies = _entitiesFactory.CreateGameEntities(_charactersMediator.GetEnemyCharactersInfo());
-    //    var battleAllies = _entitiesFactory.CreateBattleEntities(gameAllies, BattleSide.Player).ToArray();
-    //    var battleEnemies = _entitiesFactory.CreateBattleEntities(gameEnemies, BattleSide.Enemies).ToArray();
-    //    for (var i = 0; i < battleAllies.Length; i++)
-    //    {
-    //        _arrangementMap.PlaceEntity(battleAllies[i].Model, alliesPositions[i]);
-    //        battleAllies[i].View.EntityPlacedOnMapCallback();
-
-    //    }
-    //    for (var i = 0; i < battleEnemies.Length; i++)
-    //    {
-    //        _arrangementMap.PlaceEntity(battleEnemies[i].Model, enemyPositions[i]);
-    //        battleEnemies[i].View.EntityPlacedOnMapCallback();
-    //    }
-    //    foreach (var entity in battleAllies.Concat(battleEnemies))
-    //    {
-    //        characters.Add(entity.Model);
-    //        _entitiesByViews.Add(entity.View, entity.Model);
-    //        _viewsByEntities.Add(entity.Model, entity.View);
-    //    }
-    //    return characters.ToArray();
-    //}
-    public IAbilitySystemActor[] ArrangeEntities(IEnumerable<Vector2Int> positions, BattleSide side)
-    {
-        var positionsList = positions.ToList();
-        var characters = new List<IAbilitySystemActor>();
-        var characterInfos =
-            side == BattleSide.Player 
-            ? _charactersMediator.GetPlayerCharactersInfo()
-            : side == BattleSide.Enemies
-            ? _charactersMediator.GetEnemyCharactersInfo()
-            : throw new NotImplementedException();
-        var gameEntities = _entitiesFactory.CreateGameEntities(characterInfos);
-        var battleEntities = _entitiesFactory.CreateBattleEntities(gameEntities, BattleSide.Player).ToArray();
-        for (var i = 0; i < battleEntities.Length; i++)
-        {
-            var entity = battleEntities[i];
-            _arrangementMap.PlaceEntity(entity.Model, positionsList[i]);
-            entity.View.EntityPlacedOnMapCallback();
-            characters.Add(entity.Model);
-            _entitiesByViews.Add(entity.View, entity.Model);
-            _viewsByEntities.Add(entity.Model, entity.View);
-        }
-        return characters.ToArray();
-    }
-    #endregion
-
     private readonly BattleCharacterFactory _characterFactory;
     private readonly CharactersBank _charactersBank;
 
@@ -84,9 +24,6 @@ public class CharacterArrangeDirector
         _charactersMediator = charactersMediator;
         _characterFactory = characterFactory;
         _charactersBank = charactersBank;
-        _entitiesFactory = entitiesFactory;
-        _entitiesByViews = new Dictionary<BattleEntityView, IAbilitySystemActor>();
-        _viewsByEntities = new Dictionary<IAbilitySystemActor, BattleEntityView>();
     }
 
     public void SetArrangementMap(BattleMap map) => _arrangementMap = map;

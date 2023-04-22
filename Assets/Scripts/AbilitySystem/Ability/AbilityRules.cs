@@ -1,17 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
+    [Serializable]
     public class AbilityRules
     {
-        public ICommonCondition[] AvailabilityConditions;
-        public ICellCondition[] CellConditions;
+        public readonly List<ICommonCondition> AvailabilityConditions = new();
+        public readonly List<ICellCondition> CellConditions = new();
+        public readonly Dictionary<ActionPoint, int> UsageCost = new();
 
-        public bool IsAbilityAvailable(IBattleContext battleContext, IAbilitySystemActor caster, Dictionary<ActionPoint, int> abilityCost)
+        public AbilityRules(
+            IEnumerable<ICommonCondition> availabilityConditions, 
+            IEnumerable<ICellCondition> cellConditions, 
+            IReadOnlyDictionary<ActionPoint, int> usageCost)
         {
-            if (!IsCostAffordableByCaster(abilityCost, caster))
+            AvailabilityConditions = availabilityConditions.ToList();
+            if (cellConditions != null)
+                CellConditions = cellConditions.ToList();
+            UsageCost = usageCost.ToDictionary(e => e.Key, e => e.Value);
+        }
+
+        public bool IsAbilityAvailable(IBattleContext battleContext, IAbilitySystemActor caster)
+        {
+            if (!IsCostAffordableByCaster(caster))
                 return false;
             return AvailabilityConditions.All(c => c.IsConditionMet(battleContext, caster));
         }
@@ -26,9 +40,9 @@ namespace OrderElimination.AbilitySystem
                 .ToArray();
         }
 
-        private bool IsCostAffordableByCaster(Dictionary<ActionPoint, int> cost, IAbilitySystemActor caster)
+        private bool IsCostAffordableByCaster(IAbilitySystemActor caster)
         {
-            return cost.Keys.All(actionPoint => cost[actionPoint] <= caster.ActionPoints[actionPoint]);
+            return UsageCost.Keys.All(actionPoint => UsageCost[actionPoint] <= caster.ActionPoints[actionPoint]);
         }
     }
 }

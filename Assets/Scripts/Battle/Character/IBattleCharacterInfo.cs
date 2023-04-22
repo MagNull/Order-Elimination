@@ -22,7 +22,7 @@ public interface IBattleEntityInfo
     public Sprite BattleIcon { get; }
     //View
     public ReadOnlyBaseStats BaseStats { get; }
-    public EntityType EntityType { get; }
-    public IReadOnlyList<AbilityData> GetActiveAbilities();
-    public IReadOnlyList<AbilityData> GetPassiveAbilities();
+    //public EntityType EntityType { get; }
+    public AbilityBuilderData[] GetActiveAbilities();
+    public AbilityBuilderData[] GetPassiveAbilities();
 }

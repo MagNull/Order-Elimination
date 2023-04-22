@@ -9,6 +9,8 @@ namespace OrderElimination.AbilitySystem
 {
     public class ModifyBattleStatsAction : BattleAction<ModifyBattleStatsAction>, IUndoableBattleAction
     {
+        public override ActionTargets ActionTargets => ActionTargets.EntitiesOnly;
+
         public BattleStat TargetedStat { get; set; } //Change Only In Inspector
         public Func<float, float> ValueChanger { get; set; } //Change Only In Inspector
         public int Duration { get; set; } //TODO restrict min/max duration

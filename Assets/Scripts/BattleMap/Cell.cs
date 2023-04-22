@@ -68,7 +68,7 @@ public class Cell : IReadOnlyCell
 
     public bool RemoveEntity(IAbilitySystemActor entity)
     {
-        if (!Contains(entity))
+        if (Contains(entity))
         {
             _containedEntitiesHash.Remove(entity);
             _containedEntities.Remove(entity);
