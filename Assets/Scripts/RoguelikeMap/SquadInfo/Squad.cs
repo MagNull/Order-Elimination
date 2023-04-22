@@ -1,6 +1,7 @@
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using OrderElimination;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using Sirenix.OdinInspector;
@@ -8,7 +9,7 @@ using Sirenix.Serialization;
 using UnityEngine;
 using VContainer;
 
-namespace OrderElimination
+namespace RoguelikeMap.SquadInfo
 {
     public class Squad : SerializedMonoBehaviour, ISquad
     {
@@ -17,7 +18,7 @@ namespace OrderElimination
         private List<Character> _testSquadMembers;
         [SerializeField]
         private SquadButtonTouchRace _proccesClick;
-        private SquadInfo _squadInfo;
+        private OrderElimination.SquadInfo _squadInfo;
         private SquadModel _model;
         private SquadView _view;
         private SquadPresenter _presenter;

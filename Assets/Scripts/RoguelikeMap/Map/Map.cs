@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using OrderElimination;
+using RoguelikeMap.SquadInfo;
 using UnityEngine;
 using VContainer;
 using Point = RoguelikeMap.Points.Point;

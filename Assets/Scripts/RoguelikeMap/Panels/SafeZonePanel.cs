@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DG.Tweening;
 
 namespace RoguelikeMap.Panels
@@ -6,7 +7,7 @@ namespace RoguelikeMap.Panels
     public class SafeZonePanel : Panel
     {
         public event Action OnHealAccept;
-        public event Action OnLootAccept;
+        public event Action<IReadOnlyList<int>> OnLootAccept;
         
         public void HealAccept()
         {
@@ -17,7 +18,7 @@ namespace RoguelikeMap.Panels
         //TODO(coder): add loot to player inventory after create inventory system
         public void LootAccept()
         {
-            OnLootAccept?.Invoke();
+            OnLootAccept?.Invoke(null);
             Close();
         }
     }

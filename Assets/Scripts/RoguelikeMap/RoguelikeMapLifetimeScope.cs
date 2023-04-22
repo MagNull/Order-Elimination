@@ -1,10 +1,11 @@
 using OrderElimination;
 using RoguelikeMap.Map;
 using RoguelikeMap.Panels;
+using RoguelikeMap.SquadInfo;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
-using Wallet = OrderElimination.Wallet;
+using Wallet = StartSessionMenu.Wallet;
 
 //TODO(����): Register Currency
 namespace RoguelikeMap

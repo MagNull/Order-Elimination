@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using OrderElimination;
+using RoguelikeMap.SquadInfo;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
