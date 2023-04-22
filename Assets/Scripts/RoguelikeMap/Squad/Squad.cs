@@ -51,7 +51,8 @@ namespace OrderElimination
 
         private void Start()
         {
-            SetSquadMembers(SquadMediator.CharacterList.ToList());
+            if(SquadMediator.CharacterList is not null)
+                SetSquadMembers(SquadMediator.CharacterList.ToList());
             SetPanel();
             foreach(var member in _testSquadMembers)
                 member.Upgrade(SquadMediator.Stats);
@@ -74,7 +75,7 @@ namespace OrderElimination
 
         private void SetPanel()
         {
-            var squadMemberPanel = (SquadMembersPanel)_panelGenerator.GetPanelByPointInfo(PointType.SquadMembers);
+            var squadMemberPanel = _panelGenerator.GetSquadMembersPanel();
             squadMemberPanel.UpdateMembers(Members);
             _view.SetPanel(squadMemberPanel);
         }

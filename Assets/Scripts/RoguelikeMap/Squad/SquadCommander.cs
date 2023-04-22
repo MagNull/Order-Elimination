@@ -42,7 +42,7 @@ namespace OrderElimination
             //safeZonePanel.OnLootAccept += OnLootAccept!.Invoke;
             //safeZonePanel.OnHealAccept += OnHealAccept!.Invoke;
 
-            var squadMembersPanel = (SquadMembersPanel)_panelGenerator.GetPanelByPointInfo(PointType.SquadMembers);
+            var squadMembersPanel = _panelGenerator.GetSquadMembersPanel();
             squadMembersPanel.OnSelected += OnSelected!.Invoke;
 
             var battlePanel = (BattlePanel)_panelGenerator.GetPanelByPointInfo(PointType.Battle);

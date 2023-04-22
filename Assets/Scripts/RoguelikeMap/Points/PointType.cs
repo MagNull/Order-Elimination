@@ -5,7 +5,6 @@ namespace RoguelikeMap.Points
         Battle,
         Event,
         SafeZone,
-        Shop,
-        SquadMembers
+        Shop
     }
 }

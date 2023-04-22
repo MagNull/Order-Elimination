@@ -9,9 +9,7 @@ namespace RoguelikeMap.Points
 {
     public abstract class Point : MonoBehaviour
     {
-        [SerializeField]
-        private GameObject _pathPrefab;
-        
+        private LineRenderer _pathPrefab;
         protected PanelGenerator _panelGenerator;
         
         public VarietiesPoint PointInfo { get; protected set; }
@@ -20,12 +18,7 @@ namespace RoguelikeMap.Points
         public List<Point> NextPoints { get; protected set; } = new List<Point>();
         public int PointNumber { get; set; }
         public event Action<Point> OnSelected;
-        
-        private void Awake()
-        {
-            PathView = new PathView(transform, _pathPrefab);
-        }
-        
+
         //When squad come to point
         protected virtual void InitializePointView()
         {
@@ -34,7 +27,7 @@ namespace RoguelikeMap.Points
             PointView.SetActivePanel(true);
         }
 
-        public virtual void Visit(Squad squad)
+        public void Visit(Squad squad)
         {
             squad.Visit(this);
             if(PointView is null)
@@ -43,12 +36,18 @@ namespace RoguelikeMap.Points
         
         public void SetPointInfo(VarietiesPoint pointInfo)
         {
-            PointInfo = pointInfo;
+            PointInfo = pointInfo ?? throw new ArgumentException("PointInfo is null");
         }
 
         public void SetPanelGenerator(PanelGenerator panelGenerator)
         {
-            _panelGenerator = panelGenerator;
+            _panelGenerator = panelGenerator ?? throw new ArgumentException("PanelGenerator is null");
+        }
+
+        public void SetPathPrefab(LineRenderer pathPrefab)
+        {
+            _pathPrefab = pathPrefab ?? throw new ArgumentException("pathPrefab is null");
+            PathView = new PathView(transform, _pathPrefab);
         }
 
         public void SetNextPoints(IEnumerable<Point> paths)
@@ -62,7 +61,7 @@ namespace RoguelikeMap.Points
 
         private void OnMouseDown() => Select();
 
-        public void Select()
+        private void Select()
         {
             Debug.Log("Select point");
             OnSelected?.Invoke(this);

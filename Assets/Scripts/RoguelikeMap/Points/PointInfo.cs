@@ -19,5 +19,6 @@ namespace RoguelikeMap.Points
         public IReadOnlyList<PointInfo> NextPoints => _nextPoints;
         public VarietiesPoint VarietiesPoint => _varietiesPoint;
         public Sprite PointSprite => _varietiesPoint.PointSprite;
+        public PointType PointType => _varietiesPoint.PointType;
     }
 }

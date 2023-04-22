@@ -1,7 +1,6 @@
 using OrderElimination;
 using RoguelikeMap.Map;
 using RoguelikeMap.Panels;
-using RoguelikeMap.Points;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -17,11 +16,11 @@ namespace RoguelikeMap
         [SerializeField]
         private CharactersMediator _charactersMediatorPrefab;
         [SerializeField]
-        private GameObject _pathPrefab;
+        private LineRenderer _pathPrefab;
         [SerializeField]
         private Transform _pointsParent;
         [SerializeField]
-        private Point _pointPrefab;
+        private GameObject _pointPrefab;
         [SerializeField]
         private Squad _squad;
         [SerializeField]

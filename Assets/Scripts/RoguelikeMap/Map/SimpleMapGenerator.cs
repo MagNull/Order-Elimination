@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
+using RoguelikeMap.Points.VarietiesPoints;
 using UnityEngine;
 using VContainer;
 using Object = UnityEngine.Object;
@@ -11,16 +13,19 @@ namespace RoguelikeMap.Map
     public class SimpleMapGenerator : IMapGenerator
     {
         private readonly int _numberOfMap = 0;
-        private Transform _parent;
-        private PanelGenerator _panelGenerator;
-        private Point _pointPrefab;
+        private readonly Transform _parent;
+        private readonly PanelGenerator _panelGenerator;
+        private readonly GameObject _pointPrefab;
+        private readonly LineRenderer _pathPrefab;
 
         [Inject]
-        public SimpleMapGenerator(Point pointPrefab, PanelGenerator panelGenerator, Transform pointsParent)
+        public SimpleMapGenerator(GameObject pointPrefab, PanelGenerator panelGenerator, 
+            Transform pointsParent, LineRenderer pathPrefab)
         {
             _pointPrefab = pointPrefab;
             _panelGenerator = panelGenerator;
             _parent = pointsParent;
+            _pathPrefab = pathPrefab;
         }
 
         public IEnumerable<Point> GenerateMap()
@@ -66,9 +71,18 @@ namespace RoguelikeMap.Map
             var pointSprite = pointObj.GetComponent<SpriteRenderer>();
             pointSprite.sprite = info.PointSprite;
             
-            var point = pointObj.GetComponent<Point>();
+            Point point = info.PointType switch
+            {
+                PointType.Battle => pointObj.AddComponent<BattlePoint>(),
+                PointType.Event => pointObj.AddComponent<EventPoint>(),
+                PointType.SafeZone => pointObj.AddComponent<SafeZonePoint>(),
+                PointType.Shop => pointObj.AddComponent<ShopPoint>(),
+                _ => throw new ArgumentOutOfRangeException("PointType not set or not valid type")
+            };
+
             point.SetPointInfo(info.VarietiesPoint);
             point.SetPanelGenerator(_panelGenerator);
+            point.SetPathPrefab(_pathPrefab);
             return point;
         }
     }

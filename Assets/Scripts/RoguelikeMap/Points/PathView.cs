@@ -6,10 +6,10 @@ namespace RoguelikeMap.Points
     public class PathView
     {
         private readonly Transform _transform;
-        private readonly GameObject _pathPrefab;
+        private readonly LineRenderer _pathPrefab;
         private readonly List<LineRenderer> _paths;
 
-        public PathView(Transform transform, GameObject pathPrefab)
+        public PathView(Transform transform, LineRenderer pathPrefab)
         {
             _transform = transform;
             _pathPrefab = pathPrefab;
@@ -18,8 +18,7 @@ namespace RoguelikeMap.Points
         
         public void SetPath(Vector3 path)
         {
-            var line = Object.Instantiate(_pathPrefab, _transform);
-            var lineRenderer = line.GetComponent<LineRenderer>();
+            var lineRenderer = Object.Instantiate(_pathPrefab, _transform);
             lineRenderer.SetWidth(7, 7);
             lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
             lineRenderer.SetPosition(0, _transform.position);
