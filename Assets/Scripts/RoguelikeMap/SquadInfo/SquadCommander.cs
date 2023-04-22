@@ -5,6 +5,7 @@ using OrderElimination;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.Points.VarietiesPoints;
+using Unity.VisualScripting;
 using UnityEngine;
 using VContainer;
 
@@ -46,7 +47,8 @@ namespace RoguelikeMap.SquadInfo
             battlePanel.OnStartAttack += StartAttack;
 
             var eventPanel = (EventPanel)_panelGenerator.GetPanelByPointInfo(PointType.Event);
-            eventPanel.OnEventEnd += LootAccept;
+            eventPanel.OnLookForLoot += LootAccept;
+            eventPanel.OnStartBattle += StartAttack;
 
             var squadMembersPanel = _panelGenerator.GetSquadMembersPanel();
             squadMembersPanel.OnSelected += WereSelectedMembers;
@@ -56,13 +58,22 @@ namespace RoguelikeMap.SquadInfo
         {
             if (_target is not BattlePoint battlePoint)
                 throw new ArgumentException("Is not valid point to attack");
+            StartAttack(battlePoint.Enemies, _target.PointNumber);
+        }
+
+        private void StartAttack(IReadOnlyList<IBattleCharacterInfo> enemies) => StartAttack(enemies, 0);
+
+        private void StartAttack(IReadOnlyList<IBattleCharacterInfo> enemies, int pointNumber)
+        {
+            if (pointNumber < 0)
+                throw new ArgumentOutOfRangeException("Is not valid point number");
+            
             SaveSquadPosition();
             var battleStatsList = _squad.Members.Cast<IBattleCharacterInfo>().ToList();
             var charactersMediator = _objectResolver.Resolve<CharactersMediator>();
             charactersMediator.SetSquad(battleStatsList);
-            //TODO(coder): enemies is IReadOnlyList<IBattleCharacterInfo> but SetEnemies need List<IBattleCharacterInfo>
-            charactersMediator.SetEnemies(battlePoint.Enemies.ToList());
-            charactersMediator.SetPointNumber(_target.PointNumber);
+            charactersMediator.SetEnemies(enemies.ToList());
+            charactersMediator.SetPointNumber(pointNumber);
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();
         }

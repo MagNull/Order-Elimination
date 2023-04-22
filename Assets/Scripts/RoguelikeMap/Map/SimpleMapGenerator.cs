@@ -12,7 +12,7 @@ namespace RoguelikeMap.Map
 {
     public class SimpleMapGenerator : IMapGenerator
     {
-        private readonly int _numberOfMap = 0;
+        private const int NumberOfMap = 0;
         private readonly Transform _parent;
         private readonly PanelGenerator _panelGenerator;
         private readonly GameObject _pointPrefab;
@@ -32,7 +32,7 @@ namespace RoguelikeMap.Map
         {
             // Load PointInfo
             var pointsList = new List<(Point, PointInfo)>();
-            var path = "Points\\" + _numberOfMap;
+            var path = "Points\\" + NumberOfMap;
             var pointsInfo = Resources.LoadAll<PointInfo>(path);
             
             // Generate points

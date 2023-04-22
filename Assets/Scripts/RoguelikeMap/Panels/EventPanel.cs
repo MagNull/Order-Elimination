@@ -18,7 +18,8 @@ namespace RoguelikeMap.Panels
 
         private EventInfo _eventInfo;
 
-        public event Action<IReadOnlyList<int>> OnEventEnd;
+        public event Action<IReadOnlyList<int>> OnLookForLoot;
+        public event Action<IReadOnlyList<IBattleCharacterInfo>> OnStartBattle;
 
         public override void SetPointInfo(VarietiesPointInfo pointInfoInfo)
         {
@@ -60,16 +61,26 @@ namespace RoguelikeMap.Panels
 
         private void LoadEventText()
         {
-            if (_eventInfo.IsEnd)
-            {
-                EventEnd();
-                Close();
+            if (IsEventEnd())
                 return;
-            }
             
             var text = _eventInfo.Text;
             var possibleAnswers = GetPossibleAnswers();
             UpdateEventText(text, possibleAnswers);
+        }
+
+        private bool IsEventEnd()
+        {
+            if (!_eventInfo.IsEnd && !_eventInfo.IsBattle)
+                return false;
+            
+            if (_eventInfo.IsEnd)
+                EventEnd();
+            else if (_eventInfo.IsBattle)
+                EventEndWithBattle();
+
+            Close();
+            return true;
         }
 
         private void UpdateEventInfo(int buttonIndex = -1)
@@ -100,10 +111,15 @@ namespace RoguelikeMap.Panels
             LoadEventText();
         }
 
+        private void EventEndWithBattle()
+        {
+            OnStartBattle?.Invoke(_eventInfo.Enemies);
+        }
+
         private void EventEnd()
         {
             if(_eventInfo.IsHaveItems)
-                OnEventEnd?.Invoke(_eventInfo.ItemsId);
+                OnLookForLoot?.Invoke(_eventInfo.ItemsId);
         }
     }
 }
