@@ -24,20 +24,82 @@ MonoBehaviour:
   _position: {x: 200, y: 300, z: 1}
   _nextPoints:
   - {fileID: 11400000, guid: bfce31036f0a9ac45a79de6654f87b4c, type: 2}
-  _varietiesPoint:
-    rid: 7872520255937445899
+  _varietiesPointInfo:
+    rid: 7872520265891053576
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 7872520255937445899
+    - rid: 7872520265891053576
       type: {class: EventPointInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
       data:
         _pointSprite: {fileID: -300597444, guid: 5897665c51c6ee04e8c18c5fa5db7853, type: 3}
         _startEventInfo:
-          rid: 7872520255937445900
-    - rid: 7872520255937445900
+          rid: 7872520265891053577
+    - rid: 7872520265891053577
+      type: {class: EventInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
+      data:
+        _text: "\u0412\u044B \u043F\u043E\u0439\u043C\u0430\u043B\u0438 \u0441\u0438\u0433\u043D\u0430\u043B
+          \u0431\u0435\u0434\u0441\u0442\u0432\u0438\u044F \u043F\u043E\u0431\u043B\u0438\u0437\u043E\u0441\u0442\u0438"
+        _isEnd: 0
+        _isFork: 1
+        _isHaveItems: 0
+        _itemsId: 
+        _nextStage:
+          rid: -2
+        _answers:
+        - "\u0418\u0433\u043D\u043E\u0440\u0438\u0440\u043E\u0432\u0430\u0442\u044C"
+        - "\u041F\u043E\u043F\u044B\u0442\u0430\u0442\u044C\u0441\u044F \u043F\u043E\u043C\u043E\u0447\u044C"
+        _nextStages:
+        - rid: 7872520265891053594
+        - rid: 7872520265891053588
+    - rid: 7872520265891053588
+      type: {class: EventInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
+      data:
+        _text: "\u0412\u044B \u0443\u0432\u0438\u0434\u0435\u043B\u0438 \u0440\u0430\u043D\u0435\u043D\u043E\u0433\u043E
+          \u043E\u043F\u0435\u0440\u0430\u0442\u043E\u0440\u0430, \u043A\u043E\u0442\u043E\u0440\u044B\u0439
+          \u043F\u0440\u043E\u0441\u0438\u0442 \u043E \u043F\u043E\u043C\u043E\u0449\u0438"
+        _isEnd: 0
+        _isFork: 1
+        _isHaveItems: 0
+        _itemsId: 
+        _nextStage:
+          rid: -2
+        _answers:
+        - "\u041F\u0440\u043E\u0441\u0442\u043E \u0443\u0439\u0442\u0438"
+        - "\u041E\u0442\u0434\u0430\u0442\u044C \u043C\u0435\u0434\u043F\u0430\u043A/\u0437\u0435\u043B\u044C\u0435
+          \u0438\u0441\u0446\u0435\u043B\u0435\u043D\u0438\u044F"
+        _nextStages:
+        - rid: 7872520265891053590
+        - rid: 7872520265891053592
+    - rid: 7872520265891053590
+      type: {class: EventInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
+      data:
+        _text: "*\u0412\u0430\u0448\u0430 \u043A\u0430\u0440\u043C\u0430 \u043F\u043E\u043D\u0438\u0437\u0438\u043B\u0430\u0441\u044C*"
+        _isEnd: 0
+        _isFork: 0
+        _isHaveItems: 0
+        _itemsId: 
+        _nextStage:
+          rid: 7872520265891053596
+        _answers: []
+        _nextStages: []
+    - rid: 7872520265891053592
+      type: {class: EventInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
+      data:
+        _text: "*\u0412\u044B \u0443\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442\u0435
+          \u043A\u0430\u0440\u043C\u0443 \u0438 \u043F\u043E\u043B\u0443\u0447\u0430\u0435\u0442\u0435
+          \u0440\u0430\u0441x\u043E\u0434\u043D\u0438\u043A \u043E\u0442 \u043E\u043F\u0435\u0440\u0430\u0442\u043E\u0440\u0430*"
+        _isEnd: 0
+        _isFork: 0
+        _isHaveItems: 1
+        _itemsId: 00000000
+        _nextStage:
+          rid: 7872520265891053593
+        _answers: []
+        _nextStages: []
+    - rid: 7872520265891053593
       type: {class: EventInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
       data:
         _text: 
@@ -45,11 +107,31 @@ MonoBehaviour:
         _isFork: 0
         _isHaveItems: 0
         _itemsId: 
-        _isAcceptNextStage:
-          _pointSprite: {fileID: 0}
-          _startEventInfo:
-            rid: -2
-        _isDeclineNextStage:
-          _pointSprite: {fileID: 0}
-          _startEventInfo:
-            rid: -2
+        _nextStage:
+          rid: -2
+        _answers: []
+        _nextStages: []
+    - rid: 7872520265891053594
+      type: {class: EventInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
+      data:
+        _text: 
+        _isEnd: 1
+        _isFork: 0
+        _isHaveItems: 0
+        _itemsId: 
+        _nextStage:
+          rid: -2
+        _answers: []
+        _nextStages: []
+    - rid: 7872520265891053596
+      type: {class: EventInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
+      data:
+        _text: 
+        _isEnd: 1
+        _isFork: 0
+        _isHaveItems: 0
+        _itemsId: 
+        _nextStage:
+          rid: -2
+        _answers: []
+        _nextStages: []

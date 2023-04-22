@@ -27,7 +27,7 @@ namespace RoguelikeMap.Points.VarietiesPoints.Infos
         private bool _isHaveItems;
         
         [SerializeField]
-        [ShowIf("_isHaveItems")]
+        [ShowIf("@this._isEnd && this._isHaveItems")]
         private List<int> _itemsId;
 
         [SerializeReference]
@@ -45,8 +45,12 @@ namespace RoguelikeMap.Points.VarietiesPoints.Infos
         private List<EventInfo> _nextStages;
 
         public IReadOnlyList<int> ItemsId => _itemsId;
-        public bool IsHaveItems => _itemsId.Count != 0;
+        public IReadOnlyList<string> Answers => _answers;
+        public IReadOnlyList<EventInfo> NextStages => _nextStages;
+        public EventInfo NextStage => _nextStage;
+        public bool IsHaveItems => _itemsId is not null;
         public bool IsEnd => _isEnd;
         public bool IsFork => _isFork;
+        public string Text => _text;
     }
 }
