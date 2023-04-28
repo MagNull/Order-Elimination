@@ -17,5 +17,8 @@ namespace Inventory
         
         [field: SerializeField]
         public ItemType ItemType { get; private set; }
+        
+        [field: SerializeField]
+        public int ItemIndex { get; private set; }
     }
 }
