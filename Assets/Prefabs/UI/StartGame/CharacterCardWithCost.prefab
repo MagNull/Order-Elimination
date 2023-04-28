@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 5809841624109694272}
   - component: {fileID: 82469547036186783}
   m_Layer: 5
-  m_Name: CharacterButton
+  m_Name: CharacterCardWithCost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -228,11 +228,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6905a5f527e846478470d54de6e1ea4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsSelected: 0
   _cardImage: {fileID: 5809841624342609720}
-  _costImage: {fileID: 3235461534071526195}
-  _cardCost: {fileID: 5553228351691667159}
   _button: {fileID: 5809841624109694272}
   _isSelected: 0
+  _costImage: {fileID: 3235461534071526195}
+  _cardCost: {fileID: 5553228351691667159}
 --- !u!1 &5809841624342609726
 GameObject:
   m_ObjectHideFlags: 0

@@ -64,7 +64,7 @@ namespace StartSessionMenu.ChooseCharacter
         {
             if (_selectedCharacters.Count <= 0)
                 return;
-            
+
             SquadMediator.SetCharacters(_selectedCharacters);
         }
     }

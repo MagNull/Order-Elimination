@@ -1,3 +1,4 @@
+using Inventory_Items;
 using OrderElimination;
 using RoguelikeMap.Map;
 using RoguelikeMap.Panels;
@@ -35,6 +36,8 @@ namespace RoguelikeMap
             
             var wallet = new Wallet(_startMoney);
             
+            builder.Register<Inventory>(Lifetime.Singleton).WithParameter(100);
+
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_squad);
             builder.RegisterComponent(_pathPrefab);

@@ -1,14 +1,14 @@
 using OrderElimination;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
+using UIManagement;
+using UIManagement.Elements;
 
 namespace StartSessionMenu.ChooseCharacter.CharacterCard
 {
     public class CharacterCard : MonoBehaviour
     {
         protected Character _character;
-        [FormerlySerializedAs("_isSelected")] 
         public bool IsSelected;
         
         [SerializeField] 
@@ -18,6 +18,9 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         
         public Character Character => _character;
         public Button Button => _button;
+        private HoldableButton _holdableButton;
+
+        public bool _isSelected;
 
         public virtual void InitializeCard(Character character)
         {
@@ -29,6 +32,13 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         public virtual void Select()
         {
             IsSelected = !IsSelected;
+        }
+        
+        private void OnHold(HoldableButton b, float t)
+        {
+            var charDescPanel =
+                (CharacterDescriptionPanel) UIController.SceneInstance.OpenPanel(PanelType.CharacterDescription);
+            charDescPanel.UpdateCharacterDescription(_character);
         }
     }
 }

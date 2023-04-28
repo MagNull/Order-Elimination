@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Inventory
+namespace Inventory_Items
 {
     [Serializable]
     public class ItemView
@@ -14,7 +14,7 @@ namespace Inventory
         private Sprite _icon;
         
         public string Description => _description;
-        public Sprite Icon => _icon;
+        public Sprite Icon => _icon != null ? _icon : Sprite.Create(Texture2D.blackTexture, Rect.zero, Vector2.zero);
         public string Name => _name;
     }
 }

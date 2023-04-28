@@ -1,17 +1,25 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Inventory
+namespace Inventory_Items
 {
-    public class InventoryCellFullView : MonoBehaviour, IInventoryCellView
+    public class SimpleInventoryCellView : MonoBehaviour, IInventoryCellView, IPointerDownHandler, IPointerUpHandler
     {
+        public event Action<IReadOnlyCell> Clicked;
+        
         [SerializeField]
         private TextMeshProUGUI _descriptionText;
         [SerializeField]
         private TextMeshProUGUI _nameText;
         [SerializeField]
         private Image _iconRenderer;
+
+        [SerializeField]
+        private float _clickDistanceFault = 1f;
+        private Vector2 _downPosition;
         
         private IReadOnlyCell _cell;
 
@@ -36,6 +44,21 @@ namespace Inventory
         public void Disable()
         {
             gameObject.SetActive(false);
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            _downPosition = eventData.position;
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            if(Vector2.Distance(_downPosition, eventData.position) > _clickDistanceFault)
+                return;
+            
+            Debug.Log("Click");
+            Clicked?.Invoke(_cell);
+            _downPosition = Vector2.zero;
         }
     }
 }
