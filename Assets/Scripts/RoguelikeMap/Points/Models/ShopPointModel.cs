@@ -1,16 +1,16 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RoguelikeMap.Points.VarietiesPoints.Infos
+namespace RoguelikeMap.Points.Models
 {
     [Serializable]
-    public class ShopPointInfo : VarietiesPointInfo
+    public class ShopPointModel : PointModel
     {
         [SerializeField]
         private List<int> _itemsId;
         
-        public override PointType PointType => PointType.Shop;
+        public override PointType Type => PointType.Shop;
         public IReadOnlyList<int> ItemsId => _itemsId;
     }
 }

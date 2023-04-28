@@ -40,7 +40,7 @@ namespace RoguelikeMap.Map
             _isSquadSelected = true;
         }
         
-        public void UnselectSquad()
+        private void UnselectSquad()
         {
             _isSquadSelected = false;
         }
@@ -49,7 +49,7 @@ namespace RoguelikeMap.Map
         {
             if (_isSquadSelected is false)
                 return;
-            if(_squad.Point.NextPoints.Contains(point))
+            if(_squad.Point.NextPoints.Contains(point.PointIndex))
                 point.Visit(_squad);
             UnselectSquad();
         }
@@ -63,7 +63,7 @@ namespace RoguelikeMap.Map
             _squad.Move(nearestPoint);
         }
 
-        public Point FindNearestPoint(Vector3 position)
+        private Point FindNearestPoint(Vector3 position)
         {
             Point nearestPoint = null;
             var minDistance = double.MaxValue;

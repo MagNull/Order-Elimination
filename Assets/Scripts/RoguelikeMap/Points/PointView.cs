@@ -1,5 +1,4 @@
 using RoguelikeMap.Panels;
-using RoguelikeMap.Points.VarietiesPoints.Infos;
 
 namespace RoguelikeMap.Points
 {
@@ -21,9 +20,9 @@ namespace RoguelikeMap.Points
                 _panel.Close();
         }
 
-        public void SetPointInfo(VarietiesPointInfo pointInfo)
+        public void SetModel(PointModel model)
         {
-            _panel.SetPointInfo(pointInfo);
+            _panel.SetInfo(model);
         }
     }
 }

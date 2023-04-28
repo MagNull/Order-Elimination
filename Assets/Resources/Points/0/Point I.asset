@@ -22,14 +22,14 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _position: {x: 200, y: 0, z: 0}
-  _nextPoints:
-  - {fileID: 11400000, guid: bfce31036f0a9ac45a79de6654f87b4c, type: 2}
-  _varietiesPointInfo:
-    rid: 7872520265891053578
+  _sprite: {fileID: 510142510, guid: 5897665c51c6ee04e8c18c5fa5db7853, type: 3}
+  _model:
+    rid: 7872520390573555741
   references:
     version: 2
     RefIds:
-    - rid: 7872520265891053578
-      type: {class: SafeZonePointInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
+    - rid: 7872520390573555741
+      type: {class: SafeZonePointModel, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
-        _pointSprite: {fileID: -1663276062, guid: 5897665c51c6ee04e8c18c5fa5db7853, type: 3}
+        Index: 8
+        _nextPointsIndex: 09000000

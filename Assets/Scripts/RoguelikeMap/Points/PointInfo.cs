@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using RoguelikeMap.Points.VarietiesPoints.Infos;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -10,15 +8,14 @@ namespace RoguelikeMap.Points
     {
         [SerializeField]
         private Vector3 _position;
-        [SerializeField]
-        private List<PointInfo> _nextPoints;
+        [SerializeField] 
+        private Sprite _sprite;
+
         [SerializeReference]
-        private VarietiesPointInfo _varietiesPointInfo;
-        
+        private PointModel _model;
+
         public Vector3 Position => _position;
-        public IReadOnlyList<PointInfo> NextPoints => _nextPoints;
-        public VarietiesPointInfo VarietiesPointInfo => _varietiesPointInfo;
-        public Sprite PointSprite => _varietiesPointInfo.PointSprite;
-        public PointType PointType => _varietiesPointInfo.PointType;
+        public Sprite PointSprite => _sprite;
+        public PointModel Model => _model;
     }
 }

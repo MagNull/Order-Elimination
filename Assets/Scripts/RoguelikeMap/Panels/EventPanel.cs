@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using RoguelikeMap.Points.VarietiesPoints.Infos;
+using RoguelikeMap.Points;
+using RoguelikeMap.Points.Models;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,11 +22,16 @@ namespace RoguelikeMap.Panels
         public event Action<IReadOnlyList<int>> OnLookForLoot;
         public event Action<IReadOnlyList<IBattleCharacterInfo>> OnStartBattle;
 
-        public override void SetPointInfo(VarietiesPointInfo pointInfoInfo)
+        public override void SetInfo(PointModel model)
         {
-            if (pointInfoInfo is not EventPointInfo eventPointInfo)
+            if (model is not EventPointModel eventPointModel)
                 throw new ArgumentException("Is not valid PointInfo");
-            _eventInfo = eventPointInfo.StartEventInfo;
+            SetEventInfo(eventPointModel.StartEventInfo);
+        }
+
+        private void SetEventInfo(EventInfo info)
+        {
+            _eventInfo = info;
             LoadEventText();
         }
 

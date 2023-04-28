@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Net.Mime;
 using OrderElimination;
 using Sirenix.OdinInspector;
-using Unity.VisualScripting;
 using UnityEngine;
 
-namespace RoguelikeMap.Points.VarietiesPoints.Infos
+namespace RoguelikeMap.Points.Models
 {
     [Serializable]
     public class EventInfo

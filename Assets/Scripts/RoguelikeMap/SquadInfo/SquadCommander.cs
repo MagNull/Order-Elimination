@@ -4,7 +4,7 @@ using System.Linq;
 using OrderElimination;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
-using RoguelikeMap.Points.VarietiesPoints;
+using RoguelikeMap.Points.Models;
 using Unity.VisualScripting;
 using UnityEngine;
 using VContainer;
@@ -56,9 +56,9 @@ namespace RoguelikeMap.SquadInfo
 
         public void StartAttack()
         {
-            if (_target is not BattlePoint battlePoint)
+            if (_target.Model is not BattlePointModel battlePointModel)
                 throw new ArgumentException("Is not valid point to attack");
-            StartAttack(battlePoint.Enemies, _target.PointNumber);
+            StartAttack(battlePointModel.Enemies, battlePointModel.MapNumber);
         }
 
         private void StartAttack(IReadOnlyList<IBattleCharacterInfo> enemies) => StartAttack(enemies, 0);
