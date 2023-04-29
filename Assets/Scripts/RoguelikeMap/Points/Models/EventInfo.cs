@@ -20,6 +20,10 @@ namespace RoguelikeMap.Points.Models
         [SerializeField]
         [HideIf("@this._isEnd || this._isBattle")]
         private bool _isFork;
+
+        [SerializeField] 
+        [ShowIf("_isFork")] 
+        private bool _isRandom;
         
         [SerializeField]
         [ShowIf("_isEnd")]
@@ -37,7 +41,7 @@ namespace RoguelikeMap.Points.Models
         [HideIf("@this._isFork || this._isEnd || this._isBattle")]
         private EventInfo _nextStage;
         
-        [ShowIf("_isFork")]
+        [ShowIf("@this._isFork && !_isRandom")]
         [TabGroup("Answers")]
         [SerializeReference]
         private List<string> _answers;
@@ -60,6 +64,7 @@ namespace RoguelikeMap.Points.Models
         public bool IsEnd => _isEnd;
         public bool IsFork => _isFork;
         public bool IsBattle => _isBattle;
+        public bool IsRandomFork => _isFork && _isRandom;
         public string Text => _text;
     }
 }

@@ -36,6 +36,7 @@ namespace RoguelikeMap.Points
         {
             var panel = _panelGenerator.GetPanelByPointInfo(Model.Type);
             _pointView = new PointView(panel);
+            _pointView.SetModel(Model);
             _pointView.SetActivePanel(true);
         }
 

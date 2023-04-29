@@ -5,6 +5,7 @@ using RoguelikeMap.Points.Models;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = System.Random;
 
 namespace RoguelikeMap.Panels
 {
@@ -18,6 +19,7 @@ namespace RoguelikeMap.Panels
         private Button _skipButton;
 
         private EventInfo _eventInfo;
+        private Random _random;
 
         public event Action<IReadOnlyList<int>> OnLookForLoot;
         public event Action<IReadOnlyList<IBattleCharacterInfo>> OnStartBattle;
@@ -69,10 +71,18 @@ namespace RoguelikeMap.Panels
         {
             if (IsEventEnd())
                 return;
-            
+            if (_eventInfo.IsRandomFork)
+                LoadRandomFork();
             var text = _eventInfo.Text;
             var possibleAnswers = GetPossibleAnswers();
             UpdateEventText(text, possibleAnswers);
+        }
+
+        private void LoadRandomFork()
+        {
+            _random ??= new Random();
+            var index = _random.Next(_eventInfo.NextStages.Count);
+            _eventInfo = _eventInfo.NextStages[index];
         }
 
         private bool IsEventEnd()
