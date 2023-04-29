@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using RoguelikeMap.Panels;
@@ -32,10 +31,11 @@ namespace RoguelikeMap.Map
             var path = "Points\\" + NumberOfMap;
             var pointsInfo = Resources.LoadAll<PointInfo>(path);
             var points = GeneratePoints(pointsInfo);
+            GeneratePaths(points);
             return points;
         }
 
-        private IEnumerable<Point> GeneratePoints(IEnumerable<PointInfo> pointsInfo)
+        private List<Point> GeneratePoints(IEnumerable<PointInfo> pointsInfo)
         {
             return pointsInfo.Select(CreatePoint).ToList();
         }
@@ -56,7 +56,7 @@ namespace RoguelikeMap.Map
 
         private PathView GeneratePaths(List<Point> points)
         {
-            throw new NotImplementedException("Not implemented yet");
+            return new PathView(_parent, _pathPrefab, points);
         }
     }
 }
