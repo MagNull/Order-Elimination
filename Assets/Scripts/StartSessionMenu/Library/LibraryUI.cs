@@ -8,8 +8,8 @@ namespace ItemsLibrary
 {
     public class LibraryUI : MonoBehaviour
     {
-        private IReadOnlyList<Item> _libraryItems;
-        [SerializeField]private LibraryItemType _typeOfLibrary;
+        private IReadOnlyList<ItemView> _libraryItems;
+        [SerializeField]private ItemType _typeOfLibrary;
         
         [SerializeField] private LibraryItemCell _item;
         [SerializeField] private int _slotsCount;
@@ -26,7 +26,7 @@ namespace ItemsLibrary
             {
                 var item = Instantiate(_item, transform);
                 if (i < _libraryItems.Count)
-                    item.SetViewSettings(_libraryItems[i].View);
+                    item.SetViewSettings(_libraryItems[i]);
             }
         }
     }

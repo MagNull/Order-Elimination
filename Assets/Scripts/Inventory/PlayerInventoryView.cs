@@ -8,7 +8,6 @@ namespace Inventory
 {
     public class PlayerInventoryView : SerializedMonoBehaviour
     {
-        [SerializeField]
         private readonly Dictionary<IReadOnlyCell, IInventoryCellView> _cells = new();
         [SerializeField]
         private InventoryCellFullView _cellViewPrefab;

@@ -1,48 +1,39 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Inventory;
 using UnityEngine;
 
 namespace ItemsLibrary
 {
-    public enum LibraryItemType
+    [CreateAssetMenu(fileName = "Library", menuName = "Library/LibraryInstance")]
+    public class Library : ScriptableObject
     {
-        Consumable,
-        Equipment,
-        Modificator,
-        
-    }
-    public class Library
-    {
-        private HashSet<Item> _addedItems = new HashSet<Item>();
-        public IReadOnlyList<Item> GetConsumables => _addedItems.Where(x => x.Type == ItemType.Consumable).ToList();
-        public IReadOnlyList<Item> GetEquipments => _addedItems.Where(x => x.Type == ItemType.Equipment).ToList();
-        public IReadOnlyList<Item> GetModificators => _addedItems.Where(x => x.Type == ItemType.Modificator).ToList();
-        
-        public void AddItemFromInventory(Inventory.IReadOnlyCell cell)
+        private Dictionary<ItemType, List<ItemView>> _addedItems;
+        private HashSet<int> _allItemsIndexes;
+        public IReadOnlyCollection<int> GetAllItemIndexes => _allItemsIndexes;
+        public IReadOnlyList<ItemView> GetItems(ItemType type) => _addedItems[type];
+
+        public Library()
+        {
+            _allItemsIndexes = new HashSet<int>();
+            _addedItems = new Dictionary<ItemType, List<ItemView>>();
+            
+            _addedItems[ItemType.Consumable] = new List<ItemView>();
+            _addedItems[ItemType.Equipment] = new List<ItemView>();
+            _addedItems[ItemType.Modificator] = new List<ItemView>();
+        }
+
+        public void AddItem(Inventory.IReadOnlyCell cell)
         {
             if (cell == null)
                 throw new ArgumentException("Item can't be null.");
-            _addedItems.Add(cell.Item);
-        }
-
-        public IReadOnlyList<Item> GetItems(LibraryItemType type)
-        {
-            switch (type)
+            
+            if (!_allItemsIndexes.Contains(cell.Item.Index))
             {
-                case LibraryItemType.Consumable:
-                    return GetConsumables;
-                case LibraryItemType.Equipment:
-                    return GetEquipments;
-                case LibraryItemType.Modificator:
-                    return GetModificators;
-                default:
-                    return new List<Item>();
+                _addedItems[cell.Item.Type].Add(cell.Item.View);
+                _allItemsIndexes.Add(cell.Item.Index);
             }
         }
-
     }    
 }
 

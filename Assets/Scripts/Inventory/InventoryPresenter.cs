@@ -1,5 +1,6 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
+using VContainer;
 
 namespace Inventory
 {
@@ -13,9 +14,10 @@ namespace Inventory
 
         private Item _lastItem;
 
-        private void Awake()
+        [Inject]
+        private void Configure(Inventory inventory)
         {
-            _inventoryModel = new Inventory(100);
+            _inventoryModel = inventory;
         }
 
         private void OnEnable()
