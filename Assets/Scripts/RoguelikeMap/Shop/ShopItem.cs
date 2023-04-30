@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using RoguelikeMap.Panels;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,7 +17,7 @@ namespace OrderElimination
             _cost = ability.Cost;
             GetComponent<Image>().sprite = ability.Sprite;
             GetComponentInChildren<TextMeshProUGUI>().text = _cost.ToString();
-            GetComponent<Button>().onClick.AddListener(() => Shop.Buy(this));
+            GetComponent<Button>().onClick.AddListener(() => ShopPanel.Buy(this));
         }
-    }   
+    }
 }

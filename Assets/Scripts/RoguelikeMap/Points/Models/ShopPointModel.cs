@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Inventory_Items;
 using UnityEngine;
 
 namespace RoguelikeMap.Points.Models
@@ -8,9 +9,11 @@ namespace RoguelikeMap.Points.Models
     public class ShopPointModel : PointModel
     {
         [SerializeField]
-        private List<int> _itemsId;
+        private List<ItemData> _itemsId;
+        [SerializeField] 
+        private List<int> _itemsCost;
         
         public override PointType Type => PointType.Shop;
-        public IReadOnlyList<int> ItemsId => _itemsId;
+        public IReadOnlyList<ItemData> ItemsId => _itemsId;
     }
 }
