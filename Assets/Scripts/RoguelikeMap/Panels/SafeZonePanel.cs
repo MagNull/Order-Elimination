@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using DG.Tweening;
+using Inventory_Items;
 
 namespace RoguelikeMap.Panels
 {
     public class SafeZonePanel : Panel
     {
         public event Action OnHealAccept;
-        public event Action<IReadOnlyList<int>> OnLootAccept;
+        public event Action<IReadOnlyList<ItemData>> OnLootAccept;
         
         public void HealAccept()
         {

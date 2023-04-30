@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Inventory_Items;
 using OrderElimination;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.Points.Models;
-using Unity.VisualScripting;
 using UnityEngine;
 using VContainer;
 
@@ -21,7 +21,7 @@ namespace RoguelikeMap.SquadInfo
         public Squad Squad => _squad;
         public event Action<List<Character>> OnSelected;
         public event Action OnHealAccept;
-        public event Action<IReadOnlyList<int>> OnLootAccept;
+        public event Action<IReadOnlyList<ItemData>> OnLootAccept;
 
         [Inject]
         public SquadCommander(IObjectResolver objectResolver, PanelGenerator panelGenerator)
@@ -36,13 +36,13 @@ namespace RoguelikeMap.SquadInfo
             _squad = squad;
             _target = target;
         }
-        
+
         private void SubscribeToEvents()
         {
             var safeZonePanel = (SafeZonePanel)_panelGenerator.GetPanelByPointInfo(PointType.SafeZone);
             safeZonePanel.OnLootAccept += LootAccept;
             safeZonePanel.OnHealAccept += HealAccept;
-            
+
             var battlePanel = (BattlePanel)_panelGenerator.GetPanelByPointInfo(PointType.Battle);
             battlePanel.OnStartAttack += StartAttack;
 
@@ -67,7 +67,7 @@ namespace RoguelikeMap.SquadInfo
         {
             if (pointNumber < 0)
                 throw new ArgumentOutOfRangeException("Is not valid point number");
-            
+
             SaveSquadPosition();
             var battleStatsList = _squad.Members.Cast<IBattleCharacterInfo>().ToList();
             var charactersMediator = _objectResolver.Resolve<CharactersMediator>();
@@ -90,11 +90,11 @@ namespace RoguelikeMap.SquadInfo
 
         private void HealAccept()
         {
-            OnHealAccept?.Invoke();   
+            OnHealAccept?.Invoke();
         }
-        
+
         //TODO(coder): add loot to player inventory after create inventory system
-        private void LootAccept(IReadOnlyList<int> itemsId)
+        private void LootAccept(IReadOnlyList<ItemData> itemsId)
         {
             OnLootAccept?.Invoke(itemsId);
         }

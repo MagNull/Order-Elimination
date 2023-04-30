@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Inventory_Items;
 using OrderElimination;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -35,7 +36,7 @@ namespace RoguelikeMap.Points.Models
         
         [SerializeField]
         [ShowIf("@this._isEnd && this._isHaveItems")]
-        private List<int> _itemsId;
+        private List<ItemData> _itemsData;
 
         [SerializeReference]
         [HideIf("@this._isFork || this._isEnd || this._isBattle")]
@@ -55,12 +56,12 @@ namespace RoguelikeMap.Points.Models
         [SerializeField]
         private List<Character> _enemies;
 
-        public IReadOnlyList<int> ItemsId => _itemsId;
+        public IReadOnlyList<ItemData> ItemsId => _itemsData;
         public IReadOnlyList<string> Answers => _answers;
         public IReadOnlyList<EventInfo> NextStages => _nextStages;
         public IReadOnlyList<IBattleCharacterInfo> Enemies => _enemies;
         public EventInfo NextStage => _nextStage;
-        public bool IsHaveItems => _itemsId is not null;
+        public bool IsHaveItems => _itemsData is not null;
         public bool IsEnd => _isEnd;
         public bool IsFork => _isFork;
         public bool IsBattle => _isBattle;

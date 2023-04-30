@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Inventory_Items;
 using RoguelikeMap.Points;
 using RoguelikeMap.Points.Models;
 using TMPro;
@@ -21,7 +22,7 @@ namespace RoguelikeMap.Panels
         private EventInfo _eventInfo;
         private Random _random;
 
-        public event Action<IReadOnlyList<int>> OnLookForLoot;
+        public event Action<IReadOnlyList<ItemData>> OnLookForLoot;
         public event Action<IReadOnlyList<IBattleCharacterInfo>> OnStartBattle;
 
         public override void SetInfo(PointModel model)
