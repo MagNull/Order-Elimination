@@ -1,5 +1,6 @@
 ﻿using System;
 using CharacterAbility;
+using Inventory_Items;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -26,6 +27,10 @@ namespace OrderElimination
         private AbilityInfo[] _activeAbilities;
         [SerializeField]
         private AbilityInfo[] _passiveAbilities;
+        
+        private Inventory _inventory = new Inventory(2);
+
+        public Inventory Inventory => _inventory;
 
         public IReadOnlyBattleStats GetBattleStats() => _battleStats;
 
@@ -37,6 +42,13 @@ namespace OrderElimination
         public AbilityInfo[] GetPassiveAbilityInfos() => _passiveAbilities;
 
         public StrategyStats GetStrategyStats() => _strategyStats;
+
+
+        [Button]
+        public void ResetInventory()
+        {
+            _inventory = new Inventory(2);
+        }
 
         public void RaiseExperience(float experience)
         {
@@ -98,11 +110,6 @@ namespace OrderElimination
             Debug.Log($"Health: Old - {_battleStats.UnmodifiedEvasion}, New - {battleStats.UnmodifiedEvasion}");
             Debug.Log($"Health: Old - {_battleStats.UnmodifiedAttack}, New - {battleStats.UnmodifiedAttack}");
             _battleStats = battleStats;
-        }
-
-        public void Awake()
-        {
-            Debug.Log("Awake");
         }
 
         private void OnValidate()

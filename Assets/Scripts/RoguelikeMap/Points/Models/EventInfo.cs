@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Net.Mime;
+using Inventory_Items;
 using OrderElimination;
 using Sirenix.OdinInspector;
-using Unity.VisualScripting;
 using UnityEngine;
 
-namespace RoguelikeMap.Points.VarietiesPoints.Infos
+namespace RoguelikeMap.Points.Models
 {
     [Serializable]
     public class EventInfo
@@ -22,6 +21,10 @@ namespace RoguelikeMap.Points.VarietiesPoints.Infos
         [SerializeField]
         [HideIf("@this._isEnd || this._isBattle")]
         private bool _isFork;
+
+        [SerializeField] 
+        [ShowIf("_isFork")] 
+        private bool _isRandom;
         
         [SerializeField]
         [ShowIf("_isEnd")]
@@ -33,13 +36,13 @@ namespace RoguelikeMap.Points.VarietiesPoints.Infos
         
         [SerializeField]
         [ShowIf("@this._isEnd && this._isHaveItems")]
-        private List<int> _itemsId;
+        private List<ItemData> _itemsData;
 
         [SerializeReference]
         [HideIf("@this._isFork || this._isEnd || this._isBattle")]
         private EventInfo _nextStage;
         
-        [ShowIf("_isFork")]
+        [ShowIf("@this._isFork && !_isRandom")]
         [TabGroup("Answers")]
         [SerializeReference]
         private List<string> _answers;
@@ -53,15 +56,16 @@ namespace RoguelikeMap.Points.VarietiesPoints.Infos
         [SerializeField]
         private List<Character> _enemies;
 
-        public IReadOnlyList<int> ItemsId => _itemsId;
+        public IReadOnlyList<ItemData> ItemsId => _itemsData;
         public IReadOnlyList<string> Answers => _answers;
         public IReadOnlyList<EventInfo> NextStages => _nextStages;
         public IReadOnlyList<IBattleCharacterInfo> Enemies => _enemies;
         public EventInfo NextStage => _nextStage;
-        public bool IsHaveItems => _itemsId is not null;
+        public bool IsHaveItems => _itemsData is not null;
         public bool IsEnd => _isEnd;
         public bool IsFork => _isFork;
         public bool IsBattle => _isBattle;
+        public bool IsRandomFork => _isFork && _isRandom;
         public string Text => _text;
     }
 }

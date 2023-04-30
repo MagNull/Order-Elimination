@@ -1,15 +1,15 @@
-using System;
+﻿using System;
 using UnityEngine;
 
-namespace RoguelikeMap.Points.VarietiesPoints.Infos
+namespace RoguelikeMap.Points.Models
 {
     [Serializable]
-    public class EventPointInfo : VarietiesPointInfo
+    public class EventPointModel : PointModel
     {
         [SerializeReference]
         private EventInfo _startEventInfo;
 
-        public override PointType PointType => PointType.Event;
+        public override PointType Type => PointType.Event;
         public EventInfo StartEventInfo => _startEventInfo;
     }
 }

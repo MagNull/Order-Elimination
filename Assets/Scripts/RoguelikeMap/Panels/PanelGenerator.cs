@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using RoguelikeMap.Points;
+using StartSessionMenu;
 using UnityEngine;
+using VContainer;
 
 namespace RoguelikeMap.Panels
 {
@@ -11,9 +13,16 @@ namespace RoguelikeMap.Panels
         private Transform _parent;
         private const string Path = "Points\\Panels";
 
-        private List<Panel> _panels = new List<Panel>();
-        private int SquadMembersPanelIndex = 4;
+        private List<Panel> _panels = new ();
+        private const int ShopPanelIndex = 3;
+        private const int SquadMembersPanelIndex = 4;
         public event Action OnInitializedPanels;
+
+        [Inject]
+        private void Construct(Wallet wallet)
+        {
+            OnInitializedPanels += () => SetWalletToShopPanel(wallet);
+        }
         
         private void Start()
         {
@@ -36,6 +45,11 @@ namespace RoguelikeMap.Panels
         public SquadMembersPanel GetSquadMembersPanel()
         {
             return (SquadMembersPanel)_panels[SquadMembersPanelIndex];
+        }
+
+        private void SetWalletToShopPanel(Wallet wallet)
+        {
+            ((ShopPanel)_panels[ShopPanelIndex]).SetWallet(wallet);
         }
     }
 }

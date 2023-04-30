@@ -6,8 +6,10 @@ using UnityEngine.UI;
 using TMPro;
 using UIManagement.Elements;
 using System.Linq;
+using Inventory_Items;
 using Sirenix.OdinInspector;
 using OrderElimination;
+using UnityEngine.Serialization;
 
 namespace UIManagement
 {
@@ -26,6 +28,11 @@ namespace UIManagement
         private List<SmallAbilityButton> _passiveAbilitiesButtons;
         [SerializeReference]
         private List<AbilityInfo> _ignoredActiveAbilities;
+        [FormerlySerializedAs("_inventoryPresenter")]
+        [SerializeField]
+        private PickItemInventoryPresenter _playerInventoryPresenter;
+        [SerializeField]
+        private InventoryPresenter _characterInventoryPresenter;
 
         protected Character _currentCharacterInfo;
         protected BattleCharacterView _currentBattleCharacterInfo;
@@ -65,6 +72,9 @@ namespace UIManagement
             var activeAbilities = characterInfo.GetActiveAbilityInfos().Where(i => !_ignoredActiveAbilities.Contains(i)).ToArray();
             var passiveAbilities = characterInfo.GetPassiveAbilityInfos();
             _currentCharacterInfo = characterInfo;
+            _playerInventoryPresenter.UpdateTargetInventory(_currentCharacterInfo.Inventory);
+            _characterInventoryPresenter.Construct(_currentCharacterInfo.Inventory);
+            _characterInventoryPresenter.enabled = true;
             _currentBattleCharacterInfo = null;
             _characterAvatar.sprite = characterInfo.GetViewAvatar();
             _characterName.text = characterInfo.GetName();

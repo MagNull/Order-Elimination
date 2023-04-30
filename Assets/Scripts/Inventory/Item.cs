@@ -1,22 +1,28 @@
-﻿namespace Inventory
+﻿using System;
+using Sirenix.OdinInspector;
+
+namespace Inventory_Items
 {
+    [Serializable]
     public class Item
     {
-        private ItemView _itemView;
-        private ItemType _itemType;
-        private int _itemIndex;
+        [ShowInInspector]
+        private readonly ItemView _itemView;
+        private readonly ItemType _itemType;
         
         public ItemView View => _itemView;
         public ItemType Type => _itemType;
-
-        public int Index => _itemIndex;
         
         public Item(ItemData itemData)
         {
             _itemView = itemData.ItemView;
             _itemType = itemData.ItemType;
-            _itemIndex = itemData.ItemIndex;
         }
 
+        public Item()
+        {
+            _itemView = new();
+            _itemType = ItemType.Null;
+        }
     }
 }

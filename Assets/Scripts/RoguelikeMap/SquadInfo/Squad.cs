@@ -66,7 +66,7 @@ namespace RoguelikeMap.SquadInfo
             _model.Move(point);
         }
 
-        private void HealCharacters() => _model.HealCharacters();
+        private void HealCharacters(int amountHeal) => _model.HealCharacters(amountHeal);
 
         private void SetSquadMembers(List<Character> squadMembers)
         {

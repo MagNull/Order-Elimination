@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Inventory
+namespace Inventory_Items
 {
+    [Serializable]
     public class Inventory
     {
         public event Action<IReadOnlyCell, IReadOnlyCell> OnCellChanged;
+        public event Action<IReadOnlyCell> OnCellRemoved;
         public event Action<IReadOnlyCell> OnCellAdded;
         
+        [ShowInInspector]
         private readonly List<Cell> _cells;
         private readonly int _size;
 
@@ -39,6 +43,7 @@ namespace Inventory
             }
         }
 
+        //TODO: Refactor to delete empty cells
         public void RemoveItem(Item item, int quantity = 1)
         {
             if (item == null)
@@ -51,9 +56,21 @@ namespace Inventory
                 return;
             }
 
+            if (_cells[indexOfItem].ItemQuantity - quantity <= 0)
+            {
+                OnCellRemoved?.Invoke(_cells[indexOfItem]);
+                _cells.RemoveAt(indexOfItem);
+                return;
+            }
             var newCell = new Cell(item, _cells[indexOfItem].ItemQuantity - quantity);
             OnCellChanged?.Invoke(_cells[indexOfItem], newCell);
             _cells[indexOfItem] = newCell;
+        }
+
+        public void MoveItemTo(Item item, Inventory other)
+        {
+            RemoveItem(item);
+            other.AddItem(item);
         }
     }
 }

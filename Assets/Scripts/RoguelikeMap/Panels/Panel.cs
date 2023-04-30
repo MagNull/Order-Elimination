@@ -1,5 +1,5 @@
 using System;
-using RoguelikeMap.Points.VarietiesPoints.Infos;
+using RoguelikeMap.Points;
 using UnityEngine;
 
 namespace RoguelikeMap.Panels
@@ -16,7 +16,7 @@ namespace RoguelikeMap.Panels
             gameObject.SetActive(false);
         }
 
-        public virtual void SetPointInfo(VarietiesPointInfo pointInfo)
+        public virtual void SetInfo(PointModel model)
         {
             throw new NotImplementedException();
         }

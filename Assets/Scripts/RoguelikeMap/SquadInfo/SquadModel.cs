@@ -7,8 +7,6 @@ namespace OrderElimination
 {
     public class SquadModel
     {
-        private const int HealStat = 10;
-        
         private List<Character> _members;
         private int _rang;
         public int AmountOfMembers => _members.Count;
@@ -54,11 +52,11 @@ namespace OrderElimination
             _members = characters;
         }
 
-        public void HealCharacters()
+        public void HealCharacters(int amountHeal)
         {
             foreach (var character in _members)
             {
-                character.Heal(HealStat);
+                character.Heal(amountHeal);
             }
         }
 

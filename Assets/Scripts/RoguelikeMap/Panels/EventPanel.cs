@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using RoguelikeMap.Points.VarietiesPoints.Infos;
+using Inventory_Items;
+using RoguelikeMap.Points;
+using RoguelikeMap.Points.Models;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = System.Random;
 
 namespace RoguelikeMap.Panels
 {
@@ -17,15 +20,21 @@ namespace RoguelikeMap.Panels
         private Button _skipButton;
 
         private EventInfo _eventInfo;
+        private Random _random;
 
-        public event Action<IReadOnlyList<int>> OnLookForLoot;
+        public event Action<IReadOnlyList<ItemData>> OnLookForLoot;
         public event Action<IReadOnlyList<IBattleCharacterInfo>> OnStartBattle;
 
-        public override void SetPointInfo(VarietiesPointInfo pointInfoInfo)
+        public override void SetInfo(PointModel model)
         {
-            if (pointInfoInfo is not EventPointInfo eventPointInfo)
+            if (model is not EventPointModel eventPointModel)
                 throw new ArgumentException("Is not valid PointInfo");
-            _eventInfo = eventPointInfo.StartEventInfo;
+            SetEventInfo(eventPointModel.StartEventInfo);
+        }
+
+        private void SetEventInfo(EventInfo info)
+        {
+            _eventInfo = info;
             LoadEventText();
         }
 
@@ -63,10 +72,18 @@ namespace RoguelikeMap.Panels
         {
             if (IsEventEnd())
                 return;
-            
+            if (_eventInfo.IsRandomFork)
+                LoadRandomFork();
             var text = _eventInfo.Text;
             var possibleAnswers = GetPossibleAnswers();
             UpdateEventText(text, possibleAnswers);
+        }
+
+        private void LoadRandomFork()
+        {
+            _random ??= new Random();
+            var index = _random.Next(_eventInfo.NextStages.Count);
+            _eventInfo = _eventInfo.NextStages[index];
         }
 
         private bool IsEventEnd()
