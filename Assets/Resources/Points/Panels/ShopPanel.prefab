@@ -477,7 +477,7 @@ GameObject:
   - component: {fileID: 8776728524191470257}
   - component: {fileID: 8637442183843747500}
   m_Layer: 5
-  m_Name: Image
+  m_Name: TraderImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -637,7 +637,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _counter: {fileID: 5965202306630865268}
   _itemPrefab: {fileID: 3129909414553003332, guid: 5fb29bf846863b1409d39dcdca86a1f2, type: 3}
-  _shopList: {fileID: 5567443657025484370}
+  _itemsParent: {fileID: 5567443657025484370}
 --- !u!1001 &1908963567108323045
 PrefabInstance:
   m_ObjectHideFlags: 0

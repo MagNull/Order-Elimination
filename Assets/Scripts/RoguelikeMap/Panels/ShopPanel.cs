@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Inventory_Items;
 using OrderElimination;
 using RoguelikeMap.Points;
@@ -17,10 +18,12 @@ namespace RoguelikeMap.Panels
         [SerializeField]
         private ShopItem _itemPrefab;
         [SerializeField]
-        private Transform _shopList;
+        private Transform _itemsParent;
         
         private readonly List<ShopItem> _items = new ();
         private Wallet _wallet;
+
+        public event Action<IReadOnlyList<ItemData>> OnBuyItems;
         
         public void SetWallet(Wallet wallet)
         {
@@ -39,7 +42,7 @@ namespace RoguelikeMap.Panels
         {
             foreach (var data in itemsData)
             {
-                var item = Instantiate(_itemPrefab, _shopList);
+                var item = Instantiate(_itemPrefab, _itemsParent);
                 item.Initialize(data.Key, data.Value);
                 item.OnBuy += Buy;
                 _items.Add(item);
@@ -52,6 +55,12 @@ namespace RoguelikeMap.Panels
                 return;
             _wallet.SubtractMoney(item.Cost);
             item.Buy();
+        }
+
+        public override void Close()
+        {
+            OnBuyItems?.Invoke(_items.Where(x => x.IsBuy).Select(x => x.Data).ToList());
+            base.Close();
         }
 
         public void OnDisable()

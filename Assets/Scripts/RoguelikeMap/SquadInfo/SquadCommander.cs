@@ -14,7 +14,7 @@ namespace RoguelikeMap.SquadInfo
     public class SquadCommander
     {
         private readonly IObjectResolver _objectResolver;
-        private PanelGenerator _panelGenerator;
+        private readonly PanelGenerator _panelGenerator;
         private Point _target;
         private Squad _squad;
         public Point Target => _target;
@@ -49,6 +49,9 @@ namespace RoguelikeMap.SquadInfo
             var eventPanel = (EventPanel)_panelGenerator.GetPanelByPointInfo(PointType.Event);
             eventPanel.OnLookForLoot += LootAccept;
             eventPanel.OnStartBattle += StartAttack;
+
+            var shopPanel = (ShopPanel)_panelGenerator.GetPanelByPointInfo(PointType.Shop);
+            shopPanel.OnBuyItems += LootAccept;
 
             var squadMembersPanel = _panelGenerator.GetSquadMembersPanel();
             squadMembersPanel.OnSelected += WereSelectedMembers;

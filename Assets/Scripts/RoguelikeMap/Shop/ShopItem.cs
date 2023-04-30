@@ -21,11 +21,14 @@ namespace RoguelikeMap.Shop
         private int _cost;
         private bool _isBuy;
         
+        public ItemData Data { get; private set; }
         public int Cost => _cost;
+        public bool IsBuy => _isBuy;
         public event Action<ShopItem> OnBuy;
         
         public void Initialize(ItemData data, int cost)
         {
+            Data = data;
             _isBuy = false;
             _cost = cost;
             _image.sprite = data.ItemView.Icon;
