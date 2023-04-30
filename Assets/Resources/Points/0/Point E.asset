@@ -49,7 +49,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 0
         _isBattle: 0
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers:
@@ -68,7 +68,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 0
         _isBattle: 0
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers: []
@@ -86,7 +86,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 0
         _isBattle: 0
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: 7872520390573555745
         _answers: []
@@ -101,7 +101,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 0
         _isBattle: 0
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: 7872520390573555746
         _answers: []
@@ -114,9 +114,10 @@ MonoBehaviour:
         _isEnd: 1
         _isFork: 0
         _isRandom: 0
-        _isHaveItems: 0
+        _isHaveItems: 1
         _isBattle: 0
-        _itemsId: 
+        _itemsData:
+        - {fileID: 11400000, guid: e655c8948143f814c89bb88c7fa0785c, type: 2}
         _nextStage:
           rid: -2
         _answers: []
