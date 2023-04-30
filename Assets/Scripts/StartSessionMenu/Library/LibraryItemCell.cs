@@ -1,4 +1,5 @@
 ﻿using Inventory;
+using Inventory_Items;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

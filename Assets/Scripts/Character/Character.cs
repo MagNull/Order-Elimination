@@ -28,9 +28,9 @@ namespace OrderElimination
         [SerializeField]
         private AbilityInfo[] _passiveAbilities;
         
-        private Inventory _inventory = new Inventory(2);
+        private Inventory_Items.Inventory _inventory = new Inventory_Items.Inventory(2);
 
-        public Inventory Inventory => _inventory;
+        public Inventory_Items.Inventory Inventory => _inventory;
 
         public IReadOnlyBattleStats GetBattleStats() => _battleStats;
 
@@ -47,7 +47,7 @@ namespace OrderElimination
         [Button]
         public void ResetInventory()
         {
-            _inventory = new Inventory(2);
+            _inventory = new Inventory_Items.Inventory(2);
         }
 
         public void RaiseExperience(float experience)

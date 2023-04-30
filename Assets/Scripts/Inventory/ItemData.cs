@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using Inventory_Items;
+using UnityEngine;
 
 namespace Inventory
 {
     public enum ItemType
     {
+        Null,
         Consumable,
         Equipment,
         Modificator
@@ -19,6 +21,6 @@ namespace Inventory
         public ItemType ItemType { get; private set; }
         
         [field: SerializeField]
-        public int ItemIndex { get; private set; }
+        public int ItemId { get; private set; }
     }
 }

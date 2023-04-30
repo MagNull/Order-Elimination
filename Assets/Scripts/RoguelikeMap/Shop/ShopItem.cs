@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using Inventory;
 using Inventory_Items;
 using TMPro;
 using UnityEngine;
