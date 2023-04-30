@@ -20,7 +20,7 @@ namespace RoguelikeMap.SquadInfo
         public Point Target => _target;
         public Squad Squad => _squad;
         public event Action<List<Character>> OnSelected;
-        public event Action OnHealAccept;
+        public event Action<int> OnHealAccept;
         public event Action<IReadOnlyList<ItemData>> OnLootAccept;
 
         [Inject]
@@ -91,9 +91,9 @@ namespace RoguelikeMap.SquadInfo
             OnSelected?.Invoke(characters);
         }
 
-        private void HealAccept()
+        private void HealAccept(int amountHeal)
         {
-            OnHealAccept?.Invoke();
+            OnHealAccept?.Invoke(amountHeal);
         }
 
         //TODO(coder): add loot to player inventory after create inventory system
