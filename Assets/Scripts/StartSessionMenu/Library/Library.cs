@@ -9,20 +9,19 @@ namespace ItemsLibrary
     [CreateAssetMenu(fileName = "Library", menuName = "Library/LibraryInstance")]
     public class Library : ScriptableObject
     {
-        private Dictionary<ItemType, List<ItemView>> _addedItems;
-        private HashSet<int> _allItemsIds;
+        private Dictionary<ItemType, List<ItemView>> _addedItems = new Dictionary<ItemType, List<ItemView>>();
+        private HashSet<int> _allItemsIds = new HashSet<int>();
         public IReadOnlyCollection<int> GetAllItemIds => _allItemsIds;
         public IReadOnlyList<ItemView> GetItems(ItemType type) => _addedItems[type];
 
         public Library()
         {
-            _allItemsIds = new HashSet<int>();
-            _addedItems = new Dictionary<ItemType, List<ItemView>>();
-            
             _addedItems[ItemType.Null] = new List<ItemView>();
             _addedItems[ItemType.Consumable] = new List<ItemView>();
             _addedItems[ItemType.Equipment] = new List<ItemView>();
             _addedItems[ItemType.Modificator] = new List<ItemView>();
+            
+            Debug.Log("Initialize library");
         }
 
         public void AddItem(Inventory_Items.IReadOnlyCell cell)
@@ -41,7 +40,7 @@ namespace ItemsLibrary
                 AddItem(item);
         }
 
-        public void AddItem(Item item)
+        private void AddItem(Item item)
         {
             if (item == null)
                 throw new ArgumentException("Item can't be null.");
@@ -54,7 +53,7 @@ namespace ItemsLibrary
             }
         }
 
-        public void AddItem(ItemData data)
+        private void AddItem(ItemData data)
         {
             if (data == null)
                 throw new ArgumentException("Item data can't be null.");
