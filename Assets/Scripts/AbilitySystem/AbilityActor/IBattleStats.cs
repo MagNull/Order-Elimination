@@ -142,14 +142,14 @@ namespace OrderElimination.AbilitySystem
 
     public interface IBattleLifeStats
     {
-        public float Health { get; set; }
         public ProcessingParameter<float> MaxHealth { get; }
+        public ProcessingParameter<float> MaxArmor { get; } //ValueChanged += Update Armor
+        public float Health { get; set; }
         public float TotalArmor { get; set; }
         public float PureArmor { get; set; } //Value between [0 and MaxArmor]
         public float TemporaryArmor { get; } //Depletes first. Truncates at 0.
         public void AddTemporaryArmor(TemporaryArmor armor);
         public void RemoveTemporaryArmor(TemporaryArmor armor);
-        public ProcessingParameter<float> MaxArmor { get; } //ValueChanged += Update Armor
 
         public event Action<IBattleLifeStats> HealthDepleted;
     }

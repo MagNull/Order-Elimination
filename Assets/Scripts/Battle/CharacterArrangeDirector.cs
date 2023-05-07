@@ -9,6 +9,7 @@ using UnityEngine.Rendering;
 using VContainer;
 
 [Serializable]
+[Obsolete("Used in old ability system. Needs to be removed.")]
 public class CharacterArrangeDirector
 {
     private readonly BattleCharacterFactory _characterFactory;
@@ -19,7 +20,7 @@ public class CharacterArrangeDirector
 
     [Inject]
     private CharacterArrangeDirector(CharactersMediator charactersMediator, BattleCharacterFactory characterFactory,
-        CharactersBank charactersBank, BattleEntitiesFactory entitiesFactory)
+        CharactersBank charactersBank)
     {
         _charactersMediator = charactersMediator;
         _characterFactory = characterFactory;

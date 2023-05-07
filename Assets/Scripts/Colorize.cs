@@ -40,5 +40,5 @@ public class Colorize{
         return color._prefix + text + Suffix;
     }
 
-
+    public static Colorize ByColor(Color color) => new Colorize(color);
 }

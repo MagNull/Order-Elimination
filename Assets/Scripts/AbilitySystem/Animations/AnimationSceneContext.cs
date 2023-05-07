@@ -1,4 +1,5 @@
 ﻿using Assets.AbilitySystem.PrototypeHelpers;
+using DefaultNamespace;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +12,29 @@ namespace OrderElimination.AbilitySystem.Animations
     public class AnimationSceneContext
     {
         public BattleMapView BattleMapView { get; private set; }
-        public ParticlesPool ParticlesPool { get; private set; }
-        public BattleEntitiesBank EntitiesBank { get; private set; }
+        public IParticlesPool ParticlesPool { get; private set; }
+        public TextEmitter TextEmitter { get; private set; }
+        public IReadOnlyEntitiesBank EntitiesBank { get; private set; }
 
         [Inject]
-        public void Construct(IObjectResolver objectResolver)
+        private void Construct(IObjectResolver objectResolver)
         {
             BattleMapView = objectResolver.Resolve<BattleMapView>();
-            ParticlesPool = objectResolver.Resolve<ParticlesPool>();
+            ParticlesPool = objectResolver.Resolve<IParticlesPool>();
             EntitiesBank = objectResolver.Resolve<BattleEntitiesBank>();
+            TextEmitter = objectResolver.Resolve<TextEmitter>();
         }
+
+        //private AnimationSceneContext(
+        //    BattleMapView battleMapView, 
+        //    IParticlesPool particlesPool, 
+        //    TextEmitter textEmitter, 
+        //    IReadOnlyEntitiesBank entitiesBank)
+        //{
+        //    BattleMapView = battleMapView;
+        //    ParticlesPool = particlesPool;
+        //    TextEmitter = textEmitter;
+        //    EntitiesBank = entitiesBank;
+        //}
     }
 }

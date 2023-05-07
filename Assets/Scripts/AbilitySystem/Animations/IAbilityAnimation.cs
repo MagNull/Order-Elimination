@@ -9,10 +9,6 @@ namespace OrderElimination.AbilitySystem.Animations
 {
     public interface IAbilityAnimation
     {
-        public bool IsFinished { get; }
-
-        public event Action<IAbilityAnimation> Finished;
-
         public UniTask Play(AnimationPlayContext context);
     }
 
@@ -25,19 +21,21 @@ namespace OrderElimination.AbilitySystem.Animations
         public readonly Vector2? TargetVisualPosition;
         public readonly BattleEntityView CasterView;//Null if Caster is null
         public readonly BattleEntityView TargetView;//Null if Target is null
-        public readonly IAbilitySystemActor Caster;
-        public readonly IAbilitySystemActor Target;
+        public readonly AbilitySystemActor Caster;
+        public readonly AbilitySystemActor Target;
+        public readonly CellGroupsContainer TargetedCellGroups;
 
         public AnimationPlayContext(
-            AnimationSceneContext sceneContext, 
-            Vector2Int? casterGamePosition, 
-            Vector2Int? targetGamePosition,  
-            IAbilitySystemActor caster, 
-            IAbilitySystemActor target)
+            AnimationSceneContext sceneContext,
+            CellGroupsContainer targetedCellGroups,
+            Vector2Int? casterPosition,
+            Vector2Int? targetPosition,
+            AbilitySystemActor caster,
+            AbilitySystemActor target)
         {
             SceneContext = sceneContext;
-            CasterGamePosition = casterGamePosition;
-            TargetGamePosition = targetGamePosition;
+            CasterGamePosition = casterPosition;
+            TargetGamePosition = targetPosition;
             CasterVisualPosition = null;
             TargetVisualPosition = null;
             if (CasterGamePosition != null && CasterGamePosition.HasValue)
@@ -58,6 +56,23 @@ namespace OrderElimination.AbilitySystem.Animations
                 CasterView = sceneContext.EntitiesBank.GetViewByEntity(caster);
             if (target != null)
                 TargetView = sceneContext.EntitiesBank.GetViewByEntity(target);
+            TargetedCellGroups = targetedCellGroups;
+        }
+
+        public static AnimationPlayContext Duplicate(
+            AnimationPlayContext originalContext, 
+            Vector2Int? casterPosition = null,
+            Vector2Int? targetPosition = null,
+            AbilitySystemActor caster = null,
+            AbilitySystemActor target = null)
+        {
+            return new AnimationPlayContext(
+                originalContext.SceneContext,
+                originalContext.TargetedCellGroups,
+                casterPosition ?? originalContext.CasterGamePosition,
+                targetPosition ?? originalContext.TargetGamePosition,
+                caster ?? originalContext.Caster,
+                target ?? originalContext.Target);
         }
     }
 }

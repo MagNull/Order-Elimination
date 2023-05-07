@@ -11,7 +11,7 @@ public interface IReadOnlyCell
 {
     public IReadOnlyList<IBattleObject> Objects { get; }
     public bool Contains(Predicate<IBattleObject> predicate, out IBattleObject result);
-    public IReadOnlyList<IAbilitySystemActor> GetContainingEntities();
+    public IReadOnlyList<AbilitySystemActor> GetContainingEntities();
 }
 
 public class Cell : IReadOnlyCell
@@ -50,12 +50,12 @@ public class Cell : IReadOnlyCell
     }
     #endregion
 
-    private readonly HashSet<IAbilitySystemActor> _containedEntitiesHash = new HashSet<IAbilitySystemActor>();
-    private readonly List<IAbilitySystemActor> _containedEntities = new List<IAbilitySystemActor>();
+    private readonly HashSet<AbilitySystemActor> _containedEntitiesHash = new HashSet<AbilitySystemActor>();
+    private readonly List<AbilitySystemActor> _containedEntities = new List<AbilitySystemActor>();
 
-    public bool Contains(IAbilitySystemActor entity) => _containedEntitiesHash.Contains(entity);
+    public bool Contains(AbilitySystemActor entity) => _containedEntitiesHash.Contains(entity);
 
-    public bool AddEntity(IAbilitySystemActor entity)
+    public bool AddEntity(AbilitySystemActor entity)
     {
         if (!Contains(entity))
         {
@@ -66,7 +66,7 @@ public class Cell : IReadOnlyCell
         return false;
     }
 
-    public bool RemoveEntity(IAbilitySystemActor entity)
+    public bool RemoveEntity(AbilitySystemActor entity)
     {
         if (Contains(entity))
         {
@@ -77,5 +77,5 @@ public class Cell : IReadOnlyCell
         return false;
     }
 
-    public IReadOnlyList<IAbilitySystemActor> GetContainingEntities() => _containedEntities;
+    public IReadOnlyList<AbilitySystemActor> GetContainingEntities() => _containedEntities;
 }

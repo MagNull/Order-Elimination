@@ -1,21 +1,24 @@
 using Assets.AbilitySystem.PrototypeHelpers;
 using OrderElimination.AbilitySystem;
+using OrderElimination.AbilitySystem.Animations;
+using OrderElimination.AbilitySystem.Infrastructure;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using VContainer;
 
 public interface IBattleContext
 {
-    public IObjectResolver ObjectResolver { get; }
+    public AnimationSceneContext AnimationSceneContext { get; }
     public IBattleMap BattleMap { get; }
     public IHitCalculation HitCalculation { get; }
+    public ITurnPriority TurnPriority { get; }
+    public BattleSide ActiveSide { get; }
     public int CurrentRound { get; }
-    public BattleEntitiesBank EntitiesBank { get; }
-    public BattleSide GetRelationship(IAbilitySystemActor entityA, IAbilitySystemActor entityB);
+    public IReadOnlyEntitiesBank EntitiesBank { get; }
+    public BattleRelationship GetRelationship(AbilitySystemActor askingEntity, AbilitySystemActor relationEntity);
+
+    //public BattleRelationship GetRelationship(Player playerA, PlayerPrefs playerB)
     //public Player[] Players
     //public Player CurrentPlayer
+    //public Player LocalPlayer (a player visuals locally drawn for - used for invisibility)
     //Characters
     //Structures
 
@@ -23,5 +26,7 @@ public interface IBattleContext
     //Cell.GetStructures()
     //Cell.GetContainingObjects()
 
+    public event Action<IBattleContext> NewTurnStarted; //MoveInfo(moveNumber, activeSide, ...)
     public event Action<IBattleContext> NewRoundStarted; //MoveInfo(moveNumber, activeSide, ...)
+    //public event Action<IBattleContext> ContextChanged;
 }

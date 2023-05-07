@@ -17,7 +17,7 @@ namespace OrderElimination.AbilitySystem
         //TODO для направленных систем - ограничить паттерны только для целей
         //Если паттерн - CasterRelativePattern, нацеливание не имеет никакого смысла.
         [ShowInInspector, SerializeField]
-        public ICellGroupDistributionPattern TargetPattern
+        public CellGroupDistributionPattern TargetPattern
         {
             get => _targetPattern;
             set
@@ -85,7 +85,7 @@ namespace OrderElimination.AbilitySystem
             remove => SelectionUpdated -= value;
         }
 
-        private ICellGroupDistributionPattern _targetPattern;
+        private CellGroupDistributionPattern _targetPattern;
         private int _necessaryTargets;
         private int _optionalTargets;
         private HashSet<Vector2Int> _availableCells;
@@ -93,11 +93,11 @@ namespace OrderElimination.AbilitySystem
         private Vector2Int? _casterPosition;
         private CellRangeBorders? _mapBorders;
 
-        public MultiTargetTargetingSystem(ICellGroupDistributionPattern targetPattern, int necessaryTargets = 0, int optionalTargets = 0)
+        public MultiTargetTargetingSystem(CellGroupDistributionPattern targetPattern, int necessaryTargets = 0, int optionalTargets = 0)
         {
             if (necessaryTargets < 0 
                 || optionalTargets < 0 
-                || targetPattern is not TargetRelativePattern or CasterToTargetRelativePattern)
+                || targetPattern is not TargetRelativePattern && targetPattern is not CasterToTargetRelativePattern)
                 throw new ArgumentException();
             _targetPattern = targetPattern;
             _necessaryTargets = necessaryTargets;

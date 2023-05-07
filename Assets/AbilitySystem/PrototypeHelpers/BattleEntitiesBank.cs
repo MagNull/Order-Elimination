@@ -7,23 +7,31 @@ using System.Threading.Tasks;
 
 namespace Assets.AbilitySystem.PrototypeHelpers
 {
-    public class BattleEntitiesBank
+    public interface IReadOnlyEntitiesBank
     {
-        private readonly Dictionary<IAbilitySystemActor, BattleEntityView> _viewsByEntities = new ();
-        private readonly Dictionary<BattleEntityView, IAbilitySystemActor> _entitiesByViews = new ();
+        public bool ContainsEntity(AbilitySystemActor entity);
+        public AbilitySystemActor[] GetEntities();
+        public BattleEntityView GetViewByEntity(AbilitySystemActor entity);
+        public AbilitySystemActor GetEntityByView(BattleEntityView view);
+    }
 
-        public bool ContainsEntity(IAbilitySystemActor entity) => _viewsByEntities.ContainsKey(entity);
-        public IAbilitySystemActor[] GetEntities() => _viewsByEntities.Keys.ToArray();
-        public BattleEntityView GetViewByEntity(IAbilitySystemActor entity) => _viewsByEntities[entity];
-        public IAbilitySystemActor GetEntityByView(BattleEntityView view) => _entitiesByViews[view];
+    public class BattleEntitiesBank : IReadOnlyEntitiesBank
+    {
+        private readonly Dictionary<AbilitySystemActor, BattleEntityView> _viewsByEntities = new ();
+        private readonly Dictionary<BattleEntityView, AbilitySystemActor> _entitiesByViews = new ();
 
-        public void AddEntity(IAbilitySystemActor entity, BattleEntityView view)
+        public bool ContainsEntity(AbilitySystemActor entity) => _viewsByEntities.ContainsKey(entity);
+        public AbilitySystemActor[] GetEntities() => _viewsByEntities.Keys.ToArray();
+        public BattleEntityView GetViewByEntity(AbilitySystemActor entity) => _viewsByEntities[entity];
+        public AbilitySystemActor GetEntityByView(BattleEntityView view) => _entitiesByViews[view];
+
+        public void AddEntity(AbilitySystemActor entity, BattleEntityView view)
         {
             _viewsByEntities.Add(entity, view);
             _entitiesByViews.Add(view, entity);
         }
 
-        public void RemoveEntity(IAbilitySystemActor entity)
+        public void RemoveEntity(AbilitySystemActor entity)
         {
             var view = _viewsByEntities[entity];
             _viewsByEntities.Remove(entity);

@@ -2,27 +2,22 @@
 using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Pool;
 
 namespace OrderElimination.AbilitySystem.Animations
 {
-    public class ParticlesPool : SerializedMonoBehaviour
+    public class ParticlesPool : SerializedMonoBehaviour, IParticlesPool
     {
         [OdinSerialize]
         private Transform _particlesParent;
 
         [OdinSerialize, ShowInInspector, AssetsOnly]
-        private Dictionary<Particles, AnimatedParticle> _parcticlesPrefabs = new();
+        private Dictionary<ParticleType, AnimatedParticle> _parcticlesPrefabs = new();
 
-        private Dictionary<Particles, ObjectPool<AnimatedParticle>> _parcticlesPools = new();
-        private Dictionary<AnimatedParticle, Particles> _particleTypes = new();
-
-        private Particles? _currentAwaitedParticle;
+        private Dictionary<ParticleType, ObjectPool<AnimatedParticle>> _parcticlesPools = new();
+        private Dictionary<AnimatedParticle, ParticleType> _particleTypes = new();
+        private ParticleType? _currentAwaitedParticle;
 
         private void Awake()
         {
@@ -56,7 +51,7 @@ namespace OrderElimination.AbilitySystem.Animations
             particle.gameObject.SetActive(false);
         }
 
-        public AnimatedParticle Create(Particles parcticleType)
+        public AnimatedParticle Create(ParticleType parcticleType)
         {
             _currentAwaitedParticle = parcticleType;
             var particle = _parcticlesPools[parcticleType].Get();

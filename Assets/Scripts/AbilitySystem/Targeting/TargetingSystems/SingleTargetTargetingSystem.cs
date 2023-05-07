@@ -15,7 +15,7 @@ namespace OrderElimination.AbilitySystem
         public IEnumerable<Vector2Int> AvailableCells => _availableCells;
 
         [ShowInInspector, SerializeField]
-        public ICellGroupDistributionPattern TargetPattern
+        public CellGroupDistributionPattern TargetPattern
         {
             get => _targetPattern;
             set
@@ -52,12 +52,12 @@ namespace OrderElimination.AbilitySystem
             remove => SelectionUpdated -= value;
         }
 
-        private ICellGroupDistributionPattern _targetPattern;
+        private CellGroupDistributionPattern _targetPattern;
         private HashSet<Vector2Int> _availableCells;
         private Vector2Int? _casterPosition;
         private CellRangeBorders? _mapBorders;
 
-        public SingleTargetTargetingSystem(ICellGroupDistributionPattern targetPattern)
+        public SingleTargetTargetingSystem(CellGroupDistributionPattern targetPattern)
         {
             if (targetPattern is not TargetRelativePattern && targetPattern is not CasterToTargetRelativePattern)
                 throw new ArgumentException();

@@ -15,19 +15,25 @@ namespace OrderElimination.AbilitySystem
         }
 
         public AbilityData AbilityData { get; private set; }
+
+        public bool IsRunning { get; private set; } = false;
         public int Cooldown { get; private set; }
 
-        public Action<AbilityRunner> AbilityUsed;
+        public event Action<AbilityRunner> AbilityCasted;
+        public event Action<AbilityRunner> AbilityCastCompleted;
         //event Unlocked
 
-        public bool IsCastAvailable(IBattleContext battleContext, IAbilitySystemActor caster)
+        public bool IsCastAvailable(IBattleContext battleContext, AbilitySystemActor caster)
         {
-            return Cooldown <= 0 && AbilityData.Rules.IsAbilityAvailable(battleContext, caster);
+            return !IsRunning // :(
+                && !caster.IsBusy
+                && Cooldown <= 0 
+                && AbilityData.Rules.IsAbilityAvailable(battleContext, caster);
         }
 
         //В идеале нужно передавать представление карты для конкретного игрока/стороны — для наведения.
         //Но при применении использовать реальный BattleMap (не представление)
-        public bool InitiateCast(IBattleContext battleContext, IAbilitySystemActor caster)
+        public bool InitiateCast(IBattleContext battleContext, AbilitySystemActor caster)
         {
             if (!IsCastAvailable(battleContext, caster))
                 return false;
@@ -53,14 +59,21 @@ namespace OrderElimination.AbilitySystem
                 AbilityData.TargetingSystem.TargetingConfirmed -= onConfirmed;
                 AbilityData.TargetingSystem.TargetingCanceled -= onCanceled;
                 var executionGroups = AbilityData.TargetingSystem.ExtractCastTargetGroups();
-                var abilityUseContext = new AbilityExecutionContext(battleContext, caster, executionGroups);
-                caster.RemoveActionPoints(AbilityData.Rules.UsageCost);
                 AbilityData.TargetingSystem.CancelTargeting();
+                caster.RemoveActionPoints(AbilityData.Rules.UsageCost);
                 Cooldown = AbilityData.GameRepresentation.CooldownTime;
-                battleContext.NewRoundStarted -= onNewRoundStarted;
-                battleContext.NewRoundStarted += onNewRoundStarted;
-                AbilityUsed?.Invoke(this);
+                battleContext.NewRoundStarted -= decreaseCooldown;
+                battleContext.NewRoundStarted += decreaseCooldown;
+                var abilityUseContext = new AbilityExecutionContext(battleContext, caster, executionGroups);
+                IsRunning = true;
+                caster.IsBusy = true;
+                AbilityCasted?.Invoke(this);
+
                 await AbilityData.Execution.Execute(abilityUseContext);
+
+                IsRunning = false;
+                caster.IsBusy = false;
+                AbilityCastCompleted?.Invoke(this);
             }
 
             void onCanceled(IAbilityTargetingSystem targetingSystem)
@@ -69,13 +82,13 @@ namespace OrderElimination.AbilitySystem
                 AbilityData.TargetingSystem.TargetingCanceled -= onCanceled;
             }
 
-            void onNewRoundStarted(IBattleContext battleContext)
+            void decreaseCooldown(IBattleContext battleContext)
             {
                 Cooldown--;
                 if (Cooldown <= 0)
                 {
                     Cooldown = 0;
-                    battleContext.NewRoundStarted -= onNewRoundStarted;
+                    battleContext.NewRoundStarted -= decreaseCooldown;
                 }
             }
         }

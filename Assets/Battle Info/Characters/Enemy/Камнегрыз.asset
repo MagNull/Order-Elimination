@@ -14,13 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseBattleStats:
     MaxHealth: 50
-    MaxArmor: 100
+    MaxArmor: 1000
     AttackDamage: 0
     Accuracy: 0
     Evasion: 0
     MaxMovementDistance: 0
   _entityType: 0
-  _activeAbilitiesData: []
+  _activeAbilitiesData:
+  - {fileID: 11400000, guid: 7be39cc62b2d5a9478b344f4249b8327, type: 2}
+  - {fileID: 11400000, guid: 2b491009e64c56f48a2951f4482eb657, type: 2}
+  - {fileID: 11400000, guid: 6dec68f76a2dd9a4aa5bb05bda8c36bd, type: 2}
   _passiveAbilitiesData: []
   _baseStats:
     _health: 0

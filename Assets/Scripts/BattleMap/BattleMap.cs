@@ -13,21 +13,21 @@ using OrderElimination.AbilitySystem;
 public class BattleMap : MonoBehaviour, IBattleMap
 {
     #region Refactored for IBattleMap
-    private Dictionary<IAbilitySystemActor, Vector2Int> _containedEntitiesPositions;
+    private Dictionary<AbilitySystemActor, Vector2Int> _containedEntitiesPositions;
     private Dictionary<IReadOnlyCell, Vector2Int> _cellCoordinates;
 
     public CellRangeBorders CellRangeBorders { get; private set; }
 
     public event Action<Vector2Int> CellChanged;
 
-    public IEnumerable<IAbilitySystemActor> GetContainingEntities(Vector2Int position)
+    public IEnumerable<AbilitySystemActor> GetContainingEntities(Vector2Int position)
     {
         if (!CellRangeBorders.Contains(position))
             throw new ArgumentOutOfRangeException();
         return GetCell(position.x, position.y).GetContainingEntities();
     }
 
-    public Vector2Int GetPosition(IAbilitySystemActor entity)
+    public Vector2Int GetPosition(AbilitySystemActor entity)
     {
         if (!_containedEntitiesPositions.ContainsKey(entity))
             throw new ArgumentException("Entity does not exist on the map.");
@@ -36,10 +36,10 @@ public class BattleMap : MonoBehaviour, IBattleMap
 
     public Vector2Int GetPosition(IReadOnlyCell cell) => _cellCoordinates[cell];
 
-    public bool Contains(IAbilitySystemActor entity)
+    public bool Contains(AbilitySystemActor entity)
         => _containedEntitiesPositions.ContainsKey(entity);
 
-    public void PlaceEntity(IAbilitySystemActor entity, Vector2Int position)
+    public void PlaceEntity(AbilitySystemActor entity, Vector2Int position)
     {
         if (_containedEntitiesPositions.ContainsKey(entity))
             throw new InvalidCastException("Entity already exists on the map.");
@@ -48,7 +48,7 @@ public class BattleMap : MonoBehaviour, IBattleMap
         CellChanged?.Invoke(position);
     }
 
-    public void RemoveEntity(IAbilitySystemActor entity)
+    public void RemoveEntity(AbilitySystemActor entity)
     {
         if (!_containedEntitiesPositions.ContainsKey(entity))
             throw new InvalidCastException("Entity does not exist on the map.");
@@ -61,10 +61,43 @@ public class BattleMap : MonoBehaviour, IBattleMap
     public float GetGameDistanceBetween(Vector2Int posA, Vector2Int posB)
         => CellMath.GetRealDistanceBetween(posA, posB);
 
-    public bool HasPathToDestination(IAbilitySystemActor walker, Vector2Int Destination, Predicate<Vector2Int> positionPredicate, out Vector2Int[] path)
+    public bool PathExists(Vector2Int origin, Vector2Int destination, Predicate<Vector2Int> positionPredicate, out Vector2Int[] path)
     {
-        throw new NotImplementedException();
+        var result = new List<Vector2Int>();
+        var visited = new HashSet<Vector2Int>();
+        var queue = new Queue<Vector2Int>();
+        var parents = new Dictionary<Vector2Int, Vector2Int>();
+        queue.Enqueue(origin);
+        visited.Add(origin);
+        while (queue.Count > 0)
+        {
+            var current = queue.Dequeue();
+            if (current == destination)
+            {
+                while (current != origin)
+                {
+                    result.Add(current);
+                    current = parents[current];
+                }
+                result.Reverse();
+                path = result.ToArray();
+                return true;
+            }
+
+            foreach (var neighbour in GetNeighbours(current))
+            {
+                if (visited.Contains(neighbour) || !positionPredicate(neighbour))
+                    continue;
+
+                visited.Add(neighbour);
+                queue.Enqueue(neighbour);
+                parents.Add(neighbour, current);
+            }
+        }
+        path = result.ToArray();
+        return false;
     }
+
     #endregion
 
     public event Action<Cell, bool> CellChangedOld;
@@ -88,7 +121,7 @@ public class BattleMap : MonoBehaviour, IBattleMap
     {
         _cellGrid = modelGrid;
         CellRangeBorders = new CellRangeBorders(0, 0, Width - 1, Height - 1);
-        _containedEntitiesPositions = new Dictionary<IAbilitySystemActor, Vector2Int>();
+        _containedEntitiesPositions = new Dictionary<AbilitySystemActor, Vector2Int>();
         _cellCoordinates = new Dictionary<IReadOnlyCell, Vector2Int>();
         for (var x = 0; x < _cellGrid.GetLength(0); x++)
         {

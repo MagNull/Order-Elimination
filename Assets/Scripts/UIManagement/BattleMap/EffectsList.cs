@@ -5,67 +5,73 @@ using UnityEngine;
 using DG.Tweening;
 using System.Linq;
 using System;
+using OrderElimination.AbilitySystem;
 
 namespace UIManagement.Elements
 {
     public class EffectsList : MonoBehaviour
     {
         [SerializeField]
-        private EffectIconButton _effectPrefab;
+        private HoldableButton _effectButtonPrefab;
         [SerializeField]
         private RectTransform _effectsHolder;
         public float effectAppearTime;
         public Ease effectAppearEase = Ease.Flash;
-        public event Action<EffectIconButton> EffectButtonClicked;
-        private Dictionary<ITickEffect, EffectIconButton> _effects = new Dictionary<ITickEffect, EffectIconButton>();
+        private Dictionary<BattleEffect, HoldableButton> _buttonsByEffects = new();
+        private Dictionary<HoldableButton, BattleEffect> _effectsByButtons = new();
 
-        public void UpdateEffects(ITickEffect[] effects)
+        public void UpdateEffects(IEnumerable<BattleEffect> effects)
         {
-            var displayableEffects = effects.Where(e => e.GetEffectView().DisplayWhenApplied).ToArray();
-            var effectsToAdd = new List<ITickEffect>();
-            foreach (var e in displayableEffects)
+            var displayableEffects = effects.Where(e => !e.EffectData.View.IsHidden).ToArray();
+            var effectsToAdd = new List<BattleEffect>();
+            foreach (var effect in displayableEffects)
             {
-                if (!_effects.ContainsKey(e))
-                    effectsToAdd.Add(e);
+                if (!_buttonsByEffects.ContainsKey(effect))
+                    effectsToAdd.Add(effect);
             }
-            var effectsToRemove = _effects.Keys.Except(displayableEffects).ToArray();
-            foreach (var e in effectsToRemove)
-                RemoveEffect(e);
-            foreach (var e in effectsToAdd)
+            var effectsToRemove = _buttonsByEffects.Keys.Except(displayableEffects).ToArray();
+            foreach (var effect in effectsToRemove)
+                RemoveEffect(effect);
+            foreach (var effect in effectsToAdd)
             {
-                var effectIcon = Instantiate(_effectPrefab, _effectsHolder);
-                _effects.Add(e, effectIcon);
-                effectIcon.UpdateEffectInfo(e.GetEffectView());
-                effectIcon.transform.localScale = Vector3.one * 0.1f;
-                effectIcon.transform.DOScale(1, effectAppearTime).SetEase(effectAppearEase);
-                effectIcon.Clicked += OnEffectButtonClicked;
+                var effectButton = Instantiate(_effectButtonPrefab, _effectsHolder);
+                _buttonsByEffects.Add(effect, effectButton);
+                _effectsByButtons.Add(effectButton, effect);
+                effectButton.ButtonImage.sprite = effect.EffectData.View.Icon;
+                effectButton.transform.localScale = Vector3.one * 0.1f;
+                effectButton.transform.DOScale(1, effectAppearTime).SetEase(effectAppearEase);
+                effectButton.Clicked -= OnEffectButtonClicked;
+                effectButton.Clicked += OnEffectButtonClicked;
             }
         }
 
-        public void RemoveEffect(ITickEffect effect)
+        public void RemoveEffect(BattleEffect effect)
         {
-            var effectToRemove = _effects[effect];
-            effectToRemove.Clicked -= OnEffectButtonClicked;
-            _effects.Remove(effect);
-            Destroy(effectToRemove.gameObject);
+            var effectButton = _buttonsByEffects[effect];
+            effectButton.Clicked -= OnEffectButtonClicked;
+            _buttonsByEffects.Remove(effect);
+            _effectsByButtons.Remove(effectButton);
+            Destroy(effectButton.gameObject);
         }
 
         public void ClearEffects()
         {
-            var effectsToRemove = _effects.Values.ToArray();
-            _effects.Clear();
-            foreach (var e in effectsToRemove)
+            var buttonsToRemove = _buttonsByEffects.Values.ToArray();
+            _buttonsByEffects.Clear();
+            _effectsByButtons.Clear();
+            foreach (var b in buttonsToRemove)
             {
-                e.Clicked -= OnEffectButtonClicked;
-                Destroy(e.gameObject);
+                b.Clicked -= OnEffectButtonClicked;
+                Destroy(b.gameObject);
             }
         }
 
-        public void OnEffectButtonClicked(EffectIconButton effectButton)
+        private void OnEffectButtonClicked(HoldableButton effectButton)
         {
-            EffectButtonClicked?.Invoke(effectButton);
+            var effect = _effectsByButtons[effectButton];
             var descrWindow = (EffectsDescriptionPanel)UIController.SceneInstance.OpenPanel(PanelType.EffectsDesriptionList);
-            descrWindow.UpdateEffectsList(_effects.Keys.ToArray());
+            //TODO Display Effects list
+            //descrWindow.UpdateEffectsList(_buttonsByEffects.Keys.ToArray());
         }
     } 
 }

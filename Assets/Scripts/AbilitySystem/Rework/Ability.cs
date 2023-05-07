@@ -8,7 +8,7 @@ namespace OrderElimination.AbilitySystem.Rework
 {
     public class NoTargetAbility
     {
-        public bool Execute(IAbilitySystemActor caster)
+        public bool Execute(AbilitySystemActor caster)
         {
             throw new NotImplementedException();
         }
@@ -16,7 +16,7 @@ namespace OrderElimination.AbilitySystem.Rework
 
     public class PointTargetAbility
     {
-        public bool Execute(IAbilitySystemActor caster, Vector2Int target)
+        public bool Execute(AbilitySystemActor caster, Vector2Int target)
         {
             throw new NotImplementedException();
         }
@@ -24,7 +24,7 @@ namespace OrderElimination.AbilitySystem.Rework
 
     public class UnitTargetAbility
     {
-        public bool Execute(IAbilitySystemActor caster, IAbilitySystemActor target)
+        public bool Execute(AbilitySystemActor caster, AbilitySystemActor target)
         {
             throw new NotImplementedException();
         }

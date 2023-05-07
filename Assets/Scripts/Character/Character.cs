@@ -6,14 +6,15 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 using System.Collections.Generic;
+using Sirenix.Serialization;
 
 namespace OrderElimination
 {
     [CreateAssetMenu(fileName = "CharacterInfo", menuName = "Character")]
-    public class Character : ScriptableObject, IBattleCharacterInfo, IBattleEntityInfo
+    public class Character : SerializedScriptableObject, IBattleCharacterInfo, IBattleEntityInfo
     {
         //New System
-        [SerializeField, ShowInInspector]
+        [OdinSerialize, ShowInInspector]
         private ReadOnlyBaseStats _baseBattleStats;
         [SerializeField]
         private EntityType _entityType;

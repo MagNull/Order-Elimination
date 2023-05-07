@@ -10,7 +10,7 @@ namespace Assets.AbilitySystem.PrototypeHelpers
 {
     public abstract class BattlePlayer
     {
-        public IReadOnlyList<IAbilitySystemActor> ControllingEntities;
+        public IReadOnlyList<AbilitySystemActor> ControllingEntities;
 
         public async UniTask OnTurnStarted(IBattleContext battleContext)
         {

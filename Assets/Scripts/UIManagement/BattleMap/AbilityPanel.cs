@@ -24,7 +24,7 @@ namespace UIManagement
         [SerializeField]
         private Color _selectedAbilityTint;
         private IBattleContext _battleContext;
-        private IAbilitySystemActor _caster;
+        private AbilitySystemActor _caster;
         private HashSet<AbilityButton> _selectedButtons = new();
 
         public bool AbilityCasing => _activeAbilityButtons.Any(ab => ab.AbilityView is {Casting: true} &&
@@ -72,7 +72,7 @@ namespace UIManagement
         }
 
         public void AssignAbilities(
-            IAbilitySystemActor caster,
+            AbilitySystemActor caster,
             AbilityRunner[] activeAbilities,
             AbilityRunner[] passiveAbilities)
         {
@@ -87,7 +87,7 @@ namespace UIManagement
                 _activeAbilityButtons[i].HoldableButton.ClickAvailable = true;
                 _activeAbilityButtons[i].HoldableButton.HoldAvailable = true;
             }
-            UpdateActiveAbilityButtonsAvailability();
+            UpdateAbilityButtonsAvailability();
             for (var j = 0; j < passiveAbilities.Length; j++)
             {
                 //_passiveAbilityButtons[j].AssignAbilityView(passiveAbilities[j]);
@@ -112,7 +112,7 @@ namespace UIManagement
             }
         }
 
-        private void UpdateActiveAbilityButtonsAvailability()
+        public void UpdateAbilityButtonsAvailability()
         {
             foreach (var button in _activeAbilityButtons)
             {
@@ -130,15 +130,15 @@ namespace UIManagement
         {
             foreach (var button in _activeAbilityButtons)
                 TryDeselectButton(button);
-            UpdateActiveAbilityButtonsAvailability();
+            UpdateAbilityButtonsAvailability();
         }
 
         private bool TrySelectButton(AbilityButton abilityButton)
         {
             if (_selectedButtons.Contains(abilityButton))
                 return false;
-            abilityButton.AbilityRunner.AbilityUsed -= OnAbilityUsed;
-            abilityButton.AbilityRunner.AbilityUsed += OnAbilityUsed;
+            abilityButton.AbilityRunner.AbilityCasted -= OnAbilityUsed;
+            abilityButton.AbilityRunner.AbilityCasted += OnAbilityUsed;
             _selectedButtons.Add(abilityButton);
             abilityButton.HoldableButton.SetImageTint(_selectedAbilityTint);
             AbilitySelected?.Invoke(abilityButton.AbilityRunner);
@@ -149,7 +149,7 @@ namespace UIManagement
         {
             if (!_selectedButtons.Contains(abilityButton))
                 return false;
-            abilityButton.AbilityRunner.AbilityUsed -= OnAbilityUsed;
+            abilityButton.AbilityRunner.AbilityCasted -= OnAbilityUsed;
             _selectedButtons.Remove(abilityButton);
             abilityButton.HoldableButton.SetImageTint(Color.white);
             AbilityDeselected?.Invoke(abilityButton.AbilityRunner);

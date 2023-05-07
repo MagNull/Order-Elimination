@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Design;
 using Assets.AbilitySystem.PrototypeHelpers;
 using CharacterAbility;
+using DefaultNamespace;
 using OrderElimination.AbilitySystem;
 using OrderElimination.AbilitySystem.Animations;
 using OrderElimination.Battle;
@@ -24,7 +25,9 @@ namespace OrderElimination
         [SerializeField]
         private BattleMapView _battleMapView; 
         [SerializeField]
-        private ParticlesPool _particlesPool; 
+        private ParticlesPool _particlesPool;
+        [SerializeField]
+        private TextEmitter _textEmitter;
         [SerializeField]
         private BattleMap _battleMap;
         [SerializeField]
@@ -49,7 +52,8 @@ namespace OrderElimination
             builder.RegisterComponent(_battleCharacterFactory);
             builder.RegisterComponent(_battleMapDirector);
             builder.RegisterComponent(_battleMapView);
-            builder.RegisterComponent(_particlesPool);
+            builder.RegisterComponent(_particlesPool).AsImplementedInterfaces();
+            builder.RegisterComponent(_textEmitter);
             builder.RegisterComponent(_battleEntitiesFactory);
             builder.RegisterComponent(_battleLoopManager);
             builder.RegisterComponent(_battleMap).As<IBattleMap>();
@@ -57,12 +61,12 @@ namespace OrderElimination
             builder.Register<SceneTransition>(Lifetime.Singleton);
 
             builder.Register<BattleInitializer>(Lifetime.Singleton);
-            builder.Register<BattleContext>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<AnimationSceneContext>(Lifetime.Singleton);
+            builder.Register<BattleContext>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<OldAbilityFactory>(Lifetime.Singleton).WithParameter(_battleMapView);
             builder.Register<EnvironmentFactory>(Lifetime.Singleton).WithParameter(_environmentPrefab)
                 .WithParameter(_battleMapDirector.Map);
-            builder.Register<CharacterArrangeDirector>(Lifetime.Singleton);
+            //builder.Register<CharacterArrangeDirector>(Lifetime.Singleton);
         }
     }
 }

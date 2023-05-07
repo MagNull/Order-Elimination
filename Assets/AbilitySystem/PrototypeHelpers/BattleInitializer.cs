@@ -32,36 +32,24 @@ namespace Assets.AbilitySystem.PrototypeHelpers
         {
             _battleMapDirector.InitializeMap();
             _entitiesBank.Clear();
-            var gameAllies = CreateGameEntities(_characterMediator.GetPlayerCharactersInfo());
-            var gameEnemies = CreateGameEntities(_characterMediator.GetEnemyCharactersInfo());
-            var allies = _entitiesFactory.CreateBattleEntities(gameAllies, BattleSide.Player).ToArray();
-            var enemies = _entitiesFactory.CreateBattleEntities(gameEnemies, BattleSide.Enemies).ToArray();
+            var gameAllies = CreateGameEntities(_characterMediator.GetPlayerCharactersInfo()).ToArray();
+            var gameEnemies = CreateGameEntities(_characterMediator.GetEnemyCharactersInfo()).ToArray();
+            for (var i = 0; i < gameAllies.Length; i++)
+            {
+                var entity = gameAllies[i];
+                var position = scenario.AlliesSpawnPositions[i];
+                _entitiesFactory.CreateBattleCharacter(entity, BattleSide.Player, position);
+            }
+            for (var i = 0; i < gameEnemies.Length; i++)
+            {
+                var entity = gameEnemies[i];
+                var position = scenario.EnemySpawnPositions[i];
+                _entitiesFactory.CreateBattleCharacter(entity, BattleSide.Enemies, position);
+            }
             foreach (var pos in scenario.MapObjects.Keys)
             {
-                var obj = _entitiesFactory.CreateBattleObject(scenario.MapObjects[pos], BattleSide.Neutral);
-                PlaceEntity(obj, pos);
+                _entitiesFactory.CreateBattleObject(scenario.MapObjects[pos], BattleSide.Others, pos);
             }
-            PlaceEntities(allies, scenario.AlliesSpawnPositions);
-            PlaceEntities(enemies, scenario.EnemySpawnPositions);
-        }
-
-        private void PlaceEntities(IEnumerable<CreatedEntity> entities, IEnumerable<Vector2Int> positions)
-        {
-            var entitiesArray = entities.ToArray();
-            var positionsArray = positions.ToArray();
-            if (entitiesArray.Length > positionsArray.Length)
-                throw new InvalidOperationException();
-            for (var i = 0; i < entitiesArray.Length; i++)
-            {
-                PlaceEntity(entitiesArray[i], positionsArray[i]);
-            }
-        }
-
-        private void PlaceEntity(CreatedEntity entity, Vector2Int position)
-        {
-            _battleMap.PlaceEntity(entity.Model, position);
-            entity.View.EntityPlacedOnMapCallback();
-            _entitiesBank.AddEntity(entity.Model, entity.View);
         }
 
         private GameCharacter CreateGameEntity(IBattleEntityInfo entityInfo)

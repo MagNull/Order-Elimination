@@ -5,6 +5,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using OrderElimination.BM;
+using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -38,8 +39,8 @@ public class BattleMapView : MonoBehaviour
         var viewXBasis = GetCell(gameEndPoint.x, 0).transform.position;
         var viewYBasis = GetCell(0, gameEndPoint.y).transform.position;
 
-        var xUnLerp = Mathf.InverseLerp(gameStartPoint.x, gameEndPoint.x, gamePosition.x);
-        var yUnLerp = Mathf.InverseLerp(gameStartPoint.y, gameEndPoint.y, gamePosition.y);
+        var xUnLerp = CellMath.InverseLerpUnclamped(gameStartPoint.x, gameEndPoint.x, gamePosition.x);
+        var yUnLerp = CellMath.InverseLerpUnclamped(gameStartPoint.y, gameEndPoint.y, gamePosition.y);
 
         return offset + (viewXBasis - offset) * xUnLerp + (viewYBasis - offset) * yUnLerp;
     }
@@ -53,6 +54,7 @@ public class BattleMapView : MonoBehaviour
     {
         BattleSimulation.BattleEnded -= OnBattleEnded;
         _battleMap.CellChangedOld -= OnCellChanged;
+        if (_cellViewGrid == null) return;
         foreach (var cellView in _cellViewGrid)
         {
             cellView.CellClicked -= OnCellClicked;

@@ -17,6 +17,6 @@ namespace OrderElimination.AbilitySystem
         /// <param name="shootingDirection"> Направление стрельбы. </param>
         /// <param name="smallestIntersectionPartSquare"> Площадь наименьшей части клетки, разделённой линией стрельбы (от 0 до 0.5). </param>
         /// <returns> Модифицированная функция точности. </returns>
-        public IContextDependentParameter<float> ModifyAccuracy(IContextDependentParameter<float> accuracy, double shootingAngle, double smallestIntersectionPartSquare);
+        public IContextValueGetter ModifyAccuracy(IContextValueGetter accuracy, double shootingAngle, double smallestIntersectionPartSquare);
     }
 }

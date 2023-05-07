@@ -9,6 +9,7 @@ using UIManagement;
 using UIManagement.Elements;
 using UnityEngine;
 using VContainer;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public enum SelectorMode
 {
@@ -28,21 +29,20 @@ public class BattleMapSelector : MonoBehaviour
     private Color _forbidenCellsTint;
 
     private BattleMapView _battleMapView;
-    private BattleEntitiesBank _entitiesBank;
     private IBattleMap _battleMap => _battleContext.BattleMap;
     private IBattleContext _battleContext;
     private SelectorMode _mode;
-    private HashSet<Vector2Int> _availableCellsForTargeting;
 
     private CellView _lastClickedCell;
-    private IAbilitySystemActor _currentSelectedEntity;
     private int _currentLoopIndex;
+
+    private HashSet<Vector2Int> _availableCellsForTargeting;
+    private AbilitySystemActor _currentSelectedEntity;
     private AbilityRunner _selectedAbility;
 
     [Inject]
     private void Construct(IObjectResolver objectResolver)
     {
-        _entitiesBank = objectResolver.Resolve<BattleEntitiesBank>();
         _battleContext = objectResolver.Resolve<IBattleContext>();
         _battleMapView = objectResolver.Resolve<BattleMapView>();
         _battleMapView.CellClicked += OnCellClicked;
@@ -74,7 +74,7 @@ public class BattleMapSelector : MonoBehaviour
                 .OrderBy(e => e.EntityType)
                 .ThenBy(e => e.BattleSide)//ThenBy controlling Player
                 .ToArray();
-            _currentSelectedEntity = null;
+            DeselectEntity();
             if (entities.Length == 0)
                 return;
             _currentLoopIndex %= entities.Length;
@@ -118,26 +118,42 @@ public class BattleMapSelector : MonoBehaviour
         }
     }
 
-    private void SelectEntity(IAbilitySystemActor entity)
+    private void SelectEntity(AbilitySystemActor entity)
     {
         DeselectEntity();
         _currentSelectedEntity = entity;
-        var view = _entitiesBank.GetViewByEntity(entity);
+        var view = _battleContext.EntitiesBank.GetViewByEntity(entity);
         _abilityPanel.AssignAbilities(entity, entity.ActiveAbilities.ToArray(), new AbilityRunner[0]);
         _abilityPanel.AbilitySelected += OnAbilitySelect;
         _abilityPanel.AbilityDeselected += OnAbilityDeselect;
+        foreach (var ability in entity.ActiveAbilities)
+        {
+            ability.AbilityCasted -= OnAbilityUpdated;
+            ability.AbilityCasted += OnAbilityUpdated;
+            ability.AbilityCastCompleted -= OnAbilityUpdated;
+            ability.AbilityCastCompleted += OnAbilityUpdated;
+        }
         _characterBattleStatsPanel.UpdateEntityInfo(view);
         _characterBattleStatsPanel.ShowInfo();
 
-        Debug.Log($"{entity.EntityType} {view.Name} selected. ActionPoints: {string.Join(", ", entity.ActionPoints.Select(e => $"[{e.Key}:{e.Value}]"))}" % Colorize.Red);
+        Debug.Log($"{entity.EntityType} {view.Name} selected. \nActionPoints: {string.Join(", ", entity.ActionPoints.Select(e => $"[{e.Key}:{e.Value}]"))}" % Colorize.ByColor(new Color(1, 0.5f, 0.5f)));
     }
 
     private void DeselectEntity()
     {
         _abilityPanel.ResetAbilityButtons();
         _abilityPanel.AbilitySelected -= OnAbilitySelect;
-        _abilityPanel.AbilityDeselected -= OnAbilityDeselect;
+        _abilityPanel.AbilityDeselected -= OnAbilityDeselect; 
+        if (_currentSelectedEntity != null)
+        {
+            foreach (var ability in _currentSelectedEntity.ActiveAbilities)
+            {
+                ability.AbilityCasted -= OnAbilityUpdated;
+                ability.AbilityCastCompleted -= OnAbilityUpdated;
+            }
+        }
         _characterBattleStatsPanel.HideInfo();
+        _currentSelectedEntity = null;
     }
 
     private void OnAbilitySelect(AbilityRunner abilityRunner)
@@ -185,6 +201,11 @@ public class BattleMapSelector : MonoBehaviour
         _selectedAbility = null;
     }
 
+    private void OnAbilityUpdated(AbilityRunner abilityRunner)
+    {
+        _abilityPanel.UpdateAbilityButtonsAvailability();
+    }
+
     private void OnSelectionUpdated(IRequireTargetsTargetingSystem targetingSystem)
     {
         HighlightCells();
@@ -216,9 +237,9 @@ public class BattleMapSelector : MonoBehaviour
             }
         }
         var colors = _selectedAbility.AbilityData.View.TargetGroupsHighlightColors;
-        foreach (var group in targetedCells.CellGroups.Keys)
+        foreach (var group in targetedCells.ContainedCellGroups)
         {
-            foreach (var pos in targetedCells.CellGroups[group])
+            foreach (var pos in targetedCells.GetGroup(group))
                 _battleMapView.HighlightCell(pos.x, pos.y, colors[group]);
         }
     }
@@ -236,8 +257,8 @@ public class BattleMapSelector : MonoBehaviour
             if (_selectedAbility != null && _selectedAbility.AbilityData.TargetingSystem.IsConfirmAvailable)
             {
                 var abilityName = _selectedAbility.AbilityData.View.Name;
+                Debug.Log($"Ability «{abilityName}» has been used." % Colorize.Cyan);
                 _selectedAbility.AbilityData.TargetingSystem.ConfirmTargeting();
-                Debug.Log($"Ability «{abilityName}» has been used." % Colorize.Green);
             }
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))

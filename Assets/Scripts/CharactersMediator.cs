@@ -10,6 +10,7 @@ namespace OrderElimination
         private List<IBattleCharacterInfo> _allies;
 
         [OdinSerialize] private List<IBattleCharacterInfo> _enemies;
+
         private int _pointNumber;
 
         [OdinSerialize]

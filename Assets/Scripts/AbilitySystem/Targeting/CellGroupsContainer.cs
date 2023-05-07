@@ -11,7 +11,11 @@ namespace OrderElimination.AbilitySystem
 {
     public readonly struct CellGroupsContainer
     {
-        public readonly IReadOnlyDictionary<int, Vector2Int[]> CellGroups;
+        private readonly IReadOnlyDictionary<int, Vector2Int[]> CellGroups;
+
+        public IEnumerable<int> ContainedCellGroups => CellGroups.Keys;
+        public bool ContainsGroup(int group) => CellGroups.ContainsKey(group);
+        public Vector2Int[] GetGroup(int group) => CellGroups[group];
 
         public CellGroupsContainer(IReadOnlyDictionary<int, Vector2Int[]> cellGroups)
         {

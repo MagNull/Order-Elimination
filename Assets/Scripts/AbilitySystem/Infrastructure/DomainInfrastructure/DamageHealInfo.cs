@@ -7,12 +7,28 @@ using System.Threading.Tasks;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class HealInfo
+    public readonly struct HealInfo
     {
-        public float Value;
-        public float ArmorMultiplier;
-        public float HealthMultiplier;
-        public DamagePriority HealTarget;
+        public readonly float Value;
+        public readonly float ArmorMultiplier;
+        public readonly float HealthMultiplier;
+        public readonly LifeStatPriority HealPriority;
+        public readonly AbilitySystemActor Healer;
+
+        public HealInfo(
+            float value, 
+            float armorMultiplier, 
+            float healthMultiplier, 
+            LifeStatPriority priority, 
+            AbilitySystemActor healer)
+        {
+            if (value < 0) throw new ArgumentException("Heal value is less than 0.");
+            Value = value;
+            ArmorMultiplier = armorMultiplier;
+            HealthMultiplier = healthMultiplier;
+            HealPriority = priority;
+            Healer = healer;
+        }
     }
 
     public readonly struct DamageInfo
@@ -21,16 +37,25 @@ namespace OrderElimination.AbilitySystem
         public readonly float ArmorMultiplier;
         public readonly float HealthMultiplier;
         public readonly DamageType DamageType;
-        public readonly DamagePriority DamagePriority;
+        public readonly LifeStatPriority DamagePriority;
+        public readonly AbilitySystemActor DamageDealer;
         //Attacker
 
-        public DamageInfo(float value, float armorMultiplier, float healthMultiplier, DamageType damageType, DamagePriority priority)
+        public DamageInfo(
+            float value, 
+            float armorMultiplier, 
+            float healthMultiplier, 
+            DamageType damageType, 
+            LifeStatPriority priority,
+            AbilitySystemActor damageDealer)
         {
+            if (value < 0) throw new ArgumentException("Damage value is less than 0.");
             Value = value;
             ArmorMultiplier = armorMultiplier;
             HealthMultiplier = healthMultiplier;
             DamageType = damageType;
             DamagePriority = priority;
+            DamageDealer = damageDealer;
         }
     }
 
@@ -39,14 +64,18 @@ namespace OrderElimination.AbilitySystem
         public readonly float HealthDamage;
         public readonly float ArmorDamage;
         public readonly DamageType DamageType;
+        public readonly AbilitySystemActor DamageDealer;
         //Attacker
         //Target
 
-        public DealtDamageInfo(float healthDamage, float armorDamage, DamageType damageType)
+        public float TotalDamage => HealthDamage + ArmorDamage;
+
+        public DealtDamageInfo(float healthDamage, float armorDamage, DamageType damageType, AbilitySystemActor damageDealer)
         {
             HealthDamage = healthDamage;
             ArmorDamage = armorDamage;
             DamageType = damageType;
+            DamageDealer = damageDealer;
         }
     }
 
@@ -54,11 +83,13 @@ namespace OrderElimination.AbilitySystem
     {
         public readonly float RecoveredHealth;
         public readonly float RecoveredArmor;
+        public readonly AbilitySystemActor Healer;
 
-        public HealRecoveryInfo(float recoveredHealth, float recoveredArmor)
+        public HealRecoveryInfo(float recoveredHealth, float recoveredArmor, AbilitySystemActor healer)
         {
             RecoveredHealth = recoveredHealth;
             RecoveredArmor = recoveredArmor;
+            Healer = healer;
         }
     }
     public enum DamageType
@@ -69,7 +100,7 @@ namespace OrderElimination.AbilitySystem
         Magic
     }
 
-    public enum DamagePriority
+    public enum LifeStatPriority
     {
         ArmorFirst,
         HealthFirst,

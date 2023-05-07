@@ -10,51 +10,37 @@ using System.Linq;
 using UnityEngine;
 using VContainer;
 
-public enum ActiveSide//TODO Replace with ActivePlayer
-{
-    Player,
-    Allies,
-    Enemies,
-    Others
-}
-
-public class BattleLoopManager : SerializedMonoBehaviour
+public class BattleLoopManager : MonoBehaviour
 {
     private IObjectResolver _objectResolver;
-    private BattleMapDirector _battleMapDirector;
-    private IBattleMap _battleMap;
+    private IReadOnlyEntitiesBank _entitiesBank;
+    //private IBattleContext _battleContext;
 
-    public BattlePlayer ActivePlayer { get; private set; }
+    //public BattlePlayer ActivePlayer { get; private set; }
+
+    public BattleSide ActiveSide { get; private set; }
     public int CurrentRound { get; private set; }
+
+    public event Action<BattleSide> NewTurnStarted;
     public event Action<int> NewRoundStarted;
 
     [Inject]
     private void Construct(IObjectResolver objectResolver)
     {
         _objectResolver = objectResolver;
-        _battleMap = objectResolver.Resolve<IBattleMap>();
-        //_battleContext = objectResolver.Resolve<IBattleContext>();
+        //_battleMap = objectResolver.Resolve<IBattleMap>();
+        _entitiesBank = objectResolver.Resolve<IReadOnlyEntitiesBank>();
     }
 
-    public async void StartNewRound()
+    public async void StartNextTurn()
     {
-        foreach (var pos in _battleMap.CellRangeBorders.EnumerateCellPositions())
+        //ActiveSide = _battleContext.TurnPriority.GetNextTurnSide(ActiveSide);
+        foreach (var entity in _entitiesBank.GetEntities().Where(e => e.BattleSide == ActiveSide))
         {
-            foreach (var entity in _battleMap.GetContainingEntities(pos))
-            {
-                RestoreActionPoints(entity, 1);
-                //entity.OnNewRoundCallback();
-                //effects.OnNewRoundCallback();
-                //*Или заменить подпиской на новый раунд внутри сущностей, эффектов и т.п.
-            }
+            RestoreActionPoints(entity, 1);
         }
-        CurrentRound++;
-        NewRoundStarted?.Invoke(CurrentRound);
-        Debug.Log($"Round {CurrentRound} started.");
-        //BattlePlayer currentPlayer = null;
-        //await currentPlayer.OnTurnStarted(_battleContext);
 
-        static void RestoreActionPoints(IAbilitySystemActor entity, int pointsToRestore)
+        static void RestoreActionPoints(AbilitySystemActor entity, int pointsToRestore)
         {
             foreach (var point in EnumExtensions.GetValues<ActionPoint>())
             {
@@ -63,26 +49,27 @@ public class BattleLoopManager : SerializedMonoBehaviour
         }
     }
 
+    public async void StartNewRound()
+    {
+        CurrentRound++;
+        NewRoundStarted?.Invoke(CurrentRound);
+        Debug.Log($"Round {CurrentRound} started.");
+        //BattlePlayer currentPlayer = null;
+        //await currentPlayer.OnTurnStarted(_battleContext);
+
+        
+    }
+
     private void InitializeBattle()
     {
         var scenario = _objectResolver.Resolve<CharactersMediator>().BattleScenario;
+        //_battleContext = _objectResolver.Resolve<IBattleContext>();
         _objectResolver.Resolve<BattleInitializer>().InitiateBattle(scenario);
-        NewRoundStarted += OnNewTurnTest;
-        StartNewRound();
+        //StartNewRound();
     }
 
     private void Start()
     {
-        InitializeBattle();
-    }
-
-    private void OnNewTurnTest(int round)
-    {
-        var entities = _objectResolver.Resolve<BattleEntitiesBank>().GetEntities();
-        var i = UnityEngine.Random.Range(0, entities.Length);
-        var cells = _battleMap.CellRangeBorders.EnumerateCellPositions().ToArray();
-        var cellId = UnityEngine.Random.Range(0, cells.Length);
-        //entities[i].Move(cells[cellId]);
-        entities[i].Move(cells[0]);
+        //InitializeBattle();
     }
 }

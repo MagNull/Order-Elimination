@@ -5,6 +5,7 @@ using OrderElimination.AbilitySystem.OuterComponents;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Deprecated
 public interface IBattleCharacterInfo : IBattleEntityInfo
 {
     public IReadOnlyBattleStats GetBattleStats();
@@ -15,12 +16,11 @@ public interface IBattleCharacterInfo : IBattleEntityInfo
     public AbilityInfo[] GetPassiveAbilityInfos();
 }
 
+//New
 public interface IBattleEntityInfo
 {
-    //View
     public string Name { get; }
     public Sprite BattleIcon { get; }
-    //View
     public ReadOnlyBaseStats BaseStats { get; }
     //public EntityType EntityType { get; }
     public AbilityBuilderData[] GetActiveAbilities();

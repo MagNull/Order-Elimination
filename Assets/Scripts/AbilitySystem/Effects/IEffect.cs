@@ -14,36 +14,32 @@ namespace OrderElimination.AbilitySystem
         Neutral
     }
 
-    public enum EffectStackingPolicy
-    {
-        DontApply,
-        Override,
-        Stack
-    }
-
     public interface IEffect
     {
-        //static EffectView : ScriptableObject - name, icon, descr ?
-        public bool IsActive { get; }
-        public bool IsStackable { get; }
-        public bool UseApplierActionProcessor { get; } //Использовать обработчик, наложившего эффект?
-        public bool CanBeForceRemoved { get; }
-        public IEnumerable<IBattleAction> ActionsOnApply { get; }
-        public IEnumerable<IBattleAction> ActionsOnRemove { get; }
+        public bool IsActive { get; } //Instance
+        public AbilitySystemActor EffectApplier { get; } //<Instance>
+        public AbilitySystemActor EffectHolder { get; } //<Instance>
 
-        public IAbilitySystemActor EffectApplier { get; } 
-        public IAbilitySystemActor EffectHolder { get; }
         public event Action<IEffect> Deactivated;//Destroyed Removed Disposed Finished
-        public bool Activate(IAbilitySystemActor effectTarget, IAbilitySystemActor effectApplier);
+        public bool Activate(AbilitySystemActor effectTarget, AbilitySystemActor effectApplier);
         public bool Deactivate();
+
+        public EffectView View { get; } //Data
+        public bool IsStackable { get; } //Data
+        public bool UseApplierProcessing{ get; } //Data
+        public bool UseHolderProcessing { get; } //Data
+        public bool CanBeForceRemoved { get; } //Data
+        //Actions with applier and holder
+        public IEnumerable<IBattleAction> InstructionsOnActivation { get; } //Data
+        public IEnumerable<IBattleAction> InstructionsOnDeactivation { get; } //Data
         //RemovedByTriggers
     }
 
     public interface ITemporaryEffect : IEffect
     {
-        public int ApplyingDuration { get; }
-        public int LeftDuration { get; }
-        public event Action<ITemporaryEffect> DurationEnded;
+        public int ApplyingDuration { get; } //Data
+        public int LeftDuration { get; } //Instance
+        public event Action<ITemporaryEffect> DurationEnded; //Instance
 
         public void OnNewRoundCallback(IBattleContext battleContext);
     }
@@ -60,16 +56,19 @@ namespace OrderElimination.AbilitySystem
 
     public interface IPeriodicEffect : IEffect
     {
-        public int PeriodLength { get; } // 1Tick = 1 ход
+        public int PeriodLength { get; } //Data
+        public bool PerformOnApply { get; } //Data
         //Действия обязаны выполняться каждый промежуток ходов, пока активен эффект.
         //Действия должны прекратить выполняться при удалении эффекта.
         public IEnumerable<IBattleAction> ActionsPerPeriod { get; }
         public void OnNewRoundCallback(IBattleContext battleContext)
         {
+            var automatedCellGroups = new CellGroupsContainer();
+
             foreach (var action in ActionsPerPeriod)
             {
-                var actionMaker = UseApplierActionProcessor ? EffectApplier : null;
-                var actionContext = new ActionExecutionContext(battleContext, actionMaker, EffectHolder);
+                var actionMaker = UseApplierProcessing ? EffectApplier : null;
+                var actionContext = new ActionContext(battleContext, automatedCellGroups, actionMaker, EffectHolder);
                 action.ModifiedPerform(actionContext);
             }
         }

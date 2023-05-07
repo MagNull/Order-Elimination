@@ -40,7 +40,7 @@ namespace UIManagement.Elements
             foreach (var enemy in enemies)
             {
                 var newStatsItem = Instantiate(_characterStatsItemPrefab, _listItemsHolder);
-                newStatsItem.UpdateCharacterInfo(enemy);
+                //newStatsItem.UpdateCharacterInfo(enemy);
                 newStatsItem.IsClickingAvatarAvailable = _enemiesInfoByClickingAvailable;
                 newStatsItem.IsHoldingAvatarAvailable = _enemiesInfoByHoldingAvailable;
                 _characterPanels.Add(enemy.Model, newStatsItem);
@@ -116,7 +116,7 @@ namespace UIManagement.Elements
             }
 
             foreach (var e in _characterPanels.Values)
-                e.KillHighlightAnimation();
+                e.FinishHighlightAnimation();
             target.Highlight(Color.red);
 
             float GetScrollViewPosition() => _charactersScrollRect.verticalNormalizedPosition;

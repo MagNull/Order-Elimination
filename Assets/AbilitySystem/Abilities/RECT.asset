@@ -49,7 +49,7 @@ MonoBehaviour:
     - Name: DistributionPattern
       Entry: 7
       Data: 0|OrderElimination.AbilitySystem.SimpleTargetRelativePattern, Assembly-CSharp
-    - Name: _relativeOffsetsByGroupId
+    - Name: _relativeToTargetOffsets
       Entry: 7
       Data: 1|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[OrderElimination.Infrastructure.PointRelativePattern,
         Assembly-CSharp]], mscorlib
@@ -68,13 +68,53 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 3
-      Data: 1
+      Data: 0
     - Name: $v
       Entry: 7
       Data: 3|OrderElimination.Infrastructure.PointRelativePattern, Assembly-CSharp
     - Name: _relativePositions
       Entry: 7
       Data: 4|System.Collections.Generic.HashSet`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
+        System.Core
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 7
+      Data: 5|OrderElimination.Infrastructure.PointRelativePattern, Assembly-CSharp
+    - Name: _relativePositions
+      Entry: 7
+      Data: 6|System.Collections.Generic.HashSet`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
         System.Core
     - Name: 
       Entry: 12
@@ -121,46 +161,6 @@ MonoBehaviour:
     - Name: 
       Entry: 3
       Data: 1
-    - Name: 
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 0
-    - Name: $v
-      Entry: 7
-      Data: 5|OrderElimination.Infrastructure.PointRelativePattern, Assembly-CSharp
-    - Name: _relativePositions
-      Entry: 7
-      Data: 6|System.Collections.Generic.HashSet`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
-        System.Core
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
-    - Name: 
-      Entry: 3
-      Data: 0
     - Name: 
       Entry: 3
       Data: 0
@@ -345,130 +345,21 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 15|OrderElimination.AbilitySystem.ActionInstruction, Assembly-CSharp
-    - Name: AffectedCellGroups
-      Entry: 7
-      Data: 16|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: Action
       Entry: 7
-      Data: 17|OrderElimination.AbilitySystem.InflictDamageAction, Assembly-CSharp
+      Data: 16|OrderElimination.AbilitySystem.InflictDamageAction, Assembly-CSharp
     - Name: DamageSize
       Entry: 7
-      Data: 18|OrderElimination.AbilitySystem.FloatDependentParameter, Assembly-CSharp
-    - Name: _valueGetterExpression
-      Entry: 7
-      Data: 19|System.Linq.Expressions.Expression1`1[[System.Func`2[[OrderElimination.AbilitySystem.ActionExecutionContext,
-        Assembly-CSharp],[System.Single, mscorlib]], mscorlib]], System.Core
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _compiledValueGetter
-      Entry: 7
-      Data: 20|System.Func`2[[OrderElimination.AbilitySystem.ActionExecutionContext,
-        Assembly-CSharp],[System.Single, mscorlib]], mscorlib
-    - Name: target
-      Entry: 7
-      Data: 21|System.Runtime.CompilerServices.Closure, System.Core
-    - Name: Constants
-      Entry: 7
-      Data: 22|System.Object[], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 23|OrderElimination.AbilitySystem.Editor.FloatDependentParameterDrawer+<>c__DisplayClass4_0,
-        Assembly-CSharp-Editor
-    - Name: compiledValue
+      Data: 17|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+    - Name: Value
       Entry: 4
-      Data: 20
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Locals
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: declaringType
-      Entry: 7
-      Data: 24|System.RuntimeType, mscorlib
-    - Name: 
-      Entry: 1
-      Data: System.Object, mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: methodName
-      Entry: 1
-      Data: lambda_method
-    - Name: delegateType
-      Entry: 7
-      Data: 25|System.RuntimeType, mscorlib
-    - Name: 
-      Entry: 1
-      Data: System.Func`2[[OrderElimination.AbilitySystem.ActionExecutionContext,
-        Assembly-CSharp],[System.Single, mscorlib]], mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: signature
-      Entry: 7
-      Data: 26|System.Type[], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 27|System.RuntimeType, mscorlib
-    - Name: 
-      Entry: 1
-      Data: System.Runtime.CompilerServices.Closure, System.Core
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 28|System.RuntimeType, mscorlib
-    - Name: 
-      Entry: 1
-      Data: OrderElimination.AbilitySystem.ActionExecutionContext, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 100
     - Name: 
       Entry: 8
       Data: 
     - Name: ArmorMultiplier
       Entry: 4
-      Data: 2
+      Data: 1.5
     - Name: HealthMultiplier
       Entry: 4
       Data: 1
@@ -480,97 +371,46 @@ MonoBehaviour:
       Data: 0
     - Name: Accuracy
       Entry: 7
-      Data: 29|OrderElimination.AbilitySystem.FloatDependentParameter, Assembly-CSharp
-    - Name: _valueGetterExpression
-      Entry: 7
-      Data: 30|System.Linq.Expressions.Expression1`1[[System.Func`2[[OrderElimination.AbilitySystem.ActionExecutionContext,
-        Assembly-CSharp],[System.Single, mscorlib]], mscorlib]], System.Core
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _compiledValueGetter
-      Entry: 7
-      Data: 31|System.Func`2[[OrderElimination.AbilitySystem.ActionExecutionContext,
-        Assembly-CSharp],[System.Single, mscorlib]], mscorlib
-    - Name: target
-      Entry: 7
-      Data: 32|System.Runtime.CompilerServices.Closure, System.Core
-    - Name: Constants
-      Entry: 7
-      Data: 33|System.Object[], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 34|OrderElimination.AbilitySystem.Editor.FloatDependentParameterDrawer+<>c__DisplayClass4_0,
-        Assembly-CSharp-Editor
-    - Name: compiledValue
-      Entry: 4
-      Data: 100
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Locals
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: declaringType
-      Entry: 9
-      Data: 24
-    - Name: methodName
-      Entry: 1
-      Data: lambda_method
-    - Name: delegateType
-      Entry: 9
-      Data: 25
-    - Name: signature
-      Entry: 7
-      Data: 35|System.Type[], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 9
-      Data: 27
-    - Name: 
-      Entry: 9
-      Data: 28
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 18|OrderElimination.AbilitySystem.CasterStatGetter, Assembly-CSharp
+    - Name: CasterStat
+      Entry: 3
+      Data: 3
+    - Name: UseUnmodifiedValue
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
     - Name: IgnoreEvasion
       Entry: 5
       Data: false
-    - Name: ObjectsAffectAccuracy
+    - Name: IgnoreObjects
       Entry: 5
       Data: false
     - Name: 
       Entry: 8
       Data: 
+    - Name: AffectedCellGroups
+      Entry: 7
+      Data: 19|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: RepeatNumber
       Entry: 3
-      Data: 6
+      Data: 1
     - Name: InstructionsOnActionSuccess
       Entry: 7
-      Data: 36|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.ActionInstruction,
+      Data: 20|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.ActionInstruction,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -583,19 +423,112 @@ MonoBehaviour:
       Data: 
     - Name: AnimationBeforeAction
       Entry: 7
-      Data: 37|OrderElimination.AbilitySystem.Animations.ShootAnimation, Assembly-CSharp
-    - Name: BulletSpeed
-      Entry: 4
-      Data: 20
-    - Name: BulletEase
-      Entry: 3
-      Data: 34
-    - Name: BulletSpread
-      Entry: 4
-      Data: 0
+      Data: 21|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
+    - Name: PlaySequentially
+      Entry: 5
+      Data: true
+    - Name: WaitForCompletion
+      Entry: 5
+      Data: true
+    - Name: Animations
+      Entry: 7
+      Data: 22|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 23|OrderElimination.AbilitySystem.Animations.ShootParticleAnimation,
+        Assembly-CSharp
     - Name: BulletParticle
       Entry: 3
       Data: 0
+    - Name: MoveBy
+      Entry: 3
+      Data: 1
+    - Name: Speed
+      Entry: 4
+      Data: 1
+    - Name: Time
+      Entry: 4
+      Data: 0
+    - Name: MovementEase
+      Entry: 3
+      Data: 32
+    - Name: FaceDirection
+      Entry: 5
+      Data: true
+    - Name: Inverse
+      Entry: 5
+      Data: false
+    - Name: _minSpread
+      Entry: 4
+      Data: 0
+    - Name: _maxSpread
+      Entry: 4
+      Data: 0
+    - Name: _time
+      Entry: 4
+      Data: 0
+    - Name: _speed
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 24|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
+    - Name: PlaySequentially
+      Entry: 5
+      Data: false
+    - Name: WaitForCompletion
+      Entry: 5
+      Data: false
+    - Name: Animations
+      Entry: 7
+      Data: 25|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 26|OrderElimination.AbilitySystem.Animations.ShakeAnimation, Assembly-CSharp
+    - Name: ShakeTarget
+      Entry: 3
+      Data: 0
+    - Name: ShakeX
+      Entry: 4
+      Data: 0.5
+    - Name: ShakeY
+      Entry: 4
+      Data: 0.5
+    - Name: Vibrations
+      Entry: 3
+      Data: 10
+    - Name: Duration
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 

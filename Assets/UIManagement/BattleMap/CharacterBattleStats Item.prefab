@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046b76becf1384b44aa15e0d3ebd1032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPrefab: {fileID: 8815909993933616270, guid: 48fb36e6cdf6ab543bba4862343a711f, type: 3}
+  _effectButtonPrefab: {fileID: 4692175368902465806, guid: 48fb36e6cdf6ab543bba4862343a711f, type: 3}
   _effectsHolder: {fileID: 4102501675066518227}
   effectAppearTime: 0.2
   effectAppearEase: 32
@@ -382,8 +382,8 @@ MonoBehaviour:
   _avatarButton: {fileID: 6396469935999913722}
   _effectsList: {fileID: 2972863368896905353}
   _panelHighlightImage: {fileID: 1687997072887608542}
-  _highlightFadeTime: 1
-  _highlightFadeEase: 8
+  _highlightTime: 0.7
+  _highlightEase: 32
   _isClickingAvatarAvailable: 0
   _isHoldingAvatarAvailable: 0
 --- !u!1001 &6789500383016072163

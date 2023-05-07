@@ -13,17 +13,17 @@ namespace OrderElimination.AbilitySystem
         public CellRangeBorders CellRangeBorders { get; }
 
         public event Action<Vector2Int> CellChanged;
-        public bool Contains(IAbilitySystemActor entity);
-        public void PlaceEntity(IAbilitySystemActor entity, Vector2Int position);//Check if entity is already on the map
-        public void RemoveEntity(IAbilitySystemActor entity);
-        public Vector2Int GetPosition(IAbilitySystemActor entity);
+        public bool Contains(AbilitySystemActor entity);
+        public void PlaceEntity(AbilitySystemActor entity, Vector2Int position);//Check if entity is already on the map
+        public void RemoveEntity(AbilitySystemActor entity);
+        public Vector2Int GetPosition(AbilitySystemActor entity);
         public Vector2Int GetPosition(IReadOnlyCell cell);
         //public Vector2Int GetPosition(IBattleObstacle obstacle);
-        public IEnumerable<IAbilitySystemActor> GetContainingEntities(Vector2Int position);
+        public IEnumerable<AbilitySystemActor> GetContainingEntities(Vector2Int position);
 
         public float GetGameDistanceBetween(Vector2Int posA, Vector2Int posB);
         //public bool Move(IAbilitySystemActor movingEntity, Vector2Int destination);
-        public bool HasPathToDestination(IAbilitySystemActor walker, Vector2Int Destination, Predicate<Vector2Int> isPositionAvailable, out Vector2Int[] path); 
+        public bool PathExists(Vector2Int origin, Vector2Int destination, Predicate<Vector2Int> isPositionAvailable, out Vector2Int[] path); 
         //public IBattleMap GetSideRepresentation(side)
     }
 }

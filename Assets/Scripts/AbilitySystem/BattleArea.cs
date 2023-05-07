@@ -10,12 +10,12 @@ namespace OrderElimination.AbilitySystem
 {
     public class BattleArea
     {
-        public PointRelativePattern AreaPattern { get; set; }
-        public IEnumerable<IAbilitySystemActor> EntitiesInArea => _enitiesInArea;
-        public event Action<IAbilitySystemActor> EntityLeavedArea;
-        public event Action<IAbilitySystemActor> EntityEnteredArea;
+        public IPointRelativePattern AreaPattern { get; set; }
+        public IEnumerable<AbilitySystemActor> EntitiesInArea => _enitiesInArea;
+        public event Action<AbilitySystemActor> EntityLeavedArea;
+        public event Action<AbilitySystemActor> EntityEnteredArea;
 
-        private HashSet<IAbilitySystemActor> _enitiesInArea;
+        private HashSet<AbilitySystemActor> _enitiesInArea;
 
         public void UpdateArea(IBattleMap battleMap, Vector2Int areaOrigin)
         {

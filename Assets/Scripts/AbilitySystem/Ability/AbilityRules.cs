@@ -23,14 +23,14 @@ namespace OrderElimination.AbilitySystem
             UsageCost = usageCost.ToDictionary(e => e.Key, e => e.Value);
         }
 
-        public bool IsAbilityAvailable(IBattleContext battleContext, IAbilitySystemActor caster)
+        public bool IsAbilityAvailable(IBattleContext battleContext, AbilitySystemActor caster)
         {
             if (!IsCostAffordableByCaster(caster))
                 return false;
             return AvailabilityConditions.All(c => c.IsConditionMet(battleContext, caster));
         }
 
-        public Vector2Int[] GetAvailableCellPositions(IBattleContext battleContext, IAbilitySystemActor caster)
+        public Vector2Int[] GetAvailableCellPositions(IBattleContext battleContext, AbilitySystemActor caster)
         {
             return battleContext
                 .BattleMap
@@ -40,7 +40,7 @@ namespace OrderElimination.AbilitySystem
                 .ToArray();
         }
 
-        private bool IsCostAffordableByCaster(IAbilitySystemActor caster)
+        private bool IsCostAffordableByCaster(AbilitySystemActor caster)
         {
             return UsageCost.Keys.All(actionPoint => UsageCost[actionPoint] <= caster.ActionPoints[actionPoint]);
         }

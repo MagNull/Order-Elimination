@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-
+using Cysharp.Threading.Tasks;
 
 namespace UIManagement.Elements
 {
@@ -21,8 +21,10 @@ namespace UIManagement.Elements
         [SerializeField] public Ease ValueChangeEase = Ease.OutBounce;
         public float FillAmount => _barImage.fillAmount;
 
+        private Tween _currentTween;
+
         [Button]
-        public void SetValue(float currentValue, float minValue, float maxValue)
+        public async UniTask SetValue(float currentValue, float minValue, float maxValue)
         {
             _textValueComponent.text = currentValue.ToString();
             var scaledValue = (currentValue - minValue);
@@ -35,7 +37,10 @@ namespace UIManagement.Elements
                           "Min value: " + minValue + '\n');
                 throw new System.InvalidOperationException("Value is NaN");
             }
-            DOTween.To(GetFillAmount, SetFillAmount, scaledValue, 0.4f).SetEase(ValueChangeEase);
+            if (_currentTween != null)
+                _currentTween.Complete();
+            _currentTween = DOTween.To(GetFillAmount, SetFillAmount, scaledValue, 0.4f).SetEase(ValueChangeEase);
+            await _currentTween.AsyncWaitForCompletion();
 
             float GetFillAmount() => FillAmount;
 

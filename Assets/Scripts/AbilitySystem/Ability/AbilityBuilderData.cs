@@ -25,7 +25,7 @@ namespace OrderElimination.AbilitySystem
         public string Description { get; private set; }
 
         [TitleGroup("Visuals"), PropertyOrder(3)]
-        [ShowInInspector, OdinSerialize]
+        [ShowInInspector, OdinSerialize, DictionaryDrawerSettings(KeyLabel = "Group", ValueLabel = "Highlight color")]
         private Dictionary<int, Color> _cellGroupsHighlightColors = new();
         public IReadOnlyDictionary<int, Color> CellGroupsHighlightColors => _cellGroupsHighlightColors;
 
@@ -89,14 +89,14 @@ namespace OrderElimination.AbilitySystem
         [TitleGroup("Targeting System"), PropertyOrder(8)]
         [ShowInInspector, OdinSerialize]
         [ValidateInput(nameof(ValidateCellPattern)), Tooltip("Defines how target groups for execution calculated.")]
-        public ICellGroupDistributionPattern DistributionPattern { get; private set; }
+        public CellGroupDistributionPattern DistributionPattern { get; private set; }
 
         [TitleGroup("Functionality", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 4), PropertyOrder(0)]
         [ShowInInspector, OdinSerialize]
         public ActionInstruction[] AbilityInstructions;
 
         //private const float TitleSpacing = 50;
-        private bool ValidateCellPattern(ICellGroupDistributionPattern pattern)
+        private bool ValidateCellPattern(CellGroupDistributionPattern pattern)
         {
             if (TargetingSystem == TargetingSystemType.NoTarget)
             {
