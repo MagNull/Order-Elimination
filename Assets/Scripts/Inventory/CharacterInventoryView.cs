@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Inventory;
 using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.UI;

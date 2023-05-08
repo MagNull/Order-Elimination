@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Inventory_Items;
+using Inventory;
 using RoguelikeMap.Points;
 using RoguelikeMap.Points.Models;
 using TMPro;

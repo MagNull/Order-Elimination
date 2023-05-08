@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Inventory;
 using Inventory_Items;
 using OrderElimination;
 using RoguelikeMap.Points;
