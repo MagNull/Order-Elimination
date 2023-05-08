@@ -33,12 +33,6 @@ namespace UIManagement
         public event Action<AbilityRunner> AbilitySelected;
         public event Action<AbilityRunner> AbilityDeselected;
 
-        [Inject]
-        private void Construct(IObjectResolver objectResolver)
-        {
-            _battleContext = objectResolver.Resolve<IBattleContext>();
-        }
-
         public IReadOnlyList<AbilityButton> AbilityButtons => _activeAbilityButtons;
 
         private void OnEnable()
@@ -81,6 +75,7 @@ namespace UIManagement
                 throw new ArgumentException();
             ResetAbilityButtons();
             _caster = caster;
+            _battleContext = caster.BattleContext;
             for (var i = 0; i < activeAbilities.Length; i++)
             {
                 _activeAbilityButtons[i].AssignAbiility(activeAbilities[i]);

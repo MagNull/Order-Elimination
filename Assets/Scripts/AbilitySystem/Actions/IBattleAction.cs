@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
+using OrderElimination.Infrastructure;
 using System;
-using System.Collections.Generic;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -11,21 +11,15 @@ namespace OrderElimination.AbilitySystem
         Nothing
     }
 
-    public enum ActionPerformEntity
-    {
-        Caster,
-        Target
-    }
-
     [Obsolete("Интерфейс " + nameof(IBattleAction) + " является обобщающим. По возможности используйте BattleAction<TAction>.")]
-    public interface IBattleAction
+    public interface IBattleAction : ICloneable<IBattleAction>
     {
-        public ActionRequires ActionExecutes { get; }
+        public ActionRequires ActionRequires { get; }
 
         //public bool CanPerform(ActionExecutionContext useContext, bool actionMakerProcessing = true, bool targetProcessing = true);
 
-        public event Action<IBattleAction> SuccessfullyPerformed;
-        public event Action<IBattleAction> FailedToPerformed;
+        public event Action<IBattleAction, ActionContext> SuccessfullyPerformed;
+        public event Action<IBattleAction, ActionContext> FailedToPerformed;
         //public int RepeatNumber
         public UniTask<bool> ModifiedPerform(
             ActionContext useContext, 
@@ -33,40 +27,51 @@ namespace OrderElimination.AbilitySystem
             bool targetProcessing = true);
     }
 
-    public interface IUtilizeCellGroupsAction : IBattleAction
-    {
-        public IEnumerable<int> UtilizingCellGroups { get; }
-
-        public int GetUtilizedCellsAmount(int group);
-    }
-
-    public interface IPerformOnSelectedEntityAction
-    {
-        public ActionPerformEntity PerformEntity { get; }
-    }
-
     public abstract class BattleAction<TAction> : IBattleAction where TAction : BattleAction<TAction>
     {
-        public abstract ActionRequires ActionExecutes { get; }
+        public abstract ActionRequires ActionRequires { get; }
 
-        public event Action<TAction> SuccessfullyPerformed;
-        public event Action<TAction> FailedToPerformed;
+        public event Action<TAction, ActionContext> SuccessfullyPerformed;
+        public event Action<TAction, ActionContext> FailedToPerformed;
 
-        event Action<IBattleAction> IBattleAction.SuccessfullyPerformed
+        event Action<IBattleAction, ActionContext> IBattleAction.SuccessfullyPerformed
         {
             add => SuccessfullyPerformed += value;
 
             remove => SuccessfullyPerformed -= value;
         }
 
-        event Action<IBattleAction> IBattleAction.FailedToPerformed
+        event Action<IBattleAction, ActionContext> IBattleAction.FailedToPerformed
         {
             add => FailedToPerformed += value;
 
             remove => FailedToPerformed -= value;
         }
 
-        public virtual TAction GetModifiedAction(
+        public TAction GetModifiedAction(
+            ActionContext useContext,
+            bool actionMakerProcessing = true,
+            bool targetProcessing = true)
+        {
+            var modifyingAction = (TAction)this.Clone();
+            return modifyingAction.ModifyAction(useContext, actionMakerProcessing, targetProcessing);
+        }
+
+        public async UniTask<bool> ModifiedPerform(
+            ActionContext useContext,
+            bool actionMakerProcessing = true,
+            bool targetProcessing = true)
+        {
+            var modifiedAction = GetModifiedAction(useContext, actionMakerProcessing, targetProcessing);
+            var actionIsPerformed = await modifiedAction.Perform(useContext);
+            if (actionIsPerformed)
+                SuccessfullyPerformed?.Invoke(modifiedAction, useContext);
+            else
+                FailedToPerformed?.Invoke(modifiedAction, useContext);
+            return actionIsPerformed;
+        }
+
+        protected virtual TAction ModifyAction(
             ActionContext useContext, 
             bool actionMakerProcessing = true, 
             bool targetProcessing = true)
@@ -79,32 +84,9 @@ namespace OrderElimination.AbilitySystem
             return modifiedAction;
         }
 
-        public async UniTask<bool> ModifiedPerform(
-            ActionContext useContext, 
-            bool actionMakerProcessing = true, 
-            bool targetProcessing = true)
-        {
-            var modifiedAction = GetModifiedAction(useContext, actionMakerProcessing, targetProcessing);
-            var actionIsPerformed = await modifiedAction.Perform(useContext);
-            if (actionIsPerformed)
-                SuccessfullyPerformed?.Invoke(modifiedAction);
-            else
-                FailedToPerformed?.Invoke(modifiedAction);
-            return actionIsPerformed;
-        }
-
-        //*При вызове Perform IBattleAction уже обработан.
         //TODO Желательно заменить возврат bool или добавить out-параметр, дающий причину, по которой действие не было выполнено.
         protected abstract UniTask<bool> Perform(ActionContext useContext);
 
-        //public void SubscribePerform(Action<IBattleAction> actionEvent)
-        //{
-        //    actionEvent -= OnSubscribeActionEventCall;
-        //    actionEvent += OnSubscribeActionEventCall;
-        //    void OnSubscribeActionEventCall(IBattleAction subscribingAction)
-        //    {
-        //        ModifiedPerform(useContext);
-        //    }
-        //}
+        public abstract IBattleAction Clone();
     }
 }

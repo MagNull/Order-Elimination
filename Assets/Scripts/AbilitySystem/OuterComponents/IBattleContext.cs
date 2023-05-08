@@ -13,7 +13,7 @@ public interface IBattleContext
     public BattleSide ActiveSide { get; }
     public int CurrentRound { get; }
     public IReadOnlyEntitiesBank EntitiesBank { get; }
-    public BattleRelationship GetRelationship(AbilitySystemActor askingEntity, AbilitySystemActor relationEntity);
+    public BattleRelationship GetRelationship(BattleSide askingSide, BattleSide relationSide);
 
     //public BattleRelationship GetRelationship(Player playerA, PlayerPrefs playerB)
     //public Player[] Players
@@ -27,6 +27,6 @@ public interface IBattleContext
     //Cell.GetContainingObjects()
 
     public event Action<IBattleContext> NewTurnStarted; //MoveInfo(moveNumber, activeSide, ...)
-    public event Action<IBattleContext> NewRoundStarted; //MoveInfo(moveNumber, activeSide, ...)
+    public event Action<IBattleContext> NewRoundBegan; //MoveInfo(moveNumber, activeSide, ...)
     //public event Action<IBattleContext> ContextChanged;
 }

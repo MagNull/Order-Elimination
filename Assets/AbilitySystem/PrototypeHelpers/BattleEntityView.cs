@@ -42,14 +42,20 @@ public class BattleEntityView : MonoBehaviour
         transform.position = _currentUnanimatedPosition;
         _renderer.sprite = BattleIcon = battleIcon;
         gameObject.name = Name = $"{entity.BattleSide} «{name}»";
+
         BattleEntity.MovedFromTo -= OnMoved;
-        BattleEntity.MovedFromTo += OnMoved;
         BattleEntity.Damaged -= OnDamaged;
-        BattleEntity.Damaged += OnDamaged;
         BattleEntity.Healed -= OnHealed;
-        BattleEntity.Healed += OnHealed;
         BattleEntity.Died -= OnDied;
+        BattleEntity.StatusHolder.StatusAppeared -= OnStatusAppeared;
+        BattleEntity.StatusHolder.StatusDisappeared -= OnStatusDisappeared;
+
+        BattleEntity.MovedFromTo += OnMoved;
+        BattleEntity.Damaged += OnDamaged;
+        BattleEntity.Healed += OnHealed;
         BattleEntity.Died += OnDied;
+        BattleEntity.StatusHolder.StatusAppeared += OnStatusAppeared;
+        BattleEntity.StatusHolder.StatusDisappeared += OnStatusDisappeared;
     }
 
     public async UniTask Shake(float shakeX = 0.5f, float shakeY = 0.5f, float duration = 1, int vibrations = 10)
@@ -90,6 +96,48 @@ public class BattleEntityView : MonoBehaviour
         var luminosity = 0.7f;
         _renderer.DOFade(0.7f, 1).SetEase(Ease.InBounce);
         _renderer.DOColor(new Color(luminosity, luminosity, luminosity), 1);
+    }
+
+    private void OnStatusAppeared(BattleStatus status)
+    {
+        Debug.Log("Status appeared");
+        var context = BattleEntity.BattleContext;
+        if (status == BattleStatus.Invisible)
+        {
+            var relationShip = context.GetRelationship(BattleSide.Player, BattleEntity.BattleSide);
+            switch (relationShip)
+            {
+                case OrderElimination.AbilitySystem.Infrastructure.BattleRelationship.Ally:
+                    _renderer.DOFade(0.3f, 1.5f);
+                    break;
+                case OrderElimination.AbilitySystem.Infrastructure.BattleRelationship.Enemy:
+                    _renderer.DOFade(0f, 1.5f);
+                    break;
+                default:
+                    throw new System.NotImplementedException();
+            }
+        }
+    }
+
+    private void OnStatusDisappeared(BattleStatus status)
+    {
+        Debug.Log("Status disappeared");
+        var context = BattleEntity.BattleContext;
+        if (status == BattleStatus.Invisible)
+        {
+            var relationShip = context.GetRelationship(BattleSide.Player, BattleEntity.BattleSide);
+            switch (relationShip)
+            {
+                case OrderElimination.AbilitySystem.Infrastructure.BattleRelationship.Ally:
+                    _renderer.DOFade(1, 0.7f);
+                    break;
+                case OrderElimination.AbilitySystem.Infrastructure.BattleRelationship.Enemy:
+                    _renderer.DOFade(1, 0.7f);
+                    break;
+                default:
+                    throw new System.NotImplementedException();
+            }
+        }
     }
 
     private void OnEnable()

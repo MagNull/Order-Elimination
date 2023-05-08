@@ -7,13 +7,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 namespace OrderElimination.AbilitySystem
 {
     [OnInspectorInit("@$value._instructionName = $value._getInstructionName()")]
     [LabelText("@$value." + nameof(_instructionName))]
-    public class ActionInstruction
+    public class AbilityInstruction
     {
+        #region OdinVisuals
         private string _instructionName;
         private string _getInstructionName()
         {
@@ -29,7 +31,7 @@ namespace OrderElimination.AbilitySystem
             get
             {
                 if (Action == null) return false;
-                var actionTarget = Action.ActionExecutes;
+                var actionTarget = Action.ActionRequires;
                 var actionRequireCellGroups = actionTarget switch
                 {
                     ActionRequires.Entity => true,
@@ -41,6 +43,7 @@ namespace OrderElimination.AbilitySystem
                 return actionRequireCellGroups;// && !AffectPreviousTarget;
             }
         }
+        #endregion
 
         private int _repeatNumber = 1;
 
@@ -60,7 +63,7 @@ namespace OrderElimination.AbilitySystem
 
         [TabGroup("Targeting")]
         [ShowInInspector, OdinSerialize]
-        public List<ITargetCondition> TargetConditions { get; private set; } = new();
+        public List<IEntityCondition> TargetConditions { get; private set; } = new();
 
         [TabGroup("Targeting")]
         [ShowIf("@" + nameof(_instructionRequireCellGroups))]
@@ -88,7 +91,7 @@ namespace OrderElimination.AbilitySystem
         [GUIColor(0.5f, 1f, 0.5f)]
         [TabGroup("Execution")]
         [ShowInInspector, OdinSerialize]
-        public List<ActionInstruction> InstructionsOnActionSuccess { get; set; } = new();
+        public List<AbilityInstruction> InstructionsOnActionSuccess { get; set; } = new();
 
         [GUIColor(0.7f, 1f, 0.7f)]
         [TabGroup("Execution")]
@@ -98,7 +101,7 @@ namespace OrderElimination.AbilitySystem
         [GUIColor(1f, 0.5f, 0.5f)]
         [TabGroup("Execution")]
         [ShowInInspector, OdinSerialize]
-        public List<ActionInstruction> InstructionsOnActionFail { get; set; } = new();
+        public List<AbilityInstruction> InstructionsOnActionFail { get; set; } = new();
 
         [GUIColor(1f, 0.7f, 0.7f)]
         [TabGroup("Execution")]
@@ -108,7 +111,7 @@ namespace OrderElimination.AbilitySystem
         [GUIColor(0.6f, 0.6f, 1f)]
         [TabGroup("Execution")]
         [ShowInInspector, OdinSerialize]
-        public List<ActionInstruction> FollowingInstructions { get; set; } = new();
+        public List<AbilityInstruction> FollowingInstructions { get; set; } = new();
 
         [GUIColor(0.75f, 0.75f, 1f)]
         [TabGroup("Execution")]
@@ -131,7 +134,7 @@ namespace OrderElimination.AbilitySystem
             if (CommonConditions != null && !CommonConditions.All(c => c.IsConditionMet(battleContext, caster)))
                 return;
             var groups = executionContext.TargetedCellGroups;
-            if (Action.ActionExecutes == ActionRequires.Nothing)
+            if (Action.ActionRequires == ActionRequires.Nothing)
             {
                 if (Action is IUtilizeCellGroupsAction groupAction
                     && !groupAction.UtilizingCellGroups
@@ -153,25 +156,38 @@ namespace OrderElimination.AbilitySystem
                 .Where(g => AffectedCellGroups.Contains(g))
                 .SelectMany(g => executionContext.TargetedCellGroups.GetGroup(g)))
                 {
-                    if (CellConditions != null 
-                        && !CellConditions.All(c => c.IsConditionMet(battleContext, caster, pos)))
-                        continue;
-                    if (Action.ActionExecutes == ActionRequires.Cell)
+                    var cellConditionsMet = CellConditions == null
+                        || CellConditions.All(c => c.IsConditionMet(battleContext, caster, pos));
+                    if (Action.ActionRequires == ActionRequires.Cell)
                     {
-                        await Execute(executionContext, caster, null, pos);
+                        await ExecuteAllInstructions(cellConditionsMet, null, pos);
                     }
-                    else if (Action.ActionExecutes == ActionRequires.Entity)
+                    else if (Action.ActionRequires == ActionRequires.Entity)
                     {
-                        var entitiesInCell = battleMap.GetContainingEntities(pos).ToArray();
+                        var entitiesInCell = battleMap.GetContainedEntities(pos).ToArray();
                         foreach (var entity in entitiesInCell)
                         {
-                            if (TargetConditions != null
-                                && !TargetConditions.All(c => c.IsConditionMet(battleContext, caster, entity)))
-                                continue;
-                            await Execute(executionContext, caster, entity, pos);
+                            var entityConditionsMet = TargetConditions == null
+                                || TargetConditions.All(c => c.IsConditionMet(battleContext, caster, entity));
+                            await ExecuteAllInstructions(cellConditionsMet && entityConditionsMet, entity, pos);
                         }
                     }
                 }
+            }
+
+            async UniTask ExecuteAllInstructions(bool conditionsMet, AbilitySystemActor entity, Vector2Int? pos)
+            {
+                var success = false;
+                if (conditionsMet)
+                {
+                    success = await Execute(executionContext, caster, entity, pos);
+                    if (success && !SuccessInstructionsEveryRepeat)
+                        await ExecuteInSequence(InstructionsOnActionSuccess, executionContext);
+                    if (!success && !FailInstructionsEveryRepeat)
+                        await ExecuteInSequence(InstructionsOnActionFail, executionContext);
+                }
+                if (!FollowInstructionsEveryRepeat)
+                    await ExecuteInSequence(FollowingInstructions, executionContext);
             }
 
             async UniTask ExecuteConsideringPreviousTarget(
@@ -189,7 +205,7 @@ namespace OrderElimination.AbilitySystem
                 await Execute(executionContext, caster, executionEntity, targetPositionOverride);
             }
 
-            async UniTask Execute(
+            async UniTask<bool> Execute(
                 AbilityExecutionContext executionContext, 
                 AbilitySystemActor caster, 
                 AbilitySystemActor target,
@@ -217,10 +233,10 @@ namespace OrderElimination.AbilitySystem
                     targetPositionOverride,
                     caster,
                     target);
-                await ExecuteActions(executionContext, entityActionUseContext, animationContext);
+                return await ExecuteActions(executionContext, entityActionUseContext, animationContext);
             }
 
-            async UniTask ExecuteActions(
+            async UniTask<bool> ExecuteActions(
                 AbilityExecutionContext executionContext, 
                 ActionContext actionContext, 
                 AnimationPlayContext animationContext)
@@ -250,25 +266,11 @@ namespace OrderElimination.AbilitySystem
                         await ExecuteInSequence(FollowingInstructions, executionContext);
                     }
                 }
-                if (anyActionPerformed)
-                {
-                    if (!SuccessInstructionsEveryRepeat)
-                    {
-                        await ExecuteInSequence(InstructionsOnActionSuccess, executionContext);
-                    }
-                    if (!FailInstructionsEveryRepeat)
-                    {
-                        await ExecuteInSequence(InstructionsOnActionFail, executionContext);
-                    }
-                }
-                if (!FollowInstructionsEveryRepeat)
-                {
-                    await ExecuteInSequence(FollowingInstructions, executionContext);
-                }
+                return anyActionPerformed;
             }
 
             async UniTask ExecuteInSequence(
-                IEnumerable<ActionInstruction> instructions, 
+                IEnumerable<AbilityInstruction> instructions, 
                 AbilityExecutionContext executionContext)
             {
                 if (instructions == null)

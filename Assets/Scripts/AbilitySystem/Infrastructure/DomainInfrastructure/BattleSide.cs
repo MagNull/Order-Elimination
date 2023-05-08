@@ -8,7 +8,7 @@ namespace OrderElimination.AbilitySystem
 {
     public enum BattleSide
     {
-        None,
+        NoSide,
         Player,
         Enemies,
         Allies,

@@ -18,7 +18,15 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public bool IsSuccessful { get; set; } = true;
 
-        public override ActionRequires ActionExecutes => ExecutesOn;
+        public override ActionRequires ActionRequires => ExecutesOn;
+
+        public override IBattleAction Clone()
+        {
+            var clone = new EmptyAction();
+            clone.ExecutesOn = ExecutesOn;
+            clone.IsSuccessful = IsSuccessful;
+            return clone;
+        }
 
         protected async override UniTask<bool> Perform(ActionContext useContext)
         {

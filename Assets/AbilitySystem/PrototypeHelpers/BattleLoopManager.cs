@@ -1,4 +1,5 @@
 using Assets.AbilitySystem.PrototypeHelpers;
+using Cysharp.Threading.Tasks;
 using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
@@ -14,15 +15,15 @@ public class BattleLoopManager : MonoBehaviour
 {
     private IObjectResolver _objectResolver;
     private IReadOnlyEntitiesBank _entitiesBank;
-    //private IBattleContext _battleContext;
+    private IBattleContext _battleContext;
 
     //public BattlePlayer ActivePlayer { get; private set; }
 
     public BattleSide ActiveSide { get; private set; }
     public int CurrentRound { get; private set; }
 
-    public event Action<BattleSide> NewTurnStarted;
-    public event Action<int> NewRoundStarted;
+    public event Action NewTurnStarted;
+    public event Action NewRoundBegan;
 
     [Inject]
     private void Construct(IObjectResolver objectResolver)
@@ -32,13 +33,37 @@ public class BattleLoopManager : MonoBehaviour
         _entitiesBank = objectResolver.Resolve<IReadOnlyEntitiesBank>();
     }
 
-    public async void StartNextTurn()
+    public void StartNextTurn()
     {
-        //ActiveSide = _battleContext.TurnPriority.GetNextTurnSide(ActiveSide);
+        StartNewTurn(_battleContext.TurnPriority.GetNextTurnSide(ActiveSide));
+    }
+
+    private void InitializeBattle()
+    {
+        var scenario = _objectResolver.Resolve<CharactersMediator>().BattleScenario;
+        _battleContext = _objectResolver.Resolve<IBattleContext>();
+        _objectResolver.Resolve<BattleInitializer>().InitiateBattle(scenario);
+        StartNewTurn(_battleContext.TurnPriority.GetStartingSide());
+    }
+
+    private void StartNewTurn(BattleSide battleSide)
+    {
+        ActiveSide = battleSide;
         foreach (var entity in _entitiesBank.GetEntities().Where(e => e.BattleSide == ActiveSide))
         {
             RestoreActionPoints(entity, 1);
         }
+
+        if (ActiveSide == _battleContext.TurnPriority.GetStartingSide())
+        {
+            CurrentRound++;
+            NewRoundBegan?.Invoke();
+            Debug.Log($"Round {CurrentRound} began.");
+        }
+        NewTurnStarted?.Invoke();
+        Debug.Log($"Turn of {ActiveSide} started.");
+        if (!_entitiesBank.GetEntities().Any(e => e.BattleSide == ActiveSide))
+            StartNextTurn();
 
         static void RestoreActionPoints(AbilitySystemActor entity, int pointsToRestore)
         {
@@ -49,27 +74,8 @@ public class BattleLoopManager : MonoBehaviour
         }
     }
 
-    public async void StartNewRound()
-    {
-        CurrentRound++;
-        NewRoundStarted?.Invoke(CurrentRound);
-        Debug.Log($"Round {CurrentRound} started.");
-        //BattlePlayer currentPlayer = null;
-        //await currentPlayer.OnTurnStarted(_battleContext);
-
-        
-    }
-
-    private void InitializeBattle()
-    {
-        var scenario = _objectResolver.Resolve<CharactersMediator>().BattleScenario;
-        //_battleContext = _objectResolver.Resolve<IBattleContext>();
-        _objectResolver.Resolve<BattleInitializer>().InitiateBattle(scenario);
-        //StartNewRound();
-    }
-
     private void Start()
     {
-        //InitializeBattle();
+        InitializeBattle();
     }
 }

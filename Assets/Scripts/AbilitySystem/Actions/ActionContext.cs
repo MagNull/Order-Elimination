@@ -15,12 +15,19 @@ namespace OrderElimination.AbilitySystem
         public readonly AbilitySystemActor ActionMaker;
         public readonly AbilitySystemActor ActionTarget;
 
-        public readonly Vector2Int? ActionMakerInitialPosition;
         public readonly Vector2Int? ActionTargetInitialPosition;
 
         public readonly AnimationSceneContext AnimationSceneContext;
-        //Вынесен в параметры вызова IBattleAction
-        //public IBattleEntity actionMaker { get; }
+
+        public AbilitySystemActor GetActionEntity(ActionEntity actionEntity)
+        {
+            return actionEntity switch
+            {
+                ActionEntity.Caster => ActionMaker,
+                ActionEntity.Target => ActionTarget,
+                _ => throw new NotImplementedException(),
+            };
+        }
 
         //Заменено разделением на действия с клетками и сущностями
         //public IActionTarget Target { get; }
@@ -38,7 +45,6 @@ namespace OrderElimination.AbilitySystem
             TargetCellGroups = targetCellGroups;
             ActionMaker = actionMaker;
             ActionTarget = target;
-            ActionMakerInitialPosition = battleContext.BattleMap.GetPosition(actionMaker);
             if (targetPosition == null && target != null)
                 targetPosition = battleContext.BattleMap.GetPosition(target);
             ActionTargetInitialPosition = targetPosition;

@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
@@ -34,9 +33,9 @@ namespace OrderElimination.AbilitySystem
             {
                 _actionPoints.Add(p, 0);
             }
-            _actionProcessor = new Lazy<ActionProcessor>(() => ActionProcessor.Create(this));
+            _actionProcessor = new Lazy<EntityActionProcessor>(() => EntityActionProcessor.Create(this));
 
-            void OnHealthDepleted(IBattleLifeStats lifeStats)
+            void OnHealthDepleted(ILifeBattleStats lifeStats)
             {
                 Died?.Invoke(this);
             }
@@ -47,7 +46,7 @@ namespace OrderElimination.AbilitySystem
         public IBattleStats BattleStats => _battleStats;
 
         #region IHaveLifeStats
-        public IBattleLifeStats LifeStats => _battleStats;
+        public ILifeBattleStats LifeStats => _battleStats;
         public bool IsAlive => LifeStats.Health > 0;
         public event Action<DealtDamageInfo> Damaged;
         public event Action<HealRecoveryInfo> Healed;
@@ -172,17 +171,13 @@ namespace OrderElimination.AbilitySystem
         }
         #endregion
 
-        public ActionProcessor ActionProcessor => _actionProcessor.Value;
+        public EntityStatusHolder StatusHolder { get; } = new EntityStatusHolder();
+
+        public EntityActionProcessor ActionProcessor => _actionProcessor.Value;
 
         //IBattleObstacle?
 
-        private readonly Lazy<ActionProcessor> _actionProcessor;
+        private readonly Lazy<EntityActionProcessor> _actionProcessor;
         private readonly BattleStats _battleStats;
-    }
-
-    public enum EntityType
-    {
-        Character,
-        MapObject
     }
 }

@@ -10,9 +10,9 @@ namespace OrderElimination.AbilitySystem
 {
     public class AbilityExecution
     {
-        public ActionInstruction[] ActionInstructions;
+        public AbilityInstruction[] ActionInstructions;
 
-        public AbilityExecution(ActionInstruction[] actionInstructions)
+        public AbilityExecution(AbilityInstruction[] actionInstructions)
         {
             if (actionInstructions == null)
                 throw new ArgumentNullException();

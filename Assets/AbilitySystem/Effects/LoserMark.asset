@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acb2e992d7d6fa849b36b6f05febfd6b, type: 3}
+  m_Name: LoserMark
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 21300000, guid: 64eb0648ca0d11944a9517d8662508fd, type: 3}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: StackingPolicy
+      Entry: 3
+      Data: 1
+    - Name: UseApplierProcessing
+      Entry: 5
+      Data: false
+    - Name: UseHolderProcessing
+      Entry: 5
+      Data: false
+    - Name: CanBeForceRemoved
+      Entry: 5
+      Data: false
+    - Name: IsTemporary
+      Entry: 5
+      Data: false
+    - Name: TemporaryEffectFunctionaity
+      Entry: 6
+      Data: 
+    - Name: IsProcessingIncomingAction
+      Entry: 5
+      Data: false
+    - Name: IncomingActionProcessor
+      Entry: 6
+      Data: 
+    - Name: IsProcessingOutcomingAction
+      Entry: 5
+      Data: false
+    - Name: OutcomingActionProcessor
+      Entry: 6
+      Data: 
+    - Name: _view
+      Entry: 7
+      Data: 0|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
+    - Name: Name
+      Entry: 1
+      Data: "\u041C\u0435\u0442\u043A\u0430 \u043F\u0440\u0438\u0441\u043F\u043E\u0441\u043E\u0431\u043B\u0435\u043D\u0446\u0430"
+    - Name: Icon
+      Entry: 10
+      Data: 0
+    - Name: IsHidden
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _activationInstruction
+      Entry: 6
+      Data: 
+    - Name: _deactivationInstruction
+      Entry: 6
+      Data: 
+    - Name: _triggerInstructions
+      Entry: 7
+      Data: 1|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.IBattleTrigger,
+        Assembly-CSharp],[OrderElimination.AbilitySystem.IEffectInstruction, Assembly-CSharp]],
+        mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 2|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.IBattleTrigger,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 

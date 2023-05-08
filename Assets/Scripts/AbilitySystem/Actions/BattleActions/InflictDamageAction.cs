@@ -40,9 +40,9 @@ namespace OrderElimination.AbilitySystem
         public bool IgnoreEvasion { get; set; }
 
         [ShowInInspector, SerializeField]
-        public bool IgnoreAccuracyAffectionByObjects { get; set; }
+        public bool ObjectsBetweenAffectAccuracy { get; set; } //TODO Extract to Accuracy ValueGetter
 
-        public override ActionRequires ActionExecutes => ActionRequires.Entity;
+        public override ActionRequires ActionRequires => ActionRequires.Entity;
 
         //[ShowInInspector, SerializeField]
         //public IDamageAnimation SuccessfulHitAnimation { get; private set; }
@@ -53,7 +53,7 @@ namespace OrderElimination.AbilitySystem
         //public bool IgnoreDeadTargets { get; set; }
 
         //*При вызове Perform IBattleAction уже обработан.
-        public override InflictDamageAction GetModifiedAction(
+        protected override InflictDamageAction ModifyAction(
             ActionContext context,
             bool actionMakerProcessing = true,
             bool targetProcessing = true)
@@ -67,15 +67,15 @@ namespace OrderElimination.AbilitySystem
                 modifiedAction = context.ActionMaker.ActionProcessor.ProcessOutcomingAction(modifiedAction);
 
             var modifiedAccuracy = modifiedAction.Accuracy;
-            if (!IgnoreAccuracyAffectionByObjects && context.ActionMaker != null)
+            if (ObjectsBetweenAffectAccuracy && context.ActionMaker != null)
             {
                 var battleMap = context.BattleContext.BattleMap;
                 var intersections = CellMath.GetIntersectionBetween(
-                    context.ActionMakerInitialPosition.Value, context.ActionTargetInitialPosition.Value);
+                    context.ActionMaker.Position, context.ActionTargetInitialPosition.Value);
                 foreach (var intersection in intersections)
                 {
                     foreach (var battleObstacle in battleMap
-                        .GetContainingEntities(intersection.CellPosition)
+                        .GetVisibleEntities(intersection.CellPosition, context.BattleContext, context.ActionMaker.BattleSide)
                         .Select(e => e as IBattleObstacle)
                         .Where(o => o != null))
                     {
@@ -108,6 +108,20 @@ namespace OrderElimination.AbilitySystem
                 return true;
             }
             return false;
+        }
+
+        public override IBattleAction Clone()
+        {
+            var clone = new InflictDamageAction();
+            clone.DamageSize = DamageSize.Clone();
+            clone.ArmorMultiplier = ArmorMultiplier;
+            clone.HealthMultiplier = HealthMultiplier;
+            clone.DamageType = DamageType;
+            clone.DamagePriority = DamagePriority;
+            clone.Accuracy = Accuracy.Clone();
+            clone.IgnoreEvasion = IgnoreEvasion;
+            clone.ObjectsBetweenAffectAccuracy = ObjectsBetweenAffectAccuracy;
+            return clone;
         }
     }
 }

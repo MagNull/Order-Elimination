@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -16,7 +15,6 @@ namespace OrderElimination.AbilitySystem
         public event Action<BattleEffect> Deactivated;
 
         //Temporary effect
-        private RoundTimerTrigger _durationTimer;
         public int? LeftDuration { get; private set; }
         public event Action<BattleEffect> DurationEnded;
 
@@ -56,23 +54,20 @@ namespace OrderElimination.AbilitySystem
             {
                 LeftDuration = EffectData.TemporaryEffectFunctionaity.ApplyingDuration;
                 DurationEnded += EffectData.TemporaryEffectFunctionaity.OnTimeOut;
-                _durationTimer = new RoundTimerTrigger();
-                _durationTimer.Interval = LeftDuration.Value;
-                _durationTimer.StartFromNextRound = false;
-                _durationTimer.FireOnStart = true;
-                _durationTimer.Triggered += OnTimeOut;
-                var triggerInfo = new TriggerActivationInfo(BattleContext);
-                _durationTimer.Activate(triggerInfo);
+                var activationSide = BattleContext.ActiveSide;
+                BattleContext.NewTurnStarted += OnNewTurn;
+
+                void OnNewTurn(IBattleContext context)
+                {
+                    if (context.ActiveSide != activationSide) return;
+                    LeftDuration--;
+                    if (LeftDuration > 0) return;
+                    BattleContext.NewTurnStarted -= OnNewTurn;
+                    EffectData.TemporaryEffectFunctionaity.OnTimeOut(this);
+                    Deactivate();
+                }
             }
             return true;
-
-            void OnTimeOut(ITriggerFiredInfo triggerInfo)
-            {
-                _durationTimer.Deactivate();
-                _durationTimer = null;
-                EffectData.TemporaryEffectFunctionaity.OnTimeOut(this);
-                Deactivate();
-            }
         }
 
         public bool TryDeactivate()

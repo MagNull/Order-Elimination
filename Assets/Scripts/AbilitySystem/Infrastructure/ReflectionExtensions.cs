@@ -30,7 +30,7 @@ namespace OrderElimination.Infrastructure
             }
         }
 
-        public static bool IsNumeric(object obj)
+        public static bool IsNumeric(this object obj)
         {
             return obj is sbyte
             || obj is byte

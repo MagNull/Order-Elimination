@@ -40,22 +40,36 @@ public class BattleMapSelector : MonoBehaviour
     private AbilitySystemActor _currentSelectedEntity;
     private AbilityRunner _selectedAbility;
 
+    private bool _isEnabled = true;
+
     [Inject]
     private void Construct(IObjectResolver objectResolver)
     {
         _battleContext = objectResolver.Resolve<IBattleContext>();
         _battleMapView = objectResolver.Resolve<BattleMapView>();
         _battleMapView.CellClicked += OnCellClicked;
-        _battleContext.NewRoundStarted -= OnNewRoundStarted;
-        _battleContext.NewRoundStarted += OnNewRoundStarted;
+        _battleContext.NewRoundBegan -= OnNewRoundStarted;
+        _battleContext.NewRoundBegan += OnNewRoundStarted;
         void OnNewRoundStarted(IBattleContext battleContext)
         {
             DeselectEntity();
         }
     }
 
+    public void Enable()
+    {
+        _isEnabled = true;
+    }
+
+    public void Disable()
+    {
+        DeselectEntity();
+        _isEnabled = false;
+    }
+
     private void OnCellClicked(CellView cellView)
     {
+        if (!_isEnabled) return;
         if (_lastClickedCell != cellView)
             _currentLoopIndex = 0;
         _lastClickedCell = cellView;
@@ -260,18 +274,6 @@ public class BattleMapSelector : MonoBehaviour
                 Debug.Log($"Ability «{abilityName}» has been used." % Colorize.Cyan);
                 _selectedAbility.AbilityData.TargetingSystem.ConfirmTargeting();
             }
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            Time.timeScale = 1.0f;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            Time.timeScale = 0.5f;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            Time.timeScale = 0.25f;
         }
     }
     #endregion

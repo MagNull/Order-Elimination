@@ -20,16 +20,21 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public IContextValueGetter ApplyChance { get; set; }
 
-        public override ActionRequires ActionExecutes => ActionRequires.Entity;
+        public override ActionRequires ActionRequires => ActionRequires.Entity;
+
+        public override IBattleAction Clone()
+        {
+            var clone = new ApplyEffectAction();
+            clone.Effect = Effect;
+            clone.ApplyChance = ApplyChance;
+            return clone;
+        }
 
         protected async override UniTask<bool> Perform(ActionContext useContext)
         {
             if (RandomExtensions.RollChance(ApplyChance.GetValue(useContext)))
             {
                 var isSuccessfull = useContext.ActionTarget.ApplyEffect(Effect, useContext.ActionMaker);
-                var targetView = useContext.BattleContext.EntitiesBank.GetViewByEntity(useContext.ActionTarget);
-                if (isSuccessfull)
-                    Debug.Log($"Effect {Effect.View.Name} has been applied on {targetView.Name}." % Colorize.Orange);
                 return isSuccessfull;
             }
             return false;

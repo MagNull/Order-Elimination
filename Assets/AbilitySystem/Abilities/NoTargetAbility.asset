@@ -17,7 +17,7 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 21300000, guid: 1a2673cb12e2ed1459bc6ab5dad05aae, type: 3}
-    - {fileID: 11400000, guid: 66005424e12067145be8bc98f64d94a8, type: 2}
+    - {fileID: 11400000, guid: ea63359f50d309b4482bf9db18d882a9, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -33,9 +33,6 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: CooldownTime
-      Entry: 3
-      Data: 0
-    - Name: UnlocksAtRound
       Entry: 3
       Data: 0
     - Name: TargetingSystem
@@ -326,7 +323,7 @@ MonoBehaviour:
       Data: false
     - Name: TargetConditions
       Entry: 7
-      Data: 19|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.ITargetCondition,
+      Data: 19|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12

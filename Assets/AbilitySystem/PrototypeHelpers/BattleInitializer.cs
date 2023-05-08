@@ -17,7 +17,6 @@ namespace Assets.AbilitySystem.PrototypeHelpers
         private CharactersMediator _characterMediator;
         private BattleEntitiesFactory _entitiesFactory;
         private BattleEntitiesBank _entitiesBank;
-        private IBattleMap _battleMap => _battleMapDirector.Map;
 
         [Inject]
         private void Construct(IObjectResolver objectResolver)
@@ -48,7 +47,7 @@ namespace Assets.AbilitySystem.PrototypeHelpers
             }
             foreach (var pos in scenario.MapObjects.Keys)
             {
-                _entitiesFactory.CreateBattleObject(scenario.MapObjects[pos], BattleSide.Others, pos);
+                _entitiesFactory.CreateBattleObject(scenario.MapObjects[pos], BattleSide.NoSide, pos);
             }
         }
 

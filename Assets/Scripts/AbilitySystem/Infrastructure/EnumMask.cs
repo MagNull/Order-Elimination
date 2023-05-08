@@ -3,10 +3,11 @@ using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 
 namespace OrderElimination.Infrastructure
 {
-    public class EnumMask<T> where T : Enum
+    public class EnumMask<T> : ICloneable<EnumMask<T>> where T : Enum
     {
         [OnCollectionChanged(nameof(ValidateDictionary))]
         [OnValueChanged(nameof(ValidateDictionary))]
@@ -33,6 +34,13 @@ namespace OrderElimination.Infrastructure
                     _valueFlags.Add(entityType, false);
                 }
             }
+        }
+
+        public EnumMask<T> Clone()
+        {
+            var clone = new EnumMask<T>();
+            clone._valueFlags = _valueFlags.ToDictionary(kv => kv.Key, kv => kv.Value);
+            return clone;
         }
     }
 }

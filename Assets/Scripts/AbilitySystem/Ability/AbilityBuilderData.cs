@@ -38,10 +38,6 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public int CooldownTime { get; private set; }
 
-        [TitleGroup("Game Rules"), PropertyOrder(2)]
-        [ShowInInspector, OdinSerialize]
-        public int UnlocksAtRound { get; private set; }
-
         [TitleGroup("Game Rules"), PropertyOrder(3)]
         [ShowInInspector, OdinSerialize]
         public ICommonCondition[] AvailabilityConditions = new ICommonCondition[0];
@@ -93,7 +89,7 @@ namespace OrderElimination.AbilitySystem
 
         [TitleGroup("Functionality", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 4), PropertyOrder(0)]
         [ShowInInspector, OdinSerialize]
-        public ActionInstruction[] AbilityInstructions;
+        public AbilityInstruction[] AbilityInstructions;
 
         //private const float TitleSpacing = 50;
         private bool ValidateCellPattern(CellGroupDistributionPattern pattern)

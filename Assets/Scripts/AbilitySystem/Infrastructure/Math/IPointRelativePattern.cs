@@ -14,7 +14,7 @@ namespace OrderElimination.Infrastructure
         Except
     }
 
-    public interface IPointRelativePattern
+    public interface IPointRelativePattern : ICloneable<IPointRelativePattern>
     {
         public Vector2Int[] GetAbsolutePositions(Vector2Int originPoint);
     }
@@ -33,6 +33,13 @@ namespace OrderElimination.Infrastructure
         public bool AddRelativePosition(Vector2Int offset) => _relativePositions.Add(offset);
 
         public bool RemoveRelativePosition(Vector2Int offset) => _relativePositions.Remove(offset);
+
+        public IPointRelativePattern Clone()
+        {
+            var clone = new PointRelativePattern();
+            clone._relativePositions = _relativePositions.ToHashSet();
+            return clone;
+        }
     }
 
     public class DistanceFromPointPattern : IPointRelativePattern
@@ -67,6 +74,15 @@ namespace OrderElimination.Infrastructure
 
         [ShowInInspector, OdinSerialize]
         public bool UseSquareDistance { get; set; } = false;
+
+        public IPointRelativePattern Clone()
+        {
+            var clone = new DistanceFromPointPattern();
+            clone._minDistanceFromOrigin = _minDistanceFromOrigin;
+            clone._maxDistanceFromOrigin = _maxDistanceFromOrigin;
+            clone.UseSquareDistance = UseSquareDistance;
+            return clone;
+        }
 
         public Vector2Int[] GetAbsolutePositions(Vector2Int originPoint)
         {
@@ -120,6 +136,15 @@ namespace OrderElimination.Infrastructure
 
         [ShowInInspector, OdinSerialize]
         public IPointRelativePattern PatternB { get; set; }
+
+        public IPointRelativePattern Clone()
+        {
+            var clone = new CompoundPointPattern();
+            clone.PatternA = PatternA.Clone();
+            clone.PatternB = PatternB.Clone();
+            clone.BooleanOperation = BooleanOperation;
+            return clone;
+        }
 
         public Vector2Int[] GetAbsolutePositions(Vector2Int originPoint)
         {

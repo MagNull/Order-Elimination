@@ -9,16 +9,22 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class EffectView
+    public class EffectView : IReadOnlyEffectView
     {
-        [ShowInInspector, OdinSerialize]
-        public string Name { get; private set; }
+        [OdinSerialize]
+        public string Name { get; set; }
 
-        [ShowInInspector, OdinSerialize]
-        [PreviewField]
-        public Sprite Icon { get; private set; }
+        [OdinSerialize]
+        public Sprite Icon { get; set; }
 
-        [ShowInInspector, OdinSerialize]
-        public bool IsHidden { get; private set; }
+        [OdinSerialize]
+        public bool IsHidden { get; set; }
+    }
+
+    public interface IReadOnlyEffectView
+    {
+        public string Name { get; }
+        public Sprite Icon { get; }
+        public bool IsHidden { get; }
     }
 }

@@ -1,22 +1,18 @@
 ﻿using OrderElimination.AbilitySystem;
+using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
 
 namespace OrderElimination.AbilitySystem
 {
-    public enum MathOperation
+    public interface IContextValueGetter : ICloneable<IContextValueGetter>
     {
-        Add,
-        Subtract,
-        Multiply,
-        Divide,
-    }
+        public const string EmptyValueReplacement = "_";
 
-    public interface IContextValueGetter
-    {
         public string DisplayedFormula { get; }
 
         float GetValue(ActionContext useContext);
@@ -26,9 +22,16 @@ namespace OrderElimination.AbilitySystem
     public struct ConstValueGetter : IContextValueGetter
     {
         [OdinSerialize]
-        public float Value { get; private set; }
+        public float Value { get; set; }
 
         public string DisplayedFormula => Value.ToString();
+
+        public IContextValueGetter Clone()
+        {
+            var clone = new ConstValueGetter();
+            clone.Value = Value;
+            return clone;
+        }
 
         public float GetValue(ActionContext useContext) => Value;
     }
@@ -37,30 +40,36 @@ namespace OrderElimination.AbilitySystem
     public struct MathValueGetter : IContextValueGetter
     {
         [OdinSerialize]
-        public IContextValueGetter Left { get; private set; }
+        public IContextValueGetter Left { get; set; }
 
         [OdinSerialize]
-        public MathOperation Operation { get; private set; }
+        public MathOperation Operation { get; set; }
 
         [OdinSerialize]
-        public IContextValueGetter Right { get; private set; }
+        public IContextValueGetter Right { get; set; }
 
         public string DisplayedFormula
         {
             get
             {
-                var leftValue = Left != null ? Left.DisplayedFormula : "_";
-                var rightValue = Right != null ? Right.DisplayedFormula : "_";
-                var operation = Operation switch
-                {
-                    MathOperation.Add => "+",
-                    MathOperation.Subtract => "-",
-                    MathOperation.Multiply => "*",
-                    MathOperation.Divide => "/",
-                    _ => throw new NotImplementedException(),
-                };
+                var leftValue = Left != null 
+                    ? Left.DisplayedFormula 
+                    : IContextValueGetter.EmptyValueReplacement;
+                var rightValue = Right != null 
+                    ? Right.DisplayedFormula 
+                    : IContextValueGetter.EmptyValueReplacement;
+                var operation = Operation.AsString();
                 return $"({leftValue} {operation} {rightValue})";
             }
+        }
+
+        public IContextValueGetter Clone()
+        {
+            var clone = new MathValueGetter();
+            clone.Left = Left.Clone();
+            clone.Right = Right.Clone();
+            clone.Operation = Operation;
+            return clone;
         }
 
         public float GetValue(ActionContext useContext)
@@ -90,6 +99,14 @@ namespace OrderElimination.AbilitySystem
 
         public string DisplayedFormula => $"Caster.{CasterStat}({(UseUnmodifiedValue ? "orig" : "mod")})";
 
+        public IContextValueGetter Clone()
+        {
+            var clone = new CasterStatGetter();
+            clone.CasterStat = CasterStat;
+            clone.UseUnmodifiedValue = UseUnmodifiedValue;
+            return clone;
+        }
+
         public float GetValue(ActionContext useContext)
         {
             if (useContext.ActionMaker == null
@@ -112,6 +129,14 @@ namespace OrderElimination.AbilitySystem
         public bool UseUnmodifiedValue { get; private set; }
 
         public string DisplayedFormula => $"Caster.{TargetStat}({(UseUnmodifiedValue ? "orig" : "mod")})";
+
+        public IContextValueGetter Clone()
+        {
+            var clone = new TargetStatGetter();
+            clone.TargetStat = TargetStat;
+            clone.UseUnmodifiedValue = UseUnmodifiedValue;
+            return clone;
+        }
 
         public float GetValue(ActionContext useContext)
         {
@@ -141,11 +166,25 @@ namespace OrderElimination.AbilitySystem
         {
             get
             {
-                var start = RangeStart != null ? RangeStart.DisplayedFormula : "_";
-                var end = RangeEnd != null ? RangeEnd.DisplayedFormula : "_";
+                var start = RangeStart != null 
+                    ? RangeStart.DisplayedFormula 
+                    : IContextValueGetter.EmptyValueReplacement;
+                var end = RangeEnd != null 
+                    ? RangeEnd.DisplayedFormula 
+                    : IContextValueGetter.EmptyValueReplacement;
                 return $"[{start};{end}]";
             }
         }
+
+        public IContextValueGetter Clone()
+        {
+            var clone = new RandomValueGetter();
+            clone.RangeStart = RangeStart.Clone();
+            clone.RangeEnd = RangeEnd.Clone();
+            clone.RoundToInt = RoundToInt;
+            return clone;
+        }
+
         public float GetValue(ActionContext useContext)
         {
             var rand = Random.Range(RangeStart.GetValue(useContext), RangeEnd.GetValue(useContext));

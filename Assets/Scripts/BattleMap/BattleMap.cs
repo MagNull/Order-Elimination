@@ -9,6 +9,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using OrderElimination.Infrastructure;
 using OrderElimination.AbilitySystem;
+using OrderElimination.AbilitySystem.Infrastructure;
 
 public class BattleMap : MonoBehaviour, IBattleMap
 {
@@ -20,11 +21,25 @@ public class BattleMap : MonoBehaviour, IBattleMap
 
     public event Action<Vector2Int> CellChanged;
 
-    public IEnumerable<AbilitySystemActor> GetContainingEntities(Vector2Int position)
+    public IEnumerable<AbilitySystemActor> GetContainedEntities(Vector2Int position)
     {
         if (!CellRangeBorders.Contains(position))
             throw new ArgumentOutOfRangeException();
         return GetCell(position.x, position.y).GetContainingEntities();
+    }
+
+    public IEnumerable<AbilitySystemActor> GetVisibleEntities(
+        Vector2Int position, IBattleContext battleContext, BattleSide askingSide)
+    {
+        var visibleEntities = new List<AbilitySystemActor>();
+        foreach (var entity in GetContainedEntities(position))
+        {
+            var relationship = battleContext.GetRelationship(askingSide, entity.BattleSide);
+            if (!entity.StatusHolder.HasStatus(BattleStatus.Invisible)
+                || relationship == BattleRelationship.Ally)
+                visibleEntities.Add(entity);
+        }
+        return visibleEntities;
     }
 
     public Vector2Int GetPosition(AbilitySystemActor entity)

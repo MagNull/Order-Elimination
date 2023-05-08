@@ -9,6 +9,7 @@ namespace OrderElimination.AbilitySystem
     public interface ITurnPriority
     {
         public BattleSide GetNextTurnSide(BattleSide currentTurnSide);
+        public BattleSide GetStartingSide();
     }
 
     public class PlayerFirstTurnPriority : ITurnPriority
@@ -24,5 +25,7 @@ namespace OrderElimination.AbilitySystem
                 _ => throw new NotSupportedException(),
             };
         }
+
+        public BattleSide GetStartingSide() => BattleSide.Player;
     }
 }

@@ -62,8 +62,8 @@ namespace OrderElimination.AbilitySystem
                 AbilityData.TargetingSystem.CancelTargeting();
                 caster.RemoveActionPoints(AbilityData.Rules.UsageCost);
                 Cooldown = AbilityData.GameRepresentation.CooldownTime;
-                battleContext.NewRoundStarted -= decreaseCooldown;
-                battleContext.NewRoundStarted += decreaseCooldown;
+                battleContext.NewRoundBegan -= decreaseCooldown;
+                battleContext.NewRoundBegan += decreaseCooldown;
                 var abilityUseContext = new AbilityExecutionContext(battleContext, caster, executionGroups);
                 IsRunning = true;
                 caster.IsBusy = true;
@@ -88,7 +88,7 @@ namespace OrderElimination.AbilitySystem
                 if (Cooldown <= 0)
                 {
                     Cooldown = 0;
-                    battleContext.NewRoundStarted -= decreaseCooldown;
+                    battleContext.NewRoundBegan -= decreaseCooldown;
                 }
             }
         }

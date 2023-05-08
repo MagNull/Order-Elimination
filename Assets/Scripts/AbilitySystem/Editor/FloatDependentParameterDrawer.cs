@@ -57,7 +57,7 @@
 //            }
 //            EditorGUILayout.EndHorizontal();
 //            //SirenixEditorFields.TextField();
-            
+
 //            var expr = ValueEntry.SmartValue.ValueGetterExpression.ToSafeString();
 //            SirenixEditorFields.TextField("Compiled lambda", expr);
 //        }

@@ -728,6 +728,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a966260ceb3744ecbda354f355541490, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &779262440
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 779262441}
+  - component: {fileID: 779262442}
+  m_Layer: 0
+  m_Name: ControlSwitcher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &779262441
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779262440}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2082279894}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &779262442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779262440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29e0afc5542a39946bb304d7f061ade4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerSelector: {fileID: 78333931}
+  _endTurnButton: {fileID: 1079648310}
+  _dontTouchPlayerSelector: 1
 --- !u!1 &806930971
 GameObject:
   m_ObjectHideFlags: 0
@@ -1100,6 +1147,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33adebae85bfa4043865878ad3519809, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1079648310 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7208725859479323939, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
+  m_PrefabInstance: {fileID: 7208725858282699637}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1106864593
 GameObject:
   m_ObjectHideFlags: 0
@@ -1151,6 +1209,7 @@ MonoBehaviour:
   - {fileID: 1239340652}
   - {fileID: 1031238777}
   - {fileID: 78333929}
+  - {fileID: 779262440}
   _battleCharacterFactory: {fileID: 221238765}
   _battleEntitiesFactory: {fileID: 625776184}
   _battleLoopManager: {fileID: 1031238779}
@@ -2927,6 +2986,7 @@ Transform:
   m_Children:
   - {fileID: 1031238778}
   - {fileID: 78333930}
+  - {fileID: 779262441}
   m_Father: {fileID: 1644134204}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3105,12 +3165,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7208725859479323939, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7208725859479323939, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1031238779}
     - target: {fileID: 7208725859479323939, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StartNewRound
+      value: StartNextTurn
       objectReference: {fileID: 0}
     - target: {fileID: 7208725859479323939, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName

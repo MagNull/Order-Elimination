@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -19,7 +20,7 @@ namespace OrderElimination.AbilitySystem
 
 
         [ShowInInspector, OdinSerialize]
-        public LifeStatPriority HealPriority { get; set; }
+        public LifeStatPriority HealPriority { get; set; } = LifeStatPriority.HealthFirst;
 
 
         [ShowInInspector, OdinSerialize]
@@ -29,7 +30,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public float HealthMultiplier { get; set; } = 1f;
 
-        public override ActionRequires ActionExecutes => ActionRequires.Entity;
+        public override ActionRequires ActionRequires => ActionRequires.Entity;
 
         protected override async UniTask<bool> Perform(ActionContext useContext)
         {
@@ -38,6 +39,16 @@ namespace OrderElimination.AbilitySystem
             var healInfo = new HealInfo(value, ArmorMultiplier, HealthMultiplier, HealPriority, healer);
             useContext.ActionTarget.TakeHeal(healInfo);
             return true;
+        }
+
+        public override IBattleAction Clone()
+        {
+            var clone = new HealAction();
+            clone.HealSize = HealSize.Clone();
+            clone.HealPriority = HealPriority;
+            clone.ArmorMultiplier = ArmorMultiplier;
+            clone.HealthMultiplier = HealthMultiplier;
+            return clone;
         }
     }
 }

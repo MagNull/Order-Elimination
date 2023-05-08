@@ -4,7 +4,7 @@ namespace OrderElimination.AbilitySystem
 {
     public interface IHaveBattleLifeStats
     {
-        public IBattleLifeStats LifeStats { get; }
+        public ILifeBattleStats LifeStats { get; }
 
         public event Action<DealtDamageInfo> Damaged;
         public event Action<HealRecoveryInfo> Healed;

@@ -21,7 +21,7 @@ namespace OrderElimination.AbilitySystem
         {
             var currentEntities = AreaPattern
                 .GetAbsolutePositions(areaOrigin)
-                .SelectMany(pos => battleMap.GetContainingEntities(pos))
+                .SelectMany(pos => battleMap.GetContainedEntities(pos))
                 .ToHashSet();
             foreach (var entity in _enitiesInArea)
             {

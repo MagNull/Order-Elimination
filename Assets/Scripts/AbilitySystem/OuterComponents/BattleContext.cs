@@ -27,14 +27,26 @@ namespace OrderElimination.AbilitySystem
         public BattleSide ActiveSide => _battleLoopManager.ActiveSide;
 
         public event Action<IBattleContext> NewTurnStarted;
-        public event Action<IBattleContext> NewRoundStarted;
+        public event Action<IBattleContext> NewRoundBegan;
 
-        public BattleRelationship GetRelationship(AbilitySystemActor askingEntity, AbilitySystemActor relationEntity)
+        public BattleRelationship GetRelationship(BattleSide askingSide, BattleSide relationSide)
         {
-            if (askingEntity.BattleSide == relationEntity.BattleSide)
+            var playerFriends = new HashSet<BattleSide>() { BattleSide.Player, BattleSide.Allies };
+            var enemiesFriends = new HashSet<BattleSide>() { BattleSide.Enemies };
+            var othersFriends = new HashSet<BattleSide>() { BattleSide.Others };
+            var noSideFriends = new HashSet<BattleSide>() { };
+            var friendly = askingSide switch
+            {
+                BattleSide.NoSide => noSideFriends.Contains(relationSide),
+                BattleSide.Player => playerFriends.Contains(relationSide),
+                BattleSide.Enemies => enemiesFriends.Contains(relationSide),
+                BattleSide.Allies => playerFriends.Contains(relationSide),
+                BattleSide.Others => othersFriends.Contains(relationSide),
+                _ => throw new NotImplementedException(),
+            };
+            if (friendly)
                 return BattleRelationship.Ally;
             return BattleRelationship.Enemy;
-            throw new NotImplementedException();
         }
 
         [Inject]
@@ -42,12 +54,17 @@ namespace OrderElimination.AbilitySystem
         {
             BattleMap = objectResolver.Resolve<IBattleMap>();
             EntitiesBank = objectResolver.Resolve<IReadOnlyEntitiesBank>();
-            //_battleLoopManager = objectResolver.Resolve<BattleLoopManager>();
+            _battleLoopManager = objectResolver.Resolve<BattleLoopManager>();
             AnimationSceneContext = objectResolver.Resolve<AnimationSceneContext>();
-            //_battleLoopManager.NewRoundStarted += OnNewRound;
-            void OnNewRound(int round)
+            _battleLoopManager.NewTurnStarted += OnNewTurn;
+            _battleLoopManager.NewRoundBegan += OnNewRound;
+            void OnNewTurn()
             {
-                NewRoundStarted?.Invoke(this);
+                NewTurnStarted?.Invoke(this);
+            }
+            void OnNewRound()
+            {
+                NewRoundBegan?.Invoke(this);
             }
         }
     }
