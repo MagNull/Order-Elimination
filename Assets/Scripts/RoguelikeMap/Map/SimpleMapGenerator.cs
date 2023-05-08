@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using UnityEngine;
 using VContainer;
-using Object = UnityEngine.Object;
+using VContainer.Unity;
 
 namespace RoguelikeMap.Map
 {
@@ -12,18 +11,18 @@ namespace RoguelikeMap.Map
     {
         private const int NumberOfMap = 0;
         private readonly Transform _parent;
-        private readonly PanelGenerator _panelGenerator;
         private readonly GameObject _pointPrefab;
         private readonly LineRenderer _pathPrefab;
+        private readonly IObjectResolver _resolver;
 
         [Inject]
-        public SimpleMapGenerator(GameObject pointPrefab, PanelGenerator panelGenerator, 
-            Transform pointsParent, LineRenderer pathPrefab)
+        public SimpleMapGenerator(GameObject pointPrefab, Transform pointsParent,
+            LineRenderer pathPrefab, IObjectResolver resolver)
         {
             _pointPrefab = pointPrefab;
-            _panelGenerator = panelGenerator;
             _parent = pointsParent;
             _pathPrefab = pathPrefab;
+            _resolver = resolver;
         }
 
         public IEnumerable<Point> GenerateMap()
@@ -42,13 +41,12 @@ namespace RoguelikeMap.Map
 
         private Point CreatePoint(PointInfo info)
         {
-            var pointObj = Object.Instantiate(_pointPrefab, info.Position, Quaternion.identity, _parent);
+            var pointObj = _resolver.Instantiate(_pointPrefab, info.Model.Position, Quaternion.identity, _parent);
             
             var pointSprite = pointObj.GetComponent<SpriteRenderer>();
             pointSprite.sprite = info.PointSprite;
 
             var point = pointObj.GetComponent<Point>();
-            point.SetPanelGenerator(_panelGenerator);
             point.SetPointModel(info.Model);
             
             return point;

@@ -21,20 +21,13 @@ namespace RoguelikeMap.Panels
         
         public event Action<int> OnHealAccept;
         public event Action<IReadOnlyList<ItemData>> OnLootAccept;
-
-        public override void SetInfo(PointModel model)
+        
+        public void SetInfo(int amountHeal, IReadOnlyList<ItemData> items, Sprite sprite, string text)
         {
-            if (model is not SafeZonePointModel safeZoneModel)
-                throw new ArgumentException("Is not valid PointInfo");
-            SetInfo(safeZoneModel);
-        }
-
-        private void SetInfo(SafeZonePointModel safeZoneModel)
-        {
-            _amountHeal = safeZoneModel.AmountHeal;
-            _items = safeZoneModel.Items;
-            _image.sprite = safeZoneModel.Sprite;
-            _text.text = safeZoneModel.Text;
+            _amountHeal = amountHeal;
+            _items = items;
+            _image.sprite = sprite;
+            _text.text = text;
         }
 
         public void HealAccept()

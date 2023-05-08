@@ -21,7 +21,6 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _position: {x: 200, y: 300, z: 1}
   _sprite: {fileID: -300597444, guid: 5897665c51c6ee04e8c18c5fa5db7853, type: 3}
   _model:
     rid: 7872520390573555739
@@ -33,8 +32,9 @@ MonoBehaviour:
     - rid: 7872520390573555739
       type: {class: EventPointModel, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
-        Index: 7
         _nextPointsIndex: 09000000
+        _position: {x: 200, y: 300, z: 0}
+        Index: 7
         _startEventInfo:
           rid: 7872520390573555740
     - rid: 7872520390573555740
@@ -47,7 +47,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 0
         _isBattle: 0
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers:
@@ -66,7 +66,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 0
         _isBattle: 0
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers: []
@@ -81,7 +81,7 @@ MonoBehaviour:
         _isRandom: 1
         _isHaveItems: 0
         _isBattle: 0
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers: []
@@ -100,7 +100,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 0
         _isBattle: 0
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers:
@@ -120,7 +120,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 0
         _isBattle: 0
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers: []
@@ -137,7 +137,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 0
         _isBattle: 0
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: 7872520390573555752
         _answers: []
@@ -152,7 +152,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 0
         _isBattle: 0
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: 7872520390573555753
         _answers: []
@@ -167,7 +167,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 1
         _isBattle: 0
-        _itemsId: 00000000
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers: []
@@ -182,7 +182,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 0
         _isBattle: 0
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers:
@@ -201,7 +201,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 0
         _isBattle: 0
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: 7872520390573555756
         _answers: []
@@ -216,7 +216,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 0
         _isBattle: 0
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers: []
@@ -231,7 +231,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 0
         _isBattle: 0
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers: []
@@ -247,7 +247,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 0
         _isBattle: 0
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers:
@@ -266,7 +266,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 0
         _isBattle: 1
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers: []
@@ -282,7 +282,7 @@ MonoBehaviour:
         _isRandom: 1
         _isHaveItems: 0
         _isBattle: 0
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers: []
@@ -299,7 +299,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 0
         _isBattle: 1
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers: []
@@ -319,7 +319,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 0
         _isBattle: 0
-        _itemsId: 
+        _itemsData: []
         _nextStage:
           rid: 7872520390573555763
         _answers: []
@@ -334,7 +334,7 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 1
         _isBattle: 0
-        _itemsId: 00000000
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers: []

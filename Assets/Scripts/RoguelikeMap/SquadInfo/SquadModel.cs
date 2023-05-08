@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using UnityEngine;
+using VContainer;
 
 namespace OrderElimination
 {
@@ -9,14 +12,13 @@ namespace OrderElimination
     {
         private List<Character> _members;
         private int _rang;
+        private SquadMembersPanel _panel;
+        
+        public PointModel Point { get; private set; }
         public int AmountOfMembers => _members.Count;
         public IReadOnlyList<Character> Members => _members;
-
-        public event Action<Vector3> Moved;
-        public event Action Selected;
-        public event Action Unselected;
-
-        public SquadModel(List<Character> members)
+        
+        public SquadModel(List<Character> members, PanelGenerator panelGenerator)
         {
             if (members.Count == 0)
                 return;
@@ -28,6 +30,15 @@ namespace OrderElimination
             }
 
             _rang /= AmountOfMembers;
+            UpgradeCharacters();
+            SetPanel(panelGenerator);
+        }
+        
+        public void SetPanel(PanelGenerator panelGenerator)
+        {
+            var panel = panelGenerator.GetSquadMembersPanel();
+            panel.UpdateMembers(_members);
+            _panel = panel;
         }
 
         public void Add(Character member) => _members.Add(member);
@@ -38,13 +49,34 @@ namespace OrderElimination
                 throw new ArgumentException("No such character in squad");
             _members.Remove(member);
         }
+        
+        private void UpgradeCharacters()
+        {
+            foreach (var member in _members)
+            {
+                member.Upgrade(SquadMediator.Stats);
+            }
+        }
 
         public void DistributeExperience(float expirience)
         {
-            foreach (var character in _members)
+            foreach (var member in _members)
             {
-                character.RaiseExperience(expirience / AmountOfMembers);
+                member.RaiseExperience(expirience / AmountOfMembers);
             }
+        }
+        
+        public void HealCharacters(int amountHeal)
+        {
+            foreach (var member in _members)
+            {
+                member.Heal(amountHeal);
+            }
+        }
+        
+        public void SetPoint(PointModel point)
+        {
+            Point = point;
         }
 
         public void SetSquadMembers(List<Character> characters)
@@ -52,26 +84,12 @@ namespace OrderElimination
             _members = characters;
         }
 
-        public void HealCharacters(int amountHeal)
+        public void SetActivePanel(bool isActive)
         {
-            foreach (var character in _members)
-            {
-                character.Heal(amountHeal);
-            }
+            if (isActive)
+                _panel.Open();
+            else
+                _panel.Close();
         }
-
-        public void Move(Point point)
-        {
-            Move(point.transform.position);
-        }
-
-        public void Move(Vector3 position)
-        {
-            Moved?.Invoke(position);
-        }
-
-        public void Select() => Selected?.Invoke();
-
-        public void Unselect() => Unselected?.Invoke();
     }
 }

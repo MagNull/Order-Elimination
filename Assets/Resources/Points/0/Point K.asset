@@ -21,7 +21,6 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _position: {x: 600, y: 150, z: 0}
   _sprite: {fileID: -1218826679, guid: 5897665c51c6ee04e8c18c5fa5db7853, type: 3}
   _model:
     rid: 7872520390573555742
@@ -31,8 +30,9 @@ MonoBehaviour:
     - rid: 7872520390573555742
       type: {class: BattlePointModel, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
-        Index: 9
         _nextPointsIndex: 
+        _position: {x: 600, y: 150, z: 0}
+        Index: 9
         _enemies:
         - {fileID: 11400000, guid: 9461f9304513865429fcf3420fd25287, type: 2}
         _mapNumber: 0

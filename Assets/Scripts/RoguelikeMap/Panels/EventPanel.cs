@@ -25,15 +25,8 @@ namespace RoguelikeMap.Panels
 
         public event Action<IReadOnlyList<ItemData>> OnLookForLoot;
         public event Action<IReadOnlyList<IBattleCharacterInfo>> OnStartBattle;
-
-        public override void SetInfo(PointModel model)
-        {
-            if (model is not EventPointModel eventPointModel)
-                throw new ArgumentException("Is not valid PointInfo");
-            SetEventInfo(eventPointModel.StartEventInfo);
-        }
-
-        private void SetEventInfo(EventInfo info)
+        
+        public void SetEventInfo(EventInfo info)
         {
             _eventInfo = info;
             LoadEventText();

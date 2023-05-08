@@ -8,7 +8,7 @@ namespace OrderElimination
     {
         private static List<Character> _characterList;
         public static StrategyStats Stats { get; private set; }
-        public static IReadOnlyList<Character> CharacterList => _characterList;
+        public static List<Character> CharacterList => _characterList;
 
         public static void SetCharacters(List<Character> characters)
         {
