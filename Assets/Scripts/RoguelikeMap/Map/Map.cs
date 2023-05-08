@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using OrderElimination;
+using RoguelikeMap.Points;
 using RoguelikeMap.SquadInfo;
 using UnityEngine;
 using VContainer;
-using Point = RoguelikeMap.Points.Point;
 
 namespace RoguelikeMap.Map
 {
@@ -12,7 +12,7 @@ namespace RoguelikeMap.Map
     {
         public static string SquadPositionPrefPath = $"{SaveIndex}/Squad/Position";
         
-        public IEnumerable<Point> _points;
+        private IEnumerable<Point> _points;
         private IMapGenerator _mapGenerator;
         private Squad _squad;
         private bool _isSquadSelected;
@@ -49,7 +49,7 @@ namespace RoguelikeMap.Map
         {
             if (_isSquadSelected is false)
                 return;
-            if(_squad.Point.NextPoints.Contains(point.PointIndex))
+            if(_squad.Point.NextPoints.Contains(point.Index))
                 point.Visit(_squad);
             UnselectSquad();
         }
@@ -60,7 +60,7 @@ namespace RoguelikeMap.Map
                 ? PlayerPrefs.GetString(SquadPositionPrefPath).GetVectorFromString()
                 : _points.First().transform.position;
             var nearestPoint = FindNearestPoint(position);
-            _squad.Move(nearestPoint);
+            _squad.Visit(nearestPoint.Model);
         }
 
         private Point FindNearestPoint(Vector3 position)

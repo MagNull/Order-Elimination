@@ -15,10 +15,5 @@ namespace RoguelikeMap.Panels
         {
             gameObject.SetActive(false);
         }
-
-        public virtual void SetInfo(PointModel model)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

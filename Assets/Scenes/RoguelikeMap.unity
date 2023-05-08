@@ -661,6 +661,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _parent: {fileID: 4216078023528657421}
+  _panelsPrefabs:
+  - {fileID: 4189794703872023955, guid: 6055572ecc7244086bd33c9a9cafb26e, type: 3}
+  - {fileID: 6466862578594710767, guid: e71f7dcc240c94e9bbe49a3d8acafbee, type: 3}
+  - {fileID: 5704192708636559406, guid: 09a640a70b038441cb216943553d2a80, type: 3}
+  - {fileID: 7013604242693533783, guid: 6c4d335eac7984ed4a2505fabf95d299, type: 3}
+  - {fileID: 2392810432619578457, guid: a41fc4d65f5324bd080a5a4e7776e7d4, type: 3}
 --- !u!4 &744744623
 Transform:
   m_ObjectHideFlags: 0
@@ -794,7 +800,6 @@ GameObject:
   - component: {fileID: 1155028015}
   - component: {fileID: 1155028017}
   - component: {fileID: 1155028019}
-  - component: {fileID: 1155028024}
   - component: {fileID: 1155028020}
   - component: {fileID: 1155028023}
   m_Layer: 5
@@ -847,38 +852,16 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
-    - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
-    - {fileID: 11400000, guid: 04588733ccd1f2a4bb0aad35a508b4de, type: 2}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: _testSquadMembers
-      Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[OrderElimination.Character, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 3
-    - Name: 
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 10
-      Data: 1
-    - Name: 
-      Entry: 10
-      Data: 2
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  _proccesClick: {fileID: 1155028024}
+    SerializationNodes: []
+  _testSquadMembers:
+  - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
+  - {fileID: 11400000, guid: 04588733ccd1f2a4bb0aad35a508b4de, type: 2}
+  - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
 --- !u!212 &1155028020
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -947,19 +930,6 @@ CircleCollider2D:
   m_Offset: {x: -0.0000038146973, y: 0}
   serializedVersion: 2
   m_Radius: 3.2950006
---- !u!114 &1155028024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1155028014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: effb2fce1962253458980adbbfbbbc33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MillisecondsToHold: 700
 --- !u!1001 &1230349971
 PrefabInstance:
   m_ObjectHideFlags: 0

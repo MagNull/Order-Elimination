@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Inventory;
-using Inventory_Items;
+using RoguelikeMap.Panels;
+using RoguelikeMap.SquadInfo;
 using UnityEngine;
 
 namespace RoguelikeMap.Points.Models
@@ -23,5 +24,13 @@ namespace RoguelikeMap.Points.Models
         public int AmountHeal => _amountHeal;
         public IReadOnlyList<ItemData> Items => _items;
         public override PointType Type => PointType.SafeZone;
+        public SafeZonePanel Panel => _panel as SafeZonePanel;
+        
+        public override void Visit(Squad squad)
+        {
+            base.Visit(squad);
+            Panel.SetInfo(_amountHeal, _items, _sprite, _text);
+            Panel.Open();
+        }
     }
 }

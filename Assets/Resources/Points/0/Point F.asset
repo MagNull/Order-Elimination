@@ -21,7 +21,6 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _position: {x: -200, y: 0, z: 1}
   _sprite: {fileID: -1663276062, guid: 5897665c51c6ee04e8c18c5fa5db7853, type: 3}
   _model:
     rid: 7872520390573555737
@@ -31,8 +30,9 @@ MonoBehaviour:
     - rid: 7872520390573555737
       type: {class: ShopPointModel, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
-        Index: 5
         _nextPointsIndex: 0700000008000000
+        _position: {x: -200, y: 0, z: 0}
+        Index: 5
         _itemsData:
         - {fileID: 11400000, guid: 500f3d8fa36045344bd244f4cd3fe7cf, type: 2}
         - {fileID: 11400000, guid: e655c8948143f814c89bb88c7fa0785c, type: 2}

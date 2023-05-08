@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2127218931880665110}
   - component: {fileID: 2127218931880665104}
   - component: {fileID: 2127218931880665111}
-  - component: {fileID: 755888425}
+  - component: {fileID: 34742583695387518}
   m_Layer: 5
   m_Name: ShopPanel
   m_TagString: Untagged
@@ -82,7 +82,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &755888425
+--- !u!114 &34742583695387518
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,12 +91,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2127218931880665109}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dbb5cd6d62aaeb4499c3e2019249794, type: 3}
+  m_Script: {fileID: 11500000, guid: 90ac88a8548541c0a7992794ffa76d90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _counter: {fileID: 6830794070722728756}
   _itemPrefab: {fileID: 3129909414553003332, guid: 5fb29bf846863b1409d39dcdca86a1f2, type: 3}
-  _shopList: {fileID: 3572407001205583024}
+  _itemsParent: {fileID: 3572407001205583024}
 --- !u!1 &2419781058448347669
 GameObject:
   m_ObjectHideFlags: 0

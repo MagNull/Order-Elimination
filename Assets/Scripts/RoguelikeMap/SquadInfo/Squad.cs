@@ -1,117 +1,90 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using OrderElimination;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using UnityEngine;
 using VContainer;
 
 namespace RoguelikeMap.SquadInfo
 {
-    public class Squad : SerializedMonoBehaviour, ISquad
+    public class Squad : SerializedMonoBehaviour
     {
-        [OdinSerialize]
-        [ShowInInspector]
-        private List<Character> _testSquadMembers;
+        private const float IconSize = 50f;
+        private const float Duration = 0.5f;
+        
+        //Заглушка, чтобы не запускаться из другой сцены
         [SerializeField]
-        private SquadButtonTouchRace _proccesClick;
-        private OrderElimination.SquadInfo _squadInfo;
+        private List<Character> _testSquadMembers;
+        
         private SquadModel _model;
-        private SquadView _view;
-        private SquadPresenter _presenter;
         private SquadCommander _commander;
         private PanelGenerator _panelGenerator;
-        private CharactersMediator _charactersMediator;
-        public event Action<Squad> OnSelected;
-        public Point Point => _presenter.Point;
+
         public int AmountOfCharacters => _model.AmountOfMembers;
-        public List<Character> Members => _testSquadMembers;
+        public IReadOnlyList<Character> Members => _model.Members;
+        public PointModel Point => _model.Point;
+        public event Action<Squad> OnSelected;
         
         [Inject]
-        private void Construct(CharactersMediator charactersMediator, SquadCommander commander,
+        private void Construct(SquadCommander commander,
             PanelGenerator panelGenerator)
         {
-            _charactersMediator = charactersMediator;
             _commander = commander;
             _panelGenerator = panelGenerator;
             
+            _commander.SetSquad(this);
             _commander.OnSelected += SetSquadMembers;
             _commander.OnHealAccept += HealCharacters;
         }
 
-        private void Awake()
-        {
-            _model = new SquadModel(_testSquadMembers);
-            _view = new SquadView(transform);
-            _presenter = new SquadPresenter(_model, _view, null);
-            _proccesClick.Clicked += Select;
-        }
-
         private void Start()
         {
-            if(SquadMediator.CharacterList is not null)
-                SetSquadMembers(SquadMediator.CharacterList.ToList());
-            SetPanel();
-            foreach(var member in _testSquadMembers)
-                member.Upgrade(SquadMediator.Stats);
+            var characters = _testSquadMembers;
+            if (SquadMediator.CharacterList is not null)
+                characters = SquadMediator.CharacterList;
             SquadMediator.SetStatsCoefficient(new List<int>(){0, 0, 0, 0, 0});
-        }
-
-        public void Move(Point point)
-        {
-            SetPoint(point);
-            _model.Move(point);
+            
+            _model = new SquadModel(characters, _panelGenerator);
         }
 
         private void HealCharacters(int amountHeal) => _model.HealCharacters(amountHeal);
+        
+        public void DistributeExperience(float expirience) => _model.DistributeExperience(expirience);
 
-        private void SetSquadMembers(List<Character> squadMembers)
+        private void SetSquadMembers(List<Character> squadMembers) => _model.SetSquadMembers(squadMembers);
+
+        public void Visit(PointModel point)
         {
-            _model.SetSquadMembers(squadMembers);
-            _testSquadMembers = squadMembers;
+            UpdatePoint(point);
+            MoveAnimation(point.Position);
         }
-
-        private void SetPanel()
+        
+        private void UpdatePoint(PointModel point)
         {
-            var squadMemberPanel = _panelGenerator.GetSquadMembersPanel();
-            squadMemberPanel.UpdateMembers(Members);
-            _view.SetPanel(squadMemberPanel);
+            _commander.SetPoint(point);
+            _model.SetPoint(point);
         }
-
-        public void StartAttack() => _commander.StartAttack();
-
-        private void SetActiveSquadMembers(bool isActive) => _view.SetActivePanel(isActive);
-
-        public void Visit(Point point) => SetPoint(point);
-
-        private void SetPoint(Point point)
+        
+        public void MoveAnimation(Vector3 position)
         {
-            _commander.Set(this, point);
-            _model.Move(point);
-            _presenter.UpdatePlanetPoint(point);
+            var target = position +
+                         new Vector3(-IconSize,
+                             IconSize + 10f);
+            transform.DOMove(target, Duration);
         }
-
-        public void Select()
+        
+        private void SetActiveSquadMembers(bool isActive) => _model.SetActivePanel(isActive);
+        
+        private void OnMouseDown() => Select();
+        
+        private void Select()
         {
             Debug.Log("Squad selected");
             OnSelected?.Invoke(this);
-            _model.Select();
-        }
-
-        public void DistributeExperience(float expirience) => _model.DistributeExperience(expirience);
-
-        private void OnEnable()
-        {
-            _presenter.Subscribe();
-        }
-
-        private void OnDisable()
-        {
-            _presenter.Unsubscribe();
-            _proccesClick.Clicked -= Select;
         }
     }
 }

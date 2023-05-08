@@ -1,53 +1,34 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using RoguelikeMap.Panels;
 using RoguelikeMap.SquadInfo;
 using UnityEngine;
+using VContainer;
 
 namespace RoguelikeMap.Points
 {
     public class Point : MonoBehaviour
     {
         private PanelGenerator _panelGenerator;
-        private PointView _pointView;
-        
+     
         public PointModel Model { get; private set; }
-        public IReadOnlyList<int> NextPoints => Model.NextPoints;
-        public int PointIndex => Model.Index;
-
         public event Action<Point> OnSelected;
+        public IReadOnlyList<int> NextPoints => Model.NextPoints;
+        public int Index => Model.Index;
 
-        #region SetParameters
+        [Inject]
+        private void Construct(PanelGenerator panelGenerator)
+        {
+            _panelGenerator = panelGenerator;
+        }
 
         public void SetPointModel(PointModel pointModel)
         {
             Model = pointModel ?? throw new ArgumentException("PointModel is null");
-        }
-        
-        public void SetPanelGenerator(PanelGenerator panelGenerator)
-        {
-            _panelGenerator = panelGenerator ?? throw new ArgumentException("PanelGenerator is null");
+            Model.SetPanel(_panelGenerator);
         }
 
-        #endregion
-        
-        //When squad come to point
-        private void InitializePointView()
-        {
-            var panel = _panelGenerator.GetPanelByPointInfo(Model.Type);
-            _pointView = new PointView(panel);
-            _pointView.SetModel(Model);
-            _pointView.SetActivePanel(true);
-        }
-
-        public void Visit(Squad squad)
-        {
-            squad.Visit(this);
-            if(_pointView is null)
-                InitializePointView();
-        }
-
-        #region Events
+        public void Visit(Squad squad) => Model.Visit(squad);
 
         private void OnMouseDown() => Select();
 
@@ -56,7 +37,5 @@ namespace RoguelikeMap.Points
             Debug.Log("Select point");
             OnSelected?.Invoke(this);
         }
-
-        #endregion
     }
 }

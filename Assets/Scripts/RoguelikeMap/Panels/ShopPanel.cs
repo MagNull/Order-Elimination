@@ -9,6 +9,7 @@ using RoguelikeMap.Points.Models;
 using RoguelikeMap.Shop;
 using StartSessionMenu;
 using UnityEngine;
+using VContainer;
 
 namespace RoguelikeMap.Panels
 {
@@ -26,20 +27,14 @@ namespace RoguelikeMap.Panels
 
         public event Action<IReadOnlyList<ItemData>> OnBuyItems;
         
-        public void SetWallet(Wallet wallet)
+        [Inject]
+        public void Construct(Wallet wallet)
         {
             _wallet = wallet;
             _counter.Initialize(_wallet);
         }
         
-        public override void SetInfo(PointModel model)
-        {
-            if(model is not ShopPointModel shopModel)
-                throw new ArgumentException("Is not valid PointInfo");
-            InitializeItems(shopModel.ItemsData);
-        }
-
-        private void InitializeItems(IReadOnlyDictionary<ItemData, int> itemsData)
+        public void InitializeItems(IReadOnlyDictionary<ItemData, int> itemsData)
         {
             foreach (var data in itemsData)
             {

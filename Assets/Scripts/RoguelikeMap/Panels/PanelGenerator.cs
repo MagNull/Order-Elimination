@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using RoguelikeMap.Points;
-using StartSessionMenu;
 using UnityEngine;
 using VContainer;
+using VContainer.Unity;
 
 namespace RoguelikeMap.Panels
 {
@@ -11,29 +11,30 @@ namespace RoguelikeMap.Panels
     {
         [SerializeField] 
         private Transform _parent;
-        private const string Path = "Points\\Panels";
+        [SerializeField]
+        private List<Panel> _panelsPrefabs;
 
         private List<Panel> _panels = new ();
-        private const int ShopPanelIndex = 3;
         private const int SquadMembersPanelIndex = 4;
+        private IObjectResolver _resolver;
+        
         public event Action OnInitializedPanels;
 
         [Inject]
-        private void Construct(Wallet wallet)
+        private void Construct(IObjectResolver resolver)
         {
-            OnInitializedPanels += () => SetWalletToShopPanel(wallet);
+            _resolver = resolver;
         }
         
         private void Start()
         {
-            var prefabs = Resources.LoadAll<Panel>(Path);
-            InitializePanels(prefabs);
+            InitializePanels();
         }
         
-        private void InitializePanels(Panel[] prefabs)
+        private void InitializePanels()
         {
-            foreach(var prefab in prefabs)
-                _panels.Add(Instantiate(prefab, _parent.position, Quaternion.identity, _parent));
+            foreach(var prefab in _panelsPrefabs)
+                _panels.Add(_resolver.Instantiate(prefab, _parent.position, Quaternion.identity, _parent));
             OnInitializedPanels?.Invoke();
         }
         
@@ -45,11 +46,6 @@ namespace RoguelikeMap.Panels
         public SquadMembersPanel GetSquadMembersPanel()
         {
             return (SquadMembersPanel)_panels[SquadMembersPanelIndex];
-        }
-
-        private void SetWalletToShopPanel(Wallet wallet)
-        {
-            ((ShopPanel)_panels[ShopPanelIndex]).SetWallet(wallet);
         }
     }
 }

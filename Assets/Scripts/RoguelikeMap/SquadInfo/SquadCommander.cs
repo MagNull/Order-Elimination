@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Inventory;
-using Inventory_Items;
 using OrderElimination;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
@@ -16,9 +15,9 @@ namespace RoguelikeMap.SquadInfo
     {
         private readonly IObjectResolver _objectResolver;
         private readonly PanelGenerator _panelGenerator;
-        private Point _target;
+        private PointModel _target;
         private Squad _squad;
-        public Point Target => _target;
+        public PointModel Target => _target;
         public Squad Squad => _squad;
         public event Action<List<Character>> OnSelected;
         public event Action<int> OnHealAccept;
@@ -32,9 +31,13 @@ namespace RoguelikeMap.SquadInfo
             _panelGenerator.OnInitializedPanels += SubscribeToEvents;
         }
 
-        public void Set(Squad squad, Point target)
+        public void SetSquad(Squad squad)
         {
             _squad = squad;
+        }
+
+        public void SetPoint(PointModel target)
+        {
             _target = target;
         }
 
@@ -60,7 +63,7 @@ namespace RoguelikeMap.SquadInfo
 
         public void StartAttack()
         {
-            if (_target.Model is not BattlePointModel battlePointModel)
+            if (_target is not BattlePointModel battlePointModel)
                 throw new ArgumentException("Is not valid point to attack");
             StartAttack(battlePointModel.Enemies, battlePointModel.MapNumber);
         }

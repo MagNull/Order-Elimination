@@ -21,7 +21,6 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _position: {x: -200, y: 300, z: 1}
   _sprite: {fileID: -300597444, guid: 5897665c51c6ee04e8c18c5fa5db7853, type: 3}
   _model:
     rid: 7872520390573555735
@@ -33,8 +32,9 @@ MonoBehaviour:
     - rid: 7872520390573555735
       type: {class: EventPointModel, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
-        Index: 4
         _nextPointsIndex: 07000000
+        _position: {x: -200, y: 300, z: 0}
+        Index: 4
         _startEventInfo:
           rid: 7872520390573555736
     - rid: 7872520390573555736
