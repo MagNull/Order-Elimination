@@ -1,19 +1,30 @@
 using System;
-using RoguelikeMap.Points;
+using DG.Tweening;
 using UnityEngine;
 
 namespace RoguelikeMap.Panels
 {
     public class Panel : MonoBehaviour
     {
+        [SerializeField]
+        private float _windowOpeningTime = 0.3f;
+        [SerializeField]
+        private Ease _windowOpeningEase = Ease.Flash;
+
+        private Vector3? _localScale;
         public void Open()
         {
+            _localScale ??= transform.localScale;
             gameObject.SetActive(true);
+            transform.localScale = Vector3.one * 0.1f;
+            transform.DOScale(_localScale.Value, _windowOpeningTime).SetEase(_windowOpeningEase);
         }
 
         public virtual void Close()
         {
-            gameObject.SetActive(false);
+            transform.DOScale(0.1f, _windowOpeningTime)
+                .SetEase(_windowOpeningEase)
+                .OnComplete(() => gameObject.SetActive(false));
         }
     }
 }
