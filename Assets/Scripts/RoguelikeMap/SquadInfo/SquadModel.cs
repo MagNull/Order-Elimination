@@ -1,17 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
-using UnityEngine;
-using VContainer;
 
 namespace OrderElimination
 {
     public class SquadModel
     {
         private List<Character> _members;
-        private int _rang;
         private SquadMembersPanel _panel;
         
         public PointModel Point { get; private set; }
@@ -23,13 +19,7 @@ namespace OrderElimination
             if (members.Count == 0)
                 return;
             _members = members;
-            _rang = 0;
-            foreach (var character in _members)
-            {
-                _rang += 1;
-            }
-
-            _rang /= AmountOfMembers;
+            
             UpgradeCharacters();
             SetPanel(panelGenerator);
         }

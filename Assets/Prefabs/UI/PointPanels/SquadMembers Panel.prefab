@@ -435,7 +435,7 @@ GameObject:
   - component: {fileID: 8184367277639974440}
   m_Layer: 5
   m_Name: Content
-  m_TagString: Untagged
+  m_TagString: UnselectedDropZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -507,7 +507,7 @@ GameObject:
   - component: {fileID: 8184367278329936107}
   m_Layer: 5
   m_Name: Content
-  m_TagString: Untagged
+  m_TagString: SelectedDropZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -749,9 +749,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec541e201f554de1b23ef910ad1fa2c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _windowOpeningTime: 0.3
+  _windowOpeningEase: 32
   _selectedTransform: {fileID: 8184367278329936109}
   _notSelectedTransform: {fileID: 8184367277639974441}
-  _characterButtonPref: {fileID: 5809841624109694278, guid: 0cbf6839b5a42465ba5013ae7118a75c, type: 3}
+  _defaultParent: {fileID: 8184367278740521158}
+  _characterButtonPref: {fileID: 4089897780089222038, guid: 0cbf6839b5a42465ba5013ae7118a75c, type: 3}
 --- !u!1 &8184367278740521159
 GameObject:
   m_ObjectHideFlags: 0
@@ -1004,7 +1007,7 @@ GameObject:
   - component: {fileID: 8184367278884307343}
   m_Layer: 5
   m_Name: FreeCharacters
-  m_TagString: Untagged
+  m_TagString: UnselectedDropZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1231,7 +1234,7 @@ GameObject:
   - component: {fileID: 8184367278949534849}
   m_Layer: 5
   m_Name: SquadCharacters
-  m_TagString: Untagged
+  m_TagString: SelectedDropZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
