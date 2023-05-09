@@ -12,7 +12,7 @@ namespace RoguelikeMap.Panels
         private Ease _windowOpeningEase = Ease.Flash;
 
         private Vector3? _localScale;
-        public void Open()
+        public virtual void Open()
         {
             _localScale ??= transform.localScale;
             gameObject.SetActive(true);

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Inventory;
-using Inventory_Items;
-using RoguelikeMap.Points;
 using RoguelikeMap.Points.Models;
 using TMPro;
 using UnityEngine;
@@ -23,12 +21,16 @@ namespace RoguelikeMap.Panels
         private EventInfo _eventInfo;
         private Random _random;
 
+        public bool IsContainsBattle { get; private set; }
         public event Action<IReadOnlyList<ItemData>> OnLookForLoot;
         public event Action<IReadOnlyList<IBattleCharacterInfo>> OnStartBattle;
-        
-        public void SetEventInfo(EventInfo info)
+        public event Action<bool> OnSafeEventVisit;
+        public event Action<bool> OnBattleEventVisit;
+
+        public void SetEventInfo(EventInfo info, bool isContainsBattle)
         {
             _eventInfo = info;
+            IsContainsBattle = isContainsBattle;
             LoadEventText();
         }
 
@@ -131,6 +133,26 @@ namespace RoguelikeMap.Panels
         {
             if(_eventInfo.IsHaveItems)
                 OnLookForLoot?.Invoke(_eventInfo.ItemsId);
+        }
+
+        public override void Open()
+        {
+            base.Open();
+            VisitEventInvoke(true);
+        }
+        
+        public override void Close()
+        {
+            VisitEventInvoke();
+            base.Close();
+        }
+        
+        private void VisitEventInvoke(bool isPlay = false)
+        {
+            if (IsContainsBattle)
+                OnBattleEventVisit?.Invoke(isPlay);
+            else
+                OnSafeEventVisit?.Invoke(isPlay);
         }
     }
 }
