@@ -32,13 +32,13 @@ namespace OrderElimination.AbilitySystem
 
         public override ActionRequires ActionRequires => ActionRequires.Entity;
 
-        protected override async UniTask<bool> Perform(ActionContext useContext)
+        protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
             var value = HealSize.GetValue(useContext);
             var healer = useContext.ActionMaker;
             var healInfo = new HealInfo(value, ArmorMultiplier, HealthMultiplier, HealPriority, healer);
             useContext.ActionTarget.TakeHeal(healInfo);
-            return true;
+            return new SimplePerformResult(this, useContext, true);
         }
 
         public override IBattleAction Clone()

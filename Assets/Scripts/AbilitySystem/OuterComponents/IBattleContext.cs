@@ -3,6 +3,8 @@ using OrderElimination.AbilitySystem;
 using OrderElimination.AbilitySystem.Animations;
 using OrderElimination.AbilitySystem.Infrastructure;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public interface IBattleContext
 {
@@ -14,6 +16,7 @@ public interface IBattleContext
     public int CurrentRound { get; }
     public IReadOnlyEntitiesBank EntitiesBank { get; }
     public BattleRelationship GetRelationship(BattleSide askingSide, BattleSide relationSide);
+    public IEnumerable<AbilitySystemActor> GetVisibleEntities(Vector2Int position, BattleSide askingSide);
 
     //public BattleRelationship GetRelationship(Player playerA, PlayerPrefs playerB)
     //public Player[] Players

@@ -16,7 +16,7 @@ namespace OrderElimination.BM
         [SerializeField]
         private float _maxHealth;
         [SerializeField]
-        public AbilityBuilderData[] _posessedAbilities;
+        public AbilityBuilder[] _posessedAbilities;
         [SerializeField]
         private bool _isWalkable;
         [SerializeField]
@@ -27,7 +27,7 @@ namespace OrderElimination.BM
         public string Name => _name;
         public Sprite BattleIcon => _spriteView;
         public float MaxHealth => _maxHealth;
-        public AbilityBuilderData[] GetActiveAbilities() => _posessedAbilities;
+        public AbilityBuilder[] GetActiveAbilities() => _posessedAbilities;
 
         public BattleStats Stats => _battleStats;
         public ITickEffect[] EnterEffects => _enterEffects;

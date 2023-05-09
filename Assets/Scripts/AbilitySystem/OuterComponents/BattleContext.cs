@@ -49,6 +49,19 @@ namespace OrderElimination.AbilitySystem
             return BattleRelationship.Enemy;
         }
 
+        public IEnumerable<AbilitySystemActor> GetVisibleEntities(Vector2Int position, BattleSide askingSide)
+        {
+            var visibleEntities = new List<AbilitySystemActor>();
+            foreach (var entity in BattleMap.GetContainedEntities(position))
+            {
+                var relationship = GetRelationship(askingSide, entity.BattleSide);
+                if (!entity.StatusHolder.HasStatus(BattleStatus.Invisible)
+                    || relationship == BattleRelationship.Ally)
+                    visibleEntities.Add(entity);
+            }
+            return visibleEntities;
+        }
+
         [Inject]
         private void Construct(IObjectResolver objectResolver)
         {

@@ -34,18 +34,22 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        protected async override UniTask<bool> Perform(ActionContext useContext)
+        protected async override UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
+            var success = false;
             switch (StatusOperation)
             {
                 case StatusAction.Increase:
                     useContext.ActionTarget.StatusHolder.IncreaseStatus(Status);
-                    return true;
+                    success = true;
+                    break;
                 case StatusAction.Decrease:
-                    return useContext.ActionTarget.StatusHolder.DecreaseStatus(Status);
+                    success = useContext.ActionTarget.StatusHolder.DecreaseStatus(Status);
+                    break;
                 default:
                     throw new NotImplementedException();
             }
+            return new SimplePerformResult(this, useContext, success);
         }
     }
 }

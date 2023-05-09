@@ -108,10 +108,10 @@ public class BattleEntityView : MonoBehaviour
             switch (relationShip)
             {
                 case OrderElimination.AbilitySystem.Infrastructure.BattleRelationship.Ally:
-                    _renderer.DOFade(0.3f, 1.5f);
+                    _renderer.DOFade(0.45f, 1f);
                     break;
                 case OrderElimination.AbilitySystem.Infrastructure.BattleRelationship.Enemy:
-                    _renderer.DOFade(0f, 1.5f);
+                    _renderer.DOFade(0f, 1f);
                     break;
                 default:
                     throw new System.NotImplementedException();

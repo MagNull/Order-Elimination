@@ -28,20 +28,6 @@ public class BattleMap : MonoBehaviour, IBattleMap
         return GetCell(position.x, position.y).GetContainingEntities();
     }
 
-    public IEnumerable<AbilitySystemActor> GetVisibleEntities(
-        Vector2Int position, IBattleContext battleContext, BattleSide askingSide)
-    {
-        var visibleEntities = new List<AbilitySystemActor>();
-        foreach (var entity in GetContainedEntities(position))
-        {
-            var relationship = battleContext.GetRelationship(askingSide, entity.BattleSide);
-            if (!entity.StatusHolder.HasStatus(BattleStatus.Invisible)
-                || relationship == BattleRelationship.Ally)
-                visibleEntities.Add(entity);
-        }
-        return visibleEntities;
-    }
-
     public Vector2Int GetPosition(AbilitySystemActor entity)
     {
         if (!_containedEntitiesPositions.ContainsKey(entity))

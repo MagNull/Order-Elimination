@@ -47,9 +47,11 @@ namespace OrderElimination.AbilitySystem
 
         private int _repeatNumber = 1;
 
-        //TODO Action нужно дублировать перед обработкой
         [TabGroup("Execution")]
         [GUIColor(1f, 1, 0.2f)]
+        [ValidateInput(
+            "@!(Action is " + nameof(IUndoableBattleAction) + ")", 
+            nameof(AbilityInstruction) + " does not support Undoable actions")]
         [ShowInInspector, OdinSerialize]
         public IBattleAction Action { get; set; }
 
@@ -86,7 +88,7 @@ namespace OrderElimination.AbilitySystem
         //public bool StopRepeatAfterFirstFail { get; set; }
 
         //TODO: Single instructions list for following instructions
-        //with identifier when to use them (always, on success, on fail)
+        //with identifier when to use them (always, on attempt, on success, on fail)
 
         [GUIColor(0.5f, 1f, 0.5f)]
         [TabGroup("Execution")]
@@ -246,7 +248,7 @@ namespace OrderElimination.AbilitySystem
                 {
                     if (AnimationBeforeAction != null)
                         await AnimationBeforeAction.Play(animationContext);
-                    if (await Action.ModifiedPerform(actionContext)) //Action Success
+                    if ((await Action.ModifiedPerform(actionContext)).IsSuccessful) //Action Success
                     {
                         if (SuccessInstructionsEveryRepeat)
                         {

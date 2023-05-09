@@ -1,9 +1,10 @@
-﻿using System;
+﻿using OrderElimination.AbilitySystem;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace OrderElimination.Infrastructure
 {
@@ -43,6 +44,17 @@ namespace OrderElimination.Infrastructure
             || obj is float
             || obj is double
             || obj is decimal;
+        }
+
+        public static Type[] GetAllInterfaceImplementationTypes<T>()
+        {
+            var type = typeof(T);
+            if (!type.IsInterface)
+                throw new ArgumentException($"Type {nameof(T)} must be an interface.");
+            return Assembly
+                .GetExecutingAssembly()
+                .GetTypes()
+                .Where(t => t.GetInterfaces().Contains(type)).ToArray();
         }
     }
 }

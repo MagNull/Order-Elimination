@@ -28,9 +28,9 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        protected async override UniTask<bool> Perform(ActionContext useContext)
+        protected async override UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
-            return IsSuccessful;
+            return new SimplePerformResult(this, useContext, IsSuccessful);
         }
     }
 }

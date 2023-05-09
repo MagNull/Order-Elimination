@@ -7,7 +7,7 @@
 
 //namespace OrderElimination.AbilitySystem
 //{
-//    public class ModifyBattleStatsAction : BattleAction<ModifyBattleStatsAction>, IUndoableBattleAction
+//    public class ModifyBattleStatsActionUnused : BattleAction<ModifyBattleStatsActionUnused>, IUndoableBattleAction
 //    {
 //        public override ActionTargets ActionTargets => ActionTargets.EntitiesOnly;
 

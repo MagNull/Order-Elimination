@@ -8,7 +8,7 @@ namespace OrderElimination.AbilitySystem
 {
     public static class AbilityFactory
     {
-        public static AbilityData CreateAbility(AbilityBuilderData builderData)
+        public static AbilityData CreateAbility(AbilityBuilder builderData)
         {
             var abilityData = new AbilityData();
 

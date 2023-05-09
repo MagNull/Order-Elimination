@@ -23,6 +23,6 @@ public interface IBattleEntityInfo
     public Sprite BattleIcon { get; }
     public ReadOnlyBaseStats BaseStats { get; }
     //public EntityType EntityType { get; }
-    public AbilityBuilderData[] GetActiveAbilities();
-    public AbilityBuilderData[] GetPassiveAbilities();
+    public AbilityBuilder[] GetActiveAbilities();
+    public AbilityBuilder[] GetPassiveAbilities();
 }

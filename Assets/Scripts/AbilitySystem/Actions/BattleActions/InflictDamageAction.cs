@@ -74,8 +74,8 @@ namespace OrderElimination.AbilitySystem
                     context.ActionMaker.Position, context.ActionTargetInitialPosition.Value);
                 foreach (var intersection in intersections)
                 {
-                    foreach (var battleObstacle in battleMap
-                        .GetVisibleEntities(intersection.CellPosition, context.BattleContext, context.ActionMaker.BattleSide)
+                    foreach (var battleObstacle in context.BattleContext
+                        .GetVisibleEntities(intersection.CellPosition, context.ActionMaker.BattleSide)
                         .Select(e => e as IBattleObstacle)
                         .Where(o => o != null))
                     {
@@ -90,7 +90,7 @@ namespace OrderElimination.AbilitySystem
             return modifiedAction;
         }
 
-        protected override async UniTask<bool> Perform(ActionContext useContext)
+        protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
             //Обработка объектов на линии огня (перенесена в ModifiedPerform)
             //Проверка шанса попадания (точность)
@@ -105,9 +105,9 @@ namespace OrderElimination.AbilitySystem
                 var damageDealer = useContext.ActionMaker;
                 var damageInfo = new DamageInfo(damageSize, ArmorMultiplier, HealthMultiplier, DamageType, DamagePriority, damageDealer);
                 useContext.ActionTarget.TakeDamage(damageInfo);
-                return true;
+                return new SimplePerformResult(this, useContext, true);
             }
-            return false;
+            return new SimplePerformResult(this, useContext, false);
         }
 
         public override IBattleAction Clone()

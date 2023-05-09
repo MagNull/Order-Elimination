@@ -23,12 +23,14 @@ namespace OrderElimination.AbilitySystem
         public static EntityActionProcessor Create<TOwner>(TOwner owner) where TOwner : IEffectHolder
             => new EntityActionProcessor(owner);
 
-        public TAction ProcessOutcomingAction<TAction>(TAction action) where TAction : BattleAction<TAction>
+        public TAction ProcessOutcomingAction<TAction>(TAction action)
+            where TAction : BattleAction<TAction>
         {
             return ProcessAction(action, GetOutcomingEffectProcessors());
         }
 
-        public TAction ProcessIncomingAction<TAction>(TAction action) where TAction : BattleAction<TAction>
+        public TAction ProcessIncomingAction<TAction>(TAction action)
+            where TAction : BattleAction<TAction>
         {
             return ProcessAction(action, GetIncomingEffectProcessors());
         }

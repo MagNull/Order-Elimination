@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -58,22 +59,35 @@ namespace OrderElimination.Infrastructure
         }
     }
 
-    public class AutomatedCloner<T>
+    public static class AutomatedCloner<T> where T : ICloneable
     {
-        //static AutomatedCloner()
-        //{
-        //    var type = typeof(T);
-        //    var properties = type.GetProperties().Where(p => p.CanWrite);
-        //    var fields = type.GetFields();
-        //    var cloneableProperties = properties.Where(p => p.PropertyType.GetInterfaces().Contains(typeof(ICloneable)));
-        //    var cloneableFields = fields.Where(p => p.FieldType.GetInterfaces().Contains(typeof(ICloneable)));
-        //    //Cloned members copied using ICloneable.Clone();
-        //    //var collectionProperties =
-        //}
+        public static readonly HashSet<Type> _cloneableTypes;
 
-        //public T GetClonedObject(T instance)
-        //{
+        static AutomatedCloner()
+        {
+            _cloneableTypes = ReflectionExtensions
+                .GetAllInterfaceImplementationTypes<T>()
+                .ToHashSet();
 
-        //}
+            //if struct (recurcively) contains children with class elements => deep copy
+            //Ignore static members
+
+            var type = typeof(T);
+            var fields = type.GetFields(BindingFlags.Instance);
+            var properties = type.GetProperties(BindingFlags.Instance).Where(p => p.CanWrite).ToArray();
+            //Copied by .Clone()
+            var cloneableFields = fields.Where(p => _cloneableTypes.Contains(p.FieldType)).ToArray();
+            var cloneableProperties = properties.Where(p => _cloneableTypes.Contains(p.PropertyType)).ToArray();
+            var restFields = fields.Except(cloneableFields).ToArray();
+            var restProperties = properties.Except(cloneableProperties).ToArray();
+            //Cloned members copied using ICloneable.Clone();
+            //var collectionProperties =
+        }
+
+        public static T GetClonedObject(T instance)
+        {
+            if (instance == null) throw new ArgumentNullException();
+            throw new NotImplementedException();
+        }
     }
 }

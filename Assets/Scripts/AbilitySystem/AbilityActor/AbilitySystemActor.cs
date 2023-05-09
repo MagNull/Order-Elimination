@@ -72,17 +72,13 @@ namespace OrderElimination.AbilitySystem
         public IBattleContext BattleContext { get; }
         public IBattleMap DeployedBattleMap => BattleContext.BattleMap;
         public Vector2Int Position => DeployedBattleMap.GetPosition(this);
-        public bool CanMove { get; set; } = true;
         public bool Move(Vector2Int destination, bool forceMove = false)
         {
-            if (!CanMove && !forceMove)
+            if (StatusHolder.HasStatus(BattleStatus.CantMove) && !forceMove)
                 return false;
-            var previousCanMoveState = CanMove;
-            CanMove = false;
             var origin = DeployedBattleMap.GetPosition(this);
             DeployedBattleMap.RemoveEntity(this);
             DeployedBattleMap.PlaceEntity(this, destination);
-            CanMove = previousCanMoveState;
             MovedFromTo?.Invoke(origin, destination);
             return true;
         }
@@ -128,8 +124,7 @@ namespace OrderElimination.AbilitySystem
         }
         public List<AbilityRunner> ActiveAbilities { get; } = new List<AbilityRunner>();
         public List<AbilityRunner> PassiveAbilities { get; } = new List<AbilityRunner>();
-        public bool IsBusy { get; set; }
-        //public bool UseAbility(Ability ability, CellTargetGroups targets); //TODO return AbilityUseContext
+        public bool IsBusy { get; set; } //Performs ability
         #endregion
 
         #region IEffectHolder

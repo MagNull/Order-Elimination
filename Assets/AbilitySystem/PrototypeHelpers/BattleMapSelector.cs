@@ -83,8 +83,8 @@ public class BattleMapSelector : MonoBehaviour
             _abilityPanel.ResetAbilityButtons();
             _characterBattleStatsPanel.HideInfo();
 
-            var entities = cellView.Model
-                .GetContainingEntities()
+            var clickedPosition = _battleContext.BattleMap.GetPosition(cellView.Model);
+            var entities = _battleContext.GetVisibleEntities(clickedPosition, BattleSide.Player)
                 .OrderBy(e => e.EntityType)
                 .ThenBy(e => e.BattleSide)//ThenBy controlling Player
                 .ToArray();

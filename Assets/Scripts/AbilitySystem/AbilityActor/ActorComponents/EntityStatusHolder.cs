@@ -52,6 +52,9 @@ namespace OrderElimination.AbilitySystem
     public enum BattleStatus
     {
         Invisible,
-        //Invulnerable
+        CantMove,
+        //ActiveAbilitiesDisabled
+        //PassiveAbilitiesDisabled
+        //Invulnerable// - Cant be damaged
     }
 }

@@ -16,6 +16,7 @@ namespace OrderElimination.AbilitySystem.Animations
         [HideInInspector, OdinSerialize]
         private float _speed = 1;
 
+        [EnumToggleButtons]
         [ShowInInspector, OdinSerialize]
         public AnimationTarget MovingEntity { get; set; } = AnimationTarget.Caster;
 

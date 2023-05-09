@@ -41,6 +41,8 @@ namespace OrderElimination.AbilitySystem
         //}
     }
 
+    //TODO Split AbilityExecutionContext and AbilityInstructionExecutionContext
+    //Add Ability into InstructionContext
     public readonly struct AbilityExecutionContext
     {
         public readonly IBattleContext BattleContext;

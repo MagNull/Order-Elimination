@@ -18,16 +18,8 @@ namespace OrderElimination.AbilitySystem
         public readonly Vector2Int? ActionTargetInitialPosition;
 
         public readonly AnimationSceneContext AnimationSceneContext;
-
-        public AbilitySystemActor GetActionEntity(ActionEntity actionEntity)
-        {
-            return actionEntity switch
-            {
-                ActionEntity.Caster => ActionMaker,
-                ActionEntity.Target => ActionTarget,
-                _ => throw new NotImplementedException(),
-            };
-        }
+        //CalledAbility - способность, инициирующая действия
+        //CalledEffect - эффект, инициирующий действие
 
         //Заменено разделением на действия с клетками и сущностями
         //public IActionTarget Target { get; }

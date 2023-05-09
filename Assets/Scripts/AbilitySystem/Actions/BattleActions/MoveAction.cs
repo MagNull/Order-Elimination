@@ -16,9 +16,6 @@ namespace OrderElimination.AbilitySystem
     public class MoveAction : BattleAction<MoveAction>, IUtilizeCellGroupsAction
     {
         [ShowInInspector, OdinSerialize]
-        public ActionEntity PerformEntity { get; private set; } = ActionEntity.Caster;
-
-        [ShowInInspector, OdinSerialize]
         public int DestinationCellGroup { get; private set; }
 
         [ShowInInspector, OdinSerialize]
@@ -45,25 +42,13 @@ namespace OrderElimination.AbilitySystem
         //MoveFailAnimation
         //OverrideMoveAnimation (or use default)
 
-        public override ActionRequires ActionRequires
-        {
-            get
-            {
-                return PerformEntity switch
-                {
-                    ActionEntity.Caster => ActionRequires.Nothing,
-                    ActionEntity.Target => ActionRequires.Entity,
-                    _ => throw new NotImplementedException(),
-                };
-            }
-        }
+        public override ActionRequires ActionRequires => ActionRequires.Entity;
 
         public IEnumerable<int> UtilizingCellGroups => new[] { DestinationCellGroup };
 
         public override IBattleAction Clone()
         {
             var clone = new MoveAction();
-            clone.PerformEntity = PerformEntity;
             clone.DestinationCellGroup = DestinationCellGroup;
             clone.CellPriority = CellPriority;
             clone.UsePath = UsePath;
@@ -76,22 +61,22 @@ namespace OrderElimination.AbilitySystem
 
         public int GetUtilizedCellsAmount(int group) => group == DestinationCellGroup ? 1 : 0;
 
-        protected override async UniTask<bool> Perform(ActionContext useContext)
+        protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
             var cellGroups = useContext.TargetCellGroups;
             if (!cellGroups.ContainsGroup(DestinationCellGroup)
                 || cellGroups.GetGroup(DestinationCellGroup).Length == 0)
-                return false;
+                return new SimplePerformResult(this, useContext, false);
 
             var battleContext = useContext.BattleContext;
             var casterPos = useContext.ActionMaker.Position;
             var targetPos = useContext.ActionTargetInitialPosition;
             var destination = CellPriority.GetPositionByPriority(
                 cellGroups.GetGroup(DestinationCellGroup), casterPos, targetPos);
-            var movingEntity = useContext.GetActionEntity(PerformEntity);
-            //path
+            var movingEntity = useContext.ActionTarget;
             if (UsePath)
             {
+                var success = false;
                 if (useContext.BattleContext.BattleMap
                     .PathExists(movingEntity.Position, destination, IsPositionAvailable, out var path))
                 {
@@ -99,9 +84,14 @@ namespace OrderElimination.AbilitySystem
                     var finishedSuccessfully = true;
                     for (var i = 0; i < path.Length; i++)
                     {
+                        var fakeGroups = new Dictionary<int, Vector2Int[]>
+                        {
+                            { DestinationCellGroup, new[] { path[i] } }
+                        };
+                        var fakeGroupsContainer = new CellGroupsContainer(fakeGroups);
                         var pathAnimContext = new AnimationPlayContext(
                             useContext.AnimationSceneContext,
-                            useContext.TargetCellGroups,
+                            fakeGroupsContainer,
                             movingEntity.Position,
                             path[i],
                             useContext.ActionMaker,
@@ -118,27 +108,29 @@ namespace OrderElimination.AbilitySystem
                         currentPoint = path[i];
                         Debug.Log($"Path cell {i}: {path[i]}" % Colorize.Orange);
                     }
-                    return finishedSuccessfully;
+                    success = finishedSuccessfully;
                 }
-                else
-                    return false;
+                return new SimplePerformResult(this, useContext, success);
             }
-            //path
-            var animationContext = new AnimationPlayContext(
-                useContext.AnimationSceneContext,
-                useContext.TargetCellGroups,
-                useContext.ActionMaker.Position,
-                useContext.ActionTargetInitialPosition,
-                useContext.ActionMaker,
-                useContext.ActionTarget);
-            if (MoveAnimation != null)
-                await MoveAnimation.Play(animationContext);
-            var moved = movingEntity.Move(destination, ForceMove);
-            if (!moved)
+            else
             {
-                await MoveFailedAnimation.Play(animationContext);
+
+                var animationContext = new AnimationPlayContext(
+                    useContext.AnimationSceneContext,
+                    useContext.TargetCellGroups,
+                    useContext.ActionMaker.Position,
+                    useContext.ActionTargetInitialPosition,
+                    useContext.ActionMaker,
+                    useContext.ActionTarget);
+                if (MoveAnimation != null)
+                    await MoveAnimation.Play(animationContext);
+                var moved = movingEntity.Move(destination, ForceMove);
+                if (!moved)
+                {
+                    await MoveFailedAnimation.Play(animationContext);
+                }
+                return new SimplePerformResult(this, useContext, moved);
             }
-            return moved;
 
             bool IsPositionAvailable(Vector2Int position)
             {

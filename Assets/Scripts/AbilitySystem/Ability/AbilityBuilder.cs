@@ -9,8 +9,8 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    [CreateAssetMenu(fileName = "AbilityBuilderData", menuName = "AbilitySystem/AbilityBuilderData")]
-    public class AbilityBuilderData : SerializedScriptableObject
+    [CreateAssetMenu(fileName = "AbilityBuilder", menuName = "AbilitySystem/AbilityBuilder")]
+    public class AbilityBuilder : SerializedScriptableObject
     {
         [TitleGroup("Visuals", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 0), PropertyOrder(0)]
         [ShowInInspector, OdinSerialize]

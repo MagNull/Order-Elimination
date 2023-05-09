@@ -39,7 +39,11 @@ namespace OrderElimination.AbilitySystem
 
         public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor caster, Vector2Int cellPosition)
         {
-            var cellEntities = battleContext.BattleMap.GetContainedEntities(cellPosition).ToArray();
+            AbilitySystemActor[] cellEntities;
+            if (VisibleEntitiesOnly)
+                cellEntities = battleContext.GetVisibleEntities(cellPosition, caster.BattleSide).ToArray();
+            else
+                cellEntities = battleContext.BattleMap.GetContainedEntities(cellPosition).ToArray();
             var cellIsEmpty = cellEntities.Length == 0;
             if (MustBeEmpty) return cellIsEmpty;
             if (AllEntitiesMustMeetRequirements)

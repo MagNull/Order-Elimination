@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System.Collections.Generic;
 
@@ -12,7 +13,7 @@ namespace OrderElimination.AbilitySystem
 
     public interface IEffectInstruction
     {
-        public void Execute(BattleEffect effect);
+        public UniTask Execute(BattleEffect effect);
     }
 
     public class EffectInstruction : IEffectInstruction
@@ -21,14 +22,15 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         private EffectActionTarget _target { get; set; } = EffectActionTarget.EffectHolder;
 
-        [ValidateInput(
-            "@!(" + nameof(_battleAction) + " is IUtilizeCellGroupsAction)",
-            "Target group handling is not implemented for effects yet.")]
         [GUIColor(1f, 1, 0.2f)]
         [ShowInInspector, OdinSerialize]
         private IBattleAction _battleAction { get; set; }
 
-        public void Execute(BattleEffect effect)
+        [ShowIf("@!(" + nameof(_battleAction) + " is " + nameof(IUndoableBattleAction) + ")")]
+        [ShowInInspector, OdinSerialize]
+        private bool UndoOnDeactivation { get; set; } = true;
+
+        public async UniTask Execute(BattleEffect effect)
         {
             var cellGroups = new CellGroupsContainer();
             var target = _target switch
@@ -41,7 +43,19 @@ namespace OrderElimination.AbilitySystem
                 effect.BattleContext, cellGroups, effect.EffectApplier, target);
             var applierProcessing = effect.EffectData.UseApplierProcessing;
             var holderProcessing = effect.EffectData.UseHolderProcessing;
-            _battleAction.ModifiedPerform(actionContext, applierProcessing, holderProcessing);
+            var result = await _battleAction.ModifiedPerform(actionContext, applierProcessing, holderProcessing);
+            effect.Deactivated += OnDeactivation;
+
+            void OnDeactivation(BattleEffect effect)
+            {
+                effect.Deactivated -= OnDeactivation;
+                if (result.ModifiedAction is IUndoableBattleAction undoableAction
+                    && UndoOnDeactivation)
+                {
+                    var undoableActionResult = (IUndoableActionPerformResult)result;
+                    undoableAction.Undo(undoableActionResult.PerformId);
+                }
+            }
         }
     }
 
@@ -50,11 +64,11 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         private List<IEffectInstruction> _instructions = new();
 
-        public void Execute(BattleEffect effect)
+        public async UniTask Execute(BattleEffect effect)
         {
             foreach (var instruction in _instructions)
             {
-                instruction.Execute(effect);
+                await instruction.Execute(effect);
             }
         }
     }

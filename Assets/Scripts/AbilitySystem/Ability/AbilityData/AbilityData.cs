@@ -9,7 +9,9 @@ namespace OrderElimination.AbilitySystem
         public AbilityView View { get; set; }
         public AbilityGameRepresentation GameRepresentation { get; set; }
         public AbilityRules Rules { get; set; }
-        public IAbilityTargetingSystem TargetingSystem { get; set; }
+        public IAbilityTargetingSystem TargetingSystem { get; set; } //For Active Abilities
+        //public Triggers[] //For Passive Abilities
+        //AutomatedDistributionPattern //For Passive Abilities
         public AbilityExecution Execution { get; set; }
     }
 }

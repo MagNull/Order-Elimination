@@ -20,9 +20,6 @@ namespace OrderElimination.AbilitySystem
         public Vector2Int GetPosition(IReadOnlyCell cell);
         //public Vector2Int GetPosition(IBattleObstacle obstacle);
         public IEnumerable<AbilitySystemActor> GetContainedEntities(Vector2Int position);
-        public IEnumerable<AbilitySystemActor> GetVisibleEntities(
-            Vector2Int position, IBattleContext battleContext, BattleSide askingSide);
-
         public float GetGameDistanceBetween(Vector2Int posA, Vector2Int posB);
         //public bool Move(IAbilitySystemActor movingEntity, Vector2Int destination);
         public bool PathExists(Vector2Int origin, Vector2Int destination, Predicate<Vector2Int> isPositionAvailable, out Vector2Int[] path); 

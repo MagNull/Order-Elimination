@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class ApplyEffectAction : BattleAction<ApplyEffectAction>
+    public class ApplyEffectAction : BattleAction<ApplyEffectAction>//, IUndoableBattleAction
     {
         [ShowInInspector, OdinSerialize]
         public IEffectData Effect { get; set; }
@@ -30,14 +30,14 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        protected async override UniTask<bool> Perform(ActionContext useContext)
+        protected async override UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
+            var isSuccessfull = false;
             if (RandomExtensions.RollChance(ApplyChance.GetValue(useContext)))
             {
-                var isSuccessfull = useContext.ActionTarget.ApplyEffect(Effect, useContext.ActionMaker);
-                return isSuccessfull;
+                isSuccessfull = useContext.ActionTarget.ApplyEffect(Effect, useContext.ActionMaker);
             }
-            return false;
+            return new SimplePerformResult(this, useContext, isSuccessfull);
         }
     }
 }
