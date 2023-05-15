@@ -34,9 +34,6 @@ MonoBehaviour:
     - Name: CooldownTime
       Entry: 3
       Data: 0
-    - Name: UnlocksAtRound
-      Entry: 3
-      Data: 0
     - Name: TargetingSystem
       Entry: 3
       Data: 1
@@ -353,6 +350,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: VisibleEntitiesOnly
+      Entry: 5
+      Data: true
     - Name: AllowEmptyCells
       Entry: 5
       Data: false
@@ -370,13 +370,13 @@ MonoBehaviour:
       Data: 
     - Name: AbilityInstructions
       Entry: 7
-      Data: 21|OrderElimination.AbilitySystem.ActionInstruction[], Assembly-CSharp
+      Data: 21|OrderElimination.AbilitySystem.AbilityInstruction[], Assembly-CSharp
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 22|OrderElimination.AbilitySystem.ActionInstruction, Assembly-CSharp
+      Data: 22|OrderElimination.AbilitySystem.AbilityInstruction, Assembly-CSharp
     - Name: Action
       Entry: 7
       Data: 23|OrderElimination.AbilitySystem.InflictDamageAction, Assembly-CSharp
@@ -413,7 +413,7 @@ MonoBehaviour:
     - Name: IgnoreEvasion
       Entry: 5
       Data: true
-    - Name: IgnoreAccuracyAffectionByObjects
+    - Name: ObjectsBetweenAffectAccuracy
       Entry: 5
       Data: false
     - Name: 
@@ -445,7 +445,7 @@ MonoBehaviour:
       Data: 1
     - Name: InstructionsOnActionSuccess
       Entry: 7
-      Data: 27|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.ActionInstruction,
+      Data: 27|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -525,6 +525,9 @@ MonoBehaviour:
     - Name: Inverse
       Entry: 5
       Data: false
+    - Name: RemapAnimationTime
+      Entry: 5
+      Data: false
     - Name: _minSpread
       Entry: 4
       Data: 0.5
@@ -537,6 +540,9 @@ MonoBehaviour:
     - Name: _speed
       Entry: 4
       Data: 30
+    - Name: _animationLoops
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 

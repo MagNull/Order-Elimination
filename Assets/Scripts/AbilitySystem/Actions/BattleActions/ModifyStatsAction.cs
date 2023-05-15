@@ -58,9 +58,11 @@ namespace OrderElimination.AbilitySystem
         {
             var statParameter = useContext.ActionTarget.BattleStats.GetParameter(TargetBattleStat);
             statParameter.AddProcessor(ProcessValue);
-            var performId = _processorsByPerformId.Count - 1;
+            var performId = _processorsByPerformId.Count;
+            var result = new SimpleUndoablePerformResult(this, useContext, true, performId);
             _processorsByPerformId.Add(ProcessValue);
-            return new SimpleUndoablePerformResult(this, useContext, true, performId);
+            _resultsByPerformId.Add(result);
+            return result;
 
             float ProcessValue(float v) => ValueModifier.GetValue(useContext);
         }

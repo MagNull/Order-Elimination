@@ -1,5 +1,6 @@
 using Assets.AbilitySystem.PrototypeHelpers;
 using OrderElimination.AbilitySystem;
+using OrderElimination.Infrastructure;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing.Printing;
@@ -231,7 +232,7 @@ public class BattleMapSelector : MonoBehaviour
         foreach (var pos in selectedCells)
         {
             var cellView = _battleMapView.GetCell(pos.x, pos.y);
-            _battleMapView.HighlightCell(pos.x, pos.y, cellView.CurrentTint * 0.8f);
+            _battleMapView.HighlightCell(pos.x, pos.y, cellView.CurrentColor * 0.8f);
         }
     }
 
@@ -254,7 +255,11 @@ public class BattleMapSelector : MonoBehaviour
         foreach (var group in targetedCells.ContainedCellGroups)
         {
             foreach (var pos in targetedCells.GetGroup(group))
-                _battleMapView.HighlightCell(pos.x, pos.y, colors[group]);
+            {
+                var currentColor = _battleMapView.GetCell(pos.x, pos.y).CurrentColor;
+                var newColor = Color.Lerp(currentColor, colors[group], colors[group].a);//colors[group]
+                _battleMapView.HighlightCell(pos.x, pos.y, newColor);
+            }
         }
     }
 

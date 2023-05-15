@@ -8,6 +8,8 @@ using OrderElimination.Infrastructure;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -30,13 +32,33 @@ namespace OrderElimination.AbilitySystem
         OnlySingleGroupWithHighestPriority
     }
 
+    [Tooltip("Defines how target groups calculated based on caster's and targets' positions.")]
     public abstract class CellGroupDistributionPattern 
     {
         public abstract CellGroupDistributionPoicy DistributionPoicy { get; }
 
-        public abstract CellGroupsContainer GetAffectedCellGroups(
-            CellRangeBorders mapBorders, 
-            Vector2Int casterPosition, 
+        //[DictionaryDrawerSettings(KeyLabel = "Group", ValueLabel = "Condition")]
+        //[ShowInInspector, OdinSerialize]
+        //protected Dictionary<int, ICellCondition[]> CellConditions { get; set; } = new();
+
+        public CellGroupsContainer GetAffectedCellGroups(
+            CellRangeBorders mapBorders,
+            Vector2Int casterPosition,
+            params Vector2Int[] targetPositions)
+        {
+            var filteredGroups = CalculateAffectedCellGroups(mapBorders, casterPosition, targetPositions);
+            //foreach(var group in CellConditions.Keys)
+            //{
+            //    //Needs BattleContext and caster to check conditions
+            //    filteredGroups = filteredGroups.Filter(
+            //        p => CellConditions[group].All(c => c.IsConditionMet(null, null, casterPosition)));
+            //}
+            return filteredGroups;
+        }
+
+        protected abstract CellGroupsContainer CalculateAffectedCellGroups(
+            CellRangeBorders mapBorders,
+            Vector2Int casterPosition,
             params Vector2Int[] targetPositions);
 
         protected void AddPositionsConsideringDistributionPolicy(
@@ -68,7 +90,7 @@ namespace OrderElimination.AbilitySystem
     {
         public abstract CellGroupsContainer GetAffectedCellGroups(CellRangeBorders mapBorders, Vector2Int casterPosition);
 
-        public override CellGroupsContainer GetAffectedCellGroups(
+        protected override CellGroupsContainer CalculateAffectedCellGroups(
             CellRangeBorders mapBorders, 
             Vector2Int casterPosition, 
             Vector2Int[] targetPositions)
@@ -79,7 +101,7 @@ namespace OrderElimination.AbilitySystem
     {
         public abstract CellGroupsContainer GetAffectedCellGroups(CellRangeBorders mapBorders, params Vector2Int[] targetPositions);
 
-        public override CellGroupsContainer GetAffectedCellGroups(
+        protected override CellGroupsContainer CalculateAffectedCellGroups(
             CellRangeBorders mapBorders, 
             Vector2Int casterPosition, 
             Vector2Int[] targetPositions)

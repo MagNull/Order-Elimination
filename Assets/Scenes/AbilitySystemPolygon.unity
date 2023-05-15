@@ -364,7 +364,7 @@ Transform:
   - {fileID: 272730709}
   - {fileID: 356844999}
   m_Father: {fileID: 543468711}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &272730708
 GameObject:
@@ -663,6 +663,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 651251070}
   - {fileID: 926713598}
   - {fileID: 1600433760}
   - {fileID: 259532663}
@@ -717,6 +718,86 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _entityPrefab: {fileID: -5129956471157022677, guid: 8bae18ab3858f1540bf2d0298e833f18, type: 3}
   _entitiesParent: {fileID: 272730709}
+--- !u!1 &651251069
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 651251070}
+  - component: {fileID: 651251071}
+  m_Layer: 0
+  m_Name: DefaultAnimationsPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &651251070
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651251069}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 543468711}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &651251071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651251069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd213944b388a8447a54c02a6cd28099, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _defaultAnimations
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.Animations.DefaultAnimation,
+        Assembly-CSharp],[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.Animations.DefaultAnimation,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
 --- !u!114 &700708824 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7208725858983283885, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
@@ -904,7 +985,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 543468711}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &926713599
 MonoBehaviour:
@@ -924,6 +1005,20 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 1600433760}
     - {fileID: 3443483850292592821, guid: ecab44f514d908c42a0b7c2d8ae8290d, type: 3}
+    - {fileID: 4517615034272358740, guid: 4ff87eb31483e664b9c3f32dac6fe4c0, type: 3}
+    - {fileID: 2742454428654191453, guid: ca158536365fad5438a03bf247becf04, type: 3}
+    - {fileID: 7175382609252383567, guid: 484659b833982114fa57491d181bbca1, type: 3}
+    - {fileID: 5508138241245770297, guid: 01bb42f81efbda44b9e37292c028e581, type: 3}
+    - {fileID: 5869387579307615028, guid: 05b92c26e785d2d4f9f1b180d61289a1, type: 3}
+    - {fileID: 5869387579307615028, guid: dc46a1dfb17fa6e45bfb6a40d70d9ae2, type: 3}
+    - {fileID: 5869387579307615028, guid: 75b7f8aedc0366c46bbdf407ef08ce32, type: 3}
+    - {fileID: 5869387579307615028, guid: 3fe9615478739c94d8d532b3066af41a, type: 3}
+    - {fileID: 5869387579307615028, guid: c6f36e4605d9c5f4e8f739016ef48c78, type: 3}
+    - {fileID: 5869387579307615028, guid: d0fffba58e14433448ce26ea30c93a32, type: 3}
+    - {fileID: 5869387579307615028, guid: f16ca7bdb4181f5498a2b152b37d8424, type: 3}
+    - {fileID: 5869387579307615028, guid: d8f69a0ac0efd9640aa425569d43eab0, type: 3}
+    - {fileID: 5869387579307615028, guid: 0cb76fd80f09eb54db9d6c35c7d0f0d1, type: 3}
+    - {fileID: 3443483850292592821, guid: 58c863f85c77a364a87adf99b911082a, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -952,7 +1047,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 15
     - Name: 
       Entry: 7
       Data: 
@@ -962,6 +1057,174 @@ MonoBehaviour:
     - Name: $v
       Entry: 10
       Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 10
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 10
+      Data: 6
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 6
+    - Name: $v
+      Entry: 10
+      Data: 7
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 7
+    - Name: $v
+      Entry: 10
+      Data: 8
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 8
+    - Name: $v
+      Entry: 10
+      Data: 9
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 9
+    - Name: $v
+      Entry: 10
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 10
+    - Name: $v
+      Entry: 10
+      Data: 11
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 11
+    - Name: $v
+      Entry: 10
+      Data: 12
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 12
+    - Name: $v
+      Entry: 10
+      Data: 13
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 13
+    - Name: $v
+      Entry: 10
+      Data: 14
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 14
+    - Name: $v
+      Entry: 10
+      Data: 15
     - Name: 
       Entry: 8
       Data: 
@@ -1003,7 +1266,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 543468711}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1215,6 +1478,7 @@ MonoBehaviour:
   _battleLoopManager: {fileID: 1031238779}
   _battleMapView: {fileID: 246195458}
   _particlesPool: {fileID: 926713599}
+  _defaultAnimationsPool: {fileID: 651251071}
   _textEmitter: {fileID: 929000870}
   _battleMap: {fileID: 246195459}
   _battleMapDirector:
@@ -2138,7 +2402,7 @@ Transform:
   - {fileID: 246195460}
   - {fileID: 131492487}
   m_Father: {fileID: 543468711}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1220687553
 GameObject:
@@ -2246,6 +2510,7 @@ MonoBehaviour:
   _battleLoopManager: {fileID: 0}
   _battleMapView: {fileID: 246195458}
   _particlesPool: {fileID: 0}
+  _defaultAnimationsPool: {fileID: 0}
   _textEmitter: {fileID: 0}
   _battleMap: {fileID: 246195459}
   _battleMapDirector:
@@ -2394,7 +2659,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 543468711}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1644134203
 GameObject:
@@ -2658,7 +2923,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 04588733ccd1f2a4bb0aad35a508b4de, type: 2}
     - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
     - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
+    - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
     - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+    - {fileID: 11400000, guid: dc7552cb19317d642ad2af92d805c557, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -2673,7 +2940,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 5
     - Name: 
       Entry: 10
       Data: 1
@@ -2687,6 +2954,9 @@ MonoBehaviour:
       Entry: 10
       Data: 4
     - Name: 
+      Entry: 10
+      Data: 5
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -2698,10 +2968,13 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 10
-      Data: 5
+      Data: 6
+    - Name: 
+      Entry: 10
+      Data: 7
     - Name: 
       Entry: 13
       Data: 

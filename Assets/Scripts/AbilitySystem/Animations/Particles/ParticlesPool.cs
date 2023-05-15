@@ -1,7 +1,10 @@
-﻿using Sirenix.OdinInspector;
+﻿using Cysharp.Threading.Tasks;
+using OrderElimination.Infrastructure;
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -12,17 +15,27 @@ namespace OrderElimination.AbilitySystem.Animations
         [OdinSerialize]
         private Transform _particlesParent;
 
+        [DictionaryDrawerSettings(KeyLabel = "Particle Type", ValueLabel = "Prefab")]
         [OdinSerialize, ShowInInspector, AssetsOnly]
         private Dictionary<ParticleType, AnimatedParticle> _parcticlesPrefabs = new();
 
         private Dictionary<ParticleType, ObjectPool<AnimatedParticle>> _parcticlesPools = new();
-        private Dictionary<AnimatedParticle, ParticleType> _particleTypes = new();
+        private Dictionary<AnimatedParticle, ParticleType> _spawnedParticleTypes = new();
         private ParticleType? _currentAwaitedParticle;
+
+        [Button]
+        private void AddMissingParticles()
+        {
+            foreach (var missingType in EnumExtensions.GetValues<ParticleType>().Except(_parcticlesPrefabs.Keys))
+            {
+                _parcticlesPrefabs.Add(missingType, null);
+            }
+        }
 
         private void Awake()
         {
             _parcticlesPools = new();
-            _particleTypes = new();
+            _spawnedParticleTypes = new();
             foreach (var particleType in _parcticlesPrefabs.Keys)
             {
                 var pool = new ObjectPool<AnimatedParticle>(CreateParticle, OnObjectPoolGet, OnObjectPoolRelease);
@@ -44,6 +57,7 @@ namespace OrderElimination.AbilitySystem.Animations
             particle.gameObject.SetActive(true);
             particle.transform.SetParent(_particlesParent);
             particle.transform.localPosition = Vector3.zero;
+            particle.transform.right = Vector3.right;
         }
 
         private void OnObjectPoolRelease(AnimatedParticle particle)
@@ -55,18 +69,28 @@ namespace OrderElimination.AbilitySystem.Animations
         {
             _currentAwaitedParticle = parcticleType;
             var particle = _parcticlesPools[parcticleType].Get();
-            _particleTypes.Add(particle, parcticleType);
+            particle.SetBodyVisibility(true);
+            _spawnedParticleTypes.Add(particle, parcticleType);
             _currentAwaitedParticle = null;
             return particle;
         }
 
-        public void Release(AnimatedParticle particle)
+        public async UniTask Release(AnimatedParticle particle)
         {
-            if (!_particleTypes.ContainsKey(particle))
+            if (!_spawnedParticleTypes.ContainsKey(particle))
                 throw new ArgumentException("Attempt to release unknown particle.");
-            var parcticleType = _particleTypes[particle];
+            var parcticleType = _spawnedParticleTypes[particle];
+            particle.SetBodyVisibility(false);
+            _spawnedParticleTypes.Remove(particle);
+            //await particle trail
+            await UniTask.WaitUntil(ParticlesDisappeared);
+            particle.StopFollowing();
             _parcticlesPools[parcticleType].Release(particle);
-            _particleTypes.Remove(particle);
+
+            bool ParticlesDisappeared()
+            {
+                return !particle.HasTrails;
+            }
         }
     }
 }

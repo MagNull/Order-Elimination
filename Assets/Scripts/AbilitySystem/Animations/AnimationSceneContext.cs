@@ -13,6 +13,7 @@ namespace OrderElimination.AbilitySystem.Animations
     {
         public BattleMapView BattleMapView { get; private set; }
         public IParticlesPool ParticlesPool { get; private set; }
+        public DefaultAnimationsPool DefaultAnimations { get; private set; }
         public TextEmitter TextEmitter { get; private set; }
         public IReadOnlyEntitiesBank EntitiesBank { get; private set; }
 
@@ -21,20 +22,22 @@ namespace OrderElimination.AbilitySystem.Animations
         {
             BattleMapView = objectResolver.Resolve<BattleMapView>();
             ParticlesPool = objectResolver.Resolve<IParticlesPool>();
+            DefaultAnimations = objectResolver.Resolve<DefaultAnimationsPool>();
             EntitiesBank = objectResolver.Resolve<BattleEntitiesBank>();
             TextEmitter = objectResolver.Resolve<TextEmitter>();
         }
 
-        //private AnimationSceneContext(
-        //    BattleMapView battleMapView, 
-        //    IParticlesPool particlesPool, 
-        //    TextEmitter textEmitter, 
-        //    IReadOnlyEntitiesBank entitiesBank)
-        //{
-        //    BattleMapView = battleMapView;
-        //    ParticlesPool = particlesPool;
-        //    TextEmitter = textEmitter;
-        //    EntitiesBank = entitiesBank;
-        //}
+        [Inject]
+        private AnimationSceneContext(
+            BattleMapView battleMapView,
+            IParticlesPool particlesPool,
+            TextEmitter textEmitter,
+            IReadOnlyEntitiesBank entitiesBank)
+        {
+            BattleMapView = battleMapView;
+            ParticlesPool = particlesPool;
+            TextEmitter = textEmitter;
+            EntitiesBank = entitiesBank;
+        }
     }
 }

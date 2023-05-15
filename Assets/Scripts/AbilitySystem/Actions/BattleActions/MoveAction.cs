@@ -18,6 +18,8 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public int DestinationCellGroup { get; private set; }
 
+        //public List<ICellCondition> DestinationCellConditions { get; private set; }
+
         [ShowInInspector, OdinSerialize]
         public CellPriority CellPriority { get; private set; }
 
@@ -31,16 +33,19 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public bool ForceMove { get; set; } = false; //if entity can not move
 
+        //[GUIColor(0, 1, 1)]
+        //[ShowInInspector, OdinSerialize]
+        //private bool _overrideDefaultAnimations { get; set; } = false;
+
         [GUIColor(0, 1, 1)]
+        //[ShowIf("@" + nameof(_overrideDefaultAnimations))]
         [ShowInInspector, OdinSerialize]
         public IAbilityAnimation MoveAnimation { get; private set; }
 
         [GUIColor(0, 1, 1)]
+        //[ShowIf("@" + nameof(_overrideDefaultAnimations))]
         [ShowInInspector, OdinSerialize]
         public IAbilityAnimation MoveFailedAnimation { get; private set; }
-        //MoveAnimation
-        //MoveFailAnimation
-        //OverrideMoveAnimation (or use default)
 
         public override ActionRequires ActionRequires => ActionRequires.Entity;
 
@@ -72,8 +77,13 @@ namespace OrderElimination.AbilitySystem
             var casterPos = useContext.ActionMaker.Position;
             var targetPos = useContext.ActionTargetInitialPosition;
             var destination = CellPriority.GetPositionByPriority(
-                cellGroups.GetGroup(DestinationCellGroup), casterPos, targetPos);
+                cellGroups.GetGroup(DestinationCellGroup), casterPos, targetPos);//destination conditions?
             var movingEntity = useContext.ActionTarget;
+
+            //var moveAnimation = _overrideDefaultAnimations
+            //    ? MoveAnimation
+            //    : useContext.AnimationSceneContext.DefaultAnimations.GetDefaultAnimation(DefaultAnimation.Walk);
+
             if (UsePath)
             {
                 var success = false;
@@ -92,10 +102,9 @@ namespace OrderElimination.AbilitySystem
                         var pathAnimContext = new AnimationPlayContext(
                             useContext.AnimationSceneContext,
                             fakeGroupsContainer,
-                            movingEntity.Position,
-                            path[i],
                             useContext.ActionMaker,
-                            useContext.ActionTarget);
+                            useContext.ActionTarget,
+                            path[i]);
                         if (MoveAnimation != null)
                             await MoveAnimation.Play(pathAnimContext);
                         if (!movingEntity.Move(path[i]))
@@ -118,10 +127,9 @@ namespace OrderElimination.AbilitySystem
                 var animationContext = new AnimationPlayContext(
                     useContext.AnimationSceneContext,
                     useContext.TargetCellGroups,
-                    useContext.ActionMaker.Position,
-                    useContext.ActionTargetInitialPosition,
                     useContext.ActionMaker,
-                    useContext.ActionTarget);
+                    useContext.ActionTarget,
+                    useContext.ActionTargetInitialPosition);
                 if (MoveAnimation != null)
                     await MoveAnimation.Play(animationContext);
                 var moved = movingEntity.Move(destination, ForceMove);

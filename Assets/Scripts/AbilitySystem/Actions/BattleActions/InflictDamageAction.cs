@@ -53,7 +53,7 @@ namespace OrderElimination.AbilitySystem
         //public bool IgnoreDeadTargets { get; set; }
 
         //*При вызове Perform IBattleAction уже обработан.
-        protected override InflictDamageAction ModifyAction(
+        protected override InflictDamageAction ProcessAction(
             ActionContext context,
             bool actionMakerProcessing = true,
             bool targetProcessing = true)

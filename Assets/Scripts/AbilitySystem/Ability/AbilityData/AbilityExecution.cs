@@ -57,11 +57,22 @@ namespace OrderElimination.AbilitySystem
             CellGroupsContainer targetedCellGroups, 
             AbilitySystemActor previousInstructionTarget = null)
         {
+            AnimationSceneContext = battleContext.AnimationSceneContext;
             BattleContext = battleContext;
             AbilityCaster = abilityCaster;
             TargetedCellGroups = targetedCellGroups;
             PreviousInstructionTarget = previousInstructionTarget;
-            AnimationSceneContext = battleContext.AnimationSceneContext;
+        }
+
+        public AbilityExecutionContext(
+            AbilityExecutionContext basedContext,
+            AbilitySystemActor previousInstructionTarget)
+        {
+            AnimationSceneContext = basedContext.AnimationSceneContext;
+            BattleContext = basedContext.BattleContext;
+            AbilityCaster = basedContext.AbilityCaster;
+            TargetedCellGroups = basedContext.TargetedCellGroups;
+            PreviousInstructionTarget = previousInstructionTarget;
         }
     }
 }

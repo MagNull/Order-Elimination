@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace OrderElimination.AbilitySystem.OuterComponents
+namespace OrderElimination.Domain
 {
     public struct ReadOnlyBaseStats
     {
@@ -24,7 +24,7 @@ namespace OrderElimination.AbilitySystem.OuterComponents
         [OdinSerialize, HideInInspector]
         private float _maxMovementDistance;
 
-        [ShowInInspector]
+        [ShowInInspector][PropertyOrder(0)]
         public float MaxHealth
         {
             get => _maxHealth;
@@ -35,7 +35,7 @@ namespace OrderElimination.AbilitySystem.OuterComponents
             }
         }
 
-        [ShowInInspector]
+        [ShowInInspector][PropertyOrder(2)]
         public float MaxArmor
         {
             get => _maxArmor;
@@ -46,7 +46,7 @@ namespace OrderElimination.AbilitySystem.OuterComponents
             }
         }
 
-        [ShowInInspector]
+        [ShowInInspector][PropertyOrder(1)]
         public float AttackDamage
         {
             get => _attackDamage;
@@ -58,7 +58,7 @@ namespace OrderElimination.AbilitySystem.OuterComponents
         }
 
         [MinValue(0), MaxValue(1)]
-        [ShowInInspector]
+        [ShowInInspector][PropertyOrder(4)]
         public float Accuracy
         {
             get => _accuracy;
@@ -71,7 +71,7 @@ namespace OrderElimination.AbilitySystem.OuterComponents
         }
 
         [MinValue(0), MaxValue(1)]
-        [ShowInInspector]
+        [ShowInInspector][PropertyOrder(3)]
         public float Evasion
         {
             get => _evasion;
@@ -83,7 +83,7 @@ namespace OrderElimination.AbilitySystem.OuterComponents
             }
         }
 
-        [ShowInInspector]
+        [ShowInInspector][PropertyOrder(5)]
         public float MaxMovementDistance
         {
             get => _maxMovementDistance;

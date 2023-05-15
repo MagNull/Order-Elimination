@@ -1,5 +1,4 @@
 ﻿using System;
-using OrderElimination.AbilitySystem.OuterComponents;
 using CharacterAbility;
 using OrderElimination.AbilitySystem;
 using Sirenix.OdinInspector;
@@ -7,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using System.Collections.Generic;
 using Sirenix.Serialization;
+using OrderElimination.Domain;
 
 namespace OrderElimination
 {

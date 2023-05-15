@@ -1,9 +1,11 @@
-﻿namespace OrderElimination.AbilitySystem.Animations
+﻿using Cysharp.Threading.Tasks;
+
+namespace OrderElimination.AbilitySystem.Animations
 {
     public interface IParticlesPool
     {
         public AnimatedParticle Create(ParticleType parcticleType);
 
-        public void Release(AnimatedParticle particle);
+        public UniTask Release(AnimatedParticle particle);
     }
 }

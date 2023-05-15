@@ -27,7 +27,7 @@ public class BattleMapView : MonoBehaviour
     public BattleMap Map => _battleMap;
 
     /// <summary>
-    /// Interpolates game position between view Map View borders.
+    /// Interpolates game position between MapView borders.
     /// </summary>
     /// <param name="gamePosition"></param>
     /// <returns>Returns real world position.</returns>

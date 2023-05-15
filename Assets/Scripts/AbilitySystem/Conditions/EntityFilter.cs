@@ -1,5 +1,4 @@
-﻿using OrderElimination.AbilitySystem.Infrastructure;
-using OrderElimination.Infrastructure;
+﻿using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System.Collections.Generic;
@@ -10,13 +9,17 @@ namespace OrderElimination.AbilitySystem
     public class EntityFilter : ICloneable<EntityFilter>
     {
         [ShowInInspector, OdinSerialize]
+        public bool AllowSelf { get; set; }
+
+        [TabGroup("Allowed Entity Types")]
+        [OnInspectorInit("@$property.State.Expanded = true")]
+        [ShowInInspector, OdinSerialize]
         public EnumMask<EntityType> AllowedEntityTypes = new();
 
+        [TabGroup("Allowed Relationships")]
+        [OnInspectorInit("@$property.State.Expanded = true")]
         [ShowInInspector, OdinSerialize]
         public EnumMask<BattleRelationship> AllowedRelationships = new();
-
-        [ShowInInspector, OdinSerialize]
-        public bool AllowSelf { get; set; }
 
         public EntityFilter Clone()
         {

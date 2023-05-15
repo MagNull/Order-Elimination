@@ -1,4 +1,4 @@
-﻿using OrderElimination.AbilitySystem.OuterComponents;
+﻿using OrderElimination.Domain;
 using OrderElimination.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -8,8 +8,12 @@ namespace OrderElimination.AbilitySystem
 {
     public class BattleStats : IBattleStats, ILifeBattleStats
     {
-        private readonly List<TemporaryArmor> _temporaryArmors = new List<TemporaryArmor>();
+        private readonly List<TemporaryArmor> _temporaryArmors = new();
+        private readonly Dictionary<ProcessingParameter<float>, BattleStat> _battleStatEnums = new();
         private float _health;
+        private float _pureArmor;
+
+        public event Action<BattleStat> StatsChanged;
 
         public ProcessingParameter<float> AttackDamage { get; } = new ProcessingParameter<float>();
         public ProcessingParameter<float> Accuracy { get; } = new ProcessingParameter<float>();
@@ -60,7 +64,15 @@ namespace OrderElimination.AbilitySystem
                 }
             }
         }
-        public float PureArmor { get; set; }
+        public float PureArmor
+        {
+            get => _pureArmor;
+            set
+            {
+                if (value < 0) value = 0;
+                _pureArmor = value;
+            }
+        }
         public float TemporaryArmor => _temporaryArmors.Sum(a => a.Value);
 
         public void AddTemporaryArmor(TemporaryArmor armor) => _temporaryArmors.Add(armor);
@@ -104,11 +116,29 @@ namespace OrderElimination.AbilitySystem
             Evasion.SetUnmodifiedValue(baseStats.Evasion);
             MaxMovementDistance.SetUnmodifiedValue(baseStats.MaxMovementDistance);
 
+            _battleStatEnums = new()
+            {
+                { MaxHealth, BattleStat.MaxHealth },
+                { MaxArmor, BattleStat.MaxArmor },
+                { AttackDamage, BattleStat.AttackDamage },
+                { Accuracy, BattleStat.Accuracy },
+                { Evasion, BattleStat.Evasion },
+                { MaxMovementDistance, BattleStat.MaxMovementDistance }
+            };
+
             Health = MaxHealth.ModifiedValue;
             PureArmor = MaxArmor.ModifiedValue;
 
             MaxArmor.ValueChanged += OnMaxArmorChanged;
             MaxHealth.ValueChanged += OnMaxHealthChanged;
+
+            foreach (var stat in EnumExtensions.GetValues<BattleStat>())
+            {
+                if (HasParameter(stat))
+                {
+                    GetParameter(stat).ValueChanged += OnStatsChanged;
+                }
+            }
         }
         //Можно заменить изменением ценой способности перемещения у конкретного персонажа. Тогда очки должны быть дробными (энергия).
         //ActionPoint.MovementPoint: float
@@ -126,6 +156,13 @@ namespace OrderElimination.AbilitySystem
             var maxHealth = MaxHealth.ModifiedValue;
             if (maxHealth < Health)
                 Health = maxHealth;
+        }
+
+        private void OnStatsChanged(ProcessingParameter<float> parameter)
+        {
+            if (!_battleStatEnums.ContainsKey(parameter))
+                throw new ArgumentException();
+            StatsChanged?.Invoke(_battleStatEnums[parameter]);
         }
     }
 }

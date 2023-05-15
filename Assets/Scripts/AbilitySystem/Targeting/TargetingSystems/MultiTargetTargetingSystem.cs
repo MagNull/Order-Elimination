@@ -180,7 +180,8 @@ namespace OrderElimination.AbilitySystem
 
         public CellGroupsContainer ExtractCastTargetGroups()
         {
-            return TargetPattern.GetAffectedCellGroups(_mapBorders.Value, _casterPosition.Value, _selectedCells.ToArray());
+            return TargetPattern.GetAffectedCellGroups(
+                _mapBorders.Value, _casterPosition.Value, _selectedCells.ToArray());
         }
     }
 }

@@ -9,7 +9,6 @@ using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using OrderElimination.Infrastructure;
 using OrderElimination.AbilitySystem;
-using OrderElimination.AbilitySystem.Infrastructure;
 
 public class BattleMap : MonoBehaviour, IBattleMap
 {
@@ -62,41 +61,10 @@ public class BattleMap : MonoBehaviour, IBattleMap
     public float GetGameDistanceBetween(Vector2Int posA, Vector2Int posB)
         => CellMath.GetRealDistanceBetween(posA, posB);
 
-    public bool PathExists(Vector2Int origin, Vector2Int destination, Predicate<Vector2Int> positionPredicate, out Vector2Int[] path)
+    public bool PathExists(
+        Vector2Int origin, Vector2Int destination, Predicate<Vector2Int> positionPredicate, out Vector2Int[] path)
     {
-        var result = new List<Vector2Int>();
-        var visited = new HashSet<Vector2Int>();
-        var queue = new Queue<Vector2Int>();
-        var parents = new Dictionary<Vector2Int, Vector2Int>();
-        queue.Enqueue(origin);
-        visited.Add(origin);
-        while (queue.Count > 0)
-        {
-            var current = queue.Dequeue();
-            if (current == destination)
-            {
-                while (current != origin)
-                {
-                    result.Add(current);
-                    current = parents[current];
-                }
-                result.Reverse();
-                path = result.ToArray();
-                return true;
-            }
-
-            foreach (var neighbour in GetNeighbours(current))
-            {
-                if (visited.Contains(neighbour) || !positionPredicate(neighbour))
-                    continue;
-
-                visited.Add(neighbour);
-                queue.Enqueue(neighbour);
-                parents.Add(neighbour, current);
-            }
-        }
-        path = result.ToArray();
-        return false;
+        return Pathfinding.PathExists(origin, destination, CellRangeBorders, positionPredicate, out path);
     }
 
     #endregion

@@ -14,6 +14,8 @@ namespace OrderElimination.AbilitySystem
         public readonly CellGroupsContainer TargetCellGroups;
         public readonly AbilitySystemActor ActionMaker;
         public readonly AbilitySystemActor ActionTarget;
+        //AbilityUseContext (+ initial caster position, inital target position)
+
 
         public readonly Vector2Int? ActionTargetInitialPosition;
 

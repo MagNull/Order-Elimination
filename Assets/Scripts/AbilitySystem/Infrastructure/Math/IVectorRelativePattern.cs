@@ -1,5 +1,4 @@
-﻿using OrderElimination.AbilitySystem.Infrastructure;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,8 @@ namespace OrderElimination.Infrastructure
 {
     public interface IVectorRelativePattern
     {
-        public Vector2Int[] GetAbsolutePositions(Vector2Int startPoint, Vector2Int endPoint);
+        public Vector2Int[] GetAbsolutePositions(
+            Vector2Int startPoint, Vector2Int endPoint, CellRangeBorders calculatingBorders);
     }
 
     public class LinePattern : IVectorRelativePattern
@@ -36,7 +36,8 @@ namespace OrderElimination.Infrastructure
             }
         }
 
-        public Vector2Int[] GetAbsolutePositions(Vector2Int startPoint, Vector2Int endPoint)
+        public Vector2Int[] GetAbsolutePositions(
+            Vector2Int startPoint, Vector2Int endPoint, CellRangeBorders calculatingBorders)
         {
             var intersections = IntersectionSolver.GetIntersections(startPoint, endPoint).ToArray();
             var result = new List<Vector2Int>();
@@ -47,6 +48,16 @@ namespace OrderElimination.Infrastructure
                     result.Add(i.CellPosition);
             }
             return result.ToArray();
+        }
+    }
+
+    public class PathPattern : IVectorRelativePattern
+    {
+        public Vector2Int[] GetAbsolutePositions(
+            Vector2Int startPoint, Vector2Int endPoint, CellRangeBorders calculatingBorders)
+        {
+            Pathfinding.PathExists(startPoint, endPoint, calculatingBorders, p => true, out var path);
+            return path;
         }
     }
 }

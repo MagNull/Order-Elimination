@@ -29,7 +29,7 @@ public class CellView : MonoBehaviour
 
     private Cell _model;
 
-    public Color CurrentTint => _renderer == null ? Color.white : _renderer.color;
+    public Color CurrentColor => _renderer == null ? Color.white : _renderer.color;
     public IReadOnlyCell Model => _model;
 
     public void Start()

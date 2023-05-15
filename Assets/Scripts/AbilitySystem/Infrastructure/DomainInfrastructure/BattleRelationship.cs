@@ -1,4 +1,4 @@
-﻿namespace OrderElimination.AbilitySystem.Infrastructure
+﻿namespace OrderElimination.Infrastructure
 {
     public enum BattleRelationship
     {

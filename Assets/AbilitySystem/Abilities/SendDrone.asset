@@ -34,9 +34,6 @@ MonoBehaviour:
     - Name: CooldownTime
       Entry: 3
       Data: 0
-    - Name: UnlocksAtRound
-      Entry: 3
-      Data: 0
     - Name: TargetingSystem
       Entry: 3
       Data: 1
@@ -211,13 +208,13 @@ MonoBehaviour:
       Data: 
     - Name: AbilityInstructions
       Entry: 7
-      Data: 11|OrderElimination.AbilitySystem.ActionInstruction[], Assembly-CSharp
+      Data: 11|OrderElimination.AbilitySystem.AbilityInstruction[], Assembly-CSharp
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 12|OrderElimination.AbilitySystem.ActionInstruction, Assembly-CSharp
+      Data: 12|OrderElimination.AbilitySystem.AbilityInstruction, Assembly-CSharp
     - Name: Action
       Entry: 7
       Data: 13|OrderElimination.AbilitySystem.InflictDamageAction, Assembly-CSharp
@@ -254,7 +251,7 @@ MonoBehaviour:
     - Name: IgnoreEvasion
       Entry: 5
       Data: false
-    - Name: IgnoreAccuracyAffectionByObjects
+    - Name: ObjectsBetweenAffectAccuracy
       Entry: 5
       Data: false
     - Name: 
@@ -286,7 +283,7 @@ MonoBehaviour:
       Data: 1
     - Name: InstructionsOnActionSuccess
       Entry: 7
-      Data: 17|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.ActionInstruction,
+      Data: 17|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -425,10 +422,10 @@ MonoBehaviour:
         Assembly-CSharp
     - Name: BulletParticle
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: MoveBy
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: MovementEase
       Entry: 3
       Data: 9
@@ -438,6 +435,9 @@ MonoBehaviour:
     - Name: Inverse
       Entry: 5
       Data: false
+    - Name: RemapAnimationTime
+      Entry: 5
+      Data: true
     - Name: _minSpread
       Entry: 4
       Data: 0
@@ -446,10 +446,13 @@ MonoBehaviour:
       Data: 0
     - Name: _time
       Entry: 4
-      Data: 1
+      Data: 1.5
     - Name: _speed
       Entry: 4
-      Data: 6
+      Data: 4
+    - Name: _animationLoops
+      Entry: 3
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -780,7 +783,7 @@ MonoBehaviour:
         Assembly-CSharp
     - Name: BulletParticle
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: MoveBy
       Entry: 3
       Data: 0
@@ -793,6 +796,9 @@ MonoBehaviour:
     - Name: Inverse
       Entry: 5
       Data: true
+    - Name: RemapAnimationTime
+      Entry: 5
+      Data: true
     - Name: _minSpread
       Entry: 4
       Data: 0
@@ -801,10 +807,13 @@ MonoBehaviour:
       Data: 0
     - Name: _time
       Entry: 4
-      Data: 1
+      Data: 1.5
     - Name: _speed
       Entry: 4
       Data: 6
+    - Name: _animationLoops
+      Entry: 3
+      Data: 2
     - Name: 
       Entry: 8
       Data: 

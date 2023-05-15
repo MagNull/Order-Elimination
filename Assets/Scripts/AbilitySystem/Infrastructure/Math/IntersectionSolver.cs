@@ -70,8 +70,7 @@ namespace OrderElimination.Infrastructure
                 var sideHoriz = point2.x == cellPos.x ? point1.x : 1 - point1.x;
                 interArea = GetTrapezoidArea(sideVert, 0f, sideHoriz);
             }
-            var intVector = new Vector2Int((int)cellPos.x, (int)cellPos.y);
-            return new CellIntersection(intVector, _intersectionAngle, interArea);
+            return new CellIntersection(new Vector2Int((int)cellPos.x, (int)cellPos.y), _intersectionAngle, interArea);
         }
 
         private static Dictionary<Vector2, Tuple<Vector2, Vector2>> GetDictOfIntersectionCells(IEnumerable<Vector2> points)
@@ -94,13 +93,12 @@ namespace OrderElimination.Infrastructure
         {
             var pointsSet = new SortedSet<Vector2>(new CompereByStartPoint(start));
             var direction = end - start;
-            float tan;
-            if (direction.x == 0)
-                tan = direction.y > 0 ? float.MaxValue : float.MinValue;
-            else
-                tan = direction.y / direction.x;
-            _intersectionAngle = Math.Atan(tan);
-            var offsetY = start.y - start.x * tan;
+
+            var tan = direction.y / direction.x;
+            var ctg = direction.x / direction.y;
+
+            var offsetY = end.y - tan * end.x;
+            var offsetX = end.x - ctg * end.y;
 
             var startX = direction.x > 0 ? MathF.Ceiling(start.x) : MathF.Floor(start.x);
             var startY = direction.y > 0 ? MathF.Ceiling(start.y) : MathF.Floor(start.y);
@@ -108,22 +106,18 @@ namespace OrderElimination.Infrastructure
             var endX = direction.x > 0 ? MathF.Ceiling(end.x) : MathF.Floor(end.x);
             var endY = direction.y > 0 ? MathF.Ceiling(end.y) : MathF.Floor(end.y);
 
-            while (startX != endX || startY != endY)
+            while (startX != endX)
             {
-                if (startX != endX)
-                {
-                    var interY = MathF.Round((startX * tan) + offsetY, RoundAccuracy);
-                    pointsSet.Add(new Vector2(startX, interY));
-                    startX = direction.x > 0 ? startX + 1 : startX - 1;
-                }
-                if (startY != endY)
-                {
-                    var interX = MathF.Round((startY - offsetY) / tan, RoundAccuracy);
-                    pointsSet.Add(new Vector2(interX, startY));
-                    startY = direction.y > 0 ? startY + 1 : startY - 1;
-                }
+                var interY = tan * startX + offsetY;
+                pointsSet.Add(new Vector2(startX, interY));
+                startX += direction.x > 0 ? 1 : -1;
             }
-
+            while (startY != endY)
+            {
+                var interX = ctg * startY + offsetX;
+                pointsSet.Add(new Vector2(interX, startY));
+                startY += direction.y > 0 ? 1 : -1;
+            }
             return pointsSet;
         }
 

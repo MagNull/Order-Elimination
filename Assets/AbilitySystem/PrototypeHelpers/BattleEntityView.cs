@@ -3,6 +3,7 @@ using DefaultNamespace;
 using DG.Tweening;
 using OrderElimination.AbilitySystem;
 using OrderElimination.AbilitySystem.Animations;
+using OrderElimination.Infrastructure;
 using UnityEngine;
 using VContainer;
 
@@ -17,7 +18,11 @@ public class BattleEntityView : MonoBehaviour
     private IParticlesPool _particlesPool;
     private TextEmitter _textEmitter;
     private Vector3 _currentUnanimatedPosition;
+    private float _damageCash;
+    private float _healthCash;
+    private float _armorCash;
 
+    public static float SummingValuesTimeGap { get; private set; } = 0.01f;
     public AbilitySystemActor BattleEntity { get; private set; }
     public string Name { get; private set; }
     public Sprite BattleIcon { get; private set; }
@@ -72,23 +77,53 @@ public class BattleEntityView : MonoBehaviour
 
     private async void OnDamaged(DealtDamageInfo damageInfo)
     {
-        var strength = Mathf.InverseLerp(0, 200, damageInfo.TotalDamage);
+        if (_damageCash > 0)//waiting
+        {
+            _damageCash += damageInfo.TotalDamage;
+            return;
+        }
+        else//no cash -> start cashing
+        {
+            _damageCash += damageInfo.TotalDamage;
+            await UniTask.Delay(Mathf.RoundToInt(SummingValuesTimeGap * 1000), true);
+        }
+        var damageValue = _damageCash;
+        _damageCash = 0;
+
+        var strength = Mathf.InverseLerp(0, 200, damageValue);
         var shake = Mathf.Lerp(0, 0.5f, strength);
         var position = _floatingNumbersPosition.position;
-        _textEmitter.Emit($"{damageInfo.TotalDamage}", Color.red, position, new Vector2(0.5f, 0.5f));
+        _textEmitter.Emit($"{damageValue}", Color.red, position, new Vector2(0.5f, 0.5f));
         Shake(shake, shake, 1, 10);
         //Time.timeScale = 0.25f;
         //await UniTask.Delay(2000, ignoreTimeScale: true);
         //Time.timeScale = 1f;
     }
 
-    private void OnHealed(HealRecoveryInfo healInfo)
+    private async void OnHealed(HealRecoveryInfo healInfo)
     {
+        if (_healthCash > 0 || _armorCash > 0)//waiting
+        {
+            _healthCash += healInfo.RecoveredHealth;
+            _armorCash += healInfo.RecoveredArmor;
+            return;
+        }
+        else//no cash -> start cashing
+        {
+            _healthCash += healInfo.RecoveredHealth;
+            _armorCash += healInfo.RecoveredArmor;
+            await UniTask.Delay(Mathf.RoundToInt(SummingValuesTimeGap * 1000), true);
+        }
+        var healthValue = _healthCash;
+        var armorValue = _armorCash;
+        _healthCash = 0;
+        _armorCash = 0;
+
         var position = _floatingNumbersPosition.position;
         var offset = Vector3.up * 0.25f;
-        _textEmitter.Emit($"+{healInfo.RecoveredArmor}", Color.cyan, position + offset, new Vector2(0.5f, 0.5f), duration: 1);
-        _textEmitter.Emit($"+{healInfo.RecoveredHealth}", Color.green, position - offset, new Vector2(0.5f, 0.5f), duration: 1);
-        Shake(0, 0.07f, 1.5f, 3);
+        _textEmitter.Emit($"+{armorValue}", Color.cyan, position + offset, new Vector2(0.5f, 0.5f), duration: 1);
+        _textEmitter.Emit($"+{healthValue}", Color.green, position - offset, new Vector2(0.5f, 0.5f), duration: 1);
+        //Shake(0, 0.07f, 1.5f, 3);
     }
 
     private void OnDied(AbilitySystemActor entity)
@@ -100,17 +135,16 @@ public class BattleEntityView : MonoBehaviour
 
     private void OnStatusAppeared(BattleStatus status)
     {
-        Debug.Log("Status appeared");
         var context = BattleEntity.BattleContext;
         if (status == BattleStatus.Invisible)
         {
             var relationShip = context.GetRelationship(BattleSide.Player, BattleEntity.BattleSide);
             switch (relationShip)
             {
-                case OrderElimination.AbilitySystem.Infrastructure.BattleRelationship.Ally:
+                case BattleRelationship.Ally:
                     _renderer.DOFade(0.45f, 1f);
                     break;
-                case OrderElimination.AbilitySystem.Infrastructure.BattleRelationship.Enemy:
+                case BattleRelationship.Enemy:
                     _renderer.DOFade(0f, 1f);
                     break;
                 default:
@@ -121,17 +155,16 @@ public class BattleEntityView : MonoBehaviour
 
     private void OnStatusDisappeared(BattleStatus status)
     {
-        Debug.Log("Status disappeared");
         var context = BattleEntity.BattleContext;
         if (status == BattleStatus.Invisible)
         {
             var relationShip = context.GetRelationship(BattleSide.Player, BattleEntity.BattleSide);
             switch (relationShip)
             {
-                case OrderElimination.AbilitySystem.Infrastructure.BattleRelationship.Ally:
+                case BattleRelationship.Ally:
                     _renderer.DOFade(1, 0.7f);
                     break;
-                case OrderElimination.AbilitySystem.Infrastructure.BattleRelationship.Enemy:
+                case BattleRelationship.Enemy:
                     _renderer.DOFade(1, 0.7f);
                     break;
                 default:

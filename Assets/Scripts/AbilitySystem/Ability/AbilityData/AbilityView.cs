@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -10,14 +11,16 @@ namespace OrderElimination.AbilitySystem
         public string Name { get; }
         public Sprite Icon { get; }
         public string Description { get; }
+        public VideoClip PreviewVideo { get; }
         public IReadOnlyDictionary<int, Color> TargetGroupsHighlightColors { get; }
 
-        public AbilityView(string name, Sprite icon, string description, IReadOnlyDictionary<int, Color> groupColors) 
+        public AbilityView(IReadOnlyDictionary<int, Color> groupColors, string name, Sprite icon, string description, VideoClip previewVideo) 
         {
             Name = name;
             Icon = icon;
             Description = description;
             TargetGroupsHighlightColors = groupColors;
+            PreviewVideo = previewVideo;
         }
     }
 }

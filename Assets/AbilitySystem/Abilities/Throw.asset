@@ -31,10 +31,10 @@ MonoBehaviour:
     - Name: Description
       Entry: 6
       Data: 
+    - Name: PreviewVideo
+      Entry: 6
+      Data: 
     - Name: CooldownTime
-      Entry: 3
-      Data: 0
-    - Name: UnlocksAtRound
       Entry: 3
       Data: 0
     - Name: TargetingSystem
@@ -299,19 +299,16 @@ MonoBehaviour:
       Data: 
     - Name: AbilityInstructions
       Entry: 7
-      Data: 15|OrderElimination.AbilitySystem.ActionInstruction[], Assembly-CSharp
+      Data: 15|OrderElimination.AbilitySystem.AbilityInstruction[], Assembly-CSharp
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 16|OrderElimination.AbilitySystem.ActionInstruction, Assembly-CSharp
+      Data: 16|OrderElimination.AbilitySystem.AbilityInstruction, Assembly-CSharp
     - Name: Action
       Entry: 7
       Data: 17|OrderElimination.AbilitySystem.MoveAction, Assembly-CSharp
-    - Name: PerformEntity
-      Entry: 3
-      Data: 1
     - Name: DestinationCellGroup
       Entry: 3
       Data: 1
@@ -347,25 +344,28 @@ MonoBehaviour:
       Data: 0
     - Name: UseExecutionGroupForDestination
       Entry: 5
-      Data: false
+      Data: true
     - Name: DestinationTarget
       Entry: 3
       Data: 0
     - Name: DestinationCellGroup
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: DestinationCellOrder
       Entry: 3
       Data: 0
     - Name: MoveBy
       Entry: 3
       Data: 1
+    - Name: MoveEase
+      Entry: 3
+      Data: 0
     - Name: _time
       Entry: 4
       Data: 1
     - Name: _speed
       Entry: 4
-      Data: 2
+      Data: 5
     - Name: 
       Entry: 8
       Data: 
@@ -401,14 +401,14 @@ MonoBehaviour:
       Data: 1
     - Name: InstructionsOnActionSuccess
       Entry: 7
-      Data: 20|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.ActionInstruction,
+      Data: 20|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 21|OrderElimination.AbilitySystem.ActionInstruction, Assembly-CSharp
+      Data: 21|OrderElimination.AbilitySystem.AbilityInstruction, Assembly-CSharp
     - Name: Action
       Entry: 7
       Data: 22|OrderElimination.AbilitySystem.InflictDamageAction, Assembly-CSharp
@@ -463,7 +463,7 @@ MonoBehaviour:
     - Name: IgnoreEvasion
       Entry: 5
       Data: false
-    - Name: IgnoreAccuracyAffectionByObjects
+    - Name: ObjectsBetweenAffectAccuracy
       Entry: 5
       Data: false
     - Name: 
@@ -495,7 +495,7 @@ MonoBehaviour:
       Data: 1
     - Name: InstructionsOnActionSuccess
       Entry: 7
-      Data: 28|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.ActionInstruction,
+      Data: 28|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -538,7 +538,7 @@ MonoBehaviour:
       Data: false
     - Name: InstructionsOnActionFail
       Entry: 7
-      Data: 29|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.ActionInstruction,
+      Data: 29|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -554,7 +554,7 @@ MonoBehaviour:
       Data: false
     - Name: FollowingInstructions
       Entry: 7
-      Data: 30|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.ActionInstruction,
+      Data: 30|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -569,46 +569,7 @@ MonoBehaviour:
       Entry: 5
       Data: false
     - Name: AnimationBeforeAction
-      Entry: 7
-      Data: 31|OrderElimination.AbilitySystem.Animations.WalkAnimation, Assembly-CSharp
-    - Name: MovingEntity
-      Entry: 3
-      Data: 0
-    - Name: UseExecutionGroupForOrigin
-      Entry: 5
-      Data: false
-    - Name: OriginTarget
-      Entry: 3
-      Data: 0
-    - Name: OriginCellGroup
-      Entry: 3
-      Data: 0
-    - Name: OriginCellOrder
-      Entry: 3
-      Data: 0
-    - Name: UseExecutionGroupForDestination
-      Entry: 5
-      Data: true
-    - Name: DestinationTarget
-      Entry: 3
-      Data: 0
-    - Name: DestinationCellGroup
-      Entry: 3
-      Data: 1
-    - Name: DestinationCellOrder
-      Entry: 3
-      Data: 0
-    - Name: MoveBy
-      Entry: 3
-      Data: 1
-    - Name: _time
-      Entry: 4
-      Data: 1
-    - Name: _speed
-      Entry: 4
-      Data: 5
-    - Name: 
-      Entry: 8
+      Entry: 6
       Data: 
     - Name: 
       Entry: 8

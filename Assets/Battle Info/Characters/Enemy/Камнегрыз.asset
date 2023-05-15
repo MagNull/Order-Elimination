@@ -23,25 +23,25 @@ MonoBehaviour:
     SerializationNodes:
     - Name: _baseBattleStats
       Entry: 7
-      Data: OrderElimination.AbilitySystem.OuterComponents.ReadOnlyBaseStats, Assembly-CSharp
+      Data: OrderElimination.Domain.ReadOnlyBaseStats, Assembly-CSharp
     - Name: _maxHealth
       Entry: 4
-      Data: 200
+      Data: 50
     - Name: _maxArmor
       Entry: 4
-      Data: 1000
+      Data: 100
     - Name: _attackDamage
       Entry: 4
-      Data: 1
+      Data: 35
     - Name: _accuracy
       Entry: 4
-      Data: 1
+      Data: 0.8
     - Name: _evasion
       Entry: 4
-      Data: 0
+      Data: 0.1
     - Name: _maxMovementDistance
       Entry: 4
-      Data: 0
+      Data: 4
     - Name: 
       Entry: 8
       Data: 

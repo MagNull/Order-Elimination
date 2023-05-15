@@ -27,6 +27,8 @@ namespace OrderElimination
         [SerializeField]
         private ParticlesPool _particlesPool;
         [SerializeField]
+        private DefaultAnimationsPool _defaultAnimationsPool;
+        [SerializeField]
         private TextEmitter _textEmitter;
         [SerializeField]
         private BattleMap _battleMap;
@@ -53,6 +55,7 @@ namespace OrderElimination
             builder.RegisterComponent(_battleMapDirector);
             builder.RegisterComponent(_battleMapView);
             builder.RegisterComponent(_particlesPool).AsImplementedInterfaces();
+            builder.RegisterComponent(_defaultAnimationsPool);
             builder.RegisterComponent(_textEmitter);
             builder.RegisterComponent(_battleEntitiesFactory);
             builder.RegisterComponent(_battleLoopManager);

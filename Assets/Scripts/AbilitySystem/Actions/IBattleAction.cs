@@ -41,7 +41,7 @@ namespace OrderElimination.AbilitySystem
             bool targetProcessing = true)
         {
             var modifyingAction = (TAction)this.Clone();
-            return modifyingAction.ModifyAction(useContext, actionMakerProcessing, targetProcessing);
+            return modifyingAction.ProcessAction(useContext, actionMakerProcessing, targetProcessing);
         }
 
         public async UniTask<IActionPerformResult> ModifiedPerform(
@@ -58,7 +58,7 @@ namespace OrderElimination.AbilitySystem
             return performResult;
         }
 
-        protected virtual TAction ModifyAction(
+        protected virtual TAction ProcessAction(
             ActionContext useContext, 
             bool actionMakerProcessing = true, 
             bool targetProcessing = true)

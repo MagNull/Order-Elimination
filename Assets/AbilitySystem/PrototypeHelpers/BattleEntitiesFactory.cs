@@ -1,9 +1,10 @@
 using Assets.AbilitySystem.PrototypeHelpers;
 using CharacterAbility;
 using OrderElimination.AbilitySystem;
-using OrderElimination.AbilitySystem.OuterComponents;
 using OrderElimination.Battle;
 using OrderElimination.BM;
+using OrderElimination.Domain;
+using OrderElimination.Infrastructure;
 using System;
 using System.Collections;
 using System.Collections.Generic;

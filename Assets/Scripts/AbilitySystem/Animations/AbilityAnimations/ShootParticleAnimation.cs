@@ -23,6 +23,8 @@ namespace OrderElimination.AbilitySystem.Animations
         private float _time;
         [HideInInspector, OdinSerialize]
         private float _speed;
+        [HideInInspector, OdinSerialize]
+        private int _animationLoops = 1;
 
         [ShowInInspector, OdinSerialize]
         public ParticleType BulletParticle { get; set; }
@@ -85,6 +87,22 @@ namespace OrderElimination.AbilitySystem.Animations
             }
         }
 
+        [ShowInInspector, OdinSerialize]
+        public bool RemapAnimationTime { get; set; }
+
+        [ShowInInspector]
+        public int AnimationLoops
+        {
+            get => _animationLoops;
+            set
+            {
+                if (value < 1) value = 1;
+                _animationLoops = value;
+            }
+        }
+        //bool ThenReturn
+        //bool AwaitReturn
+
         public async UniTask Play(AnimationPlayContext context)
         {
             if (!context.CasterGamePosition.HasValue
@@ -121,9 +139,10 @@ namespace OrderElimination.AbilitySystem.Animations
             bullet.transform.position = from;
             if (FaceDirection)
                 bullet.transform.right = direction;
+            if (RemapAnimationTime)
+                bullet.PlayTimeRemappedAnimation(time, AnimationLoops);
             else
-                bullet.transform.right = Vector3.right;
-
+                bullet.PlayAnimation(AnimationLoops);
             await bullet.transform
                 .DOMove(to, time)
                 .SetEase(MovementEase)

@@ -87,6 +87,9 @@ namespace OrderElimination.AbilitySystem.Animations
             }
         }
 
+        [ShowInInspector, OdinSerialize]
+        public Ease MoveEase { get; set; }
+
         public async UniTask Play(AnimationPlayContext context)
         {
             var movingTaget = MovingEntity switch
@@ -109,8 +112,8 @@ namespace OrderElimination.AbilitySystem.Animations
             {
                 from = OriginTarget switch
                 {
-                    AnimationTarget.Target => context.TargetGamePosition.Value,
-                    AnimationTarget.Caster => context.CasterGamePosition.Value,
+                    AnimationTarget.Target => context.Target.Position,
+                    AnimationTarget.Caster => context.Caster.Position,
                     _ => throw new NotImplementedException(),
                 };
             }
@@ -143,7 +146,10 @@ namespace OrderElimination.AbilitySystem.Animations
             };
             movingTaget.transform.DOComplete();
             movingTaget.transform.position = realWorldStartPos;
-            await movingTaget.transform.DOMove(realWorldEndPos, time).AsyncWaitForCompletion();
+            await movingTaget.transform
+                .DOMove(realWorldEndPos, time)
+                .SetEase(MoveEase)
+                .AsyncWaitForCompletion();
         }
     }
 }

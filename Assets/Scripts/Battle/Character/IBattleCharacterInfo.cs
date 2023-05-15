@@ -1,7 +1,7 @@
 using CharacterAbility;
 using OrderElimination;
 using OrderElimination.AbilitySystem;
-using OrderElimination.AbilitySystem.OuterComponents;
+using OrderElimination.Domain;
 using System.Collections.Generic;
 using UnityEngine;
 

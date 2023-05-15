@@ -1,6 +1,6 @@
 ﻿using Assets.AbilitySystem.PrototypeHelpers;
 using OrderElimination.AbilitySystem.Animations;
-using OrderElimination.AbilitySystem.Infrastructure;
+using OrderElimination.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;

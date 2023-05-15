@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using OrderElimination.AbilitySystem.Animations;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System.Collections.Generic;
@@ -26,13 +27,22 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         private IBattleAction _battleAction { get; set; }
 
-        [ShowIf("@!(" + nameof(_battleAction) + " is " + nameof(IUndoableBattleAction) + ")")]
+        [ShowIf("@" + nameof(_battleAction) + " is " + nameof(IUndoableBattleAction))]
+        [ValidateInput("@" + nameof(UndoOnDeactivation), "Action will never be undone! Are you sure this is right?")]
         [ShowInInspector, OdinSerialize]
         private bool UndoOnDeactivation { get; set; } = true;
 
+        [GUIColor(0, 1, 1)]
+        [ShowInInspector, OdinSerialize]
+        private IAbilityAnimation _animationBeforeAction { get; set; }
+
+        [GUIColor(0, 1, 1)]
+        [ShowInInspector, OdinSerialize]
+        private IAbilityAnimation _animationAfterAction { get; set; }
+
         public async UniTask Execute(BattleEffect effect)
         {
-            var cellGroups = new CellGroupsContainer();
+            var cellGroups = CellGroupsContainer.Empty;
             var target = _target switch
             {
                 EffectActionTarget.EffectHolder => effect.EffectHolder,
@@ -43,8 +53,14 @@ namespace OrderElimination.AbilitySystem
                 effect.BattleContext, cellGroups, effect.EffectApplier, target);
             var applierProcessing = effect.EffectData.UseApplierProcessing;
             var holderProcessing = effect.EffectData.UseHolderProcessing;
+            var animationContext = new AnimationPlayContext(
+                effect.BattleContext.AnimationSceneContext, cellGroups, effect.EffectApplier, effect.EffectHolder);
+            if (_animationBeforeAction != null)
+                await _animationBeforeAction.Play(animationContext);
             var result = await _battleAction.ModifiedPerform(actionContext, applierProcessing, holderProcessing);
             effect.Deactivated += OnDeactivation;
+            if (_animationAfterAction != null)
+                await _animationAfterAction.Play(animationContext);
 
             void OnDeactivation(BattleEffect effect)
             {

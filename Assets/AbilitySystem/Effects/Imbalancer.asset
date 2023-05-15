@@ -73,6 +73,15 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: UndoOnDeactivation
+      Entry: 5
+      Data: false
+    - Name: _animationBeforeAction
+      Entry: 6
+      Data: 
+    - Name: _animationAfterAction
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -214,20 +223,96 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: _activationInstruction
+    - Name: _onActivationInstruction
+      Entry: 7
+      Data: 11|OrderElimination.AbilitySystem.EffectInstruction, Assembly-CSharp
+    - Name: _target
+      Entry: 3
+      Data: 0
+    - Name: _battleAction
+      Entry: 7
+      Data: 12|OrderElimination.AbilitySystem.EmptyAction, Assembly-CSharp
+    - Name: ExecutesOn
+      Entry: 3
+      Data: 1
+    - Name: IsSuccessful
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: UndoOnDeactivation
+      Entry: 5
+      Data: true
+    - Name: _animationBeforeAction
       Entry: 6
       Data: 
-    - Name: _deactivationInstruction
+    - Name: _animationAfterAction
+      Entry: 7
+      Data: 13|OrderElimination.AbilitySystem.Animations.SpawnParticleAnimation,
+        Assembly-CSharp
+    - Name: ParticleType
+      Entry: 3
+      Data: 11
+    - Name: SpawnAt
+      Entry: 3
+      Data: 0
+    - Name: SpawnGroup
+      Entry: 3
+      Data: 0
+    - Name: Follow
+      Entry: 3
+      Data: 0
+    - Name: FaceDirection
+      Entry: 5
+      Data: false
+    - Name: FromParticlePosition
+      Entry: 5
+      Data: true
+    - Name: FacingFrom
+      Entry: 3
+      Data: 0
+    - Name: FacingFromGroup
+      Entry: 3
+      Data: 0
+    - Name: FacingFromCell
+      Entry: 3
+      Data: 0
+    - Name: FacingTo
+      Entry: 3
+      Data: 0
+    - Name: FacingToGroup
+      Entry: 3
+      Data: 0
+    - Name: FacingToCell
+      Entry: 3
+      Data: 0
+    - Name: RemapAnimationTime
+      Entry: 5
+      Data: false
+    - Name: RemappedTime
+      Entry: 4
+      Data: 0
+    - Name: _animationLoops
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _onDeactivationInstruction
       Entry: 6
       Data: 
     - Name: _triggerInstructions
       Entry: 7
-      Data: 11|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.IBattleTrigger,
+      Data: 14|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.ITriggerSetupInfo,
         Assembly-CSharp],[OrderElimination.AbilitySystem.IEffectInstruction, Assembly-CSharp]],
         mscorlib
     - Name: comparer
       Entry: 7
-      Data: 12|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.IBattleTrigger,
+      Data: 15|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.ITriggerSetupInfo,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 8

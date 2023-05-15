@@ -68,6 +68,28 @@ namespace OrderElimination.Infrastructure
             return (posB - posA).magnitude;
         }
 
+        public static float InverseLerpUnclamped(float a, float b, float value)
+        {
+            var devidend = value - a;
+            var devider = b - a;
+            if (devidend == 0) return 0;
+            return devidend / devider;
+        }
+
+        public static Vector2Int[] GetNeighbours(Vector2Int position)
+        {
+            var neighbours = new List<Vector2Int>();
+            for (var dx = -1; dx <= 1; dx++)
+            {
+                for (var dy = -1; dy <= 1; dy++)
+                {
+                    if (dx == 0 && dy == 0) continue;
+                    neighbours.Add(position + new Vector2Int(dx, dy));
+                }
+            }
+            return neighbours.ToArray();
+        }
+
         public static Vector2Int GetPositionByPriority(
             this CellPriority priority, Vector2Int[] positions, Vector2Int? casterPos, Vector2Int? targetPos)
         {
@@ -89,20 +111,6 @@ namespace OrderElimination.Infrastructure
                 return sortedByTargetPositions.Last();
 
             throw new NotImplementedException();
-        }
-
-        //public static Vector2Int GetPositionByPriority(
-        //    this CellPriority priority, Vector2Int[] positions, Vector2Int? casterPos, Vector2Int? targetPos)
-        //{
-        //    return GetPositionByPriority(priority, positions, casterPos, targetPos);
-        //}
-
-        public static float InverseLerpUnclamped(float a, float b, float value)
-        {
-            var devidend = value - a;
-            var devider = b - a;
-            if (devidend == 0) return 0;
-            return devidend / devider;
         }
     }
 }

@@ -12,7 +12,12 @@ namespace OrderElimination.AbilitySystem
         {
             var abilityData = new AbilityData();
 
-            var view = new AbilityView(builderData.Name, builderData.Icon, builderData.Description, builderData.CellGroupsHighlightColors);
+            var view = new AbilityView(
+                builderData.CellGroupsHighlightColors, 
+                builderData.Name, 
+                builderData.Icon, 
+                builderData.Description,
+                builderData.PreviewVideo);
             var gameRepresentation = new AbilityGameRepresentation();
             gameRepresentation.CooldownTime = builderData.CooldownTime;
             var rules = new AbilityRules(builderData.AvailabilityConditions, builderData.TargetCellConditions, builderData.UsageCost);

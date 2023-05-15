@@ -37,7 +37,6 @@ namespace UIManagement.Elements
         private bool _isHoldingAvatarAvailable;
 
         private List<Tweener> _highlightTweeners = new ();
-        private BattleCharacterView _currentCharacterView;
         private BattleEntityView _currentEntityView;
 
         public bool IsClickingAvatarAvailable
@@ -69,15 +68,18 @@ namespace UIManagement.Elements
                 _currentEntityView.BattleEntity.Damaged -= OnDamaged;
                 _currentEntityView.BattleEntity.Healed -= OnHealed;
                 _currentEntityView.BattleEntity.EffectAdded -= OnEffectsUpdated;
+                _currentEntityView.BattleEntity.BattleStats.StatsChanged -= OnStatsChanged;
             }
             _currentEntityView = entity;
             _currentEntityView.BattleEntity.Damaged += OnDamaged;
             _currentEntityView.BattleEntity.Healed += OnHealed;
             _currentEntityView.BattleEntity.EffectAdded += OnEffectsUpdated;
+            _currentEntityView.BattleEntity.BattleStats.StatsChanged += OnStatsChanged;
             _avatar.sprite = _currentEntityView.BattleIcon;
             UpdateStats();
             UpdateEffects();
 
+            void OnStatsChanged(BattleStat stat) => UpdateStats();
             void OnDamaged(DealtDamageInfo damage) => UpdateStats();
             void OnHealed(HealRecoveryInfo heal) => UpdateStats();
             void UpdateStats()
@@ -144,56 +146,7 @@ namespace UIManagement.Elements
         {
             var characterDescriptionPanel =
                 (CharacterDescriptionPanel) UIController.SceneInstance.OpenPanel(PanelType.CharacterDescription);
-            characterDescriptionPanel.UpdateCharacterDescription(_currentCharacterView);
+            //characterDescriptionPanel.UpdateCharacterDescription(_currentCharacterView);
         }
-
-        #region Deprecated
-
-        //public void UpdateCharacterInfo(BattleCharacterView characterView)
-        //{
-        //    if (characterView == null)
-        //    {
-        //        HideInfo();
-        //        return;
-        //    }
-
-        //    var battleCharacter = (BattleCharacter) characterView.Model;
-        //    if (_currentCharacterView != null)
-        //    {
-        //        battleCharacter.Damaged -= OnCharacterDamaged;
-        //        battleCharacter.EffectAdded -= OnCharacterEffectAdded;
-        //        battleCharacter.EffectRemoved -= OnCharacterEffectRemoved;
-        //        battleCharacter.Died -= OnCharacterDied;
-        //    }
-
-        //    _currentCharacterView = characterView;
-        //    if (characterView == null)
-        //    {
-        //        HideInfo();
-        //        return;
-        //    }
-
-        //    ShowInfo();
-        //    battleCharacter.Damaged += OnCharacterDamaged;
-        //    battleCharacter.EffectAdded += OnCharacterEffectAdded;
-        //    battleCharacter.EffectRemoved += OnCharacterEffectRemoved;
-        //    battleCharacter.Died += OnCharacterDied;
-        //    var stats = characterView.Model.Stats;
-        //    _healthBar.SetValue(stats.Health, 0, stats.UnmodifiedHealth);
-        //    _armorBar.SetValue(stats.Armor + stats.AdditionalArmor, 0, stats.UnmodifiedArmor + stats.AdditionalArmor);
-
-        //    var effects = battleCharacter.CurrentBuffEffects
-        //        .Concat(battleCharacter.CurrentTickEffects)
-        //        .Concat(battleCharacter.IncomingTickEffects)
-        //        .ToArray();
-        //    //.Where()
-        //    _effectsList.UpdateEffects(effects);
-        //    _avatar.sprite = characterView.Icon;
-        //}
-        //private void OnCharacterEffectAdded(ITickEffect effect) => UpdateCharacterInfo(_currentCharacterView);
-        //private void OnCharacterEffectRemoved(ITickEffect effect) => UpdateCharacterInfo(_currentCharacterView);
-        //private void OnCharacterDamaged(TakeDamageInfo damageInfo) => UpdateCharacterInfo(_currentCharacterView);
-        //private void OnCharacterDied(BattleCharacter character) => UpdateCharacterInfo(null);
-        #endregion
     }
 }

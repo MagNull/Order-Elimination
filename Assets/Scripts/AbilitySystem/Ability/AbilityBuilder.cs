@@ -6,23 +6,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Video;
 
 namespace OrderElimination.AbilitySystem
 {
     [CreateAssetMenu(fileName = "AbilityBuilder", menuName = "AbilitySystem/AbilityBuilder")]
     public class AbilityBuilder : SerializedScriptableObject
     {
+        private int _cooldownTime;
+        private int _necessaryTargets;
+        private int _optionalTargets;
+
+
         [TitleGroup("Visuals", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 0), PropertyOrder(0)]
         [ShowInInspector, OdinSerialize]
         public string Name { get; private set; }
 
         [TitleGroup("Visuals"), PropertyOrder(1)]
-        [ShowInInspector, OdinSerialize, PreviewField(Alignment = ObjectFieldAlignment.Left)]
+        [PreviewField(Alignment = ObjectFieldAlignment.Left)]
+        [ShowInInspector, OdinSerialize]
         public Sprite Icon { get; private set; }
 
         [TitleGroup("Visuals"), PropertyOrder(2)]
         [ShowInInspector, OdinSerialize, MultiLineProperty]
         public string Description { get; private set; }
+
+        [TitleGroup("Visuals"), PropertyOrder(2.5f)]
+        [PreviewField(Alignment = ObjectFieldAlignment.Left)]
+        [ShowInInspector, OdinSerialize]
+        public VideoClip PreviewVideo { get; private set; }
 
         [TitleGroup("Visuals"), PropertyOrder(3)]
         [ShowInInspector, OdinSerialize, DictionaryDrawerSettings(KeyLabel = "Group", ValueLabel = "Highlight color")]
@@ -36,7 +48,15 @@ namespace OrderElimination.AbilitySystem
 
         [TitleGroup("Game Rules"), PropertyOrder(1)]
         [ShowInInspector, OdinSerialize]
-        public int CooldownTime { get; private set; }
+        public int CooldownTime
+        {
+            get => _cooldownTime;
+            private set
+            {
+                if (value < 0) value = 0;
+                _cooldownTime = value;
+            }
+        }
 
         [TitleGroup("Game Rules"), PropertyOrder(3)]
         [ShowInInspector, OdinSerialize]
@@ -64,7 +84,6 @@ namespace OrderElimination.AbilitySystem
                 _necessaryTargets = value;
             }
         }
-        private int _necessaryTargets;
 
         [TitleGroup("Targeting System"), PropertyOrder(7)]
         [ShowInInspector, OdinSerialize]
@@ -78,13 +97,12 @@ namespace OrderElimination.AbilitySystem
                 _optionalTargets = value;
             }
         }
-        private int _optionalTargets;
 
         //FOR MULTITARGET ABILITIES
 
         [TitleGroup("Targeting System"), PropertyOrder(8)]
         [ShowInInspector, OdinSerialize]
-        [ValidateInput(nameof(ValidateCellPattern)), Tooltip("Defines how target groups for execution calculated.")]
+        [ValidateInput(nameof(ValidateCellPattern))]
         public CellGroupDistributionPattern DistributionPattern { get; private set; }
 
         [TitleGroup("Functionality", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 4), PropertyOrder(0)]

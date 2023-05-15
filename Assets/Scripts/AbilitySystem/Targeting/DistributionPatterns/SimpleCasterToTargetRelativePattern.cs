@@ -20,7 +20,8 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, SerializeField, DictionaryDrawerSettings(KeyLabel = "Group", ValueLabel = "Pattern")]
         protected Dictionary<int, IVectorRelativePattern> _vectorRelativeOffsets = new();
 
-        public override CellGroupsContainer GetAffectedCellGroups(CellRangeBorders mapBorders, Vector2Int casterPosition, params Vector2Int[] targetPositions)
+        protected override CellGroupsContainer CalculateAffectedCellGroups(
+            CellRangeBorders mapBorders, Vector2Int casterPosition, params Vector2Int[] targetPositions)
         {
             var sortedPoints = new Dictionary<int, Vector2Int[]>();
             foreach (var targetPos in targetPositions)
@@ -42,7 +43,7 @@ namespace OrderElimination.AbilitySystem
                 foreach (var group in _vectorRelativeOffsets.Keys)
                 {
                     var newPoints = _vectorRelativeOffsets[group]
-                        .GetAbsolutePositions(casterPosition, targetPos)
+                        .GetAbsolutePositions(casterPosition, targetPos, mapBorders)
                         .Where(p => mapBorders.Contains(p));
                     AddPositionsConsideringDistributionPolicy(sortedPoints, group, newPoints);
                 }
