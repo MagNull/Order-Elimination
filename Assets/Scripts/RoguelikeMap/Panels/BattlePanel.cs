@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using OrderElimination;
+using RoguelikeMap.Points;
+using RoguelikeMap.Points.Models;
 using UIManagement.Elements;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,8 +13,7 @@ namespace RoguelikeMap.Panels
     {
         [SerializeField] 
         private CharacterAvatarsList _characterList;
-        [SerializeField]
-        private Button _startAttackButton;
+        
         public event Action OnStartAttack;
         
         public void UpdateEnemies(IReadOnlyList<IBattleCharacterInfo> enemies)

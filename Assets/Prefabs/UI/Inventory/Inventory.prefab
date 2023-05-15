@@ -1197,7 +1197,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1658578758412989357}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6baaaab6df8f43afbf53ee10deef650c, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d474f88ccc9fca48b2cf245818cf029, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
@@ -1211,11 +1211,12 @@ MonoBehaviour:
     SerializationNodes:
     - Name: _cells
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[Inventory.IReadOnlyCell, Assembly-CSharp],[Inventory.IInventoryCellView,
-        Assembly-CSharp]], mscorlib
+      Data: 0|System.Collections.Generic.Dictionary`2[[Inventory_Items.IReadOnlyCell,
+        Assembly-CSharp],[Inventory_Items.IInventoryCellView, Assembly-CSharp]],
+        mscorlib
     - Name: comparer
       Entry: 7
-      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[Inventory.IReadOnlyCell,
+      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[Inventory_Items.IReadOnlyCell,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 8
@@ -1229,7 +1230,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  _cellViewPrefab: {fileID: 5973608835557078793, guid: bdc01f35a1b886b4b8206e223653e8b9, type: 3}
+  _cellViewPrefab: {fileID: 6965958807145536919, guid: bdc01f35a1b886b4b8206e223653e8b9, type: 3}
   _cellContainer: {fileID: 1658578758961720651}
 --- !u!114 &1658578758412989351
 MonoBehaviour:
@@ -1243,6 +1244,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 919572990a73448bb4b33d7aff1eda88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   _inventoryView: {fileID: 1658578758412989344}
   _items:
   - {fileID: 11400000, guid: 500f3d8fa36045344bd244f4cd3fe7cf, type: 2}

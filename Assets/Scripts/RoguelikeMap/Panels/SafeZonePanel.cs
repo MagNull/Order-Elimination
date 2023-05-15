@@ -1,25 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
-using DG.Tweening;
+using Inventory;
+using TMPro;
+using UnityEngine;
+using Image = UnityEngine.UI.Image;
 
 namespace RoguelikeMap.Panels
 {
     public class SafeZonePanel : Panel
     {
-        public event Action OnHealAccept;
-        public event Action<IReadOnlyList<int>> OnLootAccept;
+        [SerializeField]
+        private Image _image;
+        [SerializeField]
+        private TMP_Text _text;
+
+        private int _amountHeal;
+        private IReadOnlyList<ItemData> _items;
         
+        public event Action<int> OnHealAccept;
+        public event Action<IReadOnlyList<ItemData>> OnLootAccept;
+        public event Action<bool> OnSafeZoneVisit;
+        
+        public void SetInfo(int amountHeal, IReadOnlyList<ItemData> items, Sprite sprite, string text)
+        {
+            _amountHeal = amountHeal;
+            _items = items;
+            _image.sprite = sprite;
+            _text.text = text;
+        }
+
         public void HealAccept()
         {
-            OnHealAccept?.Invoke();
+            OnHealAccept?.Invoke(_amountHeal);
             Close();
         }
 
         //TODO(coder): add loot to player inventory after create inventory system
         public void LootAccept()
         {
-            OnLootAccept?.Invoke(null);
+            OnLootAccept?.Invoke(_items);
             Close();
+        }
+
+        public override void Open()
+        {
+            base.Open();
+            OnSafeZoneVisit?.Invoke(true);
+        }
+        
+        public override void Close()
+        {
+            OnSafeZoneVisit?.Invoke(false);
+            base.Close();
         }
     }
 }

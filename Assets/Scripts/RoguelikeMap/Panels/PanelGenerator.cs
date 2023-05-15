@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using RoguelikeMap.Points;
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
 
 namespace RoguelikeMap.Panels
 {
@@ -9,22 +11,30 @@ namespace RoguelikeMap.Panels
     {
         [SerializeField] 
         private Transform _parent;
-        private const string Path = "Points\\Panels";
+        [SerializeField]
+        private List<Panel> _panelsPrefabs;
 
-        private List<Panel> _panels = new List<Panel>();
-        private int SquadMembersPanelIndex = 4;
+        private List<Panel> _panels = new ();
+        private const int SquadMembersPanelIndex = 4;
+        private IObjectResolver _resolver;
+        
         public event Action OnInitializedPanels;
+
+        [Inject]
+        private void Construct(IObjectResolver resolver)
+        {
+            _resolver = resolver;
+        }
         
         private void Start()
         {
-            var prefabs = Resources.LoadAll<Panel>(Path);
-            InitializePanels(prefabs);
+            InitializePanels();
         }
         
-        private void InitializePanels(Panel[] prefabs)
+        private void InitializePanels()
         {
-            foreach(var prefab in prefabs)
-                _panels.Add(Instantiate(prefab, _parent.position, Quaternion.identity, _parent));
+            foreach(var prefab in _panelsPrefabs)
+                _panels.Add(_resolver.Instantiate(prefab, _parent.position, Quaternion.identity, _parent));
             OnInitializedPanels?.Invoke();
         }
         

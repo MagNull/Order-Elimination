@@ -1,69 +1,68 @@
+using System;
+using System.Linq;
 using OrderElimination;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
-<<<<<<< HEAD:Assets/Scripts/StartSessionMenu/ChooseCharacter/CharacterCard.cs
-using RoguelikeMap;
-using UIManagement;
-using UIManagement.Elements;
-=======
->>>>>>> StrategyMap:Assets/Scripts/StartSessionMenu/ChooseCharacter/CharacterCard/CharacterCard.cs
+using UnityEngine.EventSystems;
 
 namespace StartSessionMenu.ChooseCharacter.CharacterCard
 {
-    public class CharacterCard : MonoBehaviour
+    public class CharacterCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        protected Character _character;
-        [FormerlySerializedAs("_isSelected")] 
-        public bool IsSelected;
-        
         [SerializeField] 
         protected Image _cardImage;
-        [SerializeField] 
-<<<<<<< HEAD:Assets/Scripts/StartSessionMenu/ChooseCharacter/CharacterCard.cs
-        private Button _button;
-        private HoldableButton _holdableButton;
-
-        public bool _isSelected;
-=======
-        protected Button _button;
         
+        protected Transform _initialParent;
+        
+        protected Character _character;
+        protected Transform _defaultParent;
+        
+        public bool IsSelected { get; private set; }
         public Character Character => _character;
-        public Button Button => _button;
->>>>>>> StrategyMap:Assets/Scripts/StartSessionMenu/ChooseCharacter/CharacterCard/CharacterCard.cs
-
-        public virtual void InitializeCard(Character character)
+        public event Action<CharacterCard> OnTrySelect;
+        public event Action<CharacterCard> OnUnselect;
+        
+        public virtual void InitializeCard(Character character, Transform defaultParent)
         {
             _character = character;
             _cardImage.sprite = character.GetViewAvatar();
-<<<<<<< HEAD:Assets/Scripts/StartSessionMenu/ChooseCharacter/CharacterCard.cs
-            _healthBar = GetComponentInChildren<HealthBar>();
-            _healthBar?.SetMaxHealth(character.GetBattleStats().UnmodifiedHealth);
-            if(_cardCost is not null)
-                _cardCost.text = cost.ToString() + "$";
-            _holdableButton = GetComponent<HoldableButton>();
-            if (_holdableButton)
-                _holdableButton.Holded += OnHold;
-=======
->>>>>>> StrategyMap:Assets/Scripts/StartSessionMenu/ChooseCharacter/CharacterCard/CharacterCard.cs
-            _button.onClick = new Button.ButtonClickedEvent();
+            _defaultParent = defaultParent;
         }
 
         public virtual void Select()
         {
             IsSelected = !IsSelected;
         }
-<<<<<<< HEAD:Assets/Scripts/StartSessionMenu/ChooseCharacter/CharacterCard.cs
 
-        private void OnHold(HoldableButton b, float t)
+        public void OnBeginDrag(PointerEventData eventData)
         {
-            var charDescPanel =
-                (CharacterDescriptionPanel) UIController.SceneInstance.OpenPanel(PanelType.CharacterDescription);
-            charDescPanel.UpdateCharacterDescription(_character);
+            Debug.Log("OnBeginDrag");
+            _initialParent = transform.parent;
+            transform.SetParent(_defaultParent);
         }
-    }   
-}
-=======
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            transform.position = Input.mousePosition;
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            Debug.Log("OnEndDrag");
+            if (!IsSelected)
+            {
+                if (eventData.hovered.Any(x => x.CompareTag("SelectedDropZone")))
+                    OnTrySelect?.Invoke(this);
+                else
+                    transform.SetParent(_initialParent);
+            }
+            else
+            {
+                if (eventData.hovered.Any(x => x.CompareTag("UnselectedDropZone")))
+                    OnTrySelect?.Invoke(this);
+                else
+                    transform.SetParent(_initialParent);
+            }
+        }
     }
 }
->>>>>>> StrategyMap:Assets/Scripts/StartSessionMenu/ChooseCharacter/CharacterCard/CharacterCard.cs

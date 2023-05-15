@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using OrderElimination;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 
@@ -11,11 +12,10 @@ namespace RoguelikeMap.Panels
         
         public void UpdateMembers(List<Character> members)
         {
-            _selectedCharacters = members;
             InitializeCharactersCard(members, _selectedTransform);
         }
 
-        protected override void SelectCharacter(CharacterCard card)
+        protected override void TrySelectCard(CharacterCard card)
         {
             if (card is CharacterCardWithHealthBar characterCardWithCost)
                 SelectCharacter(characterCardWithCost);
@@ -39,7 +39,11 @@ namespace RoguelikeMap.Panels
 
         private void SaveCharacters()
         {
-            OnSelected?.Invoke(_selectedCharacters);
+            var characters = _characterCards
+                .Where(x => x.IsSelected)
+                .Select(x => x.Character)
+                .ToList();
+            OnSelected?.Invoke(characters);
         }
     }
 }

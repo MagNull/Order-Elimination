@@ -1,22 +1,26 @@
-﻿using UnityEngine;
+﻿using Inventory_Items;
+using UnityEngine;
 
-namespace Inventory_Items
+namespace Inventory
 {
     public enum ItemType
     {
+        Null,
         Consumable,
         Equipment,
-        Modificator,
-        Null
+        Modificator
     }
     
     [CreateAssetMenu(fileName = "Item", menuName = "Inventory/Item")]
     public class ItemData : ScriptableObject
     {
         [field: SerializeField]
-        public virtual ItemView ItemView { get; private set; }
+        public ItemView ItemView { get; private set; }
         
         [field: SerializeField]
-        public virtual ItemType ItemType { get; private set; }
+        public ItemType ItemType { get; private set; }
+        
+        [field: SerializeField]
+        public int ItemId { get; private set; }
     }
 }

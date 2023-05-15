@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using OrderElimination;
 using RoguelikeMap.Panels;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
-using UnityEngine.Events;
 using VContainer;
 
 namespace StartSessionMenu.ChooseCharacter
@@ -17,7 +17,8 @@ namespace StartSessionMenu.ChooseCharacter
         private List<Character> _characters;
         
         private Wallet _wallet;
-
+        private int _selectedCount = 0;
+        
         public int MaxSquadSize { get; private set; } = 3;
 
         [Inject]
@@ -37,7 +38,7 @@ namespace StartSessionMenu.ChooseCharacter
             base.InitializeCharactersCard(_characters, _notSelectedTransform);
         }
         
-        protected override void SelectCharacter(CharacterCard.CharacterCard card)
+        protected override void TrySelectCard(CharacterCard.CharacterCard card)
         {
             if (card is CharacterCardWithCost characterCardWithCost)
                 SelectCharacter(characterCardWithCost);
@@ -48,24 +49,34 @@ namespace StartSessionMenu.ChooseCharacter
         private void SelectCharacter(CharacterCardWithCost card)
         {
             if (!card.IsSelected && _wallet.Money - card.Cost >= 0
-                && _selectedCharacters.Count < MaxSquadSize)
+                && _selectedCount < MaxSquadSize)
             {
                 _wallet.SubtractMoney(card.Cost);
                 SelectCard(card);
+                _selectedCount++;
             }
             else if (card.IsSelected)
             {
                 _wallet.AddMoney(card.Cost);
                 UnselectCard(card);
+                _selectedCount--;
+            }
+            else
+            {
+                card.SetInitialParent();
             }
         }
 
         public void SaveCharacters()
         {
-            if (_selectedCharacters.Count <= 0)
+            if (_selectedCount <= 0)
                 return;
 
-            SquadMediator.SetCharacters(_selectedCharacters);
+            var characters = _characterCards
+                .Where(x => x.IsSelected)
+                .Select(x => x.Character)
+                .ToList();
+            SquadMediator.SetCharacters(characters);
         }
     }
 }

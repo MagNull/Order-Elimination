@@ -1,63 +1,34 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using RoguelikeMap.Panels;
-using RoguelikeMap.Points.VarietiesPoints.Infos;
 using RoguelikeMap.SquadInfo;
 using UnityEngine;
+using VContainer;
 
 namespace RoguelikeMap.Points
 {
-    public abstract class Point : MonoBehaviour
+    public class Point : MonoBehaviour
     {
-        private LineRenderer _pathPrefab;
-        protected PanelGenerator _panelGenerator;
-        
-        public VarietiesPointInfo PointInfo { get; protected set; }
-        public PathView PathView { get; protected set; }
-        public PointView PointView { get; protected set; }
-        public List<Point> NextPoints { get; protected set; } = new List<Point>();
-        public int PointNumber { get; set; }
+        private PanelGenerator _panelGenerator;
+     
+        public PointModel Model { get; private set; }
         public event Action<Point> OnSelected;
+        public IReadOnlyList<int> NextPoints => Model.NextPoints;
+        public int Index => Model.Index;
 
-        //When squad come to point
-        protected virtual void InitializePointView()
+        [Inject]
+        private void Construct(PanelGenerator panelGenerator)
         {
-            var panel = _panelGenerator.GetPanelByPointInfo(PointInfo.PointType);
-            PointView = new PointView(panel);
-            PointView.SetActivePanel(true);
+            _panelGenerator = panelGenerator;
         }
 
-        public virtual void Visit(Squad squad)
+        public void SetPointModel(PointModel pointModel)
         {
-            squad.Visit(this);
-            if(PointView is null)
-                InitializePointView();
-        }
-        
-        public void SetPointInfo(VarietiesPointInfo pointInfoInfo)
-        {
-            PointInfo = pointInfoInfo ?? throw new ArgumentException("PointInfo is null");
+            Model = pointModel ?? throw new ArgumentException("PointModel is null");
+            Model.SetPanel(_panelGenerator);
         }
 
-        public void SetPanelGenerator(PanelGenerator panelGenerator)
-        {
-            _panelGenerator = panelGenerator ?? throw new ArgumentException("PanelGenerator is null");
-        }
-
-        public void SetPathPrefab(LineRenderer pathPrefab)
-        {
-            _pathPrefab = pathPrefab ?? throw new ArgumentException("pathPrefab is null");
-            PathView = new PathView(transform, _pathPrefab);
-        }
-
-        public void SetNextPoints(IEnumerable<Point> paths)
-        {
-            NextPoints.AddRange(paths);
-            foreach(var path in paths)
-                PathView.SetPath(path.transform.position);
-        }
-
-        public void ShowPaths() => PathView.ShowPaths();
+        public void Visit(Squad squad) => Model.Visit(squad);
 
         private void OnMouseDown() => Select();
 

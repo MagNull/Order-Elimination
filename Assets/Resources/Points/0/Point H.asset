@@ -21,117 +21,322 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _position: {x: 200, y: 300, z: 1}
-  _nextPoints:
-  - {fileID: 11400000, guid: bfce31036f0a9ac45a79de6654f87b4c, type: 2}
-  _varietiesPointInfo:
-    rid: 7872520265891053576
+  _sprite: {fileID: -300597444, guid: 5897665c51c6ee04e8c18c5fa5db7853, type: 3}
+  _model:
+    rid: 7872520390573555739
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 7872520265891053576
-      type: {class: EventPointInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
+    - rid: 7872520390573555739
+      type: {class: EventPointModel, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
-        _pointSprite: {fileID: -300597444, guid: 5897665c51c6ee04e8c18c5fa5db7853, type: 3}
+        _nextPointsIndex: 09000000
+        _position: {x: 200, y: 300, z: 0}
+        Index: 7
         _startEventInfo:
-          rid: 7872520265891053577
-    - rid: 7872520265891053577
-      type: {class: EventInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
+          rid: 7872520390573555740
+    - rid: 7872520390573555740
+      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
         _text: "\u0412\u044B \u043F\u043E\u0439\u043C\u0430\u043B\u0438 \u0441\u0438\u0433\u043D\u0430\u043B
           \u0431\u0435\u0434\u0441\u0442\u0432\u0438\u044F \u043F\u043E\u0431\u043B\u0438\u0437\u043E\u0441\u0442\u0438"
         _isEnd: 0
         _isFork: 1
+        _isRandom: 0
         _isHaveItems: 0
-        _itemsId: 
+        _isBattle: 0
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers:
         - "\u0418\u0433\u043D\u043E\u0440\u0438\u0440\u043E\u0432\u0430\u0442\u044C"
         - "\u041F\u043E\u043F\u044B\u0442\u0430\u0442\u044C\u0441\u044F \u043F\u043E\u043C\u043E\u0447\u044C"
         _nextStages:
-        - rid: 7872520265891053594
-        - rid: 7872520265891053588
-    - rid: 7872520265891053588
-      type: {class: EventInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
+        - rid: 7872520390573555747
+        - rid: 7872520390573555748
+        _enemies: []
+    - rid: 7872520390573555747
+      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
-        _text: "\u0412\u044B \u0443\u0432\u0438\u0434\u0435\u043B\u0438 \u0440\u0430\u043D\u0435\u043D\u043E\u0433\u043E
-          \u043E\u043F\u0435\u0440\u0430\u0442\u043E\u0440\u0430, \u043A\u043E\u0442\u043E\u0440\u044B\u0439
-          \u043F\u0440\u043E\u0441\u0438\u0442 \u043E \u043F\u043E\u043C\u043E\u0449\u0438"
+        _text: 
+        _isEnd: 1
+        _isFork: 0
+        _isRandom: 0
+        _isHaveItems: 0
+        _isBattle: 0
+        _itemsData: []
+        _nextStage:
+          rid: -2
+        _answers: []
+        _nextStages: []
+        _enemies: []
+    - rid: 7872520390573555748
+      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
+      data:
+        _text: 
         _isEnd: 0
         _isFork: 1
+        _isRandom: 1
         _isHaveItems: 0
-        _itemsId: 
+        _isBattle: 0
+        _itemsData: []
+        _nextStage:
+          rid: -2
+        _answers: []
+        _nextStages:
+        - rid: 7872520390573555749
+        - rid: 7872520390573555754
+        - rid: 7872520390573555758
+        _enemies: []
+    - rid: 7872520390573555749
+      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
+      data:
+        _text: "\u041D\u0430\u0445\u043E\u0434\u0438\u043C \u0440\u0430\u043D\u0435\u043D\u043E\u0433\u043E
+          \u043E\u043F\u0435\u0440\u0430\u0442\u043E\u0440\u0430"
+        _isEnd: 0
+        _isFork: 1
+        _isRandom: 0
+        _isHaveItems: 0
+        _isBattle: 0
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers:
-        - "\u041F\u0440\u043E\u0441\u0442\u043E \u0443\u0439\u0442\u0438"
-        - "\u041E\u0442\u0434\u0430\u0442\u044C \u043C\u0435\u0434\u043F\u0430\u043A/\u0437\u0435\u043B\u044C\u0435
+        - "\u0423\u0439\u0442\u0438"
+        - "\u041E\u0442\u0434\u0430\u0442\u044C \u0437\u0435\u043B\u044C\u0446\u0435
           \u0438\u0441\u0446\u0435\u043B\u0435\u043D\u0438\u044F"
         _nextStages:
-        - rid: 7872520265891053590
-        - rid: 7872520265891053592
-    - rid: 7872520265891053590
-      type: {class: EventInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
+        - rid: 7872520390573555750
+        - rid: 7872520390573555751
+        _enemies: []
+    - rid: 7872520390573555750
+      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
-        _text: "*\u0412\u0430\u0448\u0430 \u043A\u0430\u0440\u043C\u0430 \u043F\u043E\u043D\u0438\u0437\u0438\u043B\u0430\u0441\u044C*"
-        _isEnd: 0
+        _text: 
+        _isEnd: 1
         _isFork: 0
+        _isRandom: 0
         _isHaveItems: 0
-        _itemsId: 
+        _isBattle: 0
+        _itemsData: []
         _nextStage:
-          rid: 7872520265891053596
+          rid: -2
         _answers: []
         _nextStages: []
-    - rid: 7872520265891053592
-      type: {class: EventInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
+        _enemies: []
+    - rid: 7872520390573555751
+      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
-        _text: "*\u0412\u044B \u0443\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442\u0435
-          \u043A\u0430\u0440\u043C\u0443 \u0438 \u043F\u043E\u043B\u0443\u0447\u0430\u0435\u0442\u0435
-          \u0440\u0430\u0441x\u043E\u0434\u043D\u0438\u043A \u043E\u0442 \u043E\u043F\u0435\u0440\u0430\u0442\u043E\u0440\u0430*"
+        _text: "\u041E\u043F\u0435\u0440\u0430\u0442\u043E\u0440 \u0432 \u0437\u043D\u0430\u043A
+          \u0431\u043B\u0430\u0433\u043E\u0434\u0430\u0440\u043D\u043E\u0441\u0442\u0438
+          \u043E\u0442\u0434\u0430\u043B \u0432\u0430\u043C \u0440\u0430\u0441\u0445\u043E\u0434\u043D\u0438\u043A"
         _isEnd: 0
         _isFork: 0
+        _isRandom: 0
+        _isHaveItems: 0
+        _isBattle: 0
+        _itemsData: []
+        _nextStage:
+          rid: 7872520390573555752
+        _answers: []
+        _nextStages: []
+        _enemies: []
+    - rid: 7872520390573555752
+      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
+      data:
+        _text: "*\u0412\u044B \u043F\u043E\u043B\u0443\u0447\u0438\u043B\u0438 \u0440\u0430\u0441\u0445\u043E\u0434\u043D\u0438\u043A*"
+        _isEnd: 0
+        _isFork: 0
+        _isRandom: 0
+        _isHaveItems: 0
+        _isBattle: 0
+        _itemsData: []
+        _nextStage:
+          rid: 7872520390573555753
+        _answers: []
+        _nextStages: []
+        _enemies: []
+    - rid: 7872520390573555753
+      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
+      data:
+        _text: 
+        _isEnd: 1
+        _isFork: 0
+        _isRandom: 0
         _isHaveItems: 1
-        _itemsId: 00000000
-        _nextStage:
-          rid: 7872520265891053593
-        _answers: []
-        _nextStages: []
-    - rid: 7872520265891053593
-      type: {class: EventInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
-      data:
-        _text: 
-        _isEnd: 1
-        _isFork: 0
-        _isHaveItems: 0
-        _itemsId: 
+        _isBattle: 0
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers: []
         _nextStages: []
-    - rid: 7872520265891053594
-      type: {class: EventInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
+        _enemies: []
+    - rid: 7872520390573555754
+      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
+      data:
+        _text: "\u0412\u044B \u0443\u0432\u0438\u0434\u0435\u043B\u0438 \u0442\u0440\u0443\u043F"
+        _isEnd: 0
+        _isFork: 1
+        _isRandom: 0
+        _isHaveItems: 0
+        _isBattle: 0
+        _itemsData: []
+        _nextStage:
+          rid: -2
+        _answers:
+        - "\u041F\u0440\u043E\u0432\u0435\u0440\u0438\u0442\u044C \u0440\u044E\u043A\u0437\u0430\u043A"
+        - "\u0423\u0439\u0442\u0438"
+        _nextStages:
+        - rid: 7872520390573555755
+        - rid: 7872520390573555757
+        _enemies: []
+    - rid: 7872520390573555755
+      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
+      data:
+        _text: "*\u0412\u044B \u043F\u043E\u043B\u0443\u0447\u0438\u043B\u0438 \u0440\u0430\u0441\u0445\u043E\u0434\u043D\u0438\u043A*"
+        _isEnd: 0
+        _isFork: 0
+        _isRandom: 0
+        _isHaveItems: 0
+        _isBattle: 0
+        _itemsData: []
+        _nextStage:
+          rid: 7872520390573555756
+        _answers: []
+        _nextStages: []
+        _enemies: []
+    - rid: 7872520390573555756
+      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
         _text: 
         _isEnd: 1
         _isFork: 0
+        _isRandom: 0
         _isHaveItems: 0
-        _itemsId: 
+        _isBattle: 0
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers: []
         _nextStages: []
-    - rid: 7872520265891053596
-      type: {class: EventInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
+        _enemies: []
+    - rid: 7872520390573555757
+      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
         _text: 
         _isEnd: 1
         _isFork: 0
+        _isRandom: 0
         _isHaveItems: 0
-        _itemsId: 
+        _isBattle: 0
+        _itemsData: []
         _nextStage:
           rid: -2
         _answers: []
         _nextStages: []
+        _enemies: []
+    - rid: 7872520390573555758
+      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
+      data:
+        _text: "\u0412\u044B \u043D\u0430\u0442\u043A\u043D\u0443\u043B\u0438\u0441\u044C
+          \u043D\u0430 \u043E\u0442\u0440\u044F\u0434 \u043E\u0442\u0433\u043E\u043B\u043E\u0441\u043A\u043E\u0432"
+        _isEnd: 0
+        _isFork: 1
+        _isRandom: 0
+        _isHaveItems: 0
+        _isBattle: 0
+        _itemsData: []
+        _nextStage:
+          rid: -2
+        _answers:
+        - "\u0410\u0442\u0430\u043A\u043E\u0432\u0430\u0442\u044C"
+        - "\u041F\u0440\u0438\u0431\u043B\u0438\u0437\u0438\u0442\u044C\u0441\u044F"
+        _nextStages:
+        - rid: 7872520390573555759
+        - rid: 7872520390573555760
+        _enemies: []
+    - rid: 7872520390573555759
+      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
+      data:
+        _text: 
+        _isEnd: 0
+        _isFork: 0
+        _isRandom: 0
+        _isHaveItems: 0
+        _isBattle: 1
+        _itemsData: []
+        _nextStage:
+          rid: -2
+        _answers: []
+        _nextStages: []
+        _enemies:
+        - {fileID: 11400000, guid: 9461f9304513865429fcf3420fd25287, type: 2}
+    - rid: 7872520390573555760
+      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
+      data:
+        _text: 
+        _isEnd: 0
+        _isFork: 1
+        _isRandom: 1
+        _isHaveItems: 0
+        _isBattle: 0
+        _itemsData: []
+        _nextStage:
+          rid: -2
+        _answers: []
+        _nextStages:
+        - rid: 7872520390573555761
+        - rid: 7872520390573555762
+        _enemies: []
+    - rid: 7872520390573555761
+      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
+      data:
+        _text: 
+        _isEnd: 0
+        _isFork: 0
+        _isRandom: 0
+        _isHaveItems: 0
+        _isBattle: 1
+        _itemsData: []
+        _nextStage:
+          rid: -2
+        _answers: []
+        _nextStages: []
+        _enemies:
+        - {fileID: 11400000, guid: 9461f9304513865429fcf3420fd25287, type: 2}
+    - rid: 7872520390573555762
+      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
+      data:
+        _text: "\u041E\u0442\u0433\u043E\u043B\u043E\u0441\u043A\u0438 \u043D\u0435
+          \u043D\u0430\u0448\u043B\u0438 \u0432 \u0432\u0430\u0441 \u0434\u043E\u0441\u0442\u043E\u0439\u043D\u043E\u0433\u043E
+          \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A\u0430 \u0438 \u043C\u043E\u043B\u0447\u0430
+          \u043F\u0440\u043E\u0442\u044F\u043D\u0443\u043B\u0438 \u0432\u0430\u043C
+          \u0440\u0430\u0441\u0445\u043E\u0434\u043D\u0438\u043A"
+        _isEnd: 0
+        _isFork: 0
+        _isRandom: 0
+        _isHaveItems: 0
+        _isBattle: 0
+        _itemsData: []
+        _nextStage:
+          rid: 7872520390573555763
+        _answers: []
+        _nextStages: []
+        _enemies: []
+    - rid: 7872520390573555763
+      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
+      data:
+        _text: "*\u0412\u044B \u043F\u043E\u043B\u0443\u0447\u0438\u043B\u0438 \u0440\u0430\u0441\u0445\u043E\u0434\u043D\u0438\u043A*"
+        _isEnd: 1
+        _isFork: 0
+        _isRandom: 0
+        _isHaveItems: 1
+        _isBattle: 0
+        _itemsData: []
+        _nextStage:
+          rid: -2
+        _answers: []
+        _nextStages: []
+        _enemies: []

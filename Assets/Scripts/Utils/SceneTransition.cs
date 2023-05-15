@@ -13,5 +13,9 @@ namespace OrderElimination
         {
             SceneManager.LoadSceneAsync(1);
         }
+        public void LoadStartSessionMenu()
+        {
+            SceneManager.LoadSceneAsync("StartSessionMenu");
+        }
     }
 }

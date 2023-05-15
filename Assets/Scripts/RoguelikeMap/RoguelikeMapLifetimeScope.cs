@@ -1,4 +1,4 @@
-using Inventory_Items;
+using ItemsLibrary;
 using OrderElimination;
 using RoguelikeMap.Map;
 using RoguelikeMap.Panels;
@@ -27,6 +27,8 @@ namespace RoguelikeMap
         private Squad _squad;
         [SerializeField]
         private PanelGenerator _panelGenerator;
+        [SerializeField]
+        private Library _library;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -36,7 +38,7 @@ namespace RoguelikeMap
             
             var wallet = new Wallet(_startMoney);
             
-            builder.Register<Inventory>(Lifetime.Singleton).WithParameter(100);
+            builder.Register<Inventory_Items.Inventory>(Lifetime.Singleton).WithParameter(100);
 
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_squad);
@@ -45,6 +47,7 @@ namespace RoguelikeMap
             builder.RegisterComponent(_panelGenerator);
             builder.RegisterComponent(_pointPrefab);
             builder.RegisterComponent(_pointsParent);
+            builder.RegisterComponent(_library);
             
             builder.Register<SquadCommander>(Lifetime.Singleton);
             builder.Register<SceneTransition>(Lifetime.Singleton);

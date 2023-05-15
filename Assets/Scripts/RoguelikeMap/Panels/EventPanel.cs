@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using RoguelikeMap.Points.VarietiesPoints.Infos;
+using Inventory;
+using RoguelikeMap.Points.Models;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = System.Random;
 
 namespace RoguelikeMap.Panels
 {
@@ -17,15 +19,18 @@ namespace RoguelikeMap.Panels
         private Button _skipButton;
 
         private EventInfo _eventInfo;
+        private Random _random;
 
-        public event Action<IReadOnlyList<int>> OnLookForLoot;
+        public bool IsContainsBattle { get; private set; }
+        public event Action<IReadOnlyList<ItemData>> OnLookForLoot;
         public event Action<IReadOnlyList<IBattleCharacterInfo>> OnStartBattle;
+        public event Action<bool> OnSafeEventVisit;
+        public event Action<bool> OnBattleEventVisit;
 
-        public override void SetPointInfo(VarietiesPointInfo pointInfoInfo)
+        public void SetEventInfo(EventInfo info, bool isContainsBattle)
         {
-            if (pointInfoInfo is not EventPointInfo eventPointInfo)
-                throw new ArgumentException("Is not valid PointInfo");
-            _eventInfo = eventPointInfo.StartEventInfo;
+            _eventInfo = info;
+            IsContainsBattle = isContainsBattle;
             LoadEventText();
         }
 
@@ -63,10 +68,18 @@ namespace RoguelikeMap.Panels
         {
             if (IsEventEnd())
                 return;
-            
+            if (_eventInfo.IsRandomFork)
+                LoadRandomFork();
             var text = _eventInfo.Text;
             var possibleAnswers = GetPossibleAnswers();
             UpdateEventText(text, possibleAnswers);
+        }
+
+        private void LoadRandomFork()
+        {
+            _random ??= new Random();
+            var index = _random.Next(_eventInfo.NextStages.Count);
+            _eventInfo = _eventInfo.NextStages[index];
         }
 
         private bool IsEventEnd()
@@ -120,6 +133,26 @@ namespace RoguelikeMap.Panels
         {
             if(_eventInfo.IsHaveItems)
                 OnLookForLoot?.Invoke(_eventInfo.ItemsId);
+        }
+
+        public override void Open()
+        {
+            base.Open();
+            VisitEventInvoke(true);
+        }
+        
+        public override void Close()
+        {
+            VisitEventInvoke();
+            base.Close();
+        }
+        
+        private void VisitEventInvoke(bool isPlay = false)
+        {
+            if (IsContainsBattle)
+                OnBattleEventVisit?.Invoke(isPlay);
+            else
+                OnSafeEventVisit?.Invoke(isPlay);
         }
     }
 }

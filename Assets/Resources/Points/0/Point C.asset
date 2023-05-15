@@ -21,17 +21,18 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _position: {x: -600, y: 0, z: 1}
-  _nextPoints:
-  - {fileID: 11400000, guid: e474f5166190d234d85ccd9f9300d9d6, type: 2}
-  _varietiesPointInfo:
-    rid: 7872520265891053570
+  _sprite: {fileID: -1427257243, guid: 5897665c51c6ee04e8c18c5fa5db7853, type: 3}
+  _model:
+    rid: 7872520390573555733
   references:
     version: 2
     RefIds:
-    - rid: 7872520265891053570
-      type: {class: BattlePointInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
+    - rid: 7872520390573555733
+      type: {class: BattlePointModel, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
-        _pointSprite: {fileID: -1427257243, guid: 5897665c51c6ee04e8c18c5fa5db7853, type: 3}
+        _nextPointsIndex: 05000000
+        _position: {x: -600, y: 0, z: 0}
+        Index: 2
         _enemies:
         - {fileID: 11400000, guid: 9461f9304513865429fcf3420fd25287, type: 2}
+        _mapNumber: 0

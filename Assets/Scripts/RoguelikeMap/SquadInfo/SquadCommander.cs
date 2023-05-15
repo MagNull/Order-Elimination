@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Inventory;
 using OrderElimination;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
-using RoguelikeMap.Points.VarietiesPoints;
-using Unity.VisualScripting;
+using RoguelikeMap.Points.Models;
 using UnityEngine;
 using VContainer;
 
@@ -14,14 +14,14 @@ namespace RoguelikeMap.SquadInfo
     public class SquadCommander
     {
         private readonly IObjectResolver _objectResolver;
-        private PanelGenerator _panelGenerator;
-        private Point _target;
+        private readonly PanelGenerator _panelGenerator;
+        private PointModel _target;
         private Squad _squad;
-        public Point Target => _target;
+        public PointModel Target => _target;
         public Squad Squad => _squad;
         public event Action<List<Character>> OnSelected;
-        public event Action OnHealAccept;
-        public event Action<IReadOnlyList<int>> OnLootAccept;
+        public event Action<int> OnHealAccept;
+        public event Action<IReadOnlyList<ItemData>> OnLootAccept;
 
         [Inject]
         public SquadCommander(IObjectResolver objectResolver, PanelGenerator panelGenerator)
@@ -31,18 +31,22 @@ namespace RoguelikeMap.SquadInfo
             _panelGenerator.OnInitializedPanels += SubscribeToEvents;
         }
 
-        public void Set(Squad squad, Point target)
+        public void SetSquad(Squad squad)
         {
             _squad = squad;
+        }
+
+        public void SetPoint(PointModel target)
+        {
             _target = target;
         }
-        
+
         private void SubscribeToEvents()
         {
             var safeZonePanel = (SafeZonePanel)_panelGenerator.GetPanelByPointInfo(PointType.SafeZone);
             safeZonePanel.OnLootAccept += LootAccept;
             safeZonePanel.OnHealAccept += HealAccept;
-            
+
             var battlePanel = (BattlePanel)_panelGenerator.GetPanelByPointInfo(PointType.Battle);
             battlePanel.OnStartAttack += StartAttack;
 
@@ -50,15 +54,18 @@ namespace RoguelikeMap.SquadInfo
             eventPanel.OnLookForLoot += LootAccept;
             eventPanel.OnStartBattle += StartAttack;
 
+            var shopPanel = (ShopPanel)_panelGenerator.GetPanelByPointInfo(PointType.Shop);
+            shopPanel.OnBuyItems += LootAccept;
+
             var squadMembersPanel = _panelGenerator.GetSquadMembersPanel();
             squadMembersPanel.OnSelected += WereSelectedMembers;
         }
 
         public void StartAttack()
         {
-            if (_target is not BattlePoint battlePoint)
+            if (_target is not BattlePointModel battlePointModel)
                 throw new ArgumentException("Is not valid point to attack");
-            StartAttack(battlePoint.Enemies, _target.PointNumber);
+            StartAttack(battlePointModel.Enemies, battlePointModel.MapNumber);
         }
 
         private void StartAttack(IReadOnlyList<IBattleCharacterInfo> enemies) => StartAttack(enemies, 0);
@@ -67,7 +74,7 @@ namespace RoguelikeMap.SquadInfo
         {
             if (pointNumber < 0)
                 throw new ArgumentOutOfRangeException("Is not valid point number");
-            
+
             SaveSquadPosition();
             var battleStatsList = _squad.Members.Cast<IBattleCharacterInfo>().ToList();
             var charactersMediator = _objectResolver.Resolve<CharactersMediator>();
@@ -88,13 +95,13 @@ namespace RoguelikeMap.SquadInfo
             OnSelected?.Invoke(characters);
         }
 
-        private void HealAccept()
+        private void HealAccept(int amountHeal)
         {
-            OnHealAccept?.Invoke();   
+            OnHealAccept?.Invoke(amountHeal);
         }
-        
+
         //TODO(coder): add loot to player inventory after create inventory system
-        private void LootAccept(IReadOnlyList<int> itemsId)
+        private void LootAccept(IReadOnlyList<ItemData> itemsId)
         {
             OnLootAccept?.Invoke(itemsId);
         }
