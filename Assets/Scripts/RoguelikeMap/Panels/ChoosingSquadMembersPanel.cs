@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using OrderElimination;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
@@ -15,6 +16,8 @@ namespace RoguelikeMap.Panels
         protected Transform _defaultParent;
         [SerializeField]
         protected CharacterCard _characterButtonPref;
+        [SerializeField]
+        protected Panel _characterInfoPanel;
         
         protected List<CharacterCard> _characterCards = new List<CharacterCard>();
         
@@ -26,6 +29,7 @@ namespace RoguelikeMap.Panels
                 characterCard.InitializeCard(info, _defaultParent);
                 characterCard.OnTrySelect += TrySelectCard;
                 characterCard.OnUnselect += UnselectCard;
+                characterCard.OnGetInfo += ShowCharacterInfo;
                 _characterCards.Add(characterCard);
             }
         }
@@ -44,7 +48,24 @@ namespace RoguelikeMap.Panels
         
         protected virtual void TrySelectCard(CharacterCard card)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
+        }
+
+        protected virtual void ShowCharacterInfo(CharacterCard card)
+        {
+            Debug.Log("ShowCharacterInfo");
+        }
+        
+        public override void Close()
+        {
+            foreach (var card in _characterCards)
+            {
+                card.OnTrySelect -= TrySelectCard;
+                card.OnUnselect -= UnselectCard;
+                card.OnGetInfo -= ShowCharacterInfo;
+            }
+            _characterCards.Clear();
+            base.Close();
         }
     }
 }

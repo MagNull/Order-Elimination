@@ -521,6 +521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _parent: {fileID: 4216078023528657421}
+  _panelsPrefabs: []
 --- !u!4 &744744623
 Transform:
   m_ObjectHideFlags: 0
@@ -571,7 +572,7 @@ MonoBehaviour:
   autoInjectGameObjects:
   - {fileID: 1570969711}
   - {fileID: 1441368202}
-  - {fileID: 0}
+  - {fileID: 744744621}
   _startMoney: 1000
   _charactersMediatorPrefab: {fileID: 1422321889289218424, guid: 92d0a280c590cac489aa4d276cc5be93, type: 3}
   _pathPrefab: {fileID: -6847120856849632348, guid: fe7a2fb0c4301934a95ede2e72ce1426, type: 3}
@@ -579,6 +580,7 @@ MonoBehaviour:
   _pointPrefab: {fileID: 6726622157222742597, guid: 8885d36206496c5468934e18455d60ae, type: 3}
   _squad: {fileID: 1155028019}
   _panelGenerator: {fileID: 744744622}
+  _library: {fileID: 11400000, guid: e924b2f69fd7e554aa667247d8dafda1, type: 2}
 --- !u!4 &1027601678
 Transform:
   m_ObjectHideFlags: 0
@@ -658,38 +660,16 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
-    - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
-    - {fileID: 11400000, guid: 04588733ccd1f2a4bb0aad35a508b4de, type: 2}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: _testSquadMembers
-      Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[OrderElimination.Character, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 3
-    - Name: 
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 10
-      Data: 1
-    - Name: 
-      Entry: 10
-      Data: 2
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  _proccesClick: {fileID: 1155028024}
+    SerializationNodes: []
+  _testSquadMembers:
+  - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
+  - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
+  - {fileID: 11400000, guid: 04588733ccd1f2a4bb0aad35a508b4de, type: 2}
 --- !u!212 &1155028020
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -770,7 +750,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: effb2fce1962253458980adbbfbbbc33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MillisecondsToHold: 700
 --- !u!1 &1441368202
 GameObject:
   m_ObjectHideFlags: 0

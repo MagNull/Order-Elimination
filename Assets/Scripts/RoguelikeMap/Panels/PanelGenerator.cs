@@ -17,7 +17,7 @@ namespace RoguelikeMap.Panels
         private List<Panel> _panels = new ();
         private const int SquadMembersPanelIndex = 4;
         private IObjectResolver _resolver;
-        
+
         public event Action OnInitializedPanels;
 
         [Inject]
