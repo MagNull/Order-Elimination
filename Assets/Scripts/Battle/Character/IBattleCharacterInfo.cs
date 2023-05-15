@@ -1,14 +1,28 @@
 using CharacterAbility;
 using OrderElimination;
+using OrderElimination.AbilitySystem;
+using OrderElimination.Domain;
+using System.Collections.Generic;
 using UnityEngine;
 
-public interface IBattleCharacterInfo
+//Deprecated
+public interface IBattleCharacterInfo : IBattleEntityInfo
 {
     public IReadOnlyBattleStats GetBattleStats();
-    public string GetName();
-    public Sprite GetViewIcon();
-    public Sprite GetViewAvatar();
+    public string Name { get; }
+    public Sprite BattleIcon { get; }
+    public Sprite Avatar { get; }
     public AbilityInfo[] GetActiveAbilityInfos();
-    
     public AbilityInfo[] GetPassiveAbilityInfos();
+}
+
+//New
+public interface IBattleEntityInfo
+{
+    public string Name { get; }
+    public Sprite BattleIcon { get; }
+    public ReadOnlyBaseStats BaseStats { get; }
+    //public EntityType EntityType { get; }
+    public AbilityBuilder[] GetActiveAbilities();
+    public AbilityBuilder[] GetPassiveAbilities();
 }

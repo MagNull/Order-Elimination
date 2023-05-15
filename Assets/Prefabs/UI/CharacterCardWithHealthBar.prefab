@@ -11,8 +11,13 @@ GameObject:
   - component: {fileID: 5809841624109694273}
   - component: {fileID: 5809841624109694274}
   - component: {fileID: 5809841624109694275}
+<<<<<<< HEAD:Assets/Prefabs/UI/CharacterCard.prefab
+  - component: {fileID: 5809841624109694272}
+  - component: {fileID: 4089897780089222038}
+=======
   - component: {fileID: 4089897780089222038}
   - component: {fileID: 1477186013112521798}
+>>>>>>> RoguelikeMap:Assets/Prefabs/UI/CharacterCardWithHealthBar.prefab
   m_Layer: 5
   m_Name: CharacterCardWithHealthBar
   m_TagString: Untagged
@@ -149,11 +154,29 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+<<<<<<< HEAD:Assets/Prefabs/UI/CharacterCard.prefab
+--- !u!114 &4089897780089222038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5809841624109694278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dec7f63cf6c4a64b6247ca97669017a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isSelected: 0
+  _cardImage: {fileID: 5809841624342609720}
+  _button: {fileID: 5809841624109694272}
+=======
   MillisecondsToHold: 700
   DefaultTint: {r: 1, g: 1, b: 1, a: 1}
   ClickUnavalableTint: {r: 1, g: 1, b: 1, a: 1}
   _clickAvailable: 0
   _holdAvailable: 0
+>>>>>>> RoguelikeMap:Assets/Prefabs/UI/CharacterCardWithHealthBar.prefab
 --- !u!1 &5809841624342609726
 GameObject:
   m_ObjectHideFlags: 0

@@ -31,8 +31,8 @@ namespace UIManagement.Elements
             }
             RemoveCharacterInfo();
             CurrentCharacterInfo = character;
-            _characterName.text = character.GetName();
-            _characterAvatar.sprite = character.GetViewAvatar();
+            _characterName.text = character.Name;
+            _characterAvatar.sprite = character.Avatar;
             _avatarButton.Clicked += OnAvatarButtonClicked;
             _avatarButton.Holded += OnAvatarButtonHolded;
         }

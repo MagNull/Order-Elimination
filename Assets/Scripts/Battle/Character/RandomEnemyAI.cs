@@ -152,7 +152,7 @@ public class RandomEnemyAI : BattleCharacter
         var optimalDistance = _currentAIAbility.Distance;
         if (distance <= optimalDistance)
             return _map.GetCoordinate(this);
-        var optimalPosition = _map.GetOptimalPosition(this, player, Stats.Movement, optimalDistance);
+        var optimalPosition = _map.GetOptimalPosition(this, player, (int)Stats.Movement, optimalDistance);
         return optimalPosition;
     }
 

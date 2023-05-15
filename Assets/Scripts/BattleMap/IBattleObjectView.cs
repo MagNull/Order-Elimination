@@ -11,7 +11,7 @@ public interface IBattleObjectView
     public void Disable();
     public void SetImage(Sprite image);
 
-    public void ShowAccuracy(int probability);
+    public void ShowAccuracy(float probability);
     public void HideAccuracy();
 
     public void OnDamaged(TakeDamageInfo damageInfo);

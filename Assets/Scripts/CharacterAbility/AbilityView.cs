@@ -50,7 +50,7 @@ namespace CharacterAbility
 
             AbilityInfo = info;
             _abilityDistance = AbilityInfo.ActiveParams.DistanceFromMovement
-                ? Caster.Stats.Movement
+                ? (int)Caster.Stats.Movement
                 : AbilityInfo.ActiveParams.Distance;
             _coolDownTimer = AbilityInfo.StartCoolDown;
 

@@ -37,6 +37,7 @@ namespace UIManagement
 
         public void UpdateAbilityDescription(AbilityView abilityView)
         {
+            return;
             var abilityInfo = abilityView.AbilityInfo;
             var casterStats = abilityView.Caster.Stats;
 

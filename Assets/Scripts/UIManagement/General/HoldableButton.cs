@@ -56,11 +56,14 @@ namespace UIManagement.Elements
         [Obsolete("Deprecated. Use Clicked and Holded events instead.")]
         public ButtonClickedEvent onClick => onClick;
 
+        public Image ButtonImage => image;
+
         public void UpdateVisuals()
         {
             targetGraphic.color = DefaultTint;
             if (!ClickAvailable)
                 targetGraphic.color = ClickUnavalableTint;
+            var i = (Image)targetGraphic;
         }
 
         public void SetImageTint(Color tintColor)

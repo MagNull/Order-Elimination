@@ -1,17 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using OrderElimination;
+using OrderElimination.AbilitySystem;
 using OrderElimination.Battle;
 using UnityEngine;
 using UnityEngine.Rendering;
 using VContainer;
 
 [Serializable]
+[Obsolete("Used in old ability system. Needs to be removed.")]
 public class CharacterArrangeDirector
 {
     private readonly BattleCharacterFactory _characterFactory;
     private readonly CharactersBank _charactersBank;
-    private readonly List<IBattleCharacterInfo> _enemiesInfo;
 
     private BattleMap _arrangementMap;
     private CharactersMediator _charactersMediator;
@@ -23,7 +25,6 @@ public class CharacterArrangeDirector
         _charactersMediator = charactersMediator;
         _characterFactory = characterFactory;
         _charactersBank = charactersBank;
-        _enemiesInfo = _charactersMediator.GetBattleEnemyInfo();
     }
 
     public void SetArrangementMap(BattleMap map) => _arrangementMap = map;
@@ -34,7 +35,7 @@ public class CharacterArrangeDirector
         var characters = new List<BattleCharacter>();
 
         List<BattleCharacter> playerSquad =
-            _characterFactory.CreatePlayerSquad(_charactersMediator.GetBattleCharactersInfo());
+            _characterFactory.CreatePlayerSquad(_charactersMediator.GetPlayerCharactersInfo());
         for (int i = 0; i < playerSquad.Count; i++)
         {
             characters.Add(playerSquad[i]);
@@ -42,7 +43,7 @@ public class CharacterArrangeDirector
             _arrangementMap.SpawnObject(playerSquad[i], unitPositions[i].x, unitPositions[i].y);
         }
 
-        List<BattleCharacter> enemySquad = _characterFactory.CreateEnemySquad(_enemiesInfo);
+        List<BattleCharacter> enemySquad = _characterFactory.CreateEnemySquad(_charactersMediator.GetEnemyCharactersInfo());
         for (int i = 0; i < enemySquad.Count; i++)
         {
             characters.Add(enemySquad[i]);

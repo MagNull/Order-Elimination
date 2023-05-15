@@ -32,7 +32,7 @@ namespace OrderElimination.BM
             _spriteRenderer.sprite = image;
         }
 
-        public void ShowAccuracy(int probability)
+        public void ShowAccuracy(float probability)
         {
             throw new NotImplementedException();
         }

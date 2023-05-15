@@ -36,8 +36,9 @@ public class BattleEndHandler : MonoBehaviour
     public void ShowResults(BattleOutcome outcome)
     {
         Debug.Log(outcome);
-        var allies = _mediator.GetBattleCharactersInfo().Cast<Character>().ToArray();
-        var battleResultInfo = new BattleResult(outcome, allies, CurrencyReward, 0);
+        var battleResultInfo = new BattleResult(outcome, allies, currentPlanetInfo.CurrencyReward, 0);
+        var currentPlanetInfo = _mediator.PlanetInfo;
+        var allies = _mediator.GetPlayerCharactersInfo().Cast<Character>().ToArray();
         if (outcome == BattleOutcome.Victory)
         {
             var panel = (BattleVictoryPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleVictory);
