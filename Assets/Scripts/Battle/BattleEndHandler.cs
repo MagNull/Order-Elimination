@@ -12,6 +12,7 @@ using RoguelikeMap;
 
 public class BattleEndHandler : MonoBehaviour
 {
+    private int CurrencyReward = 300;
     private SceneTransition _sceneTransition;
     private CharactersMediator _mediator;
 
@@ -36,8 +37,7 @@ public class BattleEndHandler : MonoBehaviour
     {
         Debug.Log(outcome);
         var allies = _mediator.GetBattleCharactersInfo().Cast<Character>().ToArray();
-        var currentPlanetInfo = _mediator.PointInfo;
-        var battleResultInfo = new BattleResult(outcome, allies, currentPlanetInfo.CurrencyReward, 0);
+        var battleResultInfo = new BattleResult(outcome, allies, CurrencyReward, 0);
         if (outcome == BattleOutcome.Victory)
         {
             var panel = (BattleVictoryPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleVictory);
@@ -49,11 +49,12 @@ public class BattleEndHandler : MonoBehaviour
         {
             var panel = (BattleDefeatPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleDefeat);
             panel.UpdateBattleResult(battleResultInfo);
-            var action = new Action(() =>((ChoosingCharacter)UIController.SceneInstance
-                    .OpenPanel(PanelType.SquadMembers, WindowFormat.FullScreen))
-                .UpdateCharacterInfo(allies.ToList(), true));
-            panel.LastContinueButtonPressed -= action;
-            panel.LastContinueButtonPressed += action;
+            //TODO(coder): open ChoosingCharacterScreen when lose battle
+            // var action = new Action(() =>((ChoosingCharacter)UIController.SceneInstance
+            //         .OpenPanel(PanelType.SquadMembers))
+            //     .UpdateCharacterInfo(allies.ToList(), true));
+            //panel.LastContinueButtonPressed -= action;
+            //panel.LastContinueButtonPressed += action;
         }
     }
 

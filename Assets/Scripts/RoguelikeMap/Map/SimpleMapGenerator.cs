@@ -1,29 +1,38 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using OrderElimination;
+using RoguelikeMap.Panels;
+using RoguelikeMap.Points;
+using RoguelikeMap.Points.VarietiesPoints;
 using UnityEngine;
+using VContainer;
 using Object = UnityEngine.Object;
 
-namespace OrderElimination
+namespace RoguelikeMap.Map
 {
     public class SimpleMapGenerator : IMapGenerator
     {
-        private readonly int _numberOfMap;
-        private Transform _parent;
+        private const int NumberOfMap = 0;
+        private readonly Transform _parent;
+        private readonly PanelGenerator _panelGenerator;
+        private readonly GameObject _pointPrefab;
+        private readonly LineRenderer _pathPrefab;
 
-        public SimpleMapGenerator(int numberOfMap, Transform parent)
+        [Inject]
+        public SimpleMapGenerator(GameObject pointPrefab, PanelGenerator panelGenerator, 
+            Transform pointsParent, LineRenderer pathPrefab)
         {
-            _numberOfMap = numberOfMap;
-            _parent = parent;
+            _pointPrefab = pointPrefab;
+            _panelGenerator = panelGenerator;
+            _parent = pointsParent;
+            _pathPrefab = pathPrefab;
         }
 
-        public List<Point> GenerateMap()
+        public IEnumerable<Point> GenerateMap()
         {
             // Load PointInfo
-            var pointsList = new List<Point>();
-            var path = "Points\\" + _numberOfMap;
+            var pointsList = new List<(Point, PointInfo)>();
+            var path = "Points\\" + NumberOfMap;
             var pointsInfo = Resources.LoadAll<PointInfo>(path);
             
             // Generate points
@@ -32,32 +41,48 @@ namespace OrderElimination
                 var info = pointsInfo[i];
                 var point = CreatePoint(info);
                 
-                pointsList.Add(point);
+                pointsList.Add((point, info));
                 point.PointNumber = i;
             }
             
             // Initialize paths
             foreach (var info in pointsInfo)
             {
-                var p = pointsList
-                    .First(x => x.PointInfo == info);
-                if (p != null)
-                    p.SetNextPoints(pointsList
-                        .Where(x => (info.NextPoints
-                            .Contains(x.PointInfo))));
+                var point = pointsList.First(x => x.Item2 == info);
+                if (point.Item1 != null)
+                {
+                    var nextPointsInfo = info.NextPoints;
+                    var nextPoints = pointsList
+                        .Where(x => nextPointsInfo.Contains(x.Item2))
+                        .Select(x => x.Item1);
+                    point.Item1.SetNextPoints(nextPoints);
+                }
                 
-                p.ShowPaths();
+                point.Item1.ShowPaths();
             }
             
-            return pointsList;
+            return pointsList.Select(x => x.Item1);
         }
 
         private Point CreatePoint(PointInfo info)
         {
-            var pointObj = Object.Instantiate(info.Prefab, info.Position, Quaternion.identity, _parent);
-            var point = pointObj.GetComponent<Point>();
-            //Debug.Log(point.HasEnemy);
-            point.SetPlanetInfo(info);
+            var pointObj = Object.Instantiate(_pointPrefab, info.Position, Quaternion.identity, _parent);
+            
+            var pointSprite = pointObj.GetComponent<SpriteRenderer>();
+            pointSprite.sprite = info.PointSprite;
+            
+            Point point = info.PointType switch
+            {
+                PointType.Battle => pointObj.AddComponent<BattlePoint>(),
+                PointType.Event => pointObj.AddComponent<EventPoint>(),
+                PointType.SafeZone => pointObj.AddComponent<SafeZonePoint>(),
+                PointType.Shop => pointObj.AddComponent<ShopPoint>(),
+                _ => throw new ArgumentOutOfRangeException("PointType not set or not valid type")
+            };
+
+            point.SetPointInfo(info.VarietiesPointInfo);
+            point.SetPanelGenerator(_panelGenerator);
+            point.SetPathPrefab(_pathPrefab);
             return point;
         }
     }

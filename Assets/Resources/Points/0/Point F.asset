@@ -15,52 +15,23 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
-    - {fileID: 11400000, guid: 8461a20f43795594cbe00ebbabe08b55, type: 2}
-    - {fileID: 11400000, guid: 1f6151b456f616343bbd2806f780dee0, type: 2}
-    - {fileID: 11400000, guid: cdb88470c4b68c341bad38dde4ae1989, type: 2}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: Text
-      Entry: 1
-      Data: Shop Point
-    - Name: _enemies
-      Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[IBattleCharacterInfo, Assembly-CSharp]],
-        mscorlib
-    - Name: 
-      Entry: 12
-      Data: 5
-    - Name: 
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 10
-      Data: 1
-    - Name: 
-      Entry: 10
-      Data: 2
-    - Name: 
-      Entry: 10
-      Data: 3
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-  _pointPrefab: {fileID: 1360291425060026929, guid: 1c91cd8b4bdcf114a9c36806ae100205, type: 3}
+    SerializationNodes: []
   _position: {x: -200, y: 0, z: 1}
   _nextPoints:
   - {fileID: 11400000, guid: cfed4e92408c3a746bb83132b5a366a3, type: 2}
   - {fileID: 11400000, guid: 1e468d0074f7e974eac9d90fb2a7a276, type: 2}
-  "_\u0441hanceOfItems": 0
-  _expirience: 0
-  _currencyReward: 460
+  _varietiesPointInfo:
+    rid: 7872520265891053574
+  references:
+    version: 2
+    RefIds:
+    - rid: 7872520265891053574
+      type: {class: ShopPointInfo, ns: RoguelikeMap.Points.VarietiesPoints.Infos, asm: Assembly-CSharp}
+      data:
+        _pointSprite: {fileID: -1663276062, guid: 5897665c51c6ee04e8c18c5fa5db7853, type: 3}
+        _itemsId: 00000000

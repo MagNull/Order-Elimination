@@ -11,12 +11,11 @@ namespace UIManagement.trashToRemove_Mockups
 {
     public class CharacterUpgradeTransaction
     {
+        private int Money = 1000;
         public Character TargetCharacter { get; private set; }
         public int Cost => TargetCharacter.GetStrategyStats().CostOfUpgrade;
 
         public const int MaximumLevelCap = 10;
-
-        private Information _playerInformation;
 
         public CharacterUpgradeTransaction(Character target)
         {
@@ -27,12 +26,12 @@ namespace UIManagement.trashToRemove_Mockups
         {
             if (TargetCharacter.GetStrategyStats().Lvl >= MaximumLevelCap)
                 return false;
-            var availableMoney = _playerInformation.Money;
+            var availableMoney = Money;
             if (Cost > availableMoney)
                 return false;
             TargetCharacter.Upgrade();
             availableMoney -= Cost;
-            _playerInformation.SetMoney(availableMoney);
+            //_playerInformation.SetMoney(availableMoney);
             return true;
         }
     }

@@ -1,11 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using RoguelikeMap.Points;
 
-namespace OrderElimination
+namespace RoguelikeMap.Map
 {
     public interface IMapGenerator
     {
-        public List<Point> GenerateMap();
+        public IEnumerable<Point> GenerateMap();
     }
 }
