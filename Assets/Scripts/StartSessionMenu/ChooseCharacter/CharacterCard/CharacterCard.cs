@@ -2,12 +2,12 @@ using System;
 using System.Linq;
 using OrderElimination;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Image = UnityEngine.UI.Image;
 
 namespace StartSessionMenu.ChooseCharacter.CharacterCard
 {
-    public class CharacterCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+    public class CharacterCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler,  IPointerClickHandler
     {
         [SerializeField] 
         protected Image _cardImage;
@@ -21,11 +21,12 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         public Character Character => _character;
         public event Action<CharacterCard> OnTrySelect;
         public event Action<CharacterCard> OnUnselect;
+        public event Action<CharacterCard> OnGetInfo;
         
         public virtual void InitializeCard(Character character, Transform defaultParent)
         {
             _character = character;
-            _cardImage.sprite = character.GetViewAvatar();
+            _cardImage.sprite = character.Avatar;
             _defaultParent = defaultParent;
         }
 
@@ -63,6 +64,12 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
                 else
                     transform.SetParent(_initialParent);
             }
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            Debug.Log("OnPointerClick");
+            OnGetInfo?.Invoke(this);
         }
     }
 }

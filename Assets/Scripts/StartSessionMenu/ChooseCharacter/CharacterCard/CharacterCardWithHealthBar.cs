@@ -11,7 +11,7 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         public override void InitializeCard(Character character, Transform defaultParent)
         {
             _healthBar = GetComponentInChildren<HealthBar>();
-            _healthBar?.SetMaxHealth(character.GetBattleStats().UnmodifiedHealth);
+            _healthBar?.SetMaxHealth((int)character.GetBattleStats().UnmodifiedHealth);
             base.InitializeCard(character, defaultParent);
         }
     }

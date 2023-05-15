@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 5809841624109694273}
   - component: {fileID: 5809841624109694274}
   - component: {fileID: 5809841624109694275}
-  - component: {fileID: 5809841624109694272}
   - component: {fileID: 4089897780089222038}
+  - component: {fileID: 82469547036186783}
+  - component: {fileID: 1477186013112521798}
   m_Layer: 5
   m_Name: CharacterCard
   m_TagString: Untagged
@@ -80,6 +81,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4089897780089222038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5809841624109694278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dec7f63cf6c4a64b6247ca97669017a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cardImage: {fileID: 5809841624342609720}
 --- !u!114 &82469547036186783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,8 +109,6 @@ MonoBehaviour:
   _cardImage: {fileID: 5809841624342609720}
   _costImage: {fileID: 0}
   _cardCost: {fileID: 0}
-  _button: {fileID: 1477186013112521798}
-  _isSelected: 0
 --- !u!114 &1477186013112521798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,21 +165,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4089897780089222038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5809841624109694278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dec7f63cf6c4a64b6247ca97669017a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isSelected: 0
-  _cardImage: {fileID: 5809841624342609720}
-  _button: {fileID: 5809841624109694272}
+  MillisecondsToHold: 700
+  DefaultTint: {r: 1, g: 1, b: 1, a: 1}
+  ClickUnavalableTint: {r: 1, g: 1, b: 1, a: 1}
+  _clickAvailable: 0
+  _holdAvailable: 0
 --- !u!1 &5809841624342609726
 GameObject:
   m_ObjectHideFlags: 0

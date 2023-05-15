@@ -67,6 +67,12 @@ namespace StartSessionMenu.ChooseCharacter
             }
         }
 
+        protected override void ShowCharacterInfo(CharacterCard.CharacterCard card)
+        {
+            
+            _characterInfoPanel.Open();
+        }
+
         public void SaveCharacters()
         {
             if (_selectedCount <= 0)
