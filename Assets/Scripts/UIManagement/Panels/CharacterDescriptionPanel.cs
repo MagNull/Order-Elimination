@@ -76,8 +76,8 @@ namespace UIManagement
             _characterInventoryPresenter.Construct(_currentCharacterInfo.Inventory);
             _characterInventoryPresenter.enabled = true;
             _currentBattleCharacterInfo = null;
-            _characterAvatar.sprite = characterInfo.GetViewAvatar();
-            _characterName.text = characterInfo.GetName();
+            _characterAvatar.sprite = characterInfo.Avatar;
+            _characterName.text = characterInfo.Name;
             UpdateBattleStats(battleStats);
             UpdateAbilityButtonsInfo(activeAbilities, passiveAbilities);
         }

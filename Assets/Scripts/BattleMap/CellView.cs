@@ -25,15 +25,16 @@ public class CellView : MonoBehaviour
     [SerializeField]
     private Color _allyColor;
     private Color _deselectColor;
-    private Color _basicColor;
+    private Color _basicCellTint;
 
     private Cell _model;
 
+    public Color CurrentColor => _renderer == null ? Color.white : _renderer.color;
     public IReadOnlyCell Model => _model;
 
     public void Start()
     {
-        _basicColor = _renderer == null ? Color.white : _renderer.color;
+        _basicCellTint = _renderer == null ? Color.white : _renderer.color;
     }
 
     public void BindModel(Cell model)
@@ -41,25 +42,16 @@ public class CellView : MonoBehaviour
         _model ??= model;
     }
 
-    public void Light()
+    public void Highlight(Color color)//pass enum CellHightlightColor instead
     {
-        if (_model.Objects.Any(obj => obj is BattleCharacter battleCharacter &&
-                                      ((BattleCharacterView) battleCharacter.View).IsSelected))
-            _renderer.color = _characterSelectedColor;
-        else if (_model.Objects.Count == 1)
-            _renderer.color = _lightColor;
-        else if (_model.Objects.Count > 1 && _model.Objects.Any(obj => obj.Type == BattleObjectType.Enemy))
-            _renderer.color = _enemyColor;
-        else if (_model.Objects.Count > 1 && _model.Objects.Any(obj => obj.Type == BattleObjectType.Ally))
-            _renderer.color = _allyColor;
-        else
-            _renderer.color = _lightColor;
+        if (_renderer != null)
+            _renderer.color = color;
     }
 
     public void Delight()
     {
         if (_renderer != null)
-            _renderer.color = _basicColor;
+            _renderer.color = _basicCellTint;
     }
 
     public void Select()

@@ -22,7 +22,7 @@ namespace OrderElimination.BM
             view.GameObject.name = "Environment Object " + _indexCounter++;
             var environmentObject = new EnvironmentObject(environmentInfo.EnterEffects, view, environmentInfo.Stats,
                 environmentInfo.IsWalkable, _battleMap, lifeTime);
-            view.Init(environmentObject, environmentInfo.SpriteView);
+            view.Init(environmentObject, environmentInfo.BattleIcon);
             environmentObject.View = view;
 
             return environmentObject;

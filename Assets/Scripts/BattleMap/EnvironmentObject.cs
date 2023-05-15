@@ -42,7 +42,7 @@ namespace OrderElimination.BM
             _lifeTime = lifeTime;
         }
 
-        public int GetAccuracyFrom(IBattleObject attacker)
+        public float GetAccuracyFrom(IBattleObject attacker)
         {
             return 100;
         }
@@ -66,7 +66,7 @@ namespace OrderElimination.BM
             return new TakeDamageInfo();
         }
 
-        public void TakeRecover(int value, int accuracy, DamageHealTarget damageHealTarget)
+        public void TakeRecover(float value, float accuracy, DamageHealTarget damageHealTarget)
         {
         }
 

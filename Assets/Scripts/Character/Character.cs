@@ -1,15 +1,35 @@
-﻿using System;
+using System;
 using CharacterAbility;
 using Inventory_Items;
+using OrderElimination.AbilitySystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
+using System.Collections.Generic;
+using Sirenix.Serialization;
+using OrderElimination.Domain;
 
 namespace OrderElimination
 {
     [CreateAssetMenu(fileName = "CharacterInfo", menuName = "Character")]
-    public class Character : ScriptableObject, IBattleCharacterInfo
+    public class Character : SerializedScriptableObject, IBattleCharacterInfo, IBattleEntityInfo
     {
+        //New System
+        [OdinSerialize, ShowInInspector]
+        private ReadOnlyBaseStats _baseBattleStats;
+        [SerializeField]
+        private EntityType _entityType;
+        [SerializeReference]
+        private AbilityBuilder[] _activeAbilitiesData;
+        [SerializeReference]
+        private AbilityBuilder[] _passiveAbilitiesData;
+
+        public ReadOnlyBaseStats BaseStats => _baseBattleStats;
+        //public EntityType EntityType => _entityType;
+        public AbilityBuilder[] GetActiveAbilities() => _activeAbilitiesData;
+        public AbilityBuilder[] GetPassiveAbilities() => _passiveAbilitiesData;
+        //
+
         [SerializeField]
         private BattleStats _baseStats;
         [SerializeField]
@@ -34,9 +54,9 @@ namespace OrderElimination
 
         public IReadOnlyBattleStats GetBattleStats() => _battleStats;
 
-        public string GetName() => _name;
-        public Sprite GetViewIcon() => _viewIcon;
-        public Sprite GetViewAvatar() => _viewAvatar;
+        public string Name => _name;
+        public Sprite BattleIcon => _viewIcon;
+        public Sprite Avatar => _viewAvatar;
 
         public AbilityInfo[] GetActiveAbilityInfos() => _activeAbilities;
         public AbilityInfo[] GetPassiveAbilityInfos() => _passiveAbilities;

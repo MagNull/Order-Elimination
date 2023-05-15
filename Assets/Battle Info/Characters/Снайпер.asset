@@ -12,6 +12,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1984226b6f4b5ea94fb3b7f3b16efb, type: 3}
   m_Name: "\u0421\u043D\u0430\u0439\u043F\u0435\u0440"
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _baseBattleStats
+      Entry: 7
+      Data: OrderElimination.Domain.ReadOnlyBaseStats, Assembly-CSharp
+    - Name: _maxHealth
+      Entry: 4
+      Data: 65
+    - Name: _maxArmor
+      Entry: 4
+      Data: 60
+    - Name: _attackDamage
+      Entry: 4
+      Data: 45
+    - Name: _accuracy
+      Entry: 4
+      Data: 0.95
+    - Name: _evasion
+      Entry: 4
+      Data: 0.15
+    - Name: _maxMovementDistance
+      Entry: 4
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+  _entityType: 0
+  _activeAbilitiesData:
+  - {fileID: 11400000, guid: 059eb2415f8329b4e8adbc6aa1189698, type: 2}
+  _passiveAbilitiesData: []
   _baseStats:
     _health: 60
     _unmodifiedHealth: 60

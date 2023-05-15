@@ -12,6 +12,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1984226b6f4b5ea94fb3b7f3b16efb, type: 3}
   m_Name: "\u0410\u0432\u0430\u043D\u0433\u0430\u0440\u0434"
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _baseBattleStats
+      Entry: 7
+      Data: OrderElimination.Domain.ReadOnlyBaseStats, Assembly-CSharp
+    - Name: _maxHealth
+      Entry: 4
+      Data: 100
+    - Name: _maxArmor
+      Entry: 4
+      Data: 150
+    - Name: _attackDamage
+      Entry: 4
+      Data: 35
+    - Name: _accuracy
+      Entry: 4
+      Data: 0.9
+    - Name: _evasion
+      Entry: 4
+      Data: 0.1
+    - Name: _maxMovementDistance
+      Entry: 4
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+  _entityType: 0
+  _activeAbilitiesData:
+  - {fileID: 11400000, guid: 1ade527014adc3d4785f2b2126eeb37c, type: 2}
+  - {fileID: 11400000, guid: fb2695349bee1d84195b8fc1b04ce80a, type: 2}
+  - {fileID: 11400000, guid: c0cf65f57e2191148bc38ebd9f35695d, type: 2}
+  - {fileID: 11400000, guid: 55e066a198256434bada3b34a684b583, type: 2}
+  - {fileID: 11400000, guid: 486948f134345aa47a139b0842c99133, type: 2}
+  _passiveAbilitiesData: []
   _baseStats:
     _health: 100
     _unmodifiedHealth: 100

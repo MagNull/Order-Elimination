@@ -5,6 +5,8 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using OrderElimination.BM;
+using OrderElimination.Infrastructure;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 //TODO: Optimize some methods (find cell example)
@@ -24,15 +26,35 @@ public class BattleMapView : MonoBehaviour
 
     public BattleMap Map => _battleMap;
 
+    /// <summary>
+    /// Interpolates game position between MapView borders.
+    /// </summary>
+    /// <param name="gamePosition"></param>
+    /// <returns>Returns real world position.</returns>
+    public Vector2 GameToWorldPosition(Vector2 gamePosition)
+    {
+        var gameStartPoint = new Vector2Int(Map.CellRangeBorders.xMin, Map.CellRangeBorders.yMin);
+        var gameEndPoint = new Vector2Int(Map.CellRangeBorders.xMax, Map.CellRangeBorders.yMax);
+        var offset = GetCell(0, 0).transform.position;
+        var viewXBasis = GetCell(gameEndPoint.x, 0).transform.position;
+        var viewYBasis = GetCell(0, gameEndPoint.y).transform.position;
+
+        var xUnLerp = CellMath.InverseLerpUnclamped(gameStartPoint.x, gameEndPoint.x, gamePosition.x);
+        var yUnLerp = CellMath.InverseLerpUnclamped(gameStartPoint.y, gameEndPoint.y, gamePosition.y);
+
+        return offset + (viewXBasis - offset) * xUnLerp + (viewYBasis - offset) * yUnLerp;
+    }
+
     public void OnEnable()
     {
-        _battleMap.CellChanged += OnCellChanged;
+        _battleMap.CellChangedOld += OnCellChanged;
     }
 
     public void OnDisable()
     {
         BattleSimulation.BattleEnded -= OnBattleEnded;
-        _battleMap.CellChanged -= OnCellChanged;
+        _battleMap.CellChangedOld -= OnCellChanged;
+        if (_cellViewGrid == null) return;
         foreach (var cellView in _cellViewGrid)
         {
             cellView.CellClicked -= OnCellClicked;
@@ -81,7 +103,7 @@ public class BattleMapView : MonoBehaviour
 
                 if (deltedX >= 0 && deltedX < _battleMap.Width && deltedY >= 0 && deltedY < _battleMap.Height)
                 {
-                    LightCell(deltedX, deltedY);
+                    HighlightCell(deltedX, deltedY, Color.white);
                 }
             }
         }
@@ -102,10 +124,10 @@ public class BattleMapView : MonoBehaviour
         _battleEnded = true;
     }
 
-    private void LightCell(int x, int y)
+    public void HighlightCell(int x, int y, Color color)
     {
         CellView cell = _cellViewGrid[x, y];
-        cell.Light();
+        cell.Highlight(color);
         _lightedCells.Add(cell);
     }
 

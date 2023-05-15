@@ -34,7 +34,7 @@ namespace OrderElimination.BM
             }
         }
 
-        public int GetAccuracyFrom(IBattleObject attacker)
+        public float GetAccuracyFrom(IBattleObject attacker)
         {
             return 0;
         }
@@ -47,7 +47,7 @@ namespace OrderElimination.BM
             Debug.LogWarning("Try Move Empty Object");
         }
 
-        public void TakeRecover(int value, int accuracy, DamageHealTarget damageHealTarget)
+        public void TakeRecover(float value, float accuracy, DamageHealTarget damageHealTarget)
         { 
             Debug.LogWarning("Try take heal from null battle object");
         }
