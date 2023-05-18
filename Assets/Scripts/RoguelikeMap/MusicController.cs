@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
+using RoguelikeMap.UI.PointPanels;
 using Sirenix.OdinInspector;
 using Unity.Services.Core;
 using UnityEngine;

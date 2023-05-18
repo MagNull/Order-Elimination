@@ -1,25 +1,30 @@
 using System;
 using System.Collections.Generic;
 using OrderElimination;
+using Sirenix.OdinInspector;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
 
-namespace RoguelikeMap.Panels
+namespace RoguelikeMap.UI.Characters
 {
     public abstract class ChoosingSquadMembersPanel : Panel
     {
+        [SerializeField] 
+        protected CharacterInfoPanel _characterInfoPanel;
+
+        [Title("Transforms")]
         [SerializeField]
         protected Transform _selectedTransform;
         [SerializeField]
         protected Transform _notSelectedTransform;
         [SerializeField]
         protected Transform _defaultParent;
+
+        [Title("Card")]
         [SerializeField]
         protected CharacterCard _characterButtonPref;
-        [SerializeField]
-        protected Panel _characterInfoPanel;
         
-        protected List<CharacterCard> _characterCards = new List<CharacterCard>();
+        protected List<CharacterCard> _characterCards = new ();
         
         protected void InitializeCharactersCard(List<Character> characterToSelect, Transform parent)
         {
@@ -58,12 +63,6 @@ namespace RoguelikeMap.Panels
         
         public override void Close()
         {
-            foreach (var card in _characterCards)
-            {
-                card.OnTrySelect -= TrySelectCard;
-                card.OnUnselect -= UnselectCard;
-                card.OnGetInfo -= ShowCharacterInfo;
-            }
             _characterCards.Clear();
             base.Close();
         }

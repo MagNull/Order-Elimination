@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
 using RoguelikeMap.Points;
+using RoguelikeMap.UI;
+using RoguelikeMap.UI.Abilities;
+using RoguelikeMap.UI.Characters;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -15,8 +19,22 @@ namespace RoguelikeMap.Panels
         private List<Panel> _panelsPrefabs;
 
         private List<Panel> _panels = new ();
-        private const int SquadMembersPanelIndex = 4;
         private IObjectResolver _resolver;
+        
+        [ShowInInspector] 
+        private const int BattlePanelIndex = 0;
+        [ShowInInspector] 
+        private const int EventPanelIndex = 1;
+        [ShowInInspector] 
+        private const int SafeZonePanelIndex = 2;
+        [ShowInInspector] 
+        private const int ShopPanelIndex = 3;
+        [ShowInInspector] 
+        private const int SquadMembersPanelIndex = 4;
+        [ShowInInspector]
+        private const int CharacterInfoPanelIndex = 5;
+        [ShowInInspector] 
+        private const int AbilityPanelIndex = 6;
 
         public event Action OnInitializedPanels;
 
@@ -46,6 +64,16 @@ namespace RoguelikeMap.Panels
         public SquadMembersPanel GetSquadMembersPanel()
         {
             return (SquadMembersPanel)_panels[SquadMembersPanelIndex];
+        }
+
+        public CharacterInfoPanel GetCharacterInfoPanel()
+        {
+            return (CharacterInfoPanel)_panels[CharacterInfoPanelIndex];
+        }
+
+        public PassiveAbilityInfoPanel GetAbilityPanel()
+        {
+            return (PassiveAbilityInfoPanel)_panels[AbilityPanelIndex];
         }
     }
 }

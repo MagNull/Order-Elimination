@@ -4,7 +4,7 @@ using System.Linq;
 using OrderElimination;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 
-namespace RoguelikeMap.Panels
+namespace RoguelikeMap.UI.Characters
 {
     public class SquadMembersPanel : ChoosingSquadMembersPanel
     {
@@ -29,6 +29,12 @@ namespace RoguelikeMap.Panels
                 SelectCard(card);
             else if (!card.IsSelected)
                 UnselectCard(card);
+        }
+
+        protected override void ShowCharacterInfo(CharacterCard card)
+        {
+            _characterInfoPanel.InitializeCharacterInfo(card.Character);
+            _characterInfoPanel.Open();
         }
 
         public override void Close()

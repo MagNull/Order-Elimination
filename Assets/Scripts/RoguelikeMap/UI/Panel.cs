@@ -1,8 +1,7 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 
-namespace RoguelikeMap.Panels
+namespace RoguelikeMap.UI
 {
     public class Panel : MonoBehaviour
     {

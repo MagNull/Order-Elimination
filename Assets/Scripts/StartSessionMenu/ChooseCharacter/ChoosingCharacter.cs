@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OrderElimination;
-using RoguelikeMap.Panels;
+using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
 using VContainer;
@@ -69,7 +69,6 @@ namespace StartSessionMenu.ChooseCharacter
 
         protected override void ShowCharacterInfo(CharacterCard.CharacterCard card)
         {
-            
             _characterInfoPanel.Open();
         }
 

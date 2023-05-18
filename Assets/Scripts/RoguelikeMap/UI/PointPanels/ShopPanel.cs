@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Inventory;
-using Inventory_Items;
 using OrderElimination;
-using RoguelikeMap.Points;
-using RoguelikeMap.Points.Models;
+using RoguelikeMap.Panels;
 using RoguelikeMap.Shop;
 using StartSessionMenu;
 using UnityEngine;
 using VContainer;
 
-namespace RoguelikeMap.Panels
+namespace RoguelikeMap.UI.PointPanels
 {
     public class ShopPanel : Panel
     {

@@ -1,13 +1,9 @@
 using System;
 using System.Collections.Generic;
-using OrderElimination;
-using RoguelikeMap.Points;
-using RoguelikeMap.Points.Models;
 using UIManagement.Elements;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace RoguelikeMap.Panels
+namespace RoguelikeMap.UI.PointPanels
 {
     public class BattlePanel : Panel
     {

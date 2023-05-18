@@ -1,16 +1,19 @@
 using System;
 using System.Linq;
 using OrderElimination;
+using UIManagement.Elements;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Image = UnityEngine.UI.Image;
 
 namespace StartSessionMenu.ChooseCharacter.CharacterCard
 {
-    public class CharacterCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler,  IPointerClickHandler
+    public class CharacterCard : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         [SerializeField] 
         protected Image _cardImage;
+        [SerializeField] 
+        private HoldableButton _button;
         
         protected Transform _initialParent;
         
@@ -28,6 +31,8 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
             _character = character;
             _cardImage.sprite = character.Avatar;
             _defaultParent = defaultParent;
+            _button.Clicked += OnClick;
+            _button.Holded += OnBeginDrag;
         }
 
         public virtual void Select()
@@ -35,7 +40,7 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
             IsSelected = !IsSelected;
         }
 
-        public void OnBeginDrag(PointerEventData eventData)
+        private void OnBeginDrag(HoldableButton button, float holdTimeInSecond)
         {
             Debug.Log("OnBeginDrag");
             _initialParent = transform.parent;
@@ -66,9 +71,9 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
             }
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        private void OnClick(HoldableButton button)
         {
-            Debug.Log("OnPointerClick");
+            Debug.Log("OnClick");
             OnGetInfo?.Invoke(this);
         }
     }

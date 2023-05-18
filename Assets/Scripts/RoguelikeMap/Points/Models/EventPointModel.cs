@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RoguelikeMap.Panels;
 using RoguelikeMap.SquadInfo;
+using RoguelikeMap.UI.PointPanels;
 using UnityEngine;
 
 namespace RoguelikeMap.Points.Models

@@ -3,6 +3,7 @@ using OrderElimination;
 using RoguelikeMap.Map;
 using RoguelikeMap.Panels;
 using RoguelikeMap.SquadInfo;
+using RoguelikeMap.UI.Characters;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -29,6 +30,8 @@ namespace RoguelikeMap
         private PanelGenerator _panelGenerator;
         [SerializeField]
         private Library _library;
+        [SerializeField]
+        private SquadMembersPanel _squadMembersPanel;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -48,6 +51,7 @@ namespace RoguelikeMap
             builder.RegisterComponent(_pointPrefab);
             builder.RegisterComponent(_pointsParent);
             builder.RegisterComponent(_library);
+            builder.RegisterComponent(_squadMembersPanel);
             
             builder.Register<SquadCommander>(Lifetime.Singleton);
             builder.Register<SceneTransition>(Lifetime.Singleton);

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Inventory;
+using RoguelikeMap.Panels;
 using TMPro;
 using UnityEngine;
 using Image = UnityEngine.UI.Image;
 
-namespace RoguelikeMap.Panels
+namespace RoguelikeMap.UI.PointPanels
 {
     public class SafeZonePanel : Panel
     {

@@ -6,6 +6,8 @@ using OrderElimination;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.Points.Models;
+using RoguelikeMap.UI.Characters;
+using RoguelikeMap.UI.PointPanels;
 using UnityEngine;
 using VContainer;
 
@@ -15,6 +17,7 @@ namespace RoguelikeMap.SquadInfo
     {
         private readonly IObjectResolver _objectResolver;
         private readonly PanelGenerator _panelGenerator;
+        private readonly SquadMembersPanel _squadMembersPanel;
         private PointModel _target;
         private Squad _squad;
         public PointModel Target => _target;
@@ -24,10 +27,12 @@ namespace RoguelikeMap.SquadInfo
         public event Action<IReadOnlyList<ItemData>> OnLootAccept;
 
         [Inject]
-        public SquadCommander(IObjectResolver objectResolver, PanelGenerator panelGenerator)
+        public SquadCommander(IObjectResolver objectResolver, PanelGenerator panelGenerator,
+            SquadMembersPanel squadMembersPanel)
         {
             _objectResolver = objectResolver;
             _panelGenerator = panelGenerator;
+            _squadMembersPanel = squadMembersPanel;
             _panelGenerator.OnInitializedPanels += SubscribeToEvents;
         }
 
@@ -56,9 +61,8 @@ namespace RoguelikeMap.SquadInfo
 
             var shopPanel = (ShopPanel)_panelGenerator.GetPanelByPointInfo(PointType.Shop);
             shopPanel.OnBuyItems += LootAccept;
-
-            var squadMembersPanel = _panelGenerator.GetSquadMembersPanel();
-            squadMembersPanel.OnSelected += WereSelectedMembers;
+            
+            _squadMembersPanel.OnSelected += WereSelectedMembers;
         }
 
         public void StartAttack()

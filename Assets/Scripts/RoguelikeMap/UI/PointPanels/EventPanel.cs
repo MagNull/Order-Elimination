@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Inventory;
+using RoguelikeMap.Panels;
 using RoguelikeMap.Points.Models;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = System.Random;
 
-namespace RoguelikeMap.Panels
+namespace RoguelikeMap.UI.PointPanels
 {
     public class EventPanel : Panel
     {
