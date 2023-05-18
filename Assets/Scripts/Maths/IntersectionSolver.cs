@@ -36,8 +36,7 @@ namespace Maths
 
     public static class IntersectionSolver
     {
-        private const int RoundAccuracy = 6;
-        private static  double _intersectionAngle;
+        private static double _intersectionAngle;
 
         public static IEnumerable<CellIntersection> GetIntersections(Vector2 start, Vector2 end)
         {
@@ -62,26 +61,29 @@ namespace Maths
             point1 -= cellPos;
             point2 -= cellPos;
             
-            var isPoint1X = point1.x % 1 == 0;
-            var isPoint2X = point2.x % 1 == 0;
-            
-            if (isPoint1X && isPoint2X)
-                interArea = GetTrapezoidArea(point1.x, point2.x, 1f);
-            else if (!isPoint1X && !isPoint2X)
-                interArea = GetTrapezoidArea(point1.y, point2.y, 1f);
-            else if (isPoint1X && !isPoint2X)
+            var isPointOnX = (point1.x == 0 || point1.x == 1) && (point2.x == 0 || point2.x == 1);
+            var isPointOnY = (point1.y == 0 || point1.y == 1) && (point2.y == 0 || point2.y == 1);
+
+            if (isPointOnX)
             {
-                var sideVert = point2.y == cellPos.y ? point1.y : 1 - point1.y;
-                var sideHoriz = point1.x == cellPos.x ? point2.x : 1 - point2.x;
-                interArea = GetTrapezoidArea(sideVert, 0f, sideHoriz);
+                interArea = GetTrapezoidArea(point1.y, point2.y);
+                interArea = MathF.Min(1f - interArea, interArea);
+            }
+            else if (isPointOnY)
+            {
+                interArea = GetTrapezoidArea(point1.x, point2.x);
+                interArea = MathF.Min(1f - interArea, interArea);
             }
             else
             {
-                var sideVert = point1.y == cellPos.y ? point2.y : 1 - point2.y;
-                var sideHoriz = point2.x == cellPos.x ? point1.x : 1 - point1.x;
-                interArea = GetTrapezoidArea(sideVert, 0f, sideHoriz);
-            } 
-
+                var posX = point1.x % 1 == 0 ? point1.x : point2.x;
+                var posY = point1.y % 1 == 0 ? point1.y : point2.y;
+                var third = new Vector2(posX, posY);
+                interArea = 0.5f * (point1 - third).magnitude * (point2 - third).magnitude;
+            }
+            
+            interArea = MathF.Min(interArea, 1f);
+            
             return new CellIntersection(cellPos, _intersectionAngle, interArea);
         }
 
@@ -105,40 +107,37 @@ namespace Maths
         {
             var pointsSet = new SortedSet<Vector2>(new CompereByStartPoint(start));
             var direction = end - start;
-            float tan;
-            if (direction.x == 0)
-                tan = direction.y > 0 ? float.MaxValue : float.MinValue;
-            else
-                tan = direction.y / direction.x;
+
+            var tan = direction.y / direction.x;
+            var ctg = direction.x / direction.y;
+            
             _intersectionAngle = Math.Atan(tan);
-            var offsetY = start.y - start.x * tan;
+            
+            var offsetY = end.y - tan * end.x; 
+            var offsetX = end.x - ctg * end.y; 
             
             var startX = direction.x > 0 ? MathF.Ceiling(start.x) : MathF.Floor(start.x);
             var startY = direction.y > 0 ? MathF.Ceiling(start.y) : MathF.Floor(start.y);
             
             var endX = direction.x > 0 ? MathF.Ceiling(end.x) : MathF.Floor(end.x);
             var endY = direction.y > 0 ? MathF.Ceiling(end.y) : MathF.Floor(end.y);
-            
-            while (startX != endX || startY != endY)
-            {
-                if (startX != endX)
-                { 
-                    var interY = MathF.Round((startX * tan) + offsetY, RoundAccuracy);
-                    pointsSet.Add(new Vector2(startX, interY));
-                    startX = direction.x > 0 ? startX + 1 : startX - 1;
-                }
-                if (startY != endY)
-                {
-                    var interX = MathF.Round((startY - offsetY) / tan, RoundAccuracy);
-                    pointsSet.Add(new Vector2(interX, startY));
-                    startY = direction.y > 0 ? startY + 1 : startY - 1;
-                }
-            }
 
+            while (startX != endX)
+            {
+                var interY = tan * startX + offsetY;
+                pointsSet.Add(new Vector2(startX, interY));
+                startX += direction.x > 0 ? 1 : -1;
+            }
+            while (startY != endY)
+            {
+                var interX = ctg * startY + offsetX;
+                pointsSet.Add(new Vector2(interX, startY));
+                startY += direction.y > 0 ? 1 : -1;
+            }
             return pointsSet;
         }
 
-        private static float GetTrapezoidArea(float side1, float side2, float height)
+        private static float GetTrapezoidArea(float side1, float side2, float height = 1f)
         {
             var intersectionPlace = (side1 + side2) * height / 2;
             return MathF.Min(intersectionPlace, 1 - intersectionPlace);
