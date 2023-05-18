@@ -18,6 +18,8 @@ namespace RoguelikeMap.UI.PointPanels
         private List<Button> _answerButtons;
         [SerializeField] 
         private Button _skipButton;
+        [SerializeField] 
+        private Image _sprite;
 
         private EventInfo _eventInfo;
         private Random _random;
@@ -71,6 +73,7 @@ namespace RoguelikeMap.UI.PointPanels
                 return;
             if (_eventInfo.IsRandomFork)
                 LoadRandomFork();
+            _sprite.sprite = _eventInfo.Sprite;
             var text = _eventInfo.Text;
             var possibleAnswers = GetPossibleAnswers();
             UpdateEventText(text, possibleAnswers);

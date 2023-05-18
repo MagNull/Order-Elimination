@@ -5,12 +5,17 @@ using Inventory_Items;
 using OrderElimination;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace RoguelikeMap.Points.Models
 {
     [Serializable]
     public class EventInfo
     {
+        [SerializeField] 
+        private Sprite sprite;
+        
         [SerializeField]
         [HideIf("@this._isEnd || this._isBattle")]
         private string _text;
@@ -68,5 +73,6 @@ namespace RoguelikeMap.Points.Models
         public bool IsBattle => _isBattle;
         public bool IsRandomFork => _isFork && _isRandom;
         public string Text => _text;
+        public Sprite Sprite => sprite;
     }
 }
