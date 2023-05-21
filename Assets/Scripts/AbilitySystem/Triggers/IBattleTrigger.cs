@@ -2,29 +2,31 @@
 using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
-namespace OrderElimination.AbilitySystem.Triggers
+namespace OrderElimination.AbilitySystem
 {
-    public interface ITriggerFiredInfo
-    {
-
-    }
-
     public interface IBattleTrigger
     {
-        public event Action<ITriggerFiredInfo> Triggered;
+        public bool IsActive { get; }
+
+        public event Action<ITriggerFireInfo> Triggered;
+
+        public bool Activate();
+        public bool Deactivate(); //Dispose
     }
 
-    //public interface IContextTrigger : IBattleTrigger
-    //{
-    //    public void Activate(IBattleContext battleContext);
-    //}
+    public interface ITriggerFireInfo
+    {
 
-    //public interface IEntityTrackingTrigger : IBattleTrigger
-    //{
-    //    public void Activate(IBattleContext battleContext, AbilitySystemActor trackingEntity);
-    //}
+    }
+
+    public class EmptyTriggerFireInfo : ITriggerFireInfo
+    {
+
+    }
 }

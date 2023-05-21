@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using OrderElimination.AbilitySystem.Animations;
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,12 @@ namespace OrderElimination.AbilitySystem
 
         [OdinSerialize]
         public bool IsHidden { get; set; }
+
+        [OdinSerialize]
+        public IAbilityAnimation AnimationOnActivation { get; set; }
+
+        [OdinSerialize]
+        public IAbilityAnimation AnimationOnDeactivation { get; set; }
     }
 
     public interface IReadOnlyEffectView
@@ -26,5 +33,7 @@ namespace OrderElimination.AbilitySystem
         public string Name { get; }
         public Sprite Icon { get; }
         public bool IsHidden { get; }
+        public IAbilityAnimation AnimationOnActivation { get; }
+        public IAbilityAnimation AnimationOnDeactivation { get; }
     }
 }

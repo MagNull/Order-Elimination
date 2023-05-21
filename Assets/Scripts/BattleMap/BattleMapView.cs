@@ -154,7 +154,7 @@ public class BattleMapView : MonoBehaviour
             }
             else
             {
-                Debug.Log("Spawn");
+                //Debug.Log("Spawn");
                 battleObject.View.GameObject.transform.position = GetCell(battleObject).transform.position;
             }
         }

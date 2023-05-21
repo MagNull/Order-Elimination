@@ -8,17 +8,17 @@ namespace OrderElimination.AbilitySystem
 {
     public class GameCharacter
     {
-        public readonly IBattleEntityInfo EntityData;//View, AbilityData[]
+        public readonly IBattleCharacterData CharacterData;//View, AbilityData[]
         public readonly BattleStats BattleStats;
         //public readonly EntityType EntityType;
 
         //=> CharacterData.GetActiveAbilities() + Equipment.Abilities
-        public readonly List<AbilityData> PosessedActiveAbilities = new List<AbilityData>(); 
+        public readonly List<ActiveAbilityData> PosessedActiveAbilities = new List<ActiveAbilityData>(); 
         //Equipment
 
-        public GameCharacter(IBattleEntityInfo entityData, AbilityData[] activeAbilities, AbilityData[] passiveAbilities)
+        public GameCharacter(IBattleCharacterData entityData, ActiveAbilityData[] activeAbilities, ActiveAbilityData[] passiveAbilities)
         {
-            EntityData = entityData;
+            CharacterData = entityData;
             BattleStats = new BattleStats(entityData.BaseStats);
             //EntityType = entityData.EntityType;
             PosessedActiveAbilities = activeAbilities.ToList();

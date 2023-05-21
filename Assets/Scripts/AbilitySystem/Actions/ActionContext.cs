@@ -31,8 +31,8 @@ namespace OrderElimination.AbilitySystem
         public ActionContext(
             IBattleContext battleContext,
             CellGroupsContainer targetCellGroups,
-            AbilitySystemActor actionMaker = null,
-            AbilitySystemActor target = null,
+            AbilitySystemActor actionMaker,
+            AbilitySystemActor target,
             Vector2Int? targetPosition = null)
         {
             BattleContext = battleContext;
@@ -40,7 +40,7 @@ namespace OrderElimination.AbilitySystem
             ActionMaker = actionMaker;
             ActionTarget = target;
             if (targetPosition == null && target != null)
-                targetPosition = battleContext.BattleMap.GetPosition(target);
+                targetPosition = target.Position;
             ActionTargetInitialPosition = targetPosition;
             AnimationSceneContext = battleContext.AnimationSceneContext;
         }

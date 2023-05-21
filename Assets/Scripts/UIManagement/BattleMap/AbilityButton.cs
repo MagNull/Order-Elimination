@@ -32,7 +32,7 @@ namespace UIManagement.Elements
             }
         }
         public CharacterAbility.AbilityView AbilityView { get; private set; }
-        public OrderElimination.AbilitySystem.AbilityRunner AbilityRunner { get; private set; }
+        public OrderElimination.AbilitySystem.ActiveAbilityRunner AbilityRunner { get; private set; }
         public event Action<AbilityButton> Clicked;
         public event Action<AbilityButton> Holded;
 
@@ -50,7 +50,7 @@ namespace UIManagement.Elements
 
         private void OnHold(HoldableButton button, float holdTime) => Holded?.Invoke(this);
 
-        public void AssignAbiility(OrderElimination.AbilitySystem.AbilityRunner abilityRunner)
+        public void AssignAbiility(OrderElimination.AbilitySystem.ActiveAbilityRunner abilityRunner)
         {
             RemoveAbility();
             AbilityRunner = abilityRunner;

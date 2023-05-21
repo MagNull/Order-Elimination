@@ -7,7 +7,7 @@ using UnityEngine;
 namespace OrderElimination.BM
 {
     [CreateAssetMenu( fileName = "Environment Object", menuName = "Map/Environment Object" )]
-    public class EnvironmentInfo : SerializedScriptableObject
+    public class EnvironmentInfo : SerializedScriptableObject, IBattleStructureData
     {
         [SerializeField]
         private string _name;
@@ -16,7 +16,7 @@ namespace OrderElimination.BM
         [SerializeField]
         private float _maxHealth;
         [SerializeField]
-        public AbilityBuilder[] _posessedAbilities;
+        public ActiveAbilityBuilder[] _posessedAbilities;
         [SerializeField]
         private bool _isWalkable;
         [SerializeField]
@@ -27,7 +27,7 @@ namespace OrderElimination.BM
         public string Name => _name;
         public Sprite BattleIcon => _spriteView;
         public float MaxHealth => _maxHealth;
-        public AbilityBuilder[] GetActiveAbilities() => _posessedAbilities;
+        public ActiveAbilityBuilder[] GetPossesedAbilities() => _posessedAbilities;
 
         public BattleStats Stats => _battleStats;
         public ITickEffect[] EnterEffects => _enterEffects;

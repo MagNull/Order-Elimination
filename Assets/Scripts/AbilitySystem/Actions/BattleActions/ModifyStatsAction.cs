@@ -14,6 +14,7 @@ namespace OrderElimination.AbilitySystem
     {
         private static List<Func<float, float>> _processorsByPerformId = new();
         private static List<IUndoableActionPerformResult> _resultsByPerformId = new();
+        private static HashSet<int> _undoneOperations = new();
 
         [ShowInInspector, OdinSerialize]
         public BattleStat TargetBattleStat { get; set; }
@@ -27,6 +28,7 @@ namespace OrderElimination.AbilitySystem
         {
             _processorsByPerformId.Clear();
             _resultsByPerformId.Clear();
+            _undoneOperations.Clear();
         }
 
         public override IBattleAction Clone()
@@ -37,10 +39,14 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
+        public bool IsUndone(int performId) => _undoneOperations.Contains(performId);
+
         public bool Undo(int performId) => UndoStatic(performId);
 
         public static bool UndoStatic(int performId)
         {
+            if (_undoneOperations.Contains(performId))
+                throw ActionUndoFailedException.AlreadyUndoneException;
             var performResult = _resultsByPerformId[performId];
             var performProcessor = _processorsByPerformId[performId];
             var action = (ModifyStatsAction)performResult.ModifiedAction;
@@ -49,7 +55,12 @@ namespace OrderElimination.AbilitySystem
             {
                 var stats = performResult.ActionContext.ActionTarget.BattleStats;
                 var parameter = stats.GetParameter(targetStat);
-                return parameter.RemoveProcessor(performProcessor);
+                if (parameter.RemoveProcessor(performProcessor))
+                {
+                    _undoneOperations.Add(performId);
+                    return true;
+                }
+                return false;
             }
             return false;
         }

@@ -41,11 +41,23 @@ public class BattleMap : MonoBehaviour, IBattleMap
 
     public void PlaceEntity(AbilitySystemActor entity, Vector2Int position)
     {
-        if (_containedEntitiesPositions.ContainsKey(entity))
-            throw new InvalidCastException("Entity already exists on the map.");
-        _containedEntitiesPositions.Add(entity, position);
-        GetCell(position.x, position.y).AddEntity(entity);
-        CellChanged?.Invoke(position);
+        if (!_containedEntitiesPositions.ContainsKey(entity))
+        {
+            //place first time
+            _containedEntitiesPositions.Add(entity, position);
+            GetCell(position.x, position.y).AddEntity(entity);
+            CellChanged?.Invoke(position);
+        }
+        else
+        {
+            //move
+            var oldPos = _containedEntitiesPositions[entity];
+            _containedEntitiesPositions[entity] = position;
+            GetCell(oldPos.x, oldPos.y).RemoveEntity(entity);
+            GetCell(position.x, position.y).AddEntity(entity);
+            CellChanged?.Invoke(oldPos);
+            CellChanged?.Invoke(position);
+        }
     }
 
     public void RemoveEntity(AbilitySystemActor entity)

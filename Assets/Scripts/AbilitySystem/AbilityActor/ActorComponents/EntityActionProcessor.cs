@@ -20,27 +20,20 @@ namespace OrderElimination.AbilitySystem
             //equip
         }
 
-        public static EntityActionProcessor Create<TOwner>(TOwner owner) where TOwner : IEffectHolder
+        public static EntityActionProcessor Create<TOwner>(TOwner owner) 
+            where TOwner : IEffectHolder//, EquipHolder // Replace with one common interface?
             => new EntityActionProcessor(owner);
 
-        public TAction ProcessOutcomingAction<TAction>(TAction action)
+        public TAction ProcessIncomingAction<TAction>(TAction action, ActionContext performContext)
             where TAction : BattleAction<TAction>
         {
-            return ProcessAction(action, GetOutcomingEffectProcessors());
+            return ProcessAction(action, performContext, GetIncomingEffectProcessors());
         }
 
-        public TAction ProcessIncomingAction<TAction>(TAction action)
+        public TAction ProcessOutcomingAction<TAction>(TAction action, ActionContext performContext)
             where TAction : BattleAction<TAction>
         {
-            return ProcessAction(action, GetIncomingEffectProcessors());
-        }
-
-        private IEnumerable<IActionProcessor> GetOutcomingEffectProcessors()
-        {
-            return _effectHolder
-                .Effects
-                .Where(e => e.EffectData.OutcomingActionProcessor != null)
-                .Select(e => e.EffectData.OutcomingActionProcessor);
+            return ProcessAction(action, performContext, GetOutcomingEffectProcessors());
         }
 
         private IEnumerable<IActionProcessor> GetIncomingEffectProcessors()
@@ -51,13 +44,24 @@ namespace OrderElimination.AbilitySystem
                 .Select(e => e.EffectData.IncomingActionProcessor);
         }
 
-        private TAction ProcessAction<TAction>(TAction action, IEnumerable<IActionProcessor> processors)
+        private IEnumerable<IActionProcessor> GetOutcomingEffectProcessors()
+        {
+            return _effectHolder
+                .Effects
+                .Where(e => e.EffectData.OutcomingActionProcessor != null)
+                .Select(e => e.EffectData.OutcomingActionProcessor);
+        }
+
+        private TAction ProcessAction<TAction>(
+            TAction action, 
+            ActionContext performContext, 
+            IEnumerable<IActionProcessor> processors)
             where TAction : BattleAction<TAction>
         {
             var processedAction = action;
             foreach (var processor in processors)
             {
-                processedAction = processor.ProcessAction(processedAction);
+                processedAction = processor.ProcessAction(processedAction, performContext);
                 if (processedAction == null)
                     throw new ArgumentNullException(nameof(processedAction));
             }

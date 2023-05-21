@@ -37,9 +37,42 @@ MonoBehaviour:
     - Name: IsTemporary
       Entry: 5
       Data: true
+    - Name: InstructionOnActivation
+      Entry: 7
+      Data: 0|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
+    - Name: _target
+      Entry: 3
+      Data: 0
+    - Name: _battleAction
+      Entry: 7
+      Data: 1|OrderElimination.AbilitySystem.ChangeStatusAction, Assembly-CSharp
+    - Name: Status
+      Entry: 3
+      Data: 0
+    - Name: Operation
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: UndoOnDeactivation
+      Entry: 5
+      Data: true
+    - Name: _animationBeforeAction
+      Entry: 6
+      Data: 
+    - Name: _animationAfterAction
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: InstructionOnDeactivation
+      Entry: 6
+      Data: 
     - Name: TemporaryEffectFunctionaity
       Entry: 7
-      Data: 0|OrderElimination.AbilitySystem.TemporaryEffectFunctionaity, Assembly-CSharp
+      Data: 2|OrderElimination.AbilitySystem.TemporaryEffectFunctionaity, Assembly-CSharp
     - Name: _applyingDuration
       Entry: 3
       Data: 2
@@ -63,7 +96,7 @@ MonoBehaviour:
       Data: 
     - Name: _view
       Entry: 7
-      Data: 1|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
+      Data: 3|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
     - Name: Name
       Entry: 1
       Data: Cloaked
@@ -73,66 +106,497 @@ MonoBehaviour:
     - Name: IsHidden
       Entry: 5
       Data: false
-    - Name: 
-      Entry: 8
+    - Name: AnimationOnActivation
+      Entry: 6
       Data: 
-    - Name: _onActivationInstruction
-      Entry: 7
-      Data: 2|OrderElimination.AbilitySystem.EffectInstruction, Assembly-CSharp
-    - Name: _target
-      Entry: 3
-      Data: 0
-    - Name: _battleAction
-      Entry: 7
-      Data: 3|OrderElimination.AbilitySystem.ChangeStatusAction, Assembly-CSharp
-    - Name: Status
-      Entry: 3
-      Data: 0
-    - Name: StatusOperation
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
+    - Name: AnimationOnDeactivation
+      Entry: 6
       Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: _onDeactivationInstruction
+    - Name: _removeTriggers
       Entry: 7
-      Data: 4|OrderElimination.AbilitySystem.EffectInstruction, Assembly-CSharp
-    - Name: _target
-      Entry: 3
-      Data: 0
-    - Name: _battleAction
-      Entry: 7
-      Data: 5|OrderElimination.AbilitySystem.ChangeStatusAction, Assembly-CSharp
-    - Name: Status
-      Entry: 3
-      Data: 0
-    - Name: StatusOperation
-      Entry: 3
-      Data: 1
+      Data: 4|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+        Assembly-CSharp]], System.Core
     - Name: 
-      Entry: 8
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
     - Name: _triggerInstructions
       Entry: 7
-      Data: 6|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.ITriggerSetupInfo,
+      Data: 5|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
         Assembly-CSharp],[OrderElimination.AbilitySystem.IEffectInstruction, Assembly-CSharp]],
         mscorlib
     - Name: comparer
       Entry: 7
-      Data: 7|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.ITriggerSetupInfo,
+      Data: 6|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: 7|OrderElimination.AbilitySystem.EffectTriggerAcceptor, Assembly-CSharp
+    - Name: TriggerSetup
+      Entry: 7
+      Data: 8|OrderElimination.AbilitySystem.EntityRelativeZoneTrigger, Assembly-CSharp
+    - Name: ZonePattern
+      Entry: 7
+      Data: 9|OrderElimination.Infrastructure.DistanceFromPointPattern, Assembly-CSharp
+    - Name: UseSquareDistance
+      Entry: 5
+      Data: true
+    - Name: _minDistanceFromOrigin
+      Entry: 4
       Data: 0
+    - Name: _maxDistanceFromOrigin
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: TriggeringEntities
+      Entry: 7
+      Data: 10|OrderElimination.AbilitySystem.EntityFilter, Assembly-CSharp
+    - Name: AllowSelf
+      Entry: 5
+      Data: false
+    - Name: CharactersSpecification
+      Entry: 3
+      Data: 0
+    - Name: StructuresSpecification
+      Entry: 3
+      Data: 0
+    - Name: AllowedEntityTypes
+      Entry: 7
+      Data: 11|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.EntityType,
+        Assembly-CSharp]], Assembly-CSharp
+    - Name: _valueFlags
+      Entry: 7
+      Data: 12|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EntityType,
+        Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 13|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.EntityType,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AllowedRelationships
+      Entry: 7
+      Data: 14|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.Infrastructure.BattleRelationship,
+        Assembly-CSharp]], Assembly-CSharp
+    - Name: _valueFlags
+      Entry: 7
+      Data: 15|System.Collections.Generic.Dictionary`2[[OrderElimination.Infrastructure.BattleRelationship,
+        Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 16|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.Infrastructure.BattleRelationship,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _specifiedCharacters
+      Entry: 7
+      Data: 17|System.Collections.Generic.HashSet`1[[IBattleCharacterData, Assembly-CSharp]],
+        System.Core
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _specifiedStructures
+      Entry: 7
+      Data: 18|System.Collections.Generic.HashSet`1[[IBattleStructureData, Assembly-CSharp]],
+        System.Core
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: TriggerOnEnter
+      Entry: 5
+      Data: false
+    - Name: TriggerOnExit
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: TrackingEntity
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 7
+      Data: 19|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
+    - Name: _target
+      Entry: 3
+      Data: 0
+    - Name: _battleAction
+      Entry: 7
+      Data: 20|OrderElimination.AbilitySystem.ChangeStatusAction, Assembly-CSharp
+    - Name: Status
+      Entry: 3
+      Data: 0
+    - Name: Operation
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: UndoOnDeactivation
+      Entry: 5
+      Data: true
+    - Name: _animationBeforeAction
+      Entry: 6
+      Data: 
+    - Name: _animationAfterAction
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: 21|OrderElimination.AbilitySystem.EffectTriggerAcceptor, Assembly-CSharp
+    - Name: TriggerSetup
+      Entry: 7
+      Data: 22|OrderElimination.AbilitySystem.EntityRelativeZoneTrigger, Assembly-CSharp
+    - Name: ZonePattern
+      Entry: 7
+      Data: 23|OrderElimination.Infrastructure.DistanceFromPointPattern, Assembly-CSharp
+    - Name: UseSquareDistance
+      Entry: 5
+      Data: true
+    - Name: _minDistanceFromOrigin
+      Entry: 4
+      Data: 0
+    - Name: _maxDistanceFromOrigin
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: TriggeringEntities
+      Entry: 7
+      Data: 24|OrderElimination.AbilitySystem.EntityFilter, Assembly-CSharp
+    - Name: AllowSelf
+      Entry: 5
+      Data: false
+    - Name: CharactersSpecification
+      Entry: 3
+      Data: 0
+    - Name: StructuresSpecification
+      Entry: 3
+      Data: 0
+    - Name: AllowedEntityTypes
+      Entry: 7
+      Data: 25|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.EntityType,
+        Assembly-CSharp]], Assembly-CSharp
+    - Name: _valueFlags
+      Entry: 7
+      Data: 26|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EntityType,
+        Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 27|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.EntityType,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AllowedRelationships
+      Entry: 7
+      Data: 28|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.Infrastructure.BattleRelationship,
+        Assembly-CSharp]], Assembly-CSharp
+    - Name: _valueFlags
+      Entry: 7
+      Data: 29|System.Collections.Generic.Dictionary`2[[OrderElimination.Infrastructure.BattleRelationship,
+        Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 30|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.Infrastructure.BattleRelationship,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _specifiedCharacters
+      Entry: 7
+      Data: 31|System.Collections.Generic.HashSet`1[[IBattleCharacterData, Assembly-CSharp]],
+        System.Core
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _specifiedStructures
+      Entry: 7
+      Data: 32|System.Collections.Generic.HashSet`1[[IBattleStructureData, Assembly-CSharp]],
+        System.Core
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: TriggerOnEnter
+      Entry: 5
+      Data: true
+    - Name: TriggerOnExit
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: TrackingEntity
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 7
+      Data: 33|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
+    - Name: _target
+      Entry: 3
+      Data: 0
+    - Name: _battleAction
+      Entry: 7
+      Data: 34|OrderElimination.AbilitySystem.ChangeStatusAction, Assembly-CSharp
+    - Name: Status
+      Entry: 3
+      Data: 0
+    - Name: Operation
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: UndoOnDeactivation
+      Entry: 5
+      Data: true
+    - Name: _animationBeforeAction
+      Entry: 6
+      Data: 
+    - Name: _animationAfterAction
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 

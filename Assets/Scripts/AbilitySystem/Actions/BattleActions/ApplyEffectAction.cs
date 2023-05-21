@@ -33,7 +33,8 @@ namespace OrderElimination.AbilitySystem
         protected async override UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
             var isSuccessfull = false;
-            if (RandomExtensions.RollChance(ApplyChance.GetValue(useContext)))
+            var probability = ApplyChance.GetValue(useContext);
+            if (RandomExtensions.RollChance(probability))
             {
                 isSuccessfull = useContext.ActionTarget.ApplyEffect(Effect, useContext.ActionMaker);
             }

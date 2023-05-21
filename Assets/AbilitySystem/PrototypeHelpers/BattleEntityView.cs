@@ -128,9 +128,9 @@ public class BattleEntityView : MonoBehaviour
 
     private void OnDied(AbilitySystemActor entity)
     {
-        var luminosity = 0.7f;
-        _renderer.DOFade(0.7f, 1).SetEase(Ease.InBounce);
-        _renderer.DOColor(new Color(luminosity, luminosity, luminosity), 1);
+        var luminosity = 0.1f;
+        //_renderer.DOFade(0.7f, 1).SetEase(Ease.InBounce);
+        _renderer.DOColor(new Color(luminosity, luminosity, luminosity), 0.4f);
     }
 
     private void OnStatusAppeared(BattleStatus status)
@@ -142,9 +142,11 @@ public class BattleEntityView : MonoBehaviour
             switch (relationShip)
             {
                 case BattleRelationship.Ally:
+                    _renderer.DOKill(true);
                     _renderer.DOFade(0.45f, 1f);
                     break;
                 case BattleRelationship.Enemy:
+                    _renderer.DOKill(true);
                     _renderer.DOFade(0f, 1f);
                     break;
                 default:
@@ -162,9 +164,11 @@ public class BattleEntityView : MonoBehaviour
             switch (relationShip)
             {
                 case BattleRelationship.Ally:
+                    _renderer.DOKill(true);
                     _renderer.DOFade(1, 0.7f);
                     break;
                 case BattleRelationship.Enemy:
+                    _renderer.DOKill(true);
                     _renderer.DOFade(1, 0.7f);
                     break;
                 default:

@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11e68a79a6c38274991144477caed910, type: 3}
+  m_Script: {fileID: 11500000, guid: 9583860204f606743a70fc904f8fb5a9, type: 3}
   m_Name: StandingHereIRealize
   m_EditorClassIdentifier: 
   serializationData:
@@ -233,6 +233,12 @@ MonoBehaviour:
     - Name: AllowSelf
       Entry: 5
       Data: false
+    - Name: CharactersSpecification
+      Entry: 3
+      Data: 0
+    - Name: StructuresSpecification
+      Entry: 3
+      Data: 0
     - Name: AllowedEntityTypes
       Entry: 7
       Data: 15|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.EntityType,
@@ -292,15 +298,15 @@ MonoBehaviour:
       Data: 
     - Name: AllowedRelationships
       Entry: 7
-      Data: 18|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.Infrastructure.BattleRelationship,
+      Data: 18|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.Infrastructure.BattleRelationship,
         Assembly-CSharp]], Assembly-CSharp
     - Name: _valueFlags
       Entry: 7
-      Data: 19|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.Infrastructure.BattleRelationship,
+      Data: 19|System.Collections.Generic.Dictionary`2[[OrderElimination.Infrastructure.BattleRelationship,
         Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 20|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.Infrastructure.BattleRelationship,
+      Data: 20|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.Infrastructure.BattleRelationship,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -346,6 +352,12 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 8
+      Data: 
+    - Name: _specifiedCharacters
+      Entry: 6
+      Data: 
+    - Name: _specifiedStructures
+      Entry: 6
       Data: 
     - Name: 
       Entry: 8

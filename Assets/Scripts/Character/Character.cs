@@ -11,7 +11,7 @@ using OrderElimination.Domain;
 namespace OrderElimination
 {
     [CreateAssetMenu(fileName = "CharacterInfo", menuName = "Character")]
-    public class Character : SerializedScriptableObject, IBattleCharacterInfo, IBattleEntityInfo
+    public class Character : SerializedScriptableObject, IBattleCharacterInfo, IBattleCharacterData
     {
         //New System
         [OdinSerialize, ShowInInspector]
@@ -19,14 +19,14 @@ namespace OrderElimination
         [SerializeField]
         private EntityType _entityType;
         [SerializeReference]
-        private AbilityBuilder[] _activeAbilitiesData;
+        private ActiveAbilityBuilder[] _activeAbilitiesData;
         [SerializeReference]
-        private AbilityBuilder[] _passiveAbilitiesData;
+        private ActiveAbilityBuilder[] _passiveAbilitiesData;
 
         public ReadOnlyBaseStats BaseStats => _baseBattleStats;
         //public EntityType EntityType => _entityType;
-        public AbilityBuilder[] GetActiveAbilities() => _activeAbilitiesData;
-        public AbilityBuilder[] GetPassiveAbilities() => _passiveAbilitiesData;
+        public ActiveAbilityBuilder[] GetActiveAbilities() => _activeAbilitiesData;
+        public ActiveAbilityBuilder[] GetPassiveAbilities() => _passiveAbilitiesData;
         //
 
         [SerializeField]

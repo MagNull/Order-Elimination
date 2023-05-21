@@ -68,12 +68,14 @@ namespace UIManagement.Elements
                 _currentEntityView.BattleEntity.Damaged -= OnDamaged;
                 _currentEntityView.BattleEntity.Healed -= OnHealed;
                 _currentEntityView.BattleEntity.EffectAdded -= OnEffectsUpdated;
+                _currentEntityView.BattleEntity.EffectRemoved -= OnEffectsUpdated;
                 _currentEntityView.BattleEntity.BattleStats.StatsChanged -= OnStatsChanged;
             }
             _currentEntityView = entity;
             _currentEntityView.BattleEntity.Damaged += OnDamaged;
             _currentEntityView.BattleEntity.Healed += OnHealed;
             _currentEntityView.BattleEntity.EffectAdded += OnEffectsUpdated;
+            _currentEntityView.BattleEntity.EffectRemoved += OnEffectsUpdated;
             _currentEntityView.BattleEntity.BattleStats.StatsChanged += OnStatsChanged;
             _avatar.sprite = _currentEntityView.BattleIcon;
             UpdateStats();
