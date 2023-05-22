@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -24,7 +23,7 @@ namespace OrderElimination.AbilitySystem
                 actionName = Action.GetType().Name;
             return $"Instruction <{actionName}>";
         }
-        private bool _hasAnyTargetGroups => AffectedCellGroups != null && AffectedCellGroups.Count > 0;
+        private bool _hasAnyTargetGroups => _affectedCellGroups != null && _affectedCellGroups.Count > 0;
         private bool _actionUtilizesCellGroups => Action is IUtilizeCellGroupsAction;
         private bool _instructionRequireCellGroups
         {
@@ -59,18 +58,22 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public bool AffectPreviousTarget { get; private set; } = false;
 
-        public List<ICommonCondition> CommonConditions { get; private set; } = new();
-        public List<ICellCondition> CellConditions { get; private set; } = new();
+        private List<ICommonCondition> _commonConditions { get; set; } = new();
+        private List<ICellCondition> _cellConditions { get; set; } = new();
 
         [TabGroup("Targeting")]
         [ShowInInspector, OdinSerialize]
-        public List<IEntityCondition> TargetConditions { get; private set; } = new();
+        private List<IEntityCondition> _targetConditions { get; set; } = new();
+        public IReadOnlyList<IEntityCondition> TargetConditions => _targetConditions;
 
         [TabGroup("Targeting")]
         [ShowIf("@" + nameof(_instructionRequireCellGroups))]
-        [ValidateInput("@_hasAnyTargetGroups || AffectPreviousTarget", "Instruction has no affected cell groups.")]
+        [ValidateInput(
+            "@" + nameof(_hasAnyTargetGroups) + " || " + nameof(AffectPreviousTarget), 
+            "Instruction has no affected cell groups.")]
         [ShowInInspector, OdinSerialize]
-        public HashSet<int> AffectedCellGroups { get; private set; } = new();
+        private HashSet<int> _affectedCellGroups { get; set; } = new();
+        public IEnumerable<int> AffectedCellGroups => _affectedCellGroups;
 
         [TabGroup("Execution")]
         [ShowInInspector, OdinSerialize]
@@ -135,7 +138,7 @@ namespace OrderElimination.AbilitySystem
             var battleContext = executionContext.BattleContext;
             var battleMap = battleContext.BattleMap;
             var caster = executionContext.AbilityCaster;
-            if (CommonConditions != null && !CommonConditions.All(c => c.IsConditionMet(battleContext, caster)))
+            if (_commonConditions != null && !_commonConditions.All(c => c.IsConditionMet(battleContext, caster)))
                 return;
             var groups = executionContext.TargetedCellGroups;
             if (Action.ActionRequires == ActionRequires.Nothing)
@@ -157,11 +160,11 @@ namespace OrderElimination.AbilitySystem
                 foreach (var pos in executionContext
                 .TargetedCellGroups
                 .ContainedCellGroups
-                .Where(g => AffectedCellGroups.Contains(g))
+                .Where(g => _affectedCellGroups.Contains(g))
                 .SelectMany(g => executionContext.TargetedCellGroups.GetGroup(g)))
                 {
-                    var cellConditionsMet = CellConditions == null
-                        || CellConditions.All(c => c.IsConditionMet(battleContext, caster, pos));
+                    var cellConditionsMet = _cellConditions == null
+                        || _cellConditions.All(c => c.IsConditionMet(battleContext, caster, pos));
                     if (Action.ActionRequires == ActionRequires.Cell)
                     {
                         await ExecuteNextInstructions(cellConditionsMet, null, pos);
@@ -171,8 +174,8 @@ namespace OrderElimination.AbilitySystem
                         var entitiesInCell = battleMap.GetContainedEntities(pos).ToArray();
                         foreach (var entity in entitiesInCell)
                         {
-                            var entityConditionsMet = TargetConditions == null
-                                || TargetConditions.All(c => c.IsConditionMet(battleContext, caster, entity));
+                            var entityConditionsMet = _targetConditions == null
+                                || _targetConditions.All(c => c.IsConditionMet(battleContext, caster, entity));
                             await ExecuteNextInstructions(cellConditionsMet && entityConditionsMet, entity, pos);
                         }
                     }
@@ -204,8 +207,8 @@ namespace OrderElimination.AbilitySystem
                 var executionEntity = entityIfNoPreviousTarget;
                 if (AffectPreviousTarget && executionContext.PreviousInstructionTarget != null)
                     executionEntity = executionContext.PreviousInstructionTarget;
-                if (TargetConditions != null
-                    && !TargetConditions.All(c => c.IsConditionMet(battleContext, caster, executionEntity)))
+                if (_targetConditions != null
+                    && !_targetConditions.All(c => c.IsConditionMet(battleContext, caster, executionEntity)))
                     return;
                 var result = await ExecuteCurrentInstruction(executionContext, caster, executionEntity, targetPositionOverride);
             }
