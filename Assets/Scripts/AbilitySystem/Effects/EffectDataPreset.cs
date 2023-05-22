@@ -1,13 +1,13 @@
-﻿using Sirenix.OdinInspector;
+﻿using OrderElimination.AbilitySystem.Animations;
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System.Collections.Generic;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
     [CreateAssetMenu(fileName = "EffectPreset", menuName = "AbilitySystem/Effect")]
-    public class EffectDataPreset : SerializedScriptableObject, IEffectData
+    public sealed class EffectDataPreset : SerializedScriptableObject, IEffectData
     {
         private void _validateFunctionality()
         {
@@ -21,6 +21,7 @@ namespace OrderElimination.AbilitySystem
                 OutcomingActionProcessor = null;
         }
 
+        #region Visuals
         [TitleGroup("Visuals", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 0)]
         [PropertyOrder(0), ShowInInspector]
         private string _name
@@ -50,6 +51,27 @@ namespace OrderElimination.AbilitySystem
         private EffectView _view = new EffectView();
         public IReadOnlyEffectView View => _view;
 
+
+        [TitleGroup("Visuals")]
+        [GUIColor(0, 1, 1)]
+        [ShowInInspector]
+        private IAbilityAnimation _animationOnActivation
+        {
+            get => _view.AnimationOnActivation;
+            set => _view.AnimationOnActivation = value;
+        }
+
+        [TitleGroup("Visuals")]
+        [GUIColor(0, 1, 1)]
+        [ShowInInspector]
+        private IAbilityAnimation _animationOnDeactivation
+        {
+            get => _view.AnimationOnDeactivation;
+            set => _view.AnimationOnDeactivation = value;
+        }
+        #endregion
+
+        #region Rules
         [TitleGroup("Rules", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 1)]
         [ShowInInspector, OdinSerialize]
         public EffectStackingPolicy StackingPolicy { get; protected set; }
@@ -66,83 +88,89 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public bool CanBeForceRemoved { get; protected set; }
 
-        #region Optionals
         [TitleGroup("Rules")]
         [OnValueChanged("@" + nameof(_validateFunctionality) + "()")]
         [ShowInInspector, OdinSerialize]
         public bool IsTemporary { get; protected set; }
 
         [TitleGroup("Rules")]
+        [ShowInInspector, OdinSerialize]
+        private HashSet<EffectTriggerAcceptor> _removeTriggers = new();
+        public IEnumerable<EffectTriggerAcceptor> RemoveTriggers => _removeTriggers;
+        #endregion
+
+        #region Functionality
+        [TitleGroup("Functionality", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 2)]
+        [TabGroup("Functionality/Tabs", "Basic")]
+        [GUIColor("@Color.green")]
+        [PropertyOrder(-1)]
+        [ShowInInspector, OdinSerialize]
+        public IEffectInstruction InstructionOnActivation { get; protected set; }
+
+        [TitleGroup("Functionality")]
+        [TabGroup("Functionality/Tabs", "Basic")]
+        [GUIColor(1, 0.35f, 0.35f)]
+        [ShowInInspector, OdinSerialize]
+        public IEffectInstruction InstructionOnDeactivation { get; protected set; }
+
+        [TitleGroup("Functionality")]
+        [TabGroup("Functionality/Tabs", "Basic")]
+        [GUIColor("@Color.cyan")]
         [ShowIf("@" + nameof(IsTemporary))]
         [ShowInInspector, OdinSerialize]
         public TemporaryEffectFunctionaity TemporaryEffectFunctionaity { get; protected set; }
 
-        [TitleGroup("Functionality", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 2)]
-        [ShowInInspector, OdinSerialize]
-        private IEffectInstruction _onActivationInstruction;
-
         [TitleGroup("Functionality")]
-        [ShowInInspector, OdinSerialize]
-        private IEffectInstruction _onDeactivationInstruction;
-
-        [TitleGroup("Functionality")]
+        [TabGroup("Functionality/Tabs", "Processing")]
         [GUIColor(0.35f, 0.98f, 0.88f)]
         [OnValueChanged("@" + nameof(_validateFunctionality) + "()")]
+        [PropertyOrder(0f)]
         [ShowInInspector, OdinSerialize]
         public bool IsProcessingIncomingAction { get; protected set; }
 
         [TitleGroup("Functionality")]
+        [TabGroup("Functionality/Tabs", "Processing")]
         [ShowIf("@" + nameof(IsProcessingIncomingAction))]
         [GUIColor(0.35f, 0.98f, 0.88f)]
         [ShowInInspector, OdinSerialize]
         public IActionProcessor IncomingActionProcessor { get; protected set; }
 
         [TitleGroup("Functionality")]
+        [TabGroup("Functionality/Tabs", "Processing")]
         [GUIColor(0.88f, 0.35f, 0.98f)]
         [OnValueChanged("@" + nameof(_validateFunctionality) + "()")]
         [ShowInInspector, OdinSerialize]
         public bool IsProcessingOutcomingAction { get; protected set; }
 
         [TitleGroup("Functionality")]
+        [TabGroup("Functionality/Tabs", "Processing")]
         [GUIColor(0.88f, 0.35f, 0.98f)]
         [ShowIf("@" + nameof(IsProcessingOutcomingAction))]
         [ShowInInspector, OdinSerialize]
         public IActionProcessor OutcomingActionProcessor { get; protected set; }
 
         [TitleGroup("Functionality")]
-        [GUIColor(0.98f, 0.88f, 0.35f)]
+        [TabGroup("Functionality/Tabs", "Conditional")]
+        [DictionaryDrawerSettings(KeyLabel = "Trigger", ValueLabel = "Instruction")]
+        //[GUIColor(0.98f, 0.88f, 0.35f)]
+        [GUIColor(1, 0.7f, 0.3f)]
+        [PropertyOrder(-0.5f)]
         [ShowInInspector, OdinSerialize]
-        private Dictionary<ITriggerSetupInfo, IEffectInstruction> _triggerInstructions = new();
-        public IReadOnlyDictionary<ITriggerSetupInfo, IEffectInstruction> TriggerInstructions 
+        private Dictionary<EffectTriggerAcceptor, IEffectInstruction> _triggerInstructions = new();
+        public IReadOnlyDictionary<EffectTriggerAcceptor, IEffectInstruction> TriggerInstructions 
             => _triggerInstructions;
         #endregion
 
-        public virtual void OnActivation(BattleEffect effect)
+        public void OnActivation(BattleEffect effect)
         {
             var targetView = effect.BattleContext.EntitiesBank.GetViewByEntity(effect.EffectHolder);
             Debug.Log($"Effect {effect.EffectData.View.Name} has been applied on {targetView.Name}." % Colorize.Orange);
-            _onActivationInstruction?.Execute(effect);
-            foreach (var triggerInstruction in _triggerInstructions)
-            {
-                var trigger = new BattleTrigger();
-                var triggerContext 
-                    = new TriggerActivationContext(triggerInstruction.Key, effect.BattleContext);
-
-                trigger.Triggered += OnTriggered;
-                trigger.Activate(triggerContext);
-
-                void OnTriggered(ITriggerFiredInfo firedInfo)
-                {
-                    triggerInstruction.Value.Execute(effect);
-                }
-            }
         }
 
         public void OnDeactivation(BattleEffect effect)
         {
             var targetView = effect.BattleContext.EntitiesBank.GetViewByEntity(effect.EffectHolder);
             Debug.Log($"Effect {effect.EffectData.View.Name} has been removed from {targetView.Name}." % Colorize.Orange);
-            _onDeactivationInstruction?.Execute(effect);
         }
     }
 }

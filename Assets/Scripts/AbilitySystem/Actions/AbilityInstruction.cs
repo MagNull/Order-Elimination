@@ -51,7 +51,7 @@ namespace OrderElimination.AbilitySystem
         [GUIColor(1f, 1, 0.2f)]
         [ValidateInput(
             "@!(Action is " + nameof(IUndoableBattleAction) + ")", 
-            nameof(AbilityInstruction) + " does not support Undoable actions! Use effects!")]
+            nameof(AbilityInstruction) + " does not support Undoable actions! Use with caution or utilize effects!")]
         [ShowInInspector, OdinSerialize]
         public IBattleAction Action { get; set; }
 

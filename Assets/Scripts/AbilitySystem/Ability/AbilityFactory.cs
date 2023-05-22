@@ -8,20 +8,19 @@ namespace OrderElimination.AbilitySystem
 {
     public static class AbilityFactory
     {
-        public static AbilityData CreateAbility(AbilityBuilder builderData)
+        public static ActiveAbilityData CreateAbility(ActiveAbilityBuilder builderData)
         {
-            var abilityData = new AbilityData();
+            var abilityData = new ActiveAbilityData();
 
             var view = new AbilityView(
                 builderData.CellGroupsHighlightColors, 
                 builderData.Name, 
                 builderData.Icon, 
-                builderData.Description,
-                builderData.PreviewVideo);
+                builderData.Description);
             var gameRepresentation = new AbilityGameRepresentation();
             gameRepresentation.CooldownTime = builderData.CooldownTime;
             var rules = new AbilityRules(builderData.AvailabilityConditions, builderData.TargetCellConditions, builderData.UsageCost);
-            IAbilityTargetingSystem targetingSystem = null;
+            IAbilityTargetingSystem targetingSystem;
             if (builderData.TargetingSystem == TargetingSystemType.NoTarget)
             {
                 var casterPattern = (CasterRelativePattern) builderData.DistributionPattern;
@@ -40,7 +39,7 @@ namespace OrderElimination.AbilitySystem
             }
             else 
                 throw new NotImplementedException();
-            var execution = new AbilityExecution(builderData.AbilityInstructions.ToArray());
+            var execution = new ActiveAbilityExecution(builderData.AbilityInstructions.ToArray());
 
             abilityData.View = view;
             abilityData.GameRepresentation = gameRepresentation;

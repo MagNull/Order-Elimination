@@ -39,7 +39,7 @@ public class BattleMapSelector : MonoBehaviour
 
     private HashSet<Vector2Int> _availableCellsForTargeting;
     private AbilitySystemActor _currentSelectedEntity;
-    private AbilityRunner _selectedAbility;
+    private ActiveAbilityRunner _selectedAbility;
 
     private bool _isEnabled = true;
 
@@ -108,7 +108,7 @@ public class BattleMapSelector : MonoBehaviour
                     //
                 }
             }
-            if (selectedEntity.EntityType == EntityType.MapObject)
+            if (selectedEntity.EntityType == EntityType.Structure)
             {
                 //
             }
@@ -138,7 +138,7 @@ public class BattleMapSelector : MonoBehaviour
         DeselectEntity();
         _currentSelectedEntity = entity;
         var view = _battleContext.EntitiesBank.GetViewByEntity(entity);
-        _abilityPanel.AssignAbilities(entity, entity.ActiveAbilities.ToArray(), new AbilityRunner[0]);
+        _abilityPanel.AssignAbilities(entity, entity.ActiveAbilities.ToArray(), new ActiveAbilityRunner[0]);
         _abilityPanel.AbilitySelected += OnAbilitySelect;
         _abilityPanel.AbilityDeselected += OnAbilityDeselect;
         foreach (var ability in entity.ActiveAbilities)
@@ -151,7 +151,10 @@ public class BattleMapSelector : MonoBehaviour
         _characterBattleStatsPanel.UpdateEntityInfo(view);
         _characterBattleStatsPanel.ShowInfo();
 
-        Debug.Log($"{entity.EntityType} {view.Name} selected. \nActionPoints: {string.Join(", ", entity.ActionPoints.Select(e => $"[{e.Key}:{e.Value}]"))}" % Colorize.ByColor(new Color(1, 0.5f, 0.5f)));
+        Debug.Log($"{entity.EntityType} {view.Name} selected." % Colorize.ByColor(new Color(1, 0.5f, 0.5f))
+            + $"\nActionPoints: {string.Join(", ", entity.ActionPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
+            + $"\t{entity.StatusHolder}"
+            + $"\tEffects({entity.Effects.Count()}): {string.Join(", ", entity.Effects.Select(e => $"[{e.EffectData.View.Name}]"))}");
     }
 
     private void DeselectEntity()
@@ -171,7 +174,7 @@ public class BattleMapSelector : MonoBehaviour
         _currentSelectedEntity = null;
     }
 
-    private void OnAbilitySelect(AbilityRunner abilityRunner)
+    private void OnAbilitySelect(ActiveAbilityRunner abilityRunner)
     {
         if (_selectedAbility != null)
             return;//throw new System.InvalidOperationException("Only one ability can be selected at once. Deselect first.");
@@ -199,7 +202,7 @@ public class BattleMapSelector : MonoBehaviour
         HighlightCells();
     }
 
-    private void OnAbilityDeselect(AbilityRunner abilityRunner)
+    private void OnAbilityDeselect(ActiveAbilityRunner abilityRunner)
     {
         if (_selectedAbility == null)
             return;//throw new System.InvalidOperationException("There is no ability selected.");
@@ -216,7 +219,7 @@ public class BattleMapSelector : MonoBehaviour
         _selectedAbility = null;
     }
 
-    private void OnAbilityUpdated(AbilityRunner abilityRunner)
+    private void OnAbilityUpdated(ActiveAbilityRunner abilityRunner)
     {
         _abilityPanel.UpdateAbilityButtonsAvailability();
     }

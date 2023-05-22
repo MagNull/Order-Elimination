@@ -48,17 +48,18 @@ namespace Assets.AbilitySystem.PrototypeHelpers
             }
             foreach (var pos in scenario.MapObjects.Keys)
             {
-                _entitiesFactory.CreateBattleObject(scenario.MapObjects[pos], BattleSide.NoSide, pos);
+                _entitiesFactory.CreateBattleStructure(scenario.MapObjects[pos], BattleSide.NoSide, pos);
             }
         }
 
-        private GameCharacter CreateGameEntity(IBattleEntityInfo entityInfo)
+        //TODO Extract GameCharacter creation outside battle
+        private GameCharacter CreateGameEntity(IBattleCharacterData entityInfo)
         {
             var activeAbilities = entityInfo.GetActiveAbilities().Select(a => AbilityFactory.CreateAbility(a)).ToArray();
             return new GameCharacter(entityInfo, activeAbilities, null);
         }
 
-        private IEnumerable<GameCharacter> CreateGameEntities(IEnumerable<IBattleEntityInfo> entityInfos)
+        private IEnumerable<GameCharacter> CreateGameEntities(IEnumerable<IBattleCharacterData> entityInfos)
             => entityInfos.Select(gameEntity => CreateGameEntity(gameEntity));
     }
 }

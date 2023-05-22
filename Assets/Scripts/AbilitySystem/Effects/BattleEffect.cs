@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrderElimination.AbilitySystem.Animations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -21,22 +22,19 @@ namespace OrderElimination.AbilitySystem
 
         public BattleEffect(
             IEffectData effectData,
-            IBattleContext battleContext,
-            AbilitySystemActor effectHolder, 
-            AbilitySystemActor effectApplier)
+            IBattleContext battleContext)
         {
             EffectData = effectData;
             BattleContext = battleContext;
-            EffectHolder = effectHolder;
-            EffectApplier = effectApplier;
         }
 
-        public bool Activate()
+        public bool Apply(AbilitySystemActor onEffectHolder, AbilitySystemActor byEffectApplier)
         {
-            if (IsActive) return false;
-            if (!EffectData.CanBeAppliedOn(EffectHolder))
+            if (!EffectData.CanBeAppliedOn(onEffectHolder))
                 return false;
-            if (EffectData.StackingPolicy == EffectStackingPolicy.OverrideOld 
+            EffectHolder = onEffectHolder;
+            EffectApplier = byEffectApplier;
+            if (EffectData.StackingPolicy == EffectStackingPolicy.OverrideOld
                 && EffectHolder.HasEffect(EffectData))
             {
                 var effectsToRemove = EffectHolder.Effects.Where(e => e.EffectData == EffectData).ToArray();
@@ -45,11 +43,27 @@ namespace OrderElimination.AbilitySystem
                     oldEffect.Deactivate();
                 }
             }
-            //foreach removeTrigger
-            //foreach trigger ... assign functionality
+            return true;
+        }
+
+        public void Activate()
+        {
+            if (IsActive)
+                throw new InvalidOperationException("Attempt to activate effect again.");
+            if (EffectHolder == null)
+                throw new InvalidOperationException("Effect hasn't been applied on entity yet.");
             
+            if (EffectData.View.AnimationOnActivation != null)
+            {
+                var cellGroups = CellGroupsContainer.Empty;
+                var animationContext = new AnimationPlayContext(
+                BattleContext.AnimationSceneContext, cellGroups, EffectApplier, EffectHolder);
+                EffectData.View.AnimationOnActivation.Play(animationContext);
+            }
+
             EffectData.OnActivation(this);
             IsActive = true;
+            EffectData.InstructionOnActivation?.Execute(this);
             if (EffectData.TemporaryEffectFunctionaity != null)
             {
                 LeftDuration = EffectData.TemporaryEffectFunctionaity.ApplyingDuration;
@@ -72,8 +86,48 @@ namespace OrderElimination.AbilitySystem
                     EffectData.TemporaryEffectFunctionaity.OnTimeOut(this);
                     Deactivate();
                 }
+            }//Very similar to Timer Trigger. Move to Triggers?
+            if (EffectData.TriggerInstructions != null)
+            {
+                foreach (var triggerInstruction in EffectData.TriggerInstructions)
+                {
+                    var trigger = triggerInstruction.Key.GetTrigger(BattleContext, EffectHolder, EffectApplier);
+                    trigger.Triggered += OnTriggered;
+                    Deactivated += OnEffectDeactivation;
+                    trigger.Activate();
+
+                    void OnTriggered(ITriggerFireInfo firedInfo)
+                    {
+                        triggerInstruction.Value.Execute(this);
+                    }
+
+                    void OnEffectDeactivation(BattleEffect effect)
+                    {
+                        trigger.Triggered -= OnTriggered;
+                        effect.Deactivated -= OnEffectDeactivation;
+                        trigger.Deactivate();
+                    }
+                }
             }
-            return true;
+            foreach (var triggerAcceptor in EffectData.RemoveTriggers)
+            {
+                var trigger = triggerAcceptor.GetTrigger(BattleContext, EffectHolder, EffectApplier);
+                trigger.Triggered += OnTriggered;
+                Deactivated += OnEffectDeactivation;
+                trigger.Activate();
+
+                void OnTriggered(ITriggerFireInfo fireInfo)
+                {
+                    Deactivate();
+                }
+
+                void OnEffectDeactivation(BattleEffect effect)
+                {
+                    trigger.Triggered -= OnTriggered;
+                    Deactivated -= OnEffectDeactivation;
+                    trigger.Deactivate();
+                }
+            }
         }
 
         public bool TryDeactivate()
@@ -86,6 +140,14 @@ namespace OrderElimination.AbilitySystem
 
         private void Deactivate()
         {
+            if (EffectData.View.AnimationOnDeactivation != null)
+            {
+                var cellGroups = CellGroupsContainer.Empty;
+                var animationContext = new AnimationPlayContext(
+                BattleContext.AnimationSceneContext, cellGroups, EffectApplier, EffectHolder);
+                EffectData.View.AnimationOnDeactivation.Play(animationContext);
+            }
+            EffectData.InstructionOnDeactivation?.Execute(this);
             EffectData.OnDeactivation(this);
             IsActive = false;
             Deactivated?.Invoke(this);

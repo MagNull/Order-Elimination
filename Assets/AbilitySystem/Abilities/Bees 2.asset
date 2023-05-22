@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11e68a79a6c38274991144477caed910, type: 3}
+  m_Script: {fileID: 11500000, guid: 9583860204f606743a70fc904f8fb5a9, type: 3}
   m_Name: Bees 2
   m_EditorClassIdentifier: 
   serializationData:
@@ -208,13 +208,13 @@ MonoBehaviour:
       Data: 
     - Name: AbilityInstructions
       Entry: 7
-      Data: 11|OrderElimination.AbilitySystem.ActionInstruction[], Assembly-CSharp
+      Data: 11|OrderElimination.AbilitySystem.AbilityInstruction[], Assembly-CSharp
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 12|OrderElimination.AbilitySystem.ActionInstruction, Assembly-CSharp
+      Data: 12|OrderElimination.AbilitySystem.AbilityInstruction, Assembly-CSharp
     - Name: Action
       Entry: 7
       Data: 13|OrderElimination.AbilitySystem.InflictDamageAction, Assembly-CSharp
@@ -272,7 +272,7 @@ MonoBehaviour:
     - Name: IgnoreEvasion
       Entry: 5
       Data: false
-    - Name: IgnoreAccuracyAffectionByObjects
+    - Name: ObjectsBetweenAffectAccuracy
       Entry: 5
       Data: false
     - Name: 
@@ -304,7 +304,7 @@ MonoBehaviour:
       Data: 20
     - Name: InstructionsOnActionSuccess
       Entry: 7
-      Data: 19|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.ActionInstruction,
+      Data: 19|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -390,6 +390,9 @@ MonoBehaviour:
     - Name: Inverse
       Entry: 5
       Data: false
+    - Name: RemapAnimationTime
+      Entry: 5
+      Data: false
     - Name: _minSpread
       Entry: 4
       Data: 0
@@ -402,6 +405,9 @@ MonoBehaviour:
     - Name: _speed
       Entry: 4
       Data: 30
+    - Name: _animationLoops
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 

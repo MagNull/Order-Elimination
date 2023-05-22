@@ -39,32 +39,32 @@ public class BattleEntitiesFactory : MonoBehaviour
         var battleEntity = new AbilitySystemActor(_battleContext, character.BattleStats, EntityType.Character, side, character.PosessedActiveAbilities.ToArray());
 
         var entityView = _objectResolver.Instantiate(_entityPrefab, _entitiesParent);
-        var icon = character.EntityData.BattleIcon;
-        var name = character.EntityData.Name;
+        var icon = character.CharacterData.BattleIcon;
+        var name = character.CharacterData.Name;
 
         _battleContext.BattleMap.PlaceEntity(battleEntity, position);
-        _entitiesBank.AddEntity(battleEntity, entityView);
+        _entitiesBank.AddCharacterEntity(battleEntity, entityView, character.CharacterData);
         entityView.Initialize(battleEntity, icon, name);
 
         return new CreatedEntity(entityView, battleEntity);
     }
 
-    public CreatedEntity CreateBattleObject(EnvironmentInfo objectInfo, BattleSide side, Vector2Int position)
+    public CreatedEntity CreateBattleStructure(IBattleStructureData structureData, BattleSide side, Vector2Int position)
     {
         if (!_battleContext.BattleMap.CellRangeBorders.Contains(position))
             throw new ArgumentOutOfRangeException("Position is not within map borders");
 
-        var stats = new ReadOnlyBaseStats(objectInfo.MaxHealth, 0, 0, 0, 0, 0);
+        var stats = new ReadOnlyBaseStats(structureData.MaxHealth, 0, 0, 0, 0, 0);
         var battleStats = new BattleStats(stats);
-        var activeAbilities = objectInfo.GetActiveAbilities().Select(a => AbilityFactory.CreateAbility(a)).ToArray();
-        var battleEntity = new AbilitySystemActor(_battleContext, battleStats, EntityType.MapObject, side, activeAbilities);
+        var activeAbilities = structureData.GetPossesedAbilities().Select(a => AbilityFactory.CreateAbility(a)).ToArray();
+        var battleEntity = new AbilitySystemActor(_battleContext, battleStats, EntityType.Structure, side, activeAbilities);
 
         var entityView = _objectResolver.Instantiate(_entityPrefab);
-        var icon = objectInfo.BattleIcon;
-        var name = objectInfo.Name;
+        var icon = structureData.BattleIcon;
+        var name = structureData.Name;
 
         _battleContext.BattleMap.PlaceEntity(battleEntity, position);
-        _entitiesBank.AddEntity(battleEntity, entityView);
+        _entitiesBank.AddStructureEntity(battleEntity, entityView, structureData);
         entityView.Initialize(battleEntity, icon, name);
 
         return new CreatedEntity(entityView, battleEntity);

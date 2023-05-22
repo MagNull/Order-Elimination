@@ -64,7 +64,7 @@ namespace OrderElimination.AbilitySystem
             var modifiedAction = this;
 
             if (actionMakerProcessing && context.ActionMaker != null)
-                modifiedAction = context.ActionMaker.ActionProcessor.ProcessOutcomingAction(modifiedAction);
+                modifiedAction = context.ActionMaker.ActionProcessor.ProcessOutcomingAction(modifiedAction, context);
 
             var modifiedAccuracy = modifiedAction.Accuracy;
             if (ObjectsBetweenAffectAccuracy && context.ActionMaker != null)
@@ -85,15 +85,13 @@ namespace OrderElimination.AbilitySystem
             }
             modifiedAction.Accuracy = modifiedAccuracy;
 
-            if (targetProcessing && context.ActionTarget != null)
-                modifiedAction = context.ActionTarget.ActionProcessor.ProcessIncomingAction(modifiedAction);
+            if (targetProcessing)
+                modifiedAction = context.ActionTarget.ActionProcessor.ProcessIncomingAction(modifiedAction, context);
             return modifiedAction;
         }
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
-            //Обработка объектов на линии огня (перенесена в ModifiedPerform)
-            //Проверка шанса попадания (точность)
             var accuracy = Accuracy.GetValue(useContext);
             var evasion = IgnoreEvasion || !useContext.ActionTarget.BattleStats.HasParameter(BattleStat.Evasion)
                 ? 0

@@ -19,7 +19,7 @@ namespace OrderElimination.AbilitySystem
 
         public bool IsConditionMet(IBattleContext context, AbilitySystemActor caster, Vector2Int targetPosition)
 		{
-			var casterPos = context.BattleMap.GetPosition(caster);
+			var casterPos = caster.Position;
 			var pattern = Pattern.GetAbsolutePositions(casterPos);
 
             return pattern.Contains(targetPosition);

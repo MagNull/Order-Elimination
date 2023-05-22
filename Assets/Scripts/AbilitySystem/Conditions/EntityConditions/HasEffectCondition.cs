@@ -1,0 +1,45 @@
+﻿using Sirenix.OdinInspector;
+using Sirenix.Serialization;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace OrderElimination.AbilitySystem.Conditions
+{
+    public class HasEffectCondition : IEntityCondition
+    {
+        public enum RequireType //TODO: Extract
+        {
+            All,
+            Any
+        }
+
+        [ShowInInspector, OdinSerialize]
+        public IEffectData[] RequiredEffects { get; private set; }
+
+        [ShowInInspector, OdinSerialize]
+        public RequireType EffectRequirement { get; private set; }
+
+        public IEntityCondition Clone()
+        {
+            var clone = new HasEffectCondition();
+            clone.RequiredEffects = RequiredEffects.ToArray();
+            clone.EffectRequirement = EffectRequirement;
+            return clone;
+        }
+
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor caster, AbilitySystemActor entity)
+        {
+            if (RequiredEffects == null) throw new InvalidOperationException();
+            if (entity == null) throw new ArgumentNullException();
+            return EffectRequirement switch
+            {
+                RequireType.All => RequiredEffects.All(effect => entity.HasEffect(effect)),
+                RequireType.Any => RequiredEffects.Any(effect => entity.HasEffect(effect)),
+                _ => throw new NotImplementedException(),
+            };
+        }
+    }
+}

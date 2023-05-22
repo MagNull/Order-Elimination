@@ -13,22 +13,53 @@ namespace Assets.AbilitySystem.PrototypeHelpers
         public AbilitySystemActor[] GetEntities();
         public BattleEntityView GetViewByEntity(AbilitySystemActor entity);
         public AbilitySystemActor GetEntityByView(BattleEntityView view);
+
+        public IBattleCharacterData GetBattleCharacterData(AbilitySystemActor characterEntity);
+        public IBattleStructureData GetBattleStructureData(AbilitySystemActor structureEntity);
     }
 
     public class BattleEntitiesBank : IReadOnlyEntitiesBank
     {
         private readonly Dictionary<AbilitySystemActor, BattleEntityView> _viewsByEntities = new ();
         private readonly Dictionary<BattleEntityView, AbilitySystemActor> _entitiesByViews = new ();
+        private readonly Dictionary<AbilitySystemActor, IBattleCharacterData> _basedCharacters = new();
+        private readonly Dictionary<AbilitySystemActor, IBattleStructureData> _basedStructures = new();
 
         public bool ContainsEntity(AbilitySystemActor entity) => _viewsByEntities.ContainsKey(entity);
         public AbilitySystemActor[] GetEntities() => _viewsByEntities.Keys.ToArray();
         public BattleEntityView GetViewByEntity(AbilitySystemActor entity) => _viewsByEntities[entity];
         public AbilitySystemActor GetEntityByView(BattleEntityView view) => _entitiesByViews[view];
 
-        public void AddEntity(AbilitySystemActor entity, BattleEntityView view)
+        public IBattleCharacterData GetBattleCharacterData(AbilitySystemActor characterEntity)
         {
+            if (characterEntity.EntityType != EntityType.Character)
+                throw new ArgumentException($"Passed entity is not a {EntityType.Character}.");
+            return _basedCharacters[characterEntity];
+        }
+
+        public IBattleStructureData GetBattleStructureData(AbilitySystemActor structureEntity)
+        {
+            if (structureEntity.EntityType != EntityType.Structure)
+                throw new ArgumentException($"Passed entity is not a {EntityType.Structure}.");
+            return _basedStructures[structureEntity];
+        }
+
+        public void AddCharacterEntity(AbilitySystemActor entity, BattleEntityView view, IBattleCharacterData basedData)
+        {
+            if (entity.EntityType != EntityType.Character)
+                throw new InvalidOperationException("Attempt to add non-character entity.");
             _viewsByEntities.Add(entity, view);
             _entitiesByViews.Add(view, entity);
+            _basedCharacters.Add(entity, basedData);
+        }
+
+        public void AddStructureEntity(AbilitySystemActor entity, BattleEntityView view, IBattleStructureData basedData)
+        {
+            if (entity.EntityType != EntityType.Structure)
+                throw new InvalidOperationException("Attempt to add non-structure entity.");
+            _viewsByEntities.Add(entity, view);
+            _entitiesByViews.Add(view, entity);
+            _basedStructures.Add(entity, basedData);
         }
 
         public void RemoveEntity(AbilitySystemActor entity)
@@ -36,6 +67,8 @@ namespace Assets.AbilitySystem.PrototypeHelpers
             var view = _viewsByEntities[entity];
             _viewsByEntities.Remove(entity);
             _entitiesByViews.Remove(view);
+            _basedCharacters.Remove(entity);
+            _basedStructures.Remove(entity);
         }
 
         public void Clear()

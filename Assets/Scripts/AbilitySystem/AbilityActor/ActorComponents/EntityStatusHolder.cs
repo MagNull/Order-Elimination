@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using static UnityEngine.EventSystems.EventTrigger;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -10,22 +12,23 @@ namespace OrderElimination.AbilitySystem
     {
         private Dictionary<BattleStatus, int> _statusEffects = new();
 
-        public IEnumerable<BattleStatus> ActiveStatuses => _statusEffects.Keys;
+        public IEnumerable<BattleStatus> ActiveStatuses => _statusEffects.Keys.Where(s => _statusEffects[s] > 0);
 
         public event Action<BattleStatus> StatusAppeared;
         public event Action<BattleStatus> StatusDisappeared;
 
-        public bool HasStatus(BattleStatus status) => _statusEffects.ContainsKey(status);
+        public bool HasStatus(BattleStatus status) => _statusEffects.ContainsKey(status) && _statusEffects[status] > 0;
 
         public void IncreaseStatus(BattleStatus status)
         {
             if (!_statusEffects.ContainsKey(status))
             {
-                _statusEffects.Add(status, 1);
-                StatusAppeared?.Invoke(status);
-                return;
+                _statusEffects.Add(status, 0);
             }
             _statusEffects[status]++;
+            if (_statusEffects[status] > 0)
+                StatusAppeared?.Invoke(status);
+
         }
 
         public bool DecreaseStatus(BattleStatus status)
@@ -34,7 +37,7 @@ namespace OrderElimination.AbilitySystem
             _statusEffects[status]--;
             if (_statusEffects[status] == 0)
             {
-                _statusEffects.Remove(status);
+                //_statusEffects.Remove(status);//Can we go minus? (if Remove() -> no)
                 StatusDisappeared?.Invoke(status);
             }
             return true;
@@ -47,12 +50,18 @@ namespace OrderElimination.AbilitySystem
             _statusEffects.Remove(status);
             StatusDisappeared?.Invoke(status);
         }
+
+        public override string ToString()
+        {
+            return $"Statuses[{_statusEffects.Count}]: {string.Join(", ", _statusEffects.Select(e => $"[{e.Key}:{e.Value}]"))}";
+        }
     }
 
     public enum BattleStatus
     {
         Invisible,
         CantMove,
+        //Flying - can move freely
         //ActiveAbilitiesDisabled
         //PassiveAbilitiesDisabled
         //Invulnerable// - Cant be damaged

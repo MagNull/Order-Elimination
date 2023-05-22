@@ -29,6 +29,34 @@ namespace OrderElimination.AbilitySystem
         public event Action<IBattleContext> NewTurnStarted;
         public event Action<IBattleContext> NewRoundBegan;
 
+        //TODO: Refactor
+        public static IBattleContext CurrentSceneContext { get; private set; }
+        //
+
+        [Inject]
+        private void Construct(IObjectResolver objectResolver)
+        {
+            BattleMap = objectResolver.Resolve<IBattleMap>();
+            EntitiesBank = objectResolver.Resolve<IReadOnlyEntitiesBank>();
+            _battleLoopManager = objectResolver.Resolve<BattleLoopManager>();
+            AnimationSceneContext = objectResolver.Resolve<AnimationSceneContext>();
+            _battleLoopManager.NewTurnStarted += OnNewTurn;
+            _battleLoopManager.NewRoundBegan += OnNewRound;
+
+            //TODO: Refactor
+            CurrentSceneContext = this;
+            //TODO: Refactor
+
+            void OnNewTurn()
+            {
+                NewTurnStarted?.Invoke(this);
+            }
+            void OnNewRound()
+            {
+                NewRoundBegan?.Invoke(this);
+            }
+        }
+
         public BattleRelationship GetRelationship(BattleSide askingSide, BattleSide relationSide)
         {
             var playerFriends = new HashSet<BattleSide>() { BattleSide.Player, BattleSide.Allies };
@@ -60,25 +88,6 @@ namespace OrderElimination.AbilitySystem
                     visibleEntities.Add(entity);
             }
             return visibleEntities;
-        }
-
-        [Inject]
-        private void Construct(IObjectResolver objectResolver)
-        {
-            BattleMap = objectResolver.Resolve<IBattleMap>();
-            EntitiesBank = objectResolver.Resolve<IReadOnlyEntitiesBank>();
-            _battleLoopManager = objectResolver.Resolve<BattleLoopManager>();
-            AnimationSceneContext = objectResolver.Resolve<AnimationSceneContext>();
-            _battleLoopManager.NewTurnStarted += OnNewTurn;
-            _battleLoopManager.NewRoundBegan += OnNewRound;
-            void OnNewTurn()
-            {
-                NewTurnStarted?.Invoke(this);
-            }
-            void OnNewRound()
-            {
-                NewRoundBegan?.Invoke(this);
-            }
         }
     }
 }

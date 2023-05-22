@@ -30,8 +30,8 @@ namespace UIManagement
         public bool AbilityCasing => _activeAbilityButtons.Any(ab => ab.AbilityView is {Casting: true} &&
                                                                      ab.AbilityView.AbilityInfo.ActionType !=
                                                                      ActionType.Movement);
-        public event Action<AbilityRunner> AbilitySelected;
-        public event Action<AbilityRunner> AbilityDeselected;
+        public event Action<ActiveAbilityRunner> AbilitySelected;
+        public event Action<ActiveAbilityRunner> AbilityDeselected;
 
         public IReadOnlyList<AbilityButton> AbilityButtons => _activeAbilityButtons;
 
@@ -67,8 +67,8 @@ namespace UIManagement
 
         public void AssignAbilities(
             AbilitySystemActor caster,
-            AbilityRunner[] activeAbilities,
-            AbilityRunner[] passiveAbilities)
+            ActiveAbilityRunner[] activeAbilities,
+            ActiveAbilityRunner[] passiveAbilities)
         {
             if (activeAbilities.Length > _activeAbilityButtons.Length
                 || passiveAbilities.Length > _passiveAbilityButtons.Length)
@@ -121,7 +121,7 @@ namespace UIManagement
             }
         }
 
-        private void OnAbilityUsed(AbilityRunner ability)
+        private void OnAbilityUsed(ActiveAbilityRunner ability)
         {
             foreach (var button in _activeAbilityButtons)
                 TryDeselectButton(button);
