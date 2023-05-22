@@ -4,6 +4,7 @@ using DG.Tweening;
 using OrderElimination.AbilitySystem;
 using OrderElimination.AbilitySystem.Animations;
 using OrderElimination.Infrastructure;
+using System;
 using UnityEngine;
 using VContainer;
 
@@ -17,7 +18,6 @@ public class BattleEntityView : MonoBehaviour
     private BattleMapView _battleMapView;
     private IParticlesPool _particlesPool;
     private TextEmitter _textEmitter;
-    private Vector3 _currentUnanimatedPosition;
     private float _damageCash;
     private float _healthCash;
     private float _armorCash;
@@ -26,6 +26,8 @@ public class BattleEntityView : MonoBehaviour
     public AbilitySystemActor BattleEntity { get; private set; }
     public string Name { get; private set; }
     public Sprite BattleIcon { get; private set; }
+
+    public static readonly Vector3 ErrorPosition = Vector3.zero;
 
     [Inject]
     public void Construct(BattleMapView battleMapView, IParticlesPool particlesPool, TextEmitter textEmitter)
@@ -39,15 +41,11 @@ public class BattleEntityView : MonoBehaviour
     {
         if (BattleEntity != null)
             return;
-        BattleEntity = entity;
-        if (!BattleEntity.DeployedBattleMap.Contains(BattleEntity))
-            throw new System.InvalidOperationException("Enemy hasn't been located on the map yet.");
-        var position = BattleEntity.Position;
-        _currentUnanimatedPosition = _battleMapView.GetCell(position.x, position.y).transform.position;
-        transform.position = _currentUnanimatedPosition;
-        _renderer.sprite = BattleIcon = battleIcon;
-        gameObject.name = Name = $"{entity.BattleSide} «{name}»";
 
+        BattleEntity = entity;
+
+        BattleEntity.DeployedBattleMap.PlacedOnMap -= OnPlaced;
+        BattleEntity.DeployedBattleMap.RemovedFromMap -= OnRemoved;
         BattleEntity.MovedFromTo -= OnMoved;
         BattleEntity.Damaged -= OnDamaged;
         BattleEntity.Healed -= OnHealed;
@@ -55,12 +53,28 @@ public class BattleEntityView : MonoBehaviour
         BattleEntity.StatusHolder.StatusAppeared -= OnStatusAppeared;
         BattleEntity.StatusHolder.StatusDisappeared -= OnStatusDisappeared;
 
+        BattleEntity.DeployedBattleMap.PlacedOnMap += OnPlaced;
+        BattleEntity.DeployedBattleMap.RemovedFromMap += OnRemoved;
         BattleEntity.MovedFromTo += OnMoved;
         BattleEntity.Damaged += OnDamaged;
         BattleEntity.Healed += OnHealed;
         BattleEntity.Died += OnDied;
         BattleEntity.StatusHolder.StatusAppeared += OnStatusAppeared;
         BattleEntity.StatusHolder.StatusDisappeared += OnStatusDisappeared;
+
+        _renderer.sprite = BattleIcon = battleIcon;
+        gameObject.name = Name = $"{entity.BattleSide} «{name}»";
+
+        if (BattleEntity.DeployedBattleMap.Contains(BattleEntity))
+        {
+            throw new InvalidOperationException("Initialize EntityView first and place entity on map after.");
+            var gamePosition = BattleEntity.Position;
+            transform.position = _battleMapView.GetCell(gamePosition.x, gamePosition.y).transform.position;
+        }
+        else
+        {
+            transform.position = ErrorPosition;
+        }
     }
 
     public async UniTask Shake(float shakeX = 0.5f, float shakeY = 0.5f, float duration = 1, int vibrations = 10)
@@ -69,10 +83,25 @@ public class BattleEntityView : MonoBehaviour
         await transform.DOShakePosition(duration, new Vector3(shakeX, shakeY, 0), vibrations).AsyncWaitForCompletion();
     }
 
+    private void OnPlaced(AbilitySystemActor entity)
+    {
+        if (BattleEntity != entity) return;
+        PlaceAtGamePosition(entity.Position);
+    }
+
+    private void OnRemoved(AbilitySystemActor entity)
+    {
+        transform.position = ErrorPosition;
+    }
+
     private void OnMoved(Vector2Int from, Vector2Int to)
     {
-        _currentUnanimatedPosition = _battleMapView.GetCell(to.x, to.y).transform.position;
-        transform.position = _currentUnanimatedPosition;
+        PlaceAtGamePosition(to);
+    }
+
+    private void PlaceAtGamePosition(Vector2Int position)
+    {
+        transform.position = _battleMapView.GetCell(position.x, position.y).transform.position;
     }
 
     private async void OnDamaged(DealtDamageInfo damageInfo)
@@ -95,9 +124,6 @@ public class BattleEntityView : MonoBehaviour
         var position = _floatingNumbersPosition.position;
         _textEmitter.Emit($"{damageValue}", Color.red, position, new Vector2(0.5f, 0.5f));
         Shake(shake, shake, 1, 10);
-        //Time.timeScale = 0.25f;
-        //await UniTask.Delay(2000, ignoreTimeScale: true);
-        //Time.timeScale = 1f;
     }
 
     private async void OnHealed(HealRecoveryInfo healInfo)
@@ -180,12 +206,32 @@ public class BattleEntityView : MonoBehaviour
     private void OnEnable()
     {
         if (BattleEntity != null)
+        {
+            BattleEntity.DeployedBattleMap.PlacedOnMap += OnPlaced;
+            BattleEntity.DeployedBattleMap.RemovedFromMap += OnRemoved;
             BattleEntity.MovedFromTo += OnMoved;
+            BattleEntity.Damaged += OnDamaged;
+            BattleEntity.Healed += OnHealed;
+            BattleEntity.Died += OnDied;
+            BattleEntity.StatusHolder.StatusAppeared += OnStatusAppeared;
+            BattleEntity.StatusHolder.StatusDisappeared += OnStatusDisappeared;
+        }
     }
 
     private void OnDisable()
     {
+        this.DOComplete();
         if (BattleEntity != null)
+        {
+            BattleEntity.DeployedBattleMap.PlacedOnMap -= OnPlaced;
+            BattleEntity.DeployedBattleMap.RemovedFromMap -= OnRemoved;
             BattleEntity.MovedFromTo -= OnMoved;
+            BattleEntity.Damaged -= OnDamaged;
+            BattleEntity.Healed -= OnHealed;
+            BattleEntity.Died -= OnDied;
+            BattleEntity.StatusHolder.StatusAppeared -= OnStatusAppeared;
+            BattleEntity.StatusHolder.StatusDisappeared -= OnStatusDisappeared;
+            //...
+        }
     }
 }

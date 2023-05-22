@@ -13,7 +13,8 @@ namespace OrderElimination.AbilitySystem
             BattleStats battleStats, 
             EntityType type, 
             BattleSide side, 
-            ActiveAbilityData[] activeAbilities)//equipment
+            ActiveAbilityData[] activeAbilities,
+            PassiveAbilityData[] passiveAbilities)//equipment
         {
             BattleContext = battleContext;
             _battleStats = battleStats;
@@ -25,10 +26,10 @@ namespace OrderElimination.AbilitySystem
             {
                 ActiveAbilities.Add(new ActiveAbilityRunner(ability));
             }
-            //foreach (var ability in passiveAbilities)
-            //{
-            //    PassiveAbilities.Add(new AbilityRunner(ability));
-            //}
+            foreach (var ability in passiveAbilities)
+            {
+                PassiveAbilities.Add(new PassiveAbilityRunner(ability));
+            }
             foreach (var p in EnumExtensions.GetValues<ActionPoint>())
             {
                 _actionPoints.Add(p, 0);
@@ -121,8 +122,8 @@ namespace OrderElimination.AbilitySystem
                 _actionPoints.Add(actionPoint, 0);
             _actionPoints[actionPoint] = value;
         }
-        public List<ActiveAbilityRunner> ActiveAbilities { get; } = new List<ActiveAbilityRunner>();
-        public List<ActiveAbilityRunner> PassiveAbilities { get; } = new List<ActiveAbilityRunner>();
+        public List<ActiveAbilityRunner> ActiveAbilities { get; } = new();
+        public List<PassiveAbilityRunner> PassiveAbilities { get; } = new();
         public bool IsBusy { get; set; } //Performs ability
         #endregion
 
@@ -134,7 +135,7 @@ namespace OrderElimination.AbilitySystem
         public event Action<BattleEffect> EffectAdded;
         public event Action<BattleEffect> EffectRemoved;
 
-        public bool ApplyEffect(IEffectData effect, AbilitySystemActor applier)
+        public bool ApplyEffect(IEffectData effect, AbilitySystemActor applier, out BattleEffect appliedEffect)
         {
             var battleEffect = new BattleEffect(effect, BattleContext);
             if (effect.CanBeAppliedOn(this) && battleEffect.Apply(this, applier))
@@ -143,8 +144,10 @@ namespace OrderElimination.AbilitySystem
                 battleEffect.Deactivated += OnEffectDeactivated;
                 EffectAdded?.Invoke(battleEffect);
                 battleEffect.Activate();
+                appliedEffect = battleEffect;
                 return true;
             }
+            appliedEffect = null;
             return false;
         }
 

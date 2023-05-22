@@ -24,7 +24,7 @@ public interface IBattleCharacterData//Rename to IBattleCharacterInfo
     public ReadOnlyBaseStats BaseStats { get; }
     //public EntityType EntityType { get; }
     public ActiveAbilityBuilder[] GetActiveAbilities();
-    public ActiveAbilityBuilder[] GetPassiveAbilities();
+    public PassiveAbilityBuilder[] GetPassiveAbilities();
 }
 
 public interface IBattleStructureData
@@ -32,5 +32,5 @@ public interface IBattleStructureData
     public string Name { get; }
     public Sprite BattleIcon { get; }
     public float MaxHealth { get; }
-    public ActiveAbilityBuilder[] GetPossesedAbilities();
+    public PassiveAbilityBuilder[] GetPossesedAbilities();
 }

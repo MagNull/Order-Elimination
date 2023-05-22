@@ -42,8 +42,8 @@ public class BattleLoopManager : MonoBehaviour
     {
         var scenario = _objectResolver.Resolve<CharactersMediator>().BattleScenario;
         _battleContext = _objectResolver.Resolve<IBattleContext>();
-        _objectResolver.Resolve<BattleInitializer>().InitiateBattle(scenario);
         IUndoableBattleAction.ClearAllActionsUndoCache();
+        _objectResolver.Resolve<BattleInitializer>().InitiateBattle(scenario);
         StartNewTurn(_battleContext.TurnPriority.GetStartingSide());
     }
 

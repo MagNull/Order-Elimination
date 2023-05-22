@@ -1,5 +1,6 @@
 ﻿using CharacterAbility;
 using Cysharp.Threading.Tasks;
+using OrderElimination.AbilitySystem;
 using Sirenix.OdinInspector;
 using System;
 using TMPro;
@@ -32,7 +33,7 @@ namespace UIManagement.Elements
             }
         }
         public CharacterAbility.AbilityView AbilityView { get; private set; }
-        public OrderElimination.AbilitySystem.ActiveAbilityRunner AbilityRunner { get; private set; }
+        public ActiveAbilityRunner AbilityRunner { get; private set; }
         public event Action<AbilityButton> Clicked;
         public event Action<AbilityButton> Holded;
 
@@ -50,7 +51,7 @@ namespace UIManagement.Elements
 
         private void OnHold(HoldableButton button, float holdTime) => Holded?.Invoke(this);
 
-        public void AssignAbiility(OrderElimination.AbilitySystem.ActiveAbilityRunner abilityRunner)
+        public void AssignAbiility(ActiveAbilityRunner abilityRunner)
         {
             RemoveAbility();
             AbilityRunner = abilityRunner;

@@ -53,11 +53,11 @@ namespace OrderElimination.AbilitySystem
             "@!(Action is " + nameof(IUndoableBattleAction) + ")", 
             nameof(AbilityInstruction) + " does not support Undoable actions! Use with caution or utilize effects!")]
         [ShowInInspector, OdinSerialize]
-        public IBattleAction Action { get; set; }
+        public IBattleAction Action { get; private set; }
 
         [TabGroup("Targeting")]
         [ShowInInspector, OdinSerialize]
-        public bool AffectPreviousTarget { get; set; } = false;
+        public bool AffectPreviousTarget { get; private set; } = false;
 
         public List<ICommonCondition> CommonConditions { get; private set; } = new();
         public List<ICellCondition> CellConditions { get; private set; } = new();
@@ -70,7 +70,7 @@ namespace OrderElimination.AbilitySystem
         [ShowIf("@" + nameof(_instructionRequireCellGroups))]
         [ValidateInput("@_hasAnyTargetGroups || AffectPreviousTarget", "Instruction has no affected cell groups.")]
         [ShowInInspector, OdinSerialize]
-        public HashSet<int> AffectedCellGroups { get; set; } = new();
+        public HashSet<int> AffectedCellGroups { get; private set; } = new();
 
         [TabGroup("Execution")]
         [ShowInInspector, OdinSerialize]
@@ -92,37 +92,40 @@ namespace OrderElimination.AbilitySystem
         [GUIColor(0.5f, 1f, 0.5f)]
         [TabGroup("Execution")]
         [ShowInInspector, OdinSerialize]
-        public List<AbilityInstruction> InstructionsOnActionSuccess { get; set; } = new();
+        private List<AbilityInstruction> _instructionsOnActionSuccess { get; set; } = new();
+        public IReadOnlyList<AbilityInstruction> InstructionsOnActionSuccess => _instructionsOnActionSuccess;
 
         [GUIColor(0.7f, 1f, 0.7f)]
         [TabGroup("Execution")]
         [ShowInInspector, OdinSerialize]
-        public bool SuccessInstructionsEveryRepeat { get; set; } = true;
+        public bool SuccessInstructionsEveryRepeat { get; private set; } = true;
 
         [GUIColor(1f, 0.5f, 0.5f)]
         [TabGroup("Execution")]
         [ShowInInspector, OdinSerialize]
-        public List<AbilityInstruction> InstructionsOnActionFail { get; set; } = new();
+        private List<AbilityInstruction> _instructionsOnActionFail { get; set; } = new();
+        public IReadOnlyList<AbilityInstruction> InstructionsOnActionFail => _instructionsOnActionFail;
 
         [GUIColor(1f, 0.7f, 0.7f)]
         [TabGroup("Execution")]
         [ShowInInspector, OdinSerialize]
-        public bool FailInstructionsEveryRepeat { get; set; } = true;
+        public bool FailInstructionsEveryRepeat { get; private set; } = true;
 
         [GUIColor(0.6f, 0.6f, 1f)]
         [TabGroup("Execution")]
         [ShowInInspector, OdinSerialize]
-        public List<AbilityInstruction> FollowingInstructions { get; set; } = new();
+        private List<AbilityInstruction> _followingInstructions { get; set; } = new();
+        public IReadOnlyList<AbilityInstruction> FollowingInstructions => _followingInstructions;
 
         [GUIColor(0.75f, 0.75f, 1f)]
         [TabGroup("Execution")]
         [ShowInInspector, OdinSerialize]
-        public bool FollowInstructionsEveryRepeat { get; set; } = true;
+        public bool FollowInstructionsEveryRepeat { get; private set; } = true;
 
         [TabGroup("Animations")]
         [GUIColor(0, 1, 1)]
         [ShowInInspector, OdinSerialize]
-        public IAbilityAnimation AnimationBeforeAction { get; set; }
+        public IAbilityAnimation AnimationBeforeAction { get; private set; }
         //AnimationAfterAction
         //AnimationBeforExecution
         //AnimationAfterExecution
@@ -184,12 +187,12 @@ namespace OrderElimination.AbilitySystem
                 {
                     success = await ExecuteCurrentInstruction(executionContext, caster, entity, pos);
                     if (success && !SuccessInstructionsEveryRepeat)
-                        await ExecuteRecursiveInSequence(InstructionsOnActionSuccess, newContext);
+                        await ExecuteRecursiveInSequence(_instructionsOnActionSuccess, newContext);
                     if (!success && !FailInstructionsEveryRepeat)
-                        await ExecuteRecursiveInSequence(InstructionsOnActionFail, newContext);
+                        await ExecuteRecursiveInSequence(_instructionsOnActionFail, newContext);
                 }
                 if (!FollowInstructionsEveryRepeat)
-                    await ExecuteRecursiveInSequence(FollowingInstructions, newContext);
+                    await ExecuteRecursiveInSequence(_followingInstructions, newContext);
             }
 
             async UniTask ExecuteConsideringPreviousTarget(
@@ -249,7 +252,7 @@ namespace OrderElimination.AbilitySystem
                     {
                         if (SuccessInstructionsEveryRepeat)
                         {
-                            await ExecuteRecursiveInSequence(InstructionsOnActionSuccess, executionContext);
+                            await ExecuteRecursiveInSequence(_instructionsOnActionSuccess, executionContext);
                         }
                         anyActionPerformed = true;
                     }
@@ -257,12 +260,12 @@ namespace OrderElimination.AbilitySystem
                     {
                         if (FailInstructionsEveryRepeat)
                         {
-                            await ExecuteRecursiveInSequence(InstructionsOnActionFail, executionContext);
+                            await ExecuteRecursiveInSequence(_instructionsOnActionFail, executionContext);
                         }
                     }
                     if (FollowInstructionsEveryRepeat)
                     {
-                        await ExecuteRecursiveInSequence(FollowingInstructions, executionContext);
+                        await ExecuteRecursiveInSequence(_followingInstructions, executionContext);
                     }
                 }
                 return anyActionPerformed;

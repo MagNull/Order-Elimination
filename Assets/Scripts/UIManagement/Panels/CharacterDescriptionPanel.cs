@@ -97,13 +97,13 @@ namespace UIManagement
                 throw new System.InvalidOperationException("Maximum of 4 active and 2 passive abilities is supported");
             for (var i = 0; i < activeAbilities.Length; i++)
             {
-                _activeAbilitiesButtons[i].AssignAbilityView(activeAbilities[i]);
+                //_activeAbilitiesButtons[i].AssignAbilityView(activeAbilities[i]);
                 _activeAbilitiesButtons[i].Clicked -= OnActiveAbilityButtonClicked;
                 _activeAbilitiesButtons[i].Clicked += OnActiveAbilityButtonClicked;
             }
             for (var j = 0; j < passiveAbilities.Length; j++)
             {
-                _passiveAbilitiesButtons[j].AssignAbilityView(passiveAbilities[j]);
+                //_passiveAbilitiesButtons[j].AssignAbilityView(passiveAbilities[j]);
                 _passiveAbilitiesButtons[j].Clicked -= OnPassiveAbilityButtonClicked;
                 _passiveAbilitiesButtons[j].Clicked += OnPassiveAbilityButtonClicked;
             }

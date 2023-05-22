@@ -54,6 +54,7 @@ namespace OrderElimination.AbilitySystem
                 var zonePositions = ZonePattern
                     .GetAbsolutePositions(entityPos)
                     .Where(p => map.CellRangeBorders.Contains(p));
+
                 var currentEntities = zonePositions
                     .SelectMany(pos => map.GetContainedEntities(pos))
                     .Where(entity => TriggeringEntities.IsAllowed(context, trackingEntity, entity))
@@ -62,6 +63,7 @@ namespace OrderElimination.AbilitySystem
                 var newEntities = currentEntities.Except(entitiesInZone).ToArray();
                 if (disappearedEntities.Length == 0 && newEntities.Length == 0)
                     return;
+
                 entitiesInZone = currentEntities.ToHashSet();
                 if (disappearedEntities.Length > 0 && TriggerOnExit
                     || newEntities.Length > 0 && TriggerOnEnter)

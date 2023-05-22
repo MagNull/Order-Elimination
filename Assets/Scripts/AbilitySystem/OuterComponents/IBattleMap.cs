@@ -12,7 +12,11 @@ namespace OrderElimination.AbilitySystem
     {
         public CellRangeBorders CellRangeBorders { get; }
 
+
         public event Action<Vector2Int> CellChanged;
+        public event Action<AbilitySystemActor> PlacedOnMap;
+        public event Action<AbilitySystemActor> RemovedFromMap;
+
         public bool Contains(AbilitySystemActor entity);
         public void PlaceEntity(AbilitySystemActor entity, Vector2Int position);//Check if entity is already on the map
         public void RemoveEntity(AbilitySystemActor entity);

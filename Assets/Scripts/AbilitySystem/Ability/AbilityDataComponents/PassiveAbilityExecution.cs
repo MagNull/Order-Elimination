@@ -8,13 +8,23 @@ namespace OrderElimination.AbilitySystem
 {
     public class PassiveAbilityExecution
     {
-        public ITriggerInstruction[] TriggerInstructions;
+        public ITriggerAbilityInstruction[] TriggerInstructions;
 
-        public void Activate(IBattleContext battleContext, AbilitySystemActor caster)
+        public PassiveAbilityExecution(ITriggerAbilityInstruction[] triggerInstructions)
         {
-            foreach (var instruction in TriggerInstructions)
+            TriggerInstructions = triggerInstructions;
+        }
+
+        public IBattleTrigger[] Activate(IBattleContext battleContext, AbilitySystemActor caster)
+        {
+            return TriggerInstructions.Select(i => i.Activate(battleContext, caster)).ToArray();
+        }
+
+        public void Dectivate(IBattleTrigger[] activationTriggers)
+        {
+            foreach (var trigger in activationTriggers)
             {
-                instruction.Activate(battleContext, caster);
+                trigger.Deactivate();
             }
         }
     }

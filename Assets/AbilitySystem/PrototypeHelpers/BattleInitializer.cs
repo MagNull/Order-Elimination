@@ -55,8 +55,9 @@ namespace Assets.AbilitySystem.PrototypeHelpers
         //TODO Extract GameCharacter creation outside battle
         private GameCharacter CreateGameEntity(IBattleCharacterData entityInfo)
         {
-            var activeAbilities = entityInfo.GetActiveAbilities().Select(a => AbilityFactory.CreateAbility(a)).ToArray();
-            return new GameCharacter(entityInfo, activeAbilities, null);
+            var activeAbilities = entityInfo.GetActiveAbilities().Select(a => AbilityFactory.CreateActiveAbility(a));
+            var passiveAbilities = entityInfo.GetPassiveAbilities().Select(a => AbilityFactory.CreatePassiveAbility(a));
+            return new GameCharacter(entityInfo, activeAbilities, passiveAbilities);
         }
 
         private IEnumerable<GameCharacter> CreateGameEntities(IEnumerable<IBattleCharacterData> entityInfos)

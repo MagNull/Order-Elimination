@@ -1,4 +1,5 @@
 using CharacterAbility;
+using OrderElimination.AbilitySystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,10 @@ namespace UIManagement.Elements
     [RequireComponent(typeof(HoldableButton))]
     public class SmallAbilityButton : MonoBehaviour
     {
+        private ActiveAbilityData _activeAbilityData;
+        private PassiveAbilityData _passiveAbilityData;
+        private PassiveAbilityRunner _passiveAbilityRunner;
+
         [SerializeField] Image _iconComponent;
         [SerializeField] HoldableButton _button;
 
@@ -25,7 +30,8 @@ namespace UIManagement.Elements
                     _iconComponent.sprite = value;
             }
         }
-        public AbilityInfo AbilityInfo { get; private set; }
+        public AbilityInfo AbilityInfo { get; private set; }//ToRemove
+
         public event Action<SmallAbilityButton> Clicked;
 
         private void Awake()
@@ -38,11 +44,26 @@ namespace UIManagement.Elements
 
         private void OnClick(HoldableButton button) => Clicked?.Invoke(this);
 
-        public void AssignAbilityView(AbilityInfo abilityInfo)
+        public void AssignActiveAbilityData(ActiveAbilityData abilityData)
         {
-            AbilityInfo = abilityInfo;
-            _iconComponent.sprite = AbilityInfo.Icon;
+            RemoveAbilityView();
+            _activeAbilityData = abilityData;
+            _iconComponent.sprite = abilityData.View.Icon;
             _button.interactable = true;
+        }
+
+        public void AssignPassiveAbilityData(PassiveAbilityData abilityData)
+        {
+            RemoveAbilityView();
+            _passiveAbilityData = abilityData;
+            _iconComponent.sprite = abilityData.View.Icon;
+            _button.interactable = true;
+        }
+
+        public void AssignPassiveAbilityRunner(PassiveAbilityRunner runner)
+        {
+            AssignPassiveAbilityData(runner.AbilityData);
+            _passiveAbilityRunner = runner;
         }
 
         public void RemoveAbilityView()
@@ -50,6 +71,9 @@ namespace UIManagement.Elements
             AbilityInfo = null;
             _iconComponent.sprite = NoIconAvailableSprite;
             _button.interactable = false;
+            _activeAbilityData = null;
+            _passiveAbilityData = null;
+            _passiveAbilityRunner = null;
         }
     } 
 }

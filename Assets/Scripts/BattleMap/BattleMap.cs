@@ -19,6 +19,8 @@ public class BattleMap : MonoBehaviour, IBattleMap
     public CellRangeBorders CellRangeBorders { get; private set; }
 
     public event Action<Vector2Int> CellChanged;
+    public event Action<AbilitySystemActor> PlacedOnMap;
+    public event Action<AbilitySystemActor> RemovedFromMap;
 
     public IEnumerable<AbilitySystemActor> GetContainedEntities(Vector2Int position)
     {
@@ -46,6 +48,7 @@ public class BattleMap : MonoBehaviour, IBattleMap
             //place first time
             _containedEntitiesPositions.Add(entity, position);
             GetCell(position.x, position.y).AddEntity(entity);
+            PlacedOnMap?.Invoke(entity);
             CellChanged?.Invoke(position);
         }
         else
@@ -67,6 +70,7 @@ public class BattleMap : MonoBehaviour, IBattleMap
         var position = _containedEntitiesPositions[entity];
         GetCell(position.x, position.y).RemoveEntity(entity);
         _containedEntitiesPositions.Remove(entity);
+        RemovedFromMap?.Invoke(entity);
         CellChanged?.Invoke(position);
     }
 

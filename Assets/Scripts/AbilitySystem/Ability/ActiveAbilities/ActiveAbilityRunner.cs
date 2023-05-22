@@ -21,7 +21,6 @@ namespace OrderElimination.AbilitySystem
 
         public event Action<ActiveAbilityRunner> AbilityCasted;
         public event Action<ActiveAbilityRunner> AbilityCastCompleted;
-        //event Unlocked
 
         public bool IsCastAvailable(IBattleContext battleContext, AbilitySystemActor caster)
         {
@@ -52,7 +51,7 @@ namespace OrderElimination.AbilitySystem
             AbilityData.TargetingSystem.TargetingCanceled += onCanceled;
             return true;
 
-            //Started casting. Now waiting until confirmation/cancellation.
+            //Started targeting. Now waiting until confirmation/cancellation.
 
             async void onConfirmed(IAbilityTargetingSystem targetingSystem)
             {

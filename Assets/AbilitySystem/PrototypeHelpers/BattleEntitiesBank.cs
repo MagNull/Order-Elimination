@@ -9,6 +9,8 @@ namespace Assets.AbilitySystem.PrototypeHelpers
 {
     public interface IReadOnlyEntitiesBank
     {
+        public event Action<IReadOnlyEntitiesBank> BankChanged;
+
         public bool ContainsEntity(AbilitySystemActor entity);
         public AbilitySystemActor[] GetEntities();
         public BattleEntityView GetViewByEntity(AbilitySystemActor entity);
@@ -24,6 +26,8 @@ namespace Assets.AbilitySystem.PrototypeHelpers
         private readonly Dictionary<BattleEntityView, AbilitySystemActor> _entitiesByViews = new ();
         private readonly Dictionary<AbilitySystemActor, IBattleCharacterData> _basedCharacters = new();
         private readonly Dictionary<AbilitySystemActor, IBattleStructureData> _basedStructures = new();
+
+        public event Action<IReadOnlyEntitiesBank> BankChanged;
 
         public bool ContainsEntity(AbilitySystemActor entity) => _viewsByEntities.ContainsKey(entity);
         public AbilitySystemActor[] GetEntities() => _viewsByEntities.Keys.ToArray();
@@ -51,6 +55,7 @@ namespace Assets.AbilitySystem.PrototypeHelpers
             _viewsByEntities.Add(entity, view);
             _entitiesByViews.Add(view, entity);
             _basedCharacters.Add(entity, basedData);
+            BankChanged?.Invoke(this);
         }
 
         public void AddStructureEntity(AbilitySystemActor entity, BattleEntityView view, IBattleStructureData basedData)
@@ -60,6 +65,7 @@ namespace Assets.AbilitySystem.PrototypeHelpers
             _viewsByEntities.Add(entity, view);
             _entitiesByViews.Add(view, entity);
             _basedStructures.Add(entity, basedData);
+            BankChanged?.Invoke(this);
         }
 
         public void RemoveEntity(AbilitySystemActor entity)
@@ -69,12 +75,16 @@ namespace Assets.AbilitySystem.PrototypeHelpers
             _entitiesByViews.Remove(view);
             _basedCharacters.Remove(entity);
             _basedStructures.Remove(entity);
+            BankChanged?.Invoke(this);
         }
 
         public void Clear()
         {
             _viewsByEntities.Clear();
             _entitiesByViews.Clear();
+            _basedCharacters.Clear();
+            _basedStructures.Clear();
+            BankChanged?.Invoke(this);
         }
     }
 }

@@ -138,7 +138,7 @@ public class BattleMapSelector : MonoBehaviour
         DeselectEntity();
         _currentSelectedEntity = entity;
         var view = _battleContext.EntitiesBank.GetViewByEntity(entity);
-        _abilityPanel.AssignAbilities(entity, entity.ActiveAbilities.ToArray(), new ActiveAbilityRunner[0]);
+        _abilityPanel.AssignAbilities(entity, entity.ActiveAbilities.ToArray(), entity.PassiveAbilities.ToArray());
         _abilityPanel.AbilitySelected += OnAbilitySelect;
         _abilityPanel.AbilityDeselected += OnAbilityDeselect;
         foreach (var ability in entity.ActiveAbilities)

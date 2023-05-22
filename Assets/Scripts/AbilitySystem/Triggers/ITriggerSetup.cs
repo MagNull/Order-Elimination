@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -58,11 +59,13 @@ namespace OrderElimination.AbilitySystem
                     throw new InvalidOperationException("Trigger hasn't been activated yet.");
                 }
                 Triggered?.Invoke(triggerFiredInfo);
+                //foreach (var handler in Triggered.GetInvocationList().Select(d => (Action<ITriggerFireInfo>)d))
+                //{
+                //    await handler.Invoke(triggerFiredInfo);
+                //}
             }
 
         }
-
-        //protected void OnActivation(BattleTrigger trigger);
     }
 
     public interface IContextTriggerSetup : ITriggerSetup
