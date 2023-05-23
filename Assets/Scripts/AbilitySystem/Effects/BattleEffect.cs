@@ -93,7 +93,7 @@ namespace OrderElimination.AbilitySystem
                 {
                     var trigger = triggerInstruction.Key.GetTrigger(BattleContext, EffectHolder, EffectApplier);
                     trigger.Triggered += OnTriggered;
-                    Deactivated += OnEffectDeactivation;
+                    Deactivated += DeactivateTriggersOnEffectDeactivation;
                     trigger.Activate();
 
                     void OnTriggered(ITriggerFireInfo firedInfo)
@@ -101,10 +101,10 @@ namespace OrderElimination.AbilitySystem
                         triggerInstruction.Value.Execute(this);
                     }
 
-                    void OnEffectDeactivation(BattleEffect effect)
+                    void DeactivateTriggersOnEffectDeactivation(BattleEffect effect)
                     {
                         trigger.Triggered -= OnTriggered;
-                        effect.Deactivated -= OnEffectDeactivation;
+                        Deactivated -= DeactivateTriggersOnEffectDeactivation;
                         trigger.Deactivate();
                     }
                 }
@@ -133,13 +133,13 @@ namespace OrderElimination.AbilitySystem
         public bool TryDeactivate()
         {
             if (!IsActive) return false;
-            if (!EffectData.CanBeForceRemoved) return false;
             Deactivate();
             return true;
         }
 
         private void Deactivate()
         {
+            if (!IsActive) throw new InvalidOperationException();
             if (EffectData.View.AnimationOnDeactivation != null)
             {
                 var cellGroups = CellGroupsContainer.Empty;

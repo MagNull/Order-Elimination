@@ -12,10 +12,13 @@ namespace OrderElimination.AbilitySystem
     {
         protected class BattleTrigger : IBattleTrigger//IDisposable
         {
+            private bool _hasBeenActivated = false;
+
             #region IBattleTrigger
             public bool IsActive { get; private set; }
 
             public event Action<ITriggerFireInfo> Triggered;
+            public event Action<IBattleTrigger> AllTriggerHandlersExecuted;
 
             public bool Activate()
             {
@@ -24,6 +27,7 @@ namespace OrderElimination.AbilitySystem
                 //
                 //OperatingSetup.OnActivation(this);
                 Activated?.Invoke(this);
+                _hasBeenActivated = true;
                 return true;
             }
 
@@ -33,6 +37,13 @@ namespace OrderElimination.AbilitySystem
                 IsActive = false;
                 //
                 Deactivated?.Invoke(this);
+                if (Triggered != null)
+                {
+                    foreach (var handler in Triggered.GetInvocationList().Cast<Action<ITriggerFireInfo>>())
+                    {
+                        Triggered -= handler;
+                    }
+                }
                 return true;
 
                 //Dispose
@@ -56,9 +67,12 @@ namespace OrderElimination.AbilitySystem
             {
                 if (!IsActive)
                 {
-                    throw new InvalidOperationException("Trigger hasn't been activated yet.");
+                    //TODO: Fix and remove "return". It shouldn't even call Trigger() after instance diactivation.
+                    return;
+                    throw new InvalidOperationException("Trigger hasn't been activated yet or has already been deactivated.");
                 }
                 Triggered?.Invoke(triggerFiredInfo);
+                AllTriggerHandlersExecuted?.Invoke(this);
                 //foreach (var handler in Triggered.GetInvocationList().Select(d => (Action<ITriggerFireInfo>)d))
                 //{
                 //    await handler.Invoke(triggerFiredInfo);

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace OrderElimination.BM
 {
-    [CreateAssetMenu( fileName = "Environment Object", menuName = "Map/Environment Object" )]
+    [CreateAssetMenu( fileName = "Environment Object", menuName = "Battle/Environment Object" )]
     public class EnvironmentInfo : SerializedScriptableObject, IBattleStructureData
     {
         [SerializeField]

@@ -13,14 +13,14 @@ namespace OrderElimination.AbilitySystem
         //public readonly EntityType EntityType;
 
         //=> CharacterData.GetActiveAbilities() + Equipment.Abilities
-        public readonly List<ActiveAbilityData> PosessedActiveAbilities = new(); 
-        public readonly List<PassiveAbilityData> PosessedPassiveAbilities = new(); 
+        public readonly List<IActiveAbilityData> PosessedActiveAbilities = new(); 
+        public readonly List<IPassiveAbilityData> PosessedPassiveAbilities = new(); 
         //Equipment
 
         public GameCharacter(
             IBattleCharacterData entityData, 
-            IEnumerable<ActiveAbilityData> activeAbilities,
-            IEnumerable<PassiveAbilityData> passiveAbilities)
+            IEnumerable<IActiveAbilityData> activeAbilities,
+            IEnumerable<IPassiveAbilityData> passiveAbilities)
         {
             CharacterData = entityData;
             BattleStats = new BattleStats(entityData.BaseStats);

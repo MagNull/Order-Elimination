@@ -12,9 +12,9 @@ namespace OrderElimination.AbilitySystem
             IBattleContext battleContext, 
             BattleStats battleStats, 
             EntityType type, 
-            BattleSide side, 
-            ActiveAbilityData[] activeAbilities,
-            PassiveAbilityData[] passiveAbilities)//equipment
+            BattleSide side,
+            IActiveAbilityData[] activeAbilities,
+            IPassiveAbilityData[] passiveAbilities)//equipment
         {
             BattleContext = battleContext;
             _battleStats = battleStats;
@@ -135,16 +135,16 @@ namespace OrderElimination.AbilitySystem
         public event Action<BattleEffect> EffectAdded;
         public event Action<BattleEffect> EffectRemoved;
 
-        public bool ApplyEffect(IEffectData effect, AbilitySystemActor applier, out BattleEffect appliedEffect)
+        public bool ApplyEffect(IEffectData effectData, AbilitySystemActor applier, out BattleEffect appliedEffect)
         {
-            var battleEffect = new BattleEffect(effect, BattleContext);
-            if (effect.CanBeAppliedOn(this) && battleEffect.Apply(this, applier))
+            var effect = new BattleEffect(effectData, BattleContext);
+            if (effectData.CanBeAppliedOn(this) && effect.Apply(this, applier))
             {
-                _effects.Add(battleEffect);
-                battleEffect.Deactivated += OnEffectDeactivated;
-                EffectAdded?.Invoke(battleEffect);
-                battleEffect.Activate();
-                appliedEffect = battleEffect;
+                _effects.Add(effect);
+                effect.Deactivated += OnEffectDeactivated;
+                EffectAdded?.Invoke(effect);
+                effect.Activate();
+                appliedEffect = effect;
                 return true;
             }
             appliedEffect = null;
@@ -153,12 +153,7 @@ namespace OrderElimination.AbilitySystem
 
         public bool RemoveEffect(BattleEffect effect)
         {
-            if (_effects.Contains(effect) && effect.TryDeactivate())
-            {
-                OnEffectDeactivated(effect);
-                return true;
-            }
-            return false;
+            return _effects.Contains(effect) && effect.TryDeactivate();
         }
 
         private void OnEffectDeactivated(BattleEffect effect)

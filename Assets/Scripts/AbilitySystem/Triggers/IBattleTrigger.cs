@@ -14,19 +14,11 @@ namespace OrderElimination.AbilitySystem
     {
         public bool IsActive { get; }
 
-        public event Action<ITriggerFireInfo> Triggered;
+        //TODO: Replace with Func<ITriggerFireInfo, UniTask>. Await on Invoke()
+        public event Action<ITriggerFireInfo> Triggered; 
+        public event Action<IBattleTrigger> AllTriggerHandlersExecuted;
 
         public bool Activate();
         public bool Deactivate(); //Dispose
-    }
-
-    public interface ITriggerFireInfo
-    {
-
-    }
-
-    public class EmptyTriggerFireInfo : ITriggerFireInfo
-    {
-
     }
 }

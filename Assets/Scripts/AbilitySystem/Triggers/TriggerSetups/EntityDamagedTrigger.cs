@@ -30,18 +30,21 @@ namespace OrderElimination.AbilitySystem
 
             void OnDamaged(DealtDamageInfo damageInfo)
             {
-                instance.Trigger(new EntityDamagedTriggerFireInfo(damageInfo));
+                instance.Trigger(new EntityDamagedTriggerFireInfo(instance, damageInfo));
             }
         }
     }
 
-    public readonly struct EntityDamagedTriggerFireInfo : ITriggerFireInfo
+    public class EntityDamagedTriggerFireInfo : ITriggerFireInfo
     {
-        public readonly DealtDamageInfo DamageInfo;
+        public IBattleTrigger Trigger { get; }
+        public DealtDamageInfo DamageInfo { get; }
 
-        public EntityDamagedTriggerFireInfo(DealtDamageInfo damageInfo)
+        public EntityDamagedTriggerFireInfo(IBattleTrigger trigger, DealtDamageInfo damageInfo)
         {
+            Trigger = trigger;
             DamageInfo = damageInfo;
         }
+
     }
 }

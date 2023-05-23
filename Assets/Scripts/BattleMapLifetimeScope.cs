@@ -49,6 +49,7 @@ namespace OrderElimination
             _charactersBank = new CharactersBank();
             builder.RegisterInstance(_charactersBank).AsSelf().AsImplementedInterfaces();
             builder.RegisterInstance(new BattleEntitiesBank()).AsSelf().AsImplementedInterfaces();
+            builder.Register<GameCharactersFactory>(Lifetime.Singleton);
 
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_battleCharacterFactory);
@@ -66,6 +67,8 @@ namespace OrderElimination
             builder.Register<BattleInitializer>(Lifetime.Singleton);
             builder.Register<AnimationSceneContext>(Lifetime.Singleton);
             builder.Register<BattleContext>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<EntitySpawner>(Lifetime.Singleton);
+
             builder.Register<OldAbilityFactory>(Lifetime.Singleton).WithParameter(_battleMapView);
             builder.Register<EnvironmentFactory>(Lifetime.Singleton).WithParameter(_environmentPrefab)
                 .WithParameter(_battleMapDirector.Map);

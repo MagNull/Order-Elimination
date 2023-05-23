@@ -36,7 +36,7 @@ MonoBehaviour:
       Data: 2
     - Name: TargetingSystem
       Entry: 3
-      Data: 2
+      Data: 1
     - Name: NecessaryTargets
       Entry: 3
       Data: 1
@@ -420,22 +420,12 @@ MonoBehaviour:
     - Name: AffectPreviousTarget
       Entry: 5
       Data: false
-    - Name: TargetConditions
-      Entry: 7
-      Data: 21|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
+    - Name: _targetConditions
+      Entry: 6
       Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: AffectedCellGroups
+    - Name: _affectedCellGroups
       Entry: 7
-      Data: 22|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
+      Data: 21|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
     - Name: 
       Entry: 12
       Data: 1
@@ -451,177 +441,20 @@ MonoBehaviour:
     - Name: RepeatNumber
       Entry: 3
       Data: 1
-    - Name: InstructionsOnActionSuccess
-      Entry: 7
-      Data: 23|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
+    - Name: _instructionsOnActionSuccess
+      Entry: 6
       Data: 
     - Name: SuccessInstructionsEveryRepeat
       Entry: 5
       Data: false
-    - Name: InstructionsOnActionFail
+    - Name: _instructionsOnActionFail
       Entry: 6
       Data: 
     - Name: FailInstructionsEveryRepeat
       Entry: 5
       Data: false
-    - Name: FollowingInstructions
-      Entry: 7
-      Data: 24|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 25|OrderElimination.AbilitySystem.AbilityInstruction, Assembly-CSharp
-    - Name: Action
-      Entry: 7
-      Data: 26|OrderElimination.AbilitySystem.MoveAction, Assembly-CSharp
-    - Name: DestinationCellGroup
-      Entry: 3
-      Data: 0
-    - Name: CellPriority
-      Entry: 3
-      Data: 5
-    - Name: UsePath
-      Entry: 5
-      Data: false
-    - Name: PathConditions
+    - Name: _followingInstructions
       Entry: 6
-      Data: 
-    - Name: ForceMove
-      Entry: 5
-      Data: false
-    - Name: MoveAnimation
-      Entry: 7
-      Data: 27|OrderElimination.AbilitySystem.Animations.WalkAnimation, Assembly-CSharp
-    - Name: MovingEntity
-      Entry: 3
-      Data: 0
-    - Name: UseExecutionGroupForOrigin
-      Entry: 5
-      Data: false
-    - Name: OriginTarget
-      Entry: 3
-      Data: 0
-    - Name: OriginCellGroup
-      Entry: 3
-      Data: 0
-    - Name: OriginCellOrder
-      Entry: 3
-      Data: 0
-    - Name: UseExecutionGroupForDestination
-      Entry: 5
-      Data: true
-    - Name: DestinationTarget
-      Entry: 3
-      Data: 0
-    - Name: DestinationCellGroup
-      Entry: 3
-      Data: 0
-    - Name: DestinationCellOrder
-      Entry: 3
-      Data: 5
-    - Name: MoveBy
-      Entry: 3
-      Data: 1
-    - Name: MoveEase
-      Entry: 3
-      Data: 0
-    - Name: _time
-      Entry: 4
-      Data: 1
-    - Name: _speed
-      Entry: 4
-      Data: 3
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: MoveFailedAnimation
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: AffectPreviousTarget
-      Entry: 5
-      Data: true
-    - Name: TargetConditions
-      Entry: 7
-      Data: 28|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: AffectedCellGroups
-      Entry: 7
-      Data: 29|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: RepeatNumber
-      Entry: 3
-      Data: 1
-    - Name: InstructionsOnActionSuccess
-      Entry: 7
-      Data: 30|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: SuccessInstructionsEveryRepeat
-      Entry: 5
-      Data: false
-    - Name: InstructionsOnActionFail
-      Entry: 6
-      Data: 
-    - Name: FailInstructionsEveryRepeat
-      Entry: 5
-      Data: false
-    - Name: FollowingInstructions
-      Entry: 6
-      Data: 
-    - Name: FollowInstructionsEveryRepeat
-      Entry: 5
-      Data: false
-    - Name: AnimationBeforeAction
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
       Data: 
     - Name: FollowInstructionsEveryRepeat
       Entry: 5

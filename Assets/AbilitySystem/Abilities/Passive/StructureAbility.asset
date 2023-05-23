@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9319bd4bf903aed40b9814da813b6e29, type: 3}
-  m_Name: AllyCloak
+  m_Name: StructureAbility
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 21300000, guid: 9ca0ac69f045a2846be009e78a806d33, type: 3}
+    - {fileID: 21300000, guid: 6bf533d8cb517684fa0428abd9a0f548, type: 3}
     - {fileID: 11400000, guid: d2e01cb15a1e2c54daeb49310cb10b26, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -25,7 +25,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: Name
       Entry: 1
-      Data: Ally Cloak
+      Data: Stru
     - Name: Icon
       Entry: 10
       Data: 0
@@ -52,13 +52,13 @@ MonoBehaviour:
       Data: 3|OrderElimination.Infrastructure.DistanceFromPointPattern, Assembly-CSharp
     - Name: UseSquareDistance
       Entry: 5
-      Data: true
+      Data: false
     - Name: _minDistanceFromOrigin
       Entry: 4
       Data: 0
     - Name: _maxDistanceFromOrigin
       Entry: 4
-      Data: 1
+      Data: 0.5
     - Name: 
       Entry: 8
       Data: 
@@ -175,7 +175,7 @@ MonoBehaviour:
       Data: 1
     - Name: $v
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 

@@ -43,7 +43,9 @@ public class BattleLoopManager : MonoBehaviour
         var scenario = _objectResolver.Resolve<CharactersMediator>().BattleScenario;
         _battleContext = _objectResolver.Resolve<IBattleContext>();
         IUndoableBattleAction.ClearAllActionsUndoCache();
-        _objectResolver.Resolve<BattleInitializer>().InitiateBattle(scenario);
+        var initializer = _objectResolver.Resolve<BattleInitializer>();
+        initializer.InitiateBattle();
+        initializer.StartScenario(scenario);
         StartNewTurn(_battleContext.TurnPriority.GetStartingSide());
     }
 
@@ -63,7 +65,8 @@ public class BattleLoopManager : MonoBehaviour
         }
         NewTurnStarted?.Invoke();
         Debug.Log($"Turn of {ActiveSide} started.");
-        if (!_entitiesBank.GetEntities().Any(e => e.BattleSide == ActiveSide))
+        if (_entitiesBank.GetEntities().Length > 0 
+            && !_entitiesBank.GetEntities().Any(e => e.BattleSide == ActiveSide))
             StartNextTurn();
 
         static void RestoreActionPoints(AbilitySystemActor entity, int pointsToRestore)

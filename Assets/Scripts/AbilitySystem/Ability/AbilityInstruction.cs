@@ -1,5 +1,4 @@
 ﻿using Cysharp.Threading.Tasks;
-using OrderElimination.AbilitySystem;
 using OrderElimination.AbilitySystem.Animations;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;

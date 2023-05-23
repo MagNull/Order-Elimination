@@ -37,60 +37,68 @@ namespace OrderElimination.AbilitySystem
                 trigger.Activated -= OnActivation;
                 trigger.Deactivated += OnDeactivation;
                 trigger.OperatingContext.BattleMap.CellChanged += OnCellChanged;
-                UpdateZone();
+                UpdateZone(instance, trackingEntity, ref entitiesInZone);
             }
 
             void OnDeactivation(ITriggerSetup.BattleTrigger trigger)
             {
+                if (trigger != instance) throw new ArgumentException();
                 trigger.Deactivated -= OnDeactivation;
                 trigger.OperatingContext.BattleMap.CellChanged -= OnCellChanged;
             }
 
-            void UpdateZone()
+            void OnCellChanged(Vector2Int cellPos)//Fires twice on entity move
             {
-                var entityPos = trackingEntity.Position;
-                var context = instance.OperatingContext;
-                var map = context.BattleMap;
-                var zonePositions = ZonePattern
-                    .GetAbsolutePositions(entityPos)
-                    .Where(p => map.CellRangeBorders.Contains(p));
-
-                var currentEntities = zonePositions
-                    .SelectMany(pos => map.GetContainedEntities(pos))
-                    .Where(entity => TriggeringEntities.IsAllowed(context, trackingEntity, entity))
-                    .ToArray();
-                var disappearedEntities = entitiesInZone.Except(currentEntities).ToArray();
-                var newEntities = currentEntities.Except(entitiesInZone).ToArray();
-                if (disappearedEntities.Length == 0 && newEntities.Length == 0)
-                    return;
-
-                entitiesInZone = currentEntities.ToHashSet();
-                if (disappearedEntities.Length > 0 && TriggerOnExit
-                    || newEntities.Length > 0 && TriggerOnEnter)
-                {
-                    Debug.Log("Trigger" % Colorize.Gold);
-                    instance.Trigger(new TriggerZoneFireInfo(currentEntities, newEntities, disappearedEntities));
-                }
+                UpdateZone(instance, trackingEntity, ref entitiesInZone);
             }
+        }
 
-            void OnCellChanged(Vector2Int cellPos)
+        private void UpdateZone(
+                ITriggerSetup.BattleTrigger triggerInstance,
+                AbilitySystemActor trackingEntity,
+                ref HashSet<AbilitySystemActor> entitiesInZone)
+        {
+            var entityPos = trackingEntity.Position;
+            var context = triggerInstance.OperatingContext;
+            var map = context.BattleMap;
+            var zonePositions = ZonePattern
+                .GetAbsolutePositions(entityPos)
+                .Where(p => map.CellRangeBorders.Contains(p));
+
+            var currentEntities = zonePositions
+                .SelectMany(pos => map.GetContainedEntities(pos))
+                .Where(entity => TriggeringEntities.IsAllowed(context, trackingEntity, entity))
+                .ToArray();
+            var disappearedEntities = entitiesInZone.Except(currentEntities).ToArray();
+            var newEntities = currentEntities.Except(entitiesInZone).ToArray();
+            if (disappearedEntities.Length == 0 && newEntities.Length == 0)
+                return;
+
+            entitiesInZone = currentEntities.ToHashSet();
+            if (disappearedEntities.Length > 0 && TriggerOnExit
+                || newEntities.Length > 0 && TriggerOnEnter)
             {
-                UpdateZone();
+                Debug.Log("Trigger" % Colorize.Gold);
+                triggerInstance.Trigger(new TriggerZoneFireInfo(
+                    triggerInstance, currentEntities, newEntities, disappearedEntities));
             }
         }
     }
 
-    public readonly struct TriggerZoneFireInfo : ITriggerFireInfo
+    public class TriggerZoneFireInfo : ITriggerFireInfo
     {
-        public readonly AbilitySystemActor[] CurrentEntities;
-        public readonly AbilitySystemActor[] NewEntities;
-        public readonly AbilitySystemActor[] DisappearedEntities;
+        public IBattleTrigger Trigger { get; }
+        public AbilitySystemActor[] CurrentEntities { get; }
+        public AbilitySystemActor[] NewEntities { get; }
+        public AbilitySystemActor[] DisappearedEntities { get; }
 
         public TriggerZoneFireInfo(
+            IBattleTrigger trigger,
             AbilitySystemActor[] currentEntities, 
             AbilitySystemActor[] newEntities, 
             AbilitySystemActor[] disappearedEntities)
         {
+            Trigger = trigger;
             CurrentEntities = currentEntities;
             NewEntities = newEntities;
             DisappearedEntities = disappearedEntities;

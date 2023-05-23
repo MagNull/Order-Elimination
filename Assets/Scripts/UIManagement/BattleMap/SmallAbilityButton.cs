@@ -11,8 +11,8 @@ namespace UIManagement.Elements
     [RequireComponent(typeof(HoldableButton))]
     public class SmallAbilityButton : MonoBehaviour
     {
-        private ActiveAbilityData _activeAbilityData;
-        private PassiveAbilityData _passiveAbilityData;
+        private IActiveAbilityData _activeAbilityData;
+        private IPassiveAbilityData _passiveAbilityData;
         private PassiveAbilityRunner _passiveAbilityRunner;
 
         [SerializeField] Image _iconComponent;
@@ -44,7 +44,7 @@ namespace UIManagement.Elements
 
         private void OnClick(HoldableButton button) => Clicked?.Invoke(this);
 
-        public void AssignActiveAbilityData(ActiveAbilityData abilityData)
+        public void AssignActiveAbilityData(IActiveAbilityData abilityData)
         {
             RemoveAbilityView();
             _activeAbilityData = abilityData;
@@ -52,7 +52,7 @@ namespace UIManagement.Elements
             _button.interactable = true;
         }
 
-        public void AssignPassiveAbilityData(PassiveAbilityData abilityData)
+        public void AssignPassiveAbilityData(IPassiveAbilityData abilityData)
         {
             RemoveAbilityView();
             _passiveAbilityData = abilityData;

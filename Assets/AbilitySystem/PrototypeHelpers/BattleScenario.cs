@@ -1,5 +1,6 @@
 ﻿using OrderElimination.BM;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,68 +12,65 @@ namespace OrderElimination
     [CreateAssetMenu(fileName = "Battle Scenario", menuName = "Battle/Battle Scenario")]
     public class BattleScenario : SerializedScriptableObject
     {
-        [ShowInInspector, PropertyOrder(100)]
-        public IReadOnlyList<Vector2Int> AlliesSpawnPositions => _alliesSpawnPositions;
-        [ShowInInspector, PropertyOrder(101)]
-        public IReadOnlyList<Vector2Int> EnemySpawnPositions => _enemySpawnPositions;
-        [ShowInInspector, PropertyOrder(102)]
-        public IReadOnlyDictionary<Vector2Int, EnvironmentInfo> MapObjects => _environmentObjects;
+        #region OdinVisuals
+        private static Color GetSpawnTypeColor(SpawnType type)
+        {
+            return type switch
+            {
+                SpawnType.Allies => Color.green,
+                SpawnType.Enemies => Color.red,
+                _ => throw new NotImplementedException(),
+            };
+        }
+        #endregion
 
-        [SerializeField, HideInInspector]
-        private HashSet<Vector2Int> _occupiedSpawnPositions = new HashSet<Vector2Int>();
-        [SerializeField, HideInInspector]
-        private List<Vector2Int> _alliesSpawnPositions = new List<Vector2Int>();
-        [SerializeField, HideInInspector]
-        private List<Vector2Int> _enemySpawnPositions = new List<Vector2Int>();
-        [SerializeField, HideInInspector]
-        private Dictionary<Vector2Int, EnvironmentInfo> _environmentObjects = new Dictionary<Vector2Int, EnvironmentInfo>();
+        [GUIColor("@BattleScenario.GetSpawnTypeColor($value)")]
+        public enum SpawnType
+        {
+            Allies,
+            Enemies,
+            //Both
+        }
 
         [TitleGroup("Editing character spawns", BoldTitle = true, Alignment = TitleAlignments.Centered)]
-        [Button(DrawResult = false, Style = ButtonStyle.FoldoutButton, Expanded = true)]
-        public bool AddAllySpawn(Vector2Int position)
-        {
-            if (_occupiedSpawnPositions.Contains(position))
-                return false;
-            _alliesSpawnPositions.Add(position);
-            _occupiedSpawnPositions.Add(position);
-            return true;
-        }
+        [DictionaryDrawerSettings(KeyLabel = "Position", ValueLabel = "Spawn Type")]
+        [ShowInInspector, OdinSerialize]
+        private Dictionary<Vector2Int, SpawnType> _entitiesSpawns = new();
 
-        [Button(DrawResult = false, Style = ButtonStyle.FoldoutButton, Expanded = true)]
-        public bool AddEnemySpawn(Vector2Int position)
-        {
-            if (_occupiedSpawnPositions.Contains(position))
-                return false;
-            _enemySpawnPositions.Add(position);
-            _occupiedSpawnPositions.Add(position);
-            return true;
-        }
+        [TitleGroup("Editing structures spawns", BoldTitle = true, Alignment = TitleAlignments.Centered)]
+        [DictionaryDrawerSettings(KeyLabel = "Position", ValueLabel = "Structure")]
+        [ShowInInspector, OdinSerialize]
+        private Dictionary<Vector2Int, EnvironmentInfo> _structureSpawns = new();
 
-        [Button(DrawResult = false, Style = ButtonStyle.FoldoutButton, Expanded = true)]
-        public bool RemoveCharacterSpawn(Vector2Int position)
+        public IReadOnlyDictionary<Vector2Int, EnvironmentInfo> StructureSpawns => _structureSpawns;
+
+        public Vector2Int[] GetAlliesSpawnPositions()
         {
-            if (_alliesSpawnPositions.Remove(position) || _enemySpawnPositions.Remove(position))
+            return _entitiesSpawns.Keys.Where(p => IsRequiredSpawn(p)).ToArray();
+
+            bool IsRequiredSpawn(Vector2Int position)
             {
-                _occupiedSpawnPositions.Remove(position);
-                return true;
+                return _entitiesSpawns[position] switch
+                {
+                    SpawnType.Allies => true,
+                    SpawnType.Enemies => false,
+                    _ => throw new NotImplementedException(),
+                };
             }
-            return false;
         }
-
-        [TitleGroup("Editing object spawns", BoldTitle = true, Alignment = TitleAlignments.Centered)]
-        [Button(DrawResult = false, Style = ButtonStyle.Box, Expanded = true)]
-        public bool AddEnvironmentObject(Vector2Int position, EnvironmentInfo objectInfo)
+        public Vector2Int[] GetEnemySpawnPositions()
         {
-            if (_environmentObjects.ContainsKey(position))
-                return false;
-            _environmentObjects.Add(position, objectInfo);
-            return true;
-        }
+            return _entitiesSpawns.Keys.Where(p => IsRequiredSpawn(p)).ToArray();
 
-        [Button(DrawResult = false, Style = ButtonStyle.Box, Expanded = true)]
-        public bool RemoveEnvironmentObject(Vector2Int position)
-        {
-            return _environmentObjects.Remove(position);
+            bool IsRequiredSpawn(Vector2Int position)
+            {
+                return _entitiesSpawns[position] switch
+                {
+                    SpawnType.Allies => false,
+                    SpawnType.Enemies => true,
+                    _ => throw new NotImplementedException(),
+                };
+            }
         }
     }
 }

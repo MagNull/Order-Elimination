@@ -10,6 +10,7 @@ namespace OrderElimination.AbilitySystem
     public interface IBattleContext
     {
         public AnimationSceneContext AnimationSceneContext { get; }
+        public EntitySpawner EntitySpawner { get; }
         public IBattleMap BattleMap { get; }
         public IHitCalculation HitCalculation { get; }
         public ITurnPriority TurnPriority { get; }

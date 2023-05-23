@@ -19,7 +19,9 @@ public class BattleEntitiesFactory : MonoBehaviour
     [SerializeField]
     private BattleEntityView _entityPrefab;
     [SerializeField]
-    private Transform _entitiesParent;
+    private Transform _charactersParent;
+    [SerializeField]
+    private Transform _structuresParent;
     private IBattleContext _battleContext;
     private BattleEntitiesBank _entitiesBank;
     private IObjectResolver _objectResolver;
@@ -32,7 +34,7 @@ public class BattleEntitiesFactory : MonoBehaviour
         _entitiesBank = objectResolver.Resolve<BattleEntitiesBank>();
     }
 
-    public CreatedEntity CreateBattleCharacter(GameCharacter character, BattleSide side, Vector2Int position)
+    public CreatedBattleEntity CreateBattleCharacter(GameCharacter character, BattleSide side, Vector2Int position)
     {
         if (!_battleContext.BattleMap.CellRangeBorders.Contains(position))
             throw new ArgumentOutOfRangeException("Position is not within map borders");
@@ -44,18 +46,18 @@ public class BattleEntitiesFactory : MonoBehaviour
             character.PosessedActiveAbilities.ToArray(),
             character.PosessedPassiveAbilities.ToArray());
 
-        var entityView = _objectResolver.Instantiate(_entityPrefab, _entitiesParent);
+        var entityView = _objectResolver.Instantiate(_entityPrefab, _charactersParent);
         entityView.Initialize(battleEntity, character.CharacterData.BattleIcon, character.CharacterData.Name);
 
         _entitiesBank.AddCharacterEntity(battleEntity, entityView, character.CharacterData);
 
         _battleContext.BattleMap.PlaceEntity(battleEntity, position);
-        battleEntity.PassiveAbilities.ForEach(a => a.Activate(_battleContext, battleEntity));
+        battleEntity.PassiveAbilities.ForEach(a => a.Activate(_battleContext, battleEntity));//
 
-        return new CreatedEntity(entityView, battleEntity);
+        return new CreatedBattleEntity(entityView, battleEntity);
     }
 
-    public CreatedEntity CreateBattleStructure(IBattleStructureData structureData, BattleSide side, Vector2Int position)
+    public CreatedBattleEntity CreateBattleStructure(IBattleStructureData structureData, BattleSide side, Vector2Int position)
     {
         if (!_battleContext.BattleMap.CellRangeBorders.Contains(position))
             throw new ArgumentOutOfRangeException("Position is not within map borders");
@@ -71,7 +73,7 @@ public class BattleEntitiesFactory : MonoBehaviour
             new ActiveAbilityData[0],
             passiveAbilities);
 
-        var entityView = _objectResolver.Instantiate(_entityPrefab);
+        var entityView = _objectResolver.Instantiate(_entityPrefab, _structuresParent);
         entityView.Initialize(battleEntity, structureData.BattleIcon, structureData.Name);
 
         _entitiesBank.AddStructureEntity(battleEntity, entityView, structureData);
@@ -79,7 +81,7 @@ public class BattleEntitiesFactory : MonoBehaviour
         _battleContext.BattleMap.PlaceEntity(battleEntity, position);
         battleEntity.PassiveAbilities.ForEach(a => a.Activate(_battleContext, battleEntity));
 
-        return new CreatedEntity(entityView, battleEntity);
+        return new CreatedBattleEntity(entityView, battleEntity);
     }
 
     //TODO Move to entity.Dispose()
@@ -97,12 +99,12 @@ public class BattleEntitiesFactory : MonoBehaviour
     }
 }
 
-public readonly struct CreatedEntity
+public readonly struct CreatedBattleEntity
 {
     public readonly BattleEntityView View;
     public readonly AbilitySystemActor Model;
 
-    public CreatedEntity(BattleEntityView view, AbilitySystemActor model)
+    public CreatedBattleEntity(BattleEntityView view, AbilitySystemActor model)
     {
         View = view;
         Model = model;

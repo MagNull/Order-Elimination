@@ -9,8 +9,7 @@ namespace OrderElimination.AbilitySystem
 {
     public class ActiveAbilityExecution
     {
-        public AbilityInstruction[] ActionInstructions; //Actions by CellGroups
-        //Actions by triggers
+        public AbilityInstruction[] ActionInstructions; 
 
         public ActiveAbilityExecution(AbilityInstruction[] actionInstructions)
         {

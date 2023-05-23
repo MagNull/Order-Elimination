@@ -17,6 +17,7 @@ namespace OrderElimination.AbilitySystem
         private IHitCalculation _hitCalculation = new StandartHitCalculation();
 
         public AnimationSceneContext AnimationSceneContext { get; private set; }
+        public EntitySpawner EntitySpawner { get; private set; }
         public int CurrentRound => _battleLoopManager.CurrentRound;
         public IBattleMap BattleMap { get; private set; }
         public IHitCalculation HitCalculation => _hitCalculation;
@@ -40,6 +41,7 @@ namespace OrderElimination.AbilitySystem
             EntitiesBank = objectResolver.Resolve<IReadOnlyEntitiesBank>();
             _battleLoopManager = objectResolver.Resolve<BattleLoopManager>();
             AnimationSceneContext = objectResolver.Resolve<AnimationSceneContext>();
+            EntitySpawner = objectResolver.Resolve<EntitySpawner>();
             _battleLoopManager.NewTurnStarted += OnNewTurn;
             _battleLoopManager.NewRoundBegan += OnNewRound;
 

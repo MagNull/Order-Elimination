@@ -79,7 +79,8 @@ MonoBehaviour:
   _name: Tower
   _spriteView: {fileID: 21300000, guid: 707ad8c92df560d4995e03eee05a2ecc, type: 3}
   _maxHealth: 1000
-  _posessedAbilities: []
+  _posessedAbilities:
+  - {fileID: 11400000, guid: f6800521c644795469760962fb32601c, type: 2}
   _isWalkable: 1
   _battleStats:
     _health: 0

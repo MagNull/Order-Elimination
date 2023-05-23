@@ -53,7 +53,7 @@ namespace OrderElimination.AbilitySystem
 
             void Trigger()
             {
-                trigger.Trigger(new TimerTriggerFireInfo(passedRounds));
+                trigger.Trigger(new TimerTriggerFireInfo(trigger, passedRounds));
             }
 
             void OnDeactivation(ITriggerSetup.BattleTrigger trigger)
@@ -64,12 +64,14 @@ namespace OrderElimination.AbilitySystem
         }
     }
 
-    public readonly struct TimerTriggerFireInfo : ITriggerFireInfo
+    public class TimerTriggerFireInfo : ITriggerFireInfo
     {
-        public readonly int PassedIntervals;
+        public IBattleTrigger Trigger { get; }
+        public int PassedIntervals { get; }
 
-        public TimerTriggerFireInfo(int passedIntervals)
+        public TimerTriggerFireInfo(IBattleTrigger trigger, int passedIntervals)
         {
+            Trigger = trigger;
             PassedIntervals = passedIntervals;
         }
     }

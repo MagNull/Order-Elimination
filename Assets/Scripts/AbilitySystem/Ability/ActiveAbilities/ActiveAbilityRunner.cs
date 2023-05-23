@@ -9,12 +9,12 @@ namespace OrderElimination.AbilitySystem
 {
     public class ActiveAbilityRunner
     {
-        public ActiveAbilityRunner(ActiveAbilityData abilityData)
+        public ActiveAbilityRunner(IActiveAbilityData abilityData)
         {
             AbilityData = abilityData;
         }
 
-        public ActiveAbilityData AbilityData { get; private set; }
+        public IActiveAbilityData AbilityData { get; private set; }
 
         public bool IsRunning { get; private set; } = false;
         public int Cooldown { get; private set; }

@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace OrderElimination
 {
-    [CreateAssetMenu(fileName = "CharacterInfo", menuName = "Character")]
+    [CreateAssetMenu(fileName = "CharacterInfo", menuName = "Battle/Character")]
     public class Character : SerializedScriptableObject, IBattleCharacterInfo, IBattleCharacterData
     {
         //New System
