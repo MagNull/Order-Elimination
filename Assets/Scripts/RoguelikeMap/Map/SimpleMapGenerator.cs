@@ -1,64 +1,60 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using OrderElimination;
+using RoguelikeMap.Points;
 using UnityEngine;
-using Object = UnityEngine.Object;
+using VContainer;
+using VContainer.Unity;
 
-namespace OrderElimination
+namespace RoguelikeMap.Map
 {
     public class SimpleMapGenerator : IMapGenerator
     {
-        private readonly int _numberOfMap;
-        private Transform _parent;
+        private const int NumberOfMap = 0;
+        private readonly Transform _parent;
+        private readonly GameObject _pointPrefab;
+        private readonly LineRenderer _pathPrefab;
+        private readonly IObjectResolver _resolver;
 
-        public SimpleMapGenerator(int numberOfMap, Transform parent)
+        [Inject]
+        public SimpleMapGenerator(GameObject pointPrefab, Transform pointsParent,
+            LineRenderer pathPrefab, IObjectResolver resolver)
         {
-            _numberOfMap = numberOfMap;
-            _parent = parent;
+            _pointPrefab = pointPrefab;
+            _parent = pointsParent;
+            _pathPrefab = pathPrefab;
+            _resolver = resolver;
         }
 
-        public List<Point> GenerateMap()
+        public IEnumerable<Point> GenerateMap()
         {
-            // Load PointInfo
-            var pointsList = new List<Point>();
-            var path = "Points\\" + _numberOfMap;
+            var path = "Points\\" + NumberOfMap;
             var pointsInfo = Resources.LoadAll<PointInfo>(path);
-            
-            // Generate points
-            for (var i = 0; i < pointsInfo.Length; i++)
-            {
-                var info = pointsInfo[i];
-                var point = CreatePoint(info);
-                
-                pointsList.Add(point);
-                point.PointNumber = i;
-            }
-            
-            // Initialize paths
-            foreach (var info in pointsInfo)
-            {
-                var p = pointsList
-                    .First(x => x.PointInfo == info);
-                if (p != null)
-                    p.SetNextPoints(pointsList
-                        .Where(x => (info.NextPoints
-                            .Contains(x.PointInfo))));
-                
-                p.ShowPaths();
-            }
-            
-            return pointsList;
+            var points = GeneratePoints(pointsInfo);
+            GeneratePaths(points);
+            return points;
+        }
+
+        private List<Point> GeneratePoints(IEnumerable<PointInfo> pointsInfo)
+        {
+            return pointsInfo.Select(CreatePoint).ToList();
         }
 
         private Point CreatePoint(PointInfo info)
         {
-            var pointObj = Object.Instantiate(info.Prefab, info.Position, Quaternion.identity, _parent);
+            var pointObj = _resolver.Instantiate(_pointPrefab, info.Model.Position, Quaternion.identity, _parent);
+            
+            var pointSprite = pointObj.GetComponent<SpriteRenderer>();
+            pointSprite.sprite = info.PointSprite;
+
             var point = pointObj.GetComponent<Point>();
-            //Debug.Log(point.HasEnemy);
-            point.SetPlanetInfo(info);
+            point.SetPointModel(info.Model);
+            
             return point;
+        }
+
+        private PathView GeneratePaths(List<Point> points)
+        {
+            return new PathView(_parent, _pathPrefab, points);
         }
     }
 }

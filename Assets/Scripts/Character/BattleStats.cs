@@ -7,31 +7,31 @@ namespace OrderElimination
     public struct BattleStats : IReadOnlyBattleStats
     {
         [SerializeField]
-        private int _health;
+        private float _health;
         [SerializeField]
-        private int _unmodifiedHealth;
+        private float _unmodifiedHealth;
         [SerializeField]
-        private int _attack;
+        private float _attack;
         [SerializeField]
-        private int _unmodifiedAttack;
+        private float _unmodifiedAttack;
         [SerializeField]
-        private int _armor;
+        private float _armor;
         [SerializeField]
-        private int _unmodifiedArmor;
+        private float _unmodifiedArmor;
         [SerializeField]
-        private int _additionalArmor;
+        private float _additionalArmor;
         [SerializeField]
-        private int _evasion;
+        private float _evasion;
         [SerializeField]
-        private int _unmodifiedEvasion;
+        private float _unmodifiedEvasion;
         [SerializeField]
-        private int _accuracy;
+        private float _accuracy;
         [SerializeField]
-        private int _unmodifiedAccuracy;
+        private float _unmodifiedAccuracy;
         [SerializeField]
-        private int _movement;
+        private float _movement;
         [SerializeField]
-        private int _unmodifiedMovement;
+        private float _unmodifiedMovement;
         [SerializeField]
         private DamageModificator _damageModificator;
 
@@ -53,7 +53,7 @@ namespace OrderElimination
             _additionalArmor = other.AdditionalArmor;
         }
 
-        public int Health
+        public float Health
         {
             get => _health;
             set
@@ -75,7 +75,7 @@ namespace OrderElimination
             }
         }
 
-        public int Attack
+        public float Attack
         {
             get => _attack;
             set
@@ -92,7 +92,7 @@ namespace OrderElimination
             }
         }
 
-        public int Armor
+        public float Armor
         {
             get => _armor;
             set
@@ -109,7 +109,7 @@ namespace OrderElimination
             }
         }
 
-        public int Evasion
+        public float Evasion
         {
             get => _evasion;
             set
@@ -131,7 +131,7 @@ namespace OrderElimination
             }
         }
 
-        public int Accuracy
+        public float Accuracy
         {
             get => _accuracy;
             set
@@ -153,7 +153,7 @@ namespace OrderElimination
             }
         }
 
-        public int Movement
+        public float Movement
         {
             get => _movement;
             set
@@ -170,7 +170,7 @@ namespace OrderElimination
             }
         }
 
-        public int UnmodifiedHealth
+        public float UnmodifiedHealth
         {
             get => _unmodifiedHealth;
             set
@@ -187,7 +187,7 @@ namespace OrderElimination
             }
         }
 
-        public int UnmodifiedAttack
+        public float UnmodifiedAttack
         {
             get => _unmodifiedAttack;
             set
@@ -204,7 +204,7 @@ namespace OrderElimination
             }
         }
 
-        public int UnmodifiedArmor
+        public float UnmodifiedArmor
         {
             get => _unmodifiedArmor;
             set
@@ -221,7 +221,7 @@ namespace OrderElimination
             }
         }
 
-        public int UnmodifiedEvasion
+        public float UnmodifiedEvasion
         {
             get => _unmodifiedEvasion;
             set
@@ -243,7 +243,7 @@ namespace OrderElimination
             }
         }
 
-        public int UnmodifiedAccuracy
+        public float UnmodifiedAccuracy
         {
             get => _unmodifiedAccuracy;
             set
@@ -265,7 +265,7 @@ namespace OrderElimination
             }
         }
 
-        public int UnmodifiedMovement
+        public float UnmodifiedMovement
         {
             get => _unmodifiedMovement;
             set
@@ -288,7 +288,7 @@ namespace OrderElimination
             set => _damageModificator = value;
         }
 
-        public int AdditionalArmor
+        public float AdditionalArmor
         {
             get => _additionalArmor;
             set
@@ -308,20 +308,20 @@ namespace OrderElimination
 
     public interface IReadOnlyBattleStats
     {
-        int Health { get; }
-        int UnmodifiedHealth { get; }
-        int Attack { get; }
-        int UnmodifiedAttack { get; }
-        int Armor { get; }
-        int UnmodifiedArmor { get; }
+        float Health { get; }
+        float UnmodifiedHealth { get; }
+        float Attack { get; }
+        float UnmodifiedAttack { get; }
+        float Armor { get; }
+        float UnmodifiedArmor { get; }
         
-        int AdditionalArmor { get; }
-        int Evasion { get; }
-        int UnmodifiedEvasion { get; }
-        int Accuracy { get; }
-        int UnmodifiedAccuracy { get; }
-        int Movement { get; }
-        int UnmodifiedMovement { get; }
+        float AdditionalArmor { get; }
+        float Evasion { get; }
+        float UnmodifiedEvasion { get; }
+        float Accuracy { get; }
+        float UnmodifiedAccuracy { get; }
+        float Movement { get; }
+        float UnmodifiedMovement { get; }
 
         public DamageModificator DamageModificator { get; }
     }

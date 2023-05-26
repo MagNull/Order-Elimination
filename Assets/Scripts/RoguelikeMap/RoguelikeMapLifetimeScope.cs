@@ -1,10 +1,13 @@
-using Inventory_Items;
+using ItemsLibrary;
 using OrderElimination;
+using RoguelikeMap.Map;
+using RoguelikeMap.Panels;
+using RoguelikeMap.SquadInfo;
+using RoguelikeMap.UI.Characters;
 using UnityEngine;
-using UnityEngine.UI;
 using VContainer;
 using VContainer.Unity;
-using Wallet = OrderElimination.Wallet;
+using Wallet = StartSessionMenu.Wallet;
 
 //TODO(����): Register Currency
 namespace RoguelikeMap
@@ -16,13 +19,21 @@ namespace RoguelikeMap
         [SerializeField]
         private CharactersMediator _charactersMediatorPrefab;
         [SerializeField]
-        private GameObject _pathPrefab;
+        private LineRenderer _pathPrefab;
         [SerializeField]
         private Transform _pointsParent;
-        [SerializeField] 
-        private DialogWindow _dialogWindow;
+        [SerializeField]
+        private GameObject _pointPrefab;
         [SerializeField]
         private Squad _squad;
+        [SerializeField]
+        private PanelGenerator _panelGenerator;
+        [SerializeField]
+        private Library _library;
+        [SerializeField]
+        private SquadMembersPanel _squadMembersPanel;
+        [SerializeField] 
+        private CharacterInfoPanel _characterInfoPanel;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -32,20 +43,22 @@ namespace RoguelikeMap
             
             var wallet = new Wallet(_startMoney);
             
-            builder.Register<Inventory>(Lifetime.Singleton).WithParameter(100);
+            builder.Register<Inventory_Items.Inventory>(Lifetime.Singleton).WithParameter(100);
 
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_squad);
             builder.RegisterComponent(_pathPrefab);
-            builder.RegisterComponent(_dialogWindow);
             builder.RegisterComponent(wallet);
+            builder.RegisterComponent(_panelGenerator);
+            builder.RegisterComponent(_pointPrefab);
+            builder.RegisterComponent(_pointsParent);
+            builder.RegisterComponent(_library);
+            builder.RegisterComponent(_squadMembersPanel);
+            builder.RegisterComponent(_characterInfoPanel);
             
             builder.Register<SquadCommander>(Lifetime.Singleton);
             builder.Register<SceneTransition>(Lifetime.Singleton);
-            // builder.RegisterComponent(_playerInformation);
-            
-            var mapGenerator = new SimpleMapGenerator(0, _pointsParent);
-            builder.RegisterInstance(mapGenerator).As<IMapGenerator>();
+            builder.Register<SimpleMapGenerator>(Lifetime.Singleton).As<IMapGenerator>();
         }
     }
 }

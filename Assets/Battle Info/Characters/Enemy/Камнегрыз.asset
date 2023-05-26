@@ -12,32 +12,84 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1984226b6f4b5ea94fb3b7f3b16efb, type: 3}
   m_Name: "\u041A\u0430\u043C\u043D\u0435\u0433\u0440\u044B\u0437"
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _baseBattleStats
+      Entry: 7
+      Data: OrderElimination.Domain.ReadOnlyBaseStats, Assembly-CSharp
+    - Name: _maxHealth
+      Entry: 4
+      Data: 500
+    - Name: _maxArmor
+      Entry: 4
+      Data: 100
+    - Name: _attackDamage
+      Entry: 4
+      Data: 35
+    - Name: _accuracy
+      Entry: 4
+      Data: 0.8
+    - Name: _evasion
+      Entry: 4
+      Data: 0.1
+    - Name: _maxMovementDistance
+      Entry: 4
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+  _entityType: 0
+  _activeAbilitiesData:
+  - {fileID: 11400000, guid: 7be39cc62b2d5a9478b344f4249b8327, type: 2}
+  - {fileID: 11400000, guid: 2b491009e64c56f48a2951f4482eb657, type: 2}
+  - {fileID: 11400000, guid: 6dec68f76a2dd9a4aa5bb05bda8c36bd, type: 2}
+  _passiveAbilitiesData: []
   _baseStats:
     _health: 0
+    _unmodifiedHealth: 0
     _attack: 0
+    _unmodifiedAttack: 0
     _armor: 0
+    _unmodifiedArmor: 0
     _additionalArmor: 0
     _evasion: 0
+    _unmodifiedEvasion: 0
     _accuracy: 0
+    _unmodifiedAccuracy: 0
     _movement: 0
+    _unmodifiedMovement: 0
     _damageModificator: 0
   _battleStats:
     _health: 50
+    _unmodifiedHealth: 50
     _attack: 35
+    _unmodifiedAttack: 35
     _armor: 100
+    _unmodifiedArmor: 100
     _additionalArmor: 0
     _evasion: 10
+    _unmodifiedEvasion: 10
     _accuracy: 80
+    _unmodifiedAccuracy: 80
     _movement: 4
+    _unmodifiedMovement: 4
     _damageModificator: 0
   _strategyStats:
+    Lvl: 0
     CostOfUpgrade: 0
     HealthGrowth: 0
     AttackGrowth: 0
     ArmorGrowth: 0
     EvasionGrowth: 0
     AccuracyGrowth: 0
-  _name: "\u041A\u0430\u043C\u043D\u0435\u0433\u0440\u044B\u0437"
+  _name: "\u041A\u0430\u043C \u043D\u0435 \u0433\u0440\u044B\u0437"
   _viewIcon: {fileID: 21300000, guid: a8d51c883384c47469807e601a9966d3, type: 3}
   _viewAvatar: {fileID: 21300000, guid: 6ed07c7d456c1774ab44cebfab1985c9, type: 3}
   _activeAbilities:

@@ -20,16 +20,19 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: Text
-      Entry: 1
-      Data: Bigboss Party
-    - Name: _enemies
-      Entry: 6
-      Data: 
-  _pointPrefab: {fileID: 8414116920630973637, guid: 36e0fb735c0b5514b9223cfbd8e49422, type: 3}
-  _position: {x: 600, y: 150, z: 0}
-  _nextPoints: []
-  "_\u0441hanceOfItems": 0
-  _expirience: 0
-  _currencyReward: 0
+    SerializationNodes: []
+  _sprite: {fileID: -1218826679, guid: 5897665c51c6ee04e8c18c5fa5db7853, type: 3}
+  _model:
+    rid: 7872520390573555742
+  references:
+    version: 2
+    RefIds:
+    - rid: 7872520390573555742
+      type: {class: BattlePointModel, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
+      data:
+        _nextPointsIndex: 
+        _position: {x: 600, y: 150, z: 0}
+        Index: 9
+        _enemies:
+        - {fileID: 11400000, guid: 9461f9304513865429fcf3420fd25287, type: 2}
+        _mapNumber: 0

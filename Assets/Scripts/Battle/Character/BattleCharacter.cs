@@ -111,7 +111,7 @@ public class BattleCharacter : IActor
     }
 
     //TODO: Strategy pattern in future if needed
-    public void TakeRecover(int value, int accuracy, DamageHealTarget damageHealTarget)
+    public void TakeRecover(float value, float accuracy, DamageHealTarget damageHealTarget)
     {
         Debug.Log("healed");
         // var isHeal = Random.Range(0, 100) < accuracy;
@@ -147,7 +147,7 @@ public class BattleCharacter : IActor
         _tickEffects.Clear();
     }
 
-    public int GetAccuracyFrom(IBattleObject attacker)
+    public float GetAccuracyFrom(IBattleObject attacker)
     {
         var accuracy = attacker.Stats.Accuracy;
         foreach (var effect in _incomingTickEffects)

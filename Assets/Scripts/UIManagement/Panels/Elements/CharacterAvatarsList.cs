@@ -46,7 +46,7 @@ namespace UIManagement.Elements
         }
         
         [Button]
-        public void Populate(IBattleCharacterInfo[] charactersInfo)
+        public void Populate(IReadOnlyList<IBattleCharacterInfo> charactersInfo)
         {
             if (_elementPrefab == null)
                 throw new Exception("No given prefab for instancing.");

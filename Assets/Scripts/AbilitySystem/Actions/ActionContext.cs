@@ -1,0 +1,48 @@
+﻿using OrderElimination.AbilitySystem.Animations;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+
+namespace OrderElimination.AbilitySystem
+{
+    public readonly struct ActionContext
+    {
+        public readonly IBattleContext BattleContext;
+        public readonly CellGroupsContainer TargetCellGroups;
+        public readonly AbilitySystemActor ActionMaker;
+        public readonly AbilitySystemActor ActionTarget;
+        //AbilityUseContext (+ initial caster position, inital target position)
+
+
+        public readonly Vector2Int? ActionTargetInitialPosition;
+
+        public readonly AnimationSceneContext AnimationSceneContext;
+        //CalledAbility - способность, инициирующая действия
+        //CalledEffect - эффект, инициирующий действие
+
+        //Заменено разделением на действия с клетками и сущностями
+        //public IActionTarget Target { get; }
+        //public IBattleEntity EntityTarget => Target as IBattleEntity; //Сущность, с которой совершают действие
+        //public Cell CellTarget => Target as Cell; //Клетка, с которой совершают действие
+
+        public ActionContext(
+            IBattleContext battleContext,
+            CellGroupsContainer targetCellGroups,
+            AbilitySystemActor actionMaker,
+            AbilitySystemActor target,
+            Vector2Int? targetPosition = null)
+        {
+            BattleContext = battleContext;
+            TargetCellGroups = targetCellGroups;
+            ActionMaker = actionMaker;
+            ActionTarget = target;
+            if (targetPosition == null && target != null)
+                targetPosition = target.Position;
+            ActionTargetInitialPosition = targetPosition;
+            AnimationSceneContext = battleContext.AnimationSceneContext;
+        }
+    }
+}

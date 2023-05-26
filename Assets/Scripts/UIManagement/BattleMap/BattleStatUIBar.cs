@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-
+using Cysharp.Threading.Tasks;
 
 namespace UIManagement.Elements
 {
@@ -21,19 +21,26 @@ namespace UIManagement.Elements
         [SerializeField] public Ease ValueChangeEase = Ease.OutBounce;
         public float FillAmount => _barImage.fillAmount;
 
+        private Tween _currentTween;
+
         [Button]
-        public void SetValue(float currentValue, float minValue, float maxValue)
+        public async UniTask SetValue(float currentValue, float minValue, float maxValue)
         {
             _textValueComponent.text = currentValue.ToString();
-            var normalizedValue = (currentValue - minValue) / (maxValue - minValue);
-            if (normalizedValue > 1 || normalizedValue < 0 || float.IsNaN(normalizedValue))
+            var scaledValue = (currentValue - minValue);
+            if (scaledValue != 0)
+                scaledValue /= (maxValue - minValue);
+            if (float.IsNaN(scaledValue)) //scaledValue > 1 || scaledValue < 0 || 
             {
-                Debug.Log("Normalized value: " + normalizedValue + '\n' +
+                Debug.Log("Normalized value: " + scaledValue + '\n' +
                           "Max value: " + maxValue + '\n' +
                           "Min value: " + minValue + '\n');
-                throw new System.InvalidOperationException();
+                throw new System.InvalidOperationException("Value is NaN");
             }
-            DOTween.To(GetFillAmount, SetFillAmount, normalizedValue, 0.4f).SetEase(ValueChangeEase);
+            if (_currentTween != null)
+                _currentTween.Complete();
+            _currentTween = DOTween.To(GetFillAmount, SetFillAmount, scaledValue, 0.4f).SetEase(ValueChangeEase);
+            await _currentTween.AsyncWaitForCompletion();
 
             float GetFillAmount() => FillAmount;
 

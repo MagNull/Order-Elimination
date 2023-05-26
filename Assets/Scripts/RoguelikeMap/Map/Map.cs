@@ -1,24 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using OrderElimination;
+using RoguelikeMap.Points;
+using RoguelikeMap.SquadInfo;
 using UnityEngine;
 using VContainer;
 
-namespace RoguelikeMap
+namespace RoguelikeMap.Map
 {
     public class Map : MonoBehaviour
     {
         public static string SquadPositionPrefPath = $"{SaveIndex}/Squad/Position";
         
-        public List<OrderElimination.Point> _points;
+        private IEnumerable<Point> _points;
         private IMapGenerator _mapGenerator;
         private Squad _squad;
         private bool _isSquadSelected;
         public static int SaveIndex { get; private set; }
 
-        public static event Action<List<OrderElimination.Point>> OnShowPath;
-        
         [Inject]
         private void Construct(IMapGenerator mapGenerator, Squad squad)
         {
@@ -29,7 +28,6 @@ namespace RoguelikeMap
         private void Start()
         {
             _points = _mapGenerator.GenerateMap();
-            OnShowPath?.Invoke(_points);
             SetSquadPosition();
             foreach (var point in _points)
                 point.OnSelected += SelectPoint;
@@ -42,16 +40,16 @@ namespace RoguelikeMap
             _isSquadSelected = true;
         }
         
-        public void UnselectSquad()
+        private void UnselectSquad()
         {
             _isSquadSelected = false;
         }
 
-        private void SelectPoint(OrderElimination.Point point)
+        private void SelectPoint(Point point)
         {
             if (_isSquadSelected is false)
                 return;
-            if(_squad.Point.NextPoints.Contains(point))
+            if(_squad.Point.NextPoints.Contains(point.Index))
                 point.Visit(_squad);
             UnselectSquad();
         }
@@ -62,12 +60,12 @@ namespace RoguelikeMap
                 ? PlayerPrefs.GetString(SquadPositionPrefPath).GetVectorFromString()
                 : _points.First().transform.position;
             var nearestPoint = FindNearestPoint(position);
-            _squad.Move(nearestPoint);
+            _squad.Visit(nearestPoint.Model);
         }
 
-        public OrderElimination.Point FindNearestPoint(Vector3 position)
+        private Point FindNearestPoint(Vector3 position)
         {
-            OrderElimination.Point nearestPoint = null;
+            Point nearestPoint = null;
             var minDistance = double.MaxValue;
             foreach (var point in _points)
             {

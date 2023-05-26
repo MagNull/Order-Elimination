@@ -12,6 +12,7 @@ using RoguelikeMap;
 
 public class BattleEndHandler : MonoBehaviour
 {
+    private int CurrencyReward = 300;
     private SceneTransition _sceneTransition;
     private CharactersMediator _mediator;
 
@@ -35,26 +36,27 @@ public class BattleEndHandler : MonoBehaviour
     public void ShowResults(BattleOutcome outcome)
     {
         Debug.Log(outcome);
-        var allies = _mediator.GetBattleCharactersInfo().Cast<Character>().ToArray();
-        var currentPlanetInfo = _mediator.PointInfo;
-        var battleResultInfo = new BattleResult(outcome, allies, currentPlanetInfo.CurrencyReward, 0);
-        if (outcome == BattleOutcome.Victory)
-        {
-            var panel = (BattleVictoryPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleVictory);
-            panel.UpdateBattleResult(battleResultInfo);
-            panel.LastContinueButtonPressed -= _sceneTransition.LoadRoguelikeMap;
-            panel.LastContinueButtonPressed += _sceneTransition.LoadRoguelikeMap;
-        }
-        else
-        {
-            var panel = (BattleDefeatPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleDefeat);
-            panel.UpdateBattleResult(battleResultInfo);
-            var action = new Action(() =>((ChoosingCharacter)UIController.SceneInstance
-                    .OpenPanel(PanelType.SquadMembers, WindowFormat.FullScreen))
-                .UpdateCharacterInfo(allies.ToList(), true));
-            panel.LastContinueButtonPressed -= action;
-            panel.LastContinueButtonPressed += action;
-        }
+        // var battleResultInfo = new BattleResult(outcome, _mediator.GetBattleEnemyInfo(), CurrencyReward, 0);
+        // var currentPlanetInfo = _mediator.PointInfo;
+        // var allies = _mediator.GetPlayerCharactersInfo().Cast<Character>().ToArray();
+        // if (outcome == BattleOutcome.Victory)
+        // {
+        //     var panel = (BattleVictoryPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleVictory);
+        //     panel.UpdateBattleResult(battleResultInfo);
+        //     panel.LastContinueButtonPressed -= _sceneTransition.LoadRoguelikeMap;
+        //     panel.LastContinueButtonPressed += _sceneTransition.LoadRoguelikeMap;
+        // }
+        // else
+        // {
+        //     var panel = (BattleDefeatPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleDefeat);
+        //     panel.UpdateBattleResult(battleResultInfo);
+        //     //TODO(coder): open ChoosingCharacterScreen when lose battle
+        //     // var action = new Action(() =>((ChoosingCharacter)UIController.SceneInstance
+        //     //         .OpenPanel(PanelType.SquadMembers))
+        //     //     .UpdateCharacterInfo(allies.ToList(), true));
+        //     //panel.LastContinueButtonPressed -= action;
+        //     //panel.LastContinueButtonPressed += action;
+        // }
     }
 
     public void ReloadGame()

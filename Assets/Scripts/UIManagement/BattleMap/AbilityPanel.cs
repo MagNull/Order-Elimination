@@ -1,10 +1,12 @@
 ﻿using CharacterAbility;
+using OrderElimination.AbilitySystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UIManagement;
 using UIManagement.Elements;
 using UnityEngine;
+using VContainer;
 
 namespace UIManagement
 {
@@ -21,12 +23,15 @@ namespace UIManagement
         private Sprite _noSelectedAbilityIcon;
         [SerializeField]
         private Color _selectedAbilityTint;
-        private Dictionary<AbilityView, AbilityButton> _buttonsByView = new();
-        private AbilityView[] _currentPassiveSkills;
+        private IBattleContext _battleContext;
+        private AbilitySystemActor _caster;
+        private HashSet<AbilityButton> _selectedButtons = new();
 
         public bool AbilityCasing => _activeAbilityButtons.Any(ab => ab.AbilityView is {Casting: true} &&
                                                                      ab.AbilityView.AbilityInfo.ActionType !=
                                                                      ActionType.Movement);
+        public event Action<ActiveAbilityRunner> AbilitySelected;
+        public event Action<ActiveAbilityRunner> AbilityDeselected;
 
         public IReadOnlyList<AbilityButton> AbilityButtons => _activeAbilityButtons;
 
@@ -34,9 +39,8 @@ namespace UIManagement
         {
             foreach (var abilityButton in _activeAbilityButtons)
             {
-                abilityButton.Clicked += OnActiveAbilityButtonClicked;
+                abilityButton.Clicked += OnAbilityButtonClicked;
                 abilityButton.Holded += OnActiveAbilityButtonHolded;
-                abilityButton.AbilityButtonUsed += UpdateActiveAbilityButtonsAvailability;
                 abilityButton.NoSelectedAbilityIcon = _noSelectedAbilityIcon;
             }
 
@@ -51,9 +55,8 @@ namespace UIManagement
         {
             foreach (var button in _activeAbilityButtons)
             {
-                button.Clicked -= OnActiveAbilityButtonClicked;
+                button.Clicked -= OnAbilityButtonClicked;
                 button.Holded -= OnActiveAbilityButtonHolded;
-                button.AbilityButtonUsed -= UpdateActiveAbilityButtonsAvailability;
             }
 
             foreach (var skillButton in _passiveAbilityButtons)
@@ -62,100 +65,113 @@ namespace UIManagement
             }
         }
 
-        private void Select(AbilityView abilityView)
+        public void AssignAbilities(
+            AbilitySystemActor caster,
+            ActiveAbilityRunner[] activeAbilities,
+            ActiveAbilityRunner[] passiveAbilities)
         {
-            if (abilityView == null)
-                return;
-            if (!_buttonsByView.ContainsKey(abilityView))
-                throw new KeyNotFoundException($"No ability \"{abilityView.Name}\" assigned.");
-            _buttonsByView[abilityView].Select();
-        }
-
-        public void SelectFirstAvailableAbility()
-        {
-            var firstAvailableAbilityButton = _activeAbilityButtons.FirstOrDefault(b => b.AbilityView.CanCast);
-            if (firstAvailableAbilityButton != null)
-            {
-                OnActiveAbilityButtonClicked(firstAvailableAbilityButton);
-                firstAvailableAbilityButton.Select();
-            }
-        }
-
-        public void AssignAbilities(AbilityView[] activeAbilitiesView, AbilityView[] passiveAbilitiesView)
-        {
-            if (activeAbilitiesView.Length > _activeAbilityButtons.Length
-                || passiveAbilitiesView.Length > _passiveAbilityButtons.Length)
+            if (activeAbilities.Length > _activeAbilityButtons.Length
+                || passiveAbilities.Length > _passiveAbilityButtons.Length)
                 throw new ArgumentException();
             ResetAbilityButtons();
-            for (var i = 0; i < activeAbilitiesView.Length; i++)
+            _caster = caster;
+            _battleContext = caster.BattleContext;
+            for (var i = 0; i < activeAbilities.Length; i++)
             {
-                _activeAbilityButtons[i].CancelAbilityCast();
-                _activeAbilityButtons[i].AssignAbilityView(activeAbilitiesView[i]);
+                _activeAbilityButtons[i].AssignAbiility(activeAbilities[i]);
+                _activeAbilityButtons[i].HoldableButton.ClickAvailable = true;
                 _activeAbilityButtons[i].HoldableButton.HoldAvailable = true;
-                _buttonsByView.Add(activeAbilitiesView[i], _activeAbilityButtons[i]);
             }
-
-            for (var j = 0; j < passiveAbilitiesView.Length; j++)
+            UpdateAbilityButtonsAvailability();
+            for (var j = 0; j < passiveAbilities.Length; j++)
             {
-                _passiveAbilityButtons[j].AssignAbilityView(passiveAbilitiesView[j].AbilityInfo);
+                //_passiveAbilityButtons[j].AssignAbilityView(passiveAbilities[j]);
             }
-
-            _currentPassiveSkills = passiveAbilitiesView;
         }
 
         public void ResetAbilityButtons()
         {
             foreach (var abilityButton in _activeAbilityButtons)
             {
-                abilityButton.RemoveAbilityView();
-                abilityButton.HoldableButton.ClickAvailable = true;
+                if (abilityButton.AbilityRunner != null)
+                {
+                    TryDeselectButton(abilityButton);
+                }
+                abilityButton.RemoveAbility();
+                abilityButton.HoldableButton.ClickAvailable = false;
             }
 
             foreach (var button in _passiveAbilityButtons)
             {
                 button.RemoveAbilityView();
             }
-
-            _buttonsByView.Clear();
-            _currentPassiveSkills = null;
         }
 
-        private void OnActiveAbilityButtonClicked(AbilityButton abilityButton)
+        public void UpdateAbilityButtonsAvailability()
         {
             foreach (var button in _activeAbilityButtons)
             {
-                button.HoldableButton.SetImageTint(Color.white);
-                if (button == abilityButton)
+                if (button.AbilityRunner == null)
                 {
-                    var tint = button.AbilityView.Casting
-                        ? Color.white
-                        : _selectedAbilityTint;
-                    button.HoldableButton.SetImageTint(tint);
-
+                    button.SetClickAvailability(false);
+                    continue;
                 }
-                else
-                    button.CancelAbilityCast();
+                var isAvailable = button.AbilityRunner.IsCastAvailable(_battleContext, _caster);
+                button.SetClickAvailability(isAvailable);
             }
+        }
+
+        private void OnAbilityUsed(ActiveAbilityRunner ability)
+        {
+            foreach (var button in _activeAbilityButtons)
+                TryDeselectButton(button);
+            UpdateAbilityButtonsAvailability();
+        }
+
+        private bool TrySelectButton(AbilityButton abilityButton)
+        {
+            if (_selectedButtons.Contains(abilityButton))
+                return false;
+            abilityButton.AbilityRunner.AbilityCasted -= OnAbilityUsed;
+            abilityButton.AbilityRunner.AbilityCasted += OnAbilityUsed;
+            _selectedButtons.Add(abilityButton);
+            abilityButton.HoldableButton.SetImageTint(_selectedAbilityTint);
+            AbilitySelected?.Invoke(abilityButton.AbilityRunner);
+            return true;
+        }
+
+        private bool TryDeselectButton(AbilityButton abilityButton)
+        {
+            if (!_selectedButtons.Contains(abilityButton))
+                return false;
+            abilityButton.AbilityRunner.AbilityCasted -= OnAbilityUsed;
+            _selectedButtons.Remove(abilityButton);
+            abilityButton.HoldableButton.SetImageTint(Color.white);
+            AbilityDeselected?.Invoke(abilityButton.AbilityRunner);
+            return true;
+        }
+
+        private void OnAbilityButtonClicked(AbilityButton abilityButton)
+        {
+            foreach (var otherButton in _activeAbilityButtons.Where(b => b != abilityButton))
+            {
+                TryDeselectButton(otherButton);
+            }
+            if (TryDeselectButton(abilityButton)) { }
+            else if (TrySelectButton(abilityButton)) { }
+            else { }
         }
 
         private void OnActiveAbilityButtonHolded(AbilityButton abilityButton)
         {
-            var panel = (AbilityDescriptionPanel) _panelController.OpenPanel(PanelType.AbilityDescription);
-            panel.UpdateAbilityDescription(abilityButton.AbilityView);
-        }
-
-        private void UpdateActiveAbilityButtonsAvailability()
-        {
-            foreach (var button in _activeAbilityButtons)
-            {
-                button.UpdateAvailability();
-            }
+            //var panel = (AbilityDescriptionPanel) _panelController.OpenPanel(PanelType.AbilityDescription);
+            //panel.UpdateAbilityDescription(abilityButton.AbilityView);
         }
 
         private void OnPassiveAbilityButtonClicked(SmallAbilityButton skillButton)
         {
             var panel = _panelController.OpenPanel(PanelType.PassiveSkillsDescription) as PassiveSkillDescriptionPanel;
-            panel.AssignPassiveSkillsDescription(_currentPassiveSkills.Select(v => v.AbilityInfo).ToArray());
+            //panel.AssignPassiveSkillsDescription(_currentPassiveSkills.Select(v => v.AbilityInfo).ToArray());
         }
     }
 }

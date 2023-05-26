@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Inventory;
 using Sirenix.OdinInspector;
-using Unity.VisualScripting;
 using UnityEngine;
 using VContainer;
 using Random = UnityEngine.Random;

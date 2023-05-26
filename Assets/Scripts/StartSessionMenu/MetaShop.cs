@@ -1,27 +1,29 @@
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using OrderElimination;
+using RoguelikeMap.UI;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using VContainer;
 
-namespace OrderElimination
+namespace StartSessionMenu
 {
-    public class MetaShop : MonoBehaviour
+    public class MetaShop : Panel
     {
         [SerializeField]
         private List<UpgradeCategory> _progressCategories;
         
         private Wallet _wallet;
-        private int Money = 1000;
+
+        [Inject]
+        public void Configure(Wallet wallet)
+        {
+            _wallet = wallet;
+        }
         
         private void Start()
         {
             foreach (var category in _progressCategories)
                 category.OnUpgrade += Upgrade;
-        }
-
-        public void SetWallet(Wallet wallet)
-        {
-            _wallet = wallet;
         }
 
         private void Upgrade(UpgradeCategory category)

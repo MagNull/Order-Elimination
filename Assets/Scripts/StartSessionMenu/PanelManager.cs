@@ -1,46 +1,47 @@
-using System;
+using System.Collections.Generic;
+using System.Linq;
+using ItemsLibrary;
+using RoguelikeMap.UI;
+using StartSessionMenu.ChooseCharacter;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-namespace OrderElimination
+namespace StartSessionMenu
 {
     public class PanelManager : MonoBehaviour
     {
         [SerializeField]
-        private int _amountAvailable = 10000;
+        private ChoosingCharacter _choosingCharacterPanel;
         [SerializeField]
-        private MetaShop _metaShop;
+        private MetaShop _metaShopPanel;
         [SerializeField]
-        private ChoosingCharacter _choosingCharacter;
-
-        public void Start()
-        {
-            var wallet = new Wallet(_amountAvailable);
-            _choosingCharacter.SetWallet(wallet);
-            _metaShop.SetWallet(wallet);
-        }
-
-        public void SetActiveMetaShop()
-        {
-            _choosingCharacter.SaveCharacters();
-            _choosingCharacter.gameObject.SetActive(false);
-            
-            _metaShop.gameObject.SetActive(true);
-        }
+        private Panel _libraryPanel;
         
-        public void SetActiveChoosingCharacters()
+        private List<Panel> _panels = new();
+
+        private void Start()
         {
-            _metaShop.SaveStats();
-            _metaShop.gameObject.SetActive(false);
-            
-            _choosingCharacter.gameObject.SetActive(true);
+            _panels.Add(_choosingCharacterPanel);
+            _panels.Add(_metaShopPanel);
+            _panels.Add(_libraryPanel);
         }
 
-        public void StartRace()
+        public void OpenPanelByType(PanelType panelType)
         {
-            _choosingCharacter.SaveCharacters();
-            _metaShop.SaveStats();
-            SceneManager.LoadScene("RoguelikeMap");
+            foreach (var panel in _panels.Where(x => x.IsOpen))
+                panel.Close();
+            
+            switch (panelType)
+            {
+                case PanelType.MetaShop:
+                    _metaShopPanel.Open();
+                    break;
+                case PanelType.Characters:
+                    _choosingCharacterPanel.Open();
+                    break;
+                case PanelType.Library:
+                    _libraryPanel.Open();
+                    break;
+            }
         }
     }
 }

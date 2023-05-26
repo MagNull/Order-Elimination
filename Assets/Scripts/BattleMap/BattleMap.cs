@@ -7,10 +7,81 @@ using OrderElimination.BM;
 using Sirenix.Utilities;
 using UnityEngine.Rendering;
 using UnityEngine.Serialization;
+using OrderElimination.Infrastructure;
+using OrderElimination.AbilitySystem;
 
-public class BattleMap : MonoBehaviour
+public class BattleMap : MonoBehaviour, IBattleMap
 {
-    public event Action<Cell, bool> CellChanged;
+    #region Refactored for IBattleMap
+    private Dictionary<AbilitySystemActor, Vector2Int> _containedEntitiesPositions;
+    private Dictionary<IReadOnlyCell, Vector2Int> _cellCoordinates;
+
+    public CellRangeBorders CellRangeBorders { get; private set; }
+
+    public event Action<Vector2Int> CellChanged;
+
+    public IEnumerable<AbilitySystemActor> GetContainedEntities(Vector2Int position)
+    {
+        if (!CellRangeBorders.Contains(position))
+            throw new ArgumentOutOfRangeException();
+        return GetCell(position.x, position.y).GetContainingEntities();
+    }
+
+    public Vector2Int GetPosition(AbilitySystemActor entity)
+    {
+        if (!_containedEntitiesPositions.ContainsKey(entity))
+            throw new ArgumentException("Entity does not exist on the map.");
+        return _containedEntitiesPositions[entity];
+    }
+
+    public Vector2Int GetPosition(IReadOnlyCell cell) => _cellCoordinates[cell];
+
+    public bool Contains(AbilitySystemActor entity)
+        => _containedEntitiesPositions.ContainsKey(entity);
+
+    public void PlaceEntity(AbilitySystemActor entity, Vector2Int position)
+    {
+        if (!_containedEntitiesPositions.ContainsKey(entity))
+        {
+            //place first time
+            _containedEntitiesPositions.Add(entity, position);
+            GetCell(position.x, position.y).AddEntity(entity);
+            CellChanged?.Invoke(position);
+        }
+        else
+        {
+            //move
+            var oldPos = _containedEntitiesPositions[entity];
+            _containedEntitiesPositions[entity] = position;
+            GetCell(oldPos.x, oldPos.y).RemoveEntity(entity);
+            GetCell(position.x, position.y).AddEntity(entity);
+            CellChanged?.Invoke(oldPos);
+            CellChanged?.Invoke(position);
+        }
+    }
+
+    public void RemoveEntity(AbilitySystemActor entity)
+    {
+        if (!_containedEntitiesPositions.ContainsKey(entity))
+            throw new InvalidCastException("Entity does not exist on the map.");
+        var position = _containedEntitiesPositions[entity];
+        GetCell(position.x, position.y).RemoveEntity(entity);
+        _containedEntitiesPositions.Remove(entity);
+        CellChanged?.Invoke(position);
+    }
+
+    public float GetGameDistanceBetween(Vector2Int posA, Vector2Int posB)
+        => CellMath.GetRealDistanceBetween(posA, posB);
+
+    public bool PathExists(
+        Vector2Int origin, Vector2Int destination, Predicate<Vector2Int> positionPredicate, out Vector2Int[] path)
+    {
+        return Pathfinding.PathExists(origin, destination, CellRangeBorders, positionPredicate, out path);
+    }
+
+    #endregion
+
+    public event Action<Cell, bool> CellChangedOld;
 
     [SerializeField]
     private int _width;
@@ -27,9 +98,19 @@ public class BattleMap : MonoBehaviour
 
     public int Height => _height;
 
-    public void Init(Cell[,] modelGrid)
+    public void Init(Cell[,] modelGrid)// – Width, Height ??
     {
         _cellGrid = modelGrid;
+        CellRangeBorders = new CellRangeBorders(0, 0, Width - 1, Height - 1);
+        _containedEntitiesPositions = new Dictionary<AbilitySystemActor, Vector2Int>();
+        _cellCoordinates = new Dictionary<IReadOnlyCell, Vector2Int>();
+        for (var x = 0; x < _cellGrid.GetLength(0); x++)
+        {
+            for (var y = 0; y < _cellGrid.GetLength(1); y++)
+            {
+                _cellCoordinates.Add(_cellGrid[x, y], new Vector2Int(x, y));
+            }
+        }
     }
 
     public bool ExistCoordinate(Vector2Int point)
@@ -331,11 +412,11 @@ public class BattleMap : MonoBehaviour
         {
             var oldCell = GetCell(obj);
             oldCell.RemoveObject(obj);
-            CellChanged?.Invoke(oldCell, tween);
+            CellChangedOld?.Invoke(oldCell, tween);
         }
 
         _cellGrid[x, y].AddObject(obj);
-        CellChanged?.Invoke(_cellGrid[x, y], tween);
+        CellChangedOld?.Invoke(_cellGrid[x, y], tween);
     }
 
     private IList<IBattleObject> GetObjectsInRadius(IBattleObject obj, int radius, Predicate<IBattleObject> predicate,
