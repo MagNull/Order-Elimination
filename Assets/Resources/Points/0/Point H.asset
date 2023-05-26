@@ -175,7 +175,8 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 1
         _isBattle: 0
-        _itemsData: []
+        _itemsData:
+        - {fileID: 11400000, guid: 500f3d8fa36045344bd244f4cd3fe7cf, type: 2}
         _nextStage:
           rid: -2
         _answers: []
@@ -204,7 +205,7 @@ MonoBehaviour:
     - rid: 7872520390573555755
       type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
-        sprite: {fileID: 0}
+        sprite: {fileID: 21300000, guid: 831622873915d4ef4ba29b4f8fbac81d, type: 3}
         _text: "*\u0412\u044B \u043F\u043E\u043B\u0443\u0447\u0438\u043B\u0438 \u0440\u0430\u0441\u0445\u043E\u0434\u043D\u0438\u043A*"
         _isEnd: 0
         _isFork: 0
@@ -220,7 +221,7 @@ MonoBehaviour:
     - rid: 7872520390573555756
       type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
-        sprite: {fileID: 0}
+        sprite: {fileID: 21300000, guid: 831622873915d4ef4ba29b4f8fbac81d, type: 3}
         _text: 
         _isEnd: 1
         _isFork: 0
@@ -236,7 +237,7 @@ MonoBehaviour:
     - rid: 7872520390573555757
       type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
-        sprite: {fileID: 0}
+        sprite: {fileID: 21300000, guid: 831622873915d4ef4ba29b4f8fbac81d, type: 3}
         _text: 
         _isEnd: 1
         _isFork: 0
@@ -352,7 +353,8 @@ MonoBehaviour:
         _isRandom: 0
         _isHaveItems: 1
         _isBattle: 0
-        _itemsData: []
+        _itemsData:
+        - {fileID: 11400000, guid: 500f3d8fa36045344bd244f4cd3fe7cf, type: 2}
         _nextStage:
           rid: -2
         _answers: []
