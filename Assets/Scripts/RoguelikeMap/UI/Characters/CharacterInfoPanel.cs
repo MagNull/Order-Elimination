@@ -55,7 +55,8 @@ namespace RoguelikeMap.UI.Characters
             var activeAbilityInfos = character.GetActiveAbilityInfos().Skip(1).ToArray();
             _passiveAbilityInfos = character.GetPassiveAbilityInfos().ToArray();
             InitializeAbilityButtons(activeAbilityInfos);
-            _playerInventoryPresenter.UpdateTargetInventory(character.Inventory);
+            if(_playerInventoryPresenter is not null)
+                _playerInventoryPresenter.UpdateTargetInventory(character.Inventory);
         }
 
         private void InitializeStatsText(IReadOnlyBattleStats stats)

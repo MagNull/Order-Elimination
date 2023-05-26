@@ -68,16 +68,17 @@ namespace StartSessionMenu.ChooseCharacter
             }
         }
 
-        public void SaveCharacters()
+        public bool SaveCharacters()
         {
             if (_selectedCount <= 0)
-                return;
+                return false;
 
             var characters = _characterCards
                 .Where(x => x.IsSelected)
                 .Select(x => x.Character)
                 .ToList();
             SquadMediator.SetCharacters(characters);
+            return true;
         }
     }
 }

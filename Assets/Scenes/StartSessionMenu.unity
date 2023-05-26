@@ -371,6 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextButton: {fileID: 78452348}
+  _choosingCharacterPanel: {fileID: 995960054}
 --- !u!1 &101943013
 GameObject:
   m_ObjectHideFlags: 0
@@ -2195,13 +2196,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 538644363}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 619606635}
+        m_TargetAssemblyTypeName: StartSessionMenu.PanelManager, Assembly-CSharp
+        m_MethodName: OpenChoosingCharacterPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2481,6 +2482,7 @@ MonoBehaviour:
   _choosingCharacterPanel: {fileID: 995960054}
   _metaShopPanel: {fileID: 365208847}
   _libraryPanel: {fileID: 372645051}
+  _wallet: {fileID: 2045478166}
 --- !u!1 &620782492
 GameObject:
   m_ObjectHideFlags: 0
@@ -7778,7 +7780,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1870369911}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 619606635}
+        m_TargetAssemblyTypeName: StartSessionMenu.PanelManager, Assembly-CSharp
+        m_MethodName: OpenMetaShopPanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1870369911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7975,7 +7989,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1944040220}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 619606635}
+        m_TargetAssemblyTypeName: StartSessionMenu.PanelManager, Assembly-CSharp
+        m_MethodName: OpenLibraryPanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1944040220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8337,6 +8363,11 @@ MonoBehaviour:
 --- !u!224 &2042120445 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5239559543545713466, guid: d46f9e9cd60094a129ab570e9127746c, type: 3}
+  m_PrefabInstance: {fileID: 5239559541543443399}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2045478166 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5239559543545713467, guid: d46f9e9cd60094a129ab570e9127746c, type: 3}
   m_PrefabInstance: {fileID: 5239559541543443399}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2046448251
@@ -12397,6 +12428,7 @@ MonoBehaviour:
   _windowOpeningEase: 32
   _abilityInfoPanel: {fileID: 260181196}
   _passiveAbilityInfoPanel: {fileID: 856396353}
+  _playerInventoryPresenter: {fileID: 0}
   _characterName: {fileID: 7525290644773678517}
   _characterAvatar: {fileID: 7644588220838507152}
   _hpText: {fileID: 3053842951590859733}
