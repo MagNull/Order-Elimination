@@ -79,8 +79,8 @@ public class BattleEntityView : MonoBehaviour
 
     public async UniTask Shake(float shakeX = 0.5f, float shakeY = 0.5f, float duration = 1, int vibrations = 10)
     {
-        transform.DOComplete();
-        await transform.DOShakePosition(duration, new Vector3(shakeX, shakeY, 0), vibrations).AsyncWaitForCompletion();
+        _renderer.transform.DOComplete();
+        await _renderer.transform.DOShakePosition(duration, new Vector3(shakeX, shakeY, 0), vibrations).AsyncWaitForCompletion();
     }
 
     private void OnPlaced(AbilitySystemActor entity)

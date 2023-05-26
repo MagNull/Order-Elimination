@@ -18,7 +18,7 @@ namespace OrderElimination.AbilitySystem
 
         [ShowInInspector, SerializeField]
         [PropertyTooltip("@" + nameof(_damageFormula)), GUIColor(1, 0.5f, 0.5f)]
-        public IContextValueGetter DamageSize { get; set; }
+        public IContextValueGetter DamageSize { get; set; } = new CasterStatGetter(BattleStat.AttackDamage);
 
         [ShowInInspector, SerializeField]
         public float ArmorMultiplier { get; set; } = 1;
@@ -34,7 +34,7 @@ namespace OrderElimination.AbilitySystem
 
         [ShowInInspector, SerializeField]
         [PropertyTooltip("@" + nameof(_accuracyFormula)), GUIColor(0.5f, 0.8f, 1f)]
-        public IContextValueGetter Accuracy { get; set; }
+        public IContextValueGetter Accuracy { get; set; } = new CasterStatGetter(BattleStat.Accuracy);
 
         [ShowInInspector, SerializeField]
         public bool IgnoreEvasion { get; set; }

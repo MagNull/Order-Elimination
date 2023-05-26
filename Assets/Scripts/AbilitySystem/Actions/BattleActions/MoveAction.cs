@@ -72,7 +72,8 @@ namespace OrderElimination.AbilitySystem
             if (!cellGroups.ContainsGroup(DestinationCellGroup)
                 || cellGroups.GetGroup(DestinationCellGroup).Length == 0)
                 return new SimplePerformResult(this, useContext, false);
-
+            if (!useContext.ActionTarget.CanMove && !ForceMove)
+                return new SimplePerformResult(this, useContext, false);
             var battleContext = useContext.BattleContext;
             var casterPos = useContext.ActionMaker.Position;
             var targetPos = useContext.ActionTargetInitialPosition;

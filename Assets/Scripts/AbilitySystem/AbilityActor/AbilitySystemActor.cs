@@ -73,9 +73,11 @@ namespace OrderElimination.AbilitySystem
         public IBattleContext BattleContext { get; }
         public IBattleMap DeployedBattleMap => BattleContext.BattleMap;
         public Vector2Int Position => DeployedBattleMap.GetPosition(this);
+        public bool CanMove => !StatusHolder.HasStatus(BattleStatus.CantMove);
+
         public bool Move(Vector2Int destination, bool forceMove = false)
         {
-            if (StatusHolder.HasStatus(BattleStatus.CantMove) && !forceMove)
+            if (!CanMove && !forceMove)
                 return false;
             var origin = Position;
             DeployedBattleMap.PlaceEntity(this, destination);

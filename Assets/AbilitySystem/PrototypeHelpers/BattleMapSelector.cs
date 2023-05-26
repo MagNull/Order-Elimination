@@ -49,9 +49,10 @@ public class BattleMapSelector : MonoBehaviour
         _battleContext = objectResolver.Resolve<IBattleContext>();
         _battleMapView = objectResolver.Resolve<BattleMapView>();
         _battleMapView.CellClicked += OnCellClicked;
-        _battleContext.NewRoundBegan -= OnNewRoundStarted;
-        _battleContext.NewRoundBegan += OnNewRoundStarted;
-        void OnNewRoundStarted(IBattleContext battleContext)
+        _battleContext.NewTurnStarted -= OnNewTurnStarted;
+        _battleContext.NewTurnStarted += OnNewTurnStarted;
+
+        void OnNewTurnStarted(IBattleContext battleContext)
         {
             DeselectEntity();
         }

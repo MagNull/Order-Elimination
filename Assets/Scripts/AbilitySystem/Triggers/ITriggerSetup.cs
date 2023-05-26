@@ -73,7 +73,7 @@ namespace OrderElimination.AbilitySystem
                 }
                 Triggered?.Invoke(triggerFiredInfo);
                 AllTriggerHandlersExecuted?.Invoke(this);
-                //foreach (var handler in Triggered.GetInvocationList().Select(d => (Action<ITriggerFireInfo>)d))
+                //foreach (var handler in Triggered.GetInvocationList().Select(d => (Func<ITriggerFireInfo, UniTask>)d))
                 //{
                 //    await handler.Invoke(triggerFiredInfo);
                 //}

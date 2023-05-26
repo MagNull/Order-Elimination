@@ -169,8 +169,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _abilityPanel: {fileID: 700708824}
   _characterBattleStatsPanel: {fileID: 1660044134}
-  _availableCellsTint: {r: 0.4654051, g: 0.9716981, b: 0.35292807, a: 1}
-  _forbidenCellsTint: {r: 0.3207547, g: 0, b: 0, a: 1}
+  _availableCellsTint: {r: 1, g: 1, b: 1, a: 1}
+  _forbidenCellsTint: {r: 0.16981131, g: 0.13056247, b: 0.13056247, a: 1}
 --- !u!1 &131492486
 GameObject:
   m_ObjectHideFlags: 0
@@ -2927,6 +2927,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
     - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
     - {fileID: 11400000, guid: dc7552cb19317d642ad2af92d805c557, type: 2}
+    - {fileID: 11400000, guid: 453c8cf2cf3e7a74cb250d5e0ecbc691, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -2941,7 +2942,7 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 5
+      Data: 6
     - Name: 
       Entry: 10
       Data: 1
@@ -2958,6 +2959,9 @@ MonoBehaviour:
       Entry: 10
       Data: 5
     - Name: 
+      Entry: 10
+      Data: 6
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -2969,13 +2973,19 @@ MonoBehaviour:
         mscorlib
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 4
     - Name: 
       Entry: 10
       Data: 6
     - Name: 
       Entry: 10
       Data: 7
+    - Name: 
+      Entry: 10
+      Data: 8
+    - Name: 
+      Entry: 10
+      Data: 6
     - Name: 
       Entry: 13
       Data: 
