@@ -1,5 +1,6 @@
 using ItemsLibrary;
 using OrderElimination;
+using RoguelikeMap.UI.Characters;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -10,6 +11,7 @@ namespace StartSessionMenu
     {
         [SerializeField] private int StartMoney = 1000;
         [SerializeField] private Library _library;
+        [SerializeField] private CharacterInfoPanel _characterInfoPanel;
         
         protected override void Configure(IContainerBuilder builder)
         {
@@ -19,6 +21,7 @@ namespace StartSessionMenu
             builder.RegisterComponent(wallet);
             builder.RegisterComponent(_library);
             builder.RegisterComponent(sceneTransition);
+            builder.RegisterComponent(_characterInfoPanel);
         }
     }
 }

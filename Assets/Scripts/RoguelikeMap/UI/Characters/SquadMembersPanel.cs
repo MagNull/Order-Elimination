@@ -15,7 +15,7 @@ namespace RoguelikeMap.UI.Characters
         private int _selectedCount = -1;
         
         public event Action<List<Character>, int> OnSelected;
-        
+
         public void UpdateMembers(IReadOnlyList<Character> activeMembers, IReadOnlyList<Character> inactiveMembers)
         {
             _selectedCount = activeMembers.Count;
@@ -46,12 +46,6 @@ namespace RoguelikeMap.UI.Characters
                 UnselectCard(card);
                 _selectedCount--;
             }
-        }
-
-        protected override void ShowCharacterInfo(CharacterCard card)
-        {
-            _characterInfoPanel.InitializeCharacterInfo(card.Character);
-            _characterInfoPanel.Open();
         }
 
         public override void Close()

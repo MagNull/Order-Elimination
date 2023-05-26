@@ -32,6 +32,8 @@ namespace RoguelikeMap
         private Library _library;
         [SerializeField]
         private SquadMembersPanel _squadMembersPanel;
+        [SerializeField] 
+        private CharacterInfoPanel _characterInfoPanel;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -52,6 +54,7 @@ namespace RoguelikeMap
             builder.RegisterComponent(_pointsParent);
             builder.RegisterComponent(_library);
             builder.RegisterComponent(_squadMembersPanel);
+            builder.RegisterComponent(_characterInfoPanel);
             
             builder.Register<SquadCommander>(Lifetime.Singleton);
             builder.Register<SceneTransition>(Lifetime.Singleton);

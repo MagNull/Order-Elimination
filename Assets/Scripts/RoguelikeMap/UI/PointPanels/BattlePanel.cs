@@ -1,26 +1,53 @@
 using System;
 using System.Collections.Generic;
-using UIManagement.Elements;
+using OrderElimination;
+using RoguelikeMap.UI.Characters;
+using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
+using VContainer;
 
 namespace RoguelikeMap.UI.PointPanels
 {
     public class BattlePanel : Panel
     {
         [SerializeField] 
-        private CharacterAvatarsList _characterList;
-        
+        private Transform _characterParent;
+        [SerializeField]
+        private CharacterCard _characterCardPrefab;
+
+        private List<Character> _enemies;
+        private CharacterInfoPanel _characterInfoPanel;
         public event Action OnStartAttack;
         
-        public void UpdateEnemies(IReadOnlyList<IBattleCharacterInfo> enemies)
+        [Inject]
+        public void Initialize(CharacterInfoPanel characterInfoPanel)
         {
-            _characterList.Clear();
-            _characterList.Populate(enemies);
+            _characterInfoPanel = characterInfoPanel;
+        }
+        
+        public void UpdateEnemies(IReadOnlyList<Character> enemies)
+        {
+            foreach (var info in enemies)
+            {
+                var characterCard = Instantiate(_characterCardPrefab, _characterParent);
+                characterCard.InitializeCard(info, false);
+                characterCard.OnGetInfo += ShowCharacterInfo;
+            }
+        }
+
+        private void ShowCharacterInfo(CharacterCard card)
+        {
+            _characterInfoPanel.InitializeCharacterInfo(card.Character);
+            _characterInfoPanel.Open();
         }
 
         public void OnClickAttackButton()
         {
             OnStartAttack?.Invoke();
+            foreach (var character in _enemies)
+            {
+                Destroy(character);
+            }
             base.Close();
         }
     }

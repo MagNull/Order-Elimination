@@ -4,14 +4,12 @@ using OrderElimination;
 using Sirenix.OdinInspector;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
+using VContainer;
 
 namespace RoguelikeMap.UI.Characters
 {
     public abstract class ChoosingSquadMembersPanel : Panel
     {
-        [SerializeField] 
-        protected CharacterInfoPanel _characterInfoPanel;
-        
         [Title("Drop Zone")]
         [SerializeField]
         protected DropZone _selectedDropZone;
@@ -25,6 +23,14 @@ namespace RoguelikeMap.UI.Characters
         [ShowInInspector]
         protected List<CharacterCard> _characterCards = new ();
 
+        private CharacterInfoPanel _characterInfoPanel;
+        
+        [Inject]
+        public void Construct(CharacterInfoPanel characterInfoPanel)
+        {
+            _characterInfoPanel = characterInfoPanel;
+        }
+        
         protected void InitializeCharactersCard(IReadOnlyList<Character> characterToSelect, Transform parent, bool isSelected = false)
         {
             _selectedDropZone.OnTrySelect += TrySelectCard;
@@ -56,9 +62,10 @@ namespace RoguelikeMap.UI.Characters
             throw new NotImplementedException();
         }
 
-        protected virtual void ShowCharacterInfo(CharacterCard card)
+        private void ShowCharacterInfo(CharacterCard card)
         {
-            Debug.Log("ShowCharacterInfo");
+            _characterInfoPanel.InitializeCharacterInfo(card.Character);
+            _characterInfoPanel.Open();
         }
     }
 }

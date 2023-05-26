@@ -19,7 +19,7 @@ namespace RoguelikeMap.Points.Models
         protected BattlePanel Panel => _panel as BattlePanel;
         
         public override PointType Type => PointType.Battle;
-        public IReadOnlyList<IBattleCharacterInfo> Enemies => _enemies;
+        public IReadOnlyList<Character> Enemies => _enemies;
         public int MapNumber => _mapNumber;
 
         public override void Visit(Squad squad)
