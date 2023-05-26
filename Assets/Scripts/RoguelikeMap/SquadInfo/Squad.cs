@@ -45,8 +45,8 @@ namespace RoguelikeMap.SquadInfo
             var characters = _testSquadMembers;
             if (SquadMediator.CharacterList is not null)
                 characters = SquadMediator.CharacterList;
-            SquadMediator.SetStatsCoefficient(new List<int>(){0, 0, 0, 0, 0});
-            
+            if(SquadMediator.Stats is null)
+                SquadMediator.SetStatsCoefficient(new List<int>(){0, 0, 0, 0, 0});
             _model = new SquadModel(characters, _squadMembersPanel);
         }
 

@@ -91,18 +91,18 @@ namespace OrderElimination
 
         public void Upgrade(StrategyStats stats)
         {
-            var battleStats = new BattleStats(_battleStats)
+            var battleStats = new BattleStats()
             {
-                Health = _strategyStats.HealthGrowth * (1 + stats.HealthGrowth / 100),
-                UnmodifiedHealth = _strategyStats.HealthGrowth * (1 + stats.HealthGrowth / 100),
-                Armor = _strategyStats.ArmorGrowth * (1 + stats.ArmorGrowth / 100),
-                UnmodifiedArmor = _strategyStats.ArmorGrowth * (1 + stats.ArmorGrowth / 100),
-                Accuracy = _strategyStats.AccuracyGrowth * (1 + stats.AccuracyGrowth / 100),
-                UnmodifiedAccuracy = _strategyStats.AccuracyGrowth * (1 + stats.AccuracyGrowth / 100),
-                Evasion = _strategyStats.EvasionGrowth * (1 + stats.EvasionGrowth / 100),
-                UnmodifiedEvasion = _strategyStats.EvasionGrowth * (1 + stats.EvasionGrowth / 100),
-                Attack = _strategyStats.AttackGrowth * (1 + stats.AttackGrowth / 100),
-                UnmodifiedAttack = _strategyStats.AttackGrowth * (1 + stats.AttackGrowth / 100)
+                UnmodifiedHealth = _battleStats.UnmodifiedHealth + _strategyStats.HealthGrowth * stats.HealthGrowth,
+                UnmodifiedArmor = _battleStats.UnmodifiedArmor + _strategyStats.ArmorGrowth * stats.ArmorGrowth,
+                UnmodifiedAccuracy = _battleStats.UnmodifiedAccuracy + _strategyStats.AccuracyGrowth * stats.AccuracyGrowth,
+                UnmodifiedEvasion = _battleStats.UnmodifiedEvasion + _strategyStats.EvasionGrowth * stats.EvasionGrowth,
+                UnmodifiedAttack = _battleStats.UnmodifiedAttack + _strategyStats.AttackGrowth * stats.AttackGrowth,
+                Health = _battleStats.Health + _strategyStats.HealthGrowth * stats.HealthGrowth,
+                Armor = _battleStats.Armor + _strategyStats.ArmorGrowth * stats.ArmorGrowth,
+                Accuracy = _battleStats.Accuracy + _strategyStats.AccuracyGrowth * stats.AccuracyGrowth,
+                Evasion = _battleStats.Evasion + _strategyStats.EvasionGrowth * stats.EvasionGrowth,
+                Attack = _battleStats.Attack + _strategyStats.AttackGrowth * stats.AttackGrowth,
             };
 
             _battleStats = battleStats;

@@ -50,7 +50,7 @@ namespace OrderElimination
         {
             foreach (var member in _members)
             {
-                member.Upgrade(SquadMediator.Stats);
+                member.Upgrade(SquadMediator.Stats.Value);
             }
         }
 
