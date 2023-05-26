@@ -10,15 +10,21 @@ namespace OrderElimination
     {
         private List<Character> _members;
         private SquadMembersPanel _panel;
+        private int _activeMembersCount = 3;
         
+        public IReadOnlyList<Character> ActiveMembers =>
+            _members.GetRange(0, _activeMembersCount);
+        public IReadOnlyList<Character> InactiveMembers => 
+            _members.GetRange(_activeMembersCount, _members.Count - _activeMembersCount);
         public PointModel Point { get; private set; }
         public int AmountOfMembers => _members.Count;
         public IReadOnlyList<Character> Members => _members;
-        
+
         public SquadModel(List<Character> members, SquadMembersPanel squadMembersPanel)
         {
             if (members.Count == 0)
                 return;
+            //First three members are active
             _members = members;
             
             UpgradeCharacters();
@@ -28,7 +34,7 @@ namespace OrderElimination
         private void SetPanel(SquadMembersPanel panel)
         {
             _panel = panel;
-            panel.UpdateMembers(_members);
+            panel.UpdateMembers(ActiveMembers, InactiveMembers);
         }
 
         public void Add(Character member) => _members.Add(member);
@@ -69,9 +75,10 @@ namespace OrderElimination
             Point = point;
         }
 
-        public void SetSquadMembers(List<Character> characters)
+        public void SetSquadMembers(List<Character> characters, int activeMembersCount)
         {
             _members = characters;
+            _activeMembersCount = activeMembersCount;
         }
 
         public void SetActivePanel(bool isActive)

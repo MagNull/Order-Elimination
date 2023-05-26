@@ -91,8 +91,10 @@ GameObject:
   - component: {fileID: 5809841624109694273}
   - component: {fileID: 5809841624109694274}
   - component: {fileID: 5809841624109694275}
-  - component: {fileID: 5809841624109694272}
   - component: {fileID: 82469547036186783}
+  - component: {fileID: 5868290890112346295}
+  - component: {fileID: 5897113959582451534}
+  - component: {fileID: 7052059368809046801}
   m_Layer: 5
   m_Name: CharacterCardWithCost
   m_TagString: Untagged
@@ -137,13 +139,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5809841624109694278}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -160,7 +162,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5809841624109694272
+--- !u!114 &82469547036186783
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -169,7 +171,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 5809841624109694278}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: e6905a5f527e846478470d54de6e1ea4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cardImage: {fileID: 5809841624342609720}
+  _button: {fileID: 5868290890112346295}
+  _costImage: {fileID: 3235461534071526195}
+  _cardCost: {fileID: 5553228351691667159}
+--- !u!114 &5868290890112346295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5809841624109694278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a6d826aef168ce4188244a57529114c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -181,11 +199,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 0}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -203,20 +221,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5809841624109694275}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &82469547036186783
+      m_Calls: []
+  MillisecondsToHold: 75
+  DefaultTint: {r: 1, g: 1, b: 1, a: 1}
+  ClickUnavalableTint: {r: 1, g: 1, b: 1, a: 0}
+  _clickAvailable: 1
+  _holdAvailable: 1
+--- !u!114 &5897113959582451534
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -225,15 +236,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 5809841624109694278}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6905a5f527e846478470d54de6e1ea4, type: 3}
+  m_Script: {fileID: 11500000, guid: aa09100f54c345d199079861fd2a41cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsSelected: 0
-  _cardImage: {fileID: 5809841624342609720}
-  _button: {fileID: 5809841624109694272}
-  _isSelected: 0
-  _costImage: {fileID: 3235461534071526195}
-  _cardCost: {fileID: 5553228351691667159}
+  _button: {fileID: 5868290890112346295}
+--- !u!225 &7052059368809046801
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5809841624109694278}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5809841624342609726
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,7 +22,7 @@ namespace RoguelikeMap.SquadInfo
         private Squad _squad;
         public PointModel Target => _target;
         public Squad Squad => _squad;
-        public event Action<List<Character>> OnSelected;
+        public event Action<List<Character>, int> OnSelected;
         public event Action<int> OnHealAccept;
         public event Action<IReadOnlyList<ItemData>> OnLootAccept;
 
@@ -94,9 +94,9 @@ namespace RoguelikeMap.SquadInfo
             PlayerPrefs.SetString(Map.Map.SquadPositionPrefPath, _squad.transform.position.ToString());
         }
 
-        private void WereSelectedMembers(List<Character> characters)
+        private void WereSelectedMembers(List<Character> characters, int activeMembersCount)
         {
-            OnSelected?.Invoke(characters);
+            OnSelected?.Invoke(characters, activeMembersCount);
         }
 
         private void HealAccept(int amountHeal)

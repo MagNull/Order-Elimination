@@ -54,7 +54,8 @@ namespace RoguelikeMap.SquadInfo
         
         public void DistributeExperience(float expirience) => _model.DistributeExperience(expirience);
 
-        private void SetSquadMembers(List<Character> squadMembers) => _model.SetSquadMembers(squadMembers);
+        private void SetSquadMembers(List<Character> squadMembers, int countActiveMembers)
+            => _model.SetSquadMembers(squadMembers, countActiveMembers);
 
         public void Visit(PointModel point)
         {

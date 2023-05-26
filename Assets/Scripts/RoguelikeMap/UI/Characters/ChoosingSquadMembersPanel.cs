@@ -11,29 +11,29 @@ namespace RoguelikeMap.UI.Characters
     {
         [SerializeField] 
         protected CharacterInfoPanel _characterInfoPanel;
-
-        [Title("Transforms")]
+        
+        [Title("Drop Zone")]
         [SerializeField]
-        protected Transform _selectedTransform;
+        protected DropZone _selectedDropZone;
         [SerializeField]
-        protected Transform _notSelectedTransform;
-        [SerializeField]
-        protected Transform _defaultParent;
+        protected DropZone _unselectedDropZone;
 
         [Title("Card")]
         [SerializeField]
         protected CharacterCard _characterButtonPref;
-        
+
+        [ShowInInspector]
         protected List<CharacterCard> _characterCards = new ();
-        
-        protected void InitializeCharactersCard(List<Character> characterToSelect, Transform parent)
+
+        protected void InitializeCharactersCard(IReadOnlyList<Character> characterToSelect, Transform parent, bool isSelected = false)
         {
+            _selectedDropZone.OnTrySelect += TrySelectCard;
+            _unselectedDropZone.OnTrySelect += TrySelectCard;
+            
             foreach (var info in characterToSelect)
             {
                 var characterCard = Instantiate(_characterButtonPref, parent);
-                characterCard.InitializeCard(info, _defaultParent);
-                characterCard.OnTrySelect += TrySelectCard;
-                characterCard.OnUnselect += UnselectCard;
+                characterCard.InitializeCard(info, isSelected);
                 characterCard.OnGetInfo += ShowCharacterInfo;
                 _characterCards.Add(characterCard);
             }
@@ -41,17 +41,17 @@ namespace RoguelikeMap.UI.Characters
 
         protected void SelectCard(CharacterCard card)
         {
-            card.transform.SetParent(_selectedTransform);
+            card.transform.SetParent(_selectedDropZone.transform);
             card.Select();
         }
 
         protected void UnselectCard(CharacterCard card)
         {
-            card.transform.SetParent(_notSelectedTransform);
+            card.transform.SetParent(_unselectedDropZone.transform);
             card.Select();
         }
         
-        protected virtual void TrySelectCard(CharacterCard card)
+        protected virtual void TrySelectCard(DropZone dropZone, CharacterCard card)
         {
             throw new NotImplementedException();
         }
@@ -59,12 +59,6 @@ namespace RoguelikeMap.UI.Characters
         protected virtual void ShowCharacterInfo(CharacterCard card)
         {
             Debug.Log("ShowCharacterInfo");
-        }
-        
-        public override void Close()
-        {
-            _characterCards.Clear();
-            base.Close();
         }
     }
 }
