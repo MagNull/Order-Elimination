@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CharacterAbility;
+using Inventory_Items;
 using OrderElimination;
 using RoguelikeMap.UI.Abilities;
 using Sirenix.OdinInspector;
@@ -16,6 +17,8 @@ namespace RoguelikeMap.UI.Characters
         private AbilityInfoPanel _abilityInfoPanel;
         [SerializeField] 
         private PassiveAbilityInfoPanel _passiveAbilityInfoPanel;
+        [SerializeField] 
+        private PickItemInventoryPresenter _playerInventoryPresenter;
         
         [Title("Character")]
         [SerializeField]
@@ -49,10 +52,10 @@ namespace RoguelikeMap.UI.Characters
             _characterAvatar.sprite = character.Avatar;
             var stats = character.GetBattleStats();
             InitializeStatsText(stats);
-            
             var activeAbilityInfos = character.GetActiveAbilityInfos().Skip(1).ToArray();
             _passiveAbilityInfos = character.GetPassiveAbilityInfos().ToArray();
             InitializeAbilityButtons(activeAbilityInfos);
+            _playerInventoryPresenter.UpdateTargetInventory(character.Inventory);
         }
 
         private void InitializeStatsText(IReadOnlyBattleStats stats)

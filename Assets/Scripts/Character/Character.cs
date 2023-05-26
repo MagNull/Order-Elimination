@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using CharacterAbility;
 using Inventory_Items;
 using OrderElimination.AbilitySystem;
@@ -48,6 +48,7 @@ namespace OrderElimination
         [SerializeField]
         private AbilityInfo[] _passiveAbilities;
         
+        [ShowInInspector]
         private Inventory_Items.Inventory _inventory = new Inventory_Items.Inventory(2);
 
         public Inventory_Items.Inventory Inventory => _inventory;

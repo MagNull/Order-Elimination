@@ -59,9 +59,6 @@ namespace RoguelikeMap.SquadInfo
             eventPanel.OnLookForLoot += LootAccept;
             eventPanel.OnStartBattle += StartAttack;
 
-            var shopPanel = (ShopPanel)_panelGenerator.GetPanelByPointInfo(PointType.Shop);
-            shopPanel.OnBuyItems += LootAccept;
-            
             _squadMembersPanel.OnSelected += WereSelectedMembers;
         }
 

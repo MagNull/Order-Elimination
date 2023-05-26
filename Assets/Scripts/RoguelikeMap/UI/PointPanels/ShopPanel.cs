@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Inventory;
+using Inventory_Items;
 using OrderElimination;
-using RoguelikeMap.Panels;
 using RoguelikeMap.Shop;
 using StartSessionMenu;
 using UnityEngine;
@@ -19,6 +19,8 @@ namespace RoguelikeMap.UI.PointPanels
         private ShopItem _itemPrefab;
         [SerializeField]
         private Transform _itemsParent;
+
+        private Inventory_Items.Inventory _inventory;
         
         private readonly List<ShopItem> _items = new ();
         private Wallet _wallet;
@@ -26,9 +28,10 @@ namespace RoguelikeMap.UI.PointPanels
         public event Action<IReadOnlyList<ItemData>> OnBuyItems;
         
         [Inject]
-        public void Construct(Wallet wallet)
+        public void Construct(Wallet wallet, Inventory_Items.Inventory inventory)
         {
             _wallet = wallet;
+            _inventory = inventory;
             _counter.Initialize(_wallet);
         }
         
@@ -43,12 +46,14 @@ namespace RoguelikeMap.UI.PointPanels
             }
         }
 
-        private void Buy(ShopItem item)
+        private void Buy(ShopItem shopItem)
         {
-            if (item.Cost >= _wallet.Money) 
+            if (shopItem.Cost >= _wallet.Money) 
                 return;
-            _wallet.SubtractMoney(item.Cost);
-            item.Buy();
+            _wallet.SubtractMoney(shopItem.Cost);
+            shopItem.Buy();
+            var item = new Item(shopItem.Data);
+            _inventory.AddItem(item);
         }
 
         public override void Close()

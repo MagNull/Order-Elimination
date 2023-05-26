@@ -31,6 +31,7 @@ namespace Inventory_Items
             var itemOfType = characterItems.FirstOrDefault(item => cell.Item.Type == item.Type);
             if (itemOfType != null)
             {
+                Debug.Log("Baga");
                 _targetInventory.MoveItemTo(itemOfType, _inventoryModel);
             }
             _inventoryModel.MoveItemTo(cell.Item, _targetInventory);
