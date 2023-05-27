@@ -55,7 +55,6 @@ namespace RoguelikeMap.SquadInfo
                 characters = SquadMediator.CharacterList;
             if(SquadMediator.Stats is null)
                 SquadMediator.SetStatsCoefficient(new List<int>(){0, 0, 0, 0, 0});
-            
             _model = new SquadModel(characters, _squadMembersPanel);
             _model.OnUpdateSquadMembers += GenerateCharactersCard;
             GenerateCharactersCard();
