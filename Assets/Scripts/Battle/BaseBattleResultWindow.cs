@@ -47,4 +47,9 @@ public class BaseBattleResultWindow : MonoBehaviour
         _startMenuPanel.transform.DOMoveX(-1920, 1.5f);
         //_startMenuPanel.SetActive(false);
     }
+
+    public void ExitInMenuClick()
+    {
+        Application.Quit();
+    }
 }

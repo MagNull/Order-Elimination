@@ -25,8 +25,8 @@ namespace RoguelikeMap.UI.Abilities
             _icon.sprite = abilityInfo.Icon;
             _name.text = abilityInfo.Name;
             _description.text = abilityInfo.Description;
-            _damage.text = "Не ебу где взять дамаг";
-            _range.text = "И это тоже";
+            _damage.text = "000";
+            _range.text = "000";
             _coolDown.text = $"{abilityInfo.CoolDown} x.";
         }
     }

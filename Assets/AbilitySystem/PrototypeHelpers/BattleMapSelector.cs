@@ -1,16 +1,11 @@
-using Assets.AbilitySystem.PrototypeHelpers;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing.Printing;
 using System.Linq;
-using TMPro.EditorUtilities;
 using UIManagement;
 using UIManagement.Elements;
 using UnityEngine;
 using VContainer;
-using static UnityEngine.EventSystems.EventTrigger;
 
 public enum SelectorMode
 {
@@ -279,7 +274,7 @@ public class BattleMapSelector : MonoBehaviour
             if (_selectedAbility != null && _selectedAbility.AbilityData.TargetingSystem.IsConfirmAvailable)
             {
                 var abilityName = _selectedAbility.AbilityData.View.Name;
-                Debug.Log($"Ability «{abilityName}» has been used." % Colorize.Cyan);
+                Debug.Log($"Ability ï¿½{abilityName}ï¿½ has been used." % Colorize.Cyan);
                 _selectedAbility.AbilityData.TargetingSystem.ConfirmTargeting();
             }
         }
