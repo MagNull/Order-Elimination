@@ -222,11 +222,11 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
-  MillisecondsToHold: 150
+  MillisecondsToHold: 70
   DefaultTint: {r: 1, g: 1, b: 1, a: 1}
   ClickUnavalableTint: {r: 1, g: 1, b: 1, a: 0}
   _clickAvailable: 1
-  _holdAvailable: 1
+  _holdAvailable: 0
 --- !u!114 &5897113959582451534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,7 +239,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa09100f54c345d199079861fd2a41cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _button: {fileID: 5868290890112346295}
 --- !u!225 &7052059368809046801
 CanvasGroup:
   m_ObjectHideFlags: 0

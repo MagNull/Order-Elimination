@@ -4,7 +4,6 @@ using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.UI.PointPanels;
 using Sirenix.OdinInspector;
-using Unity.Services.Core;
 using UnityEngine;
 using VContainer;
 
@@ -13,7 +12,7 @@ namespace RoguelikeMap
     public class MusicController : MonoBehaviour
     {
         [SerializeField]
-        private List<AudioSource> musicList = new List<AudioSource>();
+        private List<AudioSource> musicList = new ();
         private int activeMusicIndex = -1;
         private PanelGenerator _panelGenerator;
         

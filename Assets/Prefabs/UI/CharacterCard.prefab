@@ -145,7 +145,7 @@ MonoBehaviour:
   DefaultTint: {r: 1, g: 1, b: 1, a: 1}
   ClickUnavalableTint: {r: 1, g: 1, b: 1, a: 0}
   _clickAvailable: 1
-  _holdAvailable: 1
+  _holdAvailable: 0
 --- !u!225 &3309862444677254627
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -170,7 +170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa09100f54c345d199079861fd2a41cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _button: {fileID: -1139277048404115419}
 --- !u!114 &-7911694170156763436
 MonoBehaviour:
   m_ObjectHideFlags: 0
