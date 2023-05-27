@@ -1,5 +1,6 @@
 using OrderElimination;
 using RoguelikeMap;
+using UnityEngine;
 
 namespace StartSessionMenu.ChooseCharacter.CharacterCard
 {
@@ -12,6 +13,11 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
             _healthBar = GetComponentInChildren<HealthBar>();
             _healthBar.SetMaxHealth((int)character.GetBattleStats().UnmodifiedHealth);
             base.InitializeCard(character, isSelected);
+        }
+
+        public void SetImage(Sprite sprite)
+        {
+            _cardImage.sprite = sprite;
         }
     }
 }

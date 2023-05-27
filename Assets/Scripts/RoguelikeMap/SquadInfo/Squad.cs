@@ -6,7 +6,9 @@ using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.UI.Characters;
 using Sirenix.OdinInspector;
+using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
+using UnityEngine.UI;
 using VContainer;
 
 namespace RoguelikeMap.SquadInfo
@@ -19,10 +21,14 @@ namespace RoguelikeMap.SquadInfo
         //Заглушка, чтобы не запускаться из другой сцены
         [SerializeField]
         private List<Character> _testSquadMembers;
+        [SerializeField] 
+        private Transform _iconsMembersOnButton;
         
         private SquadModel _model;
         private SquadCommander _commander;
         private SquadMembersPanel _squadMembersPanel;
+        private CharacterCardGenerator _characterCardGenerator;
+        private List<CharacterCardWithHealthBar> _cardsOnButton = new();
 
         public int AmountOfCharacters => _model.AmountOfMembers;
         public IReadOnlyList<Character> Members => _model.Members;
@@ -30,10 +36,12 @@ namespace RoguelikeMap.SquadInfo
         public event Action<Squad> OnSelected;
         
         [Inject]
-        private void Construct(SquadCommander commander, SquadMembersPanel squadMembersPanel)
+        private void Construct(SquadCommander commander, 
+            SquadMembersPanel squadMembersPanel, CharacterCardGenerator cardGenerator)
         {
             _commander = commander;
             _squadMembersPanel = squadMembersPanel;
+            _characterCardGenerator = cardGenerator;
             
             _commander.SetSquad(this);
             _commander.OnSelected += SetSquadMembers;
@@ -47,7 +55,30 @@ namespace RoguelikeMap.SquadInfo
                 characters = SquadMediator.CharacterList;
             if(SquadMediator.Stats is null)
                 SquadMediator.SetStatsCoefficient(new List<int>(){0, 0, 0, 0, 0});
+            
             _model = new SquadModel(characters, _squadMembersPanel);
+            _model.OnUpdateSquadMembers += GenerateCharactersCard;
+            GenerateCharactersCard();
+        }
+
+        private void GenerateCharactersCard()
+        {
+            if (_cardsOnButton.Count > 0)
+            {
+                foreach(var card in _cardsOnButton)
+                    Destroy(card);
+            }
+
+            foreach (var character in _model.ActiveMembers)
+            {
+                var card = _characterCardGenerator
+                    .GenerateCardWithHealthBar(character, _iconsMembersOnButton);
+                card.SetImage(character.BattleIcon);
+                Destroy(card.GetComponent<DraggableObject>());
+                card.transform.localScale = Vector3.one * 0.5f;
+                
+                _cardsOnButton.Add(card);
+            }
         }
 
         private void HealCharacters(int amountHeal) => _model.HealCharacters(amountHeal);

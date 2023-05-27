@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.UI.Characters;
+using UnityEngine;
 
 namespace OrderElimination
 {
@@ -20,12 +21,14 @@ namespace OrderElimination
         public int AmountOfMembers => _members.Count;
         public IReadOnlyList<Character> Members => _members;
 
+        public event Action OnUpdateSquadMembers;
+        
         public SquadModel(List<Character> members, SquadMembersPanel squadMembersPanel)
         {
             if (members.Count == 0)
                 return;
             //First three members are active
-            _members = members;
+            SetSquadMembers(members, _activeMembersCount);
             
             UpgradeCharacters();
             SetPanel(squadMembersPanel);
@@ -79,6 +82,7 @@ namespace OrderElimination
         {
             _members = characters;
             _activeMembersCount = activeMembersCount;
+            OnUpdateSquadMembers?.Invoke();
         }
 
         public void SetActivePanel(bool isActive)
