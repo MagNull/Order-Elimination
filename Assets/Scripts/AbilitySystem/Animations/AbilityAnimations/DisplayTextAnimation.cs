@@ -33,6 +33,8 @@ namespace OrderElimination.AbilitySystem.Animations
                 AnimationTarget.Caster => context.CasterGamePosition,
                 _ => throw new System.NotImplementedException(),
             };
+            if (!targetPos.HasValue)
+                return;
             var textStartPosition = targetPos + OffsetFromTarget;
             var textEndPosition = targetPos + OffsetFromTarget + FloatingOffset;
             var realWorldStartPosition = context.SceneContext.BattleMapView.GameToWorldPosition(textStartPosition.Value);

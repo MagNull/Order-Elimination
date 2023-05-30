@@ -281,12 +281,22 @@ MonoBehaviour:
     - Name: AffectPreviousTarget
       Entry: 5
       Data: false
-    - Name: TargetConditions
-      Entry: 6
-      Data: 
-    - Name: AffectedCellGroups
+    - Name: _targetConditions
       Entry: 7
-      Data: 18|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
+      Data: 18|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _affectedCellGroups
+      Entry: 7
+      Data: 19|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
     - Name: 
       Entry: 12
       Data: 1
@@ -302,9 +312,9 @@ MonoBehaviour:
     - Name: RepeatNumber
       Entry: 3
       Data: 20
-    - Name: InstructionsOnActionSuccess
+    - Name: _instructionsOnActionSuccess
       Entry: 7
-      Data: 19|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
+      Data: 20|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -318,21 +328,41 @@ MonoBehaviour:
     - Name: SuccessInstructionsEveryRepeat
       Entry: 5
       Data: false
-    - Name: InstructionsOnActionFail
-      Entry: 6
+    - Name: _instructionsOnActionFail
+      Entry: 7
+      Data: 21|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: FailInstructionsEveryRepeat
       Entry: 5
       Data: false
-    - Name: FollowingInstructions
-      Entry: 6
+    - Name: _followingInstructions
+      Entry: 7
+      Data: 22|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: FollowInstructionsEveryRepeat
       Entry: 5
       Data: false
     - Name: AnimationBeforeAction
       Entry: 7
-      Data: 20|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
+      Data: 23|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
     - Name: PlaySequentially
       Entry: 5
       Data: false
@@ -341,14 +371,14 @@ MonoBehaviour:
       Data: true
     - Name: Animations
       Entry: 7
-      Data: 21|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
+      Data: 24|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 2
     - Name: 
       Entry: 7
-      Data: 22|OrderElimination.AbilitySystem.Animations.AnimationDelay, Assembly-CSharp
+      Data: 25|OrderElimination.AbilitySystem.Animations.AnimationDelay, Assembly-CSharp
     - Name: _delayTime
       Entry: 4
       Data: 0.1
@@ -357,7 +387,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 23|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
+      Data: 26|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
     - Name: PlaySequentially
       Entry: 5
       Data: false
@@ -366,14 +396,14 @@ MonoBehaviour:
       Data: false
     - Name: Animations
       Entry: 7
-      Data: 24|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
+      Data: 27|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 25|OrderElimination.AbilitySystem.Animations.ShootParticleAnimation,
+      Data: 28|OrderElimination.AbilitySystem.Animations.ShootParticleAnimation,
         Assembly-CSharp
     - Name: BulletParticle
       Entry: 3

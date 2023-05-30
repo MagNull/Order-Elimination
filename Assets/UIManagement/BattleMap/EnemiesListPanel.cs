@@ -1,4 +1,6 @@
 using DG.Tweening;
+using OrderElimination.AbilitySystem;
+using OrderElimination.Infrastructure;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,47 +26,74 @@ namespace UIManagement.Elements
         private float _enemyDisappearTime = 0.3f;
         [SerializeField]
         private Ease _enemyDisappearEase = Ease.Flash;
-        private Dictionary<IBattleObject, CharacterBattleStatsPanel> _characterPanels = new();
+        private Dictionary<AbilitySystemActor, CharacterBattleStatsPanel> _entitiesPanels = new();
+        private IBattleContext _battleContext;
         //private List<CharacterBattleStatsPanel> _characterPanelsIds = new ();
 
         [Inject]
-        public void Construct(BattleMapView battleMapView)
+        public void Construct(IObjectResolver objectResolver)
         {
+            _battleContext = objectResolver.Resolve<IBattleContext>();
+            var battleMapView = objectResolver.Resolve<BattleMapView>();
             battleMapView.CellClicked -= OnCellClicked;
             battleMapView.CellClicked += OnCellClicked;
+            _battleContext.EntitiesBank.BankChanged += OnEntitiesBankChanged;
         }
 
-        public void Populate(BattleCharacterView[] enemies)
+        private void OnEntitiesBankChanged(IReadOnlyEntitiesBank bank)
+        {
+            var enemies = bank.GetEntities().Where(e => IsEnemyCharacter(e));
+            if (_entitiesPanels.Count == 0)
+            {
+                Populate(enemies);
+                return;
+            }
+            var newEnemies = enemies.Except(_entitiesPanels.Keys).ToArray();
+            var disappearedEnemies = _entitiesPanels.Keys.Except(enemies).ToArray();
+            foreach (var newEnemy in newEnemies)
+            {
+                Add(newEnemy);
+            }
+            foreach (var disappearedEntity in disappearedEnemies)
+            {
+                RemoveItem(disappearedEntity);
+            }
+        }
+
+        public void Populate(IEnumerable<AbilitySystemActor> enemies)
         {
             Clear();
             foreach (var enemy in enemies)
             {
-                var newStatsItem = Instantiate(_characterStatsItemPrefab, _listItemsHolder);
-                //newStatsItem.UpdateCharacterInfo(enemy);
-                newStatsItem.IsClickingAvatarAvailable = _enemiesInfoByClickingAvailable;
-                newStatsItem.IsHoldingAvatarAvailable = _enemiesInfoByHoldingAvailable;
-                _characterPanels.Add(enemy.Model, newStatsItem);
-                //_characterPanelsIds.Add(newStatsItem);
+                Add(enemy);
             }
+        }
+
+        private void Add(AbilitySystemActor enemy)
+        {
+            var newStatsItem = Instantiate(_characterStatsItemPrefab, _listItemsHolder);
+            newStatsItem.IsClickingAvatarAvailable = _enemiesInfoByClickingAvailable;
+            newStatsItem.IsHoldingAvatarAvailable = _enemiesInfoByHoldingAvailable;
+            var view = _battleContext.EntitiesBank.GetViewByEntity(enemy);
+            newStatsItem.UpdateEntityInfo(view);
+            _entitiesPanels.Add(enemy, newStatsItem);
         }
 
         public void Clear()
         {
-            var elementsToRemove = _characterPanels.Values.ToArray();
-            _characterPanels.Clear();
+            var elementsToRemove = _entitiesPanels.Values.ToArray();
+            _entitiesPanels.Clear();
             //_characterPanelsIds.Clear();
             foreach (var e in elementsToRemove)
                 Destroy(e.gameObject);
         }
 
-        public void RemoveItem(IBattleObjectView character) => RemoveItem(character.Model);
-
-        public void RemoveItem(IBattleObject characterView)
+        public void RemoveItem(AbilitySystemActor entity)
         {
-            if (!_characterPanels.ContainsKey(characterView))
+            if (!_entitiesPanels.ContainsKey(entity))
                 return;
-            var item = _characterPanels[characterView];
-            _characterPanels.Remove(characterView);
+            var item = _entitiesPanels[entity];
+            _entitiesPanels.Remove(entity);
             //_characterPanelsIds.Remove(item);
             item.transform.localScale = Vector3.one;
             item.transform
@@ -74,11 +103,9 @@ namespace UIManagement.Elements
             //Destroy(item.gameObject);
         }
 
-        public void FocusCharacter(IBattleObjectView character) => FocusCharacter(character.Model);
-
-        public void FocusCharacter(IBattleObject character)
+        public void FocusEntity(AbilitySystemActor entity)
         {
-            var target = _characterPanels[character];
+            var target = _entitiesPanels[entity];
 
             //var elements = new List<CharacterBattleStatsPanel>();
             //Debug.Log(_characterPanelsIds.IndexOf(target));
@@ -115,8 +142,8 @@ namespace UIManagement.Elements
                 DOTween.To(GetScrollViewPosition, SetScrollViewPosition, scrollValue, 0.2f);
             }
 
-            foreach (var e in _characterPanels.Values)
-                e.FinishHighlightAnimation();
+            foreach (var e in _entitiesPanels.Values)
+                e.DOComplete();
             target.Highlight(Color.red);
 
             float GetScrollViewPosition() => _charactersScrollRect.verticalNormalizedPosition;
@@ -130,14 +157,18 @@ namespace UIManagement.Elements
 
         private void OnCellClicked(CellView cellView)
         {
-            var clickedCell = cellView.Model.Objects;
-
-            foreach (var clickedObject in clickedCell)
-            {
-                if (clickedObject.Type == BattleObjectType.Ally ||
-                    !_characterPanels.ContainsKey(clickedObject)) continue;
-                FocusCharacter(clickedObject);
-            }
+            var enemies = cellView.Model.GetContainingEntities()
+                .Where(e => IsEnemyCharacter(e))
+                .Where(e => _entitiesPanels.ContainsKey(e))
+                .ToArray();
+            if (enemies.Length == 0)
+                return;
+            var firstVisibleEnemy = enemies.First();
+            FocusEntity(firstVisibleEnemy);
         }
+
+        private bool IsEnemyCharacter(AbilitySystemActor entity) => 
+            entity.EntityType == EntityType.Character
+            && _battleContext.GetRelationship(BattleSide.Player, entity.BattleSide) == BattleRelationship.Enemy;
     }
 }

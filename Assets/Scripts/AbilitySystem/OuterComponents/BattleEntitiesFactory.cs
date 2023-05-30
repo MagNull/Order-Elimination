@@ -17,7 +17,11 @@ using VContainer.Unity;
 public class BattleEntitiesFactory : MonoBehaviour
 {
     [SerializeField]
-    private BattleEntityView _entityPrefab;
+    private BattleEntityView _characterPrefab;
+
+    [SerializeField]
+    private BattleEntityView _structurePrefab;
+
     [SerializeField]
     private Transform _charactersParent;
     [SerializeField]
@@ -46,7 +50,7 @@ public class BattleEntitiesFactory : MonoBehaviour
             character.PosessedActiveAbilities.ToArray(),
             character.PosessedPassiveAbilities.ToArray());
 
-        var entityView = _objectResolver.Instantiate(_entityPrefab, _charactersParent);
+        var entityView = _objectResolver.Instantiate(_characterPrefab, _charactersParent);
         entityView.Initialize(battleEntity, character.CharacterData.BattleIcon, character.CharacterData.Name);
 
         _entitiesBank.AddCharacterEntity(battleEntity, entityView, character.CharacterData);
@@ -73,7 +77,7 @@ public class BattleEntitiesFactory : MonoBehaviour
             new ActiveAbilityData[0],
             passiveAbilities);
 
-        var entityView = _objectResolver.Instantiate(_entityPrefab, _structuresParent);
+        var entityView = _objectResolver.Instantiate(_structurePrefab, _structuresParent);
         entityView.Initialize(battleEntity, structureData.BattleIcon, structureData.Name);
 
         _entitiesBank.AddStructureEntity(battleEntity, entityView, structureData);

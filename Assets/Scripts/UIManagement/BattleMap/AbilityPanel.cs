@@ -128,8 +128,8 @@ namespace UIManagement
         {
             if (_selectedButtons.Contains(abilityButton))
                 return false;
-            abilityButton.AbilityRunner.AbilityCasted -= OnAbilityUsed;
-            abilityButton.AbilityRunner.AbilityCasted += OnAbilityUsed;
+            abilityButton.AbilityRunner.AbilityInitiated -= OnAbilityUsed;
+            abilityButton.AbilityRunner.AbilityInitiated += OnAbilityUsed;
             _selectedButtons.Add(abilityButton);
             abilityButton.HoldableButton.SetImageTint(_selectedAbilityTint);
             AbilitySelected?.Invoke(abilityButton.AbilityRunner);
@@ -140,7 +140,7 @@ namespace UIManagement
         {
             if (!_selectedButtons.Contains(abilityButton))
                 return false;
-            abilityButton.AbilityRunner.AbilityCasted -= OnAbilityUsed;
+            abilityButton.AbilityRunner.AbilityInitiated -= OnAbilityUsed;
             _selectedButtons.Remove(abilityButton);
             abilityButton.HoldableButton.SetImageTint(Color.white);
             AbilityDeselected?.Invoke(abilityButton.AbilityRunner);

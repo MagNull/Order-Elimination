@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace OrderElimination.Infrastructure
 {
+    [GUIColor(0.6f, 1, 0.6f)]
     public interface IVectorRelativePattern
     {
         public Vector2Int[] GetAbsolutePositions(

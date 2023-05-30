@@ -39,7 +39,7 @@ namespace OrderElimination.AbilitySystem
             TargetCellGroups = targetCellGroups;
             ActionMaker = actionMaker;
             ActionTarget = target;
-            if (targetPosition == null && target != null)
+            if (targetPosition == null && target != null && target.DeployedBattleMap != null)
                 targetPosition = target.Position;
             ActionTargetInitialPosition = targetPosition;
             AnimationSceneContext = battleContext.AnimationSceneContext;

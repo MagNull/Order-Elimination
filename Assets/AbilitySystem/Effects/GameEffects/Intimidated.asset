@@ -36,22 +36,32 @@ MonoBehaviour:
       Data: true
     - Name: InstructionOnActivation
       Entry: 7
-      Data: 0|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
+      Data: 0|OrderElimination.AbilitySystem.CompoundEffectInstruction, Assembly-CSharp
+    - Name: _instructions
+      Entry: 7
+      Data: 1|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEffectInstruction,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 2|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
     - Name: _target
       Entry: 3
       Data: 0
     - Name: _battleAction
       Entry: 7
-      Data: 1|OrderElimination.AbilitySystem.ModifyStatsAction, Assembly-CSharp
+      Data: 3|OrderElimination.AbilitySystem.ModifyStatsAction, Assembly-CSharp
     - Name: TargetBattleStat
       Entry: 3
       Data: 2
     - Name: ValueModifier
       Entry: 7
-      Data: 2|OrderElimination.AbilitySystem.MathValueGetter, Assembly-CSharp
+      Data: 4|OrderElimination.AbilitySystem.MathValueGetter, Assembly-CSharp
     - Name: Left
       Entry: 7
-      Data: 3|OrderElimination.AbilitySystem.TargetStatGetter, Assembly-CSharp
+      Data: 5|OrderElimination.AbilitySystem.TargetStatGetter, Assembly-CSharp
     - Name: TargetStat
       Entry: 3
       Data: 2
@@ -66,7 +76,7 @@ MonoBehaviour:
       Data: 2
     - Name: Right
       Entry: 7
-      Data: 4|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+      Data: 6|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
       Data: 0.7
@@ -91,12 +101,78 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
+    - Name: _target
+      Entry: 3
+      Data: 0
+    - Name: _battleAction
+      Entry: 7
+      Data: 8|OrderElimination.AbilitySystem.ModifyStatsAction, Assembly-CSharp
+    - Name: TargetBattleStat
+      Entry: 3
+      Data: 5
+    - Name: ValueModifier
+      Entry: 7
+      Data: 9|OrderElimination.AbilitySystem.MathValueGetter, Assembly-CSharp
+    - Name: Left
+      Entry: 7
+      Data: 10|OrderElimination.AbilitySystem.TargetStatGetter, Assembly-CSharp
+    - Name: TargetStat
+      Entry: 3
+      Data: 5
+    - Name: UseUnmodifiedValue
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Operation
+      Entry: 3
+      Data: 1
+    - Name: Right
+      Entry: 7
+      Data: 11|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+    - Name: Value
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: UndoOnDeactivation
+      Entry: 5
+      Data: true
+    - Name: _animationBeforeAction
+      Entry: 6
+      Data: 
+    - Name: _animationAfterAction
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: InstructionOnDeactivation
       Entry: 6
       Data: 
     - Name: TemporaryEffectFunctionaity
       Entry: 7
-      Data: 5|OrderElimination.AbilitySystem.TemporaryEffectFunctionaity, Assembly-CSharp
+      Data: 12|OrderElimination.AbilitySystem.TemporaryEffectFunctionaity, Assembly-CSharp
     - Name: _applyingDuration
       Entry: 3
       Data: 1
@@ -117,18 +193,18 @@ MonoBehaviour:
       Data: true
     - Name: OutcomingActionProcessor
       Entry: 7
-      Data: 6|OrderElimination.AbilitySystem.DamageActionProcessor, Assembly-CSharp
+      Data: 13|OrderElimination.AbilitySystem.DamageActionProcessor, Assembly-CSharp
     - Name: _allowedDamageTypes
       Entry: 7
-      Data: 7|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.DamageType,
+      Data: 14|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.DamageType,
         Assembly-CSharp]], Assembly-CSharp
     - Name: _valueFlags
       Entry: 7
-      Data: 8|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.DamageType,
+      Data: 15|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.DamageType,
         Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 9|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.DamageType,
+      Data: 16|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.DamageType,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -204,7 +280,7 @@ MonoBehaviour:
       Data: 2
     - Name: _damageValue
       Entry: 7
-      Data: 10|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+      Data: 17|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
       Data: 1
@@ -216,7 +292,7 @@ MonoBehaviour:
       Data: 1
     - Name: _accuracyValue
       Entry: 7
-      Data: 11|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+      Data: 18|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
       Data: 0.3
@@ -228,7 +304,7 @@ MonoBehaviour:
       Data: 
     - Name: _view
       Entry: 7
-      Data: 12|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
+      Data: 19|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
     - Name: Name
       Entry: 1
       Data: "\u041D\u0430\u043F\u0443\u0433\u0430\u043D"
@@ -240,7 +316,7 @@ MonoBehaviour:
       Data: false
     - Name: AnimationOnActivation
       Entry: 7
-      Data: 13|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
+      Data: 20|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
     - Name: PlaySequentially
       Entry: 5
       Data: false
@@ -249,14 +325,14 @@ MonoBehaviour:
       Data: false
     - Name: Animations
       Entry: 7
-      Data: 14|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
+      Data: 21|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 2
     - Name: 
       Entry: 7
-      Data: 15|OrderElimination.AbilitySystem.Animations.ShakeAnimation, Assembly-CSharp
+      Data: 22|OrderElimination.AbilitySystem.Animations.ShakeAnimation, Assembly-CSharp
     - Name: ShakeTarget
       Entry: 3
       Data: 0
@@ -277,7 +353,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 16|OrderElimination.AbilitySystem.Animations.SpawnParticleAnimation,
+      Data: 23|OrderElimination.AbilitySystem.Animations.SpawnParticleAnimation,
         Assembly-CSharp
     - Name: ParticleType
       Entry: 3
@@ -344,7 +420,7 @@ MonoBehaviour:
       Data: 
     - Name: _removeTriggers
       Entry: 7
-      Data: 17|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+      Data: 24|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
         Assembly-CSharp]], System.Core
     - Name: 
       Entry: 12
@@ -357,12 +433,12 @@ MonoBehaviour:
       Data: 
     - Name: _triggerInstructions
       Entry: 7
-      Data: 18|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+      Data: 25|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
         Assembly-CSharp],[OrderElimination.AbilitySystem.IEffectInstruction, Assembly-CSharp]],
         mscorlib
     - Name: comparer
       Entry: 7
-      Data: 19|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+      Data: 26|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 8

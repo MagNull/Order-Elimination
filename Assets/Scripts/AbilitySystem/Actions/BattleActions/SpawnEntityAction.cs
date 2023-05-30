@@ -7,11 +7,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class SpawnEntityAction : BattleAction<SpawnEntityAction>//, IUndoableBattleAction
+    public class SpawnEntityAction : BattleAction<SpawnEntityAction>, IUndoableBattleAction
     {
+        private static readonly List<AbilitySystemActor[]> _spawnedEntities = new();
+        private static readonly Dictionary<int, IBattleTrigger> _activeTriggers = new();
+        private static readonly Dictionary<IBattleTrigger, int> _perforIdsByTriggers = new();
+        private static readonly HashSet<int> _undoneOperations = new();
+
         public enum SpawningEntityBattleSide
         {
             Same,
@@ -39,6 +45,13 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public int SpawnCellGroup { get; private set; }
 
+        [ShowInInspector, OdinSerialize]
+        public bool RemoveByTrigger { get; private set; }
+
+        [ShowIf(nameof(RemoveByTrigger))]
+        [ShowInInspector, OdinSerialize]
+        public IContextTriggerSetup RemoveTrigger { get; private set; }
+
         public override ActionRequires ActionRequires => ActionRequires.Cell;
 
         public override IBattleAction Clone()
@@ -50,7 +63,39 @@ namespace OrderElimination.AbilitySystem
             clone.SideType = SideType;
             clone.AbsoluteSide = AbsoluteSide;
             clone.SpawnCellGroup = SpawnCellGroup;
+            clone.RemoveByTrigger = RemoveByTrigger;
+            clone.RemoveTrigger = RemoveTrigger;
             return clone;
+        }
+
+        public bool IsUndone(int performId) => _undoneOperations.Contains(performId);
+
+        public bool Undo(int performId)
+        {
+            if (IsUndone(performId)) throw ActionUndoFailedException.AlreadyUndoneException;
+            var entities = _spawnedEntities[performId];
+            var isSuccessful = true;
+            foreach (var entity in entities)
+            {
+                if (!entity.DisposeFromBattle())
+                    isSuccessful = false;
+            }
+            if (_activeTriggers.ContainsKey(performId))
+                _activeTriggers[performId].Deactivate();
+            _undoneOperations.Add(performId);
+            Debug.Log($"Entities disposed: {isSuccessful}" % Colorize.Purple);
+            return isSuccessful;
+        }
+
+        public void ClearUndoCache()
+        {
+            foreach (var trigger in _activeTriggers.Values)
+            {
+                trigger.Deactivate();
+            }
+            _activeTriggers.Clear();
+            _spawnedEntities.Clear();
+            _undoneOperations.Clear();
         }
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
@@ -62,21 +107,42 @@ namespace OrderElimination.AbilitySystem
                 //SpawningEntityBattleSide.Opposite => GetOppositeSide(useContext.ActionMaker.BattleSide),
                 _ => throw new NotImplementedException(),
             };
+            var spawnedEntities = new List<AbilitySystemActor>();
             foreach (var pos in useContext.TargetCellGroups.GetGroup(SpawnCellGroup))
             {
+                AbilitySystemActor entity;
                 switch (Entity)
                 {
                     case EntityType.Character:
-                        useContext.BattleContext.EntitySpawner.SpawnCharacter(CharacterData, side, pos);
+                        entity = useContext.BattleContext.EntitySpawner.SpawnCharacter(CharacterData, side, pos);
                         break;
                     case EntityType.Structure:
-                        useContext.BattleContext.EntitySpawner.SpawnStructure(StructureData, side, pos);
+                        entity = useContext.BattleContext.EntitySpawner.SpawnStructure(StructureData, side, pos);
                         break;
                     default:
                         throw new NotImplementedException();
                 }
+                spawnedEntities.Add(entity);
             }
-            return new SimplePerformResult(this, useContext, true);
+            _spawnedEntities.Add(spawnedEntities.ToArray());
+            var performId = _spawnedEntities.Count - 1;
+            Debug.Log($"Spawn perform Id: {performId}" % Colorize.Purple);
+            if (RemoveByTrigger)
+            {
+                var trigger = RemoveTrigger.GetTrigger(useContext.BattleContext);
+                _activeTriggers.Add(performId, trigger);
+                _perforIdsByTriggers.Add(trigger, performId);
+                trigger.Triggered += OnTriggerFired;
+                trigger.Activate();
+            }
+            return new SimpleUndoablePerformResult(this, useContext, true, performId);
+        }
+
+        private void OnTriggerFired(ITriggerFireInfo fireInfo)
+        {
+            fireInfo.Trigger.Triggered -= OnTriggerFired;
+            var performId = _perforIdsByTriggers[fireInfo.Trigger];
+            Undo(performId);
         }
 
         private BattleSide GetOppositeSide(BattleSide side)

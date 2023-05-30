@@ -1,11 +1,15 @@
-﻿using OrderElimination.AbilitySystem;
+﻿using DG.Tweening;
+using OrderElimination.AbilitySystem;
+using OrderElimination.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor;
+using UnityEngine;
 
-namespace Assets.AbilitySystem.PrototypeHelpers
+namespace OrderElimination.AbilitySystem
 {
     public interface IReadOnlyEntitiesBank
     {
@@ -13,6 +17,7 @@ namespace Assets.AbilitySystem.PrototypeHelpers
 
         public bool ContainsEntity(AbilitySystemActor entity);
         public AbilitySystemActor[] GetEntities();
+        public AbilitySystemActor[] GetEntities(BattleSide side);
         public BattleEntityView GetViewByEntity(AbilitySystemActor entity);
         public AbilitySystemActor GetEntityByView(BattleEntityView view);
 
@@ -31,6 +36,8 @@ namespace Assets.AbilitySystem.PrototypeHelpers
 
         public bool ContainsEntity(AbilitySystemActor entity) => _viewsByEntities.ContainsKey(entity);
         public AbilitySystemActor[] GetEntities() => _viewsByEntities.Keys.ToArray();
+        public AbilitySystemActor[] GetEntities(BattleSide side)
+            => GetEntities().Where(e => e.BattleSide == side).ToArray();
         public BattleEntityView GetViewByEntity(AbilitySystemActor entity) => _viewsByEntities[entity];
         public AbilitySystemActor GetEntityByView(BattleEntityView view) => _entitiesByViews[view];
 
@@ -52,6 +59,7 @@ namespace Assets.AbilitySystem.PrototypeHelpers
         {
             if (entity.EntityType != EntityType.Character)
                 throw new InvalidOperationException("Attempt to add non-character entity.");
+            entity.DisposedFromBattle += OnEntityDisposed;
             _viewsByEntities.Add(entity, view);
             _entitiesByViews.Add(view, entity);
             _basedCharacters.Add(entity, basedData);
@@ -62,24 +70,37 @@ namespace Assets.AbilitySystem.PrototypeHelpers
         {
             if (entity.EntityType != EntityType.Structure)
                 throw new InvalidOperationException("Attempt to add non-structure entity.");
+            entity.DisposedFromBattle += OnEntityDisposed;
             _viewsByEntities.Add(entity, view);
             _entitiesByViews.Add(view, entity);
             _basedStructures.Add(entity, basedData);
             BankChanged?.Invoke(this);
         }
 
+        private void OnEntityDisposed(IBattleDisposable entity)
+        {
+            var entityAsActor = (AbilitySystemActor)entity;
+            RemoveEntity(entityAsActor);
+        }
+
         public void RemoveEntity(AbilitySystemActor entity)
         {
             var view = _viewsByEntities[entity];
+            //View handles deaths by itsetlf
+            //view.DOComplete(true);
+            //view.gameObject.SetActive(false); 
             _viewsByEntities.Remove(entity);
             _entitiesByViews.Remove(view);
             _basedCharacters.Remove(entity);
             _basedStructures.Remove(entity);
+            entity.DisposedFromBattle -= OnEntityDisposed;
             BankChanged?.Invoke(this);
         }
 
         public void Clear()
         {
+            foreach (var entity in _viewsByEntities.Keys)
+                entity.DisposedFromBattle -= OnEntityDisposed;
             _viewsByEntities.Clear();
             _entitiesByViews.Clear();
             _basedCharacters.Clear();

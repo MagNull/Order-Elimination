@@ -29,17 +29,17 @@ public class BattleMap : MonoBehaviour, IBattleMap
         return GetCell(position.x, position.y).GetContainingEntities();
     }
 
+    public bool Contains(AbilitySystemActor entity)
+        => _containedEntitiesPositions.ContainsKey(entity);
+
     public Vector2Int GetPosition(AbilitySystemActor entity)
     {
-        if (!_containedEntitiesPositions.ContainsKey(entity))
+        if (!Contains(entity))
             throw new ArgumentException("Entity does not exist on the map.");
         return _containedEntitiesPositions[entity];
     }
 
     public Vector2Int GetPosition(IReadOnlyCell cell) => _cellCoordinates[cell];
-
-    public bool Contains(AbilitySystemActor entity)
-        => _containedEntitiesPositions.ContainsKey(entity);
 
     public void PlaceEntity(AbilitySystemActor entity, Vector2Int position)
     {
@@ -82,7 +82,6 @@ public class BattleMap : MonoBehaviour, IBattleMap
     {
         return Pathfinding.PathExists(origin, destination, CellRangeBorders, positionPredicate, out path);
     }
-
     #endregion
 
     public event Action<Cell, bool> CellChangedOld;

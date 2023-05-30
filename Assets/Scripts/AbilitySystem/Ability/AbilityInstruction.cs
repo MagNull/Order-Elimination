@@ -35,7 +35,7 @@ namespace OrderElimination.AbilitySystem
                     ActionRequires.Entity => true,
                     ActionRequires.Cell => true,
                     //ActionExecutes.OncePerGroup => true,
-                    ActionRequires.Nothing => false,
+                    ActionRequires.Caster => false,
                     _ => throw new NotImplementedException(),
                 };
                 return actionRequireCellGroups;// && !AffectPreviousTarget;
@@ -140,7 +140,7 @@ namespace OrderElimination.AbilitySystem
             if (_commonConditions != null && !_commonConditions.All(c => c.IsConditionMet(battleContext, caster)))
                 return;
             var groups = executionContext.TargetedCellGroups;
-            if (Action.ActionRequires == ActionRequires.Nothing)
+            if (Action.ActionRequires == ActionRequires.Caster)
             {
                 if (Action is IUtilizeCellGroupsAction groupAction
                     && !groupAction.UtilizingCellGroups
@@ -206,6 +206,8 @@ namespace OrderElimination.AbilitySystem
                 var executionEntity = entityIfNoPreviousTarget;
                 if (AffectPreviousTarget && executionContext.PreviousInstructionTarget != null)
                     executionEntity = executionContext.PreviousInstructionTarget;
+                if (!executionEntity.IsAlive)
+                    return;
                 if (_targetConditions != null
                     && !_targetConditions.All(c => c.IsConditionMet(battleContext, caster, executionEntity)))
                     return;

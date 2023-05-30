@@ -8,7 +8,7 @@ namespace OrderElimination.AbilitySystem
     {
         Entity,
         Cell,
-        Nothing
+        Caster
     }
 
     [Obsolete("Интерфейс " + nameof(IBattleAction) + " является обобщающим. По возможности используйте BattleAction<TAction>.")]

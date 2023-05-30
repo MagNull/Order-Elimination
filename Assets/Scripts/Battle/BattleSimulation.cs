@@ -177,10 +177,10 @@ public class BattleSimulation : SerializedMonoBehaviour
             .Select(c => c.View.GameObject.GetComponent<BattleCharacterView>())
             .ToArray();
         
-        _enemiesListPanel.Populate(enemies);
+        //_enemiesListPanel.Populate(enemies);
         foreach (var enemy in enemies)
         {
-            enemy.Disabled += _enemiesListPanel.RemoveItem;
+            //enemy.Disabled += _enemiesListPanel.RemoveItem;
             enemy.Disabled += view => _characters.Remove((BattleCharacter) view.Model);
         }
 

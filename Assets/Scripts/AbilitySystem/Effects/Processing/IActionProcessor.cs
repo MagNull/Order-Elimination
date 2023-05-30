@@ -2,9 +2,6 @@
 using Sirenix.Serialization;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Searcher;
-using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace OrderElimination.AbilitySystem
 {

@@ -17,8 +17,6 @@ namespace OrderElimination
     public class BattleMapLifetimeScope : LifetimeScope
     {
         [SerializeField]
-        private BattleCharacterFactory _battleCharacterFactory;
-        [SerializeField]
         private BattleEntitiesFactory _battleEntitiesFactory;
         [SerializeField]
         private BattleLoopManager _battleLoopManager;
@@ -36,9 +34,6 @@ namespace OrderElimination
         private BattleMapDirector _battleMapDirector;
         [SerializeField]
         private CharactersBank _charactersBank; 
-        //TODO(Sano): Make normal prefab info
-        [SerializeField]
-        private GameObject _environmentPrefab;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -52,7 +47,6 @@ namespace OrderElimination
             builder.Register<GameCharactersFactory>(Lifetime.Singleton);
 
             builder.RegisterComponent(mediator);
-            builder.RegisterComponent(_battleCharacterFactory);
             builder.RegisterComponent(_battleMapDirector);
             builder.RegisterComponent(_battleMapView);
             builder.RegisterComponent(_particlesPool).AsImplementedInterfaces();
@@ -68,11 +62,6 @@ namespace OrderElimination
             builder.Register<AnimationSceneContext>(Lifetime.Singleton);
             builder.Register<BattleContext>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<EntitySpawner>(Lifetime.Singleton);
-
-            builder.Register<OldAbilityFactory>(Lifetime.Singleton).WithParameter(_battleMapView);
-            builder.Register<EnvironmentFactory>(Lifetime.Singleton).WithParameter(_environmentPrefab)
-                .WithParameter(_battleMapDirector.Map);
-            //builder.Register<CharacterArrangeDirector>(Lifetime.Singleton);
         }
     }
 }

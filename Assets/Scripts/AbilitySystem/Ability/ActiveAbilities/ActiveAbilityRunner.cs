@@ -19,13 +19,13 @@ namespace OrderElimination.AbilitySystem
         public bool IsRunning { get; private set; } = false;
         public int Cooldown { get; private set; }
 
-        public event Action<ActiveAbilityRunner> AbilityCasted;
+        public event Action<ActiveAbilityRunner> AbilityInitiated;
         public event Action<ActiveAbilityRunner> AbilityCastCompleted;
 
         public bool IsCastAvailable(IBattleContext battleContext, AbilitySystemActor caster)
         {
             return !IsRunning // :(
-                && !caster.IsBusy
+                && !caster.IsPerformingAbility
                 && Cooldown <= 0 
                 && AbilityData.Rules.IsAbilityAvailable(battleContext, caster);
         }
@@ -65,13 +65,13 @@ namespace OrderElimination.AbilitySystem
                 battleContext.NewRoundBegan += decreaseCooldown;
                 var abilityUseContext = new AbilityExecutionContext(battleContext, caster, executionGroups);
                 IsRunning = true;
-                caster.IsBusy = true;
-                AbilityCasted?.Invoke(this);
+                caster.IsPerformingAbility = true;
+                AbilityInitiated?.Invoke(this);//Ability functionality initiated, but not finished yet.
 
                 await AbilityData.Execution.Execute(abilityUseContext);
 
                 IsRunning = false;
-                caster.IsBusy = false;
+                caster.IsPerformingAbility = false;
                 AbilityCastCompleted?.Invoke(this);
             }
 

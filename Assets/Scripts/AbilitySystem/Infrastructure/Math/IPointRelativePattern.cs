@@ -14,6 +14,7 @@ namespace OrderElimination.Infrastructure
         Except
     }
 
+    [GUIColor(0.6f, 1, 0.6f)]
     public interface IPointRelativePattern : ICloneable<IPointRelativePattern>
     {
         public Vector2Int[] GetAbsolutePositions(Vector2Int originPoint);

@@ -6,8 +6,12 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class AbilitySystemActor : IHaveBattleLifeStats, IEffectHolder, IMovable
+    public class AbilitySystemActor : IHaveBattleLifeStats, IEffectHolder, IMovable, IBattleDisposable
     {
+        private readonly Lazy<EntityActionProcessor> _actionProcessor;
+        private readonly BattleStats _battleStats;
+        private bool _isDisposedFromBattle = false;
+
         public AbilitySystemActor(
             IBattleContext battleContext, 
             BattleStats battleStats, 
@@ -17,6 +21,7 @@ namespace OrderElimination.AbilitySystem
             IPassiveAbilityData[] passiveAbilities)//equipment
         {
             BattleContext = battleContext;
+            DeployedBattleMap = BattleContext.BattleMap;
             _battleStats = battleStats;
             battleStats.HealthDepleted -= OnHealthDepleted;
             battleStats.HealthDepleted += OnHealthDepleted;
@@ -38,7 +43,7 @@ namespace OrderElimination.AbilitySystem
 
             void OnHealthDepleted(ILifeBattleStats lifeStats)
             {
-                Died?.Invoke(this);
+                //IsAlive = false;
             }
         }
 
@@ -57,7 +62,7 @@ namespace OrderElimination.AbilitySystem
         {
             var dealtDamage = this.NoEventTakeDamage(damageInfo);
             Damaged?.Invoke(dealtDamage);
-            if (!IsAlive) Died?.Invoke(this);
+            if (!IsAlive) OnDeath();
             return dealtDamage;
         }
 
@@ -67,11 +72,18 @@ namespace OrderElimination.AbilitySystem
             Healed?.Invoke(recoveryInfo);
             return recoveryInfo;
         }
+
+        private void OnDeath()
+        {
+            if (IsAlive) throw new InvalidOperationException("Entity is alive.");
+            Died.Invoke(this);
+            DisposeFromBattle();
+        }
         #endregion
 
         #region EntityMover
         public IBattleContext BattleContext { get; }
-        public IBattleMap DeployedBattleMap => BattleContext.BattleMap;
+        public IBattleMap DeployedBattleMap { get; private set; }
         public Vector2Int Position => DeployedBattleMap.GetPosition(this);
         public bool CanMove => !StatusHolder.HasStatus(BattleStatus.CantMove);
 
@@ -126,7 +138,7 @@ namespace OrderElimination.AbilitySystem
         }
         public List<ActiveAbilityRunner> ActiveAbilities { get; } = new();
         public List<PassiveAbilityRunner> PassiveAbilities { get; } = new();
-        public bool IsBusy { get; set; } //Performs ability
+        public bool IsPerformingAbility { get; set; } //Performs ability
         #endregion
 
         #region IEffectHolder
@@ -166,13 +178,35 @@ namespace OrderElimination.AbilitySystem
         }
         #endregion
 
+        #region IBattleDisposable
+        public event Action<IBattleDisposable> DisposedFromBattle;
+
+        public bool DisposeFromBattle()
+        {
+            if (_isDisposedFromBattle)
+                return false;
+            //Dispose
+            foreach (var passiveAbility in PassiveAbilities)
+            {
+                passiveAbility.Deactivate();
+            }
+            var effects = _effects.ToArray();
+            foreach (var effect in effects)
+            {
+                effect.TryDeactivate();
+            }
+            DeployedBattleMap.RemoveEntity(this);
+            //DeployedBattleMap = null;
+            _isDisposedFromBattle = true;
+            DisposedFromBattle?.Invoke(this);
+            return true;
+        }
+        #endregion
+
         public EntityStatusHolder StatusHolder { get; } = new EntityStatusHolder();
 
         public EntityActionProcessor ActionProcessor => _actionProcessor.Value;
 
         //IBattleObstacle?
-
-        private readonly Lazy<EntityActionProcessor> _actionProcessor;
-        private readonly BattleStats _battleStats;
     }
 }

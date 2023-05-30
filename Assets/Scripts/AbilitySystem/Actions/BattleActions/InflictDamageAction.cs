@@ -7,6 +7,7 @@ using Unity.Burst.CompilerServices;
 using System.Linq;
 using Sirenix.OdinInspector;
 using Cysharp.Threading.Tasks;
+using OrderElimination.AbilitySystem.Animations;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -97,6 +98,11 @@ namespace OrderElimination.AbilitySystem
                 ? 0
                 : useContext.ActionTarget.BattleStats.GetParameter(BattleStat.Evasion).ModifiedValue;
             var hitResult = useContext.BattleContext.HitCalculation.CalculateHitResult(accuracy, evasion);
+            var animationContext = new AnimationPlayContext(
+                useContext.AnimationSceneContext,
+                useContext.TargetCellGroups,
+                useContext.ActionMaker,
+                useContext.ActionTarget);
             if (hitResult == HitResult.Success)
             {
                 var damageSize = DamageSize.GetValue(useContext);
@@ -104,6 +110,14 @@ namespace OrderElimination.AbilitySystem
                 var damageInfo = new DamageInfo(damageSize, ArmorMultiplier, HealthMultiplier, DamageType, DamagePriority, damageDealer);
                 useContext.ActionTarget.TakeDamage(damageInfo);
                 return new SimplePerformResult(this, useContext, true);
+            }
+            else if (hitResult == HitResult.Miss)
+            {
+                await useContext.AnimationSceneContext.DefaultAnimations[DefaultAnimation.Miss].Play(animationContext);
+            }
+            else if (hitResult == HitResult.Evasion)
+            {
+                await useContext.AnimationSceneContext.DefaultAnimations[DefaultAnimation.Evasion].Play(animationContext);
             }
             return new SimplePerformResult(this, useContext, false);
         }

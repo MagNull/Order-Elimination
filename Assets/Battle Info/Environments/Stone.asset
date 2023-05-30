@@ -33,14 +33,23 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  _name: Stone
   _spriteView: {fileID: 21300000, guid: 1687718f31e72e741b9b67438257443d, type: 3}
+  _maxHealth: 3000
+  _posessedAbilities: []
   _isWalkable: 0
   _battleStats:
     _health: 0
+    _unmodifiedHealth: 0
     _attack: 0
+    _unmodifiedAttack: 0
     _armor: 0
+    _unmodifiedArmor: 0
     _additionalArmor: 0
     _evasion: 0
+    _unmodifiedEvasion: 0
     _accuracy: 0
+    _unmodifiedAccuracy: 0
     _movement: 0
+    _unmodifiedMovement: 0
     _damageModificator: 0

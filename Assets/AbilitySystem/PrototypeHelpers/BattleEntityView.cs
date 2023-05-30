@@ -4,7 +4,9 @@ using DG.Tweening;
 using OrderElimination.AbilitySystem;
 using OrderElimination.AbilitySystem.Animations;
 using OrderElimination.Infrastructure;
+using Sirenix.OdinInspector;
 using System;
+using System.Threading;
 using UnityEngine;
 using VContainer;
 
@@ -15,17 +17,40 @@ public class BattleEntityView : MonoBehaviour
     [SerializeField]
     private Transform _floatingNumbersPosition;
 
+    [HideInInspector, SerializeField]
+    private float _iconTargetSize = 1.9f;
     private BattleMapView _battleMapView;
     private IParticlesPool _particlesPool;
     private TextEmitter _textEmitter;
     private float _damageCash;
     private float _healthCash;
     private float _armorCash;
-
     public static float SummingValuesTimeGap { get; private set; } = 0.01f;
+
+    [ShowInInspector]
+    public float IconTargetSize
+    {
+        get => _iconTargetSize;
+        set
+        {
+            if (value < 0) value = 0;
+            _iconTargetSize = value;
+            BattleIcon = BattleIcon;
+        }
+    }
     public AbilitySystemActor BattleEntity { get; private set; }
     public string Name { get; private set; }
-    public Sprite BattleIcon { get; private set; }
+    public Sprite BattleIcon
+    {
+        get => _renderer.sprite;
+        set
+        {
+            _renderer.sprite = value;
+            var bounds = value.bounds;
+            float maxBoundsSide = bounds.size.y >= bounds.size.x ? bounds.size.y : bounds.size.x;
+            _renderer.transform.localScale = Vector3.one * IconTargetSize / maxBoundsSide;
+        }
+    }
 
     public static readonly Vector3 ErrorPosition = Vector3.zero;
 
@@ -62,7 +87,7 @@ public class BattleEntityView : MonoBehaviour
         BattleEntity.StatusHolder.StatusAppeared += OnStatusAppeared;
         BattleEntity.StatusHolder.StatusDisappeared += OnStatusDisappeared;
 
-        _renderer.sprite = BattleIcon = battleIcon;
+        BattleIcon = battleIcon;
         gameObject.name = Name = $"{entity.BattleSide} «{name}»";
 
         if (BattleEntity.DeployedBattleMap.Contains(BattleEntity))
@@ -75,6 +100,17 @@ public class BattleEntityView : MonoBehaviour
         {
             transform.position = ErrorPosition;
         }
+    }
+
+    public void Highlight(Color color, float highlightTime, float duration, float fadeTime)
+    {
+        _renderer.DOComplete();
+        var initialColor = _renderer.color;
+        DOTween.Sequence(_renderer)
+            .Append(_renderer.DOColor(color, highlightTime))
+            .Append(_renderer.DOColor(initialColor, fadeTime).SetDelay(duration))
+            .Play();
+        //_renderer.DOBlendableColor(initialColor, fadeTime);
     }
 
     public async UniTask Shake(float shakeX = 0.5f, float shakeY = 0.5f, float duration = 1, int vibrations = 10)
@@ -91,7 +127,8 @@ public class BattleEntityView : MonoBehaviour
 
     private void OnRemoved(AbilitySystemActor entity)
     {
-        transform.position = ErrorPosition;
+        if (BattleEntity != entity) return;
+        //transform.position = ErrorPosition;
     }
 
     private void OnMoved(Vector2Int from, Vector2Int to)
@@ -157,6 +194,7 @@ public class BattleEntityView : MonoBehaviour
         var luminosity = 0.1f;
         //_renderer.DOFade(0.7f, 1).SetEase(Ease.InBounce);
         _renderer.DOColor(new Color(luminosity, luminosity, luminosity), 0.4f);
+        _renderer.DOFade(0, 0.3f).SetDelay(0.4f).SetEase(Ease.OutBounce);
     }
 
     private void OnStatusAppeared(BattleStatus status)

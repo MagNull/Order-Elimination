@@ -5,12 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem.Animations
 {
     public enum DefaultAnimation
     {
+        Miss = 1,
+        Evasion = 2,
         //Walk,
         //Evasion,
         //CloakIn
@@ -23,9 +26,13 @@ namespace OrderElimination.AbilitySystem.Animations
         [ShowInInspector, OdinSerialize]
         private Dictionary<DefaultAnimation, IAbilityAnimation> _defaultAnimations = new();
 
+        public bool IsAnimationAssigned(DefaultAnimation animation) => _defaultAnimations.ContainsKey(animation);
+
+        public IAbilityAnimation this[DefaultAnimation animation] => _defaultAnimations[animation];
+
         public IAbilityAnimation GetDefaultAnimation(DefaultAnimation animation)
         {
-            if (_defaultAnimations.ContainsKey(animation))
+            if (!IsAnimationAssigned(animation))
                 throw new NotImplementedException($"Default animation of {animation} was not found.");
             return _defaultAnimations[animation];
         }
