@@ -11,8 +11,7 @@ namespace OrderElimination.AbilitySystem
     public interface IBattleMap
     {
         public CellRangeBorders CellRangeBorders { get; }
-
-
+        
         public event Action<Vector2Int> CellChanged;
         public event Action<AbilitySystemActor> PlacedOnMap;
         public event Action<AbilitySystemActor> RemovedFromMap;

@@ -1,7 +1,6 @@
 using DefaultNamespace;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
-using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
 using UIManagement;
@@ -320,7 +319,7 @@ public class BattleMapSelector : MonoBehaviour
 
     private void OnConfirmationUnlocked(IRequireTargetsTargetingSystem multiTargetSystem)
     {
-        _textEmitter.Emit("Нажмите «E» для применения!", Color.red, fontSize: 1.5f);
+        _textEmitter.Emit("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅEпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!", Color.red, fontSize: 1.5f);
         Debug.Log("Ability use ready.");
     }
     private void OnConfirmationLocked(IRequireTargetsTargetingSystem multiTargetSystem)
@@ -331,7 +330,7 @@ public class BattleMapSelector : MonoBehaviour
     {
         _castButton.onClick.RemoveListener(CastCurrentAbility);
         _castButton.onClick.AddListener(CastCurrentAbility);
-        _textEmitter.Emit($"Нажмите «Esc» для выхода.", Color.red, new Vector3(0, 4.5f, 1), Vector3.zero, 10, fontSize: 1f);
+        _textEmitter.Emit($"пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅEscпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.", Color.red, new Vector3(0, 4.5f, 1), Vector3.zero, 10, fontSize: 1f);
     }
 
     private void Update()
@@ -355,7 +354,7 @@ public class BattleMapSelector : MonoBehaviour
         if (_selectedAbility != null && _selectedAbility.AbilityData.TargetingSystem.IsConfirmAvailable)
         {
             var abilityName = _selectedAbility.AbilityData.View.Name;
-            Debug.Log($"Ability «{abilityName}» has been used." % Colorize.Cyan);
+            Debug.Log($"Ability пїЅ{abilityName}пїЅ has been used." % Colorize.Cyan);
             _selectedAbility.AbilityData.TargetingSystem.ConfirmTargeting();
         }
     }
