@@ -26,6 +26,8 @@ namespace RoguelikeMap
         private const int BattleEventSoundIndex = 3;
         [ShowInInspector] 
         private const int SafeZoneSoundIndex = 4;
+        [ShowInInspector]
+        private const int ShopSoundIndex = 5;
 
         [Inject]
         public void Construct(PanelGenerator panelGenerator)
@@ -41,18 +43,23 @@ namespace RoguelikeMap
 
         private void SubscribeToPanelEvents()
         {
+            Debug.Log("Subscribe");
             var eventPanel = _panelGenerator.GetPanelByPointInfo(PointType.Event) as EventPanel;
             eventPanel.OnBattleEventVisit += PlayBattleEventSound;
             eventPanel.OnSafeEventVisit += PlaySafeEventSound;
 
             var safeZonePanel = _panelGenerator.GetPanelByPointInfo(PointType.SafeZone) as SafeZonePanel;
             safeZonePanel.OnSafeZoneVisit += PlaySafeZoneSound;
+            
+            var shopPanel = _panelGenerator.GetPanelByPointInfo(PointType.Shop) as ShopPanel;
+            shopPanel.OnShopVisit += PlayShopSound;
         }
 
         private void PlayMapSound() => SetActiveMusic(GetRandomMapSound());
         private void PlaySafeEventSound(bool isPlay) => SetActiveMusic(isPlay ? SafeEventSoundIndex : GetRandomMapSound());
         private void PlayBattleEventSound(bool isPlay) => SetActiveMusic(isPlay ? BattleEventSoundIndex : GetRandomMapSound());
         private void PlaySafeZoneSound(bool isPlay) => SetActiveMusic(isPlay ? SafeZoneSoundIndex: GetRandomMapSound());
+        private void PlayShopSound(bool isPlay) => SetActiveMusic(isPlay ? ShopSoundIndex : GetRandomMapSound());
 
         private int GetRandomMapSound()
         {

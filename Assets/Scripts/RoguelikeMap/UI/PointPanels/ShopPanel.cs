@@ -26,6 +26,7 @@ namespace RoguelikeMap.UI.PointPanels
         private Wallet _wallet;
 
         public event Action<IReadOnlyList<ItemData>> OnBuyItems;
+        public event Action<bool> OnShopVisit;
         
         [Inject]
         public void Construct(Wallet wallet, Inventory_Items.Inventory inventory)
@@ -56,9 +57,16 @@ namespace RoguelikeMap.UI.PointPanels
             _inventory.AddItem(item);
         }
 
+        public override void Open()
+        {
+            OnShopVisit?.Invoke(true);
+            base.Open();
+        }
+
         public override void Close()
         {
             OnBuyItems?.Invoke(_items.Where(x => x.IsBuy).Select(x => x.Data).ToList());
+            OnShopVisit?.Invoke(false);
             base.Close();
         }
 
