@@ -56,9 +56,10 @@ namespace Assets.AbilitySystem.PrototypeHelpers
                 var position = enemySpawns[i];
                 _entitiesFactory.CreateBattleCharacter(entity, BattleSide.Enemies, position);
             }
-            foreach (var pos in scenario.StructureSpawns.Keys)
+            var structures = scenario.GetStructureSpawns();
+            foreach (var pos in structures.Keys)
             {
-                _entitiesFactory.CreateBattleStructure(scenario.StructureSpawns[pos], BattleSide.NoSide, pos);
+                _entitiesFactory.CreateBattleStructure(structures[pos], BattleSide.NoSide, pos);
             }
         }
     }

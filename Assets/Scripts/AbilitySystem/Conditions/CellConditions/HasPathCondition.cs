@@ -24,21 +24,21 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor caster, Vector2Int cellPosition)
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int positionToCheck)
         {
             var borders = battleContext.BattleMap.CellRangeBorders;
-            var hasPath = Pathfinding.PathExists(caster.Position, cellPosition, borders, CellPredicate, out var path);
+            var hasPath = Pathfinding.PathExists(askingEntity.Position, positionToCheck, borders, CellPredicate, out var path);
             if (!hasPath) return false;
             if (LimitByCasterMovement)
             {
-                if (!caster.BattleStats.HasParameter(BattleStat.MaxMovementDistance))
+                if (!askingEntity.BattleStats.HasParameter(BattleStat.MaxMovementDistance))
                     throw new ArgumentException("Caster doesn't have movement parameter.");
-                if (path.Length > caster.BattleStats[BattleStat.MaxMovementDistance].ModifiedValue)
+                if (path.Length > askingEntity.BattleStats[BattleStat.MaxMovementDistance].ModifiedValue)
                     return false;
             }
             return true;
 
-            bool CellPredicate(Vector2Int p) => PathConditions.All(c => c.IsConditionMet(battleContext, caster, p));
+            bool CellPredicate(Vector2Int p) => PathConditions.All(c => c.IsConditionMet(battleContext, askingEntity, p));
         }
     }
 }

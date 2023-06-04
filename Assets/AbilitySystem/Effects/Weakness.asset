@@ -31,12 +31,15 @@ MonoBehaviour:
     - Name: UseHolderProcessing
       Entry: 5
       Data: false
-    - Name: CanBeForceRemoved
-      Entry: 5
-      Data: false
     - Name: IsTemporary
       Entry: 5
       Data: true
+    - Name: InstructionOnActivation
+      Entry: 6
+      Data: 
+    - Name: InstructionOnDeactivation
+      Entry: 6
+      Data: 
     - Name: TemporaryEffectFunctionaity
       Entry: 7
       Data: 0|OrderElimination.AbilitySystem.TemporaryEffectFunctionaity, Assembly-CSharp
@@ -57,40 +60,109 @@ MonoBehaviour:
       Data: 
     - Name: IsProcessingOutcomingAction
       Entry: 5
-      Data: false
+      Data: true
     - Name: OutcomingActionProcessor
-      Entry: 6
-      Data: 
-    - Name: _view
       Entry: 7
-      Data: 1|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
-    - Name: Name
-      Entry: 1
-      Data: Weakness
-    - Name: Icon
-      Entry: 10
+      Data: 1|OrderElimination.AbilitySystem.DamageActionProcessor, Assembly-CSharp
+    - Name: _allowedDamageTypes
+      Entry: 7
+      Data: 2|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.DamageType,
+        Assembly-CSharp]], Assembly-CSharp
+    - Name: _valueFlags
+      Entry: 7
+      Data: 3|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.DamageType,
+        Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 4|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.DamageType,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
       Data: 0
-    - Name: IsHidden
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
       Entry: 5
       Data: false
     - Name: 
       Entry: 8
       Data: 
-    - Name: _onActivationInstruction
+    - Name: 
       Entry: 7
-      Data: 2|OrderElimination.AbilitySystem.EffectInstruction, Assembly-CSharp
-    - Name: _target
+      Data: 
+    - Name: $k
       Entry: 3
-      Data: 0
-    - Name: _battleAction
+      Data: 1
+    - Name: $v
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 7
-      Data: 3|OrderElimination.AbilitySystem.ModifyStatsAction, Assembly-CSharp
-    - Name: TargetBattleStat
+      Data: 
+    - Name: $k
       Entry: 3
-      Data: 0
-    - Name: ValueModifier
+      Data: 2
+    - Name: $v
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 7
-      Data: 4|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _damageOperation
+      Entry: 3
+      Data: 2
+    - Name: _damageValue
+      Entry: 7
+      Data: 5|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+    - Name: Value
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _accuracyOperation
+      Entry: 3
+      Data: 2
+    - Name: _accuracyValue
+      Entry: 7
+      Data: 6|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
       Data: 1
@@ -100,77 +172,48 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: UndoOnDeactivation
-      Entry: 5
-      Data: true
-    - Name: _animationBeforeAction
-      Entry: 6
-      Data: 
-    - Name: _animationAfterAction
+    - Name: _view
       Entry: 7
-      Data: 5|OrderElimination.AbilitySystem.Animations.SpawnParticleAnimation, Assembly-CSharp
-    - Name: ParticleType
-      Entry: 3
-      Data: 12
-    - Name: SpawnAt
-      Entry: 3
+      Data: 7|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
+    - Name: Name
+      Entry: 1
+      Data: Weakness
+    - Name: Icon
+      Entry: 10
       Data: 0
-    - Name: SpawnGroup
-      Entry: 3
-      Data: 0
-    - Name: Follow
-      Entry: 3
-      Data: 0
-    - Name: FaceDirection
+    - Name: IsHidden
       Entry: 5
       Data: false
-    - Name: FromParticlePosition
-      Entry: 5
-      Data: true
-    - Name: FacingFrom
-      Entry: 3
-      Data: 0
-    - Name: FacingFromGroup
-      Entry: 3
-      Data: 0
-    - Name: FacingFromCell
-      Entry: 3
-      Data: 0
-    - Name: FacingTo
-      Entry: 3
-      Data: 0
-    - Name: FacingToGroup
-      Entry: 3
-      Data: 0
-    - Name: FacingToCell
-      Entry: 3
-      Data: 0
-    - Name: RemapAnimationTime
-      Entry: 5
-      Data: false
-    - Name: RemappedTime
-      Entry: 4
-      Data: 0
-    - Name: _animationLoops
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _onDeactivationInstruction
+    - Name: AnimationOnActivation
       Entry: 6
+      Data: 
+    - Name: AnimationOnDeactivation
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _removeTriggers
+      Entry: 7
+      Data: 8|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+        Assembly-CSharp]], System.Core
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: _triggerInstructions
       Entry: 7
-      Data: 6|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.ITriggerSetupInfo,
+      Data: 9|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
         Assembly-CSharp],[OrderElimination.AbilitySystem.IEffectInstruction, Assembly-CSharp]],
         mscorlib
     - Name: comparer
       Entry: 7
-      Data: 7|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.ITriggerSetupInfo,
+      Data: 10|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 8

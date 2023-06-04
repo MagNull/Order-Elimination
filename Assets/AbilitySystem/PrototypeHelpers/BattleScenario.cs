@@ -4,7 +4,9 @@ using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering.UI;
 using UnityEngine.UIElements;
 
 namespace OrderElimination
@@ -12,6 +14,9 @@ namespace OrderElimination
     [CreateAssetMenu(fileName = "Battle Scenario", menuName = "Battle/Battle Scenario")]
     public class BattleScenario : SerializedScriptableObject
     {
+        public const int MapHeight = 8;
+        public const int MapWidth = 8;
+
         #region OdinVisuals
         private static Color GetSpawnTypeColor(SpawnType type)
         {
@@ -21,6 +26,48 @@ namespace OrderElimination
                 SpawnType.Enemies => Color.red,
                 _ => throw new NotImplementedException(),
             };
+        }
+
+        [TableMatrix(DrawElementMethod = nameof(DrawSpawnCell), SquareCells = true, HideRowIndices = true)]
+        //[OnValueChanged(nameof(UpdateMapPreview))]
+        [ShowInInspector]
+        private SpawnType?[,] _spawnLayout;
+
+        [OnInspectorInit]
+        private void UpdateMapPreview()
+        {
+            _spawnLayout = new SpawnType?[MapWidth, MapHeight];
+            foreach (var pos in _entitiesSpawns.Keys)
+            {
+                _spawnLayout[pos.x, MapHeight - 1 - pos.y] = _entitiesSpawns[pos];
+            }
+        }
+
+        private SpawnType? DrawSpawnCell(Rect rect, SpawnType? spawnType)
+        {
+            if (Event.current.type == EventType.MouseDown
+                && rect.Contains(Event.current.mousePosition))
+            {
+                spawnType = spawnType switch
+                {
+                    SpawnType.Allies => SpawnType.Enemies,
+                    SpawnType.Enemies => null,
+                    null => SpawnType.Allies,
+                    _ => throw new NotImplementedException(),
+                };
+                GUI.changed = true;
+                Event.current.Use();
+                Debug.Log("Update cell" % Colorize.Red);
+            }
+            var cellColor = new Color(0, 0, 0, 0);
+            if (spawnType != null)
+            {
+                var col = GetSpawnTypeColor(spawnType.Value);
+                cellColor = new Color(col.r, col.g, col.b, 1f);
+                
+            }
+            EditorGUI.DrawRect(rect, cellColor);
+            return spawnType;
         }
         #endregion
 
@@ -42,7 +89,18 @@ namespace OrderElimination
         [ShowInInspector, OdinSerialize]
         private Dictionary<Vector2Int, EnvironmentInfo> _structureSpawns = new();
 
-        public IReadOnlyDictionary<Vector2Int, EnvironmentInfo> StructureSpawns => _structureSpawns;
+        public void UpdateSpawns(SpawnType?[,] spawns)
+        {
+            _entitiesSpawns.Clear();
+            for (var x = 0; x < spawns.GetLength(0); x++)
+            {
+                for (var y = 0; y < spawns.GetLength(1); y++)
+                {
+                    if (spawns[x, y] != null)
+                        _entitiesSpawns.Add(new Vector2Int(x, y), spawns[x, y].Value);
+                }
+            }
+        }
 
         public Vector2Int[] GetAlliesSpawnPositions()
         {
@@ -72,5 +130,6 @@ namespace OrderElimination
                 };
             }
         }
+        public IReadOnlyDictionary<Vector2Int, EnvironmentInfo> GetStructureSpawns() => _structureSpawns;
     }
 }

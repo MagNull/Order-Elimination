@@ -22,9 +22,9 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor caster, Vector2Int cellPosition)
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int positionToCheck)
         {
-            return CellConditions.Any(c => c.IsConditionMet(battleContext, caster, cellPosition));
+            return CellConditions.Any(c => c.IsConditionMet(battleContext, askingEntity, positionToCheck));
         }
     }
 }

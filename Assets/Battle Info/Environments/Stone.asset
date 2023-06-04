@@ -21,9 +21,19 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: _enterEffects
+    - Name: _obstacleSetup
       Entry: 7
-      Data: 0|ITickEffect[], Assembly-CSharp
+      Data: 0|OrderElimination.AbilitySystem.BattleObstacleSetup, Assembly-CSharp
+    - Name: AllowsToStay
+      Entry: 5
+      Data: false
+    - Name: AllowsToWalkOn
+      Entry: 5
+      Data: false
+    - Name: _entityStayConditions
+      Entry: 7
+      Data: 1|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
+        Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -33,23 +43,58 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: _entityWalkConditions
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _accuracyAffectors
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.BattleObstacleSetup+AccuracyAffectionRule,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: OrderElimination.AbilitySystem.BattleObstacleSetup+AccuracyAffectionRule,
+        Assembly-CSharp
+    - Name: AccuracyOperation
+      Entry: 3
+      Data: 2
+    - Name: ValueOperand
+      Entry: 7
+      Data: 4|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+    - Name: Value
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _minSquare
+      Entry: 4
+      Data: 0.5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   _name: Stone
   _spriteView: {fileID: 21300000, guid: 1687718f31e72e741b9b67438257443d, type: 3}
   _maxHealth: 3000
   _posessedAbilities: []
-  _isWalkable: 0
-  _battleStats:
-    _health: 0
-    _unmodifiedHealth: 0
-    _attack: 0
-    _unmodifiedAttack: 0
-    _armor: 0
-    _unmodifiedArmor: 0
-    _additionalArmor: 0
-    _evasion: 0
-    _unmodifiedEvasion: 0
-    _accuracy: 0
-    _unmodifiedAccuracy: 0
-    _movement: 0
-    _unmodifiedMovement: 0
-    _damageModificator: 0

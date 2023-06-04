@@ -9,18 +9,18 @@ namespace OrderElimination.AbilitySystem
     [GUIColor(1, 1, 0)]
     public interface ICommonCondition : ICloneable<ICommonCondition>
 	{
-		public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor caster);
+		public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity);
 	}
 
 	[GUIColor(1, 1, 0)]
     public interface ICellCondition : ICloneable<ICellCondition>
     {
-        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor caster, Vector2Int cellPosition);
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int positionToCheck);
     }
 
     [GUIColor(1, 1, 0)]
     public interface IEntityCondition : ICloneable<IEntityCondition>
 	{
-		public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor caster, AbilitySystemActor entity);
+		public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, AbilitySystemActor entityToCheck);
 	}
 }

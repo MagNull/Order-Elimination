@@ -17,13 +17,13 @@ namespace OrderElimination.AbilitySystem
         public IBattleTrigger GetTrigger(IBattleContext battleContext, AbilitySystemActor trackingEntity)
         {
             var instance = new ITriggerSetup.BattleTrigger(this, battleContext);
-            instance.Activated += OnActivation;
+            instance.ActivationRequested += OnActivation;
             return instance;
 
             void OnActivation(ITriggerSetup.BattleTrigger trigger)
             {
-                instance.Activated -= OnActivation;
-                instance.Deactivated += OnDeactivation;
+                instance.ActivationRequested -= OnActivation;
+                instance.DeactivationRequested += OnDeactivation;
                 trackingEntity.MovedFromTo += OnEntityMoved;
             }
 
@@ -36,7 +36,7 @@ namespace OrderElimination.AbilitySystem
 
             void OnDeactivation(ITriggerSetup.BattleTrigger trigger)
             {
-                instance.Deactivated -= OnDeactivation;
+                instance.DeactivationRequested -= OnDeactivation;
                 trackingEntity.MovedFromTo -= OnEntityMoved;
             }
         }

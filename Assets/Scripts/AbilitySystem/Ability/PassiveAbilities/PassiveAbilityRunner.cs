@@ -31,8 +31,8 @@ namespace OrderElimination.AbilitySystem
         public void Deactivate()
         {
             if (!IsActive) throw new InvalidOperationException("Passive Ability Runner is not active.");
-            AbilityData.Execution.ExecutionTriggered -= OnExecutionTriggered;
             AbilityData.Execution.Dectivate(_currentActivationInfo);
+            AbilityData.Execution.ExecutionTriggered -= OnExecutionTriggered;
             IsActive = false;
         }
 

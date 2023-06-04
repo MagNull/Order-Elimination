@@ -10,6 +10,7 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
+    //Does not fire that entities left zone on deactivation!!
     public class EntityRelativeZoneTrigger : IEntityTriggerSetup
     {
         [ShowInInspector, OdinSerialize]
@@ -29,13 +30,13 @@ namespace OrderElimination.AbilitySystem
             var entitiesInZone = new HashSet<AbilitySystemActor>();
 
             var instance = new ITriggerSetup.BattleTrigger(this, battleContext);
-            instance.Activated += OnActivation;
+            instance.ActivationRequested += OnActivation;
             return instance;
 
             void OnActivation(ITriggerSetup.BattleTrigger trigger)
             {
-                trigger.Activated -= OnActivation;
-                trigger.Deactivated += OnDeactivation;
+                trigger.ActivationRequested -= OnActivation;
+                trigger.DeactivationRequested += OnDeactivation;
                 trigger.OperatingContext.BattleMap.CellChanged += OnCellChanged;
                 UpdateZone(instance, trackingEntity, ref entitiesInZone);
             }
@@ -43,7 +44,7 @@ namespace OrderElimination.AbilitySystem
             void OnDeactivation(ITriggerSetup.BattleTrigger trigger)
             {
                 if (trigger != instance) throw new ArgumentException();
-                trigger.Deactivated -= OnDeactivation;
+                trigger.DeactivationRequested -= OnDeactivation;
                 trigger.OperatingContext.BattleMap.CellChanged -= OnCellChanged;
             }
 

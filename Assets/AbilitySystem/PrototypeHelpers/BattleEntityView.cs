@@ -6,7 +6,6 @@ using OrderElimination.AbilitySystem.Animations;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using System;
-using System.Threading;
 using UnityEngine;
 using VContainer;
 
@@ -75,6 +74,7 @@ public class BattleEntityView : MonoBehaviour
         BattleEntity.Damaged -= OnDamaged;
         BattleEntity.Healed -= OnHealed;
         BattleEntity.Died -= OnDied;
+        BattleEntity.DisposedFromBattle -= OnDisposedFromBattle;
         BattleEntity.StatusHolder.StatusAppeared -= OnStatusAppeared;
         BattleEntity.StatusHolder.StatusDisappeared -= OnStatusDisappeared;
 
@@ -84,6 +84,7 @@ public class BattleEntityView : MonoBehaviour
         BattleEntity.Damaged += OnDamaged;
         BattleEntity.Healed += OnHealed;
         BattleEntity.Died += OnDied;
+        BattleEntity.DisposedFromBattle += OnDisposedFromBattle;
         BattleEntity.StatusHolder.StatusAppeared += OnStatusAppeared;
         BattleEntity.StatusHolder.StatusDisappeared += OnStatusDisappeared;
 
@@ -191,6 +192,14 @@ public class BattleEntityView : MonoBehaviour
 
     private void OnDied(AbilitySystemActor entity)
     {
+        //var luminosity = 0.1f;
+        ////_renderer.DOFade(0.7f, 1).SetEase(Ease.InBounce);
+        //_renderer.DOColor(new Color(luminosity, luminosity, luminosity), 0.4f);
+        //_renderer.DOFade(0, 0.3f).SetDelay(0.4f).SetEase(Ease.OutBounce);
+    }
+
+    private void OnDisposedFromBattle(IBattleDisposable entity)
+    {
         var luminosity = 0.1f;
         //_renderer.DOFade(0.7f, 1).SetEase(Ease.InBounce);
         _renderer.DOColor(new Color(luminosity, luminosity, luminosity), 0.4f);
@@ -251,6 +260,7 @@ public class BattleEntityView : MonoBehaviour
             BattleEntity.Damaged += OnDamaged;
             BattleEntity.Healed += OnHealed;
             BattleEntity.Died += OnDied;
+            BattleEntity.DisposedFromBattle += OnDisposedFromBattle;
             BattleEntity.StatusHolder.StatusAppeared += OnStatusAppeared;
             BattleEntity.StatusHolder.StatusDisappeared += OnStatusDisappeared;
         }
@@ -267,6 +277,7 @@ public class BattleEntityView : MonoBehaviour
             BattleEntity.Damaged -= OnDamaged;
             BattleEntity.Healed -= OnHealed;
             BattleEntity.Died -= OnDied;
+            BattleEntity.DisposedFromBattle -= OnDisposedFromBattle;
             BattleEntity.StatusHolder.StatusAppeared -= OnStatusAppeared;
             BattleEntity.StatusHolder.StatusDisappeared -= OnStatusDisappeared;
             //...

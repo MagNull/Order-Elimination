@@ -27,7 +27,7 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor caster)
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity)
         {
             return battleContext.CurrentRound >= UnlocksAtRound;
         }

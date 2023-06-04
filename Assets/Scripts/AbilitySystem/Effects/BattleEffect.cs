@@ -13,10 +13,12 @@ namespace OrderElimination.AbilitySystem
         public bool IsActive { get; private set; }
         public AbilitySystemActor EffectApplier { get; private set; }
         public AbilitySystemActor EffectHolder { get; private set; }
+
         public event Action<BattleEffect> Deactivated;
 
         //Temporary effect
         public int? LeftDuration { get; private set; }
+
         public event Action<BattleEffect> DurationEnded;
 
 

@@ -30,6 +30,10 @@ public class BattleMapSelector : MonoBehaviour
     [SerializeField]
     private Button _castButton;
 
+    [TitleGroup("Components")]
+    [SerializeField]
+    private AbilityPreviewDisplayer _abilityPreviewDisplayer;
+
     private TextEmitter _textEmitter;
 
     [TitleGroup("Cell Visuals")]
@@ -165,6 +169,10 @@ public class BattleMapSelector : MonoBehaviour
                 else
                     print($"Wrong target at {cellPosition}");
             }
+            _abilityPreviewDisplayer.DisplayPreview(
+                _selectedAbility.AbilityData,
+                _currentSelectedEntity,
+                _selectedAbility.AbilityData.TargetingSystem.ExtractCastTargetGroups());
         }
     }
 
@@ -245,12 +253,17 @@ public class BattleMapSelector : MonoBehaviour
         _mode = SelectorMode.SelectingTargets;
         _selectedAbility = abilityRunner;
         HighlightCells();
+        _abilityPreviewDisplayer.DisplayPreview(
+                _selectedAbility.AbilityData,
+                _currentSelectedEntity,
+                _selectedAbility.AbilityData.TargetingSystem.ExtractCastTargetGroups());
     }
 
     private void OnAbilityDeselect(ActiveAbilityRunner abilityRunner)
     {
         if (_selectedAbility == null)
             return;//throw new System.InvalidOperationException("There is no ability selected.");
+        _abilityPreviewDisplayer.HidePreview();
         if (abilityRunner.AbilityData.TargetingSystem is IRequireTargetsTargetingSystem targetingSystem)
         {
             targetingSystem.SelectionUpdated -= OnSelectionUpdated;
@@ -340,13 +353,33 @@ public class BattleMapSelector : MonoBehaviour
         {
             CastCurrentAbility();
         }
-        #if !UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Time.timeScale = 1.0f;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Time.timeScale = 0.5f;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            Time.timeScale = 0.25f;
+        }
+        if (Input.GetKeyDown(KeyCode.Equals))
+        {
+            Time.timeScale *= 2;
+        }
+        if (Input.GetKeyDown(KeyCode.Minus))
+        {
+            Time.timeScale /= 2;
+        }
+#if !UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Debug.Log("We're cool" % Colorize.Blue);
             Application.Quit();
         }
-        #endif
+#endif
     }
     #endregion
 

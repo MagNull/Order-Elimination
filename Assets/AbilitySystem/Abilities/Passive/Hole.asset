@@ -43,7 +43,7 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|OrderElimination.AbilitySystem.SimpleTriggerInstruction, Assembly-CSharp
+      Data: 1|OrderElimination.AbilitySystem.UniversalTriggerInstruction, Assembly-CSharp
     - Name: TriggerSetup
       Entry: 7
       Data: 2|OrderElimination.AbilitySystem.EntityRelativeZoneTrigger, Assembly-CSharp
@@ -52,13 +52,13 @@ MonoBehaviour:
       Data: 3|OrderElimination.Infrastructure.DistanceFromPointPattern, Assembly-CSharp
     - Name: UseSquareDistance
       Entry: 5
-      Data: false
+      Data: true
     - Name: _minDistanceFromOrigin
       Entry: 4
       Data: 0
     - Name: _maxDistanceFromOrigin
       Entry: 4
-      Data: 1.5
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -190,8 +190,8 @@ MonoBehaviour:
       Data: 
     - Name: _specifiedCharacters
       Entry: 7
-      Data: 11|System.Collections.Generic.HashSet`1[[IBattleCharacterData, Assembly-CSharp]],
-        System.Core
+      Data: 11|System.Collections.Generic.List`1[[IBattleCharacterData, Assembly-CSharp]],
+        mscorlib
     - Name: 
       Entry: 12
       Data: 1
@@ -206,8 +206,8 @@ MonoBehaviour:
       Data: 
     - Name: _specifiedStructures
       Entry: 7
-      Data: 12|System.Collections.Generic.HashSet`1[[IBattleStructureData, Assembly-CSharp]],
-        System.Core
+      Data: 12|System.Collections.Generic.List`1[[IBattleStructureData, Assembly-CSharp]],
+        mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -426,56 +426,7 @@ MonoBehaviour:
       Entry: 5
       Data: true
     - Name: AnimationBeforeAction
-      Entry: 7
-      Data: 27|OrderElimination.AbilitySystem.Animations.SpawnParticleAnimation,
-        Assembly-CSharp
-    - Name: ParticleType
-      Entry: 3
-      Data: 2
-    - Name: SpawnAt
-      Entry: 3
-      Data: 2
-    - Name: SpawnGroup
-      Entry: 3
-      Data: 0
-    - Name: Follow
-      Entry: 3
-      Data: 0
-    - Name: FaceDirection
-      Entry: 5
-      Data: false
-    - Name: FromParticlePosition
-      Entry: 5
-      Data: true
-    - Name: FacingFrom
-      Entry: 3
-      Data: 0
-    - Name: FacingFromGroup
-      Entry: 3
-      Data: 0
-    - Name: FacingFromCell
-      Entry: 3
-      Data: 0
-    - Name: FacingTo
-      Entry: 3
-      Data: 0
-    - Name: FacingToGroup
-      Entry: 3
-      Data: 0
-    - Name: FacingToCell
-      Entry: 3
-      Data: 0
-    - Name: RemapAnimationTime
-      Entry: 5
-      Data: false
-    - Name: RemappedTime
-      Entry: 4
-      Data: 0
-    - Name: _animationLoops
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 8
+      Entry: 6
       Data: 
     - Name: 
       Entry: 8
@@ -497,11 +448,15 @@ MonoBehaviour:
       Data: 
     - Name: _cellGroupsHighlightColors
       Entry: 7
-      Data: 28|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[UnityEngine.Color,
+      Data: 27|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[UnityEngine.Color,
         UnityEngine.CoreModule]], mscorlib
     - Name: comparer
-      Entry: 9
-      Data: 15
+      Entry: 7
+      Data: 28|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 12
       Data: 0

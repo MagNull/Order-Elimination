@@ -11,27 +11,20 @@ namespace OrderElimination.BM
     {
         [SerializeField]
         private string _name;
+        [PreviewField(100, ObjectFieldAlignment.Left)]
         [SerializeField]
         private Sprite _spriteView;
         [SerializeField]
         private float _maxHealth;
         [SerializeField]
-        public PassiveAbilityBuilder[] _posessedAbilities;
+        private PassiveAbilityBuilder[] _posessedAbilities;
         [SerializeField]
-        private bool _isWalkable;
-        [SerializeField]
-        private BattleStats _battleStats;
-        [SerializeField]
-        private ITickEffect[] _enterEffects;
+        private IBattleObstacleSetup _obstacleSetup;
 
         public string Name => _name;
         public Sprite BattleIcon => _spriteView;
         public float MaxHealth => _maxHealth;
+        public IBattleObstacleSetup ObstacleSetup => _obstacleSetup;
         public PassiveAbilityBuilder[] GetPossesedAbilities() => _posessedAbilities;
-
-        public BattleStats Stats => _battleStats;
-        public ITickEffect[] EnterEffects => _enterEffects;
-
-        public bool IsWalkable => _isWalkable;
     }
 }
