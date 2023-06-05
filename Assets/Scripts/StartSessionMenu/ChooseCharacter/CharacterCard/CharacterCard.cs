@@ -31,6 +31,11 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         {
             IsSelected = !IsSelected;
         }
+        
+        public void SetImage(Sprite sprite)
+        {
+            _cardImage.sprite = sprite;
+        }
 
         private void OnClick(HoldableButton button)
         {

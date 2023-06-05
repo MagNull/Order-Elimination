@@ -28,7 +28,7 @@ namespace RoguelikeMap.SquadInfo
         private SquadCommander _commander;
         private SquadMembersPanel _squadMembersPanel;
         private CharacterCardGenerator _characterCardGenerator;
-        private List<CharacterCardWithHealthBar> _cardsOnButton = new();
+        private List<CharacterCard> _cardsOnButton = new();
 
         public int AmountOfCharacters => _model.AmountOfMembers;
         public IReadOnlyList<Character> Members => _model.Members;
@@ -65,16 +65,16 @@ namespace RoguelikeMap.SquadInfo
             if (_cardsOnButton.Count > 0)
             {
                 foreach(var card in _cardsOnButton)
-                    Destroy(card);
+                    Destroy(card.gameObject);
+                _cardsOnButton.Clear();
             }
 
             foreach (var character in _model.ActiveMembers)
             {
                 var card = _characterCardGenerator
-                    .GenerateCardWithHealthBar(character, _iconsMembersOnButton);
+                    .GenerateCardIcon(character, _iconsMembersOnButton);
                 card.SetImage(character.BattleIcon);
-                Destroy(card.GetComponent<DraggableObject>());
-                card.transform.localScale = Vector3.one * 0.5f;
+                card.transform.localScale = Vector3.one * 1.3f;
                 
                 _cardsOnButton.Add(card);
             }

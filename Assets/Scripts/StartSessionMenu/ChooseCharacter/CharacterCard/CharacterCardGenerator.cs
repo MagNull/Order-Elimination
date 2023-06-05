@@ -11,14 +11,17 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         private IObjectResolver _objectResolver;
         private CharacterCardWithHealthBar _characterWithHealthBar;
         private CharacterCardWithCost _characterCardWithCost;
+        private CharacterCard _characterIcon;
 
         [Inject]
         public CharacterCardGenerator(IObjectResolver objectResolver,
-            CharacterCardWithHealthBar cardWithHealthBar, CharacterCardWithCost cardWithCost)
+            CharacterCardWithHealthBar cardWithHealthBar, CharacterCardWithCost cardWithCost,
+            CharacterCard characterIcon)
         {
             _objectResolver = objectResolver;
             _characterWithHealthBar = cardWithHealthBar;
             _characterCardWithCost = cardWithCost;
+            _characterIcon = characterIcon;
         }
 
         public CharacterCardWithHealthBar GenerateCardWithHealthBar(Character character,
@@ -28,6 +31,10 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         public CharacterCardWithCost GenerateCardWithCost(Character character,
             Transform parent, bool isSelected = false) =>
             (CharacterCardWithCost)Generate(character, CharacterCardType.Cost, parent, isSelected);
+
+        public CharacterCard GenerateCardIcon(Character character,
+            Transform parent, bool isSelected = false) => 
+            Generate(character, CharacterCardType.Avatar, parent, isSelected);
         
         private CharacterCard Generate(Character character, CharacterCardType type, Transform parent, bool isSelected)
         {
@@ -35,6 +42,7 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
             {
                 CharacterCardType.Cost => _objectResolver.Instantiate(_characterCardWithCost, parent),
                 CharacterCardType.HealthBar => _objectResolver.Instantiate(_characterWithHealthBar, parent),
+                CharacterCardType.Avatar => _objectResolver.Instantiate(_characterIcon, parent),
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
             };
             

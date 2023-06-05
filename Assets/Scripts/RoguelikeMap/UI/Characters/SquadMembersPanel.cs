@@ -65,7 +65,7 @@ namespace RoguelikeMap.UI.Characters
                 .AddRange(_characterCards
                     .Where(x => !x.IsSelected)
                     .Select(x => x.Character));
-            OnSelected?.Invoke(characters, characters.Count - countActiveCharacters);
+            OnSelected?.Invoke(characters, countActiveCharacters);
             Debug.Log(characters.Count);
         }
     }

@@ -82,6 +82,7 @@ namespace OrderElimination
         {
             _members = characters;
             _activeMembersCount = activeMembersCount;
+            Debug.Log(activeMembersCount);
             OnUpdateSquadMembers?.Invoke();
         }
 

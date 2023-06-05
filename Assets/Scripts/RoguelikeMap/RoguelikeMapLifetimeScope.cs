@@ -39,6 +39,8 @@ namespace RoguelikeMap
         private CharacterCardWithHealthBar _cardWithHealthBar;
         [SerializeField]
         private CharacterCardWithCost _cardWithCost;
+        [SerializeField]
+        private CharacterCard _cardIcon;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -49,7 +51,6 @@ namespace RoguelikeMap
             var wallet = new Wallet(_startMoney);
             
             builder.Register<Inventory_Items.Inventory>(Lifetime.Singleton).WithParameter(100);
-
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_squad);
             builder.RegisterComponent(_pathPrefab);
@@ -62,6 +63,7 @@ namespace RoguelikeMap
             builder.RegisterComponent(_characterInfoPanel);
             builder.RegisterComponent(_cardWithHealthBar);
             builder.RegisterComponent(_cardWithCost);
+            builder.RegisterComponent(_cardIcon);
             
             builder.Register<SquadCommander>(Lifetime.Singleton);
             builder.Register<SceneTransition>(Lifetime.Singleton);
