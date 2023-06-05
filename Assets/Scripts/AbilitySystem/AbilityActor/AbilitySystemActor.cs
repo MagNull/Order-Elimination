@@ -9,6 +9,7 @@ namespace OrderElimination.AbilitySystem
     public class AbilitySystemActor : IHaveBattleLifeStats, IEffectHolder, IMovable, IBattleDisposable
     {
         private readonly Lazy<EntityActionProcessor> _actionProcessor;
+        private readonly Lazy<BattleObstacle> _obstacle;
         private readonly BattleStats _battleStats;
         private bool _isDisposedFromBattle = false;
 
@@ -18,7 +19,8 @@ namespace OrderElimination.AbilitySystem
             EntityType type, 
             BattleSide side,
             IActiveAbilityData[] activeAbilities,
-            IPassiveAbilityData[] passiveAbilities)//equipment
+            IPassiveAbilityData[] passiveAbilities,
+            IBattleObstacleSetup obstacleSetup)//equipment
         {
             BattleContext = battleContext;
             DeployedBattleMap = BattleContext.BattleMap;
@@ -40,6 +42,7 @@ namespace OrderElimination.AbilitySystem
                 _actionPoints.Add(p, 0);
             }
             _actionProcessor = new Lazy<EntityActionProcessor>(() => EntityActionProcessor.Create(this));
+            _obstacle = new Lazy<BattleObstacle>(() => new BattleObstacle(obstacleSetup, this));
 
             void OnHealthDepleted(ILifeBattleStats lifeStats)
             {
@@ -50,6 +53,8 @@ namespace OrderElimination.AbilitySystem
         public EntityType EntityType { get; }
         public BattleSide BattleSide { get; }
         public IBattleStats BattleStats => _battleStats;
+        public IBattleContext BattleContext { get; }
+        public IBattleMap DeployedBattleMap { get; private set; }
 
         #region IHaveLifeStats
         public ILifeBattleStats LifeStats => _battleStats;
@@ -82,8 +87,6 @@ namespace OrderElimination.AbilitySystem
         #endregion
 
         #region EntityMover
-        public IBattleContext BattleContext { get; }
-        public IBattleMap DeployedBattleMap { get; private set; }
         public Vector2Int Position => DeployedBattleMap.GetPosition(this);
         public bool CanMove => !StatusHolder.HasStatus(BattleStatus.CantMove);
 
@@ -206,6 +209,8 @@ namespace OrderElimination.AbilitySystem
         public EntityStatusHolder StatusHolder { get; } = new EntityStatusHolder();
 
         public EntityActionProcessor ActionProcessor => _actionProcessor.Value;
+
+        public BattleObstacle Obstacle => _obstacle.Value;
 
         //IBattleObstacle?
     }

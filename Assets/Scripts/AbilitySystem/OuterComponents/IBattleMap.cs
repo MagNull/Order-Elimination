@@ -17,11 +17,10 @@ namespace OrderElimination.AbilitySystem
         public event Action<AbilitySystemActor> RemovedFromMap;
 
         public bool Contains(AbilitySystemActor entity);
-        public void PlaceEntity(AbilitySystemActor entity, Vector2Int position);//Check if entity is already on the map
+        public void PlaceEntity(AbilitySystemActor entity, Vector2Int position);
         public void RemoveEntity(AbilitySystemActor entity);
         public Vector2Int GetPosition(AbilitySystemActor entity);
         public Vector2Int GetPosition(IReadOnlyCell cell);
-        //public Vector2Int GetPosition(IBattleObstacle obstacle);
         public IEnumerable<AbilitySystemActor> GetContainedEntities(Vector2Int position);
         public float GetGameDistanceBetween(Vector2Int posA, Vector2Int posB);
         //public bool Move(IAbilitySystemActor movingEntity, Vector2Int destination);

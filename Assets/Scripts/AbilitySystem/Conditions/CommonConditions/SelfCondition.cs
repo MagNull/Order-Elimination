@@ -9,21 +9,21 @@ using System.Threading.Tasks;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class CasterCondition : ICommonCondition
+    public class SelfCondition : ICommonCondition
     {
         [ShowInInspector, OdinSerialize]
         public List<IEntityCondition> CasterConditions { get; set; } = new();
 
         public ICommonCondition Clone()
         {
-            var clone = new CasterCondition();
+            var clone = new SelfCondition();
             clone.CasterConditions = CasterConditions.Clone();
             return clone;
         }
 
-        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor caster)
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity)
         {
-            return CasterConditions.All(c => c.IsConditionMet(battleContext, caster, caster));
+            return CasterConditions.All(c => c.IsConditionMet(battleContext, askingEntity, askingEntity));
         }
     }
 }

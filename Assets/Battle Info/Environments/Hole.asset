@@ -21,27 +21,59 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: _enterEffects
-      Entry: 6
+    - Name: _obstacleSetup
+      Entry: 7
+      Data: 0|OrderElimination.AbilitySystem.BattleObstacleSetup, Assembly-CSharp
+    - Name: AllowsToStay
+      Entry: 5
+      Data: false
+    - Name: AllowsToWalkOn
+      Entry: 5
+      Data: true
+    - Name: _entityStayConditions
+      Entry: 7
+      Data: 1|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _entityWalkConditions
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _accuracyAffectors
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.BattleObstacleSetup+AccuracyAffectionRule,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
   _name: Hole
   _spriteView: {fileID: 21300000, guid: a21777386cb5c034f8f0d843deaa8965, type: 3}
   _maxHealth: 750
   _posessedAbilities:
   - {fileID: 11400000, guid: 3f134081112be5c4dbaec088e8860d92, type: 2}
-  _isWalkable: 0
-  _battleStats:
-    _health: 0
-    _unmodifiedHealth: 0
-    _attack: 0
-    _unmodifiedAttack: 0
-    _armor: 0
-    _unmodifiedArmor: 0
-    _additionalArmor: 0
-    _evasion: 0
-    _unmodifiedEvasion: 0
-    _accuracy: 0
-    _unmodifiedAccuracy: 0
-    _movement: 0
-    _unmodifiedMovement: 0
-    _damageModificator: 0

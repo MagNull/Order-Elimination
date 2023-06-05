@@ -1,62 +1,11 @@
 ﻿using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public interface ITriggerAbilityInstruction
-    {
-        public IBattleTrigger GetActivationTrigger(IBattleContext battleContext, AbilitySystemActor caster);
-    }
-
-    public class SimpleTriggerInstruction : ITriggerAbilityInstruction
-    {
-        [ValidateInput(
-            "@!(" + nameof(TriggerSetup) + " is " + nameof(IEntityTriggerSetup) + ")", 
-            "*Will track Caster's condition.")]
-        [ShowInInspector, OdinSerialize]
-        public ITriggerSetup TriggerSetup { get; private set; }
-
-        [ShowInInspector, OdinSerialize]
-        public CasterRelativePattern CellDistributionPattern { get; private set; }
-
-        [ShowInInspector, OdinSerialize]
-        public AbilityInstruction[] Instructions { get; private set; }
-
-        public IBattleTrigger GetActivationTrigger(IBattleContext battleContext, AbilitySystemActor caster)
-        {
-            IBattleTrigger trigger;
-            if (TriggerSetup is IContextTriggerSetup contextSetup)
-            {
-                trigger = contextSetup.GetTrigger(battleContext);
-            }
-            else if (TriggerSetup is IEntityTriggerSetup entitySetup)
-            {
-                var trackingEntity = caster;
-                trigger = entitySetup.GetTrigger(battleContext, trackingEntity);
-            }
-            else
-                throw new NotImplementedException();
-            trigger.Triggered += OnTriggered;
-            return trigger;
-
-            async void OnTriggered(ITriggerFireInfo fireInfo)
-            {
-                var borders = battleContext.BattleMap.CellRangeBorders;
-                var cellGroups = CellDistributionPattern.GetAffectedCellGroups(borders, caster.Position);
-                var executionContext = new AbilityExecutionContext(battleContext, caster, cellGroups);
-                foreach (var i in Instructions)
-                {
-                    await i.ExecuteRecursive(executionContext);
-                }
-            }
-        }
-    }
-
     public class EntitiesInZoneTriggerInstruction : ITriggerAbilityInstruction
     {
         private class UndoableResultsContainer
@@ -67,7 +16,7 @@ namespace OrderElimination.AbilitySystem
 
         #region OdinVisuals
         private bool _hasUndoableEnterActions => _actionsOnEnter.Any(a => a is IUndoableBattleAction);
-        private bool _hasUndoableLeaveActions => _actionsOnExit.Any(a => a is IUndoableBattleAction);
+        private bool _hasUndoableExitActions => _actionsOnExit.Any(a => a is IUndoableBattleAction);
         #endregion
 
         [ShowInInspector, OdinSerialize]
@@ -83,45 +32,83 @@ namespace OrderElimination.AbilitySystem
         //public AbilityInstruction InstructionForLeavedEntities { get; private set; }
         #endregion
 
+        [ShowIf("@" + nameof(_hasUndoableEnterActions) + " || " + nameof(_hasUndoableExitActions))]
+        [ShowInInspector, OdinSerialize]
+        private bool _undoOnTriggerDeactivation { get; set; }
+
         [ShowInInspector, OdinSerialize]
         private List<IBattleAction> _actionsOnEnter { get; set; } = new();
 
         [ShowIf(nameof(_hasUndoableEnterActions))]
+        [ValidateInput(
+            "@" + nameof(TriggerSetup) + "." + nameof(EntityRelativeZoneTrigger.TriggerOnExit),
+            "Enable " + nameof(EntityRelativeZoneTrigger.TriggerOnExit) + " in trigger setup for undo to work!")]
         [ShowInInspector, OdinSerialize]
         private bool _undoOnLeave { get; set; }
 
         [ShowInInspector, OdinSerialize]
         private List<IBattleAction> _actionsOnExit { get; set; } = new();
 
-        [ShowIf(nameof(_hasUndoableLeaveActions))]
+        [ShowIf(nameof(_hasUndoableExitActions))]
+        [ValidateInput(
+            "@" + nameof(TriggerSetup) + "." + nameof(EntityRelativeZoneTrigger.TriggerOnEnter),
+            "Enable " + nameof(EntityRelativeZoneTrigger.TriggerOnEnter) + " in trigger setup for undo to work!")]
         [ShowInInspector, OdinSerialize]
         private bool _undoOnEnter { get; set; }
-
 
         public IBattleTrigger GetActivationTrigger(IBattleContext battleContext, AbilitySystemActor caster)
         {
             var undoables = new Dictionary<AbilitySystemActor, UndoableResultsContainer>();
+            AbilitySystemActor[] entitiesInZone = null;
 
             var instance = TriggerSetup.GetTrigger(battleContext, caster);
-            instance.Triggered += OnTriggered;//Never unsubscribes, but once trigger deactivated - never called
-            //instance.Activate(); //Requires manual activation now
+            instance.Triggered += OnTriggered;
+            instance.Deactivated += OnTriggerDeactivation;
             return instance;
 
             async void OnTriggered(ITriggerFireInfo fireInfo)
             {
                 var triggerZoneInfo = (TriggerZoneFireInfo)fireInfo;
-                await Execute(triggerZoneInfo, battleContext, caster, undoables);
+                entitiesInZone = triggerZoneInfo.CurrentEntities;
+                await Execute(
+                    triggerZoneInfo.DisappearedEntities, 
+                    triggerZoneInfo.NewEntities, 
+                    battleContext, 
+                    caster, 
+                    undoables);
+            }
+
+            async void OnTriggerDeactivation(IBattleTrigger trigger)
+            {
+                instance.Deactivated -= OnTriggerDeactivation;
+                instance.Triggered -= OnTriggered;
+                if (_undoOnTriggerDeactivation && entitiesInZone != null)
+                {
+                    foreach (var entity in entitiesInZone.Where(e => undoables.ContainsKey(e)))
+                    {
+                        foreach (var enterResult in undoables[entity].OnEnterUndoableResults)
+                        {
+                            enterResult.ModifiedAction.Undo(enterResult.PerformId);
+                        }
+                        foreach (var enterResult in undoables[entity].OnExitUndoableResults)
+                        {
+                            enterResult.ModifiedAction.Undo(enterResult.PerformId);
+                        }
+                    }
+                    
+                }
             }
         }
 
         private async UniTask Execute(
-            TriggerZoneFireInfo info, 
+            AbilitySystemActor[] disappearedEntities,
+            AbilitySystemActor[] newEntities,
             IBattleContext battleContext, 
             AbilitySystemActor caster,
             Dictionary<AbilitySystemActor, UndoableResultsContainer> undoables)
         {
             var cellGroups = CellGroupsContainer.Empty;
-            foreach (var leaver in info.DisappearedEntities)
+            foreach (var leaver in disappearedEntities)
             {
                 //var executionContext = new AbilityExecutionContext(battleContext, caster, cellGroups, leaver);
                 //InstructionForLeavedEntities.ExecuteRecursive(executionContext);
@@ -144,7 +131,7 @@ namespace OrderElimination.AbilitySystem
                     }
                 }
             }
-            foreach (var newcomer in info.NewEntities)
+            foreach (var newcomer in newEntities)
             {
                 //var executionContext = new AbilityExecutionContext(battleContext, caster, cellGroups, newcomer);
                 //InstructionForEnteredEntities.ExecuteRecursive(executionContext);

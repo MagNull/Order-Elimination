@@ -18,7 +18,8 @@ namespace OrderElimination.AbilitySystem
             public bool IsActive { get; private set; }
 
             public event Action<ITriggerFireInfo> Triggered;
-            public event Action<IBattleTrigger> AllTriggerHandlersExecuted;
+            public event Action<IBattleTrigger> Deactivated;
+            //public event Action<IBattleTrigger> AllTriggerHandlersExecuted;
 
             public bool Activate()
             {
@@ -26,7 +27,7 @@ namespace OrderElimination.AbilitySystem
                 IsActive = true;
                 //
                 //OperatingSetup.OnActivation(this);
-                Activated?.Invoke(this);
+                ActivationRequested?.Invoke(this);
                 _hasBeenActivated = true;
                 return true;
             }
@@ -36,7 +37,7 @@ namespace OrderElimination.AbilitySystem
                 if (!IsActive) return false;
                 IsActive = false;
                 //
-                Deactivated?.Invoke(this);
+                DeactivationRequested?.Invoke(this);
                 if (Triggered != null)
                 {
                     foreach (var handler in Triggered.GetInvocationList().Cast<Action<ITriggerFireInfo>>())
@@ -44,14 +45,15 @@ namespace OrderElimination.AbilitySystem
                         Triggered -= handler;
                     }
                 }
+                Deactivated?.Invoke(this);
                 return true;
 
                 //Dispose
             }
             #endregion
 
-            public event Action<BattleTrigger> Activated;
-            public event Action<BattleTrigger> Deactivated;
+            public event Action<BattleTrigger> ActivationRequested;
+            public event Action<BattleTrigger> DeactivationRequested;
 
             public ITriggerSetup OperatingSetup { get; }
             public IBattleContext OperatingContext { get; private set; }
@@ -72,7 +74,7 @@ namespace OrderElimination.AbilitySystem
                     throw new InvalidOperationException("Trigger hasn't been activated yet or has already been deactivated.");
                 }
                 Triggered?.Invoke(triggerFiredInfo);
-                AllTriggerHandlersExecuted?.Invoke(this);
+                //AllTriggerHandlersExecuted?.Invoke(this);
                 //foreach (var handler in Triggered.GetInvocationList().Select(d => (Func<ITriggerFireInfo, UniTask>)d))
                 //{
                 //    await handler.Invoke(triggerFiredInfo);

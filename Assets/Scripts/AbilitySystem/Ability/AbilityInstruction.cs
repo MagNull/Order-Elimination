@@ -206,7 +206,7 @@ namespace OrderElimination.AbilitySystem
                 var executionEntity = entityIfNoPreviousTarget;
                 if (AffectPreviousTarget && executionContext.PreviousInstructionTarget != null)
                     executionEntity = executionContext.PreviousInstructionTarget;
-                if (!executionEntity.IsAlive)
+                if (executionEntity != null && !executionEntity.IsAlive)
                     return;
                 if (_targetConditions != null
                     && !_targetConditions.All(c => c.IsConditionMet(battleContext, caster, executionEntity)))

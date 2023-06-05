@@ -56,8 +56,8 @@ namespace OrderElimination.AbilitySystem
                     throw new InvalidOperationException("Has already been deactivated.");
                 foreach (var trigger in _activationTriggers)
                 {
-                    trigger.Triggered -= OnTriggered;
                     trigger.Deactivate();
+                    trigger.Triggered -= OnTriggered;
                 }
                 HasBeenDeactivated = true;
             }
@@ -96,8 +96,8 @@ namespace OrderElimination.AbilitySystem
                 throw new ArgumentException("Unknown activation info implementation");
             if (specificInfo.HasBeenDeactivated)
                 throw new InvalidOperationException("This execution has already been deactivated.");
-            specificInfo.Triggered -= OnTriggered;
             specificInfo.Deactivate();
+            specificInfo.Triggered -= OnTriggered;
         }
 
         private void OnTriggered(IPassiveExecutionActivationInfo activationInfo)

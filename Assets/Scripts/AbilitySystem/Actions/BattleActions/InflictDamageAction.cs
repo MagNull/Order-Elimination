@@ -72,13 +72,12 @@ namespace OrderElimination.AbilitySystem
             {
                 var battleMap = context.BattleContext.BattleMap;
                 var intersections = CellMath.GetIntersectionBetween(
-                    context.ActionMaker.Position, context.ActionTargetInitialPosition.Value);
+                    context.ActionMaker.Position, context.ActionTarget.Position);
                 foreach (var intersection in intersections)
                 {
                     foreach (var battleObstacle in context.BattleContext
                         .GetVisibleEntities(intersection.CellPosition, context.ActionMaker.BattleSide)
-                        .Select(e => e as IBattleObstacle)
-                        .Where(o => o != null))
+                        .Select(e => e.Obstacle))
                     {
                         modifiedAccuracy = battleObstacle.ModifyAccuracy(modifiedAccuracy, intersection.IntersectionAngle, intersection.SmallestPartSquare);
                     }

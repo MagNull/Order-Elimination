@@ -238,10 +238,13 @@ MonoBehaviour:
       Data: true
     - Name: TriggerOnExit
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
+    - Name: _undoOnTriggerDeactivation
+      Entry: 5
+      Data: true
     - Name: _actionsOnEnter
       Entry: 7
       Data: 14|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IBattleAction,

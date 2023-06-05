@@ -30,14 +30,14 @@ namespace OrderElimination.AbilitySystem.Conditions
             return clone;
         }
 
-        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor caster, AbilitySystemActor entity)
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, AbilitySystemActor entityToCheck)
         {
             if (RequiredEffects == null) throw new InvalidOperationException();
-            if (entity == null) throw new ArgumentNullException();
+            if (entityToCheck == null) throw new ArgumentNullException();
             return EffectRequirement switch
             {
-                RequireType.All => RequiredEffects.All(effect => entity.HasEffect(effect)),
-                RequireType.Any => RequiredEffects.Any(effect => entity.HasEffect(effect)),
+                RequireType.All => RequiredEffects.All(effect => entityToCheck.HasEffect(effect)),
+                RequireType.Any => RequiredEffects.Any(effect => entityToCheck.HasEffect(effect)),
                 _ => throw new NotImplementedException(),
             };
         }

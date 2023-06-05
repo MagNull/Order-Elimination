@@ -1,13 +1,7 @@
 ﻿using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.TextCore.Text;
 using VContainer;
 
 namespace Assets.AbilitySystem.PrototypeHelpers
@@ -56,9 +50,10 @@ namespace Assets.AbilitySystem.PrototypeHelpers
                 var position = enemySpawns[i];
                 _entitiesFactory.CreateBattleCharacter(entity, BattleSide.Enemies, position);
             }
-            foreach (var pos in scenario.StructureSpawns.Keys)
+            var structures = scenario.GetStructureSpawns();
+            foreach (var pos in structures.Keys)
             {
-                _entitiesFactory.CreateBattleStructure(scenario.StructureSpawns[pos], BattleSide.NoSide, pos);
+                _entitiesFactory.CreateBattleStructure(structures[pos], BattleSide.NoSide, pos);
             }
         }
     }

@@ -15,60 +15,59 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 21300000, guid: 38437b024f445cd4aa6f427b0c0a7346, type: 3}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: _enterEffects
+    - Name: _obstacleSetup
       Entry: 7
-      Data: 0|ITickEffect[], Assembly-CSharp
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 1|CharacterAbility.IncomingBuff, Assembly-CSharp
-    - Name: _duration
-      Entry: 3
-      Data: 997
-    - Name: _effectView
-      Entry: 7
-      Data: 2|CharacterAbility.EffectView, Assembly-CSharp
-    - Name: _effectName
-      Entry: 1
-      Data: "\u0423\u043A\u0440\u044B\u0442\u0438\u0435"
-    - Name: _effectIcon
-      Entry: 10
-      Data: 0
-    - Name: _displayAsMainEffect
-      Entry: 5
-      Data: false
-    - Name: _displayWhenApplied
+      Data: 0|OrderElimination.AbilitySystem.BattleObstacleSetup, Assembly-CSharp
+    - Name: AllowsToStay
       Entry: 5
       Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _isUnique
+    - Name: AllowsToWalkOn
       Entry: 5
-      Data: false
-    - Name: _modificator
-      Entry: 4
-      Data: -10
-    - Name: _incomingBuffType
-      Entry: 3
-      Data: 7
-    - Name: _damageType
-      Entry: 3
+      Data: true
+    - Name: _entityStayConditions
+      Entry: 7
+      Data: 1|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
       Data: 0
     - Name: 
-      Entry: 8
+      Entry: 13
       Data: 
     - Name: 
+      Entry: 8
+      Data: 
+    - Name: _entityWalkConditions
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
       Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _accuracyAffectors
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.BattleObstacleSetup+AccuracyAffectionRule,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
     - Name: 
       Entry: 8
@@ -77,19 +76,3 @@ MonoBehaviour:
   _spriteView: {fileID: 21300000, guid: 6bf533d8cb517684fa0428abd9a0f548, type: 3}
   _maxHealth: 100
   _posessedAbilities: []
-  _isWalkable: 1
-  _battleStats:
-    _health: 0
-    _unmodifiedHealth: 0
-    _attack: 0
-    _unmodifiedAttack: 0
-    _armor: 0
-    _unmodifiedArmor: 0
-    _additionalArmor: 0
-    _evasion: 0
-    _unmodifiedEvasion: 0
-    _accuracy: 0
-    _unmodifiedAccuracy: 0
-    _movement: 0
-    _unmodifiedMovement: 0
-    _damageModificator: 0
