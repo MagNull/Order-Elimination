@@ -20,28 +20,20 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: BehaviorTreeRoot
-      Entry: 7
-      Data: 0|AI.Sequence, Assembly-CSharp
-    - Name: _childrenTask
-      Entry: 7
-      Data: 1|AI.IBehaviorTreeTask[], Assembly-CSharp
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 2|AI.Actions.DamageNearest, Assembly-CSharp
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+    SerializationNodes: []
+  BehaviorTreeRoot:
+    _childrenTask:
+    - rid: 8568508530668863490
+  references:
+    version: 2
+    RefIds:
+    - rid: 8568508530668863490
+      type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
+      data:
+        _childrenTask:
+        - rid: 8568508530668863493
+        - rid: 8568508530668863494
+    - rid: 8568508530668863493
+      type: {class: MoveToNearestEnemy, ns: AI.Conditions, asm: Assembly-CSharp}
+    - rid: 8568508530668863494
+      type: {class: DamageNearest, ns: AI.Actions, asm: Assembly-CSharp}

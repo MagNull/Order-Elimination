@@ -170,6 +170,7 @@ MonoBehaviour:
   _abilityPanel: {fileID: 700708824}
   _characterBattleStatsPanel: {fileID: 1660044134}
   _castButton: {fileID: 1517211167}
+  _abilityPreviewDisplayer: {fileID: 157936976}
   _availableCellsTint: {r: 0.573966, g: 1, b: 0.4575472, a: 1}
   _forbidenCellsTint: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
   _playerHighlightColor: {r: 0.49361822, g: 1, b: 0.41037738, a: 1}
@@ -209,6 +210,52 @@ Transform:
   m_Father: {fileID: 246195460}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &157936974
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 157936975}
+  - component: {fileID: 157936976}
+  m_Layer: 0
+  m_Name: AbilityPreviewDisplayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &157936975
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157936974}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 543468711}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &157936976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157936974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fb6e017969604f4285ba16452de1217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damageDisplayPrefab: {fileID: 5551602970648382351, guid: ec6020ee4f2819f48b1f91abf783e74b, type: 3}
+  _healDisplayPrefab: {fileID: 6443294493302045170, guid: d52c1688d10b66d498ba32348637a274, type: 3}
 --- !u!1 &221238764
 GameObject:
   m_ObjectHideFlags: 0
@@ -726,6 +773,7 @@ Transform:
   - {fileID: 926713598}
   - {fileID: 1194000820}
   - {fileID: 929000869}
+  - {fileID: 157936975}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3745,6 +3793,10 @@ PrefabInstance:
     - target: {fileID: 8076464380066710135, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8076464380066710136, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8076464380066710141, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
       propertyPath: _battleMapView
