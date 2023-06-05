@@ -3,6 +3,7 @@ using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using UIManagement;
 using UIManagement.Elements;
 using UnityEngine;

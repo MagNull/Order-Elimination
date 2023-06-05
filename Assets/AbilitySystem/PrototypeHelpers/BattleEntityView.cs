@@ -52,7 +52,7 @@ public class BattleEntityView : MonoBehaviour
     }
 
     public static readonly Vector3 ErrorPosition = Vector3.zero;
-
+    
     [Inject]
     public void Construct(BattleMapView battleMapView, IParticlesPool particlesPool, TextEmitter textEmitter)
     {
