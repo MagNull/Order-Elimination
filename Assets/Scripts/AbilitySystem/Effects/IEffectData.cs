@@ -14,7 +14,6 @@ namespace OrderElimination.AbilitySystem
         public EffectStackingPolicy StackingPolicy { get; }
         public bool UseApplierProcessing { get; }
         public bool UseHolderProcessing { get; }
-        public bool CanBeForceRemoved { get; }
         //RemoveTriggers
         public IEnumerable<EffectTriggerAcceptor> RemoveTriggers { get; }
         public IEffectInstruction InstructionOnActivation { get; }

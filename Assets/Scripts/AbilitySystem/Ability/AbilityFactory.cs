@@ -8,7 +8,7 @@ namespace OrderElimination.AbilitySystem
 {
     public static class AbilityFactory
     {
-        public static ActiveAbilityData CreateAbility(ActiveAbilityBuilder builderData)
+        public static IActiveAbilityData CreateActiveAbility(ActiveAbilityBuilder builderData)
         {
             var abilityData = new ActiveAbilityData();
 
@@ -45,6 +45,26 @@ namespace OrderElimination.AbilitySystem
             abilityData.GameRepresentation = gameRepresentation;
             abilityData.Rules = rules;
             abilityData.TargetingSystem = targetingSystem;
+            abilityData.Execution = execution;
+
+            return abilityData;
+        }
+
+        public static IPassiveAbilityData CreatePassiveAbility(PassiveAbilityBuilder builderData)
+        {
+            var abilityData = new PassiveAbilityData();
+
+            var view = new AbilityView(
+                builderData.CellGroupsHighlightColors,
+                builderData.Name,
+                builderData.Icon,
+                builderData.Description);
+            var gameRepresentation = new AbilityGameRepresentation();
+            gameRepresentation.CooldownTime = builderData.CooldownTime;
+            var execution = new PassiveAbilityExecution(builderData.TriggerInstructions.ToArray());
+
+            abilityData.View = view;
+            abilityData.GameRepresentation = gameRepresentation;
             abilityData.Execution = execution;
 
             return abilityData;

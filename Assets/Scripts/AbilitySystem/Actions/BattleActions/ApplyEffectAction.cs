@@ -12,8 +12,12 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class ApplyEffectAction : BattleAction<ApplyEffectAction>//, IUndoableBattleAction
+    public class ApplyEffectAction : BattleAction<ApplyEffectAction>, IUndoableBattleAction
     {
+        private static List<BattleEffect> _appliedEffects = new();
+        private static List<IEffectHolder> _performTargets = new();
+        private static HashSet<int> _undoneOperations = new();
+
         [ShowInInspector, OdinSerialize]
         public IEffectData Effect { get; set; }
 
@@ -30,15 +34,37 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
+        public bool IsUndone(int performId) => _undoneOperations.Contains(performId);
+
+        public bool Undo(int performId)
+        {
+            if (_performTargets[performId].RemoveEffect(_appliedEffects[performId]))
+            {
+                _undoneOperations.Add(performId);
+                return true;
+            }
+            return false;
+        }
+
+        public void ClearUndoCache()
+        {
+            _appliedEffects.Clear();
+            _performTargets.Clear();
+            _undoneOperations.Clear();
+        }
+
         protected async override UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
             var isSuccessfull = false;
             var probability = ApplyChance.GetValue(useContext);
+            BattleEffect appliedEffect = null;
             if (RandomExtensions.RollChance(probability))
             {
-                isSuccessfull = useContext.ActionTarget.ApplyEffect(Effect, useContext.ActionMaker);
+                isSuccessfull = useContext.ActionTarget.ApplyEffect(Effect, useContext.ActionMaker, out appliedEffect);
             }
-            return new SimplePerformResult(this, useContext, isSuccessfull);
+            _appliedEffects.Add(appliedEffect);
+            _performTargets.Add(useContext.ActionTarget);
+            return new SimpleUndoablePerformResult(this, useContext, isSuccessfull, _appliedEffects.Count - 1);
         }
     }
 }

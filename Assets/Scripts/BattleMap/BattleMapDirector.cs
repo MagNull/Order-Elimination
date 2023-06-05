@@ -15,12 +15,7 @@ public class BattleMapDirector
     private CellGridGenerator _generator;
     [SerializeField]
     private BattleMapView _battleMapView;
-    [SerializeField]
-    private List<Dictionary<Vector2Int, EnvironmentInfo>> _environmentObjects = new();
-
     private CharactersMediator _charactersMediator;
-
-    private EnvironmentFactory _environmentFactory;
     public BattleMap Map => _battleMapView.Map;
     public BattleMapView MapView => _battleMapView;
 
@@ -31,34 +26,13 @@ public class BattleMapDirector
         _battleMapView.Map.Init(grid.Model);
         _battleMapView.Init(grid.View);
         
-        AddEnvironmentObjects(_charactersMediator.PointNumber);
+        //AddEnvironmentObjects(_charactersMediator.PointNumber);
         return _charactersMediator.PointNumber;
     }
 
     [Inject]
-    private void Construct(EnvironmentFactory environmentFactory, CharactersMediator charactersMediator)
+    private void Construct(CharactersMediator charactersMediator)
     {
-        _environmentFactory = environmentFactory;
         _charactersMediator = charactersMediator;
-    }
-
-    private void AddEnvironmentObjects(int mapIndex)
-    {
-        if (_environmentObjects.Count == 0)
-            return;
-
-        var environmentObjects = _environmentObjects[mapIndex]
-            .Select(v => (CoordinateSpace: v.Key, Object: _environmentFactory.Create(v.Value)));
-        foreach (var environmentObject in environmentObjects)
-        {
-            var coords = environmentObject.CoordinateSpace;
-            _battleMapView.Map.SpawnObject(environmentObject.Object, coords.x, coords.y);
-        }
-    }
-
-    private int GetRandomMapIndex()
-    {
-        var rnd = new Random();
-        return rnd.Next(0, _environmentObjects.Count);
     }
 }

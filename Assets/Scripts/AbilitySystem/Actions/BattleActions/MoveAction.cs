@@ -68,11 +68,13 @@ namespace OrderElimination.AbilitySystem
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
+            var failResult = new SimplePerformResult(this, useContext, false);
             var cellGroups = useContext.TargetCellGroups;
             if (!cellGroups.ContainsGroup(DestinationCellGroup)
                 || cellGroups.GetGroup(DestinationCellGroup).Length == 0)
-                return new SimplePerformResult(this, useContext, false);
-
+                return failResult;
+            if (!useContext.ActionTarget.CanMove && !ForceMove)
+                return failResult;
             var battleContext = useContext.BattleContext;
             var casterPos = useContext.ActionMaker.Position;
             var targetPos = useContext.ActionTargetInitialPosition;
@@ -88,17 +90,20 @@ namespace OrderElimination.AbilitySystem
             {
                 var success = false;
                 if (useContext.BattleContext.BattleMap
-                    .PathExists(movingEntity.Position, destination, IsPositionAvailable, out var path))
+                    .PathExists(movingEntity.Position, destination, IsPathPositionAvailable, out var path))
                 {
                     var currentPoint = movingEntity.Position;
                     var finishedSuccessfully = true;
                     for (var i = 0; i < path.Length; i++)
                     {
-                        var fakeGroups = new Dictionary<int, Vector2Int[]>
+                        if (!IsPathPositionAvailable(path[i]))
+                            return failResult;
+                        if (!useContext.ActionTarget.CanMove && !ForceMove)
+                            return failResult;
+                        var fakeGroupsContainer = new CellGroupsContainer(new Dictionary<int, Vector2Int[]>
                         {
                             { DestinationCellGroup, new[] { path[i] } }
-                        };
-                        var fakeGroupsContainer = new CellGroupsContainer(fakeGroups);
+                        });
                         var pathAnimContext = new AnimationPlayContext(
                             useContext.AnimationSceneContext,
                             fakeGroupsContainer,
@@ -123,7 +128,6 @@ namespace OrderElimination.AbilitySystem
             }
             else
             {
-
                 var animationContext = new AnimationPlayContext(
                     useContext.AnimationSceneContext,
                     useContext.TargetCellGroups,
@@ -140,7 +144,7 @@ namespace OrderElimination.AbilitySystem
                 return new SimplePerformResult(this, useContext, moved);
             }
 
-            bool IsPositionAvailable(Vector2Int position)
+            bool IsPathPositionAvailable(Vector2Int position)
             {
                 return PathConditions == null 
                     || PathConditions.All(c => c.IsConditionMet(battleContext, movingEntity, position));

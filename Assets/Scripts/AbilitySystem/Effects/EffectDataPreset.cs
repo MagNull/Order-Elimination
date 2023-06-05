@@ -85,10 +85,6 @@ namespace OrderElimination.AbilitySystem
         public bool UseHolderProcessing { get; protected set; }
 
         [TitleGroup("Rules")]
-        [ShowInInspector, OdinSerialize]
-        public bool CanBeForceRemoved { get; protected set; }
-
-        [TitleGroup("Rules")]
         [OnValueChanged("@" + nameof(_validateFunctionality) + "()")]
         [ShowInInspector, OdinSerialize]
         public bool IsTemporary { get; protected set; }

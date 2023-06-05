@@ -8,7 +8,7 @@ namespace OrderElimination.AbilitySystem
         Add,
         Subtract,
         Multiply,
-        Divide,
+        Divide
     }
 
     public static class MathOperationExtensions

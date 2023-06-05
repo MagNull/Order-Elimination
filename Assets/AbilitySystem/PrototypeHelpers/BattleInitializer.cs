@@ -1,13 +1,7 @@
 ﻿using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.TextCore.Text;
 using VContainer;
 
 namespace Assets.AbilitySystem.PrototypeHelpers
@@ -28,38 +22,35 @@ namespace Assets.AbilitySystem.PrototypeHelpers
             _entitiesBank = objectResolver.Resolve<BattleEntitiesBank>();
         }
 
-        public void InitiateBattle(BattleScenario scenario)
+        public void InitiateBattle()
         {
             _battleMapDirector.InitializeMap();
             _entitiesBank.Clear();
-            var gameAllies = CreateGameEntities(_characterMediator.GetPlayerCharactersInfo()).ToArray();
-            var gameEnemies = CreateGameEntities(_characterMediator.GetEnemyCharactersInfo()).ToArray();
+        }
+
+        public void StartScenario(BattleScenario scenario)
+        {
+            var gameAllies = _characterMediator.GetPlayerCharactersInfo().ToArray();
+            var gameEnemies = _characterMediator.GetEnemyCharactersInfo().ToArray();
+            var allySpawns = scenario.GetAlliesSpawnPositions();
+            var enemySpawns = scenario.GetEnemySpawnPositions();
             for (var i = 0; i < gameAllies.Length; i++)
             {
                 var entity = gameAllies[i];
-                var position = scenario.AlliesSpawnPositions[i];
+                var position = allySpawns[i];
                 _entitiesFactory.CreateBattleCharacter(entity, BattleSide.Player, position);
             }
             for (var i = 0; i < gameEnemies.Length; i++)
             {
                 var entity = gameEnemies[i];
-                var position = scenario.EnemySpawnPositions[i];
+                var position = enemySpawns[i];
                 _entitiesFactory.CreateBattleCharacter(entity, BattleSide.Enemies, position);
             }
-            foreach (var pos in scenario.MapObjects.Keys)
+            var structures = scenario.GetStructureSpawns();
+            foreach (var pos in structures.Keys)
             {
-                _entitiesFactory.CreateBattleStructure(scenario.MapObjects[pos], BattleSide.NoSide, pos);
+                _entitiesFactory.CreateBattleStructure(structures[pos], BattleSide.NoSide, pos);
             }
         }
-
-        //TODO Extract GameCharacter creation outside battle
-        private GameCharacter CreateGameEntity(IBattleCharacterData entityInfo)
-        {
-            var activeAbilities = entityInfo.GetActiveAbilities().Select(a => AbilityFactory.CreateAbility(a)).ToArray();
-            return new GameCharacter(entityInfo, activeAbilities, null);
-        }
-
-        private IEnumerable<GameCharacter> CreateGameEntities(IEnumerable<IBattleCharacterData> entityInfos)
-            => entityInfos.Select(gameEntity => CreateGameEntity(gameEntity));
     }
 }

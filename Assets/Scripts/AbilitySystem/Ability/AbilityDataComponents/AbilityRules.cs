@@ -8,7 +8,7 @@ namespace OrderElimination.AbilitySystem
     public class AbilityRules
     {
         public readonly List<ICommonCondition> AvailabilityConditions = new();
-        public readonly List<ICellCondition> CellConditions = new();
+        public readonly List<ICellCondition> CellConditions = new();//TODO Critical move to targeting system
         public readonly Dictionary<ActionPoint, int> UsageCost = new();
 
         public AbilityRules(

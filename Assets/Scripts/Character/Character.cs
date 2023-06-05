@@ -8,10 +8,11 @@ using UnityEngine.Serialization;
 using System.Collections.Generic;
 using Sirenix.Serialization;
 using OrderElimination.Domain;
+using System.Linq;
 
 namespace OrderElimination
 {
-    [CreateAssetMenu(fileName = "CharacterInfo", menuName = "Character")]
+    [CreateAssetMenu(fileName = "CharacterInfo", menuName = "Battle/Character")]
     public class Character : SerializedScriptableObject, IBattleCharacterInfo, IBattleCharacterData
     {
         //New System
@@ -22,12 +23,12 @@ namespace OrderElimination
         [SerializeReference]
         private ActiveAbilityBuilder[] _activeAbilitiesData;
         [SerializeReference]
-        private ActiveAbilityBuilder[] _passiveAbilitiesData;
+        private PassiveAbilityBuilder[] _passiveAbilitiesData;
 
         public ReadOnlyBaseStats BaseStats => _baseBattleStats;
         //public EntityType EntityType => _entityType;
-        public ActiveAbilityBuilder[] GetActiveAbilities() => _activeAbilitiesData;
-        public ActiveAbilityBuilder[] GetPassiveAbilities() => _passiveAbilitiesData;
+        public ActiveAbilityBuilder[] GetActiveAbilities() => _activeAbilitiesData.ToArray();
+        public PassiveAbilityBuilder[] GetPassiveAbilities() => _passiveAbilitiesData.ToArray();
         //
 
         [SerializeField]

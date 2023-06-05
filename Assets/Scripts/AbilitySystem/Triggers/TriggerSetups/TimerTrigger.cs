@@ -27,18 +27,18 @@ namespace OrderElimination.AbilitySystem
         public IBattleTrigger GetTrigger(IBattleContext battleContext)
         {
             var instance = new ITriggerSetup.BattleTrigger(this, battleContext);
-            instance.Activated += OnActivation;
+            instance.ActivationRequested += OnActivation;
             return instance;
         }
 
         private void OnActivation(ITriggerSetup.BattleTrigger trigger)
         {
-            trigger.Activated -= OnActivation;
+            trigger.ActivationRequested -= OnActivation;
             var passedRounds = 0;
             var interval = RoundInterval;
             var activationSide = trigger.OperatingContext.ActiveSide;
             trigger.OperatingContext.NewTurnStarted += OnNewTurn;
-            trigger.Deactivated += OnDeactivation;
+            trigger.DeactivationRequested += OnDeactivation;
             if (TriggerOnStart)
                 Trigger();
 
@@ -53,23 +53,25 @@ namespace OrderElimination.AbilitySystem
 
             void Trigger()
             {
-                trigger.Trigger(new TimerTriggerFireInfo(passedRounds));
+                trigger.Trigger(new TimerTriggerFireInfo(trigger, passedRounds));
             }
 
             void OnDeactivation(ITriggerSetup.BattleTrigger trigger)
             {
-                trigger.Deactivated -= OnDeactivation;
+                trigger.DeactivationRequested -= OnDeactivation;
                 trigger.OperatingContext.NewTurnStarted -= OnNewTurn;
             }
         }
     }
 
-    public readonly struct TimerTriggerFireInfo : ITriggerFireInfo
+    public class TimerTriggerFireInfo : ITriggerFireInfo
     {
-        public readonly int PassedIntervals;
+        public IBattleTrigger Trigger { get; }
+        public int PassedIntervals { get; }
 
-        public TimerTriggerFireInfo(int passedIntervals)
+        public TimerTriggerFireInfo(IBattleTrigger trigger, int passedIntervals)
         {
+            Trigger = trigger;
             PassedIntervals = passedIntervals;
         }
     }

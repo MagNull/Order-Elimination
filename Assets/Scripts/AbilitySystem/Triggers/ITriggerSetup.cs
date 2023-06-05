@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,10 +12,14 @@ namespace OrderElimination.AbilitySystem
     {
         protected class BattleTrigger : IBattleTrigger//IDisposable
         {
+            private bool _hasBeenActivated = false;
+
             #region IBattleTrigger
             public bool IsActive { get; private set; }
 
             public event Action<ITriggerFireInfo> Triggered;
+            public event Action<IBattleTrigger> Deactivated;
+            //public event Action<IBattleTrigger> AllTriggerHandlersExecuted;
 
             public bool Activate()
             {
@@ -22,7 +27,8 @@ namespace OrderElimination.AbilitySystem
                 IsActive = true;
                 //
                 //OperatingSetup.OnActivation(this);
-                Activated?.Invoke(this);
+                ActivationRequested?.Invoke(this);
+                _hasBeenActivated = true;
                 return true;
             }
 
@@ -31,6 +37,14 @@ namespace OrderElimination.AbilitySystem
                 if (!IsActive) return false;
                 IsActive = false;
                 //
+                DeactivationRequested?.Invoke(this);
+                if (Triggered != null)
+                {
+                    foreach (var handler in Triggered.GetInvocationList().Cast<Action<ITriggerFireInfo>>())
+                    {
+                        Triggered -= handler;
+                    }
+                }
                 Deactivated?.Invoke(this);
                 return true;
 
@@ -38,8 +52,8 @@ namespace OrderElimination.AbilitySystem
             }
             #endregion
 
-            public event Action<BattleTrigger> Activated;
-            public event Action<BattleTrigger> Deactivated;
+            public event Action<BattleTrigger> ActivationRequested;
+            public event Action<BattleTrigger> DeactivationRequested;
 
             public ITriggerSetup OperatingSetup { get; }
             public IBattleContext OperatingContext { get; private set; }
@@ -55,14 +69,19 @@ namespace OrderElimination.AbilitySystem
             {
                 if (!IsActive)
                 {
-                    throw new InvalidOperationException("Trigger hasn't been activated yet.");
+                    //TODO: Fix and remove "return". It shouldn't even call Trigger() after instance diactivation.
+                    return;
+                    throw new InvalidOperationException("Trigger hasn't been activated yet or has already been deactivated.");
                 }
                 Triggered?.Invoke(triggerFiredInfo);
+                //AllTriggerHandlersExecuted?.Invoke(this);
+                //foreach (var handler in Triggered.GetInvocationList().Select(d => (Func<ITriggerFireInfo, UniTask>)d))
+                //{
+                //    await handler.Invoke(triggerFiredInfo);
+                //}
             }
 
         }
-
-        //protected void OnActivation(BattleTrigger trigger);
     }
 
     public interface IContextTriggerSetup : ITriggerSetup

@@ -11,37 +11,40 @@ namespace OrderElimination.AbilitySystem
         public IBattleTrigger GetTrigger(IBattleContext battleContext, AbilitySystemActor trackingEntity)
         {
             var instance = new ITriggerSetup.BattleTrigger(this, battleContext);
-            instance.Activated += OnActivation;
+            instance.ActivationRequested += OnActivation;
             return instance;
 
             void OnActivation(ITriggerSetup.BattleTrigger trigger)
             {
-                instance.Activated -= OnActivation;
-                instance.Deactivated += OnDeactivation;
+                instance.ActivationRequested -= OnActivation;
+                instance.DeactivationRequested += OnDeactivation;
                 trackingEntity.Damaged += OnDamaged;
 
             }
 
             void OnDeactivation(ITriggerSetup.BattleTrigger trigger)
             {
-                instance.Deactivated -= OnDeactivation;
+                instance.DeactivationRequested -= OnDeactivation;
                 trackingEntity.Damaged -= OnDamaged;
             }
 
             void OnDamaged(DealtDamageInfo damageInfo)
             {
-                instance.Trigger(new EntityDamagedTriggerFireInfo(damageInfo));
+                instance.Trigger(new EntityDamagedTriggerFireInfo(instance, damageInfo));
             }
         }
     }
 
-    public readonly struct EntityDamagedTriggerFireInfo : ITriggerFireInfo
+    public class EntityDamagedTriggerFireInfo : ITriggerFireInfo
     {
-        public readonly DealtDamageInfo DamageInfo;
+        public IBattleTrigger Trigger { get; }
+        public DealtDamageInfo DamageInfo { get; }
 
-        public EntityDamagedTriggerFireInfo(DealtDamageInfo damageInfo)
+        public EntityDamagedTriggerFireInfo(IBattleTrigger trigger, DealtDamageInfo damageInfo)
         {
+            Trigger = trigger;
             DamageInfo = damageInfo;
         }
+
     }
 }

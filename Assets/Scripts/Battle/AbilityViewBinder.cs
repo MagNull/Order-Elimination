@@ -20,8 +20,8 @@ public class AbilityViewBinder
     {
         return cell =>
         {
-            if (!CheckCell(cell) || abilityPanel.AbilityCasing)
-                return;
+            //if (!CheckCell(cell) || abilityPanel.AbilityCasing)
+            //    return;
             var characterView = cell.Model.Objects.First(obj => obj is BattleCharacter).View.GameObject
                 .GetComponent<BattleCharacterView>();
             _selectedCharacterView?.Deselect();

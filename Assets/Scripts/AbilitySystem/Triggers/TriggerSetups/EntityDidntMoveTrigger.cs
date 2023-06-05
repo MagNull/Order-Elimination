@@ -31,18 +31,18 @@ namespace OrderElimination.AbilitySystem
         public IBattleTrigger GetTrigger(IBattleContext battleContext, AbilitySystemActor trackingEntity)
         {
             var instance = new ITriggerSetup.BattleTrigger(this, battleContext);
-            instance.Activated += OnActivation;
+            instance.ActivationRequested += OnActivation;
             return instance;
 
             void OnActivation(ITriggerSetup.BattleTrigger trigger)
             {
-                trigger.Activated -= OnActivation;
+                trigger.ActivationRequested -= OnActivation;
                 var passedRounds = 0;
                 var movedInRound = false;
                 var interval = RoundInterval;
                 var activationSide = trigger.OperatingContext.ActiveSide;
                 trigger.OperatingContext.NewTurnStarted += OnNewTurn;
-                trigger.Deactivated += OnDeactivation;
+                trigger.DeactivationRequested += OnDeactivation;
                 trackingEntity.MovedFromTo += OnEntityMoved;
 
                 void OnEntityMoved(Vector2Int from, Vector2Int to)
@@ -71,12 +71,12 @@ namespace OrderElimination.AbilitySystem
                 void Trigger()
                 {
                     Debug.Log($"Didn't move for {passedRounds}." % Colorize.Red);
-                    trigger.Trigger(new TimerTriggerFireInfo(passedRounds));
+                    trigger.Trigger(new TimerTriggerFireInfo(trigger, passedRounds));
                 }
 
                 void OnDeactivation(ITriggerSetup.BattleTrigger trigger)
                 {
-                    trigger.Deactivated -= OnDeactivation;
+                    trigger.DeactivationRequested -= OnDeactivation;
                     trigger.OperatingContext.NewTurnStarted -= OnNewTurn;
                     trackingEntity.MovedFromTo -= OnEntityMoved;
                 }

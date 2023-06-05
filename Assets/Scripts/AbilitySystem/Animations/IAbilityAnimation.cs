@@ -1,9 +1,5 @@
-﻿using Assets.AbilitySystem.PrototypeHelpers;
-using Cysharp.Threading.Tasks;
-using System;
-using System.Runtime.Remoting.Messaging;
+﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
-using VContainer;
 
 namespace OrderElimination.AbilitySystem.Animations
 {
@@ -14,7 +10,7 @@ namespace OrderElimination.AbilitySystem.Animations
         public UniTask Play(AnimationPlayContext context);
     }
 
-    public struct AnimationPlayContext
+    public class AnimationPlayContext
     {
         public readonly AnimationSceneContext SceneContext;
         public readonly CellGroupsContainer TargetedCellGroups;
@@ -45,16 +41,16 @@ namespace OrderElimination.AbilitySystem.Animations
             CasterGamePosition = null;
             TargetGamePosition = null;
 
-            CasterGamePosition = caster?.Position;
-            TargetGamePosition = target?.Position;
-            if (caster != null)
+            if (caster != null && caster.IsAlive)
             {
+                CasterGamePosition = caster.Position;
                 var pos = CasterGamePosition.Value;
                 CasterVisualPosition = sceneContext.BattleMapView.GetCell(pos.x, pos.y).transform.position;
                 CasterView = sceneContext.EntitiesBank.GetViewByEntity(caster);
             }
-            if (target != null)
+            if (target != null && target.IsAlive)
             {
+                TargetGamePosition = target.Position;
                 TargetView = sceneContext.EntitiesBank.GetViewByEntity(target);
             }
             if (targetPositionOverride != null && targetPositionOverride.HasValue)

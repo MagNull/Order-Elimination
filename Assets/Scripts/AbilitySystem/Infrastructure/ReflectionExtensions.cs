@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace OrderElimination.Infrastructure
 {
@@ -46,6 +47,7 @@ namespace OrderElimination.Infrastructure
             || obj is decimal;
         }
 
+        //Resource-heavy
         public static Type[] GetAllInterfaceImplementationTypes<T>()
         {
             var type = typeof(T);

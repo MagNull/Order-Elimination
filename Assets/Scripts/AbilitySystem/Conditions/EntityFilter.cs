@@ -50,7 +50,7 @@ namespace OrderElimination.AbilitySystem
         [TitleGroup("Allowed Characters")]
         [ShowIf("@" + nameof(_allowsCharacters))]
         [ShowInInspector, OdinSerialize]
-        private HashSet<IBattleCharacterData> _specifiedCharacters = new();
+        private List<IBattleCharacterData> _specifiedCharacters = new();
 
         [TitleGroup("Allowed Structures")]
         [ShowIf("@" + nameof(_allowsStructures))]
@@ -60,7 +60,7 @@ namespace OrderElimination.AbilitySystem
         [TitleGroup("Allowed Structures")]
         [ShowIf("@" + nameof(_allowsStructures))]
         [ShowInInspector, OdinSerialize]
-        private HashSet<IBattleStructureData> _specifiedStructures = new();
+        private List<IBattleStructureData> _specifiedStructures = new();
 
         public EntityFilter Clone()
         {
@@ -70,8 +70,8 @@ namespace OrderElimination.AbilitySystem
             clone.AllowSelf = AllowSelf;
             clone.CharactersSpecification = CharactersSpecification;
             clone.StructuresSpecification = StructuresSpecification;
-            clone._specifiedCharacters = _specifiedCharacters.ToHashSet();
-            clone._specifiedStructures = _specifiedStructures.ToHashSet();
+            clone._specifiedCharacters = _specifiedCharacters.ToList();
+            clone._specifiedStructures = _specifiedStructures.ToList();
             return clone;
         }
 

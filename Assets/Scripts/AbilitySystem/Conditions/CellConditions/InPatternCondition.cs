@@ -17,12 +17,12 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public bool IsConditionMet(IBattleContext context, AbilitySystemActor caster, Vector2Int targetPosition)
+        public bool IsConditionMet(IBattleContext context, AbilitySystemActor askingEntity, Vector2Int positionToCheck)
 		{
-			var casterPos = caster.Position;
+			var casterPos = askingEntity.Position;
 			var pattern = Pattern.GetAbsolutePositions(casterPos);
 
-            return pattern.Contains(targetPosition);
+            return pattern.Contains(positionToCheck);
 		}
     }
 }

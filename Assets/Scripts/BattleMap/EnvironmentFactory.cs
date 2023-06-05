@@ -18,14 +18,7 @@ namespace OrderElimination.BM
 
         public EnvironmentObject Create(EnvironmentInfo environmentInfo, int lifeTime = 999)
         {
-            var view = Object.Instantiate(_viewPrefab).GetComponent<EnvironmentObjectView>();
-            view.GameObject.name = "Environment Object " + _indexCounter++;
-            var environmentObject = new EnvironmentObject(environmentInfo.EnterEffects, view, environmentInfo.Stats,
-                environmentInfo.IsWalkable, _battleMap, lifeTime);
-            view.Init(environmentObject, environmentInfo.BattleIcon);
-            environmentObject.View = view;
-
-            return environmentObject;
+            throw new System.NotSupportedException("Had been deprecated");
         }
     }
 }

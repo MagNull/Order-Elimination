@@ -34,8 +34,8 @@ public class CharacterArrangeDirector
     {
         var characters = new List<BattleCharacter>();
 
-        List<BattleCharacter> playerSquad =
-            _characterFactory.CreatePlayerSquad(_charactersMediator.GetPlayerCharactersInfo());
+        List<BattleCharacter> playerSquad = null;
+            //_characterFactory.CreatePlayerSquad(_charactersMediator.GetPlayerCharactersInfo());
         for (int i = 0; i < playerSquad.Count; i++)
         {
             characters.Add(playerSquad[i]);
@@ -43,7 +43,8 @@ public class CharacterArrangeDirector
             _arrangementMap.SpawnObject(playerSquad[i], unitPositions[i].x, unitPositions[i].y);
         }
 
-        List<BattleCharacter> enemySquad = _characterFactory.CreateEnemySquad(_charactersMediator.GetEnemyCharactersInfo());
+        List<BattleCharacter> enemySquad = null;
+            //_characterFactory.CreateEnemySquad(_charactersMediator.GetEnemyCharactersInfo());
         for (int i = 0; i < enemySquad.Count; i++)
         {
             characters.Add(enemySquad[i]);
