@@ -8,6 +8,8 @@ namespace OrderElimination.AbilitySystem
 {
     public interface IBattleDisposable
     {
+        public bool IsDisposedFromBattle { get; }
+
         public event Action<IBattleDisposable> DisposedFromBattle;
 
         public bool DisposeFromBattle();

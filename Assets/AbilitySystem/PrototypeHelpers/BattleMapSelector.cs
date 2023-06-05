@@ -64,6 +64,10 @@ public class BattleMapSelector : MonoBehaviour
     [SerializeField]
     private bool _allowOnlyCurrentSideEntities;
 
+    [TitleGroup("Prototyping")]
+    [SerializeField]
+    private bool _confirmTargetingBySecondClick;
+
     private BattleMapView _battleMapView;
     private IBattleMap _battleMap => _battleContext.BattleMap;
     private IBattleContext _battleContext;
@@ -129,27 +133,28 @@ public class BattleMapSelector : MonoBehaviour
             if (_allowOnlyCurrentSideEntities)
                 entities = entities.Where(e => e.BattleSide == _battleContext.ActiveSide).ToArray();
             DeselectEntity();
-            if (entities.Length == 0)
-                return;
-            _currentLoopIndex %= entities.Length;
-            var selectedEntity = entities[_currentLoopIndex];
-            SelectEntity(selectedEntity);
-            _currentLoopIndex++;
+            if (entities.Length > 0)
+            {
+                _currentLoopIndex %= entities.Length;
+                var selectedEntity = entities[_currentLoopIndex];
+                SelectEntity(selectedEntity);
+                _currentLoopIndex++;
 
-            if (selectedEntity.EntityType == EntityType.Character)
-            {
-                if (selectedEntity.BattleSide == BattleSide.Player)
+                if (selectedEntity.EntityType == EntityType.Character)
+                {
+                    if (selectedEntity.BattleSide == BattleSide.Player)
+                    {
+                        //
+                    }
+                    else if (selectedEntity.BattleSide == BattleSide.Enemies)
+                    {
+                        //
+                    }
+                }
+                if (selectedEntity.EntityType == EntityType.Structure)
                 {
                     //
                 }
-                else if (selectedEntity.BattleSide == BattleSide.Enemies)
-                {
-                    //
-                }
-            }
-            if (selectedEntity.EntityType == EntityType.Structure)
-            {
-                //
             }
         }
         else if (_mode == SelectorMode.SelectingTargets)
@@ -157,17 +162,40 @@ public class BattleMapSelector : MonoBehaviour
             var cellPosition = _battleMap.GetPosition(cellView.Model);
             if (_selectedAbility.AbilityData.TargetingSystem is MultiTargetTargetingSystem multiTargetSystem)
             {
-                if (multiTargetSystem.RemoveFromSelection(cellPosition)) { }
-                else if (multiTargetSystem.AddToSelection(cellPosition)) { }
+                if (multiTargetSystem.SelectedCells.Contains(cellPosition))
+                {
+                    //second click
+                    if (_confirmTargetingBySecondClick)
+                    {
+                        CastCurrentAbility();
+                        return;
+                    }
+                    multiTargetSystem.RemoveFromSelection(cellPosition);
+                }
                 else
-                    print($"Wrong target at {cellPosition}");
+                {
+                    if (!multiTargetSystem.AddToSelection(cellPosition))
+                        Debug.Log($"Wrong target at {cellPosition}");
+                }
             }
             else if (_selectedAbility.AbilityData.TargetingSystem is SingleTargetTargetingSystem singleTargetSystem)
             {
-                if (singleTargetSystem.Select(cellPosition)) { }
-                else if (singleTargetSystem.Deselect(cellPosition)) { }
+                if (singleTargetSystem.SelectedCell == cellPosition)
+                {
+                    //second click
+                    if (_confirmTargetingBySecondClick)
+                    {
+                        CastCurrentAbility();
+                        return;
+                    }
+                    singleTargetSystem.Deselect(cellPosition);
+                }
                 else
-                    print($"Wrong target at {cellPosition}");
+                {
+                    if (!singleTargetSystem.Select(cellPosition))
+                        Debug.Log($"Wrong target at {cellPosition}");
+                }
+                    
             }
             _abilityPreviewDisplayer.DisplayPreview(
                 _selectedAbility.AbilityData,
@@ -349,10 +377,6 @@ public class BattleMapSelector : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            CastCurrentAbility();
-        }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Time.timeScale = 1.0f;
