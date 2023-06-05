@@ -178,6 +178,7 @@ MonoBehaviour:
   _enemiesHighlightColor: {r: 1, g: 0.3820755, b: 0.3820755, a: 1}
   _othersHighlightColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
   _allowOnlyCurrentSideEntities: 1
+  _confirmTargetingBySecondClick: 1
 --- !u!1 &84768578
 GameObject:
   m_ObjectHideFlags: 0
@@ -3315,6 +3316,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1517211164, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6364508241495018905, guid: 75286b43b0e4be7499db2f92621a0502, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

@@ -105,13 +105,29 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 4|OrderElimination.AbilitySystem.Animations.ShootParticleAnimation, Assembly-CSharp
+      Data: 4|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
+    - Name: PlaySequentially
+      Entry: 5
+      Data: false
+    - Name: WaitForCompletion
+      Entry: 5
+      Data: true
+    - Name: Animations
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 6|OrderElimination.AbilitySystem.Animations.ShootParticleAnimation, Assembly-CSharp
     - Name: BulletParticle
       Entry: 3
       Data: 14
     - Name: MoveBy
       Entry: 3
-      Data: 1
+      Data: 0
     - Name: MovementEase
       Entry: 3
       Data: 32
@@ -126,19 +142,28 @@ MonoBehaviour:
       Data: false
     - Name: _minSpread
       Entry: 4
-      Data: 0
+      Data: 0.2
     - Name: _maxSpread
       Entry: 4
       Data: 0.5
     - Name: _time
       Entry: 4
-      Data: 0
+      Data: 0.13
     - Name: _speed
       Entry: 4
       Data: 30
     - Name: _animationLoops
       Entry: 3
       Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 

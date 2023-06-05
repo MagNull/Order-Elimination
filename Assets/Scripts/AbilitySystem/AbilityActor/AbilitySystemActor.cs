@@ -11,7 +11,7 @@ namespace OrderElimination.AbilitySystem
         private readonly Lazy<EntityActionProcessor> _actionProcessor;
         private readonly Lazy<BattleObstacle> _obstacle;
         private readonly BattleStats _battleStats;
-        private bool _isDisposedFromBattle = false;
+        public bool IsDisposedFromBattle { get; private set; } = false;
 
         public AbilitySystemActor(
             IBattleContext battleContext, 
@@ -93,6 +93,8 @@ namespace OrderElimination.AbilitySystem
         public bool Move(Vector2Int destination, bool forceMove = false)
         {
             if (!CanMove && !forceMove)
+                return false;
+            if (IsDisposedFromBattle)
                 return false;
             var origin = Position;
             DeployedBattleMap.PlaceEntity(this, destination);
@@ -186,7 +188,7 @@ namespace OrderElimination.AbilitySystem
 
         public bool DisposeFromBattle()
         {
-            if (_isDisposedFromBattle)
+            if (IsDisposedFromBattle)
                 return false;
             //Dispose
             foreach (var passiveAbility in PassiveAbilities)
@@ -200,7 +202,7 @@ namespace OrderElimination.AbilitySystem
             }
             DeployedBattleMap.RemoveEntity(this);
             //DeployedBattleMap = null;
-            _isDisposedFromBattle = true;
+            IsDisposedFromBattle = true;
             DisposedFromBattle?.Invoke(this);
             return true;
         }
