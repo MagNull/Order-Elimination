@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using OrderElimination.AbilitySystem;
+using RoguelikeMap.Points;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 
@@ -29,7 +30,5 @@ namespace OrderElimination
         private int _pointNumber;
         public int PointNumber => _pointNumber;
         public void SetPointNumber(int pointNumber) => _pointNumber = pointNumber;
-        public PlanetInfo PlanetInfo { get; set; }
-
     }
 }
