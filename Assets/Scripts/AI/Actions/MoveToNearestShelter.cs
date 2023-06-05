@@ -18,8 +18,10 @@ namespace AI.Actions
 
             foreach (var structure in structures)
             {
-                if (!structure.Obstacle.IsAllowedToStay(caster) || targeting.AvailableCells == null ||
-                    !targeting.AvailableCells.Contains(structure.Position))
+                if (!structure.Obstacle.IsAllowedToStay(caster) ||
+                    targeting.AvailableCells == null ||
+                    !targeting.AvailableCells.Contains(structure.Position)
+                    || CharacterBehavior.AvoidObject.Contains(battleContext.EntitiesBank.GetBattleStructureData(structure)))
                     continue;
                 targeting.ConfirmationUnlocked += _ => { targeting.ConfirmTargeting(); };
                 targeting.Select(structure.Position);

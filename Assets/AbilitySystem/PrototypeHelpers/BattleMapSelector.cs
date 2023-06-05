@@ -1,4 +1,4 @@
-using DefaultNamespace;
+﻿using DefaultNamespace;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using System.Collections.Generic;
@@ -361,7 +361,6 @@ public class BattleMapSelector : MonoBehaviour
 
     private void OnConfirmationUnlocked(IRequireTargetsTargetingSystem multiTargetSystem)
     {
-        _textEmitter.Emit("������� �E� ��� ����������!", Color.red, fontSize: 1.5f);
         Debug.Log("Ability use ready.");
     }
     private void OnConfirmationLocked(IRequireTargetsTargetingSystem multiTargetSystem)
@@ -372,7 +371,6 @@ public class BattleMapSelector : MonoBehaviour
     {
         _castButton.onClick.RemoveListener(CastCurrentAbility);
         _castButton.onClick.AddListener(CastCurrentAbility);
-        _textEmitter.Emit($"������� �Esc� ��� ������.", Color.red, new Vector3(0, 4.5f, 1), Vector3.zero, 10, fontSize: 1f);
     }
 
     private void Update()
