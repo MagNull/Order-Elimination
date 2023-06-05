@@ -23,6 +23,8 @@ public interface IBattleCharacterData//Rename to IBattleCharacterInfo
     public Sprite BattleIcon { get; }
     public ReadOnlyBaseStats BaseStats { get; }
 
+    public int CostValue { get; }
+
     public ActiveAbilityBuilder[] GetActiveAbilities();
     public PassiveAbilityBuilder[] GetPassiveAbilities();
 }

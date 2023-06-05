@@ -1,35 +1,36 @@
 ﻿using System.Linq;
+using AI.Utils;
+using Cysharp.Threading.Tasks;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
-using UnityEngine;
 
 namespace AI.Actions
 {
     public class MoveToNearestShelter : IBehaviorTreeTask
     {
-        public bool Run(IBattleContext battleContext, AbilitySystemActor caster)
+        public async UniTask<bool> Run(IBattleContext battleContext, AbilitySystemActor caster)
         {
-            var structures = battleContext.EntitiesBank.GetEntities(BattleSide.NoSide);
-            var movementAbility = caster.ActiveAbilities
-                .First(a => a.AbilityData.View.Name == "Перемещение");
+            var structures = battleContext.EntitiesBank.GetEntities(BattleSide.NoSide)
+                .Where(actor => actor.Obstacle != null);
+            var movementAbility = AbilityAIPresentation.GetMoveAbility(caster);
             var targeting = (SingleTargetTargetingSystem)movementAbility.AbilityData.TargetingSystem;
             movementAbility.InitiateCast(battleContext, caster);
-            
+
             foreach (var structure in structures)
             {
-                Debug.Log("Start " + structure.Position);
-                if (!targeting.AvailableCells.Contains(structure.Position))
+                if (!structure.Obstacle.IsAllowedToStay(caster) || targeting.AvailableCells == null ||
+                    !targeting.AvailableCells.Contains(structure.Position))
                     continue;
-                targeting.ConfirmationUnlocked += _ =>
-                {
-                    Debug.Log("Confirm");
-                    targeting.ConfirmTargeting();
-                };
-                Debug.Log("Select " + structure.Position);
-                
+                targeting.ConfirmationUnlocked += _ => { targeting.ConfirmTargeting(); };
                 targeting.Select(structure.Position);
+
+                var completed = false;
+                movementAbility.AbilityCastCompleted += _ => completed = true;
+                await UniTask.WaitUntil(() => completed);
+
                 return true;
             }
+
             return false;
         }
     }

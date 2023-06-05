@@ -1,9 +1,10 @@
-﻿using OrderElimination.AbilitySystem;
+﻿using Cysharp.Threading.Tasks;
+using OrderElimination.AbilitySystem;
 
 namespace AI
 {
     public interface IBehaviorTreeTask
     {
-        public bool Run(IBattleContext battleContext, AbilitySystemActor caster);
+        public UniTask<bool> Run(IBattleContext battleContext, AbilitySystemActor caster);
     }
 }

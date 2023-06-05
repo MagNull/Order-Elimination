@@ -23,7 +23,9 @@ MonoBehaviour:
     SerializationNodes: []
   BehaviorTreeRoot:
     _childrenTask:
+    - rid: 8568508530668863495
     - rid: 8568508530668863490
+    - rid: 8568508530668863498
   references:
     version: 2
     RefIds:
@@ -37,3 +39,20 @@ MonoBehaviour:
       type: {class: MoveToNearestEnemy, ns: AI.Conditions, asm: Assembly-CSharp}
     - rid: 8568508530668863494
       type: {class: DamageNearest, ns: AI.Actions, asm: Assembly-CSharp}
+    - rid: 8568508530668863495
+      type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
+      data:
+        _childrenTask:
+        - rid: 8568508530668863496
+        - rid: 8568508530668863497
+    - rid: 8568508530668863496
+      type: {class: DamageNearest, ns: AI.Actions, asm: Assembly-CSharp}
+    - rid: 8568508530668863497
+      type: {class: MoveToNearestShelter, ns: AI.Actions, asm: Assembly-CSharp}
+    - rid: 8568508530668863498
+      type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
+      data:
+        _childrenTask:
+        - rid: 8568508530668863499
+    - rid: 8568508530668863499
+      type: {class: MoveToNearestShelter, ns: AI.Actions, asm: Assembly-CSharp}

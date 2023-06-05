@@ -25,6 +25,10 @@ namespace OrderElimination
         private PassiveAbilityBuilder[] _passiveAbilitiesData;
 
         public ReadOnlyBaseStats BaseStats => _baseBattleStats;
+
+        [field: SerializeField]
+        public int CostValue { get; private set; }
+
         //public EntityType EntityType => _entityType;
         public ActiveAbilityBuilder[] GetActiveAbilities() => _activeAbilitiesData.ToArray();
         public PassiveAbilityBuilder[] GetPassiveAbilities() => _passiveAbilitiesData.ToArray();

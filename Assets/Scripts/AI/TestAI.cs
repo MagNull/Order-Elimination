@@ -9,8 +9,7 @@ namespace AI
 {
     public class TestAI : MonoBehaviour
     {
-        [SerializeField]
-        private CharacterBehavior _behavior;
+        [SerializeField] private CharacterBehavior _behavior;
 
         private IBattleContext _context;
 
@@ -19,12 +18,15 @@ namespace AI
         {
             _context = context;
         }
-        
+
         [Button]
-        public void Test()
+        public async void Test()
         {
-            var enemy = _context.EntitiesBank.GetEntities(BattleSide.Enemies).First();
-            _behavior.Run(_context, enemy);
+            var enemies = _context.EntitiesBank.GetEntities(BattleSide.Enemies);
+            foreach (var enemy in enemies)
+            {
+                await _behavior.Run(_context, enemy);
+            }
         }
     }
 }

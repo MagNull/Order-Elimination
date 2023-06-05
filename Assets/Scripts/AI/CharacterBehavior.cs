@@ -1,4 +1,5 @@
-﻿using OrderElimination.AbilitySystem;
+﻿using Cysharp.Threading.Tasks;
+using OrderElimination.AbilitySystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -7,11 +8,11 @@ namespace AI
     [CreateAssetMenu(fileName = "Character Behavior", menuName = "AI/Character Behavior")]
     public class CharacterBehavior : SerializedScriptableObject
     {
-        public IBehaviorTreeTask BehaviorTreeRoot;
+        public Selector BehaviorTreeRoot;
 
-        public void Run(IBattleContext battleContext, AbilitySystemActor caster)
+        public async UniTask Run(IBattleContext battleContext, AbilitySystemActor caster)
         {
-            BehaviorTreeRoot.Run(battleContext, caster);
+            await BehaviorTreeRoot.Run(battleContext, caster);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using OrderElimination.AbilitySystem;
 using UnityEngine;
 
@@ -7,14 +8,15 @@ namespace AI
     [Serializable]
     public class Selector : IBehaviorTreeTask
     {
-        [SerializeField]
+        [SerializeReference]
         private IBehaviorTreeTask[] _childrenTask;
         
-        public bool Run(IBattleContext battleContext, AbilitySystemActor caster)
+        public async UniTask<bool> Run(IBattleContext battleContext, AbilitySystemActor caster)
         {
             foreach (var task in _childrenTask)
             {
-                if (task.Run(battleContext, caster))
+                var result = await task.Run(battleContext, caster);
+                if (result)
                     return true;
             }
 
