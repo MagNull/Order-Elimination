@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using OrderElimination;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
+using Unity.VisualScripting;
 using UnityEngine;
 using VContainer;
 

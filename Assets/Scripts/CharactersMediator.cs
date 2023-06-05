@@ -26,9 +26,5 @@ namespace OrderElimination
 
 
         private void Awake() => DontDestroyOnLoad(gameObject);
-
-        private int _pointNumber;
-        public int PointNumber => _pointNumber;
-        public void SetPointNumber(int pointNumber) => _pointNumber = pointNumber;
     }
 }

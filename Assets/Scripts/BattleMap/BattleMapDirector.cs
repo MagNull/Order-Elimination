@@ -27,7 +27,7 @@ public class BattleMapDirector
         _battleMapView.Init(grid.View);
         
         //AddEnvironmentObjects(_charactersMediator.PointNumber);
-        return _charactersMediator.PointNumber;
+        return 0;
     }
 
     [Inject]

@@ -14,13 +14,13 @@ namespace RoguelikeMap.Points.Models
         [SerializeField]
         private List<Character> _enemies;
         [SerializeField]
-        private int _mapNumber;
+        private BattleScenario _battleScenario;
         
         protected BattlePanel Panel => _panel as BattlePanel;
         
         public override PointType Type => PointType.Battle;
         public IReadOnlyList<Character> Enemies => _enemies;
-        public int MapNumber => _mapNumber;
+        public BattleScenario Scenario => _battleScenario;
 
         public override void Visit(Squad squad)
         {

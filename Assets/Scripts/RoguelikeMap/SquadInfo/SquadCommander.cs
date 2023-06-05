@@ -53,34 +53,36 @@ namespace RoguelikeMap.SquadInfo
             safeZonePanel.OnHealAccept += HealAccept;
 
             var battlePanel = (BattlePanel)_panelGenerator.GetPanelByPointInfo(PointType.Battle);
-            battlePanel.OnStartAttack += StartAttack;
+            battlePanel.OnStartAttack += StartAttackByBattlePoint;
 
             var eventPanel = (EventPanel)_panelGenerator.GetPanelByPointInfo(PointType.Event);
-            eventPanel.OnStartBattle += StartAttack;
+            eventPanel.OnStartBattle += StartAttackByEventPoint;
 
             _squadMembersPanel.OnSelected += WereSelectedMembers;
         }
 
-        public void StartAttack()
+        private void StartAttackByBattlePoint()
         {
             if (_target is not BattlePointModel battlePointModel)
                 throw new ArgumentException("Is not valid point to attack");
-            StartAttack(battlePointModel.Enemies, battlePointModel.MapNumber);
+            StartAttack(battlePointModel.Enemies, battlePointModel.Scenario);
         }
-
-        private void StartAttack(IReadOnlyList<IBattleCharacterInfo> enemies) => StartAttack(enemies, 0);
-
-        private void StartAttack(IReadOnlyList<IBattleCharacterInfo> enemies, int pointNumber)
+        
+        private void StartAttackByEventPoint(IReadOnlyList<IBattleCharacterInfo> enemies)
         {
-            if (pointNumber < 0)
-                throw new ArgumentOutOfRangeException("Is not valid point number");
-
+            if (_target is not EventPointModel eventPointModel)
+                throw new ArgumentException("Is not valid point to attack");
+            StartAttack(enemies, eventPointModel.Scenario);
+        }
+        
+        private void StartAttack(IReadOnlyList<IBattleCharacterInfo> enemies, BattleScenario scenario)
+        {
             SaveSquadPosition();
             var battleStatsList = _squad.Members.Cast<IBattleCharacterInfo>().ToList();
             var charactersMediator = _objectResolver.Resolve<CharactersMediator>();
             charactersMediator.SetSquad(battleStatsList);
             charactersMediator.SetEnemies(enemies.ToList());
-            charactersMediator.SetPointNumber(pointNumber);
+            charactersMediator.SetScenario(scenario);
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();
         }
