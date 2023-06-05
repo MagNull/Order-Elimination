@@ -19,8 +19,8 @@ namespace OrderElimination
         {
             var battleStatsList = _squad.Members.Cast<IBattleCharacterInfo>().ToList();
             var charactersMediator = _objectResolver.Resolve<CharactersMediator>();
-            charactersMediator.SetSquad(battleStatsList);
-            charactersMediator.SetEnemies(_target.GetPlanetInfo().Enemies);
+            //charactersMediator.SetSquad(battleStatsList);
+            //charactersMediator.SetEnemies(_target.GetPlanetInfo().Enemies);
             charactersMediator.SetPointNumber(_target.PointNumber);
             charactersMediator.PlanetInfo = _target.GetPlanetInfo();
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();

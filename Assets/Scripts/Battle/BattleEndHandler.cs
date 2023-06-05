@@ -33,7 +33,7 @@ public class BattleEndHandler : MonoBehaviour
     public void ShowResults(BattleOutcome outcome)
     {
         Debug.Log(outcome);
-        var allies = _mediator.GetPlayerCharactersInfo().Cast<Character>().ToArray();
+        Character[] allies = null;//_mediator.GetPlayerCharactersInfo().Cast<Character>().ToArray();
         var currentPlanetInfo = _mediator.PlanetInfo;
         var battleResultInfo = new BattleResult(outcome, allies, currentPlanetInfo.CurrencyReward, 0);
         if (outcome == BattleOutcome.Victory)

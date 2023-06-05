@@ -44,7 +44,6 @@ namespace OrderElimination
             _charactersBank = new CharactersBank();
             builder.RegisterInstance(_charactersBank).AsSelf().AsImplementedInterfaces();
             builder.RegisterInstance(new BattleEntitiesBank()).AsSelf().AsImplementedInterfaces();
-            builder.Register<GameCharactersFactory>(Lifetime.Singleton);
 
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_battleMapDirector);

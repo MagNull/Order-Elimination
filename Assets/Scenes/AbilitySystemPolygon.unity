@@ -2939,6 +2939,7 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 960f80274a3bf09459044259dc1ac4cf, type: 2}
+    - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
     - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
     - {fileID: 11400000, guid: 04588733ccd1f2a4bb0aad35a508b4de, type: 2}
     - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
@@ -2952,13 +2953,13 @@ MonoBehaviour:
     - Name: BattleScenario
       Entry: 10
       Data: 0
-    - Name: _allies
+    - Name: _playerCharacters
       Entry: 7
       Data: 0|System.Collections.Generic.List`1[[IBattleCharacterInfo, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 5
     - Name: 
       Entry: 10
       Data: 1
@@ -2971,6 +2972,9 @@ MonoBehaviour:
     - Name: 
       Entry: 10
       Data: 4
+    - Name: 
+      Entry: 10
+      Data: 5
     - Name: 
       Entry: 13
       Data: 
@@ -2986,10 +2990,10 @@ MonoBehaviour:
       Data: 2
     - Name: 
       Entry: 10
-      Data: 5
+      Data: 6
     - Name: 
       Entry: 10
-      Data: 5
+      Data: 6
     - Name: 
       Entry: 13
       Data: 

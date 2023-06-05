@@ -9,12 +9,10 @@ namespace OrderElimination.AbilitySystem
     {
         private Lazy<IBattleContext> _battleContext;
         private Lazy<BattleEntitiesFactory> _entitiesFactory;
-        private GameCharactersFactory _gameCharactersFactory;
 
         [Inject]
         private void Construct(IObjectResolver objectResolver)
         {
-            _gameCharactersFactory = objectResolver.Resolve<GameCharactersFactory>();
             _entitiesFactory = new Lazy<BattleEntitiesFactory>(() => objectResolver.Resolve<BattleEntitiesFactory>());
             _battleContext = new Lazy<IBattleContext>(() => objectResolver.Resolve<IBattleContext>());
         }
@@ -27,7 +25,7 @@ namespace OrderElimination.AbilitySystem
             var battleMap = _battleContext.Value.BattleMap;
             if (!battleMap.CellRangeBorders.Contains(position))
                 throw new ArgumentOutOfRangeException("Position is outside of the map borders.");
-            var gameCharacter = _gameCharactersFactory.CreateGameEntity(characterData);
+            var gameCharacter = GameCharactersFactory.CreateGameEntity(characterData);
             return _entitiesFactory.Value.CreateBattleCharacter(gameCharacter, side, position).Model;
         }
 
