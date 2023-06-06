@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class EntitiesInZoneTriggerInstruction : ITriggerAbilityInstruction
+    public class EntitiesInZoneTriggerInstruction : ITriggerInstruction
     {
         private class UndoableResultsContainer
         {
@@ -20,7 +20,7 @@ namespace OrderElimination.AbilitySystem
         #endregion
 
         [ShowInInspector, OdinSerialize]
-        public EntityRelativeZoneTrigger TriggerSetup { get; private set; }
+        public EntityRelativeZoneTrigger TriggerSetup { get; private set; } = new();
 
         #region AbilityInstructions based functionality
         //[ValidateInput("@false", "Use " + nameof(AbilityInstruction.AffectPreviousTarget) + " checkbox.")]
@@ -68,7 +68,7 @@ namespace OrderElimination.AbilitySystem
 
             async void OnTriggered(ITriggerFireInfo fireInfo)
             {
-                var triggerZoneInfo = (TriggerZoneFireInfo)fireInfo;
+                var triggerZoneInfo = (ZoneTriggerFireInfo)fireInfo;
                 entitiesInZone = triggerZoneInfo.CurrentEntities;
                 await Execute(
                     triggerZoneInfo.DisappearedEntities, 

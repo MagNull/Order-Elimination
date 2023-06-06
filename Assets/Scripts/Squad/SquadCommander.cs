@@ -30,20 +30,6 @@ namespace OrderElimination
         public void PlayAnimation()
         {
             var tween = _attackImage.DOFade(1, 0.5f);
-            tween.OnComplete(StartAttack);
-        }
-
-        public void StartAttack()
-        {
-            var order = CreateAttackOrder();
-            order.Start();
-        }
-
-        public AttackOrder CreateAttackOrder()
-        {
-            if (_squad == null || _target == null)
-                throw new System.Exception("Characteristics are not set");
-            return new AttackOrder(_target, _squad, _objectResolver);
         }
     }
 }

@@ -6,6 +6,8 @@ using OrderElimination.AbilitySystem.Animations;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using VContainer;
 
@@ -24,7 +26,9 @@ public class BattleEntityView : MonoBehaviour
     private float _damageCash;
     private float _healthCash;
     private float _armorCash;
+
     public static float SummingValuesTimeGap { get; private set; } = 0.01f;
+    public static readonly Vector3 ErrorPosition = Vector3.zero;
 
     [ShowInInspector]
     public float IconTargetSize
@@ -45,13 +49,15 @@ public class BattleEntityView : MonoBehaviour
         set
         {
             _renderer.sprite = value;
-            var bounds = value.bounds;
-            float maxBoundsSide = bounds.size.y >= bounds.size.x ? bounds.size.y : bounds.size.x;
-            _renderer.transform.localScale = Vector3.one * IconTargetSize / maxBoundsSide;
+            if (value != null)
+            {
+                var bounds = value.bounds;
+                float maxBoundsSide = bounds.size.y >= bounds.size.x ? bounds.size.y : bounds.size.x;
+                _renderer.transform.localScale = Vector3.one * IconTargetSize / maxBoundsSide;
+            }
         }
     }
-
-    public static readonly Vector3 ErrorPosition = Vector3.zero;
+    public GameObject VisualModel { get; private set; }
 
     [Inject]
     public void Construct(BattleMapView battleMapView, IParticlesPool particlesPool, TextEmitter textEmitter)
@@ -61,7 +67,7 @@ public class BattleEntityView : MonoBehaviour
         _textEmitter = textEmitter;
     }
 
-    public void Initialize(AbilitySystemActor entity, Sprite battleIcon, string name)
+    public void Initialize(AbilitySystemActor entity, string name, Sprite battleIcon, GameObject model = null)
     {
         if (BattleEntity != null)
             return;
@@ -90,7 +96,10 @@ public class BattleEntityView : MonoBehaviour
 
         BattleIcon = battleIcon;
         gameObject.name = Name = $"{entity.BattleSide} «{name}»";
-
+        if (model != null)
+        {
+            VisualModel = Instantiate(model, transform);
+        }
         if (BattleEntity.DeployedBattleMap.Contains(BattleEntity))
         {
             throw new InvalidOperationException("Initialize EntityView first and place entity on map after.");
@@ -198,12 +207,17 @@ public class BattleEntityView : MonoBehaviour
         //_renderer.DOFade(0, 0.3f).SetDelay(0.4f).SetEase(Ease.OutBounce);
     }
 
-    private void OnDisposedFromBattle(IBattleDisposable entity)
+    private async void OnDisposedFromBattle(IBattleDisposable entity)
     {
         var luminosity = 0.1f;
         //_renderer.DOFade(0.7f, 1).SetEase(Ease.InBounce);
-        _renderer.DOColor(new Color(luminosity, luminosity, luminosity), 0.4f);
-        _renderer.DOFade(0, 0.3f).SetDelay(0.4f).SetEase(Ease.OutBounce);
+        var tasks = new List<Task>
+        {
+            _renderer.DOColor(new Color(luminosity, luminosity, luminosity), 0.4f).AsyncWaitForCompletion(),
+            _renderer.DOFade(0, 0.3f).SetDelay(0.4f).SetEase(Ease.OutBounce).AsyncWaitForCompletion()
+        };
+        await Task.WhenAll(tasks);
+        gameObject.SetActive(false);
     }
 
     private void OnStatusAppeared(BattleStatus status)

@@ -19,15 +19,12 @@ public class BattleMapDirector
     public BattleMap Map => _battleMapView.Map;
     public BattleMapView MapView => _battleMapView;
 
-    public int InitializeMap()
+    public void InitializeMap()
     {
         var grid = _generator.GenerateGrid(_battleMapView.Map.Width, _battleMapView.Map.Height);
 
         _battleMapView.Map.Init(grid.Model);
         _battleMapView.Init(grid.View);
-        
-        //AddEnvironmentObjects(_charactersMediator.PointNumber);
-        return _charactersMediator.PointNumber;
     }
 
     [Inject]

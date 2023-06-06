@@ -1,13 +1,34 @@
-﻿using System;
+﻿using OrderElimination.Infrastructure;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
     public class EntityDamagedTrigger : IEntityTriggerSetup
     {
+        [HideInInspector, OdinSerialize]
+        private float _minDamageThreshold = 0;
+
+        [ShowInInspector, OdinSerialize]
+        public EnumMask<DamageType> TriggeringDamageTypes { get; private set; } = EnumMask<DamageType>.Full;
+
+        [ShowInInspector]
+        public float MinDamageThreshold
+        {
+            get => _minDamageThreshold;
+            private set
+            {
+                if (value < 0) value = 0;
+                _minDamageThreshold = value;
+            }
+        }
+
         public IBattleTrigger GetTrigger(IBattleContext battleContext, AbilitySystemActor trackingEntity)
         {
             var instance = new ITriggerSetup.BattleTrigger(this, battleContext);
@@ -30,7 +51,11 @@ namespace OrderElimination.AbilitySystem
 
             void OnDamaged(DealtDamageInfo damageInfo)
             {
-                instance.Trigger(new EntityDamagedTriggerFireInfo(instance, damageInfo));
+                if (TriggeringDamageTypes[damageInfo.DamageType]
+                    && damageInfo.TotalDamage >= MinDamageThreshold)
+                {
+                    instance.FireTrigger(new EntityDamagedTriggerFireInfo(instance, damageInfo));
+                }
             }
         }
     }

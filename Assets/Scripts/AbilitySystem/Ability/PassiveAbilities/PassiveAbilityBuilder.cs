@@ -47,6 +47,6 @@ namespace OrderElimination.AbilitySystem
 
         [TitleGroup("Functionality", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 4), PropertyOrder(0)]
         [ShowInInspector, OdinSerialize]
-        public ITriggerAbilityInstruction[] TriggerInstructions { get; private set; }
+        public ITriggerInstruction[] TriggerInstructions { get; private set; }
     }
 }

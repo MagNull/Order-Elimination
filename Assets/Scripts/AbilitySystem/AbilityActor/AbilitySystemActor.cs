@@ -55,6 +55,7 @@ namespace OrderElimination.AbilitySystem
         public IBattleStats BattleStats => _battleStats;
         public IBattleContext BattleContext { get; }
         public IBattleMap DeployedBattleMap { get; private set; }
+        //public BattleEntityView GetEntityView() => IsDisposedFromBattle ? null : BattleContext.EntitiesBank.GetViewByEntity(this);
 
         #region IHaveLifeStats
         public ILifeBattleStats LifeStats => _battleStats;
@@ -213,7 +214,5 @@ namespace OrderElimination.AbilitySystem
         public EntityActionProcessor ActionProcessor => _actionProcessor.Value;
 
         public BattleObstacle Obstacle => _obstacle.Value;
-
-        //IBattleObstacle?
     }
 }

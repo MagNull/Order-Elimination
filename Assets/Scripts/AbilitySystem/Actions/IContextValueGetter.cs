@@ -33,6 +33,8 @@ namespace OrderElimination.AbilitySystem
         }
 
         public float GetValue(ActionContext useContext) => Value;
+
+        public ConstValueGetter(float value) => Value = value;
     }
 
     [Serializable]

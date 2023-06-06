@@ -61,7 +61,7 @@ public class BattleLoopManager : MonoBehaviour
         {
             CurrentRound++;
             NewRoundBegan?.Invoke();
-            Debug.Log($"Round {CurrentRound} began.");
+            //Debug.Log($"Round {CurrentRound} began.");
         }
         NewTurnStarted?.Invoke();
         Debug.Log($"Turn of {ActiveSide} started.");

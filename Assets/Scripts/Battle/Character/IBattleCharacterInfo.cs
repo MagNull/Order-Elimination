@@ -31,6 +31,7 @@ public interface IBattleStructureData
 {
     public string Name { get; }
     public Sprite BattleIcon { get; }
+    public GameObject VisualModel { get; }
     public float MaxHealth { get; }
     public IBattleObstacleSetup ObstacleSetup { get; }
 
