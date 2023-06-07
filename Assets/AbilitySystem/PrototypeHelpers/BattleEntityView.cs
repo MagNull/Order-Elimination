@@ -6,6 +6,8 @@ using OrderElimination.AbilitySystem.Animations;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using VContainer;
 
@@ -18,13 +20,17 @@ public class BattleEntityView : MonoBehaviour
 
     [HideInInspector, SerializeField]
     private float _iconTargetSize = 1.9f;
+    [HideInInspector, SerializeField]
+    private bool _showFloatingNumbers = true;
     private BattleMapView _battleMapView;
     private IParticlesPool _particlesPool;
     private TextEmitter _textEmitter;
     private float _damageCash;
     private float _healthCash;
     private float _armorCash;
+
     public static float SummingValuesTimeGap { get; private set; } = 0.01f;
+    public static readonly Vector3 ErrorPosition = Vector3.zero;
 
     [ShowInInspector]
     public float IconTargetSize
@@ -37,6 +43,12 @@ public class BattleEntityView : MonoBehaviour
             BattleIcon = BattleIcon;
         }
     }
+    [ShowInInspector]
+    public bool ShowFloatingNumbers
+    {
+        get => _showFloatingNumbers;
+        set => _showFloatingNumbers = value;
+    }
     public AbilitySystemActor BattleEntity { get; private set; }
     public string Name { get; private set; }
     public Sprite BattleIcon
@@ -45,13 +57,15 @@ public class BattleEntityView : MonoBehaviour
         set
         {
             _renderer.sprite = value;
-            var bounds = value.bounds;
-            float maxBoundsSide = bounds.size.y >= bounds.size.x ? bounds.size.y : bounds.size.x;
-            _renderer.transform.localScale = Vector3.one * IconTargetSize / maxBoundsSide;
+            if (value != null)
+            {
+                var bounds = value.bounds;
+                float maxBoundsSide = bounds.size.y >= bounds.size.x ? bounds.size.y : bounds.size.x;
+                _renderer.transform.localScale = Vector3.one * IconTargetSize / maxBoundsSide;
+            }
         }
     }
-
-    public static readonly Vector3 ErrorPosition = Vector3.zero;
+    public GameObject VisualModel { get; private set; }
 
     [Inject]
     public void Construct(BattleMapView battleMapView, IParticlesPool particlesPool, TextEmitter textEmitter)
@@ -61,7 +75,7 @@ public class BattleEntityView : MonoBehaviour
         _textEmitter = textEmitter;
     }
 
-    public void Initialize(AbilitySystemActor entity, Sprite battleIcon, string name)
+    public void Initialize(AbilitySystemActor entity, string name, Sprite battleIcon, GameObject model = null)
     {
         if (BattleEntity != null)
             return;
@@ -90,7 +104,10 @@ public class BattleEntityView : MonoBehaviour
 
         BattleIcon = battleIcon;
         gameObject.name = Name = $"{entity.BattleSide} «{name}»";
-
+        if (model != null)
+        {
+            VisualModel = Instantiate(model, transform);
+        }
         if (BattleEntity.DeployedBattleMap.Contains(BattleEntity))
         {
             throw new InvalidOperationException("Initialize EntityView first and place entity on map after.");
@@ -160,7 +177,8 @@ public class BattleEntityView : MonoBehaviour
         var strength = Mathf.InverseLerp(0, 200, damageValue);
         var shake = Mathf.Lerp(0, 0.5f, strength);
         var position = _floatingNumbersPosition.position;
-        _textEmitter.Emit($"{damageValue}", Color.red, position, new Vector2(0.5f, 0.5f));
+        if (ShowFloatingNumbers)
+                _textEmitter.Emit($"{damageValue}", Color.red, position, new Vector2(0.5f, 0.5f));
         Shake(shake, shake, 1, 10);
     }
 
@@ -185,8 +203,11 @@ public class BattleEntityView : MonoBehaviour
 
         var position = _floatingNumbersPosition.position;
         var offset = Vector3.up * 0.25f;
-        _textEmitter.Emit($"+{armorValue}", Color.cyan, position + offset, new Vector2(0.5f, 0.5f), duration: 1);
-        _textEmitter.Emit($"+{healthValue}", Color.green, position - offset, new Vector2(0.5f, 0.5f), duration: 1);
+        if (ShowFloatingNumbers)
+        {
+            _textEmitter.Emit($"+{armorValue}", Color.cyan, position + offset, new Vector2(0.5f, 0.5f), duration: 1);
+            _textEmitter.Emit($"+{healthValue}", Color.green, position - offset, new Vector2(0.5f, 0.5f), duration: 1);
+        }
         //Shake(0, 0.07f, 1.5f, 3);
     }
 
@@ -198,12 +219,17 @@ public class BattleEntityView : MonoBehaviour
         //_renderer.DOFade(0, 0.3f).SetDelay(0.4f).SetEase(Ease.OutBounce);
     }
 
-    private void OnDisposedFromBattle(IBattleDisposable entity)
+    private async void OnDisposedFromBattle(IBattleDisposable entity)
     {
         var luminosity = 0.1f;
         //_renderer.DOFade(0.7f, 1).SetEase(Ease.InBounce);
-        _renderer.DOColor(new Color(luminosity, luminosity, luminosity), 0.4f);
-        _renderer.DOFade(0, 0.3f).SetDelay(0.4f).SetEase(Ease.OutBounce);
+        var tasks = new List<Task>
+        {
+            _renderer.DOColor(new Color(luminosity, luminosity, luminosity), 0.4f).AsyncWaitForCompletion(),
+            _renderer.DOFade(0, 0.3f).SetDelay(0.4f).SetEase(Ease.OutBounce).AsyncWaitForCompletion()
+        };
+        await Task.WhenAll(tasks);
+        gameObject.SetActive(false);
     }
 
     private void OnStatusAppeared(BattleStatus status)

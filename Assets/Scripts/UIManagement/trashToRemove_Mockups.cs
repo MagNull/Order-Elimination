@@ -1,5 +1,6 @@
 ﻿using CharacterAbility;
 using OrderElimination;
+using OrderElimination.AbilitySystem;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -110,6 +111,19 @@ namespace UIManagement.trashToRemove_Mockups
         public string GetUnits(ValueUnits unitType) => _unitNames[unitType];
         public string GetBuffName(Buff_Type buffType) => _buffNames[buffType];
         public string GetOvertimeTypeName(OverTimeAbilityType overtimeType) => _overtimeTypeNames[overtimeType];
+        public string GetBattleStatName(BattleStat battleStat)
+        {
+            return battleStat switch
+            {
+                BattleStat.MaxHealth => "Макс. здоровье",
+                BattleStat.MaxArmor => "Макс. броня",
+                BattleStat.AttackDamage => "Урон",
+                BattleStat.Accuracy => "Точность",
+                BattleStat.Evasion => "Уклонение",
+                BattleStat.MaxMovementDistance => "Дальность перемещения",
+                _ => throw new System.NotImplementedException(),
+            };
+        }
     }
 
     public class MasterVolume

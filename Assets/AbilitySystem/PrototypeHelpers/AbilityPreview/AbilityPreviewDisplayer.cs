@@ -63,8 +63,8 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
                 .SelectMany(gId => targetedGroups.GetGroup(gId)))
         {
             var visualPosition = battleContext.AnimationSceneContext.BattleMapView.GameToWorldPosition(pos);
-            foreach (var entity in battleContext.BattleMap
-                .GetContainedEntities(pos)
+            foreach (var entity in battleContext
+                .GetVisibleEntities(pos, caster.BattleSide)
                 .Where(e => instruction.TargetConditions.All(c => c.IsConditionMet(battleContext, caster, e))))
             {
                 var actionContext = new ActionContext(battleContext, targetedGroups, caster, entity);

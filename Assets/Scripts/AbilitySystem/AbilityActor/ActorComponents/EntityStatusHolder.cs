@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
-using static UnityEngine.EventSystems.EventTrigger;
+using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
+    public enum BattleStatus
+    {
+        Invisible,
+        CantMove,
+        ActiveAbilitiesDisabled
+        //PassiveAbilitiesDisabled
+        //Flying - can move freely
+        //Invulnerable// - Cant be damaged
+    }
+
     public class EntityStatusHolder
     {
         private Dictionary<BattleStatus, int> _statusEffects = new();
@@ -26,6 +33,7 @@ namespace OrderElimination.AbilitySystem
                 _statusEffects.Add(status, 0);
             }
             _statusEffects[status]++;
+            Debug.Log($"{status}+" % Colorize.Cyan);
             if (_statusEffects[status] > 0)
                 StatusAppeared?.Invoke(status);
 
@@ -35,6 +43,7 @@ namespace OrderElimination.AbilitySystem
         {
             if (!_statusEffects.ContainsKey(status)) return false;
             _statusEffects[status]--;
+            Debug.Log($"{status}-" % Colorize.Cyan);
             if (_statusEffects[status] == 0)
             {
                 //_statusEffects.Remove(status);//Can we go minus? (if Remove() -> no)
@@ -55,15 +64,5 @@ namespace OrderElimination.AbilitySystem
         {
             return $"Statuses[{_statusEffects.Count}]: {string.Join(", ", _statusEffects.Select(e => $"[{e.Key}:{e.Value}]"))}";
         }
-    }
-
-    public enum BattleStatus
-    {
-        Invisible,
-        CantMove,
-        //Flying - can move freely
-        //ActiveAbilitiesDisabled
-        //PassiveAbilitiesDisabled
-        //Invulnerable// - Cant be damaged
     }
 }

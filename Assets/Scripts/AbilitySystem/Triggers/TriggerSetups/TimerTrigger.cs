@@ -53,7 +53,7 @@ namespace OrderElimination.AbilitySystem
 
             void Trigger()
             {
-                trigger.Trigger(new TimerTriggerFireInfo(trigger, passedRounds));
+                trigger.FireTrigger(new TimerTriggerFireInfo(trigger, passedRounds));
             }
 
             void OnDeactivation(ITriggerSetup.BattleTrigger trigger)

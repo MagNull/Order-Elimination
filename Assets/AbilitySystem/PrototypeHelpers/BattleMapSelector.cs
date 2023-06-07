@@ -66,6 +66,10 @@ public class BattleMapSelector : MonoBehaviour
 
     [TitleGroup("Prototyping")]
     [SerializeField]
+    private bool _allowOnlyPlayerEntities;
+
+    [TitleGroup("Prototyping")]
+    [SerializeField]
     private bool _confirmTargetingBySecondClick;
 
     private BattleMapView _battleMapView;
@@ -132,6 +136,8 @@ public class BattleMapSelector : MonoBehaviour
                 .ToArray();
             if (_allowOnlyCurrentSideEntities)
                 entities = entities.Where(e => e.BattleSide == _battleContext.ActiveSide).ToArray();
+            if (_allowOnlyPlayerEntities)
+                entities = entities.Where(e => e.BattleSide == BattleSide.Player).ToArray();
             DeselectEntity();
             if (entities.Length > 0)
             {
@@ -197,10 +203,18 @@ public class BattleMapSelector : MonoBehaviour
                 }
                     
             }
-            _abilityPreviewDisplayer.DisplayPreview(
+            else if (_selectedAbility.AbilityData.TargetingSystem is NoTargetTargetingSystem noTargetSystem)
+            {
+                if (_currentSelectedEntity.Position == cellPosition && _confirmTargetingBySecondClick)
+                    CastCurrentAbility();
+            }
+            if (_selectedAbility != null)
+            {
+                _abilityPreviewDisplayer.DisplayPreview(
                 _selectedAbility.AbilityData,
                 _currentSelectedEntity,
                 _selectedAbility.AbilityData.TargetingSystem.ExtractCastTargetGroups());
+            }
         }
     }
 
@@ -215,10 +229,10 @@ public class BattleMapSelector : MonoBehaviour
         _abilityPanel.AbilityDeselected += OnAbilityDeselect;
         foreach (var ability in entity.ActiveAbilities)
         {
-            ability.AbilityInitiated -= OnAbilityUpdated;
-            ability.AbilityInitiated += OnAbilityUpdated;
-            ability.AbilityCastCompleted -= OnAbilityUpdated;
-            ability.AbilityCastCompleted += OnAbilityUpdated;
+            ability.AbilityExecutionStarted -= OnAbilityUpdated;
+            ability.AbilityExecutionStarted += OnAbilityUpdated;
+            ability.AbilityExecutionCompleted -= OnAbilityUpdated;
+            ability.AbilityExecutionCompleted += OnAbilityUpdated;
         }
         _characterBattleStatsPanel.UpdateEntityInfo(view);
         _characterBattleStatsPanel.ShowInfo();
@@ -247,8 +261,8 @@ public class BattleMapSelector : MonoBehaviour
             _currentSelectedEntity.DisposedFromBattle -= OnSelectedEntityDisposed;
             foreach (var ability in _currentSelectedEntity.ActiveAbilities)
             {
-                ability.AbilityInitiated -= OnAbilityUpdated;
-                ability.AbilityCastCompleted -= OnAbilityUpdated;
+                ability.AbilityExecutionStarted -= OnAbilityUpdated;
+                ability.AbilityExecutionCompleted -= OnAbilityUpdated;
             }
         }
         _characterBattleStatsPanel.HideInfo();
@@ -361,7 +375,6 @@ public class BattleMapSelector : MonoBehaviour
 
     private void OnConfirmationUnlocked(IRequireTargetsTargetingSystem multiTargetSystem)
     {
-        _textEmitter.Emit("������� �E� ��� ����������!", Color.red, fontSize: 1.5f);
         Debug.Log("Ability use ready.");
     }
     private void OnConfirmationLocked(IRequireTargetsTargetingSystem multiTargetSystem)
@@ -412,7 +425,7 @@ public class BattleMapSelector : MonoBehaviour
         if (_selectedAbility != null && _selectedAbility.AbilityData.TargetingSystem.IsConfirmAvailable)
         {
             var abilityName = _selectedAbility.AbilityData.View.Name;
-            Debug.Log($"Ability �{abilityName}� has been used." % Colorize.Cyan);
+            //Debug.Log($"Ability �{abilityName}� has been used." % Colorize.Cyan);
             _selectedAbility.AbilityData.TargetingSystem.ConfirmTargeting();
         }
     }

@@ -23,7 +23,7 @@ namespace OrderElimination.AbilitySystem
             IEnumerable<IPassiveAbilityData> passiveAbilities)
         {
             CharacterData = entityData;
-            BattleStats = new BattleStats(entityData.BaseStats);
+            BattleStats = new BattleStats(entityData.BaseBattleStats);
             //EntityType = entityData.EntityType;
             PosessedActiveAbilities = activeAbilities.ToList();
             PosessedPassiveAbilities = passiveAbilities.ToList();

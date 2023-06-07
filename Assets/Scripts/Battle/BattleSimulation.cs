@@ -20,6 +20,7 @@ public enum BattleState
     End
 }
 
+[Obsolete("Not used anymore")]
 public class BattleSimulation : SerializedMonoBehaviour
 {
     public static event Action PlayerTurnStarted;
@@ -167,7 +168,7 @@ public class BattleSimulation : SerializedMonoBehaviour
         _battleState = BattleState.PlayerTurn;
         _outcome = BattleOutcome.Neither;
 
-        var mapIndex = _battleMapDirector.InitializeMap();
+        var mapIndex = 0;
 
         _characterArrangeDirector.SetArrangementMap(_battleMapDirector.Map);
         _characters = _characterArrangeDirector.Arrange(_unitPositions[mapIndex], _enemyPositions[mapIndex]);

@@ -68,11 +68,11 @@ namespace OrderElimination.AbilitySystem
             }
         }
 
-        public ITriggerAbilityInstruction[] TriggerInstructions { get; private set; }
+        public ITriggerInstruction[] TriggerInstructions { get; private set; }
 
         public event Action<IPassiveExecutionActivationInfo> ExecutionTriggered;
 
-        public PassiveAbilityExecution(ITriggerAbilityInstruction[] triggerInstructions)
+        public PassiveAbilityExecution(ITriggerInstruction[] triggerInstructions)
         {
             TriggerInstructions = triggerInstructions;
         }

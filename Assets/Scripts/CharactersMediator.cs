@@ -26,5 +26,6 @@ namespace OrderElimination
 
 
         private void Awake() => DontDestroyOnLoad(gameObject);
+
     }
 }

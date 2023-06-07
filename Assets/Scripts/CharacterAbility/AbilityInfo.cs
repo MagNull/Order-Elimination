@@ -161,7 +161,7 @@ namespace CharacterAbility
         public EffectView EffectView;
     }
 
-    [CreateAssetMenu(fileName = "AbilityInfo", menuName = "Ability")]
+    //[CreateAssetMenu(fileName = "AbilityInfo", menuName = "Ability")]
     public class AbilityInfo : SerializedScriptableObject
     {
         public enum AbilityType
