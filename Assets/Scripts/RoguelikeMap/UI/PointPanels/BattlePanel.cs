@@ -45,10 +45,10 @@ namespace RoguelikeMap.UI.PointPanels
         public void OnClickAttackButton()
         {
             OnStartAttack?.Invoke();
-            foreach (var character in _enemies)
-            {
-                Destroy(character);
-            }
+            // foreach (var character in _enemies)
+            // {
+            //     Destroy(character);
+            // }
             base.Close();
         }
     }
