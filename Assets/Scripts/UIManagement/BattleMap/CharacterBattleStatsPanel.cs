@@ -147,7 +147,9 @@ namespace UIManagement.Elements
         {
             var characterDescriptionPanel =
                 (CharacterDescriptionPanel) UIController.SceneInstance.OpenPanel(PanelType.CharacterDescription);
-            //characterDescriptionPanel.UpdateCharacterDescription(_currentCharacterView);
+            var battleContext = _currentEntityView.BattleEntity.BattleContext;
+            var entityData = battleContext.EntitiesBank.GetBattleCharacterData(_currentEntityView.BattleEntity);
+            characterDescriptionPanel.UpdateCharacterDescription(entityData);
         }
     }
 }

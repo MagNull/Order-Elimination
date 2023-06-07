@@ -21,7 +21,8 @@ public interface IBattleCharacterData//Rename to IBattleCharacterInfo
 {
     public string Name { get; }
     public Sprite BattleIcon { get; }
-    public ReadOnlyBaseStats BaseStats { get; }
+    public Sprite Avatar { get; }
+    public ReadOnlyBaseStats BaseBattleStats { get; }
 
     public int CostValue { get; }
 

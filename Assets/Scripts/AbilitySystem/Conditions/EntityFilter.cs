@@ -86,7 +86,7 @@ namespace OrderElimination.AbilitySystem
                 && entity.EntityType == EntityType.Character
                 && _specifiedCharacters != null)
             {
-                var characterData = battleContext.EntitiesBank.GetBattleCharacterData(entity);
+                var characterData = battleContext.EntitiesBank.GetBattleCharacterData(entity).CharacterData;
                 switch (CharactersSpecification)
                 {
                     case SpicificationType.ByIgnored:

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 087dea7e287b4bf6b474c4bd7769c1cb, type: 3}
-  m_Name: Stone
+  m_Name: Tree
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -62,29 +62,7 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: OrderElimination.AbilitySystem.BattleObstacleSetup+AccuracyAffectionRule,
-        Assembly-CSharp
-    - Name: AccuracyOperation
-      Entry: 3
-      Data: 2
-    - Name: ValueOperand
-      Entry: 7
-      Data: 4|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
-    - Name: Value
-      Entry: 4
       Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _minSquare
-      Entry: 4
-      Data: 0.5
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -94,8 +72,8 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  _name: Stone
-  _spriteView: {fileID: 21300000, guid: 4fd79c5cfaa9e034a9f4ce640b376f36, type: 3}
+  _name: Tree
+  _spriteView: {fileID: 21300000, guid: dccb0bac6ded00a44ab7d434926c2c51, type: 3}
   _visualModel: {fileID: 0}
-  _maxHealth: 3000
+  _maxHealth: 300
   _posessedAbilities: []
