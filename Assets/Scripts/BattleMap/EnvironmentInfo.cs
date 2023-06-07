@@ -15,6 +15,10 @@ namespace OrderElimination.BM
         [PreviewField(100, ObjectFieldAlignment.Left)]
         [SerializeField]
         private Sprite _spriteView;
+        [PreviewField(100, ObjectFieldAlignment.Left)]
+        [AssetsOnly]
+        [SerializeField]
+        private GameObject _visualModel;
         [SerializeField]
         private float _maxHealth;
         [SerializeField]
@@ -24,6 +28,7 @@ namespace OrderElimination.BM
 
         public string Name => _name;
         public Sprite BattleIcon => _spriteView;
+        public GameObject VisualModel => _visualModel;
         public float MaxHealth => _maxHealth;
         public IBattleObstacleSetup ObstacleSetup => _obstacleSetup;
         public PassiveAbilityBuilder[] GetPossesedAbilities() => _posessedAbilities;

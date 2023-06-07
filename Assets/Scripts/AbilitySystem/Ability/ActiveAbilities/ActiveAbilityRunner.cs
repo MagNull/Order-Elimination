@@ -19,12 +19,17 @@ namespace OrderElimination.AbilitySystem
         public bool IsRunning { get; private set; } = false;
         public int Cooldown { get; private set; }
 
-        public event Action<ActiveAbilityRunner> AbilityInitiated;
-        public event Action<ActiveAbilityRunner> AbilityCastCompleted;
+        public event Action<ActiveAbilityRunner> AbilityExecutionStarted;
+        public event Action<ActiveAbilityRunner> AbilityExecutionCompleted;
 
         public bool IsCastAvailable(IBattleContext battleContext, AbilitySystemActor caster)
         {
+            if (caster.IsDisposedFromBattle)
+                throw new InvalidOperationException("Caster is disposed from battle.");
+            if (!caster.IsAlive)
+                throw new InvalidOperationException("Caster is dead.");
             return !IsRunning // :(
+                && !caster.StatusHolder.HasStatus(BattleStatus.ActiveAbilitiesDisabled)
                 && !caster.IsPerformingAbility
                 && Cooldown <= 0 
                 && AbilityData.Rules.IsAbilityAvailable(battleContext, caster);
@@ -66,13 +71,13 @@ namespace OrderElimination.AbilitySystem
                 var abilityUseContext = new AbilityExecutionContext(battleContext, caster, executionGroups);
                 IsRunning = true;
                 caster.IsPerformingAbility = true;
-                AbilityInitiated?.Invoke(this);//Ability functionality initiated, but not finished yet.
+                AbilityExecutionStarted?.Invoke(this);//Ability functionality initiated, but not finished yet.
 
                 await AbilityData.Execution.Execute(abilityUseContext);
 
                 IsRunning = false;
                 caster.IsPerformingAbility = false;
-                AbilityCastCompleted?.Invoke(this);
+                AbilityExecutionCompleted?.Invoke(this);
             }
 
             void onCanceled(IAbilityTargetingSystem targetingSystem)

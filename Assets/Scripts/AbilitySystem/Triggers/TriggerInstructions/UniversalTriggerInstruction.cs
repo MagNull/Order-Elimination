@@ -4,7 +4,7 @@ using System;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class UniversalTriggerInstruction : ITriggerAbilityInstruction
+    public class UniversalTriggerInstruction : ITriggerInstruction
     {
         [ValidateInput(
             "@!(" + nameof(TriggerSetup) + " is " + nameof(IEntityTriggerSetup) + ")", 

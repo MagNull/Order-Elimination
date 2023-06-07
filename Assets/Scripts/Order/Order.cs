@@ -11,9 +11,9 @@
             _squad = squad;
         }
 
-        public abstract void Start();
+        public virtual void Start() { }
 
-        public abstract void End();
+        public virtual void End() { }
     }
 
 }

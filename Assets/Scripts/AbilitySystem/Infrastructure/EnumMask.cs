@@ -18,6 +18,19 @@ namespace OrderElimination.Infrastructure
 
         public IReadOnlyDictionary<T, bool> ValueFlags => _valueFlags;
 
+        public EnumMask() { }
+
+        private static EnumMask<T> GetFilledInstance(bool defaultValue)
+        {
+            return new EnumMask<T>
+            {
+                _valueFlags = EnumExtensions.GetValues<T>().ToDictionary(e => e, e => defaultValue)
+            };
+        }
+
+        public static EnumMask<T> Empty => GetFilledInstance(false);
+        public static EnumMask<T> Full => GetFilledInstance(true);
+
         public bool this[T type]
         {
             get => _valueFlags[type];

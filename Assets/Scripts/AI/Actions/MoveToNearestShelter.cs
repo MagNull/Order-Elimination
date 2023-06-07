@@ -27,7 +27,7 @@ namespace AI.Actions
                 targeting.Select(structure.Position);
 
                 var completed = false;
-                movementAbility.AbilityCastCompleted += _ => completed = true;
+                movementAbility.AbilityExecutionCompleted += _ => completed = true;
                 await UniTask.WaitUntil(() => completed);
 
                 return true;

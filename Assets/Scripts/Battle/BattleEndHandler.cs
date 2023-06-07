@@ -32,23 +32,23 @@ public class BattleEndHandler : MonoBehaviour
 
     public void ShowResults(BattleOutcome outcome)
     {
-        Debug.Log(outcome);
-        var allies = _mediator.GetPlayerCharactersInfo().Cast<Character>().ToArray();
-        var currentPlanetInfo = _mediator.PlanetInfo;
-        var battleResultInfo = new BattleResult(outcome, allies, currentPlanetInfo.CurrencyReward, 0);
-        if (outcome == BattleOutcome.Victory)
-        {
-            var panel = (BattleVictoryPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleVictory);
-            panel.UpdateBattleResult(battleResultInfo);
-            panel.LastContinueButtonPressed -= _sceneTransition.LoadStrategyMap;
-            panel.LastContinueButtonPressed += _sceneTransition.LoadStrategyMap;
-        }
-        else
-        {
-            var panel = (BattleDefeatPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleDefeat);
-            panel.UpdateBattleResult(battleResultInfo);
-            panel.LastContinueButtonPressed -= _sceneTransition.LoadBattleMap;
-            panel.LastContinueButtonPressed += _sceneTransition.LoadBattleMap;
-        }
+        //Debug.Log(outcome);
+        //Character[] allies = null;//_mediator.GetPlayerCharactersInfo().Cast<Character>().ToArray();
+        //var currentPlanetInfo = _mediator.PlanetInfo;
+        //var battleResultInfo = new BattleResult(outcome, allies, currentPlanetInfo.CurrencyReward, 0);
+        //if (outcome == BattleOutcome.Victory)
+        //{
+        //    var panel = (BattleVictoryPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleVictory);
+        //    panel.UpdateBattleResult(battleResultInfo);
+        //    panel.LastContinueButtonPressed -= _sceneTransition.LoadStrategyMap;
+        //    panel.LastContinueButtonPressed += _sceneTransition.LoadStrategyMap;
+        //}
+        //else
+        //{
+        //    var panel = (BattleDefeatPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleDefeat);
+        //    panel.UpdateBattleResult(battleResultInfo);
+        //    panel.LastContinueButtonPressed -= _sceneTransition.LoadBattleMap;
+        //    panel.LastContinueButtonPressed += _sceneTransition.LoadBattleMap;
+        //}
     }
 }

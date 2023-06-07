@@ -18,7 +18,7 @@ namespace AI.Utils
             targeting.Select(targetPos);
 
             var completed = false;
-            abilityRunner.AbilityCastCompleted += _ => completed = true;
+            abilityRunner.AbilityExecutionCompleted += _ => completed = true;
             await UniTask.WaitUntil(() => completed);
         }
     }

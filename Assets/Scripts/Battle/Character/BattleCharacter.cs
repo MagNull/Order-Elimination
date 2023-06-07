@@ -19,6 +19,7 @@ public enum ActionType
     Free
 }
 
+[Obsolete("Old system entity")]
 [Serializable]
 public class BattleCharacter : IActor
 {

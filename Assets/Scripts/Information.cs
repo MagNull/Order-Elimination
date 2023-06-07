@@ -38,8 +38,8 @@ namespace OrderElimination
         public void SetMoneyWithBattleOutcome()
         {
             var money = PlayerPrefs.GetInt($"{StrategyMap.SaveIndex}:Money");
-            if (PlayerPrefs.GetString($"{StrategyMap.SaveIndex}:BattleOutcome") == BattleOutcome.Victory.ToString())
-                money += _charactersMediator.PlanetInfo.CurrencyReward;
+            //if (PlayerPrefs.GetString($"{StrategyMap.SaveIndex}:BattleOutcome") == BattleOutcome.Victory.ToString())
+            //    money += _charactersMediator.PlanetInfo.CurrencyReward;
             _moneyText.text = money.ToString();
             _money = money;
         }

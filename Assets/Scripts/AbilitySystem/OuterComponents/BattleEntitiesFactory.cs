@@ -52,7 +52,7 @@ public class BattleEntitiesFactory : MonoBehaviour
             new EntityObstacleSetup());
 
         var entityView = _objectResolver.Instantiate(_characterPrefab, _charactersParent);
-        entityView.Initialize(battleEntity, character.CharacterData.BattleIcon, character.CharacterData.Name);
+        entityView.Initialize(battleEntity, character.CharacterData.Name, character.CharacterData.BattleIcon);
 
         _entitiesBank.AddCharacterEntity(battleEntity, entityView, character.CharacterData);
 
@@ -75,12 +75,12 @@ public class BattleEntitiesFactory : MonoBehaviour
             battleStats, 
             EntityType.Structure, 
             side,
-            new ActiveAbilityData[0],
+            new IActiveAbilityData[0],
             passiveAbilities,
             structureData.ObstacleSetup);
 
         var entityView = _objectResolver.Instantiate(_structurePrefab, _structuresParent);
-        entityView.Initialize(battleEntity, structureData.BattleIcon, structureData.Name);
+        entityView.Initialize(battleEntity, structureData.Name, structureData.BattleIcon, structureData.VisualModel);
 
         _entitiesBank.AddStructureEntity(battleEntity, entityView, structureData);
 

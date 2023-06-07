@@ -11,7 +11,6 @@ namespace Assets.AbilitySystem.PrototypeHelpers
         private BattleMapDirector _battleMapDirector;
         private CharactersMediator _characterMediator;
         private BattleEntitiesFactory _entitiesFactory;
-        private GameCharactersFactory _gameCharactersFactory;
         private BattleEntitiesBank _entitiesBank;
 
         [Inject]
@@ -21,7 +20,6 @@ namespace Assets.AbilitySystem.PrototypeHelpers
             _characterMediator = objectResolver.Resolve<CharactersMediator>();
             _entitiesFactory = objectResolver.Resolve<BattleEntitiesFactory>();
             _entitiesBank = objectResolver.Resolve<BattleEntitiesBank>();
-            _gameCharactersFactory = objectResolver.Resolve<GameCharactersFactory>();
         }
 
         public void InitiateBattle()
@@ -32,12 +30,15 @@ namespace Assets.AbilitySystem.PrototypeHelpers
 
         public void StartScenario(BattleScenario scenario)
         {
-            var gameAllies 
-                = _gameCharactersFactory.CreateGameEntities(_characterMediator.GetPlayerCharactersInfo()).ToArray();
-            var gameEnemies 
-                = _gameCharactersFactory.CreateGameEntities(_characterMediator.GetEnemyCharactersInfo()).ToArray();
+            var gameAllies = _characterMediator.GetPlayerCharactersInfo().ToArray();
+            var gameEnemies = _characterMediator.GetEnemyCharactersInfo().ToArray();
             var allySpawns = scenario.GetAlliesSpawnPositions();
             var enemySpawns = scenario.GetEnemySpawnPositions();
+            var structures = scenario.GetStructureSpawns();
+            foreach (var pos in structures.Keys)
+            {
+                _entitiesFactory.CreateBattleStructure(structures[pos], BattleSide.NoSide, pos);
+            }
             for (var i = 0; i < gameAllies.Length; i++)
             {
                 var entity = gameAllies[i];
@@ -49,11 +50,6 @@ namespace Assets.AbilitySystem.PrototypeHelpers
                 var entity = gameEnemies[i];
                 var position = enemySpawns[i];
                 _entitiesFactory.CreateBattleCharacter(entity, BattleSide.Enemies, position);
-            }
-            var structures = scenario.GetStructureSpawns();
-            foreach (var pos in structures.Keys)
-            {
-                _entitiesFactory.CreateBattleStructure(structures[pos], BattleSide.NoSide, pos);
             }
         }
     }

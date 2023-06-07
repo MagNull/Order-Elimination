@@ -1,6 +1,7 @@
 ﻿using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using Sirenix.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,8 @@ namespace OrderElimination.AbilitySystem
         public IPointRelativePattern ZonePattern { get; private set; }
 
         [ShowInInspector, OdinSerialize]
-        public EntityFilter TriggeringEntities { get; private set; } = new();
+        public List<IEntityCondition> TriggeringEntityConditions { get; private set; } = new();
+        //public EntityFilter TriggeringEntities { get; private set; } = new();
 
         [ShowInInspector, OdinSerialize]
         public bool TriggerOnEnter { get; private set; } = true;
@@ -68,7 +70,7 @@ namespace OrderElimination.AbilitySystem
 
             var currentEntities = zonePositions
                 .SelectMany(pos => map.GetContainedEntities(pos))
-                .Where(entity => TriggeringEntities.IsAllowed(context, trackingEntity, entity))
+                .Where(entity => TriggeringEntityConditions.All(c => c.IsConditionMet(context, trackingEntity, entity)))
                 .ToArray();
             var disappearedEntities = entitiesInZone.Except(currentEntities).ToArray();
             var newEntities = currentEntities.Except(entitiesInZone).ToArray();
@@ -79,21 +81,31 @@ namespace OrderElimination.AbilitySystem
             if (disappearedEntities.Length > 0 && TriggerOnExit
                 || newEntities.Length > 0 && TriggerOnEnter)
             {
-                Debug.Log("Trigger" % Colorize.Gold);
-                triggerInstance.Trigger(new TriggerZoneFireInfo(
+                disappearedEntities.ForEach(e =>
+                {
+                    var view = e.BattleContext.EntitiesBank.GetViewByEntity(e);
+                    Debug.Log($"Entity {view.name} left zone" % Colorize.Green);
+                });
+                newEntities.ForEach(e =>
+                {
+                    var view = e.BattleContext.EntitiesBank.GetViewByEntity(e);
+                    Debug.Log($"Entity {view.name} entered zone" % Colorize.Green);
+                });
+                Debug.Log($"Entities in zone [{currentEntities.Length}]: ..." % Colorize.Green);
+                triggerInstance.FireTrigger(new ZoneTriggerFireInfo(
                     triggerInstance, currentEntities, newEntities, disappearedEntities));
             }
         }
     }
 
-    public class TriggerZoneFireInfo : ITriggerFireInfo
+    public class ZoneTriggerFireInfo : ITriggerFireInfo
     {
         public IBattleTrigger Trigger { get; }
         public AbilitySystemActor[] CurrentEntities { get; }
         public AbilitySystemActor[] NewEntities { get; }
         public AbilitySystemActor[] DisappearedEntities { get; }
 
-        public TriggerZoneFireInfo(
+        public ZoneTriggerFireInfo(
             IBattleTrigger trigger,
             AbilitySystemActor[] currentEntities, 
             AbilitySystemActor[] newEntities, 

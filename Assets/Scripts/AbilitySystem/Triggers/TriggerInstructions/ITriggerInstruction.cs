@@ -2,7 +2,7 @@
 
 namespace OrderElimination.AbilitySystem
 {
-    public interface ITriggerAbilityInstruction
+    public interface ITriggerInstruction
     {
         public IBattleTrigger GetActivationTrigger(IBattleContext battleContext, AbilitySystemActor caster);
     }
