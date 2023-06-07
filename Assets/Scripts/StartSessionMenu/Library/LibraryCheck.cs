@@ -2,6 +2,7 @@ using ItemsLibrary;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.SquadInfo;
+using RoguelikeMap.UI.PointPanels;
 using UnityEngine;
 using VContainer;
 

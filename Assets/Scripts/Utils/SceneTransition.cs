@@ -6,7 +6,7 @@ namespace OrderElimination
     {
         public void LoadBattleMap()
         {
-            SceneManager.LoadSceneAsync("Scenes/BattleMap");
+            SceneManager.LoadSceneAsync(2);
         }
 
         public void LoadRoguelikeMap()
@@ -15,7 +15,7 @@ namespace OrderElimination
         }
         public void LoadStartSessionMenu()
         {
-            SceneManager.LoadSceneAsync("StartSessionMenu");
+            SceneManager.LoadSceneAsync(0);
         }
     }
 }

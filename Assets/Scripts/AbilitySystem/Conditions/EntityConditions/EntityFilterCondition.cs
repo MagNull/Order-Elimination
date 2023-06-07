@@ -15,9 +15,9 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor caster, AbilitySystemActor entity)
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, AbilitySystemActor entityToCheck)
         {
-            return EntityFilter.IsAllowed(battleContext, caster, entity);
+            return EntityFilter.IsAllowed(battleContext, askingEntity, entityToCheck);
         }
     }
 }

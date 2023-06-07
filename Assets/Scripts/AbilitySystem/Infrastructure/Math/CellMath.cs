@@ -8,24 +8,9 @@ namespace OrderElimination.Infrastructure
 {
     public static class CellMath
     {
-        public static CellIntersection[] GetIntersectionBetween(Vector2Int startPoint, Vector2Int endPoint, bool includeEnd = false, bool includeStart = false)
+        public static CellIntersection[] GetIntersectionBetween(Vector2Int startPoint, Vector2Int endPoint)
         {
-            var radiusVector = endPoint - startPoint;
-            var acos = Math.Acos(radiusVector.x / Math.Sqrt(radiusVector.x * radiusVector.x + radiusVector.y * radiusVector.y));
-            var angle = radiusVector.y < 0 ? -acos + 2 * Math.PI : acos;
-            var limitingRect = new CellRangeBorders(startPoint, radiusVector);
-            var intersections = new List<CellIntersection>();//GetRayIntersection(startPoint, angle, limitingRect).ToList();
-            foreach (var intersection in GetRayIntersection(startPoint, angle))
-            {
-                if (!limitingRect.Contains(intersection.CellPosition))
-                    break;
-                intersections.Add(intersection);
-            }
-                if (!includeStart && intersections.Count > 0)
-                    intersections.RemoveAt(0);
-                if (!includeEnd && intersections.Count > 0)
-                    intersections.RemoveAt(intersections.Count);
-            return intersections.ToArray();
+            return IntersectionSolver.GetIntersections(startPoint, endPoint).ToArray();
         }
 
         //Из-за ущербной погрешности лучше производить расчёты не на основе угла, а на векторах, проверяя x1=x2 || y1=y2 || 
@@ -59,7 +44,7 @@ namespace OrderElimination.Infrastructure
             //Func<float, float> y = x => k * x;
             //Func<float, float> x = y => k * y;
             //Дальше платно
-            return Enumerable.Empty<CellIntersection>();
+            //return Enumerable.Empty<CellIntersection>();
             throw new NotImplementedException();
         }
 

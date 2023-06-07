@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using OrderElimination;
+using RoguelikeMap.UI;
 using UnityEngine;
 using VContainer;
 
 namespace StartSessionMenu
 {
-    public class MetaShop : MonoBehaviour
+    public class MetaShop : Panel
     {
         [SerializeField]
         private List<UpgradeCategory> _progressCategories;

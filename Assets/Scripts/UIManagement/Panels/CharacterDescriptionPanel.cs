@@ -73,7 +73,7 @@ namespace UIManagement
             var passiveAbilities = characterInfo.GetPassiveAbilityInfos();
             _currentCharacterInfo = characterInfo;
             _playerInventoryPresenter.UpdateTargetInventory(_currentCharacterInfo.Inventory);
-            _characterInventoryPresenter.Construct(_currentCharacterInfo.Inventory);
+            _characterInventoryPresenter.InitInventoryModel(_currentCharacterInfo.Inventory);
             _characterInventoryPresenter.enabled = true;
             _currentBattleCharacterInfo = null;
             _characterAvatar.sprite = characterInfo.Avatar;
@@ -86,11 +86,11 @@ namespace UIManagement
         {
             if (_characterStats.Count != 5)
                 throw new System.InvalidOperationException();
-            _characterStats[0].Text = "Здоровье";
-            _characterStats[1].Text = "Урон";
-            _characterStats[2].Text = "Броня";
-            _characterStats[3].Text = "Уклонение";
-            _characterStats[4].Text = "Точность";
+            _characterStats[0].Text = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+            _characterStats[1].Text = "пїЅпїЅпїЅпїЅ";
+            _characterStats[2].Text = "пїЅпїЅпїЅпїЅпїЅ";
+            _characterStats[3].Text = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+            _characterStats[4].Text = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
             _characterStats[0].Value = battleStats.UnmodifiedHealth.ToString();
             _characterStats[1].Value = battleStats.UnmodifiedAttack.ToString();
             _characterStats[2].Value = battleStats.UnmodifiedArmor.ToString();
@@ -107,13 +107,13 @@ namespace UIManagement
                 throw new System.InvalidOperationException("Maximum of 4 active and 2 passive abilities is supported");
             for (var i = 0; i < activeAbilities.Length; i++)
             {
-                _activeAbilitiesButtons[i].AssignAbilityView(activeAbilities[i]);
+                //_activeAbilitiesButtons[i].AssignAbilityView(activeAbilities[i]);
                 _activeAbilitiesButtons[i].Clicked -= OnActiveAbilityButtonClicked;
                 _activeAbilitiesButtons[i].Clicked += OnActiveAbilityButtonClicked;
             }
             for (var j = 0; j < passiveAbilities.Length; j++)
             {
-                _passiveAbilitiesButtons[j].AssignAbilityView(passiveAbilities[j]);
+                //_passiveAbilitiesButtons[j].AssignAbilityView(passiveAbilities[j]);
                 _passiveAbilitiesButtons[j].Clicked -= OnPassiveAbilityButtonClicked;
                 _passiveAbilitiesButtons[j].Clicked += OnPassiveAbilityButtonClicked;
             }

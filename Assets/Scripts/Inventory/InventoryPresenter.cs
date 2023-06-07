@@ -20,6 +20,14 @@ namespace Inventory_Items
         [Inject]
         public void Construct(Inventory inventory)
         {
+            if (_inventoryView is CharacterInventoryView)
+                return;
+            _inventoryModel = inventory;
+        }
+
+        //TODO(CANYA): CE PIZDEC
+        public void InitInventoryModel(Inventory inventory)
+        {
             _inventoryModel = inventory;
         }
 

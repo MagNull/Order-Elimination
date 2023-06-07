@@ -26,7 +26,7 @@ MonoBehaviour:
       Data: OrderElimination.Domain.ReadOnlyBaseStats, Assembly-CSharp
     - Name: _maxHealth
       Entry: 4
-      Data: 50
+      Data: 200
     - Name: _maxArmor
       Entry: 4
       Data: 100
@@ -41,16 +41,19 @@ MonoBehaviour:
       Data: 0.1
     - Name: _maxMovementDistance
       Entry: 4
-      Data: 4
+      Data: 3
     - Name: 
       Entry: 8
       Data: 
   _entityType: 0
   _activeAbilitiesData:
-  - {fileID: 11400000, guid: 7be39cc62b2d5a9478b344f4249b8327, type: 2}
-  - {fileID: 11400000, guid: 2b491009e64c56f48a2951f4482eb657, type: 2}
-  - {fileID: 11400000, guid: 6dec68f76a2dd9a4aa5bb05bda8c36bd, type: 2}
-  _passiveAbilitiesData: []
+  - {fileID: 11400000, guid: 0c8d919ede3c8804383af4fd13473e05, type: 2}
+  - {fileID: 11400000, guid: cd5bd8e7800d3c8488e4dd47bb65b9ca, type: 2}
+  - {fileID: 11400000, guid: c145eee50cada9644b32e42d38061d57, type: 2}
+  - {fileID: 11400000, guid: c94d38337ec15204087240ccc43d17d8, type: 2}
+  - {fileID: 11400000, guid: 1357b88fb816ba442b222abab6211247, type: 2}
+  _passiveAbilitiesData:
+  - {fileID: 11400000, guid: 79e2a4dc35bd6054787120af2e13cfd6, type: 2}
   _baseStats:
     _health: 0
     _unmodifiedHealth: 0

@@ -4,7 +4,6 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 using UnityEngine;
-using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
 
 namespace OrderElimination.AbilitySystem
@@ -91,6 +90,12 @@ namespace OrderElimination.AbilitySystem
     [Serializable]
     public struct CasterStatGetter : IContextValueGetter
     {
+        public CasterStatGetter(BattleStat stat, bool useUnmodified = false)
+        {
+            CasterStat = stat;
+            UseUnmodifiedValue = useUnmodified;
+        }
+
         [OdinSerialize]
         public BattleStat CasterStat { get; private set; }
 

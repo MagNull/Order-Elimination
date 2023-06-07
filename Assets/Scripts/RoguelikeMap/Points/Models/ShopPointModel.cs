@@ -5,6 +5,7 @@ using Inventory;
 using Inventory_Items;
 using RoguelikeMap.Panels;
 using RoguelikeMap.SquadInfo;
+using RoguelikeMap.UI.PointPanels;
 using Sirenix.OdinInspector;
 using UnityEngine;
 

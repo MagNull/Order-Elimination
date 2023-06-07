@@ -29,7 +29,6 @@ namespace StartSessionMenu
         {
             if (money > _money)
             {
-                throw new ArgumentException("There is less money to spend.");   
                 return;
             }
             _money -= money;

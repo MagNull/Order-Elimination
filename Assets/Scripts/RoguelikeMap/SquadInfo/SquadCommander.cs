@@ -6,6 +6,8 @@ using OrderElimination;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.Points.Models;
+using RoguelikeMap.UI.Characters;
+using RoguelikeMap.UI.PointPanels;
 using UnityEngine;
 using VContainer;
 
@@ -15,19 +17,22 @@ namespace RoguelikeMap.SquadInfo
     {
         private readonly IObjectResolver _objectResolver;
         private readonly PanelGenerator _panelGenerator;
+        private readonly SquadMembersPanel _squadMembersPanel;
         private PointModel _target;
         private Squad _squad;
         public PointModel Target => _target;
         public Squad Squad => _squad;
-        public event Action<List<Character>> OnSelected;
+        public event Action<List<Character>, int> OnSelected;
         public event Action<int> OnHealAccept;
         public event Action<IReadOnlyList<ItemData>> OnLootAccept;
 
         [Inject]
-        public SquadCommander(IObjectResolver objectResolver, PanelGenerator panelGenerator)
+        public SquadCommander(IObjectResolver objectResolver, PanelGenerator panelGenerator,
+            SquadMembersPanel squadMembersPanel)
         {
             _objectResolver = objectResolver;
             _panelGenerator = panelGenerator;
+            _squadMembersPanel = squadMembersPanel;
             _panelGenerator.OnInitializedPanels += SubscribeToEvents;
         }
 
@@ -48,39 +53,36 @@ namespace RoguelikeMap.SquadInfo
             safeZonePanel.OnHealAccept += HealAccept;
 
             var battlePanel = (BattlePanel)_panelGenerator.GetPanelByPointInfo(PointType.Battle);
-            battlePanel.OnStartAttack += StartAttack;
+            battlePanel.OnStartAttack += StartAttackByBattlePoint;
 
             var eventPanel = (EventPanel)_panelGenerator.GetPanelByPointInfo(PointType.Event);
-            eventPanel.OnLookForLoot += LootAccept;
-            eventPanel.OnStartBattle += StartAttack;
+            eventPanel.OnStartBattle += StartAttackByEventPoint;
 
-            var shopPanel = (ShopPanel)_panelGenerator.GetPanelByPointInfo(PointType.Shop);
-            shopPanel.OnBuyItems += LootAccept;
-
-            var squadMembersPanel = _panelGenerator.GetSquadMembersPanel();
-            squadMembersPanel.OnSelected += WereSelectedMembers;
+            _squadMembersPanel.OnSelected += WereSelectedMembers;
         }
 
-        public void StartAttack()
+        private void StartAttackByBattlePoint()
         {
             if (_target is not BattlePointModel battlePointModel)
                 throw new ArgumentException("Is not valid point to attack");
-            StartAttack(battlePointModel.Enemies, battlePointModel.MapNumber);
+            StartAttack(battlePointModel.Enemies, battlePointModel.Scenario);
         }
-
-        private void StartAttack(IReadOnlyList<IBattleCharacterInfo> enemies) => StartAttack(enemies, 0);
-
-        private void StartAttack(IReadOnlyList<IBattleCharacterInfo> enemies, int pointNumber)
+        
+        private void StartAttackByEventPoint(IReadOnlyList<IBattleCharacterInfo> enemies)
         {
-            if (pointNumber < 0)
-                throw new ArgumentOutOfRangeException("Is not valid point number");
-
+            if (_target is not EventPointModel eventPointModel)
+                throw new ArgumentException("Is not valid point to attack");
+            StartAttack(enemies, eventPointModel.Scenario);
+        }
+        
+        private void StartAttack(IReadOnlyList<IBattleCharacterInfo> enemies, BattleScenario scenario)
+        {
             SaveSquadPosition();
             var battleStatsList = _squad.Members.Cast<IBattleCharacterInfo>().ToList();
             var charactersMediator = _objectResolver.Resolve<CharactersMediator>();
             charactersMediator.SetSquad(battleStatsList);
             charactersMediator.SetEnemies(enemies.ToList());
-            charactersMediator.SetPointNumber(pointNumber);
+            charactersMediator.SetScenario(scenario);
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();
         }
@@ -90,9 +92,9 @@ namespace RoguelikeMap.SquadInfo
             PlayerPrefs.SetString(Map.Map.SquadPositionPrefPath, _squad.transform.position.ToString());
         }
 
-        private void WereSelectedMembers(List<Character> characters)
+        private void WereSelectedMembers(List<Character> characters, int activeMembersCount)
         {
-            OnSelected?.Invoke(characters);
+            OnSelected?.Invoke(characters, activeMembersCount);
         }
 
         private void HealAccept(int amountHeal)

@@ -8,7 +8,7 @@ namespace OrderElimination.AbilitySystem
     {
         Entity,
         Cell,
-        Nothing
+        Caster
     }
 
     [Obsolete("Интерфейс " + nameof(IBattleAction) + " является обобщающим. По возможности используйте BattleAction<TAction>.")]
@@ -59,15 +59,15 @@ namespace OrderElimination.AbilitySystem
         }
 
         protected virtual TAction ProcessAction(
-            ActionContext useContext, 
+            ActionContext performContext, 
             bool actionMakerProcessing = true, 
             bool targetProcessing = true)
         {
             var modifiedAction = (TAction)this;
-            if (actionMakerProcessing && useContext.ActionMaker != null)
-                modifiedAction = useContext.ActionMaker.ActionProcessor.ProcessOutcomingAction(modifiedAction);
-            if (targetProcessing && useContext.ActionTarget != null)
-                modifiedAction = useContext.ActionTarget.ActionProcessor.ProcessIncomingAction(modifiedAction);
+            if (actionMakerProcessing && performContext.ActionMaker != null)
+                modifiedAction = performContext.ActionMaker.ActionProcessor.ProcessOutcomingAction(modifiedAction, performContext);
+            if (targetProcessing && performContext.ActionTarget != null)
+                modifiedAction = performContext.ActionTarget.ActionProcessor.ProcessIncomingAction(modifiedAction, performContext);
             return modifiedAction;
         }
 

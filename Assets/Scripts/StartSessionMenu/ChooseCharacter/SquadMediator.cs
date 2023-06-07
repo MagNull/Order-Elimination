@@ -7,7 +7,7 @@ namespace OrderElimination
     public static class SquadMediator
     {
         private static List<Character> _characterList;
-        public static StrategyStats Stats { get; private set; }
+        public static StrategyStats? Stats { get; private set; }
         public static List<Character> CharacterList => _characterList;
 
         public static void SetCharacters(List<Character> characters)

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OrderElimination;
 using RoguelikeMap.Panels;
 using RoguelikeMap.SquadInfo;
+using RoguelikeMap.UI.PointPanels;
 using UnityEngine;
 
 namespace RoguelikeMap.Points.Models
@@ -12,11 +14,16 @@ namespace RoguelikeMap.Points.Models
     {
         [SerializeReference]
         private EventInfo _startEventInfo;
-
+        [SerializeField]
+        private BattleScenario _battleScenario;
+        
         protected EventPanel Panel => _panel as EventPanel;
+        
         public override PointType Type => PointType.Event;
         public EventInfo StartEventInfo => _startEventInfo;
         public bool IsContainsBattle => CheckContainsBattle();
+        public BattleScenario Scenario => _battleScenario;
+        
         public override void Visit(Squad squad)
         {
             base.Visit(squad);

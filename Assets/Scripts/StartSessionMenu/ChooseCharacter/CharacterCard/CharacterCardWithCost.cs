@@ -14,9 +14,9 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         [SerializeField]
         private Text _cardCost;
 
-        public override void InitializeCard(Character character, Transform defaultParent)
+        public override void InitializeCard(Character character, bool isSelected)
         {
-            base.InitializeCard(character, defaultParent);
+            base.InitializeCard(character, isSelected);
             _cardCost.text = _cost + "$";
         }
 
@@ -24,11 +24,6 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         {
             _costImage.gameObject.SetActive(IsSelected);
             base.Select();
-        }
-
-        public void SetInitialParent()
-        {
-            transform.SetParent(_initialParent);
         }
     }
 }

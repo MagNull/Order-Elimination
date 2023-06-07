@@ -28,7 +28,7 @@ namespace UIManagement.Elements
 
         [Header("Parameters")]
         [SerializeField]
-        private float _highlightTime = 0.7f;
+        private float _highlightTime = 0.5f;
         [SerializeField]
         private Ease _highlightEase = Ease.Flash;
         [SerializeField]
@@ -36,7 +36,7 @@ namespace UIManagement.Elements
         [SerializeField]
         private bool _isHoldingAvatarAvailable;
 
-        private List<Tweener> _highlightTweeners = new ();
+        private Sequence _currentSequence;
         private BattleEntityView _currentEntityView;
 
         public bool IsClickingAvatarAvailable
@@ -68,12 +68,14 @@ namespace UIManagement.Elements
                 _currentEntityView.BattleEntity.Damaged -= OnDamaged;
                 _currentEntityView.BattleEntity.Healed -= OnHealed;
                 _currentEntityView.BattleEntity.EffectAdded -= OnEffectsUpdated;
+                _currentEntityView.BattleEntity.EffectRemoved -= OnEffectsUpdated;
                 _currentEntityView.BattleEntity.BattleStats.StatsChanged -= OnStatsChanged;
             }
             _currentEntityView = entity;
             _currentEntityView.BattleEntity.Damaged += OnDamaged;
             _currentEntityView.BattleEntity.Healed += OnHealed;
             _currentEntityView.BattleEntity.EffectAdded += OnEffectsUpdated;
+            _currentEntityView.BattleEntity.EffectRemoved += OnEffectsUpdated;
             _currentEntityView.BattleEntity.BattleStats.StatsChanged += OnStatsChanged;
             _avatar.sprite = _currentEntityView.BattleIcon;
             UpdateStats();
@@ -102,19 +104,18 @@ namespace UIManagement.Elements
 
         public void Highlight(Color highlightColor)
         {
-            _panelHighlightImage.color = highlightColor;
-            transform.localScale = Vector3.one * 1.1f;
-            _highlightTweeners.Add(transform.DOScale(1, _highlightTime / 2.5f).SetEase(_highlightEase));
+            if (_currentSequence != null)
+                _currentSequence.Complete();
+            var appearTime = 0.1f;
+            _currentSequence = DOTween.Sequence(this)
+                .Append(_panelHighlightImage.DOColor(highlightColor, appearTime))
+                .Insert(0, transform.DOScale(1.1f, appearTime))
+                .Append(transform.DOScale(1, _highlightTime).SetEase(_highlightEase))
+                .Append(_panelHighlightImage.DOColor(Color.white, 0.8f))
+                .Play();
 
             //_highlightTweeners.Add(_panelHighlightImage.DOBlendableColor(Color.white, _highlightTime)
             //    .SetEase(_highlightEase));
-        }
-
-        public void FinishHighlightAnimation()
-        {
-            foreach (var t in _highlightTweeners)
-                t.Complete();
-            _panelHighlightImage.color = Color.white;
         }
 
         public void HideInfo()

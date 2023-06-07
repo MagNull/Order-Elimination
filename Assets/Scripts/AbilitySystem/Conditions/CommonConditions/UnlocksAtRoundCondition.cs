@@ -1,10 +1,5 @@
 ﻿using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
@@ -32,7 +27,7 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor caster)
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity)
         {
             return battleContext.CurrentRound >= UnlocksAtRound;
         }

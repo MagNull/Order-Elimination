@@ -17,6 +17,7 @@ namespace OrderElimination.AbilitySystem
         private IHitCalculation _hitCalculation = new StandartHitCalculation();
 
         public AnimationSceneContext AnimationSceneContext { get; private set; }
+        public EntitySpawner EntitySpawner { get; private set; }
         public int CurrentRound => _battleLoopManager.CurrentRound;
         public IBattleMap BattleMap { get; private set; }
         public IHitCalculation HitCalculation => _hitCalculation;
@@ -28,6 +29,35 @@ namespace OrderElimination.AbilitySystem
 
         public event Action<IBattleContext> NewTurnStarted;
         public event Action<IBattleContext> NewRoundBegan;
+
+        //TODO: Refactor
+        public static IBattleContext CurrentSceneContext { get; private set; }
+        //
+
+        [Inject]
+        private void Construct(IObjectResolver objectResolver)
+        {
+            BattleMap = objectResolver.Resolve<IBattleMap>();
+            EntitiesBank = objectResolver.Resolve<IReadOnlyEntitiesBank>();
+            _battleLoopManager = objectResolver.Resolve<BattleLoopManager>();
+            AnimationSceneContext = objectResolver.Resolve<AnimationSceneContext>();
+            EntitySpawner = objectResolver.Resolve<EntitySpawner>();
+            _battleLoopManager.NewTurnStarted += OnNewTurn;
+            _battleLoopManager.NewRoundBegan += OnNewRound;
+
+            //TODO: Refactor
+            CurrentSceneContext = this;
+            //TODO: Refactor
+
+            void OnNewTurn()
+            {
+                NewTurnStarted?.Invoke(this);
+            }
+            void OnNewRound()
+            {
+                NewRoundBegan?.Invoke(this);
+            }
+        }
 
         public BattleRelationship GetRelationship(BattleSide askingSide, BattleSide relationSide)
         {
@@ -60,25 +90,6 @@ namespace OrderElimination.AbilitySystem
                     visibleEntities.Add(entity);
             }
             return visibleEntities;
-        }
-
-        [Inject]
-        private void Construct(IObjectResolver objectResolver)
-        {
-            BattleMap = objectResolver.Resolve<IBattleMap>();
-            EntitiesBank = objectResolver.Resolve<IReadOnlyEntitiesBank>();
-            _battleLoopManager = objectResolver.Resolve<BattleLoopManager>();
-            AnimationSceneContext = objectResolver.Resolve<AnimationSceneContext>();
-            _battleLoopManager.NewTurnStarted += OnNewTurn;
-            _battleLoopManager.NewRoundBegan += OnNewRound;
-            void OnNewTurn()
-            {
-                NewTurnStarted?.Invoke(this);
-            }
-            void OnNewRound()
-            {
-                NewRoundBegan?.Invoke(this);
-            }
         }
     }
 }

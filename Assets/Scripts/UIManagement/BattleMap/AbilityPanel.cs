@@ -27,13 +27,8 @@ namespace UIManagement
         private AbilitySystemActor _caster;
         private HashSet<AbilityButton> _selectedButtons = new();
 
-        public bool AbilityCasing => _activeAbilityButtons.Any(ab => ab.AbilityView is {Casting: true} &&
-                                                                     ab.AbilityView.AbilityInfo.ActionType !=
-                                                                     ActionType.Movement);
-        public event Action<AbilityRunner> AbilitySelected;
-        public event Action<AbilityRunner> AbilityDeselected;
-
-        public IReadOnlyList<AbilityButton> AbilityButtons => _activeAbilityButtons;
+        public event Action<ActiveAbilityRunner> AbilitySelected;
+        public event Action<ActiveAbilityRunner> AbilityDeselected;
 
         private void OnEnable()
         {
@@ -67,8 +62,8 @@ namespace UIManagement
 
         public void AssignAbilities(
             AbilitySystemActor caster,
-            AbilityRunner[] activeAbilities,
-            AbilityRunner[] passiveAbilities)
+            ActiveAbilityRunner[] activeAbilities,
+            PassiveAbilityRunner[] passiveAbilities)
         {
             if (activeAbilities.Length > _activeAbilityButtons.Length
                 || passiveAbilities.Length > _passiveAbilityButtons.Length)
@@ -85,7 +80,7 @@ namespace UIManagement
             UpdateAbilityButtonsAvailability();
             for (var j = 0; j < passiveAbilities.Length; j++)
             {
-                //_passiveAbilityButtons[j].AssignAbilityView(passiveAbilities[j]);
+                _passiveAbilityButtons[j].AssignPassiveAbilityRunner(passiveAbilities[j]);
             }
         }
 
@@ -99,6 +94,7 @@ namespace UIManagement
                 }
                 abilityButton.RemoveAbility();
                 abilityButton.HoldableButton.ClickAvailable = false;
+                abilityButton.HoldableButton.HoldAvailable = false;
             }
 
             foreach (var button in _passiveAbilityButtons)
@@ -121,7 +117,7 @@ namespace UIManagement
             }
         }
 
-        private void OnAbilityUsed(AbilityRunner ability)
+        private void OnAbilityUsed(ActiveAbilityRunner ability)
         {
             foreach (var button in _activeAbilityButtons)
                 TryDeselectButton(button);
@@ -132,8 +128,8 @@ namespace UIManagement
         {
             if (_selectedButtons.Contains(abilityButton))
                 return false;
-            abilityButton.AbilityRunner.AbilityCasted -= OnAbilityUsed;
-            abilityButton.AbilityRunner.AbilityCasted += OnAbilityUsed;
+            abilityButton.AbilityRunner.AbilityInitiated -= OnAbilityUsed;
+            abilityButton.AbilityRunner.AbilityInitiated += OnAbilityUsed;
             _selectedButtons.Add(abilityButton);
             abilityButton.HoldableButton.SetImageTint(_selectedAbilityTint);
             AbilitySelected?.Invoke(abilityButton.AbilityRunner);
@@ -144,7 +140,7 @@ namespace UIManagement
         {
             if (!_selectedButtons.Contains(abilityButton))
                 return false;
-            abilityButton.AbilityRunner.AbilityCasted -= OnAbilityUsed;
+            abilityButton.AbilityRunner.AbilityInitiated -= OnAbilityUsed;
             _selectedButtons.Remove(abilityButton);
             abilityButton.HoldableButton.SetImageTint(Color.white);
             AbilityDeselected?.Invoke(abilityButton.AbilityRunner);

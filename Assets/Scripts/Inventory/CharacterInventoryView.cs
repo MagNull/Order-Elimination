@@ -32,6 +32,7 @@ namespace Inventory_Items
 
         public override void OnCellAdded(IReadOnlyCell cell)
         {
+            Debug.Log("OnCellAdded");
             if (_cellViewByItemType.ContainsKey(cell.Item.Type))
                 _cellViewByItemType[cell.Item.Type].sprite = cell.Item.View.Icon;
         }

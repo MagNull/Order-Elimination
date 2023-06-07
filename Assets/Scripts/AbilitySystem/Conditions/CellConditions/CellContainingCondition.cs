@@ -37,27 +37,27 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor caster, Vector2Int cellPosition)
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int ositionToCheck)
         {
             AbilitySystemActor[] cellEntities;
             if (VisibleEntitiesOnly)
-                cellEntities = battleContext.GetVisibleEntities(cellPosition, caster.BattleSide).ToArray();
+                cellEntities = battleContext.GetVisibleEntities(ositionToCheck, askingEntity.BattleSide).ToArray();
             else
-                cellEntities = battleContext.BattleMap.GetContainedEntities(cellPosition).ToArray();
+                cellEntities = battleContext.BattleMap.GetContainedEntities(ositionToCheck).ToArray();
             var cellIsEmpty = cellEntities.Length == 0;
             if (MustBeEmpty) return cellIsEmpty;
             if (AllEntitiesMustMeetRequirements)
             {
                 if (cellIsEmpty)
                     return AllowEmptyCells;
-                return cellEntities.All(e => EntityFilter.IsAllowed(battleContext, caster, e))
+                return cellEntities.All(e => EntityFilter.IsAllowed(battleContext, askingEntity, e))
                     || AllowEmptyCells && cellIsEmpty;
             }
             else
             {
                 if (cellIsEmpty)
                     return AllowEmptyCells;
-                return cellEntities.Any(e => EntityFilter.IsAllowed(battleContext, caster, e));
+                return cellEntities.Any(e => EntityFilter.IsAllowed(battleContext, askingEntity, e));
             }
         }
     }

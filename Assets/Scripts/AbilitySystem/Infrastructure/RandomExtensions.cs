@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace OrderElimination.Infrastructure
 {
@@ -31,6 +32,8 @@ namespace OrderElimination.Infrastructure
         /// <exception cref="ArgumentException"></exception>
         public static bool IsRandomValueInRange(float minValue, float maxValue, float rangeThreshold)
         {
+            var probability = (rangeThreshold - minValue) / (maxValue - minValue);
+            Debug.Log($"Rolling for probability: {probability * 100}%" % Colorize.Yellow);
             //if (rangeThreshold < minValue || rangeThreshold > maxValue)
             //    throw new ArgumentException($"Range threshold value must be between {minValue} and {maxValue}.");
             if (float.IsNaN(rangeThreshold) || !float.IsFinite(rangeThreshold))

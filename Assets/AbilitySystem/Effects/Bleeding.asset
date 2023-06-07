@@ -37,83 +37,20 @@ MonoBehaviour:
     - Name: IsTemporary
       Entry: 5
       Data: true
+    - Name: InstructionOnActivation
+      Entry: 6
+      Data: 
+    - Name: InstructionOnDeactivation
+      Entry: 6
+      Data: 
     - Name: TemporaryEffectFunctionaity
       Entry: 7
       Data: 0|OrderElimination.AbilitySystem.TemporaryEffectFunctionaity, Assembly-CSharp
     - Name: _applyingDuration
       Entry: 3
-      Data: 1
+      Data: 4
     - Name: _onTimeOutInstruction
-      Entry: 7
-      Data: 1|OrderElimination.AbilitySystem.EffectInstruction, Assembly-CSharp
-    - Name: _target
-      Entry: 3
-      Data: 0
-    - Name: _battleAction
-      Entry: 7
-      Data: 2|OrderElimination.AbilitySystem.InflictDamageAction, Assembly-CSharp
-    - Name: DamageSize
-      Entry: 7
-      Data: 3|OrderElimination.AbilitySystem.MathValueGetter, Assembly-CSharp
-    - Name: Left
-      Entry: 7
-      Data: 4|OrderElimination.AbilitySystem.TargetStatGetter, Assembly-CSharp
-    - Name: TargetStat
-      Entry: 3
-      Data: 0
-    - Name: UseUnmodifiedValue
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Operation
-      Entry: 3
-      Data: 2
-    - Name: Right
-      Entry: 7
-      Data: 5|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
-    - Name: Value
-      Entry: 4
-      Data: 0.1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: ArmorMultiplier
-      Entry: 4
-      Data: 1
-    - Name: HealthMultiplier
-      Entry: 4
-      Data: 1
-    - Name: DamageType
-      Entry: 3
-      Data: 0
-    - Name: DamagePriority
-      Entry: 3
-      Data: 3
-    - Name: Accuracy
-      Entry: 7
-      Data: 6|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
-    - Name: Value
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: IgnoreEvasion
-      Entry: 5
-      Data: true
-    - Name: ObjectsBetweenAffectAccuracy
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
+      Entry: 6
       Data: 
     - Name: 
       Entry: 8
@@ -132,7 +69,7 @@ MonoBehaviour:
       Data: 
     - Name: _view
       Entry: 7
-      Data: 7|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
+      Data: 1|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
     - Name: Name
       Entry: 1
       Data: "\u041A\u0440\u043E\u0432\u043E\u0442\u0435\u0447\u0435\u043D\u0438\u0435"
@@ -142,30 +79,130 @@ MonoBehaviour:
     - Name: IsHidden
       Entry: 5
       Data: false
+    - Name: AnimationOnActivation
+      Entry: 6
+      Data: 
+    - Name: AnimationOnDeactivation
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: _activationInstruction
-      Entry: 6
+    - Name: _removeTriggers
+      Entry: 7
+      Data: 2|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+        Assembly-CSharp]], System.Core
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
       Data: 
-    - Name: _deactivationInstruction
-      Entry: 6
+    - Name: 
+      Entry: 8
       Data: 
     - Name: _triggerInstructions
       Entry: 7
-      Data: 8|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.IBattleTrigger,
+      Data: 3|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
         Assembly-CSharp],[OrderElimination.AbilitySystem.IEffectInstruction, Assembly-CSharp]],
         mscorlib
     - Name: comparer
       Entry: 7
-      Data: 9|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.IBattleTrigger,
+      Data: 4|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: 5|OrderElimination.AbilitySystem.EffectTriggerAcceptor, Assembly-CSharp
+    - Name: TriggerSetup
+      Entry: 7
+      Data: 6|OrderElimination.AbilitySystem.TimerTrigger, Assembly-CSharp
+    - Name: TriggerOnStart
+      Entry: 5
+      Data: false
+    - Name: _roundInterval
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: TrackingEntity
+      Entry: 3
       Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 7
+      Data: 7|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
+    - Name: _target
+      Entry: 3
+      Data: 0
+    - Name: _battleAction
+      Entry: 7
+      Data: 8|OrderElimination.AbilitySystem.InflictDamageAction, Assembly-CSharp
+    - Name: DamageSize
+      Entry: 7
+      Data: 9|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+    - Name: Value
+      Entry: 4
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmorMultiplier
+      Entry: 4
+      Data: 1
+    - Name: HealthMultiplier
+      Entry: 4
+      Data: 1
+    - Name: DamageType
+      Entry: 3
+      Data: 0
+    - Name: DamagePriority
+      Entry: 3
+      Data: 3
+    - Name: Accuracy
+      Entry: 7
+      Data: 10|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+    - Name: Value
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: IgnoreEvasion
+      Entry: 5
+      Data: true
+    - Name: ObjectsBetweenAffectAccuracy
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: UndoOnDeactivation
+      Entry: 5
+      Data: true
+    - Name: _animationBeforeAction
+      Entry: 6
+      Data: 
+    - Name: _animationAfterAction
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 

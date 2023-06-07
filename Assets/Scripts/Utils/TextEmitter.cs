@@ -49,6 +49,11 @@ namespace DefaultNamespace
 
         public async UniTask Emit(string text, Color color, Vector3 position, Vector3 offset, float duration, float fontSize = -1)
         {
+            await Emit(text, color, position, offset, 1, duration, fontSize);
+        }
+
+        public async UniTask Emit(string text, Color color, Vector3 position, Vector3 offset, float scaleOffset, float duration, float fontSize = -1)
+        {
             await UniTask.WaitUntil(() => Time.time - _lastEmitTime >= _delayBetweenSpawn);
             _lastEmitTime = Time.time;
             var textInstance = Instantiate(_textPrefab, transform);
@@ -60,6 +65,8 @@ namespace DefaultNamespace
             textInstance.DOComplete();
             textInstance.transform.DOComplete();
             textInstance.transform.DOMove(position + offset, duration);
+            var endScale = textInstance.transform.localScale * scaleOffset;
+            textInstance.transform.DOScale(endScale, duration);
             textInstance.DOFade(0, duration).SetEase(Ease.InFlash).OnComplete(() => Destroy(textInstance.gameObject));
         }
     }

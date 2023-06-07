@@ -7,6 +7,7 @@ using Unity.Burst.CompilerServices;
 using System.Linq;
 using Sirenix.OdinInspector;
 using Cysharp.Threading.Tasks;
+using OrderElimination.AbilitySystem.Animations;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -18,7 +19,7 @@ namespace OrderElimination.AbilitySystem
 
         [ShowInInspector, SerializeField]
         [PropertyTooltip("@" + nameof(_damageFormula)), GUIColor(1, 0.5f, 0.5f)]
-        public IContextValueGetter DamageSize { get; set; }
+        public IContextValueGetter DamageSize { get; set; } = new CasterStatGetter(BattleStat.AttackDamage);
 
         [ShowInInspector, SerializeField]
         public float ArmorMultiplier { get; set; } = 1;
@@ -34,7 +35,7 @@ namespace OrderElimination.AbilitySystem
 
         [ShowInInspector, SerializeField]
         [PropertyTooltip("@" + nameof(_accuracyFormula)), GUIColor(0.5f, 0.8f, 1f)]
-        public IContextValueGetter Accuracy { get; set; }
+        public IContextValueGetter Accuracy { get; set; } = new CasterStatGetter(BattleStat.Accuracy);
 
         [ShowInInspector, SerializeField]
         public bool IgnoreEvasion { get; set; }
@@ -64,20 +65,19 @@ namespace OrderElimination.AbilitySystem
             var modifiedAction = this;
 
             if (actionMakerProcessing && context.ActionMaker != null)
-                modifiedAction = context.ActionMaker.ActionProcessor.ProcessOutcomingAction(modifiedAction);
+                modifiedAction = context.ActionMaker.ActionProcessor.ProcessOutcomingAction(modifiedAction, context);
 
             var modifiedAccuracy = modifiedAction.Accuracy;
             if (ObjectsBetweenAffectAccuracy && context.ActionMaker != null)
             {
                 var battleMap = context.BattleContext.BattleMap;
                 var intersections = CellMath.GetIntersectionBetween(
-                    context.ActionMaker.Position, context.ActionTargetInitialPosition.Value);
+                    context.ActionMaker.Position, context.ActionTarget.Position);
                 foreach (var intersection in intersections)
                 {
                     foreach (var battleObstacle in context.BattleContext
                         .GetVisibleEntities(intersection.CellPosition, context.ActionMaker.BattleSide)
-                        .Select(e => e as IBattleObstacle)
-                        .Where(o => o != null))
+                        .Select(e => e.Obstacle))
                     {
                         modifiedAccuracy = battleObstacle.ModifyAccuracy(modifiedAccuracy, intersection.IntersectionAngle, intersection.SmallestPartSquare);
                     }
@@ -85,20 +85,23 @@ namespace OrderElimination.AbilitySystem
             }
             modifiedAction.Accuracy = modifiedAccuracy;
 
-            if (targetProcessing && context.ActionTarget != null)
-                modifiedAction = context.ActionTarget.ActionProcessor.ProcessIncomingAction(modifiedAction);
+            if (targetProcessing)
+                modifiedAction = context.ActionTarget.ActionProcessor.ProcessIncomingAction(modifiedAction, context);
             return modifiedAction;
         }
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
-            //Обработка объектов на линии огня (перенесена в ModifiedPerform)
-            //Проверка шанса попадания (точность)
             var accuracy = Accuracy.GetValue(useContext);
             var evasion = IgnoreEvasion || !useContext.ActionTarget.BattleStats.HasParameter(BattleStat.Evasion)
                 ? 0
                 : useContext.ActionTarget.BattleStats.GetParameter(BattleStat.Evasion).ModifiedValue;
             var hitResult = useContext.BattleContext.HitCalculation.CalculateHitResult(accuracy, evasion);
+            var animationContext = new AnimationPlayContext(
+                useContext.AnimationSceneContext,
+                useContext.TargetCellGroups,
+                useContext.ActionMaker,
+                useContext.ActionTarget);
             if (hitResult == HitResult.Success)
             {
                 var damageSize = DamageSize.GetValue(useContext);
@@ -106,6 +109,14 @@ namespace OrderElimination.AbilitySystem
                 var damageInfo = new DamageInfo(damageSize, ArmorMultiplier, HealthMultiplier, DamageType, DamagePriority, damageDealer);
                 useContext.ActionTarget.TakeDamage(damageInfo);
                 return new SimplePerformResult(this, useContext, true);
+            }
+            else if (hitResult == HitResult.Miss)
+            {
+                await useContext.AnimationSceneContext.DefaultAnimations[DefaultAnimation.Miss].Play(animationContext);
+            }
+            else if (hitResult == HitResult.Evasion)
+            {
+                await useContext.AnimationSceneContext.DefaultAnimations[DefaultAnimation.Evasion].Play(animationContext);
             }
             return new SimplePerformResult(this, useContext, false);
         }

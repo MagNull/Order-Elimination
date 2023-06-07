@@ -24,9 +24,9 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor caster, AbilitySystemActor entity)
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, AbilitySystemActor entityToCheck)
         {
-            return entity.StatusHolder.HasStatus(BattleStatus) == HasStatus;
+            return entityToCheck.StatusHolder.HasStatus(BattleStatus) == HasStatus;
         }
     }
 }

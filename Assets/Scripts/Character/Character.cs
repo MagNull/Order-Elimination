@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using CharacterAbility;
 using Inventory_Items;
 using OrderElimination.AbilitySystem;
@@ -8,11 +8,12 @@ using UnityEngine.Serialization;
 using System.Collections.Generic;
 using Sirenix.Serialization;
 using OrderElimination.Domain;
+using System.Linq;
 
 namespace OrderElimination
 {
-    [CreateAssetMenu(fileName = "CharacterInfo", menuName = "Character")]
-    public class Character : SerializedScriptableObject, IBattleCharacterInfo, IBattleEntityInfo
+    [CreateAssetMenu(fileName = "CharacterInfo", menuName = "Battle/Character")]
+    public class Character : SerializedScriptableObject, IBattleCharacterInfo, IBattleCharacterData
     {
         //New System
         [OdinSerialize, ShowInInspector]
@@ -20,14 +21,14 @@ namespace OrderElimination
         [SerializeField]
         private EntityType _entityType;
         [SerializeReference]
-        private AbilityBuilder[] _activeAbilitiesData;
+        private ActiveAbilityBuilder[] _activeAbilitiesData;
         [SerializeReference]
-        private AbilityBuilder[] _passiveAbilitiesData;
+        private PassiveAbilityBuilder[] _passiveAbilitiesData;
 
         public ReadOnlyBaseStats BaseStats => _baseBattleStats;
         //public EntityType EntityType => _entityType;
-        public AbilityBuilder[] GetActiveAbilities() => _activeAbilitiesData;
-        public AbilityBuilder[] GetPassiveAbilities() => _passiveAbilitiesData;
+        public ActiveAbilityBuilder[] GetActiveAbilities() => _activeAbilitiesData.ToArray();
+        public PassiveAbilityBuilder[] GetPassiveAbilities() => _passiveAbilitiesData.ToArray();
         //
 
         [SerializeField]
@@ -48,6 +49,7 @@ namespace OrderElimination
         [SerializeField]
         private AbilityInfo[] _passiveAbilities;
         
+        [ShowInInspector]
         private Inventory_Items.Inventory _inventory = new Inventory_Items.Inventory(2);
 
         public Inventory_Items.Inventory Inventory => _inventory;
@@ -90,18 +92,18 @@ namespace OrderElimination
 
         public void Upgrade(StrategyStats stats)
         {
-            var battleStats = new BattleStats(_battleStats)
+            var battleStats = new BattleStats()
             {
-                Health = _strategyStats.HealthGrowth * (1 + stats.HealthGrowth / 100),
-                UnmodifiedHealth = _strategyStats.HealthGrowth * (1 + stats.HealthGrowth / 100),
-                Armor = _strategyStats.ArmorGrowth * (1 + stats.ArmorGrowth / 100),
-                UnmodifiedArmor = _strategyStats.ArmorGrowth * (1 + stats.ArmorGrowth / 100),
-                Accuracy = _strategyStats.AccuracyGrowth * (1 + stats.AccuracyGrowth / 100),
-                UnmodifiedAccuracy = _strategyStats.AccuracyGrowth * (1 + stats.AccuracyGrowth / 100),
-                Evasion = _strategyStats.EvasionGrowth * (1 + stats.EvasionGrowth / 100),
-                UnmodifiedEvasion = _strategyStats.EvasionGrowth * (1 + stats.EvasionGrowth / 100),
-                Attack = _strategyStats.AttackGrowth * (1 + stats.AttackGrowth / 100),
-                UnmodifiedAttack = _strategyStats.AttackGrowth * (1 + stats.AttackGrowth / 100)
+                UnmodifiedHealth = _battleStats.UnmodifiedHealth + _strategyStats.HealthGrowth * stats.HealthGrowth,
+                UnmodifiedArmor = _battleStats.UnmodifiedArmor + _strategyStats.ArmorGrowth * stats.ArmorGrowth,
+                UnmodifiedAccuracy = _battleStats.UnmodifiedAccuracy + _strategyStats.AccuracyGrowth * stats.AccuracyGrowth,
+                UnmodifiedEvasion = _battleStats.UnmodifiedEvasion + _strategyStats.EvasionGrowth * stats.EvasionGrowth,
+                UnmodifiedAttack = _battleStats.UnmodifiedAttack + _strategyStats.AttackGrowth * stats.AttackGrowth,
+                Health = _battleStats.Health + _strategyStats.HealthGrowth * stats.HealthGrowth,
+                Armor = _battleStats.Armor + _strategyStats.ArmorGrowth * stats.ArmorGrowth,
+                Accuracy = _battleStats.Accuracy + _strategyStats.AccuracyGrowth * stats.AccuracyGrowth,
+                Evasion = _battleStats.Evasion + _strategyStats.EvasionGrowth * stats.EvasionGrowth,
+                Attack = _battleStats.Attack + _strategyStats.AttackGrowth * stats.AttackGrowth,
             };
 
             _battleStats = battleStats;

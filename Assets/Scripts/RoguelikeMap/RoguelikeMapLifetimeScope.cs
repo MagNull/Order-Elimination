@@ -3,6 +3,8 @@ using OrderElimination;
 using RoguelikeMap.Map;
 using RoguelikeMap.Panels;
 using RoguelikeMap.SquadInfo;
+using RoguelikeMap.UI.Characters;
+using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -29,6 +31,16 @@ namespace RoguelikeMap
         private PanelGenerator _panelGenerator;
         [SerializeField]
         private Library _library;
+        [SerializeField]
+        private SquadMembersPanel _squadMembersPanel;
+        [SerializeField] 
+        private CharacterInfoPanel _characterInfoPanel;
+        [SerializeField]
+        private CharacterCardWithHealthBar _cardWithHealthBar;
+        [SerializeField]
+        private CharacterCardWithCost _cardWithCost;
+        [SerializeField]
+        private CharacterCard _cardIcon;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -39,7 +51,6 @@ namespace RoguelikeMap
             var wallet = new Wallet(_startMoney);
             
             builder.Register<Inventory_Items.Inventory>(Lifetime.Singleton).WithParameter(100);
-
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_squad);
             builder.RegisterComponent(_pathPrefab);
@@ -48,10 +59,16 @@ namespace RoguelikeMap
             builder.RegisterComponent(_pointPrefab);
             builder.RegisterComponent(_pointsParent);
             builder.RegisterComponent(_library);
+            builder.RegisterComponent(_squadMembersPanel);
+            builder.RegisterComponent(_characterInfoPanel);
+            builder.RegisterComponent(_cardWithHealthBar);
+            builder.RegisterComponent(_cardWithCost);
+            builder.RegisterComponent(_cardIcon);
             
             builder.Register<SquadCommander>(Lifetime.Singleton);
             builder.Register<SceneTransition>(Lifetime.Singleton);
             builder.Register<SimpleMapGenerator>(Lifetime.Singleton).As<IMapGenerator>();
+            builder.Register<CharacterCardGenerator>(Lifetime.Singleton);
         }
     }
 }

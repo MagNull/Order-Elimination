@@ -4,13 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using static TMPro.Examples.ObjectSpin;
 
 namespace OrderElimination.AbilitySystem
 {
     public interface IUndoableBattleAction : IBattleAction
     {
         //static in implementation
+        public bool IsUndone(int performId);
+
         public bool Undo(int performId);
 
         public void ClearUndoCache();
@@ -38,6 +39,17 @@ namespace OrderElimination.AbilitySystem
                     action.ClearUndoCache();
                 }
             }
+        }
+    }
+
+    public class ActionUndoFailedException : Exception
+    {
+        public static ActionUndoFailedException AlreadyUndoneException
+            => new ActionUndoFailedException("Action has already been undone.");
+
+        public ActionUndoFailedException(string message) : base(message)
+        {
+
         }
     }
 }

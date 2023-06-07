@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using OrderElimination.AbilitySystem;
 using RoguelikeMap.Points;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
@@ -8,31 +10,21 @@ namespace OrderElimination
     public class CharactersMediator : SerializedMonoBehaviour
     {
         [OdinSerialize]
-        private List<IBattleCharacterInfo> _allies;
+        private List<IBattleCharacterInfo> _playerCharacters;//Change to GameCharacter
+        [OdinSerialize] 
+        private List<IBattleCharacterInfo> _enemies;
         [OdinSerialize]
-        private IReadOnlyList<IBattleCharacterInfo> _battleStatsList;
+        public BattleScenario BattleScenario { get; private set; }
 
-        [OdinSerialize] private List<IBattleCharacterInfo> _enemies;
+        public IEnumerable<GameCharacter> GetPlayerCharactersInfo() => GameCharactersFactory.CreateGameEntities(_playerCharacters);
+        public IEnumerable<GameCharacter> GetEnemyCharactersInfo() => GameCharactersFactory.CreateGameEntities(_enemies);
+        public void SetSquad(IEnumerable<IBattleCharacterInfo> battleStatsList)
+            => _playerCharacters = battleStatsList.ToList();
+        public void SetEnemies(IEnumerable<IBattleCharacterInfo> battleStatsList)
+            => _enemies = battleStatsList.ToList();
+        public void SetScenario(BattleScenario scenario) => BattleScenario = scenario;
 
-        private int _pointNumber;
-
-        [OdinSerialize]
-        public BattleScenario BattleScenario { get; set; }
 
         private void Awake() => DontDestroyOnLoad(gameObject);
-
-        public void SetSquad(List<IBattleCharacterInfo> battleStatsList) => _allies = battleStatsList;
-        public void SetEnemies(List<IBattleCharacterInfo> battleStatsList) => _enemies = battleStatsList;
-
-        public void SetPointNumber(int pointNumber) => _pointNumber = pointNumber;
-
-        public List<IBattleCharacterInfo> GetPlayerCharactersInfo() => _allies;
-        public List<IBattleCharacterInfo> GetEnemyCharactersInfo() => _enemies;
-        public IReadOnlyList<IBattleCharacterInfo> GetBattleCharactersInfo() => _battleStatsList;
-        public List<IBattleCharacterInfo> GetBattleEnemyInfo() => _enemies;
-        public int PointNumber => _pointNumber;
-
-        public PointInfo PointInfo { get; set; }
-
     }
 }
