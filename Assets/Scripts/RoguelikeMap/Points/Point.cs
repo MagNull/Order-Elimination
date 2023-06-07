@@ -9,7 +9,7 @@ namespace RoguelikeMap.Points
 {
     public class Point : MonoBehaviour
     {
-        private PanelGenerator _panelGenerator;
+        private PanelManager _panelManager;
      
         public PointModel Model { get; private set; }
         public event Action<Point> OnSelected;
@@ -17,15 +17,15 @@ namespace RoguelikeMap.Points
         public int Index => Model.Index;
 
         [Inject]
-        private void Construct(PanelGenerator panelGenerator)
+        private void Construct(PanelManager panelManager)
         {
-            _panelGenerator = panelGenerator;
+            _panelManager = panelManager;
         }
 
         public void SetPointModel(PointModel pointModel)
         {
             Model = pointModel ?? throw new ArgumentException("PointModel is null");
-            Model.SetPanel(_panelGenerator);
+            Model.SetPanel(_panelManager);
         }
 
         public void Visit(Squad squad) => Model.Visit(squad);

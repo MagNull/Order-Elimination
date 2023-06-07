@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.UI.Characters;
 using UnityEngine;

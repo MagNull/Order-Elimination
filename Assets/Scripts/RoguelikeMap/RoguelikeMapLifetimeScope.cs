@@ -4,6 +4,7 @@ using RoguelikeMap.Map;
 using RoguelikeMap.Panels;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI.Characters;
+using RoguelikeMap.UI.PointPanels;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
 using VContainer;
@@ -28,7 +29,7 @@ namespace RoguelikeMap
         [SerializeField]
         private Squad _squad;
         [SerializeField]
-        private PanelGenerator _panelGenerator;
+        private PanelManager _panelManager;
         [SerializeField]
         private Library _library;
         [SerializeField]
@@ -55,7 +56,6 @@ namespace RoguelikeMap
             builder.RegisterComponent(_squad);
             builder.RegisterComponent(_pathPrefab);
             builder.RegisterComponent(wallet);
-            builder.RegisterComponent(_panelGenerator);
             builder.RegisterComponent(_pointPrefab);
             builder.RegisterComponent(_pointsParent);
             builder.RegisterComponent(_library);
@@ -64,6 +64,7 @@ namespace RoguelikeMap
             builder.RegisterComponent(_cardWithHealthBar);
             builder.RegisterComponent(_cardWithCost);
             builder.RegisterComponent(_cardIcon);
+            builder.RegisterComponent(_panelManager);
             
             builder.Register<SquadCommander>(Lifetime.Singleton);
             builder.Register<SceneTransition>(Lifetime.Singleton);
