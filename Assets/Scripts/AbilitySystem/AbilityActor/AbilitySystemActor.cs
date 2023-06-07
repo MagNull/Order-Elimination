@@ -81,8 +81,8 @@ namespace OrderElimination.AbilitySystem
 
         private void OnDeath()
         {
-            if (IsAlive) throw new InvalidOperationException("Entity is alive.");
-            Died.Invoke(this);
+            if (IsAlive) return;//throw new InvalidOperationException("Entity is alive.");
+            Died?.Invoke(this);
             DisposeFromBattle();
         }
         #endregion
@@ -107,7 +107,7 @@ namespace OrderElimination.AbilitySystem
         #endregion
 
         #region AbilityCaster
-        private readonly Dictionary<ActionPoint, int> _actionPoints = new Dictionary<ActionPoint, int>();
+        private readonly Dictionary<ActionPoint, int> _actionPoints = new();
 
         public IReadOnlyDictionary<ActionPoint, int> ActionPoints => _actionPoints;
         public void AddActionPoints(ActionPoint actionPoint, int value = 1)
