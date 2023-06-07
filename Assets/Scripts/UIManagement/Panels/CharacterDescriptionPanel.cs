@@ -7,7 +7,7 @@ using TMPro;
 using UIManagement.Elements;
 using System.Linq;
 using Sirenix.OdinInspector;
-using OrderElimination;
+using OrderElimination.AbilitySystem;
 
 namespace UIManagement
 {
@@ -27,12 +27,23 @@ namespace UIManagement
         [SerializeReference]
         private List<AbilityInfo> _ignoredActiveAbilities;
 
-        protected Character _currentCharacterInfo;
+        protected GameCharacter _characterData;
+
+        protected OrderElimination.Character _currentCharacterInfo;
         protected BattleCharacterView _currentBattleCharacterInfo;
 
         protected override void Initialize()
         {
             base.Initialize();
+        }
+
+        public void UpdateCharacterDescription(GameCharacter character)
+        {
+            _characterData = character;
+            _characterName.text = character.CharacterData.Name;
+            _characterAvatar.sprite = character.CharacterData.Avatar;
+            UpdateBattleStats(character.BattleStats);
+
         }
 
         public void UpdateCharacterDescription(BattleCharacterView characterView)
@@ -51,11 +62,11 @@ namespace UIManagement
             _currentBattleCharacterInfo = characterView;
             _characterAvatar.sprite = characterView.AvatarFull;
             _characterName.text = characterView.CharacterName;
-            UpdateBattleStats(battleStats);
+            //UpdateBattleStats(battleStats);
             UpdateAbilityButtonsInfo(activeAbilities, passiveAbilities);
         }
 
-        public void UpdateCharacterDescription(Character characterInfo)
+        public void UpdateCharacterDescription(OrderElimination.Character characterInfo)
         {
             if (characterInfo == null)
             {
@@ -68,11 +79,11 @@ namespace UIManagement
             _currentBattleCharacterInfo = null;
             _characterAvatar.sprite = characterInfo.Avatar;
             _characterName.text = characterInfo.Name;
-            UpdateBattleStats(battleStats);
+            //UpdateBattleStats(battleStats);
             UpdateAbilityButtonsInfo(activeAbilities, passiveAbilities);
         }
 
-        private void UpdateBattleStats(IReadOnlyBattleStats battleStats)
+        private void UpdateBattleStats(BattleStats battleStats)
         {
             if (_characterStats.Count != 5)
                 throw new System.InvalidOperationException();
@@ -81,11 +92,11 @@ namespace UIManagement
             _characterStats[2].Text = "Броня";
             _characterStats[3].Text = "Уклонение";
             _characterStats[4].Text = "Точность";
-            _characterStats[0].Value = battleStats.UnmodifiedHealth.ToString();
-            _characterStats[1].Value = battleStats.UnmodifiedAttack.ToString();
-            _characterStats[2].Value = battleStats.UnmodifiedArmor.ToString();
-            _characterStats[3].Value = battleStats.UnmodifiedEvasion.ToString();
-            _characterStats[4].Value = battleStats.UnmodifiedAccuracy.ToString();
+            _characterStats[0].Value = battleStats[BattleStat.MaxHealth].ModifiedValue.ToString();
+            _characterStats[1].Value = battleStats[BattleStat.AttackDamage].ModifiedValue.ToString();
+            _characterStats[2].Value = battleStats[BattleStat.MaxArmor].ModifiedValue.ToString();
+            _characterStats[3].Value = $"{battleStats[BattleStat.Evasion].ModifiedValue * 100}%";
+            _characterStats[4].Value = $"{battleStats[BattleStat.Accuracy].ModifiedValue * 100}%";
         }
 
         private void UpdateAbilityButtonsInfo(AbilityInfo[] activeAbilities, AbilityInfo[] passiveAbilities)
