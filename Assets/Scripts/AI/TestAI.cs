@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
@@ -17,6 +18,18 @@ namespace AI
         public void Construct(IBattleContext context)
         {
             _context = context;
+        }
+
+        private void OnEnable()
+        {
+            _context.NewTurnStarted += OnTurnStarted;
+        }
+
+        private void OnTurnStarted(IBattleContext context)
+        {
+            if (context.ActiveSide == BattleSide.Allies)
+                return;
+            Test();
         }
 
         [Button]
