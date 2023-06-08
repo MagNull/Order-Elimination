@@ -19,6 +19,8 @@ namespace StartSessionMenu
         private GameObject _startGameButton;
         [SerializeField]
         private GameObject _wallet;
+        [SerializeField]
+        private GameObject _startGameTabs;
         private List<Panel> _panels = new();
         
         private void Start()
@@ -43,16 +45,19 @@ namespace StartSessionMenu
                     _metaShopPanel.Open();
                     _wallet.SetActive(true);
                     _startGameButton.SetActive(true);
+                    _startGameTabs.SetActive(true);
                     break;
                 case PanelType.Characters:
                     _choosingCharacterPanel.Open();
                     _wallet.SetActive(true);
                     _startGameButton.SetActive(true);
+                    _startGameTabs.SetActive(true);
                     break;
                 case PanelType.Library:
                     _libraryPanel.Open();
                     _wallet.SetActive(false);
                     _startGameButton.SetActive(false);
+                    _startGameTabs.SetActive(false);
                     break;
             }
         }

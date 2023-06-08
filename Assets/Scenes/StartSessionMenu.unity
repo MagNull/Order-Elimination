@@ -2888,7 +2888,8 @@ MonoBehaviour:
   _metaShopPanel: {fileID: 365208847}
   _libraryPanel: {fileID: 372645051}
   _startGameButton: {fileID: 78452346}
-  _wallet: {fileID: 0}
+  _wallet: {fileID: 1101785297}
+  _startGameTabs: {fileID: 886229977}
 --- !u!1 &620782492
 GameObject:
   m_ObjectHideFlags: 0
@@ -5137,6 +5138,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1084774047}
   m_CullTransparentMesh: 1
+--- !u!1 &1101785297 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5239559543545713467, guid: a246b125667bc714581d7669bbc550ec, type: 3}
+  m_PrefabInstance: {fileID: 2067778365}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1102421380
 GameObject:
   m_ObjectHideFlags: 0
