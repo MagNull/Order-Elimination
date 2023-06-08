@@ -103,7 +103,7 @@ public class BattleEntityView : MonoBehaviour
         BattleEntity.StatusHolder.StatusDisappeared += OnStatusDisappeared;
 
         BattleIcon = battleIcon;
-        gameObject.name = Name = $"{entity.BattleSide} «{name}»";
+        gameObject.name = Name = $"{entity.BattleSide} ï¿½{name}ï¿½";
         if (model != null)
         {
             VisualModel = Instantiate(model, transform);

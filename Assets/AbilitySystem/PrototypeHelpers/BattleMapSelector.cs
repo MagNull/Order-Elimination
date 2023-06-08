@@ -1,9 +1,9 @@
 using DefaultNamespace;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
-using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using UIManagement;
 using UIManagement.Elements;
 using UnityEngine;
@@ -385,7 +385,6 @@ public class BattleMapSelector : MonoBehaviour
     {
         _castButton.onClick.RemoveListener(CastCurrentAbility);
         _castButton.onClick.AddListener(CastCurrentAbility);
-        _textEmitter.Emit($"������� �Esc� ��� ������.", Color.red, new Vector3(0, 4.5f, 1), Vector3.zero, 10, fontSize: 1f);
     }
 
     private void Update()

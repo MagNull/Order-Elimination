@@ -52,17 +52,6 @@ public class PlayerControlSwitcher : MonoBehaviour
             //_endTurnButton.interactable = false;
             //wait for AI
         }
-        if (_entitiesBank.GetEntities(_battleManager.ActiveSide).Length > 0)
-        {
-            var enemyColor = new Color(0.7f, 0.3f, 1);
-            var othersColor = new Color(1, 0.65f, 0.2f);
-            if (_battleManager.ActiveSide == BattleSide.Player)
-                _textEmitter.Emit($"Играйте за людей.", Color.white, new Vector3(0, 0, -1), Vector3.zero, 1.2f, 2, fontSize: 2f);
-            if (_battleManager.ActiveSide == BattleSide.Enemies)
-                _textEmitter.Emit($"Играйте за монстров.", enemyColor, new Vector3(0, 0, -1), Vector3.zero, 1.2f, 2, fontSize: 2f);
-            if (_battleManager.ActiveSide == BattleSide.Others)
-                _textEmitter.Emit($"Играйте за 3-ю сторону.", othersColor, new Vector3(0, 0, -1), Vector3.zero, 1.2f, 2, fontSize: 2f);
-        }
     }
 
     private void OnEndTurnButtonPressed()

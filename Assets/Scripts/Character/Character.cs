@@ -40,6 +40,9 @@ namespace OrderElimination
         public Sprite BattleIcon => _viewIcon;
         public Sprite Avatar => _viewAvatar;
         public ReadOnlyBaseStats BaseBattleStats => _baseBattleStats;
+        
+        [field: SerializeField]
+        public int CostValue { get; private set; }
         public ActiveAbilityBuilder[] GetActiveAbilities() => _activeAbilitiesData.ToArray();
         public PassiveAbilityBuilder[] GetPassiveAbilities() => _passiveAbilitiesData.ToArray();
 

@@ -101,7 +101,7 @@ public class BattleMap : MonoBehaviour, IBattleMap
 
     public int Height => _height;
 
-    public void Init(Cell[,] modelGrid)// � Width, Height ??
+    public void Init(Cell[,] modelGrid)// – Width, Height ??
     {
         _cellGrid = modelGrid;
         CellRangeBorders = new CellRangeBorders(0, 0, Width - 1, Height - 1);
@@ -201,7 +201,7 @@ public class BattleMap : MonoBehaviour, IBattleMap
         if (obj is EnvironmentObject env && _activeEnvironmentObjects.ContainsValue(env))
             return _activeEnvironmentObjects.FirstOrDefault(x => x.Value == env).Key;
 
-        Debug.LogWarning($"$������ {obj.View.GameObject.name} �� ������ �� ����!");
+        Debug.LogWarning($"$Îáúåêò {obj.View.GameObject.name} íå íàéäåí íà ïîëå!");
         return new Vector2Int(-1, -1);
     }
 
