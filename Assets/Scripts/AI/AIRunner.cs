@@ -8,16 +8,18 @@ using VContainer;
 
 namespace AI
 {
-    public class TestAI : MonoBehaviour
+    public class AIRunner : MonoBehaviour
     {
         [SerializeField]
         private CharacterBehavior _behavior;
 
         private IBattleContext _context;
+        private BattleLoopManager _battleLoopManager;
 
         [Inject]
-        public void Construct(IBattleContext context)
+        public void Construct(IBattleContext context, BattleLoopManager battleLoopManager)
         {
+            _battleLoopManager = battleLoopManager;
             _context = context;
         }
 
@@ -31,17 +33,18 @@ namespace AI
             if (context.ActiveSide != BattleSide.Enemies && context.ActiveSide != BattleSide.Others) 
                 return;
             
-            Test();
+            Run();
         }
 
         [Button]
-        public async void Test()
+        public async void Run()
         {
             var enemies = _context.EntitiesBank.GetEntities(BattleSide.Enemies);
             foreach (var enemy in enemies)
             {
                 await _behavior.Run(_context, enemy);
             }
+            _battleLoopManager.StartNextTurn();
         }
     }
 }

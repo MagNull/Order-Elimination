@@ -69,6 +69,6 @@ namespace AI.Actions
     public class DamageMostValuable : DamageEnemy
     {
         protected override AbilitySystemActor[] GetTargets(IBattleContext battleContext, AbilitySystemActor caster) =>
-            battleContext.EntitiesBank.GetEnemiesByValue();
+            battleContext.EntitiesBank.GetEnemiesByValue(battleContext, caster);
     }
 }
