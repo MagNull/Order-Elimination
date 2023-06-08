@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 046b76becf1384b44aa15e0d3ebd1032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPrefab: {fileID: 8815909993933616270, guid: 48fb36e6cdf6ab543bba4862343a711f, type: 3}
+  _effectButtonPrefab: {fileID: 4692175368902465806, guid: 48fb36e6cdf6ab543bba4862343a711f, type: 3}
   _effectsHolder: {fileID: 4102501675066518227}
   effectAppearTime: 0.2
   effectAppearEase: 32
@@ -420,7 +420,7 @@ PrefabInstance:
     - target: {fileID: 4096773940695260067, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: 84cbe20c0a0b27e4e928d84557e5efd7, type: 2}
+      objectReference: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
     - target: {fileID: 4096773940695260067, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4293509964
@@ -561,7 +561,7 @@ PrefabInstance:
     - target: {fileID: 4096773940695260067, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: d217cd99ec4206d418fe2d17bfb22d02, type: 2}
+      objectReference: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
     - target: {fileID: 4096773942194196769, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

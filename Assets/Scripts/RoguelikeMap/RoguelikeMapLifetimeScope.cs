@@ -8,6 +8,7 @@ using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
+using SquadCommander = RoguelikeMap.SquadInfo.SquadCommander;
 using Wallet = StartSessionMenu.Wallet;
 
 //TODO(����): Register Currency

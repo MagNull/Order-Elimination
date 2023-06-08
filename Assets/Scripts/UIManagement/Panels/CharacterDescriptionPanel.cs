@@ -11,6 +11,7 @@ using Sirenix.OdinInspector;
 using OrderElimination.AbilitySystem;
 using OrderElimination;
 using UnityEngine.Serialization;
+using BattleStats = OrderElimination.AbilitySystem.BattleStats;
 
 namespace UIManagement
 {

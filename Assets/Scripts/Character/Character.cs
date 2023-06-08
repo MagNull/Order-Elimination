@@ -73,28 +73,9 @@ namespace OrderElimination
 
         public void Heal(int healStat)
         {
-            _battleStats.Health += healStat;
+            // _battleStats.Health += healStat;
         }
 
-        public void Upgrade(StrategyStats stats)
-        {
-            var battleStats = new BattleStats()
-            {
-                UnmodifiedHealth = _battleStats.UnmodifiedHealth + _strategyStats.HealthGrowth * stats.HealthGrowth,
-                UnmodifiedArmor = _battleStats.UnmodifiedArmor + _strategyStats.ArmorGrowth * stats.ArmorGrowth,
-                UnmodifiedAccuracy = _battleStats.UnmodifiedAccuracy + _strategyStats.AccuracyGrowth * stats.AccuracyGrowth,
-                UnmodifiedEvasion = _battleStats.UnmodifiedEvasion + _strategyStats.EvasionGrowth * stats.EvasionGrowth,
-                UnmodifiedAttack = _battleStats.UnmodifiedAttack + _strategyStats.AttackGrowth * stats.AttackGrowth,
-                Health = _battleStats.Health + _strategyStats.HealthGrowth * stats.HealthGrowth,
-                Armor = _battleStats.Armor + _strategyStats.ArmorGrowth * stats.ArmorGrowth,
-                Accuracy = _battleStats.Accuracy + _strategyStats.AccuracyGrowth * stats.AccuracyGrowth,
-                Evasion = _battleStats.Evasion + _strategyStats.EvasionGrowth * stats.EvasionGrowth,
-                Attack = _battleStats.Attack + _strategyStats.AttackGrowth * stats.AttackGrowth,
-            };
-
-            _battleStats = battleStats;
-        }
-        
         public void Upgrade()
         {
             //IReadOnlyBattleStats _battleStats = null;
