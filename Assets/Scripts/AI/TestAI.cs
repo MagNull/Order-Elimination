@@ -10,7 +10,8 @@ namespace AI
 {
     public class TestAI : MonoBehaviour
     {
-        [SerializeField] private CharacterBehavior _behavior;
+        [SerializeField]
+        private CharacterBehavior _behavior;
 
         private IBattleContext _context;
 
@@ -27,8 +28,9 @@ namespace AI
 
         private void OnTurnStarted(IBattleContext context)
         {
-            if (context.ActiveSide == BattleSide.Allies)
+            if (context.ActiveSide != BattleSide.Enemies && context.ActiveSide != BattleSide.Others) 
                 return;
+            
             Test();
         }
 

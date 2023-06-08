@@ -43,7 +43,7 @@ namespace AI.Actions
                 }
             }
 
-            return false;
+            return true;
         }
 
         private IEnumerable<(ActiveAbilityRunner ability, AbilityImpact)> GetAvailableDamageAbilities(

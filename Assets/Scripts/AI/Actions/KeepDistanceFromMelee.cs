@@ -34,7 +34,10 @@ namespace AI.Actions
                 .GetAvailableCellPositions(battleContext, caster)
                 .Except(notOptimalCells);
             if (!optimalCells.Any())
+            {
+                movementAbility.AbilityData.TargetingSystem.CancelTargeting();
                 return false;
+            }
             
             await movementAbility.CastSingleTarget(battleContext, caster,
                 optimalCells.ElementAt(Random.Range(0, optimalCells.Count())));

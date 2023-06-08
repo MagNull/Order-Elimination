@@ -41,9 +41,10 @@ namespace AI.Conditions
                     continue;
                 var random = Random.Range(0, intersect.Count());
                 await movementAbility.CastSingleTarget(battleContext, caster, intersect.ElementAt(random));
-
                 return true;
             }
+
+            movementAbility.AbilityData.TargetingSystem.CancelTargeting();
 
             return false;
         }

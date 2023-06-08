@@ -33,6 +33,8 @@ namespace AI.Actions
                 return true;
             }
 
+            targeting.CancelTargeting();
+
             return false;
         }
     }
