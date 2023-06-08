@@ -41,9 +41,10 @@ namespace AI.Conditions
                     continue;
                 var random = Random.Range(0, intersect.Count());
                 await movementAbility.CastSingleTarget(battleContext, caster, intersect.ElementAt(random));
-
                 return true;
             }
+
+            movementAbility.AbilityData.TargetingSystem.CancelTargeting();
 
             return false;
         }
@@ -73,6 +74,6 @@ namespace AI.Conditions
     public class MoveToMostValuableEnemy : MoveToEnemy
     {
         protected override AbilitySystemActor[] GetTargets(IBattleContext battleContext, AbilitySystemActor caster) =>
-            battleContext.EntitiesBank.GetEnemiesByValue();
+            battleContext.EntitiesBank.GetEnemiesByValue(battleContext, caster);
     }
 }

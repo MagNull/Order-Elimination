@@ -43,7 +43,7 @@ namespace AI.Actions
                 }
             }
 
-            return false;
+            return true;
         }
 
         private IEnumerable<(ActiveAbilityRunner ability, AbilityImpact)> GetAvailableDamageAbilities(
@@ -69,6 +69,6 @@ namespace AI.Actions
     public class DamageMostValuable : DamageEnemy
     {
         protected override AbilitySystemActor[] GetTargets(IBattleContext battleContext, AbilitySystemActor caster) =>
-            battleContext.EntitiesBank.GetEnemiesByValue();
+            battleContext.EntitiesBank.GetEnemiesByValue(battleContext, caster);
     }
 }
