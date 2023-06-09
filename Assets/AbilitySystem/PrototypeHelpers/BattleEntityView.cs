@@ -20,6 +20,8 @@ public class BattleEntityView : MonoBehaviour
 
     [HideInInspector, SerializeField]
     private float _iconTargetSize = 1.9f;
+    [HideInInspector, SerializeField]
+    private bool _showFloatingNumbers = true;
     private BattleMapView _battleMapView;
     private IParticlesPool _particlesPool;
     private TextEmitter _textEmitter;
@@ -40,6 +42,12 @@ public class BattleEntityView : MonoBehaviour
             _iconTargetSize = value;
             BattleIcon = BattleIcon;
         }
+    }
+    [ShowInInspector]
+    public bool ShowFloatingNumbers
+    {
+        get => _showFloatingNumbers;
+        set => _showFloatingNumbers = value;
     }
     public AbilitySystemActor BattleEntity { get; private set; }
     public string Name { get; private set; }
@@ -169,7 +177,8 @@ public class BattleEntityView : MonoBehaviour
         var strength = Mathf.InverseLerp(0, 200, damageValue);
         var shake = Mathf.Lerp(0, 0.5f, strength);
         var position = _floatingNumbersPosition.position;
-        _textEmitter.Emit($"{damageValue}", Color.red, position, new Vector2(0.5f, 0.5f));
+        if (ShowFloatingNumbers)
+                _textEmitter.Emit($"{damageValue}", Color.red, position, new Vector2(0.5f, 0.5f));
         Shake(shake, shake, 1, 10);
     }
 
@@ -194,8 +203,11 @@ public class BattleEntityView : MonoBehaviour
 
         var position = _floatingNumbersPosition.position;
         var offset = Vector3.up * 0.25f;
-        _textEmitter.Emit($"+{armorValue}", Color.cyan, position + offset, new Vector2(0.5f, 0.5f), duration: 1);
-        _textEmitter.Emit($"+{healthValue}", Color.green, position - offset, new Vector2(0.5f, 0.5f), duration: 1);
+        if (ShowFloatingNumbers)
+        {
+            _textEmitter.Emit($"+{armorValue}", Color.cyan, position + offset, new Vector2(0.5f, 0.5f), duration: 1);
+            _textEmitter.Emit($"+{healthValue}", Color.green, position - offset, new Vector2(0.5f, 0.5f), duration: 1);
+        }
         //Shake(0, 0.07f, 1.5f, 3);
     }
 

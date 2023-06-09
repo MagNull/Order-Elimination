@@ -1,4 +1,4 @@
-﻿namespace OrderElimination.AbilitySystem
+namespace OrderElimination.AbilitySystem
 {
     public interface IActionProcessor
     {

@@ -12,29 +12,27 @@ namespace UIManagement.trashToRemove_Mockups
 {
     public class CharacterUpgradeTransaction
     {
+        private int Money = 1000;
         public Character TargetCharacter { get; private set; }
         public int Cost => TargetCharacter.GetStrategyStats().CostOfUpgrade;
 
         public const int MaximumLevelCap = 10;
 
-        private Information _playerInformation;
-
-        public CharacterUpgradeTransaction(Character target, Information playerInformation)
+        public CharacterUpgradeTransaction(Character target)
         {
             TargetCharacter = target;
-            _playerInformation = playerInformation;
         }
 
         public bool TryUpgrade()
         {
             if (TargetCharacter.GetStrategyStats().Lvl >= MaximumLevelCap)
                 return false;
-            var availableMoney = _playerInformation.Money;
+            var availableMoney = Money;
             if (Cost > availableMoney)
                 return false;
             TargetCharacter.Upgrade();
             availableMoney -= Cost;
-            _playerInformation.SetMoney(availableMoney);
+            //_playerInformation.SetMoney(availableMoney);
             return true;
         }
     }
@@ -71,7 +69,10 @@ namespace UIManagement.trashToRemove_Mockups
             {PanelType.PassiveSkillsDescription, "Пассивные навыки"}, 
             {PanelType.CharacterDescription, "Информация о бойце"}, 
             {PanelType.EffectsDesriptionList, "Описание эффектов"}, 
-            {PanelType.CharacterUpgradable, "Информация о бойце"}, 
+            {PanelType.CharacterUpgradable, "Информация о бойце"},
+            {PanelType.Shop, "Торговец"},
+            {PanelType.Event, "Событие"},
+            { PanelType.SquadMembers, "Выбор бойцов отряда" },
         };
         private Dictionary<ValueUnits, string> _unitNames
             = new Dictionary<ValueUnits, string>()

@@ -95,7 +95,7 @@ public class BattleMap : MonoBehaviour, IBattleMap
 
     private readonly Dictionary<IBattleObject, Vector2Int> _destroyedObjectsCoordinates = new();
     [SerializeField]
-    private SerializedDictionary<Vector2Int, EnvironmentObject> _activeEnvironmentObjects = new();
+    private Dictionary<Vector2Int, EnvironmentObject> _activeEnvironmentObjects = new();
 
     public int Width => _width;
 

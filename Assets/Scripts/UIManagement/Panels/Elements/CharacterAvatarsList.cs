@@ -44,6 +44,25 @@ namespace UIManagement.Elements
                 _characterList.Add(newElement);
             }
         }
+        
+        [Button]
+        public void Populate(IReadOnlyList<IBattleCharacterInfo> charactersInfo)
+        {
+            if (_elementPrefab == null)
+                throw new Exception("No given prefab for instancing.");
+            foreach (var characterInfo in charactersInfo)
+            {
+                var newElement = Instantiate(_elementPrefab, _elementsHolder);
+                newElement.UpdateCharacterInfo(characterInfo);
+                newElement.Clicked -= OnElementClicked;
+                newElement.Holded -= OnElementHolded;
+                newElement.Destroyed -= OnElementDestroyed;
+                newElement.Clicked += OnElementClicked;
+                newElement.Holded += OnElementHolded;
+                newElement.Destroyed += OnElementDestroyed;
+                _characterList.Add(newElement);
+            }
+        }
 
         private void OnElementClicked(CharacterClickableAvatar element) => ElementClicked?.Invoke(element);
 

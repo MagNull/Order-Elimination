@@ -6,8 +6,12 @@ using UnityEngine.UI;
 using TMPro;
 using UIManagement.Elements;
 using System.Linq;
+using Inventory_Items;
 using Sirenix.OdinInspector;
 using OrderElimination.AbilitySystem;
+using OrderElimination;
+using UnityEngine.Serialization;
+using BattleStats = OrderElimination.AbilitySystem.BattleStats;
 
 namespace UIManagement
 {
@@ -26,6 +30,11 @@ namespace UIManagement
         private List<SmallAbilityButton> _passiveAbilitiesButtons;
         [SerializeReference]
         private List<AbilityInfo> _ignoredActiveAbilities;
+        [FormerlySerializedAs("_inventoryPresenter")]
+        [SerializeField]
+        private PickItemInventoryPresenter _playerInventoryPresenter;
+        [SerializeField]
+        private InventoryPresenter _characterInventoryPresenter;
 
         protected GameCharacter _characterData;
 
@@ -76,6 +85,9 @@ namespace UIManagement
             var activeAbilities = characterInfo.GetActiveAbilityInfos().Where(i => !_ignoredActiveAbilities.Contains(i)).ToArray();
             var passiveAbilities = characterInfo.GetPassiveAbilityInfos();
             _currentCharacterInfo = characterInfo;
+            _playerInventoryPresenter.UpdateTargetInventory(_currentCharacterInfo.Inventory);
+            _characterInventoryPresenter.InitInventoryModel(_currentCharacterInfo.Inventory);
+            _characterInventoryPresenter.enabled = true;
             _currentBattleCharacterInfo = null;
             _characterAvatar.sprite = characterInfo.Avatar;
             _characterName.text = characterInfo.Name;
@@ -87,11 +99,11 @@ namespace UIManagement
         {
             if (_characterStats.Count != 5)
                 throw new System.InvalidOperationException();
-            _characterStats[0].Text = "Здоровье";
-            _characterStats[1].Text = "Урон";
-            _characterStats[2].Text = "Броня";
-            _characterStats[3].Text = "Уклонение";
-            _characterStats[4].Text = "Точность";
+            _characterStats[0].Text = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+            _characterStats[1].Text = "пїЅпїЅпїЅпїЅ";
+            _characterStats[2].Text = "пїЅпїЅпїЅпїЅпїЅ";
+            _characterStats[3].Text = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+            _characterStats[4].Text = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
             _characterStats[0].Value = battleStats[BattleStat.MaxHealth].ModifiedValue.ToString();
             _characterStats[1].Value = battleStats[BattleStat.AttackDamage].ModifiedValue.ToString();
             _characterStats[2].Value = battleStats[BattleStat.MaxArmor].ModifiedValue.ToString();

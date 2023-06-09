@@ -1,5 +1,6 @@
 using System;
 using CharacterAbility;
+using Inventory_Items;
 using OrderElimination.AbilitySystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -29,7 +30,12 @@ namespace OrderElimination
         private ActiveAbilityBuilder[] _activeAbilitiesData;
         [SerializeReference]
         private PassiveAbilityBuilder[] _passiveAbilitiesData;
-        
+        private Inventory_Items.Inventory _inventory = new Inventory_Items.Inventory(2);
+        [ShowInInspector]
+
+        public Inventory_Items.Inventory Inventory => _inventory;
+
+
         public string Name => _name;
         public Sprite BattleIcon => _viewIcon;
         public Sprite Avatar => _viewAvatar;
@@ -46,6 +52,12 @@ namespace OrderElimination
         public AbilityInfo[] GetPassiveAbilityInfos() => null;
         public StrategyStats GetStrategyStats() => default;
 
+        [Button]
+        public void ResetInventory()
+        {
+            _inventory = new Inventory_Items.Inventory(2);
+        }
+
         public void RaiseExperience(float experience)
         {
             throw new System.NotImplementedException();
@@ -57,6 +69,11 @@ namespace OrderElimination
             //    return;
             //for (var i = _strategyStats.Lvl; i <= level; i++)
             //    Upgrade();
+        }
+
+        public void Heal(int healStat)
+        {
+            // _battleStats.Health += healStat;
         }
 
         public void Upgrade()
@@ -83,11 +100,6 @@ namespace OrderElimination
             //Debug.Log($"Health: Old - {_battleStats.UnmodifiedEvasion}, New - {battleStats.UnmodifiedEvasion}");
             //Debug.Log($"Health: Old - {_battleStats.UnmodifiedAttack}, New - {battleStats.UnmodifiedAttack}");
             //_battleStats = battleStats;
-        }
-
-        public void Awake()
-        {
-            Debug.Log("Awake");
         }
 
         private void OnValidate()

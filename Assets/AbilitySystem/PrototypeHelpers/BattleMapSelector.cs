@@ -28,10 +28,6 @@ public class BattleMapSelector : MonoBehaviour
 
     [TitleGroup("Components")]
     [SerializeField]
-    private Button _castButton;
-
-    [TitleGroup("Components")]
-    [SerializeField]
     private AbilityPreviewDisplayer _abilityPreviewDisplayer;
 
     private TextEmitter _textEmitter;
@@ -381,11 +377,6 @@ public class BattleMapSelector : MonoBehaviour
         => Debug.Log("Ability use locked.");
 
     #region ToRemove
-    private void Start()
-    {
-        _castButton.onClick.RemoveListener(CastCurrentAbility);
-        _castButton.onClick.AddListener(CastCurrentAbility);
-    }
 
     private void Update()
     {

@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c682b0bae1680d48becdfdfe16809b5, type: 3}
+  m_Name: Point G
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _sprite: {fileID: 787670512, guid: 5897665c51c6ee04e8c18c5fa5db7853, type: 3}
+  _model:
+    rid: 7872520390573555738
+  references:
+    version: 2
+    RefIds:
+    - rid: 7872520390573555738
+      type: {class: BattlePointModel, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
+      data:
+        _nextPointsIndex: 08000000
+        _position: {x: -200, y: -300, z: 0}
+        Index: 6
+        _enemies:
+        - {fileID: 11400000, guid: 9461f9304513865429fcf3420fd25287, type: 2}
+        _battleScenario: {fileID: 11400000, guid: 960f80274a3bf09459044259dc1ac4cf, type: 2}
