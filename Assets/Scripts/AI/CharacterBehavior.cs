@@ -19,7 +19,10 @@ namespace AI
         public async UniTask Run(IBattleContext battleContext, AbilitySystemActor caster)
         {
             AvoidObject = _avoidObject;
-            await BehaviorTreeRoot.Run(battleContext, caster);
+            var bb = new Blackboard();
+            bb.Register("context", battleContext);
+            bb.Register("caster", caster);
+            await BehaviorTreeRoot.Run(bb);
         }
     }
 }

@@ -9,23 +9,26 @@ using Random = UnityEngine.Random;
 
 namespace AI.Conditions
 {
-    public abstract class MoveToEnemy : IBehaviorTreeTask
+    public class MoveToEnemy : IBehaviorTreeTask
     {
-        public async UniTask<bool> Run(IBattleContext battleContext, AbilitySystemActor caster)
+        public async UniTask<bool> Run(Blackboard blackboard)
         {
-            var targets = GetTargets(battleContext, caster);
+            var targets = blackboard.Get<AbilitySystemActor[]>("enemies");
+            if (targets.Length == 0)
+                return false;
+            
+            var context = blackboard.Get<IBattleContext>("context");
+            var caster = blackboard.Get<AbilitySystemActor>("caster");
 
             foreach (var target in targets)
             {
-                if (await TryExecuteTo(battleContext, caster, target))
+                if (await TryExecuteTo(context, caster, target))
                     return true;
             }
 
             return false;
         }
-
-        protected abstract AbilitySystemActor[] GetTargets(IBattleContext battleContext, AbilitySystemActor caster);
-
+        
         private async UniTask<bool> TryExecuteTo(IBattleContext battleContext, AbilitySystemActor caster,
             AbilitySystemActor target)
         {
@@ -61,19 +64,5 @@ namespace AI.Conditions
 
             return AIUtilities.GetCellsFromTarget(Mathf.FloorToInt(abilityDistance), target.Position);
         }
-    }
-    
-    public class MoveToNearestEnemy : MoveToEnemy
-    {
-        protected override AbilitySystemActor[] GetTargets(IBattleContext battleContext, AbilitySystemActor caster)
-        {
-            return battleContext.EntitiesBank.GetEnemiesByDistance(battleContext, caster);
-        }
-    }
-    
-    public class MoveToMostValuableEnemy : MoveToEnemy
-    {
-        protected override AbilitySystemActor[] GetTargets(IBattleContext battleContext, AbilitySystemActor caster) =>
-            battleContext.EntitiesBank.GetEnemiesByValue(battleContext, caster);
     }
 }

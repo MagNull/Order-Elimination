@@ -3,26 +3,25 @@ using System.Linq;
 using AI.Utils;
 using Cysharp.Threading.Tasks;
 using OrderElimination.AbilitySystem;
-using OrderElimination.Infrastructure;
 
 namespace AI.Actions
 {
-    public abstract class DamageEnemy : IBehaviorTreeTask
+    public class DamageEnemy : IBehaviorTreeTask
     {
-        public async UniTask<bool> Run(IBattleContext battleContext, AbilitySystemActor caster)
+        public async UniTask<bool> Run(Blackboard blackboard)
         {
-            var targets = GetTargets(battleContext, caster);
+            var targets = blackboard.Get<AbilitySystemActor[]>("enemies");
+            var context = blackboard.Get<IBattleContext>("context");
+            var caster = blackboard.Get<AbilitySystemActor>("caster");
 
             foreach (var target in targets)
             {
-                if (await TryExecuteTo(battleContext, caster, target))
+                if (await TryExecuteTo(context, caster, target))
                     return true;
             }
 
             return false;
         }
-        
-        protected abstract AbilitySystemActor[] GetTargets(IBattleContext battleContext, AbilitySystemActor caster);
         
         private async UniTask<bool> TryExecuteTo(IBattleContext battleContext, AbilitySystemActor caster,
             AbilitySystemActor target)
@@ -58,17 +57,5 @@ namespace AI.Actions
                         .Contains(target.Position))
                 .OrderByDescending(evaluatedAbility => evaluatedAbility.Item2.Damage);
         }
-    }
-    
-    public class DamageNearest : DamageEnemy
-    {
-        protected override AbilitySystemActor[] GetTargets(IBattleContext battleContext, AbilitySystemActor caster) =>
-            battleContext.EntitiesBank.GetEnemiesByDistance(battleContext, caster);
-    }
-    
-    public class DamageMostValuable : DamageEnemy
-    {
-        protected override AbilitySystemActor[] GetTargets(IBattleContext battleContext, AbilitySystemActor caster) =>
-            battleContext.EntitiesBank.GetEnemiesByValue(battleContext, caster);
     }
 }

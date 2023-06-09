@@ -10,12 +10,12 @@ namespace AI
     {
         [SerializeReference]
         private IBehaviorTreeTask[] _childrenTask;
-        
-        public async UniTask<bool> Run(IBattleContext battleContext, AbilitySystemActor caster)
+
+        public async UniTask<bool> Run(Blackboard blackboard)
         {
             foreach (var task in _childrenTask)
             {
-                var result = await task.Run(battleContext, caster);
+                var result = await task.Run(blackboard);
                 if (result)
                     return true;
             }
