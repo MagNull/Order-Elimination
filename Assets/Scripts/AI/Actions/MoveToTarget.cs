@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AI.Utils;
 using Cysharp.Threading.Tasks;
@@ -9,12 +10,12 @@ using Random = UnityEngine.Random;
 
 namespace AI.Conditions
 {
-    public class MoveToEnemy : IBehaviorTreeTask
+    public class MoveToTarget : IBehaviorTreeTask
     {
         public async UniTask<bool> Run(Blackboard blackboard)
         {
-            var targets = blackboard.Get<AbilitySystemActor[]>("enemies");
-            if (targets.Length == 0)
+            var targets = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
+            if (!targets.Any())
                 return false;
             
             var context = blackboard.Get<IBattleContext>("context");

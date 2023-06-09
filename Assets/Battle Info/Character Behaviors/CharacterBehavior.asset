@@ -21,38 +21,30 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  _avoidObject: []
   BehaviorTreeRoot:
     _childrenTask:
-    - rid: 8568508530668863495
-    - rid: 8568508530668863490
     - rid: 8568508530668863498
   references:
     version: 2
     RefIds:
-    - rid: 8568508530668863490
-      type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
-      data:
-        _childrenTask:
-        - rid: 8568508530668863493
-        - rid: 8568508530668863494
-    - rid: 8568508530668863493
-      type: {class: MoveToNearestEnemy, ns: AI.Conditions, asm: Assembly-CSharp}
-    - rid: 8568508530668863494
-      type: {class: DamageNearest, ns: AI.Actions, asm: Assembly-CSharp}
-    - rid: 8568508530668863495
-      type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
-      data:
-        _childrenTask:
-        - rid: 8568508530668863496
-        - rid: 8568508530668863497
-    - rid: 8568508530668863496
-      type: {class: DamageNearest, ns: AI.Actions, asm: Assembly-CSharp}
-    - rid: 8568508530668863497
-      type: {class: MoveToNearestShelter, ns: AI.Actions, asm: Assembly-CSharp}
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 8568508530668863498
       type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
       data:
         _childrenTask:
-        - rid: 8568508530668863499
-    - rid: 8568508530668863499
-      type: {class: MoveToNearestShelter, ns: AI.Actions, asm: Assembly-CSharp}
+        - rid: 8568508628484227072
+    - rid: 8568508628484227072
+      type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
+      data:
+        _childrenTask:
+        - rid: 8568508628484227078
+        - rid: -2
+        - rid: -2
+    - rid: 8568508628484227078
+      type: {class: HasTargetsInRadius, ns: AI.Actions, asm: Assembly-CSharp}
+      data:
+        _targetSort: 0
+        _relationship: 1
+        _radius: 10

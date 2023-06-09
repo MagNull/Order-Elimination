@@ -14,7 +14,7 @@ namespace AI.Conditions
         public UniTask<bool> Run(Blackboard blackboard)
         {
             var caster = blackboard.Get<AbilitySystemActor>("caster");
-            var enemies = blackboard.Get<AbilitySystemActor[]>("enemies");
+            var enemies = blackboard.Get<AbilitySystemActor[]>("targets");
             var count = 0;
             foreach (var enemy in enemies)
             {

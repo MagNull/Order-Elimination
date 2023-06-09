@@ -6,11 +6,11 @@ using OrderElimination.AbilitySystem;
 
 namespace AI.Actions
 {
-    public class DamageEnemy : IBehaviorTreeTask
+    public class DamageTarget : IBehaviorTreeTask
     {
         public async UniTask<bool> Run(Blackboard blackboard)
         {
-            var targets = blackboard.Get<AbilitySystemActor[]>("enemies");
+            var targets = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
             var context = blackboard.Get<IBattleContext>("context");
             var caster = blackboard.Get<AbilitySystemActor>("caster");
 

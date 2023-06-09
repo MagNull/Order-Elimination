@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AI.Utils;
 using Cysharp.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace AI.Actions
             var caster = blackboard.Get<AbilitySystemActor>("caster");
             
             Vector2Int[] notOptimalCells = Array.Empty<Vector2Int>();
-            var enemies = blackboard.Get<AbilitySystemActor[]>("enemies");
+            var enemies = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
 
             foreach (var enemy in enemies)
             {
