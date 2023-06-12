@@ -68,38 +68,7 @@ namespace AI.Utils
                 if (!executionContext.TargetedCellGroups.ContainsGroup(cellGroupNumber))
                     continue;
                 foreach (var cell in executionContext.TargetedCellGroups.GetGroup(cellGroupNumber))
-                {
-                    //Determine target type
-                    AbilitySystemActor[] targets = instruction.Action.ActionRequires switch
-                    {
-                        ActionRequires.Caster => new[] { _caster },
-                        ActionRequires.Cell => new AbilitySystemActor[]{},
-                        ActionRequires.Entity => _battleContext.BattleMap.GetContainedEntities(cell).ToArray(),
-                        _ => new AbilitySystemActor[]{}
-                    };
-                    //If there no targets on cell - skip
-                    if(!targets.Any())
-                        continue;
-
-                    foreach (var target in targets)
-                    {
-                        //Form action context
-                        var actionContext = new ActionContext(_battleContext,
-                            _data.TargetingSystem.ExtractCastTargetGroups(),
-                            _caster, target, cell);
-
-                        //Calculate value based on context
-                        switch (instruction.Action)
-                        {
-                            case InflictDamageAction inflictDamageAction:
-                                Damage += inflictDamageAction.DamageSize.GetValue(actionContext) * instruction.RepeatNumber;
-                                break;
-                            case HealAction healAction:
-                                Heal += healAction.HealSize.GetValue(actionContext) * instruction.RepeatNumber;
-                                break;
-                        }
-                    }
-                }
+                    CalculateImpactFromCell(instruction, cell);
             }
 
             var onSuccess = instruction.InstructionsOnActionSuccess;
@@ -109,6 +78,40 @@ namespace AI.Utils
             var following = instruction.FollowingInstructions;
             foreach (var abilityInstruction in following)
                 ProcessInstruction(abilityInstruction);
+        }
+
+        private void CalculateImpactFromCell(AbilityInstruction instruction, Vector2Int cell)
+        {
+            //Determine target type
+            AbilitySystemActor[] targets = instruction.Action.ActionRequires switch
+            {
+                ActionRequires.Caster => new[] { _caster },
+                ActionRequires.Cell => new AbilitySystemActor[] { },
+                ActionRequires.Entity => _battleContext.BattleMap.GetContainedEntities(cell).ToArray(),
+                _ => new AbilitySystemActor[] { }
+            };
+            //If there no targets on cell - skip
+            if (!targets.Any())
+                return;
+
+            foreach (var target in targets)
+            {
+                //Form action context
+                var actionContext = new ActionContext(_battleContext,
+                    _data.TargetingSystem.ExtractCastTargetGroups(),
+                    _caster, target, cell);
+
+                //Calculate value based on context
+                switch (instruction.Action)
+                {
+                    case InflictDamageAction inflictDamageAction:
+                        Damage += inflictDamageAction.DamageSize.GetValue(actionContext) * instruction.RepeatNumber;
+                        break;
+                    case HealAction healAction:
+                        Heal += healAction.HealSize.GetValue(actionContext) * instruction.RepeatNumber;
+                        break;
+                }
+            }
         }
     }
 }

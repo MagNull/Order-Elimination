@@ -14,10 +14,10 @@ namespace AI.Actions
         Distance,
         Value
     }
+    
 
     public class HasTargetsInRadius : IBehaviorTreeTask
     {
-        [FormerlySerializedAs("_targetSort")]
         [SerializeField]
         private TargetSort _sortBy;
 

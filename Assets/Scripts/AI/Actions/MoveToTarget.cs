@@ -10,8 +10,16 @@ using Random = UnityEngine.Random;
 
 namespace AI.Conditions
 {
+    public enum Purpose
+    {
+        Damage,
+        Heal
+    }
+    
     public class MoveToTarget : IBehaviorTreeTask
     {
+        [SerializeField]
+        private Purpose _purpose; 
         public async UniTask<bool> Run(Blackboard blackboard)
         {
             var targets = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
@@ -34,11 +42,16 @@ namespace AI.Conditions
             AbilitySystemActor target)
         {
             var movementAbility = AbilityAIPresentation.GetMoveAbility(caster);
-            var damageAbilities = AbilityAIPresentation.GetDamageAbilities(battleContext, caster, target);
-
-            foreach (var damageAbility in damageAbilities)
+            var targetAbilities = _purpose switch
             {
-                var cellsFromTarget = GetCellsForCastingAbility(damageAbility.AbilityData, target);
+                Purpose.Damage => AbilityAIPresentation.GetDamageAbilities(battleContext, caster, target),
+                Purpose.Heal => AbilityAIPresentation.GetAvailableHealAbilities(battleContext, caster, target),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            foreach (var damageAbility in targetAbilities)
+            {
+                var cellsFromTarget = GetCellsForCastingAbility(damageAbility.ability.AbilityData, target);
                 var intersect = movementAbility.AbilityData.Rules.GetAvailableCellPositions(battleContext, caster)
                     .Intersect(cellsFromTarget);
                 if (!intersect.Any())

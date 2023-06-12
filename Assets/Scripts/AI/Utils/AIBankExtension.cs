@@ -11,7 +11,7 @@ namespace AI.Utils
         {
             var enemies = entitiesBank.GetEntities()
                 .Where(en =>
-                    battleContext.GetRelationship(caster.BattleSide, en.BattleSide) == BattleRelationship.Enemy)
+                    battleContext.GetRelationship(caster.BattleSide, en.BattleSide) == relationship)
                 .Where(ent => !ent.StatusHolder.HasStatus(BattleStatus.Invisible));
             return enemies
                 .OrderBy(e => battleContext.BattleMap.GetGameDistanceBetween(e.Position, caster.Position))
@@ -23,7 +23,7 @@ namespace AI.Utils
         {
             var enemies = entitiesBank.GetEntities()
                 .Where(en =>
-                    battleContext.GetRelationship(caster.BattleSide, en.BattleSide) == BattleRelationship.Enemy)
+                    battleContext.GetRelationship(caster.BattleSide, en.BattleSide) == relationship)
                 .Where(ent => !ent.StatusHolder.HasStatus(BattleStatus.Invisible));
             return enemies
                 .OrderByDescending(e => entitiesBank.GetBattleCharacterData(e).CharacterData.CostValue)

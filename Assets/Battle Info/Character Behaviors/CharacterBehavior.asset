@@ -38,7 +38,6 @@ MonoBehaviour:
       data:
         _childrenTask:
         - rid: 8568508629255979011
-        - rid: 8568508629255979016
         - rid: 8568508629255979017
     - rid: 8568508629255979011
       type: {class: HasTargetsInRadius, ns: AI.Actions, asm: Assembly-CSharp}
@@ -46,7 +45,5 @@ MonoBehaviour:
         _sortBy: 0
         _relationship: 1
         _radius: 10
-    - rid: 8568508629255979016
-      type: {class: MoveToTarget, ns: AI.Conditions, asm: Assembly-CSharp}
     - rid: 8568508629255979017
       type: {class: DamageTarget, ns: AI.Actions, asm: Assembly-CSharp}

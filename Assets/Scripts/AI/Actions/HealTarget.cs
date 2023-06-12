@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace AI.Actions
 {
-    public class DamageTarget : IBehaviorTreeTask
+    public class HealTarget : IBehaviorTreeTask
     {
         public async UniTask<bool> Run(Blackboard blackboard)
         {
@@ -27,16 +27,14 @@ namespace AI.Actions
         private async UniTask<bool> TryExecuteTo(IBattleContext battleContext, AbilitySystemActor caster,
             AbilitySystemActor target)
         {
-            var availableDamageAbilities =
-                AbilityAIPresentation.GetAvailableDamageAbilities(battleContext, caster, target);
+            var availableHealAbilities =
+                AbilityAIPresentation.GetAvailableHealAbilities(battleContext, caster, target);
 
-            if (!availableDamageAbilities.Any())
+            if (!availableHealAbilities.Any())
                 return false;
 
             //Find first ability that kill target or deal maximum damage
-            var bestUseAbility = availableDamageAbilities.FirstOrDefault(ab => ab.Item2.Damage >=
-                                                                               target.LifeStats.Health).ability ??
-                                 availableDamageAbilities.Last().ability;
+            var bestUseAbility = availableHealAbilities.Last().ability;
 
             switch (bestUseAbility.AbilityData.TargetingSystem)
             {
