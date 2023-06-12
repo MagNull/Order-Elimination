@@ -24,27 +24,29 @@ MonoBehaviour:
   _avoidObject: []
   BehaviorTreeRoot:
     _childrenTask:
-    - rid: 8568508530668863498
+    - rid: 8568508629255979008
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
-    - rid: 8568508530668863498
+    - rid: 8568508629255979008
+      type: {class: BlackboardManager, ns: AI.Decorators, asm: Assembly-CSharp}
+      data:
+        _childrenTask:
+          rid: 8568508629255979010
+    - rid: 8568508629255979010
       type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
       data:
         _childrenTask:
-        - rid: 8568508628484227072
-    - rid: 8568508628484227072
-      type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
-      data:
-        _childrenTask:
-        - rid: 8568508628484227078
-        - rid: -2
-        - rid: -2
-    - rid: 8568508628484227078
+        - rid: 8568508629255979011
+        - rid: 8568508629255979016
+        - rid: 8568508629255979017
+    - rid: 8568508629255979011
       type: {class: HasTargetsInRadius, ns: AI.Actions, asm: Assembly-CSharp}
       data:
-        _targetSort: 0
+        _sortBy: 0
         _relationship: 1
         _radius: 10
+    - rid: 8568508629255979016
+      type: {class: MoveToTarget, ns: AI.Conditions, asm: Assembly-CSharp}
+    - rid: 8568508629255979017
+      type: {class: DamageTarget, ns: AI.Actions, asm: Assembly-CSharp}
