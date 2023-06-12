@@ -11,7 +11,7 @@ namespace AI.Utils
         {
             return caster.ActiveAbilities
                 .Where(ability => ability.IsCastAvailable(battleContext, caster))
-                .Select(ability => (ability, new AbilityImpact(ability.AbilityData, battleContext, caster, target)))
+                .Select(ability => (ability, new AbilityImpact(ability.AbilityData, battleContext, caster, target.Position)))
                 .Where(impact => impact.Item2.Damage > 0)
                 .Where(evaluatedAbility =>
                     evaluatedAbility.ability.AbilityData.Rules.GetAvailableCellPositions(battleContext, caster)
@@ -25,7 +25,7 @@ namespace AI.Utils
         {
             return caster.ActiveAbilities
                 .Where(ability => ability.IsCastAvailable(battleContext, caster))
-                .Select(ability => (ability, new AbilityImpact(ability.AbilityData, battleContext, caster, target)))
+                .Select(ability => (ability, new AbilityImpact(ability.AbilityData, battleContext, caster, target.Position)))
                 .Where(impact => impact.Item2.Damage > 0)
                 .OrderByDescending(evaluatedAbility => evaluatedAbility.Item2.Damage)
                 .Select(a => a.ability);

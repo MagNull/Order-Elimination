@@ -3,6 +3,7 @@ using System.Linq;
 using AI.Utils;
 using Cysharp.Threading.Tasks;
 using OrderElimination.AbilitySystem;
+using UnityEngine;
 
 namespace AI.Actions
 {
@@ -48,9 +49,21 @@ namespace AI.Actions
         private IEnumerable<(ActiveAbilityRunner ability, AbilityImpact)> GetAvailableDamageAbilities(
             IBattleContext battleContext, AbilitySystemActor caster, AbilitySystemActor target)
         {
+            var damages = caster.ActiveAbilities
+                .Where(ability => ability.IsCastAvailable(battleContext, caster))
+                .Select(ability => (ability, new AbilityImpact(ability.AbilityData, battleContext, caster, target.Position)))
+                .Where(impact => impact.Item2.Damage > 0)
+                .Where(evaluatedAbility =>
+                    evaluatedAbility.ability.AbilityData.Rules.GetAvailableCellPositions(battleContext, caster)
+                        .Contains(target.Position))
+                .OrderByDescending(evaluatedAbility => evaluatedAbility.Item2.Damage);
+            foreach (var valueTuple in damages)
+            {
+                Debug.Log(valueTuple.ability.AbilityData.View.Name + ": " + valueTuple.Item2.Damage);
+            }
             return caster.ActiveAbilities
                 .Where(ability => ability.IsCastAvailable(battleContext, caster))
-                .Select(ability => (ability, new AbilityImpact(ability.AbilityData, battleContext, caster, target)))
+                .Select(ability => (ability, new AbilityImpact(ability.AbilityData, battleContext, caster, target.Position)))
                 .Where(impact => impact.Item2.Damage > 0)
                 .Where(evaluatedAbility =>
                     evaluatedAbility.ability.AbilityData.Rules.GetAvailableCellPositions(battleContext, caster)
