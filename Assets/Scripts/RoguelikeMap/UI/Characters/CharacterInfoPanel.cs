@@ -19,6 +19,9 @@ namespace RoguelikeMap.UI.Characters
         private PassiveAbilityInfoPanel _passiveAbilityInfoPanel;
         [SerializeField] 
         private PickItemInventoryPresenter _playerInventoryPresenter;
+
+        [SerializeField]
+        private InventoryPresenter _characterInventoryPresenter;
         
         [Title("Character")]
         [SerializeField]
@@ -55,6 +58,7 @@ namespace RoguelikeMap.UI.Characters
             var activeAbilityInfos = character.GetActiveAbilityInfos().Skip(1).ToArray();
             _passiveAbilityInfos = character.GetPassiveAbilityInfos().ToArray();
             InitializeAbilityButtons(activeAbilityInfos);
+            _characterInventoryPresenter.InitInventoryModel(character.Inventory);
             if(_playerInventoryPresenter is not null)
                 _playerInventoryPresenter.UpdateTargetInventory(character.Inventory);
         }

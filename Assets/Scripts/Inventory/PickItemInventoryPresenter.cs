@@ -20,6 +20,7 @@ namespace Inventory_Items
         protected override void OnDisableAdditional()
         {
             _inventoryView.CellClicked -= OnCellClicked;
+            gameObject.SetActive(false);
         }
 
         private void OnCellClicked(IReadOnlyCell cell)
