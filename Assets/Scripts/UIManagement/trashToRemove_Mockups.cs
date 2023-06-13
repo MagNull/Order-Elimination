@@ -11,7 +11,7 @@ namespace UIManagement.trashToRemove_Mockups
     {
         private int Money = 1000;
         public CharacterTemplate TargetCharacter { get; private set; }
-        public int Cost => TargetCharacter.GetStrategyStats().CostOfUpgrade;
+        public int Cost => throw new System.NotImplementedException();//TargetCharacter.GetStrategyStats().CostOfUpgrade;
 
         public const int MaximumLevelCap = 10;
 
@@ -22,15 +22,16 @@ namespace UIManagement.trashToRemove_Mockups
 
         public bool TryUpgrade()
         {
-            if (TargetCharacter.GetStrategyStats().Lvl >= MaximumLevelCap)
-                return false;
-            var availableMoney = Money;
-            if (Cost > availableMoney)
-                return false;
-            TargetCharacter.Upgrade();
-            availableMoney -= Cost;
+            throw new System.NotImplementedException();
+            //if (TargetCharacter.GetStrategyStats().Lvl >= MaximumLevelCap)
+            //    return false;
+            //var availableMoney = Money;
+            //if (Cost > availableMoney)
+            //    return false;
+            //TargetCharacter.Upgrade();
+            //availableMoney -= Cost;
             //_playerInformation.SetMoney(availableMoney);
-            return true;
+            //return true;
         }
     }
 

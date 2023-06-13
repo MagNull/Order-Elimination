@@ -63,7 +63,6 @@ namespace OrderElimination
         public IReadOnlyBattleStats GetBattleStats() => null;
         public AbilityInfo[] GetActiveAbilityInfos() => null;
         public AbilityInfo[] GetPassiveAbilityInfos() => null;
-        public StrategyStats GetStrategyStats() => default;
 
         [Button]
         public void ResetInventory()
