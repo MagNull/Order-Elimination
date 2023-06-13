@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OrderElimination;
+using OrderElimination.MetaGame;
 using RoguelikeMap.Panels;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI.PointPanels;
@@ -19,13 +20,13 @@ namespace RoguelikeMap.Points.Models
         protected BattlePanel Panel => _panel as BattlePanel;
         
         public override PointType Type => PointType.Battle;
-        public IReadOnlyList<Character> Enemies => _enemies;
+        public IReadOnlyList<IGameCharacterData> Enemies => _enemies;
         public BattleScenario Scenario => _battleScenario;
 
         public override void Visit(Squad squad)
         {
             base.Visit(squad);
-            Panel.UpdateEnemies(Enemies);
+            Panel.UpdateEnemies(GameCharactersFactory.CreateGameEntities(Enemies));
             Panel.Open();
         }
     }

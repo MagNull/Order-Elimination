@@ -13,7 +13,7 @@ using System.Linq;
 namespace OrderElimination
 {
     [CreateAssetMenu(fileName = "CharacterInfo", menuName = "Battle/Character")]
-    public class Character : SerializedScriptableObject, IBattleCharacterInfo, IBattleCharacterData
+    public class Character : SerializedScriptableObject, IBattleCharacterInfo, IGameCharacterData
     {
         //New System
         [SerializeField]
@@ -25,21 +25,20 @@ namespace OrderElimination
         [SerializeField]
         private Sprite _viewAvatar;
         [ShowInInspector, OdinSerialize]
-        private ReadOnlyBaseStats _baseBattleStats;
+        private BaseBattleStats _baseBattleStats;
         [SerializeReference]
         private ActiveAbilityBuilder[] _activeAbilitiesData;
         [SerializeReference]
         private PassiveAbilityBuilder[] _passiveAbilitiesData;
         private Inventory_Items.Inventory _inventory = new Inventory_Items.Inventory(2);
         [ShowInInspector]
-
         public Inventory_Items.Inventory Inventory => _inventory;
 
 
         public string Name => _name;
         public Sprite BattleIcon => _viewIcon;
         public Sprite Avatar => _viewAvatar;
-        public ReadOnlyBaseStats BaseBattleStats => _baseBattleStats;
+        public BaseBattleStats BaseBattleStats => _baseBattleStats;
         
         [field: SerializeField]
         public int CostValue { get; private set; }

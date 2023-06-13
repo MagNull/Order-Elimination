@@ -1,5 +1,6 @@
 using System;
 using OrderElimination;
+using OrderElimination.MetaGame;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -24,19 +25,19 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
             _characterIcon = characterIcon;
         }
 
-        public CharacterCardWithHealthBar GenerateCardWithHealthBar(Character character,
+        public CharacterCardWithHealthBar GenerateCardWithHealthBar(GameCharacter character,
             Transform parent, bool isSelected = false) =>
             (CharacterCardWithHealthBar)Generate(character, CharacterCardType.HealthBar, parent, isSelected);
         
-        public CharacterCardWithCost GenerateCardWithCost(Character character,
+        public CharacterCardWithCost GenerateCardWithCost(GameCharacter character,
             Transform parent, bool isSelected = false) =>
             (CharacterCardWithCost)Generate(character, CharacterCardType.Cost, parent, isSelected);
 
-        public CharacterCard GenerateCardIcon(Character character,
+        public CharacterCard GenerateCardIcon(GameCharacter character,
             Transform parent, bool isSelected = false) => 
             Generate(character, CharacterCardType.Avatar, parent, isSelected);
         
-        private CharacterCard Generate(Character character, CharacterCardType type, Transform parent, bool isSelected)
+        private CharacterCard Generate(GameCharacter character, CharacterCardType type, Transform parent, bool isSelected)
         {
             CharacterCard card = type switch
             {

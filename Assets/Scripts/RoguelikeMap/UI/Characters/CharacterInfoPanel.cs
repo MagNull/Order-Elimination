@@ -3,6 +3,8 @@ using System.Linq;
 using CharacterAbility;
 using Inventory_Items;
 using OrderElimination;
+using OrderElimination.AbilitySystem;
+using OrderElimination.MetaGame;
 using RoguelikeMap.UI.Abilities;
 using Sirenix.OdinInspector;
 using TMPro;
@@ -46,26 +48,25 @@ namespace RoguelikeMap.UI.Characters
 
         private AbilityInfo[] _passiveAbilityInfos;
         
-        public void InitializeCharacterInfo(Character character)
+        public void InitializeCharacterInfo(GameCharacter character)
         {
-            _characterName.text = character.name;
-            _characterAvatar.sprite = character.Avatar;
-            var stats = character.GetBattleStats();
-            InitializeStatsText(stats);
-            var activeAbilityInfos = character.GetActiveAbilityInfos().Skip(1).ToArray();
-            _passiveAbilityInfos = character.GetPassiveAbilityInfos().ToArray();
-            InitializeAbilityButtons(activeAbilityInfos);
-            if(_playerInventoryPresenter is not null)
+            _characterName.text = character.CharacterData.Name;
+            _characterAvatar.sprite = character.CharacterData.Avatar;
+            InitializeStatsText(character.BattleStats);
+            //var activeAbilityInfos = character.GetActiveAbilityInfos().Skip(1).ToArray();
+            //_passiveAbilityInfos = character.GetPassiveAbilityInfos().ToArray();
+            //InitializeAbilityButtons(activeAbilityInfos);
+            if (_playerInventoryPresenter is not null)
                 _playerInventoryPresenter.UpdateTargetInventory(character.Inventory);
         }
 
-        private void InitializeStatsText(IReadOnlyBattleStats stats)
+        private void InitializeStatsText(IBattleStats stats)
         {
-            _hpText.text = $"{stats.Health}";
-            _damageText.text = $"{stats.Attack}";
-            _armorText.text = $"{stats.Armor}";
-            _evasionText.text = $"{stats.Evasion}";
-            _accuracyText.text = $"{stats.Accuracy}";
+            _hpText.text = $"{stats[BattleStat.MaxHealth].ModifiedValue}";
+            _damageText.text = $"{stats[BattleStat.AttackDamage].ModifiedValue}";
+            _armorText.text = $"{stats[BattleStat.MaxArmor].ModifiedValue}";
+            _evasionText.text = $"{stats[BattleStat.Evasion].ModifiedValue}";
+            _accuracyText.text = $"{stats[BattleStat.Accuracy].ModifiedValue}";
         }
 
         private void InitializeAbilityButtons(AbilityInfo[] activeAbilityInfos)

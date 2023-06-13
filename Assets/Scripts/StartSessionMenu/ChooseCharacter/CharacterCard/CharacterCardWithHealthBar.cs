@@ -1,5 +1,8 @@
 using OrderElimination;
+using OrderElimination.AbilitySystem;
+using OrderElimination.MetaGame;
 using RoguelikeMap;
+using UnityEngine;
 
 namespace StartSessionMenu.ChooseCharacter.CharacterCard
 {
@@ -7,10 +10,10 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
     {
         private HealthBar _healthBar;
 
-        public override void InitializeCard(Character character, bool isSelected)
+        public override void InitializeCard(GameCharacter character, bool isSelected)
         {
             _healthBar = GetComponentInChildren<HealthBar>();
-            _healthBar.SetMaxHealth((int)character.GetBattleStats().UnmodifiedHealth);
+            _healthBar.SetMaxHealth(Mathf.RoundToInt(character.BattleStats[BattleStat.MaxHealth].ModifiedValue));
             base.InitializeCard(character, isSelected);
         }
     }

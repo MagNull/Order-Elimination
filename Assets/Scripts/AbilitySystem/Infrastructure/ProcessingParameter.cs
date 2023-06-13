@@ -8,18 +8,28 @@ namespace OrderElimination.Infrastructure
 {
     public class ProcessingParameter<TValue>
     {
+        private TValue _unmodifiedValue = default;
+        private readonly List<Func<TValue, TValue>> modifyingFormulas = new();
+
         /// <summary>
         /// Change of this value can NOT be reverted.
         /// </summary>
-        public TValue UnmodifiedValue { get; private set; } = default;
+        public TValue UnmodifiedValue
+        {
+            get => _unmodifiedValue;
+            set
+            {
+                _unmodifiedValue = value;
+                ModifiedValue = GetRecalculatedModifiedValue();
+                ValueChanged?.Invoke(this);
+            }
+        }
         /// <summary>
         /// Change of this value can be reverted.
         /// </summary>
         public TValue ModifiedValue { get; private set; } = default;
 
         public event Action<ProcessingParameter<TValue>> ValueChanged;
-
-        private readonly List<Func<TValue, TValue>> modifyingFormulas = new List<Func<TValue, TValue>>();
 
         public ProcessingParameter(TValue initialValue = default)
         {

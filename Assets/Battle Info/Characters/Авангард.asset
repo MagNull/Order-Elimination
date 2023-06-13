@@ -23,7 +23,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: _baseBattleStats
       Entry: 7
-      Data: OrderElimination.Domain.ReadOnlyBaseStats, Assembly-CSharp
+      Data: OrderElimination.Domain.BaseBattleStats, Assembly-CSharp
     - Name: _maxHealth
       Entry: 4
       Data: 100
@@ -45,60 +45,13 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  _entityType: 0
+  _name: "\u0410\u0432\u0430\u043D\u0433\u0430\u0440\u0434"
+  _viewIcon: {fileID: 21300000, guid: 92048caf1ede0b047813c866a2d0dfa2, type: 3}
+  _viewAvatar: {fileID: 21300000, guid: e25d54ec6e9dfdf4ead58bc3d6235afe, type: 3}
   _activeAbilitiesData:
   - {fileID: 11400000, guid: fb2695349bee1d84195b8fc1b04ce80a, type: 2}
   - {fileID: 11400000, guid: c0cf65f57e2191148bc38ebd9f35695d, type: 2}
   - {fileID: 11400000, guid: 55e066a198256434bada3b34a684b583, type: 2}
   - {fileID: 11400000, guid: 486948f134345aa47a139b0842c99133, type: 2}
   _passiveAbilitiesData: []
-  _baseStats:
-    _health: 100
-    _unmodifiedHealth: 100
-    _attack: 35
-    _unmodifiedAttack: 35
-    _armor: 150
-    _unmodifiedArmor: 150
-    _additionalArmor: 0
-    _evasion: 10
-    _unmodifiedEvasion: 10
-    _accuracy: 90
-    _unmodifiedAccuracy: 90
-    _movement: 4
-    _unmodifiedMovement: 4
-    _damageModificator: 0
-  _battleStats:
-    _health: 100
-    _unmodifiedHealth: 100
-    _attack: 35
-    _unmodifiedAttack: 35
-    _armor: 150
-    _unmodifiedArmor: 150
-    _additionalArmor: 0
-    _evasion: 10
-    _unmodifiedEvasion: 10
-    _accuracy: 90
-    _unmodifiedAccuracy: 90
-    _movement: 4
-    _unmodifiedMovement: 4
-    _damageModificator: 0
-  _strategyStats:
-    Lvl: 1
-    CostOfUpgrade: 250
-    HealthGrowth: 1
-    AttackGrowth: 2
-    ArmorGrowth: 2
-    EvasionGrowth: 1
-    AccuracyGrowth: 0
-  _name: "\u0410\u0432\u0430\u043D\u0433\u0430\u0440\u0434"
-  _viewIcon: {fileID: 21300000, guid: 92048caf1ede0b047813c866a2d0dfa2, type: 3}
-  _viewAvatar: {fileID: 21300000, guid: e25d54ec6e9dfdf4ead58bc3d6235afe, type: 3}
-  _activeAbilities:
-  - {fileID: 11400000, guid: 377b9520ee2226943b6a5eed2b1f24c3, type: 2}
-  - {fileID: 11400000, guid: 4bbc8189df45d9b468004676e6134824, type: 2}
-  - {fileID: 11400000, guid: ecb772f37299f09419d20450a822b2e8, type: 2}
-  - {fileID: 11400000, guid: d4bfad28aeb6e8e488b5ae14b1d4f94f, type: 2}
-  - {fileID: 11400000, guid: 86b27f6ca51a9a944acfa53829702c6d, type: 2}
-  _passiveAbilities:
-  - {fileID: 11400000, guid: 16bf9bb2400d3dd4b9594f1f6c44c4bb, type: 2}
-  - {fileID: 11400000, guid: 601a2993801f0b34b8ed8ecab5405e29, type: 2}
+  <CostValue>k__BackingField: 0

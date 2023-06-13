@@ -1,4 +1,5 @@
 ﻿using OrderElimination.Infrastructure;
+using OrderElimination.MetaGame;
 using System;
 using UnityEngine;
 using VContainer;
@@ -18,7 +19,7 @@ namespace OrderElimination.AbilitySystem
         }
 
         public AbilitySystemActor SpawnCharacter(
-            IBattleCharacterData characterData, 
+            IGameCharacterData characterData, 
             BattleSide side,
             Vector2Int position)
         {

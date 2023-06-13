@@ -12,6 +12,7 @@ using OrderElimination.AbilitySystem;
 using OrderElimination;
 using UnityEngine.Serialization;
 using BattleStats = OrderElimination.AbilitySystem.BattleStats;
+using OrderElimination.MetaGame;
 
 namespace UIManagement
 {

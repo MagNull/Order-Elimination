@@ -89,31 +89,34 @@ namespace OrderElimination.AbilitySystem
                 return true;
             return false;
         }
-        public ProcessingParameter<float> this[BattleStat battleStat] => GetParameter(battleStat);
-        public ProcessingParameter<float> GetParameter(BattleStat battleStat)
+        public ProcessingParameter<float> this[BattleStat battleStat]
         {
-            if (!HasParameter(battleStat)) throw new ArgumentException();
-            return battleStat switch
+            get
             {
-                BattleStat.MaxHealth => MaxHealth,
-                BattleStat.MaxArmor => MaxArmor,
-                BattleStat.AttackDamage => AttackDamage,
-                BattleStat.Accuracy => Accuracy,
-                BattleStat.Evasion => Evasion,
-                BattleStat.MaxMovementDistance => MaxMovementDistance,
-                _ => throw new ArgumentException(),
-            };
+                if (!HasParameter(battleStat)) throw new ArgumentException();
+                return battleStat switch
+                {
+                    BattleStat.MaxHealth => MaxHealth,
+                    BattleStat.MaxArmor => MaxArmor,
+                    BattleStat.AttackDamage => AttackDamage,
+                    BattleStat.Accuracy => Accuracy,
+                    BattleStat.Evasion => Evasion,
+                    BattleStat.MaxMovementDistance => MaxMovementDistance,
+                    _ => throw new ArgumentException(),
+                };
+            }
+
         }
 
         public event Action<ILifeBattleStats> HealthDepleted;
 
-        public BattleStats(ReadOnlyBaseStats baseStats)
+        public BattleStats(BaseBattleStats baseStats)
         {
-            MaxHealth.SetUnmodifiedValue(baseStats.MaxHealth);
-            MaxArmor.SetUnmodifiedValue(baseStats.MaxArmor);
-            AttackDamage.SetUnmodifiedValue(baseStats.AttackDamage);
-            Accuracy.SetUnmodifiedValue(baseStats.Accuracy);
-            Evasion.SetUnmodifiedValue(baseStats.Evasion);
+            MaxHealth.UnmodifiedValue = baseStats.MaxHealth;
+            MaxArmor.UnmodifiedValue = baseStats.MaxArmor;
+            AttackDamage.UnmodifiedValue = baseStats.AttackDamage;
+            Accuracy.UnmodifiedValue = baseStats.Accuracy;
+            Evasion.UnmodifiedValue = baseStats.Evasion;
             MaxMovementDistance.SetUnmodifiedValue(baseStats.MaxMovementDistance);
 
             _battleStatEnums = new()
@@ -136,7 +139,7 @@ namespace OrderElimination.AbilitySystem
             {
                 if (HasParameter(stat))
                 {
-                    GetParameter(stat).ValueChanged += OnStatsChanged;
+                    this[stat].ValueChanged += OnStatsChanged;
                 }
             }
         }
