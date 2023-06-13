@@ -33,10 +33,10 @@ namespace Inventory_Items
 
         private void OnEnable()
         {
-            _inventoryView.UpdateCells(_inventoryModel.Cells);
-            _inventoryModel.OnCellAdded += _inventoryView.OnCellAdded;
-            _inventoryModel.OnCellChanged += _inventoryView.OnCellChanged;
-            _inventoryModel.OnCellRemoved += _inventoryView.OnCellRemoved;
+            //_inventoryView.UpdateCells(_inventoryModel.Cells);
+            //_inventoryModel.OnCellAdded += _inventoryView.OnCellAdded;
+            //_inventoryModel.OnCellChanged += _inventoryView.OnCellChanged;
+            //_inventoryModel.OnCellRemoved += _inventoryView.OnCellRemoved;
             OnEnableAdditional();
         }
 

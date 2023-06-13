@@ -37,7 +37,7 @@ public class BattleCharacterFactory : MonoBehaviour
             IDamageCalculation damageCalculation = new SimpleDamageCalculation();
 
             character = new RandomEnemyAI(_map,
-                new OrderElimination.BattleStats(info.GetBattleStats()), damageCalculation, _characterBank);
+                new OrderElimination.OldBattleStats(info.GetBattleStats()), damageCalculation, _characterBank);
             List<AIAbility> abilitiesInfo = new List<AIAbility>();
             foreach (var activeAbilityInfo in info.GetActiveAbilityInfos().Skip(1))
             {
@@ -61,7 +61,7 @@ public class BattleCharacterFactory : MonoBehaviour
         }
         else
         {
-            character = new BattleCharacter(type, new OrderElimination.BattleStats(info.GetBattleStats()),
+            character = new BattleCharacter(type, new OrderElimination.OldBattleStats(info.GetBattleStats()),
                 new SimpleDamageCalculation());
         }
 

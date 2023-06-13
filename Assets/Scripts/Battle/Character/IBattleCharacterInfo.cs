@@ -2,11 +2,13 @@ using CharacterAbility;
 using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Domain;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 //Deprecated
-public interface IBattleCharacterInfo : IBattleCharacterData
+[Obsolete("Deprecated. Use " + nameof(IGameCharacterData) + " instead.")]
+public interface IBattleCharacterInfo : IGameCharacterData
 {
     public IReadOnlyBattleStats GetBattleStats();
     public string Name { get; }
@@ -17,12 +19,12 @@ public interface IBattleCharacterInfo : IBattleCharacterData
 }
 
 //New
-public interface IBattleCharacterData//Rename to IBattleCharacterInfo
+public interface IGameCharacterData//Rename to IBattleCharacterInfo
 {
     public string Name { get; }
     public Sprite BattleIcon { get; }
     public Sprite Avatar { get; }
-    public ReadOnlyBaseStats BaseBattleStats { get; }
+    public BaseBattleStats BaseBattleStats { get; }
 
     public int CostValue { get; }
 

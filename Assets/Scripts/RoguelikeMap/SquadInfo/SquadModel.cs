@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using OrderElimination.MetaGame;
+using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.UI.Characters;
 using UnityEngine;
@@ -8,28 +11,30 @@ namespace OrderElimination
 {
     public class SquadModel
     {
-        private List<Character> _members;
+        private List<GameCharacter> _members;
         private SquadMembersPanel _panel;
         private int _activeMembersCount = 3;
         
-        public IReadOnlyList<Character> ActiveMembers =>
+        public IReadOnlyList<GameCharacter> ActiveMembers =>
             _members.GetRange(0, _activeMembersCount);
-        public IReadOnlyList<Character> InactiveMembers => 
+        public IReadOnlyList<GameCharacter> InactiveMembers => 
             _members.GetRange(_activeMembersCount, _members.Count - _activeMembersCount);
         public PointModel Point { get; private set; }
         public int AmountOfMembers => _members.Count;
-        public IReadOnlyList<Character> Members => _members;
+        public IReadOnlyList<GameCharacter> Members => _members;
 
         public event Action OnUpdateSquadMembers;
         
-        public SquadModel(List<Character> members, SquadMembersPanel squadMembersPanel)
+        public SquadModel(IEnumerable<GameCharacter> members, SquadMembersPanel squadMembersPanel)
         {
-            if (members.Count == 0)
+            var characters = members.ToList();
+            if (characters.Count == 0)
                 return;
             //First three members are active
-            SetSquadMembers(members, _activeMembersCount);
-            
-            UpgradeCharacters();
+            SetSquadMembers(characters, _activeMembersCount);
+
+            //TODO: Restore upgrades
+            //UpgradeCharacters();
             SetPanel(squadMembersPanel);
         }
         
@@ -39,9 +44,9 @@ namespace OrderElimination
             panel.UpdateMembers(ActiveMembers, InactiveMembers);
         }
 
-        public void Add(Character member) => _members.Add(member);
+        public void Add(GameCharacter member) => _members.Add(member);
 
-        public void RemoveCharacter(Character member)
+        public void RemoveCharacter(GameCharacter member)
         {
             if (!_members.Contains(member))
                 throw new ArgumentException("No such character in squad");
@@ -52,23 +57,25 @@ namespace OrderElimination
         {
             foreach (var member in _members)
             {
-                member.Upgrade();
+                member.Upgrade(1.1f, 1.1f, 1.2f, 1.05f, 1.02f);
             }
         }
 
         public void DistributeExperience(float expirience)
         {
+            throw new NotImplementedException();
             foreach (var member in _members)
             {
-                member.RaiseExperience(expirience / AmountOfMembers);
+                //member.RaiseExperience(expirience / AmountOfMembers);
             }
         }
         
         public void HealCharacters(int amountHeal)
         {
+            throw new NotImplementedException();
             foreach (var member in _members)
             {
-                member.Heal(amountHeal);
+                //member.Heal(amountHeal);
             }
         }
         
@@ -77,9 +84,9 @@ namespace OrderElimination
             Point = point;
         }
 
-        public void SetSquadMembers(List<Character> characters, int activeMembersCount)
+        public void SetSquadMembers(IEnumerable<GameCharacter> characters, int activeMembersCount)
         {
-            _members = characters;
+            _members = characters.ToList();
             _activeMembersCount = activeMembersCount;
             Debug.Log(activeMembersCount);
             OnUpdateSquadMembers?.Invoke();

@@ -51,7 +51,7 @@ public class RandomEnemyAI : BattleCharacter
     private List<AIAbility> _abilities;
     private AIAbility _currentAIAbility;
 
-    public RandomEnemyAI(BattleMap map, BattleStats battleStats, IDamageCalculation damageCalculation,
+    public RandomEnemyAI(BattleMap map, OldBattleStats battleStats, IDamageCalculation damageCalculation,
         IReadOnlyCharacterBank characterBank)
         : base(BattleObjectType.Enemy, battleStats, damageCalculation)
     {

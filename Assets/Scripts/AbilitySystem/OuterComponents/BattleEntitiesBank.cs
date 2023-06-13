@@ -1,13 +1,8 @@
-﻿using DG.Tweening;
-using OrderElimination.AbilitySystem;
-using OrderElimination.Infrastructure;
+﻿using OrderElimination.Infrastructure;
+using OrderElimination.MetaGame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEditor;
-using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -55,7 +50,7 @@ namespace OrderElimination.AbilitySystem
             return _basedStructures[structureEntity];
         }
 
-        public void AddCharacterEntity(AbilitySystemActor entity, BattleEntityView view, IBattleCharacterData basedData)
+        public void AddCharacterEntity(AbilitySystemActor entity, BattleEntityView view, IGameCharacterData basedData)
         {
             if (entity.EntityType != EntityType.Character)
                 throw new InvalidOperationException("Attempt to add non-character entity.");

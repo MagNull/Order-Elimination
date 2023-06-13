@@ -7,8 +7,7 @@ namespace OrderElimination.AbilitySystem
     {
         public event Action<BattleStat> StatsChanged;
         public bool HasParameter(BattleStat battleStat);
-        public ProcessingParameter<float> this[BattleStat battleStat] => GetParameter(battleStat);
-        public ProcessingParameter<float> GetParameter(BattleStat battleStat);
+        public ProcessingParameter<float> this[BattleStat battleStat] { get; }
     }
 
     public enum BattleStat
@@ -21,7 +20,7 @@ namespace OrderElimination.AbilitySystem
         MaxMovementDistance
     }
 
-    public interface ILifeBattleStats
+    public interface ILifeBattleStats : IBattleStats
     {
         public ProcessingParameter<float> MaxHealth { get; }
         public ProcessingParameter<float> MaxArmor { get; } //ValueChanged += Update Armor

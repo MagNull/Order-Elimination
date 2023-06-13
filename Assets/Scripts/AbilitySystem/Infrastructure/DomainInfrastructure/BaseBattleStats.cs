@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace OrderElimination.Domain
 {
-    public struct ReadOnlyBaseStats
+    public struct BaseBattleStats
     {
         [OdinSerialize, HideInInspector]
         private float _maxHealth;
@@ -28,7 +28,7 @@ namespace OrderElimination.Domain
         public float MaxHealth
         {
             get => _maxHealth;
-            set
+            private set
             {
                 if (value < 0) value = 0;
                 _maxHealth = value;
@@ -39,7 +39,7 @@ namespace OrderElimination.Domain
         public float MaxArmor
         {
             get => _maxArmor;
-            set
+            private set
             {
                 if (value < 0) value = 0;
                 _maxArmor = value;
@@ -50,7 +50,7 @@ namespace OrderElimination.Domain
         public float AttackDamage
         {
             get => _attackDamage;
-            set
+            private set
             {
                 if (value < 0) value = 0;
                 _attackDamage = value;
@@ -62,7 +62,7 @@ namespace OrderElimination.Domain
         public float Accuracy
         {
             get => _accuracy;
-            set
+            private set
             {
                 if (value < 0) value = 0;
                 if (value > 1) value = 1;
@@ -75,7 +75,7 @@ namespace OrderElimination.Domain
         public float Evasion
         {
             get => _evasion;
-            set
+            private set
             {
                 if (value < 0) value = 0;
                 if (value > 1) value = 1;
@@ -87,14 +87,14 @@ namespace OrderElimination.Domain
         public float MaxMovementDistance
         {
             get => _maxMovementDistance;
-            set
+            private set
             {
                 if (value < 0) value = 0;
                 _maxMovementDistance = value;
             }
         }
 
-        public ReadOnlyBaseStats(float maxHealth, float maxArmor, float attack, float accuracy, float evasion, float movement)
+        public BaseBattleStats(float maxHealth, float maxArmor, float attack, float accuracy, float evasion, float movement)
         {
             _maxHealth = Mathf.Max(0, maxHealth);
             _maxArmor = Mathf.Max(0, maxArmor);

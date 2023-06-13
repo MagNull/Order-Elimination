@@ -41,7 +41,7 @@ public class BattleCharacter : IActor
     [ShowInInspector]
     private readonly BattleObjectType _type;
     [SerializeField]
-    private BattleStats _battleStats;
+    private OldBattleStats _battleStats;
     private IDamageCalculation _damageCalculation;
 
     [ShowInInspector]
@@ -62,7 +62,7 @@ public class BattleCharacter : IActor
 
     public IReadOnlyBattleStats Stats => _battleStats;
 
-    public BattleCharacter(BattleObjectType type, BattleStats battleStats, IDamageCalculation damageCalculation)
+    public BattleCharacter(BattleObjectType type, OldBattleStats battleStats, IDamageCalculation damageCalculation)
     {
         _damageCalculation = damageCalculation;
         _type = type;

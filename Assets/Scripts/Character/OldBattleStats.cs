@@ -4,7 +4,7 @@ using UnityEngine;
 namespace OrderElimination
 {
     [Serializable]
-    public struct BattleStats : IReadOnlyBattleStats
+    public struct OldBattleStats : IReadOnlyBattleStats
     {
         [SerializeField]
         private float _health;
@@ -35,7 +35,8 @@ namespace OrderElimination
         [SerializeField]
         private DamageModificator _damageModificator;
 
-        public BattleStats(IReadOnlyBattleStats other)
+        [Obsolete]
+        public OldBattleStats(IReadOnlyBattleStats other)
         {
             _health = other.Health;
             _unmodifiedHealth = other.UnmodifiedHealth == 0 ? other.Health : other.UnmodifiedHealth;
@@ -306,6 +307,7 @@ namespace OrderElimination
         }
     }
 
+    [Obsolete]
     public interface IReadOnlyBattleStats
     {
         float Health { get; }
