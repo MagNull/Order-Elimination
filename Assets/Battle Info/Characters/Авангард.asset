@@ -21,37 +21,21 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: _baseBattleStats
-      Entry: 7
-      Data: OrderElimination.MetaGame.GameCharacterStats, Assembly-CSharp
-    - Name: _maxHealth
-      Entry: 4
-      Data: 100
-    - Name: _maxArmor
-      Entry: 4
+    - Name: CostValue
+      Entry: 3
       Data: 0
-    - Name: _attackDamage
-      Entry: 4
-      Data: 0
-    - Name: _accuracy
-      Entry: 4
-      Data: 0
-    - Name: _evasion
-      Entry: 4
-      Data: 0
-    - Name: _maxMovementDistance
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
   _name: "\u0410\u0432\u0430\u043D\u0433\u0430\u0440\u0434"
   _viewIcon: {fileID: 21300000, guid: 92048caf1ede0b047813c866a2d0dfa2, type: 3}
   _viewAvatar: {fileID: 21300000, guid: e25d54ec6e9dfdf4ead58bc3d6235afe, type: 3}
+  _maxHealth: 100
+  _maxArmor: 150
+  _attackDamage: 35
+  _accuracy: 0.9
+  _evasion: 0.1
+  _maxMovementDistance: 4
   _activeAbilitiesData:
   - {fileID: 11400000, guid: fb2695349bee1d84195b8fc1b04ce80a, type: 2}
   - {fileID: 11400000, guid: c0cf65f57e2191148bc38ebd9f35695d, type: 2}
   - {fileID: 11400000, guid: 55e066a198256434bada3b34a684b583, type: 2}
   - {fileID: 11400000, guid: 486948f134345aa47a139b0842c99133, type: 2}
   _passiveAbilitiesData: []
-  <CostValue>k__BackingField: 0

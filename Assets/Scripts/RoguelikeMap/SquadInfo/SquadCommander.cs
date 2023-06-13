@@ -77,8 +77,8 @@ namespace RoguelikeMap.SquadInfo
         {
             SaveSquadPosition();
             var charactersMediator = _objectResolver.Resolve<CharactersMediator>();
-            charactersMediator.SetPlayerSquad(_squad.Members);
-            charactersMediator.SetEnemies(enemies);
+            charactersMediator.SetPlayerCharacters(_squad.Members);
+            charactersMediator.SetEnemyCharacters(enemies);
             charactersMediator.SetScenario(scenario);
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();

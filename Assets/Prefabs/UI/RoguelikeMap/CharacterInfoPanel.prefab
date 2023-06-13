@@ -1132,7 +1132,6 @@ GameObject:
   m_Component:
   - component: {fileID: 119416487318504075}
   - component: {fileID: 2925239312758674785}
-  - component: {fileID: 6328294957723848358}
   - component: {fileID: 4905458205123069868}
   - component: {fileID: 5152532097169764016}
   m_Layer: 5
@@ -1170,19 +1169,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1244246934966934281}
   m_CullTransparentMesh: 1
---- !u!114 &6328294957723848358
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1244246934966934281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02333b3f3e7149c6b74f79468849b828, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _abilityImage: {fileID: 4905458205123069868}
 --- !u!114 &4905458205123069868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1257,7 +1243,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6328294957723848358}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RoguelikeMap.Panels.AbilityButton, Assembly-CSharp
         m_MethodName: OnMouseDown
         m_Mode: 1
@@ -1355,7 +1341,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1151463927252896898}
   - component: {fileID: 6617909647248248502}
-  - component: {fileID: 8447254172031576991}
   - component: {fileID: 1652211317137861363}
   - component: {fileID: 6341760965749002702}
   m_Layer: 5
@@ -1393,19 +1378,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1559297942559472605}
   m_CullTransparentMesh: 1
---- !u!114 &8447254172031576991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1559297942559472605}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99d4f9833174480f80d426f23f71aa8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _abilityImage: {fileID: 1652211317137861363}
 --- !u!114 &1652211317137861363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1480,7 +1452,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8447254172031576991}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RoguelikeMap.Panels.PassiveAbilityButton, Assembly-CSharp
         m_MethodName: OnMouseDown
         m_Mode: 1
@@ -2012,7 +1984,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2385874951560352785}
   - component: {fileID: 7886918998050347334}
-  - component: {fileID: 3721043072850339549}
   - component: {fileID: 65562573375881600}
   - component: {fileID: 2368674813981085194}
   m_Layer: 5
@@ -2050,19 +2021,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2760045341031877726}
   m_CullTransparentMesh: 1
---- !u!114 &3721043072850339549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2760045341031877726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02333b3f3e7149c6b74f79468849b828, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _abilityImage: {fileID: 65562573375881600}
 --- !u!114 &65562573375881600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2137,7 +2095,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3721043072850339549}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RoguelikeMap.Panels.AbilityButton, Assembly-CSharp
         m_MethodName: OnMouseDown
         m_Mode: 1
@@ -2159,7 +2117,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3831678557847561531}
   - component: {fileID: 7060444619385742602}
-  - component: {fileID: 3171490710021900807}
   - component: {fileID: 7308161939849014011}
   - component: {fileID: 3425848095723623684}
   m_Layer: 5
@@ -2197,19 +2154,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2806972900662263723}
   m_CullTransparentMesh: 1
---- !u!114 &3171490710021900807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2806972900662263723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02333b3f3e7149c6b74f79468849b828, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _abilityImage: {fileID: 7308161939849014011}
 --- !u!114 &7308161939849014011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2284,7 +2228,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3171490710021900807}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RoguelikeMap.Panels.AbilityButton, Assembly-CSharp
         m_MethodName: OnMouseDown
         m_Mode: 1
@@ -3929,6 +3873,7 @@ MonoBehaviour:
   _abilityInfoPanel: {fileID: 0}
   _passiveAbilityInfoPanel: {fileID: 0}
   _playerInventoryPresenter: {fileID: 0}
+  _characterInventoryPresenter: {fileID: 0}
   _characterName: {fileID: 7525290646176372465}
   _characterAvatar: {fileID: 7644588219955235284}
   _hpText: {fileID: 3053842952989239441}
@@ -3937,13 +3882,13 @@ MonoBehaviour:
   _evasionText: {fileID: 4462173948846546}
   _accuracyText: {fileID: 2774280454054734558}
   _activeAbilityButtons:
-  - {fileID: 6328294957723848358}
-  - {fileID: 3171490710021900807}
-  - {fileID: 9137370774674856678}
-  - {fileID: 3721043072850339549}
+  - {fileID: 5152532097169764016}
+  - {fileID: 3425848095723623684}
+  - {fileID: 3607509158309797032}
+  - {fileID: 2368674813981085194}
   _passiveAbilityButtons:
-  - {fileID: 6270352672098852636}
-  - {fileID: 8447254172031576991}
+  - {fileID: 2095414883745121028}
+  - {fileID: 6341760965749002702}
 --- !u!1 &4961055834749717535
 GameObject:
   m_ObjectHideFlags: 0
@@ -5571,7 +5516,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7182508133406645511}
   - component: {fileID: 1145395630287844582}
-  - component: {fileID: 6270352672098852636}
   - component: {fileID: 6780792655292427935}
   - component: {fileID: 2095414883745121028}
   m_Layer: 5
@@ -5609,19 +5553,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7346859891321060694}
   m_CullTransparentMesh: 1
---- !u!114 &6270352672098852636
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7346859891321060694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99d4f9833174480f80d426f23f71aa8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _abilityImage: {fileID: 6780792655292427935}
 --- !u!114 &6780792655292427935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5696,7 +5627,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6270352672098852636}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RoguelikeMap.Panels.PassiveAbilityButton, Assembly-CSharp
         m_MethodName: OnMouseDown
         m_Mode: 1
@@ -5783,7 +5714,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6301707176111827092}
   - component: {fileID: 4447558140579602494}
-  - component: {fileID: 9137370774674856678}
   - component: {fileID: 8749560532359254275}
   - component: {fileID: 3607509158309797032}
   m_Layer: 5
@@ -5821,19 +5751,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7793474778841980726}
   m_CullTransparentMesh: 1
---- !u!114 &9137370774674856678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7793474778841980726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02333b3f3e7149c6b74f79468849b828, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _abilityImage: {fileID: 8749560532359254275}
 --- !u!114 &8749560532359254275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5908,7 +5825,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9137370774674856678}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RoguelikeMap.Panels.AbilityButton, Assembly-CSharp
         m_MethodName: OnMouseDown
         m_Mode: 1

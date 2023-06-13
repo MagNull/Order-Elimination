@@ -14,12 +14,18 @@ namespace OrderElimination.AbilitySystem
         //public VideoClip PreviewVideo { get; }
         public IReadOnlyDictionary<int, Color> TargetGroupsHighlightColors { get; }
 
-        public AbilityView(IReadOnlyDictionary<int, Color> groupColors, string name, Sprite icon, string description) 
+        public bool HideInCharacterDiscription { get; }
+
+        public AbilityView(
+            IReadOnlyDictionary<int, Color> groupColors, 
+            string name, Sprite icon, string description, 
+            bool hideInCharacterDiscription) 
         {
             Name = name;
             Icon = icon;
-            Description = description;
+            Description = description ?? "";
             TargetGroupsHighlightColors = groupColors;
+            HideInCharacterDiscription = hideInCharacterDiscription;
         }
     }
 }

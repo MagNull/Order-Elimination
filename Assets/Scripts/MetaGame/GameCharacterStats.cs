@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace OrderElimination.MetaGame
 {
+    [Serializable]
     public struct GameCharacterStats : IReadOnlyGameCharacterStats
     {
         [OdinSerialize, HideInInspector]

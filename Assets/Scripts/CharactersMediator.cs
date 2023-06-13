@@ -16,24 +16,21 @@ namespace OrderElimination
         [ShowInInspector, OdinSerialize]
         private List<IGameCharacterTemplate> _testEnemyCharacters = new();
 
-        //[HideInInspector, OdinSerialize]
         private List<GameCharacter> _playerCharacters;
-        //[HideInInspector, OdinSerialize] 
         private List<GameCharacter> _enemyCharacters;
+
         [OdinSerialize]
         public BattleScenario BattleScenario { get; private set; }
 
-        public IEnumerable<GameCharacter> GetPlayerCharactersInfo()
+        public IEnumerable<GameCharacter> GetPlayerCharacters()
             => _playerCharacters ?? GameCharactersFactory.CreateGameEntities(_testPlayerCharacters);
-
-        public IEnumerable<GameCharacter> GetEnemyCharactersInfo()
+        public IEnumerable<GameCharacter> GetEnemyCharacters()
             => _enemyCharacters ?? GameCharactersFactory.CreateGameEntities(_testEnemyCharacters);
-        public void SetPlayerSquad(IEnumerable<GameCharacter> battleStatsList)
+        public void SetPlayerCharacters(IEnumerable<GameCharacter> battleStatsList)
             => _playerCharacters = battleStatsList.ToList();
-        public void SetEnemies(IEnumerable<GameCharacter> battleStatsList)
+        public void SetEnemyCharacters(IEnumerable<GameCharacter> battleStatsList)
             => _enemyCharacters = battleStatsList.ToList();
         public void SetScenario(BattleScenario scenario) => BattleScenario = scenario;
-
 
         private void Awake() => DontDestroyOnLoad(gameObject);
     }
