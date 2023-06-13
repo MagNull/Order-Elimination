@@ -1,6 +1,7 @@
 using System;
 using OrderElimination;
 using OrderElimination.MetaGame;
+using RoguelikeMap.UI.Characters;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -13,16 +14,18 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         private CharacterCardWithHealthBar _characterWithHealthBar;
         private CharacterCardWithCost _characterCardWithCost;
         private CharacterCard _characterIcon;
+        private CharacterInfoPanel _characterInfoPanel;
 
         [Inject]
         public CharacterCardGenerator(IObjectResolver objectResolver,
             CharacterCardWithHealthBar cardWithHealthBar, CharacterCardWithCost cardWithCost,
-            CharacterCard characterIcon)
+            CharacterCard characterIcon, CharacterInfoPanel characterInfoPanel)
         {
             _objectResolver = objectResolver;
             _characterWithHealthBar = cardWithHealthBar;
             _characterCardWithCost = cardWithCost;
             _characterIcon = characterIcon;
+            _characterInfoPanel = characterInfoPanel;
         }
 
         public CharacterCardWithHealthBar GenerateCardWithHealthBar(GameCharacter character,
@@ -48,6 +51,11 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
             };
             
             card.InitializeCard(character, isSelected);
+            card.OnGetInfo += (characterCard) =>
+            {
+                _characterInfoPanel.InitializeCharacterInfo(characterCard.Character);
+                _characterInfoPanel.Open();
+            };
 
             return card;
         }

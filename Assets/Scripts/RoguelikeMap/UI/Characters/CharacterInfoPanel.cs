@@ -54,7 +54,7 @@ namespace RoguelikeMap.UI.Characters
         public void InitializeCharacterInfo(GameCharacter character)
         {
             if(_playerInventoryPresenter is not null)
-            _characterInventoryPresenter.InitInventoryModel(character.Inventory);
+                _characterInventoryPresenter.InitInventoryModel(character.Inventory);
             InitializeStatsText(
                 character.CharacterStats.MaxHealth,
                 character.CharacterStats.MaxArmor,
@@ -63,7 +63,7 @@ namespace RoguelikeMap.UI.Characters
                 character.CharacterStats.Evasion);
             _characterAvatar.sprite = character.CharacterData.Avatar;
             _characterName.text = character.CharacterData.Name;
-                _playerInventoryPresenter.UpdateTargetInventory(character.Inventory);
+            _playerInventoryPresenter.UpdateTargetInventory(character.Inventory);
         }
 
         private void InitializeStatsText(
