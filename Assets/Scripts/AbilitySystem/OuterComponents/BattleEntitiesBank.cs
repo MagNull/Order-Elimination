@@ -1,13 +1,8 @@
-﻿using DG.Tweening;
-using OrderElimination.AbilitySystem;
-using OrderElimination.Infrastructure;
+﻿using OrderElimination.Infrastructure;
+using OrderElimination.MetaGame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEditor;
-using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -21,7 +16,7 @@ namespace OrderElimination.AbilitySystem
         public BattleEntityView GetViewByEntity(AbilitySystemActor entity);
         public AbilitySystemActor GetEntityByView(BattleEntityView view);
 
-        public IBattleCharacterData GetBattleCharacterData(AbilitySystemActor characterEntity);
+        public GameCharacter GetBattleCharacterData(AbilitySystemActor characterEntity);
         public IBattleStructureData GetBattleStructureData(AbilitySystemActor structureEntity);
     }
 
@@ -29,7 +24,7 @@ namespace OrderElimination.AbilitySystem
     {
         private readonly Dictionary<AbilitySystemActor, BattleEntityView> _viewsByEntities = new ();
         private readonly Dictionary<BattleEntityView, AbilitySystemActor> _entitiesByViews = new ();
-        private readonly Dictionary<AbilitySystemActor, IBattleCharacterData> _basedCharacters = new();
+        private readonly Dictionary<AbilitySystemActor, GameCharacter> _basedCharacters = new();
         private readonly Dictionary<AbilitySystemActor, IBattleStructureData> _basedStructures = new();
 
         public event Action<IReadOnlyEntitiesBank> BankChanged;
@@ -41,7 +36,7 @@ namespace OrderElimination.AbilitySystem
         public BattleEntityView GetViewByEntity(AbilitySystemActor entity) => _viewsByEntities[entity];
         public AbilitySystemActor GetEntityByView(BattleEntityView view) => _entitiesByViews[view];
 
-        public IBattleCharacterData GetBattleCharacterData(AbilitySystemActor characterEntity)
+        public GameCharacter GetBattleCharacterData(AbilitySystemActor characterEntity)
         {
             if (characterEntity.EntityType != EntityType.Character)
                 throw new ArgumentException($"Passed entity is not a {EntityType.Character}.");
@@ -55,14 +50,14 @@ namespace OrderElimination.AbilitySystem
             return _basedStructures[structureEntity];
         }
 
-        public void AddCharacterEntity(AbilitySystemActor entity, BattleEntityView view, IBattleCharacterData basedData)
+        public void AddCharacterEntity(AbilitySystemActor entity, BattleEntityView view, IGameCharacterTemplate basedData)
         {
             if (entity.EntityType != EntityType.Character)
                 throw new InvalidOperationException("Attempt to add non-character entity.");
             entity.DisposedFromBattle += OnEntityDisposed;
             _viewsByEntities.Add(entity, view);
             _entitiesByViews.Add(view, entity);
-            _basedCharacters.Add(entity, basedData);
+            _basedCharacters.Add(entity, GameCharactersFactory.CreateGameEntity(basedData));
             BankChanged?.Invoke(this);
         }
 

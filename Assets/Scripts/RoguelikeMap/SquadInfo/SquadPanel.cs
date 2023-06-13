@@ -16,7 +16,7 @@ public class SquadPanel : MonoBehaviour
         foreach (var character in squad.Members)
         {
             var inst = Instantiate(_iconPrefab, transform);
-            inst.sprite = character.BattleIcon;
+            inst.sprite = character.CharacterData.BattleIcon;
         }
     }
 }

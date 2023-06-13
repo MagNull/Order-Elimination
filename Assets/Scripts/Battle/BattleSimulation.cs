@@ -20,6 +20,7 @@ public enum BattleState
     End
 }
 
+[Obsolete("Not used anymore")]
 public class BattleSimulation : SerializedMonoBehaviour
 {
     public static event Action PlayerTurnStarted;
@@ -29,7 +30,7 @@ public class BattleSimulation : SerializedMonoBehaviour
 
     private CharacterArrangeDirector _characterArrangeDirector;
     private BattleMapDirector _battleMapDirector;
-    private AbilityViewBinder _abilityViewBinder;
+    //private AbilityViewBinder _abilityViewBinder;
 
     //TODO: Remove panel, use event instead call inside methods(like EndRound, BattleEnd)
     [SerializeField]
@@ -67,7 +68,7 @@ public class BattleSimulation : SerializedMonoBehaviour
     private void Awake()
     {
         _characters = new List<BattleCharacter>();
-        _abilityViewBinder = new AbilityViewBinder();
+        //_abilityViewBinder = new AbilityViewBinder();
     }
 
     private void CheckBattleOutcome()
@@ -167,7 +168,7 @@ public class BattleSimulation : SerializedMonoBehaviour
         _battleState = BattleState.PlayerTurn;
         _outcome = BattleOutcome.Neither;
 
-        var mapIndex = _battleMapDirector.InitializeMap();
+        var mapIndex = 0;
 
         _characterArrangeDirector.SetArrangementMap(_battleMapDirector.Map);
         _characters = _characterArrangeDirector.Arrange(_unitPositions[mapIndex], _enemyPositions[mapIndex]);
@@ -189,7 +190,7 @@ public class BattleSimulation : SerializedMonoBehaviour
             battleCharacter.Died += _ => CheckBattleOutcome();
         }
 
-        _abilityViewBinder.BindAbilityButtons(_battleMapDirector.MapView, _abilityPanel);
+        //_abilityViewBinder.BindAbilityButtons(_battleMapDirector.MapView, _abilityPanel);
 
         //BattleCharacterView.Selected += _selectedPlayerCharacterStatsPanel.UpdateCharacterInfo;
         BattleCharacterView.Deselected += info => _selectedPlayerCharacterStatsPanel.HideInfo();
@@ -197,6 +198,6 @@ public class BattleSimulation : SerializedMonoBehaviour
 
     private void OnDisable()
     {
-        _abilityViewBinder.OnDisable(_battleMapDirector.MapView, _abilityPanel);
+        //_abilityViewBinder.OnDisable(_battleMapDirector.MapView, _abilityPanel);
     }
 }

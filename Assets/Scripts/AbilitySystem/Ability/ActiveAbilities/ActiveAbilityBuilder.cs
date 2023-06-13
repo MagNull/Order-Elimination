@@ -10,7 +10,7 @@ using UnityEngine.Video;
 
 namespace OrderElimination.AbilitySystem
 {
-    [CreateAssetMenu(fileName = "new Active Ability", menuName = "AbilitySystem/Ability Ability")]
+    [CreateAssetMenu(fileName = "new Active Ability", menuName = "AbilitySystem/Active Ability")]
     public class ActiveAbilityBuilder : SerializedScriptableObject
     {
         private int _cooldownTime;

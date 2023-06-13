@@ -39,7 +39,7 @@ namespace OrderElimination.BM
             return 0;
         }
 
-        public IReadOnlyBattleStats Stats => default(BattleStats);
+        public IReadOnlyBattleStats Stats => default(OldBattleStats);
         
         
         public void OnMoved(Cell from, Cell to)

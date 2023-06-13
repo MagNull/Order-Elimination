@@ -37,9 +37,9 @@ namespace CharacterAbility.BuffEffects
             Caster = caster;
         }
 
-        public BattleStats Apply(IBuffTarget target)
+        public OldBattleStats Apply(IBuffTarget target)
         {
-            var newStats = new BattleStats(target.Stats);
+            var newStats = new OldBattleStats(target.Stats);
             var scaleTarget = ScaleFromWhom == ScaleFromWhom.Caster ? Caster : target;
             switch (StatType)
             {
@@ -67,9 +67,9 @@ namespace CharacterAbility.BuffEffects
             return newStats;
         }
 
-        public BattleStats Remove(IBuffTarget target)
+        public OldBattleStats Remove(IBuffTarget target)
         {
-            var newStats = new BattleStats(target.Stats);
+            var newStats = new OldBattleStats(target.Stats);
             switch (StatType)
             {
                 case Buff_Type.Accuracy:

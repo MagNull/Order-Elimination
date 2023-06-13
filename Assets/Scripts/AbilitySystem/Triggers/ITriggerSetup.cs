@@ -65,7 +65,7 @@ namespace OrderElimination.AbilitySystem
                 OperatingContext = context;
             }
 
-            public void Trigger(ITriggerFireInfo triggerFiredInfo)
+            public void FireTrigger(ITriggerFireInfo triggerFiredInfo)
             {
                 if (!IsActive)
                 {

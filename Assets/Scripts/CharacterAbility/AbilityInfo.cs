@@ -161,7 +161,8 @@ namespace CharacterAbility
         public EffectView EffectView;
     }
 
-    [CreateAssetMenu(fileName = "AbilityInfo", menuName = "Ability")]
+    //[CreateAssetMenu(fileName = "AbilityInfo", menuName = "Ability")]
+    [Obsolete("Deprecated. Use Active or Passive AbilityBuilder instead.")]
     public class AbilityInfo : SerializedScriptableObject
     {
         public enum AbilityType

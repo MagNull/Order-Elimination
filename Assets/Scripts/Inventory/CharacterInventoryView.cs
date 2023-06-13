@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Inventory;
 using Sirenix.Serialization;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace Inventory_Items
     {
         [SerializeField]
         private Dictionary<ItemType, Image> _cellViewByItemType = new();
+
         [SerializeField]
         private Sprite _emptyCellSprite;
 
@@ -18,10 +20,22 @@ namespace Inventory_Items
 
         public override void UpdateCells(IReadOnlyList<IReadOnlyCell> cells)
         {
-            foreach (var cell in cells)
+            if (cells.Any())
             {
-                if (_cellViewByItemType.ContainsKey(cell.Item.Type))
-                    _cellViewByItemType[cell.Item.Type].sprite = cell.Item.View.Icon;
+                foreach (var cell in cells)
+                {
+                    if (_cellViewByItemType.ContainsKey(cell.Item.Type))
+                    {
+                        _cellViewByItemType[cell.Item.Type].sprite = cell.Item.View.Icon;
+                    }
+                }
+            }
+            else
+            {
+                foreach (var image in _cellViewByItemType)
+                {
+                    image.Value.sprite = _emptyCellSprite;
+                }
             }
         }
 

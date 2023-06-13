@@ -1,6 +1,7 @@
 ﻿using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
+using OrderElimination.MetaGame;
 using System.Linq;
 using VContainer;
 
@@ -34,6 +35,11 @@ namespace Assets.AbilitySystem.PrototypeHelpers
             var gameEnemies = _characterMediator.GetEnemyCharactersInfo().ToArray();
             var allySpawns = scenario.GetAlliesSpawnPositions();
             var enemySpawns = scenario.GetEnemySpawnPositions();
+            var structures = scenario.GetStructureSpawns();
+            foreach (var pos in structures.Keys)
+            {
+                _entitiesFactory.CreateBattleStructure(structures[pos], BattleSide.NoSide, pos);
+            }
             for (var i = 0; i < gameAllies.Length; i++)
             {
                 var entity = gameAllies[i];
@@ -45,11 +51,6 @@ namespace Assets.AbilitySystem.PrototypeHelpers
                 var entity = gameEnemies[i];
                 var position = enemySpawns[i];
                 _entitiesFactory.CreateBattleCharacter(entity, BattleSide.Enemies, position);
-            }
-            var structures = scenario.GetStructureSpawns();
-            foreach (var pos in structures.Keys)
-            {
-                _entitiesFactory.CreateBattleStructure(structures[pos], BattleSide.NoSide, pos);
             }
         }
     }

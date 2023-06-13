@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using OrderElimination;
+using OrderElimination.MetaGame;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using Unity.VisualScripting;
@@ -16,7 +17,7 @@ namespace RoguelikeMap.UI.PointPanels
         [SerializeField]
         private CharacterCard _characterCardPrefab;
 
-        private List<Character> _enemies;
+        private List<CharacterTemplate> _enemies;
         private CharacterInfoPanel _characterInfoPanel;
         public event Action OnStartAttack;
         
@@ -26,12 +27,12 @@ namespace RoguelikeMap.UI.PointPanels
             _characterInfoPanel = characterInfoPanel;
         }
         
-        public void UpdateEnemies(IReadOnlyList<Character> enemies)
+        public void UpdateEnemies(IEnumerable<GameCharacter> enemies)
         {
-            foreach (var info in enemies)
+            foreach (var enemy in enemies)
             {
                 var characterCard = Instantiate(_characterCardPrefab, _characterParent);
-                characterCard.InitializeCard(info, false);
+                characterCard.InitializeCard(enemy, false);
                 characterCard.OnGetInfo += ShowCharacterInfo;
             }
         }

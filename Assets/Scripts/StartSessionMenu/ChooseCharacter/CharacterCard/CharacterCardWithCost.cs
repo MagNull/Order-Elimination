@@ -1,4 +1,5 @@
 using OrderElimination;
+using OrderElimination.MetaGame;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,7 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         [SerializeField]
         private Text _cardCost;
 
-        public override void InitializeCard(Character character, bool isSelected)
+        public override void InitializeCard(GameCharacter character, bool isSelected)
         {
             base.InitializeCard(character, isSelected);
             _cardCost.text = _cost + "$";

@@ -23,10 +23,10 @@ MonoBehaviour:
     SerializationNodes:
     - Name: _baseBattleStats
       Entry: 7
-      Data: OrderElimination.Domain.ReadOnlyBaseStats, Assembly-CSharp
+      Data: OrderElimination.Domain.BaseBattleStats, Assembly-CSharp
     - Name: _maxHealth
       Entry: 4
-      Data: 200
+      Data: 50
     - Name: _maxArmor
       Entry: 4
       Data: 100
@@ -41,11 +41,13 @@ MonoBehaviour:
       Data: 0.1
     - Name: _maxMovementDistance
       Entry: 4
-      Data: 3
+      Data: 4
     - Name: 
       Entry: 8
       Data: 
-  _entityType: 0
+  _name: "\u041A\u0430\u043C\u043D\u0435\u0433\u0440\u044B\u0437"
+  _viewIcon: {fileID: 21300000, guid: a8d51c883384c47469807e601a9966d3, type: 3}
+  _viewAvatar: {fileID: 21300000, guid: 6ed07c7d456c1774ab44cebfab1985c9, type: 3}
   _activeAbilitiesData:
   - {fileID: 11400000, guid: 0c8d919ede3c8804383af4fd13473e05, type: 2}
   - {fileID: 11400000, guid: cd5bd8e7800d3c8488e4dd47bb65b9ca, type: 2}
@@ -54,49 +56,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1357b88fb816ba442b222abab6211247, type: 2}
   _passiveAbilitiesData:
   - {fileID: 11400000, guid: 79e2a4dc35bd6054787120af2e13cfd6, type: 2}
-  _baseStats:
-    _health: 0
-    _unmodifiedHealth: 0
-    _attack: 0
-    _unmodifiedAttack: 0
-    _armor: 0
-    _unmodifiedArmor: 0
-    _additionalArmor: 0
-    _evasion: 0
-    _unmodifiedEvasion: 0
-    _accuracy: 0
-    _unmodifiedAccuracy: 0
-    _movement: 0
-    _unmodifiedMovement: 0
-    _damageModificator: 0
-  _battleStats:
-    _health: 50
-    _unmodifiedHealth: 50
-    _attack: 35
-    _unmodifiedAttack: 35
-    _armor: 100
-    _unmodifiedArmor: 100
-    _additionalArmor: 0
-    _evasion: 10
-    _unmodifiedEvasion: 10
-    _accuracy: 80
-    _unmodifiedAccuracy: 80
-    _movement: 4
-    _unmodifiedMovement: 4
-    _damageModificator: 0
-  _strategyStats:
-    Lvl: 0
-    CostOfUpgrade: 0
-    HealthGrowth: 0
-    AttackGrowth: 0
-    ArmorGrowth: 0
-    EvasionGrowth: 0
-    AccuracyGrowth: 0
-  _name: "\u041A\u0430\u043C \u043D\u0435 \u0433\u0440\u044B\u0437"
-  _viewIcon: {fileID: 21300000, guid: a8d51c883384c47469807e601a9966d3, type: 3}
-  _viewAvatar: {fileID: 21300000, guid: 6ed07c7d456c1774ab44cebfab1985c9, type: 3}
-  _activeAbilities:
-  - {fileID: 11400000, guid: 7ea274e1f1087a34990a8cbed181dcae, type: 2}
-  - {fileID: 11400000, guid: 6c7e7a688e8448e4f9fd68c2c4810fc6, type: 2}
-  - {fileID: 11400000, guid: aed5904ef3b073049ad9559999329274, type: 2}
-  _passiveAbilities: []
+  <CostValue>k__BackingField: 80

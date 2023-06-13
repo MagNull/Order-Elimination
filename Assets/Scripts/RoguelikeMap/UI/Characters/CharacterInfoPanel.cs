@@ -3,6 +3,8 @@ using System.Linq;
 using CharacterAbility;
 using Inventory_Items;
 using OrderElimination;
+using OrderElimination.AbilitySystem;
+using OrderElimination.MetaGame;
 using RoguelikeMap.UI.Abilities;
 using Sirenix.OdinInspector;
 using TMPro;
@@ -19,6 +21,9 @@ namespace RoguelikeMap.UI.Characters
         private PassiveAbilityInfoPanel _passiveAbilityInfoPanel;
         [SerializeField] 
         private PickItemInventoryPresenter _playerInventoryPresenter;
+
+        [SerializeField]
+        private InventoryPresenter _characterInventoryPresenter;
         
         [Title("Character")]
         [SerializeField]
@@ -46,26 +51,29 @@ namespace RoguelikeMap.UI.Characters
 
         private AbilityInfo[] _passiveAbilityInfos;
         
-        public void InitializeCharacterInfo(Character character)
+        public void InitializeCharacterInfo(GameCharacter character)
         {
-            _characterName.text = character.name;
-            _characterAvatar.sprite = character.Avatar;
-            var stats = character.GetBattleStats();
-            InitializeStatsText(stats);
-            var activeAbilityInfos = character.GetActiveAbilityInfos().Skip(1).ToArray();
-            _passiveAbilityInfos = character.GetPassiveAbilityInfos().ToArray();
-            InitializeAbilityButtons(activeAbilityInfos);
             if(_playerInventoryPresenter is not null)
+            _characterInventoryPresenter.InitInventoryModel(character.Inventory);
+            InitializeStatsText(
+                character.CharacterStats.MaxHealth,
+                character.CharacterStats.MaxArmor,
+                character.CharacterStats.AttackDamage,
+                character.CharacterStats.Accuracy,
+                character.CharacterStats.Evasion);
+            _characterAvatar.sprite = character.CharacterData.Avatar;
+            _characterName.text = character.CharacterData.Name;
                 _playerInventoryPresenter.UpdateTargetInventory(character.Inventory);
         }
 
-        private void InitializeStatsText(IReadOnlyBattleStats stats)
+        private void InitializeStatsText(
+            float maxHealth, float maxArmor, float attack, float accuracy, float evasion)
         {
-            _hpText.text = $"{stats.Health}";
-            _damageText.text = $"{stats.Attack}";
-            _armorText.text = $"{stats.Armor}";
-            _evasionText.text = $"{stats.Evasion}";
-            _accuracyText.text = $"{stats.Accuracy}";
+            _hpText.text = maxHealth.ToString();
+            _armorText.text = maxArmor.ToString();
+            _damageText.text = attack.ToString();
+            _accuracyText.text = accuracy.ToString();
+            _evasionText.text = evasion.ToString();
         }
 
         private void InitializeAbilityButtons(AbilityInfo[] activeAbilityInfos)

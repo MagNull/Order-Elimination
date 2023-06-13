@@ -1,9 +1,9 @@
 using DefaultNamespace;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
-using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using UIManagement;
 using UIManagement.Elements;
 using UnityEngine;
@@ -25,10 +25,6 @@ public class BattleMapSelector : MonoBehaviour
     [TitleGroup("Components")]
     [SerializeField]
     private CharacterBattleStatsPanel _characterBattleStatsPanel;
-
-    [TitleGroup("Components")]
-    [SerializeField]
-    private Button _castButton;
 
     [TitleGroup("Components")]
     [SerializeField]
@@ -63,6 +59,10 @@ public class BattleMapSelector : MonoBehaviour
     [TitleGroup("Prototyping")]
     [SerializeField]
     private bool _allowOnlyCurrentSideEntities;
+
+    [TitleGroup("Prototyping")]
+    [SerializeField]
+    private bool _allowOnlyPlayerEntities;
 
     [TitleGroup("Prototyping")]
     [SerializeField]
@@ -132,6 +132,8 @@ public class BattleMapSelector : MonoBehaviour
                 .ToArray();
             if (_allowOnlyCurrentSideEntities)
                 entities = entities.Where(e => e.BattleSide == _battleContext.ActiveSide).ToArray();
+            if (_allowOnlyPlayerEntities)
+                entities = entities.Where(e => e.BattleSide == BattleSide.Player).ToArray();
             DeselectEntity();
             if (entities.Length > 0)
             {
@@ -197,10 +199,18 @@ public class BattleMapSelector : MonoBehaviour
                 }
                     
             }
-            _abilityPreviewDisplayer.DisplayPreview(
+            else if (_selectedAbility.AbilityData.TargetingSystem is NoTargetTargetingSystem noTargetSystem)
+            {
+                if (_currentSelectedEntity.Position == cellPosition && _confirmTargetingBySecondClick)
+                    CastCurrentAbility();
+            }
+            if (_selectedAbility != null)
+            {
+                _abilityPreviewDisplayer.DisplayPreview(
                 _selectedAbility.AbilityData,
                 _currentSelectedEntity,
                 _selectedAbility.AbilityData.TargetingSystem.ExtractCastTargetGroups());
+            }
         }
     }
 
@@ -215,10 +225,10 @@ public class BattleMapSelector : MonoBehaviour
         _abilityPanel.AbilityDeselected += OnAbilityDeselect;
         foreach (var ability in entity.ActiveAbilities)
         {
-            ability.AbilityInitiated -= OnAbilityUpdated;
-            ability.AbilityInitiated += OnAbilityUpdated;
-            ability.AbilityCastCompleted -= OnAbilityUpdated;
-            ability.AbilityCastCompleted += OnAbilityUpdated;
+            ability.AbilityExecutionStarted -= OnAbilityUpdated;
+            ability.AbilityExecutionStarted += OnAbilityUpdated;
+            ability.AbilityExecutionCompleted -= OnAbilityUpdated;
+            ability.AbilityExecutionCompleted += OnAbilityUpdated;
         }
         _characterBattleStatsPanel.UpdateEntityInfo(view);
         _characterBattleStatsPanel.ShowInfo();
@@ -233,8 +243,10 @@ public class BattleMapSelector : MonoBehaviour
         view.Highlight(highlightColor, 0.1f, 0.2f, 0.3f);
         Debug.Log($"{entity.EntityType} {view.Name} selected." % Colorize.ByColor(new Color(1, 0.5f, 0.5f))
             + $"\nActionPoints: {string.Join(", ", entity.ActionPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
-            + $"\t{entity.StatusHolder}"
-            + $"\tEffects({entity.Effects.Count()}): {string.Join(", ", entity.Effects.Select(e => $"[{e.EffectData.View.Name}]"))}");
+            + $"\nHealth: {entity.LifeStats.Health}; MaxHealth: {entity.LifeStats.MaxHealth.ModifiedValue}" 
+            + $"\nTotalArmor: {entity.LifeStats.TotalArmor}; MaxHealth: {entity.LifeStats.MaxArmor.ModifiedValue}" 
+            + $"\n{entity.StatusHolder}"
+            + $"\nEffects({entity.Effects.Count()}): {string.Join(", ", entity.Effects.Select(e => $"[{e.EffectData.View.Name}]"))}");
     }
 
     private void DeselectEntity()
@@ -247,8 +259,8 @@ public class BattleMapSelector : MonoBehaviour
             _currentSelectedEntity.DisposedFromBattle -= OnSelectedEntityDisposed;
             foreach (var ability in _currentSelectedEntity.ActiveAbilities)
             {
-                ability.AbilityInitiated -= OnAbilityUpdated;
-                ability.AbilityCastCompleted -= OnAbilityUpdated;
+                ability.AbilityExecutionStarted -= OnAbilityUpdated;
+                ability.AbilityExecutionCompleted -= OnAbilityUpdated;
             }
         }
         _characterBattleStatsPanel.HideInfo();
@@ -361,19 +373,12 @@ public class BattleMapSelector : MonoBehaviour
 
     private void OnConfirmationUnlocked(IRequireTargetsTargetingSystem multiTargetSystem)
     {
-        _textEmitter.Emit("������� �E� ��� ����������!", Color.red, fontSize: 1.5f);
         Debug.Log("Ability use ready.");
     }
     private void OnConfirmationLocked(IRequireTargetsTargetingSystem multiTargetSystem)
         => Debug.Log("Ability use locked.");
 
     #region ToRemove
-    private void Start()
-    {
-        _castButton.onClick.RemoveListener(CastCurrentAbility);
-        _castButton.onClick.AddListener(CastCurrentAbility);
-        _textEmitter.Emit($"������� �Esc� ��� ������.", Color.red, new Vector3(0, 4.5f, 1), Vector3.zero, 10, fontSize: 1f);
-    }
 
     private void Update()
     {
@@ -412,7 +417,7 @@ public class BattleMapSelector : MonoBehaviour
         if (_selectedAbility != null && _selectedAbility.AbilityData.TargetingSystem.IsConfirmAvailable)
         {
             var abilityName = _selectedAbility.AbilityData.View.Name;
-            Debug.Log($"Ability �{abilityName}� has been used." % Colorize.Cyan);
+            //Debug.Log($"Ability �{abilityName}� has been used." % Colorize.Cyan);
             _selectedAbility.AbilityData.TargetingSystem.ConfirmTargeting();
         }
     }

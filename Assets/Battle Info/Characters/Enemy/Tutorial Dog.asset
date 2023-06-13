@@ -12,36 +12,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1984226b6f4b5ea94fb3b7f3b16efb, type: 3}
   m_Name: Tutorial Dog
   m_EditorClassIdentifier: 
-  _baseStats:
-    _health: 0
-    _attack: 0
-    _armor: 0
-    _additionalArmor: 0
-    _evasion: 0
-    _accuracy: 0
-    _movement: 0
-    _damageModificator: 0
-  _battleStats:
-    _health: 5
-    _attack: 20
-    _armor: 5
-    _additionalArmor: 0
-    _evasion: 0
-    _accuracy: 100
-    _movement: 4
-    _damageModificator: 0
-  _strategyStats:
-    Lvl: 0
-    CostOfUpgrade: 0
-    HealthGrowth: 0
-    AttackGrowth: 0
-    ArmorGrowth: 0
-    EvasionGrowth: 0
-    AccuracyGrowth: 0
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _baseBattleStats
+      Entry: 7
+      Data: OrderElimination.Domain.BaseBattleStats, Assembly-CSharp
+    - Name: _maxHealth
+      Entry: 4
+      Data: 0
+    - Name: _maxArmor
+      Entry: 4
+      Data: 0
+    - Name: _attackDamage
+      Entry: 4
+      Data: 0
+    - Name: _accuracy
+      Entry: 4
+      Data: 0
+    - Name: _evasion
+      Entry: 4
+      Data: 0
+    - Name: _maxMovementDistance
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
   _name: "\u0420\u0430\u043D\u0435\u043D\u044B\u0439 \u041A\u0430\u043C\u043D\u0435\u0433\u0440\u044B\u0437"
   _viewIcon: {fileID: 21300000, guid: a8d51c883384c47469807e601a9966d3, type: 3}
   _viewAvatar: {fileID: 21300000, guid: 6ed07c7d456c1774ab44cebfab1985c9, type: 3}
-  _activeAbilities:
-  - {fileID: 11400000, guid: 7ea274e1f1087a34990a8cbed181dcae, type: 2}
-  - {fileID: 11400000, guid: 6c7e7a688e8448e4f9fd68c2c4810fc6, type: 2}
-  _passiveAbilities: []
+  _activeAbilitiesData: []
+  _passiveAbilitiesData: []
+  <CostValue>k__BackingField: 0

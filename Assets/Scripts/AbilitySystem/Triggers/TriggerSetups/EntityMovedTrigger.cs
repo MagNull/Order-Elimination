@@ -31,7 +31,7 @@ namespace OrderElimination.AbilitySystem
             {
                 if (IgnoreZeroDistanceMoves && from == to)
                     return;
-                instance.Trigger(new EmptyTriggerFireInfo(instance));
+                instance.FireTrigger(new EmptyTriggerFireInfo(instance));
             }
 
             void OnDeactivation(ITriggerSetup.BattleTrigger trigger)

@@ -159,6 +159,7 @@ namespace UIManagement.Elements
         {
             var enemies = cellView.Model.GetContainingEntities()
                 .Where(e => IsEnemyCharacter(e))
+                .Where(e => !e.StatusHolder.HasStatus(BattleStatus.Invisible))
                 .Where(e => _entitiesPanels.ContainsKey(e))
                 .ToArray();
             if (enemies.Length == 0)

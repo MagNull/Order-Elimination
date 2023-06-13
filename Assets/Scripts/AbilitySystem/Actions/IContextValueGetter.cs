@@ -33,6 +33,8 @@ namespace OrderElimination.AbilitySystem
         }
 
         public float GetValue(ActionContext useContext) => Value;
+
+        public ConstValueGetter(float value) => Value = value;
     }
 
     [Serializable]
@@ -118,9 +120,9 @@ namespace OrderElimination.AbilitySystem
                 || !useContext.ActionMaker.BattleStats.HasParameter(CasterStat))
                 return 0;
             if (!UseUnmodifiedValue)
-                return useContext.ActionMaker.BattleStats.GetParameter(CasterStat).ModifiedValue;
+                return useContext.ActionMaker.BattleStats[CasterStat].ModifiedValue;
             else
-                return useContext.ActionMaker.BattleStats.GetParameter(CasterStat).UnmodifiedValue;
+                return useContext.ActionMaker.BattleStats[CasterStat].UnmodifiedValue;
         }
     }
 
@@ -149,9 +151,9 @@ namespace OrderElimination.AbilitySystem
                 || !useContext.ActionTarget.BattleStats.HasParameter(TargetStat))
                 return 0;
             if (!UseUnmodifiedValue)
-                return useContext.ActionTarget.BattleStats.GetParameter(TargetStat).ModifiedValue;
+                return useContext.ActionTarget.BattleStats[TargetStat].ModifiedValue;
             else
-                return useContext.ActionTarget.BattleStats.GetParameter(TargetStat).UnmodifiedValue;
+                return useContext.ActionTarget.BattleStats[TargetStat].UnmodifiedValue;
         }
     }
 
