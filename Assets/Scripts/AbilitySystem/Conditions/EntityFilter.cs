@@ -50,7 +50,7 @@ namespace OrderElimination.AbilitySystem
         [TitleGroup("Allowed Characters")]
         [ShowIf("@" + nameof(_allowsCharacters))]
         [ShowInInspector, OdinSerialize]
-        private List<IGameCharacterData> _specifiedCharacters = new();
+        private List<IGameCharacterTemplate> _specifiedCharacters = new();
 
         [TitleGroup("Allowed Structures")]
         [ShowIf("@" + nameof(_allowsStructures))]

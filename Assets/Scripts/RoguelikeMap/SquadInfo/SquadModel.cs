@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OrderElimination.AbilitySystem;
 using OrderElimination.MetaGame;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
@@ -55,9 +56,20 @@ namespace OrderElimination
         
         private void UpgradeCharacters()
         {
+            var stats = SquadMediator.Stats.Value;
+            var statsGrowth = new Dictionary<BattleStat, float>()
+            {
+                { BattleStat.MaxHealth, stats.HealthGrowth },
+                { BattleStat.MaxArmor, stats.ArmorGrowth },
+                { BattleStat.AttackDamage, stats.AttackGrowth },
+                { BattleStat.Accuracy, stats.AccuracyGrowth },
+                { BattleStat.Evasion, stats.EvasionGrowth },
+            };
+
             foreach (var member in _members)
             {
-                member.Upgrade(1.1f, 1.1f, 1.2f, 1.05f, 1.02f);
+                foreach (var stat in statsGrowth.Keys)
+                    member.ChangeStat(stat, member.CharacterStats[stat] + statsGrowth[stat]);
             }
         }
 

@@ -13,7 +13,7 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         public override void InitializeCard(GameCharacter character, bool isSelected)
         {
             _healthBar = GetComponentInChildren<HealthBar>();
-            _healthBar.SetMaxHealth(Mathf.RoundToInt(character.BattleStats[BattleStat.MaxHealth].ModifiedValue));
+            _healthBar.SetMaxHealth(Mathf.RoundToInt(character.CharacterStats.MaxHealth));
             base.InitializeCard(character, isSelected);
         }
     }

@@ -19,7 +19,7 @@ namespace OrderElimination.AbilitySystem
         }
 
         public AbilitySystemActor SpawnCharacter(
-            IGameCharacterData characterData, 
+            IGameCharacterTemplate characterData, 
             BattleSide side,
             Vector2Int position)
         {

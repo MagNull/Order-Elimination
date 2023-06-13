@@ -1,5 +1,4 @@
-﻿using OrderElimination.Domain;
-using OrderElimination.Infrastructure;
+﻿using OrderElimination.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -110,14 +109,20 @@ namespace OrderElimination.AbilitySystem
 
         public event Action<ILifeBattleStats> HealthDepleted;
 
-        public BattleStats(BaseBattleStats baseStats)
+        public BattleStats(
+            float maxHealth,
+            float maxArmor,
+            float attackDamage,
+            float accuracy,
+            float evasion,
+            float maxMovementDistance)
         {
-            MaxHealth.UnmodifiedValue = baseStats.MaxHealth;
-            MaxArmor.UnmodifiedValue = baseStats.MaxArmor;
-            AttackDamage.UnmodifiedValue = baseStats.AttackDamage;
-            Accuracy.UnmodifiedValue = baseStats.Accuracy;
-            Evasion.UnmodifiedValue = baseStats.Evasion;
-            MaxMovementDistance.SetUnmodifiedValue(baseStats.MaxMovementDistance);
+            MaxHealth.UnmodifiedValue = maxHealth;
+            MaxArmor.UnmodifiedValue = maxArmor;
+            AttackDamage.UnmodifiedValue = attackDamage;
+            Accuracy.UnmodifiedValue = accuracy;
+            Evasion.UnmodifiedValue = evasion;
+            MaxMovementDistance.SetUnmodifiedValue(maxMovementDistance);
 
             _battleStatEnums = new()
             {

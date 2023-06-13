@@ -29,7 +29,7 @@ namespace OrderElimination.AbilitySystem
 
         [ShowIf("@" + nameof(Entity) + " == " + nameof(EntityType) + "." + nameof(EntityType.Character))]
         [ShowInInspector, OdinSerialize]
-        public IGameCharacterData CharacterData { get; private set; }
+        public IGameCharacterTemplate CharacterData { get; private set; }
 
         [ShowIf("@" + nameof(Entity) + " == " + nameof(EntityType) + "." + nameof(EntityType.Structure))]
         [ShowInInspector, OdinSerialize]

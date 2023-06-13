@@ -65,7 +65,7 @@ namespace RoguelikeMap.Points.Models
         public IReadOnlyList<ItemData> ItemsId => _itemsData;
         public IReadOnlyList<string> Answers => _answers;
         public IReadOnlyList<EventInfo> NextStages => _nextStages;
-        public IReadOnlyList<IGameCharacterData> Enemies => _enemies;
+        public IReadOnlyList<IGameCharacterTemplate> Enemies => _enemies;
         public EventInfo NextStage => _nextStage;
         public bool IsHaveItems => _itemsData is not null;
         public bool IsEnd => _isEnd;
