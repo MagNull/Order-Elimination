@@ -61,6 +61,9 @@ namespace OrderElimination.AbilitySystem
 
         public BattleRelationship GetRelationship(BattleSide askingSide, BattleSide relationSide)
         {
+            if (askingSide == BattleSide.NoSide || relationSide == BattleSide.NoSide)
+                return BattleRelationship.Neutral;
+            
             var playerFriends = new HashSet<BattleSide>() { BattleSide.Player, BattleSide.Allies };
             var enemiesFriends = new HashSet<BattleSide>() { BattleSide.Enemies };
             var othersFriends = new HashSet<BattleSide>() { BattleSide.Others };

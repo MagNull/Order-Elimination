@@ -18,7 +18,7 @@ namespace AI.Utils
                 .ToArray();
         }
 
-        public static AbilitySystemActor[] GetEnemiesByValue(this IReadOnlyEntitiesBank entitiesBank,
+        public static AbilitySystemActor[] GetTargetsByValue(this IReadOnlyEntitiesBank entitiesBank,
             IBattleContext battleContext, AbilitySystemActor caster, BattleRelationship relationship)
         {
             var enemies = entitiesBank.GetEntities()

@@ -248,6 +248,10 @@ public class BattleEntityView : MonoBehaviour
                     _renderer.DOKill(true);
                     _renderer.DOFade(0f, 1f);
                     break;
+                case BattleRelationship.Neutral:
+                    _renderer.DOKill(true);
+                    _renderer.DOFade(0f, 1f);
+                    break;
                 default:
                     throw new System.NotImplementedException();
             }

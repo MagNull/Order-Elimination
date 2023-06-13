@@ -30,6 +30,7 @@ namespace OrderElimination.AbilitySystem
             abilityData.View = view;
             abilityData.GameRepresentation = gameRepresentation;
             abilityData.Execution = execution;
+            abilityData.BasedBuilder = builderData;
 
             return abilityData;
         }

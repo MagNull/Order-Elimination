@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89fa229743304506872e641fee19953e, type: 3}
+  m_Name: Infantry Behavior
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _avoidObject: []
+  BehaviorTreeRoot:
+    _childrenTask:
+    - rid: 8568508696226955270
+    - rid: 8568508697395068933
+    - rid: 8568508697395068937
+  references:
+    version: 2
+    RefIds:
+    - rid: 8568508696226955269
+      type: {class: DamageTarget, ns: AI.Actions, asm: Assembly-CSharp}
+    - rid: 8568508696226955270
+      type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
+      data:
+        _childrenTask:
+        - rid: 8568508696226955271
+        - rid: 8568508696226955269
+        - rid: 8568508697395068929
+    - rid: 8568508696226955271
+      type: {class: HasTargetsInRadius, ns: AI.Actions, asm: Assembly-CSharp}
+      data:
+        _sortBy: 1
+        _needPassiveEffects: []
+        _relationship: 1
+        _radius: 10
+    - rid: 8568508696226955283
+      type: {class: HasTargetsInRadius, ns: AI.Actions, asm: Assembly-CSharp}
+      data:
+        _sortBy: 0
+        _needPassiveEffects:
+        - {fileID: 11400000, guid: f6488d714b05317408c5f7614b92ba2f, type: 2}
+        _relationship: 2
+        _radius: 1
+    - rid: 8568508697395068928
+      type: {class: MoveToNearestShelter, ns: AI.Actions, asm: Assembly-CSharp}
+      data:
+        _needPassiveEffects:
+        - {fileID: 11400000, guid: f6488d714b05317408c5f7614b92ba2f, type: 2}
+    - rid: 8568508697395068929
+      type: {class: BlackboardManager, ns: AI.Decorators, asm: Assembly-CSharp}
+      data:
+        _childrenTask:
+          rid: 8568508697395068930
+    - rid: 8568508697395068930
+      type: {class: Selector, ns: AI, asm: Assembly-CSharp}
+      data:
+        _childrenTask:
+        - rid: 8568508696226955283
+        - rid: 8568508697395068928
+    - rid: 8568508697395068933
+      type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
+      data:
+        _childrenTask:
+        - rid: 8568508697395068934
+        - rid: 8568508697395068935
+    - rid: 8568508697395068934
+      type: {class: MoveToTarget, ns: AI.Conditions, asm: Assembly-CSharp}
+      data:
+        _purpose: 0
+    - rid: 8568508697395068935
+      type: {class: DamageTarget, ns: AI.Actions, asm: Assembly-CSharp}
+    - rid: 8568508697395068937
+      type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
+      data:
+        _childrenTask:
+        - rid: 8568508697395068938
+        - rid: 8568508697395068940
+        - rid: 8568508697395068939
+    - rid: 8568508697395068938
+      type: {class: MoveToNearestShelter, ns: AI.Actions, asm: Assembly-CSharp}
+      data:
+        _needPassiveEffects: []
+    - rid: 8568508697395068939
+      type: {class: HealTarget, ns: AI.Actions, asm: Assembly-CSharp}
+    - rid: 8568508697395068940
+      type: {class: HasTargetsInRadius, ns: AI.Actions, asm: Assembly-CSharp}
+      data:
+        _sortBy: 0
+        _needPassiveEffects: []
+        _relationship: 0
+        _radius: 1

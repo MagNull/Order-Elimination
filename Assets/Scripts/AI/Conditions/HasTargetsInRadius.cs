@@ -22,6 +22,9 @@ namespace AI.Actions
         private TargetSort _sortBy;
 
         [SerializeField]
+        private PassiveAbilityBuilder[] _needPassiveEffects;
+
+        [SerializeField]
         private BattleRelationship _relationship;
 
         [SerializeField]
@@ -38,7 +41,7 @@ namespace AI.Actions
                     enemies = context.EntitiesBank.GetTargetsByDistance(context, caster, _relationship);
                     break;
                 case TargetSort.Value:
-                    enemies = context.EntitiesBank.GetEnemiesByValue(context, caster, _relationship);
+                    enemies = context.EntitiesBank.GetTargetsByValue(context, caster, _relationship);
                     break;
                 default:
                     enemies = new AbilitySystemActor[] { };
@@ -46,13 +49,22 @@ namespace AI.Actions
             }
 
             enemies = enemies.Where(e =>
-                context.BattleMap.GetGameDistanceBetween(e.Position, caster.Position) <= _radius);
+                context.BattleMap.GetGameDistanceBetween(e.Position, caster.Position) <= _radius)
+                .Where(CheckPassiveEffect);
 
             if (!enemies.Any())
                 return false;
 
             blackboard.Register("targets", enemies);
             return true;
+        }
+        
+        private bool CheckPassiveEffect(AbilitySystemActor target)
+        {
+            if (!_needPassiveEffects.Any())
+                return true;
+            var targetPassives = target.PassiveAbilities.Select(ab => ab.AbilityData.BasedBuilder);
+            return _needPassiveEffects.All(ef => targetPassives.Contains(ef));
         }
     }
 }
