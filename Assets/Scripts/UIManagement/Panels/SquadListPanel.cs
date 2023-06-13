@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UIManagement.Elements;
 using UIManagement.trashToRemove_Mockups;
 using UnityEngine;
-using Character = OrderElimination.Character;
+using CharacterTemplate = OrderElimination.CharacterTemplate;
 
 namespace UIManagement
 {
@@ -13,7 +13,7 @@ namespace UIManagement
         public override PanelType PanelType => PanelType.SquadList;
         
         [Button]
-        public void UpdateSquadInfo(List<Character> squadCharacters)
+        public void UpdateSquadInfo(List<CharacterTemplate> squadCharacters)
         {
             _characterList.Clear();
             _characterList.Populate(squadCharacters.ToArray());

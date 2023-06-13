@@ -48,7 +48,7 @@ namespace UIManagement
 
         protected GameCharacter _characterData;
 
-        protected OrderElimination.Character _currentCharacterInfo;
+        protected OrderElimination.CharacterTemplate _currentCharacterInfo;
         protected BattleCharacterView _currentBattleCharacterInfo;
 
         protected override void Initialize()
@@ -85,7 +85,7 @@ namespace UIManagement
             UpdateAbilityButtonsInfo(activeAbilities, passiveAbilities);
         }
 
-        public void UpdateCharacterDescription(Character characterInfo)
+        public void UpdateCharacterDescription(CharacterTemplate characterInfo)
         {
             if (characterInfo == null)
             {

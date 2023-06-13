@@ -9,7 +9,7 @@ using OrderElimination.MetaGame;
 namespace OrderElimination
 {
     [CreateAssetMenu(fileName = "new CharacterTemplate", menuName = "Battle/CharacterTemplate")]
-    public class Character : SerializedScriptableObject, IBattleCharacterInfo, IGameCharacterTemplate
+    public class CharacterTemplate : SerializedScriptableObject, IBattleCharacterInfo, IGameCharacterTemplate
     {
         //New System
         [SerializeField]

@@ -10,12 +10,12 @@ namespace UIManagement.trashToRemove_Mockups
     public class CharacterUpgradeTransaction
     {
         private int Money = 1000;
-        public Character TargetCharacter { get; private set; }
+        public CharacterTemplate TargetCharacter { get; private set; }
         public int Cost => TargetCharacter.GetStrategyStats().CostOfUpgrade;
 
         public const int MaximumLevelCap = 10;
 
-        public CharacterUpgradeTransaction(Character target)
+        public CharacterUpgradeTransaction(CharacterTemplate target)
         {
             TargetCharacter = target;
         }
@@ -37,11 +37,11 @@ namespace UIManagement.trashToRemove_Mockups
     public class BattleResult
     {
         public readonly BattleOutcome Outcome;
-        public readonly Character[] SquadCharacters;
+        public readonly CharacterTemplate[] SquadCharacters;
         public readonly int PrimaryCurrencyReceived;
         public readonly int SpecialCurrencyReceived;
 
-        public BattleResult(BattleOutcome outcome, Character[] squadCharacters, int primaryCurrencyReceived, int specialCurrencyReceived)
+        public BattleResult(BattleOutcome outcome, CharacterTemplate[] squadCharacters, int primaryCurrencyReceived, int specialCurrencyReceived)
         {
             Outcome = outcome;
             SquadCharacters = squadCharacters;

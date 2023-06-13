@@ -15,7 +15,7 @@ namespace StartSessionMenu.ChooseCharacter
         [SerializeField] 
         private MoneyCounter _uiCounter;
         [SerializeField]
-        private List<Character> _characters;
+        private List<CharacterTemplate> _characters;
         [SerializeField]
         private int MaxSquadSize = 3;
         

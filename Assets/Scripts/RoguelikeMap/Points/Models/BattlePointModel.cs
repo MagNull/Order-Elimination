@@ -13,7 +13,7 @@ namespace RoguelikeMap.Points.Models
     public class BattlePointModel : PointModel
     {
         [SerializeField]
-        private List<Character> _enemies;
+        private List<CharacterTemplate> _enemies;
         [SerializeField]
         private BattleScenario _battleScenario;
         

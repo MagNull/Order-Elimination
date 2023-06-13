@@ -60,7 +60,7 @@ namespace RoguelikeMap.Points.Models
 
         [ShowIf("_isBattle")] 
         [SerializeField]
-        private List<Character> _enemies;
+        private List<CharacterTemplate> _enemies;
 
         public IReadOnlyList<ItemData> ItemsId => _itemsData;
         public IReadOnlyList<string> Answers => _answers;
