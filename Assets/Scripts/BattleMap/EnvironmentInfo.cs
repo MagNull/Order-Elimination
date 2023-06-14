@@ -8,7 +8,7 @@ namespace OrderElimination.BM
 {
     [PropertyTooltip("@$value." + nameof(Name))]
     [CreateAssetMenu( fileName = "Environment Object", menuName = "Battle/Environment Object" )]
-    public class EnvironmentInfo : SerializedScriptableObject, IBattleStructureData
+    public class EnvironmentInfo : SerializedScriptableObject, IBattleStructureTemplate
     {
         [SerializeField]
         private string _name;

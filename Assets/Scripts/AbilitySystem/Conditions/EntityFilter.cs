@@ -60,7 +60,7 @@ namespace OrderElimination.AbilitySystem
         [TitleGroup("Allowed Structures")]
         [ShowIf("@" + nameof(_allowsStructures))]
         [ShowInInspector, OdinSerialize]
-        private List<IBattleStructureData> _specifiedStructures = new();
+        private List<IBattleStructureTemplate> _specifiedStructures = new();
 
         public EntityFilter Clone()
         {

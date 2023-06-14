@@ -95,8 +95,8 @@ namespace UIManagement
             var activeAbilities = characterInfo.GetActiveAbilityInfos().Where(i => !_ignoredActiveAbilities.Contains(i)).ToArray();
             var passiveAbilities = characterInfo.GetPassiveAbilityInfos();
             _currentCharacterInfo = characterInfo;
-            _playerInventoryPresenter.UpdateTargetInventory(_currentCharacterInfo.Inventory);
-            _characterInventoryPresenter.InitInventoryModel(_currentCharacterInfo.Inventory);
+            //_playerInventoryPresenter.UpdateTargetInventory(_currentCharacterInfo.Inventory);
+            //_characterInventoryPresenter.InitInventoryModel(_currentCharacterInfo.Inventory);
             _characterInventoryPresenter.enabled = true;
             _currentBattleCharacterInfo = null;
             _characterAvatar.sprite = characterInfo.Avatar;

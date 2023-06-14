@@ -385,7 +385,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &121664845
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2404,12 +2404,6 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 960f80274a3bf09459044259dc1ac4cf, type: 2}
-    - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
-    - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
-    - {fileID: 11400000, guid: 04588733ccd1f2a4bb0aad35a508b4de, type: 2}
-    - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
-    - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
-    - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -2418,47 +2412,26 @@ MonoBehaviour:
     - Name: BattleScenario
       Entry: 10
       Data: 0
-    - Name: _playerCharacters
+    - Name: _testPlayerCharacters
       Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[IBattleCharacterInfo, Assembly-CSharp]],
-        mscorlib
+      Data: 0|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
+        Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 5
-    - Name: 
-      Entry: 10
-      Data: 1
-    - Name: 
-      Entry: 10
-      Data: 2
-    - Name: 
-      Entry: 10
-      Data: 3
-    - Name: 
-      Entry: 10
-      Data: 4
-    - Name: 
-      Entry: 10
-      Data: 5
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: _enemies
+    - Name: _testEnemyCharacters
       Entry: 7
-      Data: 1|System.Collections.Generic.List`1[[IBattleCharacterInfo, Assembly-CSharp]],
-        mscorlib
+      Data: 1|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
+        Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 10
-      Data: 6
-    - Name: 
-      Entry: 10
-      Data: 6
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -4495,7 +4468,6 @@ GameObject:
   m_Component:
   - component: {fileID: 119416488423929567}
   - component: {fileID: 2925239313729446197}
-  - component: {fileID: 6328294958765865714}
   - component: {fileID: 4905458204148118520}
   - component: {fileID: 5152532098346572516}
   m_Layer: 5
@@ -4719,7 +4691,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1151463926214506710}
   - component: {fileID: 6617909646075640546}
-  - component: {fileID: 8447254170989502411}
   - component: {fileID: 1652211316095786663}
   - component: {fileID: 6341760966787376538}
   m_Layer: 5
@@ -5080,7 +5051,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6270352673140861768}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RoguelikeMap.Panels.PassiveAbilityButton, Assembly-CSharp
         m_MethodName: OnMouseDown
         m_Mode: 1
@@ -5327,7 +5298,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3721043073821102729}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RoguelikeMap.Panels.AbilityButton, Assembly-CSharp
         m_MethodName: OnMouseDown
         m_Mode: 1
@@ -6229,7 +6200,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2385874952535744581}
   - component: {fileID: 7886918997012573458}
-  - component: {fileID: 3721043073821102729}
   - component: {fileID: 65562574548481492}
   - component: {fileID: 2368674815090702942}
   m_Layer: 5
@@ -6338,7 +6308,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3831678556737950063}
   - component: {fileID: 7060444620360700254}
-  - component: {fileID: 3171490708983545427}
   - component: {fileID: 7308161938874048175}
   - component: {fileID: 3425848096899916112}
   m_Layer: 5
@@ -6678,19 +6647,6 @@ RectTransform:
   m_AnchoredPosition: {x: -90, y: 0}
   m_SizeDelta: {x: 55, y: 55}
   m_Pivot: {x: 0, y: 0.5}
---- !u!114 &3171490708983545427
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2806972901637213183}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02333b3f3e7149c6b74f79468849b828, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _abilityImage: {fileID: 7308161938874048175}
 --- !u!222 &3228699639034182924
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6932,7 +6888,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3171490708983545427}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RoguelikeMap.Panels.AbilityButton, Assembly-CSharp
         m_MethodName: OnMouseDown
         m_Mode: 1
@@ -7076,7 +7032,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9137370773569351346}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RoguelikeMap.Panels.AbilityButton, Assembly-CSharp
         m_MethodName: OnMouseDown
         m_Mode: 1
@@ -7198,19 +7154,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -8}
   m_SizeDelta: {x: 0, y: 73}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &3721043073821102729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2760045339922249738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02333b3f3e7149c6b74f79468849b828, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _abilityImage: {fileID: 65562574548481492}
 --- !u!224 &3725422094788279659
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8173,7 +8116,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6328294958765865714}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RoguelikeMap.Panels.AbilityButton, Assembly-CSharp
         m_MethodName: OnMouseDown
         m_Mode: 1
@@ -8692,19 +8635,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
---- !u!114 &6270352673140861768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7346859890216093954}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99d4f9833174480f80d426f23f71aa8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _abilityImage: {fileID: 6780792654254611147}
 --- !u!224 &6301707174935010496
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8743,19 +8673,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &6328294958765865714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1244246936076578653}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02333b3f3e7149c6b74f79468849b828, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _abilityImage: {fileID: 4905458204148118520}
 --- !u!114 &6341760966787376538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8800,7 +8717,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8447254170989502411}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RoguelikeMap.Panels.PassiveAbilityButton, Assembly-CSharp
         m_MethodName: OnMouseDown
         m_Mode: 1
@@ -8856,13 +8773,13 @@ MonoBehaviour:
   _evasionText: {fileID: 4462172839171462}
   _accuracyText: {fileID: 2774280453012135562}
   _activeAbilityButtons:
-  - {fileID: 6328294958765865714}
-  - {fileID: 3171490708983545427}
-  - {fileID: 9137370773569351346}
-  - {fileID: 3721043073821102729}
+  - {fileID: 5152532098346572516}
+  - {fileID: 3425848096899916112}
+  - {fileID: 3607509157338605820}
+  - {fileID: 2368674815090702942}
   _passiveAbilityButtons:
-  - {fileID: 6270352673140861768}
-  - {fileID: 8447254170989502411}
+  - {fileID: 2095414884850546512}
+  - {fileID: 6341760966787376538}
 --- !u!1 &6566929030171656065
 GameObject:
   m_ObjectHideFlags: 0
@@ -9580,7 +9497,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7182508132435388755}
   - component: {fileID: 1145395629115277490}
-  - component: {fileID: 6270352673140861768}
   - component: {fileID: 6780792654254611147}
   - component: {fileID: 2095414884850546512}
   m_Layer: 5
@@ -9847,7 +9763,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6301707174935010496}
   - component: {fileID: 4447558141550269546}
-  - component: {fileID: 9137370773569351346}
   - component: {fileID: 8749560531388065111}
   - component: {fileID: 3607509157338605820}
   m_Layer: 5
@@ -10439,19 +10354,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0.25}
   m_SizeDelta: {x: 1816, y: 1066.5}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8447254170989502411
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1559297943602057097}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99d4f9833174480f80d426f23f71aa8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _abilityImage: {fileID: 1652211316095786663}
 --- !u!114 &8524021148457577366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10851,19 +10753,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &9137370773569351346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7793474779816880994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02333b3f3e7149c6b74f79468849b828, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _abilityImage: {fileID: 8749560531388065111}
 --- !u!1 &9138630583133354343
 GameObject:
   m_ObjectHideFlags: 0
