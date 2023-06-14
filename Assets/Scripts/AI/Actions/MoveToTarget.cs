@@ -23,6 +23,10 @@ namespace AI.Conditions
         public async UniTask<bool> Run(Blackboard blackboard)
         {
             var targets = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
+            foreach (var abilitySystemActor in targets)
+            {
+                Debug.Log(abilitySystemActor.Position);
+            }
             if (!targets.Any())
                 return false;
             
@@ -48,7 +52,7 @@ namespace AI.Conditions
                 Purpose.Heal => AbilityAIPresentation.GetAvailableHealAbilities(battleContext, caster, target),
                 _ => throw new ArgumentOutOfRangeException()
             };
-
+            Debug.Log(targetAbilities.Count());
             foreach (var damageAbility in targetAbilities)
             {
                 var cellsFromTarget = GetCellsForCastingAbility(damageAbility.ability.AbilityData, target);

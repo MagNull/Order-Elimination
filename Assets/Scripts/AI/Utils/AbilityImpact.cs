@@ -2,13 +2,16 @@
 using System.Linq;
 using OrderElimination.AbilitySystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AI.Utils
 {
     public struct AbilityImpact
     {
-        public float Damage;
-        public float Heal;
+        public float CurrentDamage;
+        public float CurrentHeal;
+        public float RawDamage;
+        public float RawHeal;
 
         private readonly IActiveAbilityData _data;
         private readonly IBattleContext _battleContext;
@@ -22,8 +25,10 @@ namespace AI.Utils
             _battleContext = battleContext;
             _caster = caster;
             _targetPos = targetPos;
-            Damage = 0;
-            Heal = 0;
+            CurrentDamage = 0;
+            CurrentHeal = 0;
+            RawDamage = 0;
+            RawHeal = 0;
             StartProcess();
         }
 
@@ -66,9 +71,12 @@ namespace AI.Utils
             foreach (var cellGroupNumber in instruction.AffectedCellGroups)
             {
                 if (!executionContext.TargetedCellGroups.ContainsGroup(cellGroupNumber))
+                {
+                    CalculateRawDamage(instruction);
                     continue;
+                }
                 foreach (var cell in executionContext.TargetedCellGroups.GetGroup(cellGroupNumber))
-                    CalculateImpactFromCell(instruction, cell);
+                    CalculateCurrentImpactFromCell(instruction, cell);
             }
 
             var onSuccess = instruction.InstructionsOnActionSuccess;
@@ -80,7 +88,25 @@ namespace AI.Utils
                 ProcessInstruction(abilityInstruction);
         }
 
-        private void CalculateImpactFromCell(AbilityInstruction instruction, Vector2Int cell)
+        private void CalculateRawDamage(AbilityInstruction instruction)
+        {
+            var actionContext = new ActionContext(_battleContext,
+                _data.TargetingSystem.ExtractCastTargetGroups(),
+                _caster, null, Vector2Int.zero);
+
+            //Calculate value based on context
+            switch (instruction.Action)
+            {
+                case InflictDamageAction inflictDamageAction:
+                    RawDamage += inflictDamageAction.DamageSize.GetValue(actionContext) * instruction.RepeatNumber;
+                    break;
+                case HealAction healAction:
+                    RawHeal += healAction.HealSize.GetValue(actionContext) * instruction.RepeatNumber;
+                    break;
+            }
+        }
+
+        private void CalculateCurrentImpactFromCell(AbilityInstruction instruction, Vector2Int cell)
         {
             //Determine target type
             AbilitySystemActor[] targets = instruction.Action.ActionRequires switch
@@ -105,10 +131,12 @@ namespace AI.Utils
                 switch (instruction.Action)
                 {
                     case InflictDamageAction inflictDamageAction:
-                        Damage += inflictDamageAction.DamageSize.GetValue(actionContext) * instruction.RepeatNumber;
+                        CurrentDamage += inflictDamageAction.DamageSize.GetValue(actionContext) * instruction.RepeatNumber;
+                        RawDamage = CurrentDamage;
                         break;
                     case HealAction healAction:
-                        Heal += healAction.HealSize.GetValue(actionContext) * instruction.RepeatNumber;
+                        CurrentHeal += healAction.HealSize.GetValue(actionContext) * instruction.RepeatNumber;
+                        RawDamage = CurrentDamage;
                         break;
                 }
             }

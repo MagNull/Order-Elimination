@@ -24,52 +24,11 @@ MonoBehaviour:
   _avoidObject: []
   BehaviorTreeRoot:
     _childrenTask:
-    - rid: 8568508696226955270
     - rid: 8568508697395068933
     - rid: 8568508697395068937
   references:
     version: 2
     RefIds:
-    - rid: 8568508696226955269
-      type: {class: DamageTarget, ns: AI.Actions, asm: Assembly-CSharp}
-    - rid: 8568508696226955270
-      type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
-      data:
-        _childrenTask:
-        - rid: 8568508696226955271
-        - rid: 8568508696226955269
-        - rid: 8568508697395068929
-    - rid: 8568508696226955271
-      type: {class: HasTargetsInRadius, ns: AI.Actions, asm: Assembly-CSharp}
-      data:
-        _sortBy: 1
-        _needPassiveEffects: []
-        _relationship: 1
-        _radius: 10
-    - rid: 8568508696226955283
-      type: {class: HasTargetsInRadius, ns: AI.Actions, asm: Assembly-CSharp}
-      data:
-        _sortBy: 0
-        _needPassiveEffects:
-        - {fileID: 11400000, guid: f6488d714b05317408c5f7614b92ba2f, type: 2}
-        _relationship: 2
-        _radius: 1
-    - rid: 8568508697395068928
-      type: {class: MoveToNearestShelter, ns: AI.Actions, asm: Assembly-CSharp}
-      data:
-        _needPassiveEffects:
-        - {fileID: 11400000, guid: f6488d714b05317408c5f7614b92ba2f, type: 2}
-    - rid: 8568508697395068929
-      type: {class: BlackboardManager, ns: AI.Decorators, asm: Assembly-CSharp}
-      data:
-        _childrenTask:
-          rid: 8568508697395068930
-    - rid: 8568508697395068930
-      type: {class: Selector, ns: AI, asm: Assembly-CSharp}
-      data:
-        _childrenTask:
-        - rid: 8568508696226955283
-        - rid: 8568508697395068928
     - rid: 8568508697395068933
       type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
       data:

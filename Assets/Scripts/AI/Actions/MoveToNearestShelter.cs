@@ -35,6 +35,7 @@ namespace AI.Actions
                 movementAbility.AbilityExecutionCompleted += _ => completed = true;
                 await UniTask.WaitUntil(() => completed);
 
+                targeting.CancelTargeting();
                 return true;
             }
 
@@ -47,6 +48,7 @@ namespace AI.Actions
             SingleTargetTargetingSystem targeting, IBattleContext context)
         {
             return structure.Obstacle.IsAllowedToStay(caster) &&
+                   targeting.AvailableCells != null &&
                    targeting.AvailableCells.Contains(structure.Position) &&
                    !CharacterBehavior.AvoidObject.Contains(context.EntitiesBank.GetBattleStructureData(structure))
                    && _needPassiveEffects.All(ef =>
