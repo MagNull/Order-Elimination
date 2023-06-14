@@ -24,15 +24,15 @@ namespace AI
             _context = context;
         }
 
-        // private void OnEnable()
-        // {
-        //     _context.NewTurnStarted += OnTurnStarted;
-        // }
-        //
-        // private void OnDisable()
-        // {
-        //     _context.NewTurnStarted -= OnTurnStarted;
-        // }
+        private void OnEnable()
+        {
+            _context.NewTurnStarted += OnTurnStarted;
+        }
+        
+        private void OnDisable()
+        {
+            _context.NewTurnStarted -= OnTurnStarted;
+        }
 
         private void OnTurnStarted(IBattleContext context)
         {

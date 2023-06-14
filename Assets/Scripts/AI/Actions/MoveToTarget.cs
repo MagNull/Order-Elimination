@@ -22,8 +22,6 @@ namespace AI.Actions
         private Purpose _purpose; 
         public override async UniTask<bool> Run(Blackboard blackboard)
         {
-            Debug.Log("MoveToTarget");
-
             var targets = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
             foreach (var abilitySystemActor in targets)
             {
