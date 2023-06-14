@@ -7,9 +7,9 @@ using UnityEngine;
 
 namespace AI.Actions
 {
-    public class HealTarget : IBehaviorTreeTask
+    public class HealTarget : BehaviorTreeTask
     {
-        public async UniTask<bool> Run(Blackboard blackboard)
+        public override async UniTask<bool> Run(Blackboard blackboard)
         {
             var targets = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
             var context = blackboard.Get<IBattleContext>("context");
@@ -40,6 +40,7 @@ namespace AI.Actions
             {
                 case SingleTargetTargetingSystem:
                 {
+                    
                     await bestUseAbility.CastSingleTarget(battleContext, caster, target.Position);
                     break;
                 }

@@ -15,10 +15,11 @@ namespace AI.Utils
             
             var targeting = (SingleTargetTargetingSystem)abilityRunner.AbilityData.TargetingSystem;
             targeting.ConfirmationUnlocked += _ => { targeting.ConfirmTargeting(); };
-            targeting.Select(targetPos);
 
             var completed = false;
             abilityRunner.AbilityExecutionCompleted += _ => completed = true;
+            
+            targeting.Select(targetPos);
             await UniTask.WaitUntil(() => completed);
         }
     }

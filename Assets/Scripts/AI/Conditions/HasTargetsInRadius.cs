@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AI.Actions;
 using AI.Utils;
 using Cysharp.Threading.Tasks;
 using OrderElimination.AbilitySystem;
@@ -7,22 +8,15 @@ using OrderElimination.Infrastructure;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace AI.Actions
+namespace AI.Conditions
 {
-    public enum TargetSort
-    {
-        Distance,
-        Value
-    }
-    
-
-    public class HasTargetsInRadius : IBehaviorTreeTask
+    public class HasTargetsInRadius : BehaviorTreeTask
     {
         [SerializeField]
         private TargetSort _sortBy;
 
-        [SerializeField]
-        private PassiveAbilityBuilder[] _needPassiveEffects;
+        [SerializeReference]
+        private ITargetCondition[] _targetConditions;
 
         [SerializeField]
         private BattleRelationship _relationship;
@@ -30,7 +24,7 @@ namespace AI.Actions
         [SerializeField]
         private int _radius;
 
-        public async UniTask<bool> Run(Blackboard blackboard)
+        public override async UniTask<bool> Run(Blackboard blackboard)
         {
             var context = blackboard.Get<IBattleContext>("context");
             var caster = blackboard.Get<AbilitySystemActor>("caster");
@@ -50,21 +44,13 @@ namespace AI.Actions
 
             enemies = enemies.Where(e =>
                 context.BattleMap.GetGameDistanceBetween(e.Position, caster.Position) <= _radius)
-                .Where(CheckPassiveEffect);
+                .Where(enemy => _targetConditions.All(co => co.Check(enemy)));
 
             if (!enemies.Any())
                 return false;
 
             blackboard.Register("targets", enemies);
             return true;
-        }
-        
-        private bool CheckPassiveEffect(AbilitySystemActor target)
-        {
-            if (!_needPassiveEffects.Any())
-                return true;
-            var targetPassives = target.PassiveAbilities.Select(ab => ab.AbilityData.BasedBuilder);
-            return _needPassiveEffects.All(ef => targetPassives.Contains(ef));
         }
     }
 }
