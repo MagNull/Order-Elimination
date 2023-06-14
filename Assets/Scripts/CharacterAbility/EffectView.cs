@@ -1,27 +1,13 @@
 ﻿using CharacterAbility.BuffEffects;
 using OrderElimination;
+using OrderElimination.Localization;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using UIManagement.trashToRemove_Mockups;
 using UnityEngine;
 
 namespace CharacterAbility
 {
-    //public class EffectParameterAttribute : Attribute
-    //{
-    //    public readonly string ParameterKey;
-    //    public readonly ValueUnits Units;
-
-    //    public EffectParameterAttribute(string parameterKey, ValueUnits units)
-    //    {
-    //        ParameterKey = parameterKey;
-    //        Units = units;
-    //    }
-    //}
-
     public enum ValueUnits
     {
         None,

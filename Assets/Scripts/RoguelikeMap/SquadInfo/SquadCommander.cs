@@ -66,7 +66,7 @@ namespace RoguelikeMap.SquadInfo
             StartAttack(GameCharactersFactory.CreateGameEntities(battlePointModel.Enemies), battlePointModel.Scenario);
         }
         
-        private void StartAttackByEventPoint(IReadOnlyList<IGameCharacterData> enemies)
+        private void StartAttackByEventPoint(IReadOnlyList<IGameCharacterTemplate> enemies)
         {
             if (_target is not EventPointModel eventPointModel)
                 throw new ArgumentException("Is not valid point to attack");

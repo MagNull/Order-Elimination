@@ -6,7 +6,9 @@ namespace OrderElimination
     public struct StrategyStats
     {
         public int Lvl;
+
         public int CostOfUpgrade;
+
         public int HealthGrowth;
         public int AttackGrowth;
         public int ArmorGrowth;

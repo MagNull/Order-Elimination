@@ -1,14 +1,14 @@
 using CharacterAbility;
 using OrderElimination;
 using OrderElimination.AbilitySystem;
-using OrderElimination.Domain;
+using OrderElimination.MetaGame;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 //Deprecated
-[Obsolete("Deprecated. Use " + nameof(IGameCharacterData) + " instead.")]
-public interface IBattleCharacterInfo : IGameCharacterData
+[Obsolete("Deprecated. Use " + nameof(IGameCharacterTemplate) + " instead.")]
+public interface IBattleCharacterInfo : IGameCharacterTemplate
 {
     public IReadOnlyBattleStats GetBattleStats();
     public string Name { get; }
@@ -19,15 +19,14 @@ public interface IBattleCharacterInfo : IGameCharacterData
 }
 
 //New
-public interface IGameCharacterData//Rename to IBattleCharacterInfo
+public interface IGameCharacterTemplate//Rename to IBattleCharacterInfo
 {
     public string Name { get; }
     public Sprite BattleIcon { get; }
     public Sprite Avatar { get; }
-    public BaseBattleStats BaseBattleStats { get; }
-
     public int CostValue { get; }
 
+    public IReadOnlyGameCharacterStats GetBaseBattleStats();
     public ActiveAbilityBuilder[] GetActiveAbilities();
     public PassiveAbilityBuilder[] GetPassiveAbilities();
 }

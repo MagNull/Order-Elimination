@@ -1,36 +1,49 @@
-using System;
 using CharacterAbility;
-using Inventory_Items;
 using OrderElimination.AbilitySystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
-using System.Collections.Generic;
 using Sirenix.Serialization;
-using OrderElimination.Domain;
 using System.Linq;
+using OrderElimination.MetaGame;
 
 namespace OrderElimination
 {
-    [CreateAssetMenu(fileName = "CharacterInfo", menuName = "Battle/Character")]
-    public class Character : SerializedScriptableObject, IBattleCharacterInfo, IGameCharacterData
+    [CreateAssetMenu(fileName = "new CharacterTemplate", menuName = "Battle/CharacterTemplate")]
+    public class CharacterTemplate : SerializedScriptableObject, IBattleCharacterInfo, IGameCharacterTemplate
     {
         //New System
         [SerializeField]
         private string _name;
+
         [PreviewField(Alignment = ObjectFieldAlignment.Left, Height = 80)]
         [SerializeField]
         private Sprite _viewIcon;
+
         [PreviewField(Alignment = ObjectFieldAlignment.Left, Height = 200)]
         [SerializeField]
         private Sprite _viewAvatar;
-        [ShowInInspector, OdinSerialize]
-        private BaseBattleStats _baseBattleStats;
+
+        [SerializeField]
+        private float _maxHealth;
+        [SerializeField]
+        private float _maxArmor;
+        [SerializeField]
+        private float _attackDamage;
+        [SerializeField]
+        private float _accuracy;
+        [SerializeField]
+        private float _evasion;
+        [SerializeField]
+        private float _maxMovementDistance;
+
         [SerializeReference]
         private ActiveAbilityBuilder[] _activeAbilitiesData;
+
         [SerializeReference]
         private PassiveAbilityBuilder[] _passiveAbilitiesData;
+
         private Inventory_Items.Inventory _inventory = new Inventory_Items.Inventory(2);
+
         [ShowInInspector]
         public Inventory_Items.Inventory Inventory => _inventory;
 
@@ -38,8 +51,9 @@ namespace OrderElimination
         public string Name => _name;
         public Sprite BattleIcon => _viewIcon;
         public Sprite Avatar => _viewAvatar;
-        public BaseBattleStats BaseBattleStats => _baseBattleStats;
-        
+        public IReadOnlyGameCharacterStats GetBaseBattleStats() => new GameCharacterStats(
+            _maxHealth, _maxArmor, _attackDamage, _accuracy, _evasion, _maxMovementDistance);
+
         [field: SerializeField]
         public int CostValue { get; private set; }
         public ActiveAbilityBuilder[] GetActiveAbilities() => _activeAbilitiesData.ToArray();
@@ -49,7 +63,6 @@ namespace OrderElimination
         public IReadOnlyBattleStats GetBattleStats() => null;
         public AbilityInfo[] GetActiveAbilityInfos() => null;
         public AbilityInfo[] GetPassiveAbilityInfos() => null;
-        public StrategyStats GetStrategyStats() => default;
 
         [Button]
         public void ResetInventory()

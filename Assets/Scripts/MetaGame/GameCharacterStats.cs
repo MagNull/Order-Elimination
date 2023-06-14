@@ -1,15 +1,12 @@
-﻿using Sirenix.OdinInspector;
+﻿using OrderElimination.AbilitySystem;
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
-namespace OrderElimination.Domain
+namespace OrderElimination.MetaGame
 {
-    public struct BaseBattleStats
+    public struct GameCharacterStats : IReadOnlyGameCharacterStats
     {
         [OdinSerialize, HideInInspector]
         private float _maxHealth;
@@ -28,7 +25,7 @@ namespace OrderElimination.Domain
         public float MaxHealth
         {
             get => _maxHealth;
-            private set
+            set
             {
                 if (value < 0) value = 0;
                 _maxHealth = value;
@@ -39,7 +36,7 @@ namespace OrderElimination.Domain
         public float MaxArmor
         {
             get => _maxArmor;
-            private set
+            set
             {
                 if (value < 0) value = 0;
                 _maxArmor = value;
@@ -50,7 +47,7 @@ namespace OrderElimination.Domain
         public float AttackDamage
         {
             get => _attackDamage;
-            private set
+            set
             {
                 if (value < 0) value = 0;
                 _attackDamage = value;
@@ -62,7 +59,7 @@ namespace OrderElimination.Domain
         public float Accuracy
         {
             get => _accuracy;
-            private set
+            set
             {
                 if (value < 0) value = 0;
                 if (value > 1) value = 1;
@@ -75,7 +72,7 @@ namespace OrderElimination.Domain
         public float Evasion
         {
             get => _evasion;
-            private set
+            set
             {
                 if (value < 0) value = 0;
                 if (value > 1) value = 1;
@@ -87,14 +84,15 @@ namespace OrderElimination.Domain
         public float MaxMovementDistance
         {
             get => _maxMovementDistance;
-            private set
+            set
             {
                 if (value < 0) value = 0;
                 _maxMovementDistance = value;
             }
         }
 
-        public BaseBattleStats(float maxHealth, float maxArmor, float attack, float accuracy, float evasion, float movement)
+        public GameCharacterStats(
+            float maxHealth, float maxArmor, float attack, float accuracy, float evasion, float movement)
         {
             _maxHealth = Mathf.Max(0, maxHealth);
             _maxArmor = Mathf.Max(0, maxArmor);
@@ -102,6 +100,21 @@ namespace OrderElimination.Domain
             _accuracy = Mathf.Clamp01(accuracy);
             _evasion = Mathf.Clamp01(evasion);
             _maxMovementDistance = Mathf.Max(0, movement);
+        }
+
+        public float this[BattleStat battleStat]
+        {
+            get => battleStat switch
+            {
+                BattleStat.MaxHealth => MaxHealth,
+                BattleStat.MaxArmor => MaxArmor,
+                BattleStat.AttackDamage => AttackDamage,
+                BattleStat.Accuracy => Accuracy,
+                BattleStat.Evasion => Evasion,
+                BattleStat.MaxMovementDistance => MaxMovementDistance,
+                _ => throw new NotImplementedException(),
+            };
+            set => this[battleStat] = value;
         }
     }
 }

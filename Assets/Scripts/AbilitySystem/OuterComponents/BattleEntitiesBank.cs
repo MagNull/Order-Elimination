@@ -50,7 +50,7 @@ namespace OrderElimination.AbilitySystem
             return _basedStructures[structureEntity];
         }
 
-        public void AddCharacterEntity(AbilitySystemActor entity, BattleEntityView view, IGameCharacterData basedData)
+        public void AddCharacterEntity(AbilitySystemActor entity, BattleEntityView view, IGameCharacterTemplate basedData)
         {
             if (entity.EntityType != EntityType.Character)
                 throw new InvalidOperationException("Attempt to add non-character entity.");

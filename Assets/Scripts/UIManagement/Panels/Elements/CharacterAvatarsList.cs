@@ -27,7 +27,7 @@ namespace UIManagement.Elements
         public event Action<CharacterClickableAvatar> ElementHolded;
 
         [Button]
-        public void Populate(Character[] charactersInfo)
+        public void Populate(CharacterTemplate[] charactersInfo)
         {
             if (_elementPrefab == null)
                 throw new Exception("No given prefab for instancing.");

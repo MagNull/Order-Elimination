@@ -30,9 +30,23 @@ namespace StartSessionMenu
             _panels.Add(_libraryPanel);
         }
 
-        public void OpenChoosingCharacterPanel() => OpenPanelByType(PanelType.Characters);
-        public void OpenMetaShopPanel() => OpenPanelByType(PanelType.MetaShop);
-        public void OpenLibraryPanel() => OpenPanelByType(PanelType.Library);
+        public void OpenChoosingCharacterPanel()
+        {
+            if (!_choosingCharacterPanel.IsOpen)
+                OpenPanelByType(PanelType.Characters);   
+        }
+
+        public void OpenMetaShopPanel()
+        {
+            if (!_metaShopPanel.IsOpen)
+                OpenPanelByType(PanelType.MetaShop);   
+        }
+
+        public void OpenLibraryPanel()
+        {
+            if (!_libraryPanel.IsOpen)
+                OpenPanelByType(PanelType.Library);
+        }
 
         private void OpenPanelByType(PanelType panelType)
         {

@@ -17,13 +17,13 @@ namespace UIManagement.Elements
         [SerializeField] private TextMeshProUGUI _characterName;
         [SerializeField] private Image _characterAvatar;
         [SerializeField] private HoldableButton _avatarButton;
-        public Character CurrentCharacterInfo { get; private set; }
+        public CharacterTemplate CurrentCharacterInfo { get; private set; }
         public IBattleCharacterInfo currentBattleCharacterInfo { get; private set; }
 
         public event Action<CharacterClickableAvatar> Clicked;
         public event Action<CharacterClickableAvatar> Holded;
 
-        public void UpdateCharacterInfo(Character character)
+        public void UpdateCharacterInfo(CharacterTemplate character)
         {
             if (character == null)
             {

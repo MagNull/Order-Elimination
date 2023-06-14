@@ -11,10 +11,10 @@ namespace OrderElimination
     public class CharactersMediator : SerializedMonoBehaviour
     {
         [ShowInInspector, OdinSerialize]
-        private List<IGameCharacterData> _testPlayerCharacters = new();
+        private List<IGameCharacterTemplate> _testPlayerCharacters = new();
 
         [ShowInInspector, OdinSerialize]
-        private List<IGameCharacterData> _testEnemyCharacters = new();
+        private List<IGameCharacterTemplate> _testEnemyCharacters = new();
 
         //[HideInInspector, OdinSerialize]
         private List<GameCharacter> _playerCharacters;

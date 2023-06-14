@@ -17,7 +17,7 @@ namespace RoguelikeMap.UI.PointPanels
         [SerializeField]
         private CharacterCard _characterCardPrefab;
 
-        private List<Character> _enemies;
+        private List<CharacterTemplate> _enemies;
         private CharacterInfoPanel _characterInfoPanel;
         public event Action OnStartAttack;
         

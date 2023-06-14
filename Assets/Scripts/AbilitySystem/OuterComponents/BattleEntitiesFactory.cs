@@ -1,5 +1,4 @@
 using OrderElimination.AbilitySystem;
-using OrderElimination.Domain;
 using OrderElimination.Infrastructure;
 using OrderElimination.MetaGame;
 using System;
@@ -38,7 +37,14 @@ public class BattleEntitiesFactory : MonoBehaviour
             throw new ArgumentOutOfRangeException("Position is not within map borders");
 
         var battleEntity = new AbilitySystemActor(
-            _battleContext, character.BattleStats, 
+            _battleContext,
+            new BattleStats(
+                character.CharacterStats.MaxHealth,
+                character.CharacterStats.MaxArmor,
+                character.CharacterStats.AttackDamage,
+                character.CharacterStats.Accuracy,
+                character.CharacterStats.Evasion,
+                character.CharacterStats.MaxMovementDistance), 
             EntityType.Character, 
             side, 
             character.PosessedActiveAbilities.ToArray(),
@@ -61,8 +67,7 @@ public class BattleEntitiesFactory : MonoBehaviour
         if (!_battleContext.BattleMap.CellRangeBorders.Contains(position))
             throw new ArgumentOutOfRangeException("Position is not within map borders");
 
-        var stats = new BaseBattleStats(structureData.MaxHealth, 0, 0, 0, 0, 0);
-        var battleStats = new BattleStats(stats);
+        var battleStats = new BattleStats(structureData.MaxHealth, 0, 0, 0, 0, 0);
         var passiveAbilities = structureData.GetPossesedAbilities().Select(a => AbilityFactory.CreatePassiveAbility(a)).ToArray();
         var battleEntity = new AbilitySystemActor(
             _battleContext, 

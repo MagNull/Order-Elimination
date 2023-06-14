@@ -7,17 +7,26 @@ using TMPro;
 using UIManagement.Elements;
 using System.Linq;
 using Inventory_Items;
-using Sirenix.OdinInspector;
 using OrderElimination.AbilitySystem;
 using OrderElimination;
 using UnityEngine.Serialization;
-using BattleStats = OrderElimination.AbilitySystem.BattleStats;
 using OrderElimination.MetaGame;
+using OrderElimination.Localization;
+using OrderElimination.Infrastructure;
 
 namespace UIManagement
 {
     public class CharacterDescriptionPanel : UIPanel
     {
+        private static Dictionary<BattleStat, int> _statsElementsIdMapping = new()
+        {
+            { BattleStat.MaxHealth, 0 },
+            { BattleStat.AttackDamage, 1 },
+            { BattleStat.MaxArmor, 2 },
+            { BattleStat.Evasion, 3 },
+            { BattleStat.Accuracy, 4 },
+        };
+
         public override PanelType PanelType => PanelType.CharacterDescription;
         [SerializeField]
         private TextMeshProUGUI _characterName;
@@ -39,7 +48,7 @@ namespace UIManagement
 
         protected GameCharacter _characterData;
 
-        protected OrderElimination.Character _currentCharacterInfo;
+        protected OrderElimination.CharacterTemplate _currentCharacterInfo;
         protected BattleCharacterView _currentBattleCharacterInfo;
 
         protected override void Initialize()
@@ -52,7 +61,7 @@ namespace UIManagement
             _characterData = character;
             _characterName.text = character.CharacterData.Name;
             _characterAvatar.sprite = character.CharacterData.Avatar;
-            UpdateBattleStats(character.BattleStats);
+            UpdateBattleStats(character.CharacterStats);
 
         }
 
@@ -76,7 +85,7 @@ namespace UIManagement
             UpdateAbilityButtonsInfo(activeAbilities, passiveAbilities);
         }
 
-        public void UpdateCharacterDescription(OrderElimination.Character characterInfo)
+        public void UpdateCharacterDescription(CharacterTemplate characterInfo)
         {
             if (characterInfo == null)
             {
@@ -96,20 +105,22 @@ namespace UIManagement
             UpdateAbilityButtonsInfo(activeAbilities, passiveAbilities);
         }
 
-        private void UpdateBattleStats(BattleStats battleStats)
+        private void UpdateBattleStats(IReadOnlyGameCharacterStats stats)
         {
             if (_characterStats.Count != 5)
                 throw new System.InvalidOperationException();
-            _characterStats[0].Text = "��������";
-            _characterStats[1].Text = "����";
-            _characterStats[2].Text = "�����";
-            _characterStats[3].Text = "���������";
-            _characterStats[4].Text = "��������";
-            _characterStats[0].Value = battleStats[BattleStat.MaxHealth].ModifiedValue.ToString();
-            _characterStats[1].Value = battleStats[BattleStat.AttackDamage].ModifiedValue.ToString();
-            _characterStats[2].Value = battleStats[BattleStat.MaxArmor].ModifiedValue.ToString();
-            _characterStats[3].Value = $"{battleStats[BattleStat.Evasion].ModifiedValue * 100}%";
-            _characterStats[4].Value = $"{battleStats[BattleStat.Accuracy].ModifiedValue * 100}%";
+            foreach (var stat in EnumExtensions.GetValues<BattleStat>())
+            {
+                if (_statsElementsIdMapping.ContainsKey(stat))
+                {
+                    var item = _characterStats[_statsElementsIdMapping[stat]];
+                    item.Text = Localization.Current.GetBattleStatName(stat);
+                    if (stat == BattleStat.Accuracy || stat == BattleStat.Evasion)
+                        item.Value = $"{stats[stat] * 100}%";
+                    else
+                        item.Value = stats[stat].ToString();
+                }
+            }
         }
 
         private void UpdateAbilityButtonsInfo(AbilityInfo[] activeAbilities, AbilityInfo[] passiveAbilities)

@@ -54,20 +54,26 @@ namespace RoguelikeMap.UI.Characters
         public void InitializeCharacterInfo(GameCharacter character)
         {
             if(_playerInventoryPresenter is not null)
-            _characterInventoryPresenter.InitInventoryModel(character.Inventory);
-            InitializeStatsText(character.BattleStats);
+                _characterInventoryPresenter.InitInventoryModel(character.Inventory);
+            InitializeStatsText(
+                character.CharacterStats.MaxHealth,
+                character.CharacterStats.MaxArmor,
+                character.CharacterStats.AttackDamage,
+                character.CharacterStats.Accuracy,
+                character.CharacterStats.Evasion);
             _characterAvatar.sprite = character.CharacterData.Avatar;
             _characterName.text = character.CharacterData.Name;
-                _playerInventoryPresenter.UpdateTargetInventory(character.Inventory);
+            _playerInventoryPresenter.UpdateTargetInventory(character.Inventory);
         }
 
-        private void InitializeStatsText(IBattleStats stats)
+        private void InitializeStatsText(
+            float maxHealth, float maxArmor, float attack, float accuracy, float evasion)
         {
-            _hpText.text = $"{stats[BattleStat.MaxHealth].ModifiedValue}";
-            _damageText.text = $"{stats[BattleStat.AttackDamage].ModifiedValue}";
-            _armorText.text = $"{stats[BattleStat.MaxArmor].ModifiedValue}";
-            _evasionText.text = $"{stats[BattleStat.Evasion].ModifiedValue}";
-            _accuracyText.text = $"{stats[BattleStat.Accuracy].ModifiedValue}";
+            _hpText.text = maxHealth.ToString();
+            _armorText.text = maxArmor.ToString();
+            _damageText.text = attack.ToString();
+            _accuracyText.text = accuracy.ToString();
+            _evasionText.text = evasion.ToString();
         }
 
         private void InitializeAbilityButtons(AbilityInfo[] activeAbilityInfos)

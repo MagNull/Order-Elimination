@@ -22,7 +22,7 @@ namespace RoguelikeMap.SquadInfo
         
         //Заглушка, чтобы не запускаться из другой сцены
         [SerializeField]
-        private List<Character> _testSquadMembers;
+        private List<CharacterTemplate> _testSquadMembers;
         [SerializeField] 
         private Transform _iconsMembersOnButton;
         
