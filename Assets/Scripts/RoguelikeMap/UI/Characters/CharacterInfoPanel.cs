@@ -44,7 +44,10 @@ namespace RoguelikeMap.UI.Characters
         [SerializeField] 
         private TMP_Text _accuracyText;
 
-        [Title("Abilities")] 
+        [Title("Abilities")]
+        [PreviewField]
+        [SerializeField]
+        private Sprite _noAbilityIcon;
         [SerializeField]
         private List<Button> _activeAbilityButtons = new ();
         [SerializeField]
@@ -87,7 +90,7 @@ namespace RoguelikeMap.UI.Characters
         {
             foreach (var button in _activeAbilityButtons.Concat(_passiveAbilityButtons))
             {
-                button.image.sprite = null;
+                button.image.sprite = _noAbilityIcon;
                 button.onClick.RemoveAllListeners();
             }
             var displayedActiveAbilities = activeAbilities
