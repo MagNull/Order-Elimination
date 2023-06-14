@@ -69,7 +69,6 @@ namespace RoguelikeMap.UI.Characters
                 _characterInventoryPresenter.InitInventoryModel(character.Inventory);
             //TODO: Update inventory
             //_playerInventoryPresenter.UpdateTargetInventory(character.Inventory);
-            _playerInventoryPresenter.UpdateTargetInventory(character.Inventory);
         }
 
         private void InitializeStatsText(
