@@ -51,7 +51,13 @@ namespace UIManagement.Elements
             effectButton.Clicked -= OnEffectButtonClicked;
             _buttonsByEffects.Remove(effect);
             _effectsByButtons.Remove(effectButton);
-            Destroy(effectButton.gameObject);
+
+            effectButton.DOComplete();
+            var disappearTime = effectButton.transform.localScale.magnitude * effectAppearTime / 2;
+            effectButton.transform
+                .DOScale(0.1f, disappearTime)
+                .SetEase(effectAppearEase)
+                .OnComplete(() => Destroy(effectButton.gameObject));
         }
 
         public void ClearEffects()

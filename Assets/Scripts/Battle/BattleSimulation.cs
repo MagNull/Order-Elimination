@@ -35,8 +35,8 @@ public class BattleSimulation : SerializedMonoBehaviour
     //TODO: Remove panel, use event instead call inside methods(like EndRound, BattleEnd)
     [SerializeField]
     private AbilityPanel _abilityPanel;
-    [SerializeField]
-    private CharacterBattleStatsPanel _selectedPlayerCharacterStatsPanel;
+    //[SerializeField]
+    //private CharacterBattleStatsPanel _selectedPlayerCharacterStatsPanel;
     [SerializeField]
     private EnemiesListPanel _enemiesListPanel;
     [SerializeField]
@@ -107,7 +107,7 @@ public class BattleSimulation : SerializedMonoBehaviour
     public void EndTurn()
     {
         _abilityPanel.ResetAbilityButtons();
-        _selectedPlayerCharacterStatsPanel.HideInfo();
+        //_selectedPlayerCharacterStatsPanel.HideInfo();
         SwitchTurn();
         StartRound();
     }
@@ -154,7 +154,7 @@ public class BattleSimulation : SerializedMonoBehaviour
         if (_battleState == BattleState.End) 
             return;
         BattleEnded?.Invoke(_outcome);
-        _selectedPlayerCharacterStatsPanel.HideInfo();
+        //_selectedPlayerCharacterStatsPanel.HideInfo();
         _abilityPanel.ResetAbilityButtons();
         _battleState = BattleState.End;
         Debug.LogFormat("�������� ��������� - ������� {0}", _outcome == BattleOutcome.Victory ? "�����" : "��");
@@ -193,7 +193,7 @@ public class BattleSimulation : SerializedMonoBehaviour
         //_abilityViewBinder.BindAbilityButtons(_battleMapDirector.MapView, _abilityPanel);
 
         //BattleCharacterView.Selected += _selectedPlayerCharacterStatsPanel.UpdateCharacterInfo;
-        BattleCharacterView.Deselected += info => _selectedPlayerCharacterStatsPanel.HideInfo();
+        //BattleCharacterView.Deselected += info => _selectedPlayerCharacterStatsPanel.HideInfo();
     }
 
     private void OnDisable()

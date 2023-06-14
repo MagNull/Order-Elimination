@@ -42,6 +42,7 @@ namespace UIManagement.Elements
 
         private void OnEntitiesBankChanged(IReadOnlyEntitiesBank bank)
         {
+            Debug.Log("OnBankChanged" % Colorize.Magenta);
             var enemies = bank.GetEntities().Where(e => IsEnemyCharacter(e));
             if (_entitiesPanels.Count == 0)
             {

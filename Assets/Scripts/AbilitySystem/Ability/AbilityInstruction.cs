@@ -252,6 +252,9 @@ namespace OrderElimination.AbilitySystem
                 {
                     if (AnimationBeforeAction != null)
                         await AnimationBeforeAction.Play(animationContext);
+                    if (Action.ActionRequires == ActionRequires.Entity
+                        && actionContext.ActionTarget.IsDisposedFromBattle)
+                        continue;
                     if ((await Action.ModifiedPerform(actionContext)).IsSuccessful) //Action Success
                     {
                         if (SuccessInstructionsEveryRepeat)
