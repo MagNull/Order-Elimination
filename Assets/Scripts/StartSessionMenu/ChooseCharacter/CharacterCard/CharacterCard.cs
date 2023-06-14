@@ -1,5 +1,6 @@
 using System;
 using OrderElimination;
+using OrderElimination.MetaGame;
 using UIManagement.Elements;
 using UnityEngine;
 using Image = UnityEngine.UI.Image;
@@ -12,17 +13,15 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         protected Image _cardImage;
         [SerializeField]
         private HoldableButton _button;
-        
-        private Character _character;
-        private Transform _defaultParent;
         public bool IsSelected { get; protected set; }
-        public Character Character => _character;
+        public GameCharacter Character { get; private set; }
         public event Action<CharacterCard> OnGetInfo;
         
-        public virtual void InitializeCard(Character character, bool isSelected)
+        public virtual void InitializeCard(GameCharacter character, bool isSelected)
         {
-            _character = character;
-            _cardImage.sprite = character.Avatar;
+            //TODO Remove downcast. Keep changing Character with GameCharacter
+            Character = character;
+            _cardImage.sprite = character.CharacterData.Avatar;
             _button.Clicked += OnClick;
             IsSelected = isSelected;
         }

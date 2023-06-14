@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using OrderElimination;
+using OrderElimination.MetaGame;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.UI.Characters;
@@ -20,7 +22,7 @@ namespace RoguelikeMap.SquadInfo
         
         //Заглушка, чтобы не запускаться из другой сцены
         [SerializeField]
-        private List<Character> _testSquadMembers;
+        private List<CharacterTemplate> _testSquadMembers;
         [SerializeField] 
         private Transform _iconsMembersOnButton;
         
@@ -31,7 +33,7 @@ namespace RoguelikeMap.SquadInfo
         private List<CharacterCard> _cardsOnButton = new();
 
         public int AmountOfCharacters => _model.AmountOfMembers;
-        public IReadOnlyList<Character> Members => _model.Members;
+        public IReadOnlyList<GameCharacter> Members => _model.Members;
         public PointModel Point => _model.Point;
         public event Action<Squad> OnSelected;
         
@@ -50,7 +52,7 @@ namespace RoguelikeMap.SquadInfo
 
         private void Start()
         {
-            var characters = _testSquadMembers;
+            var characters = GameCharactersFactory.CreateGameEntities(_testSquadMembers);
             if (SquadMediator.CharacterList is not null)
                 characters = SquadMediator.CharacterList;
             if(SquadMediator.Stats is null)
@@ -73,7 +75,7 @@ namespace RoguelikeMap.SquadInfo
             {
                 var card = _characterCardGenerator
                     .GenerateCardIcon(character, _iconsMembersOnButton);
-                card.SetImage(character.BattleIcon);
+                card.SetImage(character.CharacterData.BattleIcon);
                 card.transform.localScale = Vector3.one * 1.3f;
                 
                 _cardsOnButton.Add(card);
@@ -84,7 +86,7 @@ namespace RoguelikeMap.SquadInfo
         
         public void DistributeExperience(float expirience) => _model.DistributeExperience(expirience);
 
-        private void SetSquadMembers(List<Character> squadMembers, int countActiveMembers)
+        private void SetSquadMembers(List<GameCharacter> squadMembers, int countActiveMembers)
             => _model.SetSquadMembers(squadMembers, countActiveMembers);
 
         public void Visit(PointModel point)

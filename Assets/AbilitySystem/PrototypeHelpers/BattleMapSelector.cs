@@ -243,8 +243,10 @@ public class BattleMapSelector : MonoBehaviour
         view.Highlight(highlightColor, 0.1f, 0.2f, 0.3f);
         Debug.Log($"{entity.EntityType} {view.Name} selected." % Colorize.ByColor(new Color(1, 0.5f, 0.5f))
             + $"\nActionPoints: {string.Join(", ", entity.ActionPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
-            + $"\t{entity.StatusHolder}"
-            + $"\tEffects({entity.Effects.Count()}): {string.Join(", ", entity.Effects.Select(e => $"[{e.EffectData.View.Name}]"))}");
+            + $"\nHealth: {entity.LifeStats.Health}; MaxHealth: {entity.LifeStats.MaxHealth.ModifiedValue}" 
+            + $"\nTotalArmor: {entity.LifeStats.TotalArmor}; MaxHealth: {entity.LifeStats.MaxArmor.ModifiedValue}" 
+            + $"\n{entity.StatusHolder}"
+            + $"\nEffects({entity.Effects.Count()}): {string.Join(", ", entity.Effects.Select(e => $"[{e.EffectData.View.Name}]"))}");
     }
 
     private void DeselectEntity()

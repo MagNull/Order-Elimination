@@ -27,6 +27,6 @@ namespace RoguelikeMap.Points
 
         public virtual void Visit(Squad squad) => squad.Visit(this);
 
-        public void SetPanel(PanelGenerator panelGenerator) => _panel = panelGenerator.GetPanelByPointInfo(Type);
+        public void SetPanel(PanelManager panelManager) => _panel = panelManager.GetPanelByPointInfo(Type);
     }
 }

@@ -29,11 +29,11 @@ namespace OrderElimination.AbilitySystem
 
         [ShowIf("@" + nameof(Entity) + " == " + nameof(EntityType) + "." + nameof(EntityType.Character))]
         [ShowInInspector, OdinSerialize]
-        public IBattleCharacterData CharacterData { get; private set; }
+        public IGameCharacterTemplate CharacterData { get; private set; }
 
         [ShowIf("@" + nameof(Entity) + " == " + nameof(EntityType) + "." + nameof(EntityType.Structure))]
         [ShowInInspector, OdinSerialize]
-        public IBattleStructureData StructureData { get; private set; }
+        public IBattleStructureTemplate StructureData { get; private set; }
 
         [ShowInInspector, OdinSerialize]
         public SpawningEntityBattleSide SideType { get; private set; }

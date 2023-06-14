@@ -22,7 +22,8 @@ namespace OrderElimination.AbilitySystem
                 builderData.CellGroupsHighlightColors,
                 builderData.Name,
                 builderData.Icon,
-                builderData.Description);
+                builderData.Description,
+                builderData.HideInCharacterDiscription);
             var gameRepresentation = new AbilityGameRepresentation();
             gameRepresentation.CooldownTime = builderData.CooldownTime;
             var execution = new PassiveAbilityExecution(builderData.TriggerInstructions.ToArray());

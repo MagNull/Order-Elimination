@@ -20,7 +20,7 @@ namespace OrderElimination.AbilitySystem
 
         [TitleGroup("Visuals", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 0), PropertyOrder(0)]
         [ShowInInspector, OdinSerialize]
-        public string Name { get; private set; }
+        public string Name { get; private set; } = "";
 
         [TitleGroup("Visuals"), PropertyOrder(1)]
         [PreviewField(Alignment = ObjectFieldAlignment.Left)]
@@ -29,7 +29,7 @@ namespace OrderElimination.AbilitySystem
 
         [TitleGroup("Visuals"), PropertyOrder(2)]
         [ShowInInspector, OdinSerialize, MultiLineProperty]
-        public string Description { get; private set; }
+        public string Description { get; private set; } = "";
 
         //[TitleGroup("Visuals"), PropertyOrder(2.5f)]
         //[PreviewField(Alignment = ObjectFieldAlignment.Left)]
@@ -40,6 +40,10 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize, DictionaryDrawerSettings(KeyLabel = "Group", ValueLabel = "Highlight color")]
         private Dictionary<int, Color> _cellGroupsHighlightColors = new();
         public IReadOnlyDictionary<int, Color> CellGroupsHighlightColors => _cellGroupsHighlightColors;
+
+        [TitleGroup("Visuals"), PropertyOrder(4)]
+        [ShowInInspector, OdinSerialize]
+        public bool HideInCharacterDiscription { get; private set; }
 
         [TitleGroup("Game Rules", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 1), PropertyOrder(0)]
         [ShowInInspector, OdinSerialize]

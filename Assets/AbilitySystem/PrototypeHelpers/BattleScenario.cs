@@ -8,7 +8,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace OrderElimination
+namespace OrderElimination.MetaGame
 {
     [CreateAssetMenu(fileName = "Battle Scenario", menuName = "Battle/Battle Scenario")]
     public class BattleScenario : SerializedScriptableObject
@@ -120,7 +120,7 @@ namespace OrderElimination
             return spawnInfo;
         }
 
-        private IBattleStructureData DrawStructureSpawnCell(Rect rect, IBattleStructureData structure)
+        private IBattleStructureTemplate DrawStructureSpawnCell(Rect rect, IBattleStructureTemplate structure)
         {
             var tint = new Color(1, 1, 1, 0.5f);
             if (structure != null && structure.BattleIcon != null)
@@ -209,7 +209,7 @@ namespace OrderElimination
                 };
             }
         }
-        public IReadOnlyDictionary<Vector2Int, IBattleStructureData> GetStructureSpawns()
-            => _structureSpawns.ToDictionary(kv => kv.Key, kv => (IBattleStructureData)kv.Value);
+        public IReadOnlyDictionary<Vector2Int, IBattleStructureTemplate> GetStructureSpawns()
+            => _structureSpawns.ToDictionary(kv => kv.Key, kv => (IBattleStructureTemplate)kv.Value);
     }
 }

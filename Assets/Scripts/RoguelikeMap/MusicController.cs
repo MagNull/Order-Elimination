@@ -14,7 +14,6 @@ namespace RoguelikeMap
         [SerializeField]
         private List<AudioSource> musicList = new ();
         private int activeMusicIndex = -1;
-        private PanelGenerator _panelGenerator;
         
         [ShowInInspector] 
         private const int FirstMapSoundIndex = 0;
@@ -30,10 +29,9 @@ namespace RoguelikeMap
         private const int ShopSoundIndex = 5;
 
         [Inject]
-        public void Construct(PanelGenerator panelGenerator)
+        public void Construct(PanelManager panelManager)
         {
-            _panelGenerator = panelGenerator;
-            panelGenerator.OnInitializedPanels += SubscribeToPanelEvents;
+            SubscribeToPanelEvents(panelManager);
         }
 
         private void Start()
@@ -41,17 +39,16 @@ namespace RoguelikeMap
             PlayMapSound();
         }
 
-        private void SubscribeToPanelEvents()
+        private void SubscribeToPanelEvents(PanelManager panelManager)
         {
-            Debug.Log("Subscribe");
-            var eventPanel = _panelGenerator.GetPanelByPointInfo(PointType.Event) as EventPanel;
+            var eventPanel = panelManager.GetPanelByPointInfo(PointType.Event) as EventPanel;
             eventPanel.OnBattleEventVisit += PlayBattleEventSound;
             eventPanel.OnSafeEventVisit += PlaySafeEventSound;
 
-            var safeZonePanel = _panelGenerator.GetPanelByPointInfo(PointType.SafeZone) as SafeZonePanel;
+            var safeZonePanel = panelManager.GetPanelByPointInfo(PointType.SafeZone) as SafeZonePanel;
             safeZonePanel.OnSafeZoneVisit += PlaySafeZoneSound;
             
-            var shopPanel = _panelGenerator.GetPanelByPointInfo(PointType.Shop) as ShopPanel;
+            var shopPanel = panelManager.GetPanelByPointInfo(PointType.Shop) as ShopPanel;
             shopPanel.OnShopVisit += PlayShopSound;
         }
 

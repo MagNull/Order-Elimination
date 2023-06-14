@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using OrderElimination;
+using OrderElimination.MetaGame;
 using Sirenix.OdinInspector;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
@@ -31,7 +32,7 @@ namespace RoguelikeMap.UI.Characters
             _characterInfoPanel = characterInfoPanel;
         }
         
-        protected void InitializeCharactersCard(IReadOnlyList<Character> characterToSelect, Transform parent, bool isSelected = false)
+        protected void InitializeCharactersCard(IEnumerable<GameCharacter> characterToSelect, Transform parent, bool isSelected = false)
         {
             _selectedDropZone.OnTrySelect += TrySelectCard;
             _unselectedDropZone.OnTrySelect += TrySelectCard;

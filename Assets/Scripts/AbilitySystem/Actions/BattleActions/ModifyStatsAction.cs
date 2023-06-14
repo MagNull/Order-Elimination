@@ -54,7 +54,7 @@ namespace OrderElimination.AbilitySystem
             if (performResult.IsSuccessful)
             {
                 var stats = performResult.ActionContext.ActionTarget.BattleStats;
-                var parameter = stats.GetParameter(targetStat);
+                var parameter = stats[targetStat];
                 if (parameter.RemoveProcessor(performProcessor))
                 {
                     _undoneOperations.Add(performId);
@@ -67,7 +67,7 @@ namespace OrderElimination.AbilitySystem
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
-            var statParameter = useContext.ActionTarget.BattleStats.GetParameter(TargetBattleStat);
+            var statParameter = useContext.ActionTarget.BattleStats[TargetBattleStat];
             statParameter.AddProcessor(ProcessValue);
             var performId = _processorsByPerformId.Count;
             var result = new SimpleUndoablePerformResult(this, useContext, true, performId);

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OrderElimination;
+using OrderElimination.MetaGame;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace StartSessionMenu.ChooseCharacter
         [SerializeField] 
         private MoneyCounter _uiCounter;
         [SerializeField]
-        private List<Character> _characters;
+        private List<CharacterTemplate> _characters;
         [SerializeField]
         private int MaxSquadSize = 3;
         
@@ -36,7 +37,8 @@ namespace StartSessionMenu.ChooseCharacter
         private void InitializeCharactersCard()
         {
             _uiCounter.Initialize(_wallet);
-            base.InitializeCharactersCard(_characters, _unselectedDropZone.transform);
+            var gameCharacters = GameCharactersFactory.CreateGameEntities(_characters);
+            base.InitializeCharactersCard(gameCharacters, _unselectedDropZone.transform);
         }
         
         protected override void TrySelectCard(DropZone dropZone, CharacterCard.CharacterCard card)

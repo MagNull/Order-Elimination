@@ -18,7 +18,7 @@ namespace CharacterAbility.AbilityEffects
 
         protected override async UniTask ApplyEffect(IBattleObject target, IReadOnlyBattleStats stats)
         {
-            BattleStats modifiedStats = new BattleStats(stats);
+            OldBattleStats modifiedStats = new OldBattleStats(stats);
             switch (_modificatorType)
             {
                 case ModificatorType.Accuracy:

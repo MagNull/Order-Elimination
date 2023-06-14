@@ -3,9 +3,12 @@ using System.Linq;
 using CharacterAbility;
 using Inventory_Items;
 using OrderElimination;
+using OrderElimination.AbilitySystem;
+using OrderElimination.MetaGame;
 using RoguelikeMap.UI.Abilities;
 using Sirenix.OdinInspector;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +22,9 @@ namespace RoguelikeMap.UI.Characters
         private PassiveAbilityInfoPanel _passiveAbilityInfoPanel;
         [SerializeField] 
         private PickItemInventoryPresenter _playerInventoryPresenter;
+
+        [SerializeField]
+        private InventoryPresenter _characterInventoryPresenter;
         
         [Title("Character")]
         [SerializeField]
@@ -40,60 +46,85 @@ namespace RoguelikeMap.UI.Characters
 
         [Title("Abilities")] 
         [SerializeField]
-        private List<AbilityButton> _activeAbilityButtons = new ();
+        private List<Button> _activeAbilityButtons = new ();
         [SerializeField]
-        private List<PassiveAbilityButton> _passiveAbilityButtons = new();
-
-        private AbilityInfo[] _passiveAbilityInfos;
+        private List<Button> _passiveAbilityButtons = new();
         
-        public void InitializeCharacterInfo(Character character)
+        public void InitializeCharacterInfo(GameCharacter character)
         {
-            _characterName.text = character.name;
-            _characterAvatar.sprite = character.Avatar;
-            var stats = character.GetBattleStats();
-            InitializeStatsText(stats);
-            var activeAbilityInfos = character.GetActiveAbilityInfos().Skip(1).ToArray();
-            _passiveAbilityInfos = character.GetPassiveAbilityInfos().ToArray();
-            InitializeAbilityButtons(activeAbilityInfos);
             if(_playerInventoryPresenter is not null)
-                _playerInventoryPresenter.UpdateTargetInventory(character.Inventory);
+                _characterInventoryPresenter.InitInventoryModel(character.Inventory);
+            _characterName.text = character.CharacterData.Name;
+            _characterAvatar.sprite = character.CharacterData.Avatar;
+            InitializeStatsText(
+                character.CharacterStats.MaxHealth,
+                character.CharacterStats.MaxArmor,
+                character.CharacterStats.AttackDamage,
+                character.CharacterStats.Accuracy,
+                character.CharacterStats.Evasion);
+            InitializeAbilityButtons(
+                character.ActiveAbilities, 
+                character.PassiveAbilities);
+            if (_playerInventoryPresenter is not null)
+                _characterInventoryPresenter.InitInventoryModel(character.Inventory);
+            //TODO: Update inventory
+            //_playerInventoryPresenter.UpdateTargetInventory(character.Inventory);
+            _playerInventoryPresenter.UpdateTargetInventory(character.Inventory);
         }
 
-        private void InitializeStatsText(IReadOnlyBattleStats stats)
+        private void InitializeStatsText(
+            float maxHealth, float maxArmor, float attack, float accuracy, float evasion)
         {
-            _hpText.text = $"{stats.Health}";
-            _damageText.text = $"{stats.Attack}";
-            _armorText.text = $"{stats.Armor}";
-            _evasionText.text = $"{stats.Evasion}";
-            _accuracyText.text = $"{stats.Accuracy}";
+            _hpText.text = maxHealth.ToString();
+            _armorText.text = maxArmor.ToString();
+            _damageText.text = attack.ToString();
+            _accuracyText.text = $"{accuracy * 100}%";
+            _evasionText.text = $"{evasion * 100}%";
         }
 
-        private void InitializeAbilityButtons(AbilityInfo[] activeAbilityInfos)
+        private void InitializeAbilityButtons(
+            IEnumerable<IActiveAbilityData> activeAbilities,
+            IEnumerable<IPassiveAbilityData> passiveAbilities)
         {
-            for (var i = 0; i < activeAbilityInfos.Length; i++)
+            foreach (var button in _activeAbilityButtons.Concat(_passiveAbilityButtons))
             {
-                _activeAbilityButtons[i].SetAbilityInfo(activeAbilityInfos[i]);
-                _activeAbilityButtons[i].OnClick += OnAbilityClick;
+                button.image.sprite = null;
+                button.onClick.RemoveAllListeners();
             }
-            
-            for (var i = 0; i < _passiveAbilityButtons.Count; i++)
+            var displayedActiveAbilities = activeAbilities
+                .Where(a => !a.View.HideInCharacterDiscription)
+                .ToArray();
+            var displayedPassiveAbilities = passiveAbilities
+                .Where(a => !a.View.HideInCharacterDiscription)
+                .ToArray();
+            if (displayedActiveAbilities.Length > _activeAbilityButtons.Count
+                || displayedPassiveAbilities.Length > _passiveAbilityButtons.Count)
+                throw new System.NotSupportedException("Abilities to display count is greater than can be shown.");
+            for (var i = 0; i < displayedActiveAbilities.Length; i++)
             {
-                _passiveAbilityButtons[i].SetAbilityInfos(_passiveAbilityInfos[i]);
-                _passiveAbilityButtons[i].OnClick += OnPassiveAbilityClick;
+                var button = _activeAbilityButtons[i];
+                var ability = displayedActiveAbilities[i];
+                button.image.sprite = ability.View.Icon;
+                button.onClick.AddListener(OnActiveAbilityClicked);
+
+                void OnActiveAbilityClicked()
+                {
+                    _abilityInfoPanel.InitializeInfo(ability);
+                    _abilityInfoPanel.Open();
+                }
             }
-        }
+            for (var i = 0; i < displayedPassiveAbilities.Length; i++)
+            {
+                var button = _passiveAbilityButtons[i];
+                button.image.sprite = displayedPassiveAbilities[i].View.Icon;
+                button.onClick.AddListener(OnPassiveAbilityClicked);
+            }
 
-        private void OnAbilityClick(AbilityInfo abilityInfo)
-        {
-            Debug.Log("OnAbilityClicked");
-            _abilityInfoPanel.InitializeInfo(abilityInfo);
-            _abilityInfoPanel.Open();
-        }
-
-        private void OnPassiveAbilityClick()
-        {
-            _passiveAbilityInfoPanel.InitializeInfo(_passiveAbilityInfos);
-            _passiveAbilityInfoPanel.Open();
+            void OnPassiveAbilityClicked()
+            {
+                _passiveAbilityInfoPanel.InitializeInfo(displayedPassiveAbilities);
+                _passiveAbilityInfoPanel.Open();
+            }
         }
     }
 }

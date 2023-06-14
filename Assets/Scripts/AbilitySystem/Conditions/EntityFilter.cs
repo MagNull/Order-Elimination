@@ -50,7 +50,7 @@ namespace OrderElimination.AbilitySystem
         [TitleGroup("Allowed Characters")]
         [ShowIf("@" + nameof(_allowsCharacters))]
         [ShowInInspector, OdinSerialize]
-        private List<IBattleCharacterData> _specifiedCharacters = new();
+        private List<IGameCharacterTemplate> _specifiedCharacters = new();
 
         [TitleGroup("Allowed Structures")]
         [ShowIf("@" + nameof(_allowsStructures))]
@@ -60,7 +60,7 @@ namespace OrderElimination.AbilitySystem
         [TitleGroup("Allowed Structures")]
         [ShowIf("@" + nameof(_allowsStructures))]
         [ShowInInspector, OdinSerialize]
-        private List<IBattleStructureData> _specifiedStructures = new();
+        private List<IBattleStructureTemplate> _specifiedStructures = new();
 
         public EntityFilter Clone()
         {

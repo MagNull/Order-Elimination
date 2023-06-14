@@ -20,7 +20,7 @@ namespace OrderElimination.BM
         private readonly BattleMap _map;
         [SerializeReference]
         private ITickEffect[] _enterBuffs;
-        private readonly BattleStats _stats;
+        private readonly OldBattleStats _stats;
         private int _lifeTime;
 
         public IReadOnlyList<ITickEffect> AllEffects => new List<ITickEffect>();
@@ -30,7 +30,7 @@ namespace OrderElimination.BM
 
         public IBattleObjectView View { get; set; }
 
-        public EnvironmentObject(ITickEffect[] enterBuffs, IBattleObjectView view, BattleStats stats, bool isWalkable,
+        public EnvironmentObject(ITickEffect[] enterBuffs, IBattleObjectView view, OldBattleStats stats, bool isWalkable,
             BattleMap map,
             int lifeTime = 999)
         {

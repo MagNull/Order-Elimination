@@ -21,86 +21,21 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: _baseBattleStats
-      Entry: 7
-      Data: OrderElimination.Domain.ReadOnlyBaseStats, Assembly-CSharp
-    - Name: _maxHealth
-      Entry: 4
-      Data: 65
-    - Name: _maxArmor
-      Entry: 4
-      Data: 60
-    - Name: _attackDamage
-      Entry: 4
-      Data: 45
-    - Name: _accuracy
-      Entry: 4
-      Data: 0.95
-    - Name: _evasion
-      Entry: 4
-      Data: 0.15
-    - Name: _maxMovementDistance
-      Entry: 4
-      Data: 3
-    - Name: 
-      Entry: 8
-      Data: 
-  _entityType: 0
+    - Name: CostValue
+      Entry: 3
+      Data: 120
+  _name: "\u0421\u043D\u0430\u0439\u043F\u0435\u0440"
+  _viewIcon: {fileID: 21300000, guid: bddcf28714861b7408ecf191b8ca67aa, type: 3}
+  _viewAvatar: {fileID: 21300000, guid: e2e5a6037a7c5e946849cb517da86af5, type: 3}
+  _maxHealth: 60
+  _maxArmor: 60
+  _attackDamage: 45
+  _accuracy: 0.95
+  _evasion: 0.15
+  _maxMovementDistance: 3
   _activeAbilitiesData:
   - {fileID: 11400000, guid: 059eb2415f8329b4e8adbc6aa1189698, type: 2}
   - {fileID: 11400000, guid: 5da17518de543184b83ca589965c592d, type: 2}
   - {fileID: 11400000, guid: f1aaefe2fe2f9ff4ea434d4468d428b8, type: 2}
-  - {fileID: 11400000, guid: a7e64edca8d59fd47962cf4d58a228c1, type: 2}
   - {fileID: 11400000, guid: 608fc4d7035002749825b12deb37872e, type: 2}
   _passiveAbilitiesData: []
-  <CostValue>k__BackingField: 120
-  _baseStats:
-    _health: 60
-    _unmodifiedHealth: 60
-    _attack: 45
-    _unmodifiedAttack: 45
-    _armor: 60
-    _unmodifiedArmor: 60
-    _additionalArmor: 0
-    _evasion: 15
-    _unmodifiedEvasion: 15
-    _accuracy: 95
-    _unmodifiedAccuracy: 95
-    _movement: 3
-    _unmodifiedMovement: 3
-    _damageModificator: 0
-  _battleStats:
-    _health: 60
-    _unmodifiedHealth: 60
-    _attack: 45
-    _unmodifiedAttack: 45
-    _armor: 60
-    _unmodifiedArmor: 60
-    _additionalArmor: 0
-    _evasion: 15
-    _unmodifiedEvasion: 15
-    _accuracy: 95
-    _unmodifiedAccuracy: 95
-    _movement: 3
-    _unmodifiedMovement: 3
-    _damageModificator: 0
-  _strategyStats:
-    Lvl: 1
-    CostOfUpgrade: 250
-    HealthGrowth: 1
-    AttackGrowth: 3
-    ArmorGrowth: 1
-    EvasionGrowth: 0
-    AccuracyGrowth: 0
-  _name: "\u0421\u043D\u0430\u0439\u043F\u0435\u0440"
-  _viewIcon: {fileID: 21300000, guid: bddcf28714861b7408ecf191b8ca67aa, type: 3}
-  _viewAvatar: {fileID: 21300000, guid: e2e5a6037a7c5e946849cb517da86af5, type: 3}
-  _activeAbilities:
-  - {fileID: 11400000, guid: 377b9520ee2226943b6a5eed2b1f24c3, type: 2}
-  - {fileID: 11400000, guid: dfbcb6dea28a4fe4cae8d9eb447fc29b, type: 2}
-  - {fileID: 11400000, guid: 64cbb15e65c4fff4e9cd63225380c6ca, type: 2}
-  - {fileID: 11400000, guid: 0a68264cbc7376a4ea29a3192e51cf04, type: 2}
-  - {fileID: 11400000, guid: fbfdbfe6f35f6b3409290267c9142434, type: 2}
-  _passiveAbilities:
-  - {fileID: 11400000, guid: 70e91584176546f47a29fd36852e8aab, type: 2}
-  - {fileID: 11400000, guid: 5a2e57dedfeb7b0459fbdf733ee57215, type: 2}
