@@ -169,7 +169,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _abilityPanel: {fileID: 700708824}
   _characterBattleStatsPanel: {fileID: 1660044134}
-  _castButton: {fileID: 1517211167}
   _abilityPreviewDisplayer: {fileID: 157936976}
   _availableCellsTint: {r: 0.573966, g: 1, b: 0.4575472, a: 1}
   _forbidenCellsTint: {r: 0.5754717, g: 0.5754717, b: 0.5754717, a: 1}
@@ -178,6 +177,8 @@ MonoBehaviour:
   _enemiesHighlightColor: {r: 1, g: 0.3820755, b: 0.3820755, a: 1}
   _othersHighlightColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
   _allowOnlyCurrentSideEntities: 1
+  _allowOnlyPlayerEntities: 0
+  _confirmTargetingBySecondClick: 1
 --- !u!1 &131492486
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,12 +366,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _width: 8
   _height: 8
-  _activeEnvironmentObjects:
-    m_Keys: []
-    m_Values: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!4 &246195460
 Transform:
   m_ObjectHideFlags: 0
@@ -680,7 +675,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &455846171
 Transform:
   m_ObjectHideFlags: 0
@@ -2544,7 +2539,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
   _abilityPanel: {fileID: 700708824}
-  _selectedPlayerCharacterStatsPanel: {fileID: 1660044134}
   _enemiesListPanel: {fileID: 1239340654}
 --- !u!1 &1194000819
 GameObject:
@@ -2723,7 +2717,7 @@ RectTransform:
   m_Children:
   - {fileID: 1601460053}
   m_Father: {fileID: 390396230}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3252,9 +3246,8 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 960f80274a3bf09459044259dc1ac4cf, type: 2}
-    - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
     - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
-    - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+    - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -3263,38 +3256,32 @@ MonoBehaviour:
     - Name: BattleScenario
       Entry: 10
       Data: 0
-    - Name: _allies
+    - Name: _testPlayerCharacters
       Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[IBattleCharacterInfo, Assembly-CSharp]],
-        mscorlib
+      Data: 0|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
+        Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 10
       Data: 1
     - Name: 
       Entry: 10
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: _enemies
+    - Name: _testEnemyCharacters
       Entry: 7
-      Data: 1|System.Collections.Generic.List`1[[IBattleCharacterInfo, Assembly-CSharp]],
-        mscorlib
+      Data: 1|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
+        Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 10
       Data: 2
-    - Name: 
-      Entry: 10
-      Data: 3
-    - Name: 
-      Entry: 10
-      Data: 3
     - Name: 
       Entry: 13
       Data: 

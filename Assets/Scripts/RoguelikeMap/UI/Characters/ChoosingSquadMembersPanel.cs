@@ -37,10 +37,10 @@ namespace RoguelikeMap.UI.Characters
             _selectedDropZone.OnTrySelect += TrySelectCard;
             _unselectedDropZone.OnTrySelect += TrySelectCard;
             
-            foreach (var info in characterToSelect)
+            foreach (var gameCharacter in characterToSelect)
             {
                 var characterCard = Instantiate(_characterButtonPref, parent);
-                characterCard.InitializeCard(info, isSelected);
+                characterCard.InitializeCard(gameCharacter, isSelected);
                 characterCard.OnGetInfo += ShowCharacterInfo;
                 _characterCards.Add(characterCard);
             }

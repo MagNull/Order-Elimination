@@ -161,7 +161,6 @@ namespace UIManagement.Elements
         private void UpdateEffects() => _effectsList.UpdateEffects(_currentEntityView.BattleEntity.Effects);
         private void OnDisposedFromBattle(IBattleDisposable entity)
         {
-            Debug.Log("OnDisposedFromBattle" % Colorize.Magenta);
             if (_currentEntityView.BattleEntity != entity)
                 throw new System.Exception();
             Unsubscribe(_currentEntityView.BattleEntity);

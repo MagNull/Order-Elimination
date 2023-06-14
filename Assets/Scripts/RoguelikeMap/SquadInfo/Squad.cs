@@ -52,11 +52,14 @@ namespace RoguelikeMap.SquadInfo
 
         private void Start()
         {
-            var characters = GameCharactersFactory.CreateGameEntities(_testSquadMembers);
-            if (SquadMediator.CharacterList is not null)
-                characters = SquadMediator.CharacterList;
-            if(SquadMediator.Stats is null)
-                SquadMediator.SetStatsCoefficient(new List<int>(){0, 0, 0, 0, 0});
+            //var characters = GameCharactersFactory.CreateGameEntities(_testSquadMembers);
+            if (SquadMediator.CharacterList == null) 
+                throw new InvalidProgramException();
+            var characters = SquadMediator.CharacterList;
+            if(SquadMediator.PlayerSquadStats is null)
+            {
+                SquadMediator.SetStatsCoefficient(new());
+            }
             _model = new SquadModel(characters, _squadMembersPanel);
             _model.OnUpdateSquadMembers += GenerateCharactersCard;
             GenerateCharactersCard();

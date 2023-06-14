@@ -28,14 +28,15 @@ namespace OrderElimination
         
         public SquadModel(IEnumerable<GameCharacter> members, SquadMembersPanel squadMembersPanel)
         {
-            var characters = members.ToList();
+            var characters = 
+                GameCharactersFactory.CreateGameEntities(members.Select(c => c.CharacterData))
+                .ToList();//Grenade here
             if (characters.Count == 0)
                 return;
             //First three members are active
             SetSquadMembers(characters, _activeMembersCount);
 
-            //TODO: Restore upgrades
-            //UpgradeCharacters();
+            RestoreUpgrades();
             SetPanel(squadMembersPanel);
         }
         
@@ -54,9 +55,9 @@ namespace OrderElimination
             _members.Remove(member);
         }
         
-        private void UpgradeCharacters()
+        private void RestoreUpgrades()
         {
-            var stats = SquadMediator.Stats.Value;
+            var stats = SquadMediator.PlayerSquadStats.Value;
             var statsGrowth = new Dictionary<BattleStat, float>()
             {
                 { BattleStat.MaxHealth, stats.HealthGrowth },
@@ -69,7 +70,17 @@ namespace OrderElimination
             foreach (var member in _members)
             {
                 foreach (var stat in statsGrowth.Keys)
-                    member.ChangeStat(stat, member.CharacterStats[stat] + statsGrowth[stat]);
+                {
+                    var originalStat = member.CharacterStats[stat];
+                    float newStat = stat == BattleStat.Accuracy || stat == BattleStat.Evasion
+                        ? originalStat + statsGrowth[stat] / 100
+                        : Mathf.RoundToInt(originalStat + (originalStat * statsGrowth[stat] / 100));
+                    //Так можно (округление), потому что перс создаётся заново
+                    //По идее...
+                    //(Всё равно хуйня)
+                    member.ChangeStat(stat, newStat);
+                    Debug.Log($"{member.CharacterData.Name}[{stat}]: {originalStat} -> {newStat}; StatGrow: {statsGrowth[stat]}");
+                }
             }
         }
 
