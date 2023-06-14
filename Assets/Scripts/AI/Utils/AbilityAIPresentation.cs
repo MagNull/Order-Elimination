@@ -12,11 +12,11 @@ namespace AI.Utils
             return caster.ActiveAbilities
                 .Where(ability => ability.IsCastAvailable(battleContext, caster))
                 .Select(ability => (ability, new AbilityImpact(ability.AbilityData, battleContext, caster, target.Position)))
-                .Where(impact => impact.Item2.Damage > 0)
+                .Where(impact => impact.Item2.CurrentDamage > 0)
                 .Where(evaluatedAbility =>
                     evaluatedAbility.ability.AbilityData.Rules.GetAvailableCellPositions(battleContext, caster)
                         .Contains(target.Position))
-                .OrderBy(evaluatedAbility => evaluatedAbility.Item2.Damage);
+                .OrderBy(evaluatedAbility => evaluatedAbility.Item2.CurrentDamage);
         }
         
         public static IEnumerable<(ActiveAbilityRunner ability, AbilityImpact impact)> GetAvailableHealAbilities(IBattleContext battleContext, 
@@ -25,22 +25,26 @@ namespace AI.Utils
             return caster.ActiveAbilities
                 .Where(ability => ability.IsCastAvailable(battleContext, caster))
                 .Select(ability => (ability, new AbilityImpact(ability.AbilityData, battleContext, caster, target.Position)))
-                .Where(impact => impact.Item2.Heal > 0)
+                .Where(impact => impact.Item2.CurrentHeal > 0)
                 .Where(evaluatedAbility =>
                     evaluatedAbility.ability.AbilityData.Rules.GetAvailableCellPositions(battleContext, caster)
                         .Contains(target.Position))
-                .OrderBy(evaluatedAbility => evaluatedAbility.Item2.Heal);
+                .OrderBy(evaluatedAbility => evaluatedAbility.Item2.RawHeal);
         }
 
         public static IEnumerable<(ActiveAbilityRunner ability, AbilityImpact impact)> GetDamageAbilities(IBattleContext battleContext,
             AbilitySystemActor caster, AbilitySystemActor target)
         {
+            var test = caster.ActiveAbilities
+                .Where(ability => ability.IsCastAvailable(battleContext, caster))
+                .Select(ability => (ability,
+                    new AbilityImpact(ability.AbilityData, battleContext, caster, target.Position)));
             return caster.ActiveAbilities
                 .Where(ability => ability.IsCastAvailable(battleContext, caster))
                 .Select(ability => (ability,
                     new AbilityImpact(ability.AbilityData, battleContext, caster, target.Position)))
-                .Where(impact => impact.Item2.Damage > 0)
-                .OrderBy(evaluatedAbility => evaluatedAbility.Item2.Damage);
+                .Where(impact => impact.Item2.RawDamage > 0)
+                .OrderBy(evaluatedAbility => evaluatedAbility.Item2.CurrentDamage);;
         }
 
         public static ActiveAbilityRunner GetMoveAbility(AbilitySystemActor caster) => caster.ActiveAbilities
