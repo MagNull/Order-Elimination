@@ -37,6 +37,7 @@ namespace OrderElimination.Infrastructure
             set => _valueFlags[type] = value;
         }
 
+        [OnInspectorInit]
         private void ValidateDictionary()
         {
             _valueFlags ??= new Dictionary<T, bool>();
