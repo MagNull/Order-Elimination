@@ -33,6 +33,7 @@ MonoBehaviour:
       type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
       data:
         _childrenTask:
+        - rid: 8568508745526804481
         - rid: 8568508697395068934
         - rid: 8568508697395068935
     - rid: 8568508697395068934
@@ -61,3 +62,10 @@ MonoBehaviour:
         _needPassiveEffects: []
         _relationship: 0
         _radius: 1
+    - rid: 8568508745526804481
+      type: {class: HasTargetsInRadius, ns: AI.Actions, asm: Assembly-CSharp}
+      data:
+        _sortBy: 0
+        _needPassiveEffects: []
+        _relationship: 1
+        _radius: 10
