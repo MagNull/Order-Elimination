@@ -4,6 +4,6 @@
     {
         Ally,
         Enemy,
-        //Neutral
+        Neutral
     }
 }

@@ -27,6 +27,11 @@ namespace AI
         {
             _context.NewTurnStarted += OnTurnStarted;
         }
+        
+        private void OnDisable()
+        {
+            _context.NewTurnStarted -= OnTurnStarted;
+        }
 
         private void OnTurnStarted(IBattleContext context)
         {
@@ -43,6 +48,8 @@ namespace AI
             foreach (var enemy in enemies)
             {
                 await _behavior.Run(_context, enemy);
+                foreach (var activeAbilityRunner in enemy.ActiveAbilities)
+                    activeAbilityRunner.AbilityData.TargetingSystem.CancelTargeting();
             }
             _battleLoopManager.StartNextTurn();
         }

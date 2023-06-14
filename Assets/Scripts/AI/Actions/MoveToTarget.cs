@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AI.Utils;
 using Cysharp.Threading.Tasks;
@@ -9,32 +10,48 @@ using Random = UnityEngine.Random;
 
 namespace AI.Conditions
 {
-    public abstract class MoveToEnemy : IBehaviorTreeTask
+    public enum Purpose
     {
-        public async UniTask<bool> Run(IBattleContext battleContext, AbilitySystemActor caster)
+        Damage,
+        Heal
+    }
+    
+    public class MoveToTarget : IBehaviorTreeTask
+    {
+        [SerializeField]
+        private Purpose _purpose; 
+        public async UniTask<bool> Run(Blackboard blackboard)
         {
-            var targets = GetTargets(battleContext, caster);
+            var targets = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
+            if (!targets.Any())
+                return false;
+            
+            var context = blackboard.Get<IBattleContext>("context");
+            var caster = blackboard.Get<AbilitySystemActor>("caster");
 
             foreach (var target in targets)
             {
-                if (await TryExecuteTo(battleContext, caster, target))
+                if (await TryExecuteTo(context, caster, target))
                     return true;
             }
 
             return false;
         }
-
-        protected abstract AbilitySystemActor[] GetTargets(IBattleContext battleContext, AbilitySystemActor caster);
-
+        
         private async UniTask<bool> TryExecuteTo(IBattleContext battleContext, AbilitySystemActor caster,
             AbilitySystemActor target)
         {
             var movementAbility = AbilityAIPresentation.GetMoveAbility(caster);
-            var damageAbilities = AbilityAIPresentation.GetDamageAbilities(battleContext, caster, target);
-
-            foreach (var damageAbility in damageAbilities)
+            var targetAbilities = _purpose switch
             {
-                var cellsFromTarget = GetCellsForCastingAbility(damageAbility.AbilityData, target);
+                Purpose.Damage => AbilityAIPresentation.GetDamageAbilities(battleContext, caster, target),
+                Purpose.Heal => AbilityAIPresentation.GetAvailableHealAbilities(battleContext, caster, target),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            foreach (var damageAbility in targetAbilities)
+            {
+                var cellsFromTarget = GetCellsForCastingAbility(damageAbility.ability.AbilityData, target);
                 var intersect = movementAbility.AbilityData.Rules.GetAvailableCellPositions(battleContext, caster)
                     .Intersect(cellsFromTarget);
                 if (!intersect.Any())
@@ -61,19 +78,5 @@ namespace AI.Conditions
 
             return AIUtilities.GetCellsFromTarget(Mathf.FloorToInt(abilityDistance), target.Position);
         }
-    }
-    
-    public class MoveToNearestEnemy : MoveToEnemy
-    {
-        protected override AbilitySystemActor[] GetTargets(IBattleContext battleContext, AbilitySystemActor caster)
-        {
-            return battleContext.EntitiesBank.GetEnemiesByDistance(battleContext, caster);
-        }
-    }
-    
-    public class MoveToMostValuableEnemy : MoveToEnemy
-    {
-        protected override AbilitySystemActor[] GetTargets(IBattleContext battleContext, AbilitySystemActor caster) =>
-            battleContext.EntitiesBank.GetEnemiesByValue(battleContext, caster);
     }
 }

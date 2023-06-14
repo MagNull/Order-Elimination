@@ -5,6 +5,6 @@ namespace AI
 {
     public interface IBehaviorTreeTask
     {
-        public UniTask<bool> Run(IBattleContext battleContext, AbilitySystemActor caster);
+        public UniTask<bool> Run(Blackboard blackboard);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AI.Utils;
 using Cysharp.Threading.Tasks;
@@ -15,11 +16,13 @@ namespace AI.Actions
         [SerializeField]
         private int _distance;
 
-        public async UniTask<bool> Run(IBattleContext battleContext, AbilitySystemActor caster)
+        public async UniTask<bool> Run(Blackboard blackboard)
         {
+            var context = blackboard.Get<IBattleContext>("context");
+            var caster = blackboard.Get<AbilitySystemActor>("caster");
+            
             Vector2Int[] notOptimalCells = Array.Empty<Vector2Int>();
-            var enemies = battleContext.EntitiesBank.GetEntities(BattleSide.Allies)
-                .Union(battleContext.EntitiesBank.GetEntities(BattleSide.Player));
+            var enemies = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
 
             foreach (var enemy in enemies)
             {
@@ -28,10 +31,10 @@ namespace AI.Actions
             }
 
             var movementAbility = AbilityAIPresentation.GetMoveAbility(caster);
-            movementAbility.InitiateCast(battleContext, caster);
+            movementAbility.InitiateCast(context, caster);
 
             var optimalCells = movementAbility.AbilityData.Rules
-                .GetAvailableCellPositions(battleContext, caster)
+                .GetAvailableCellPositions(context, caster)
                 .Except(notOptimalCells);
             if (!optimalCells.Any())
             {
@@ -39,7 +42,7 @@ namespace AI.Actions
                 return false;
             }
             
-            await movementAbility.CastSingleTarget(battleContext, caster,
+            await movementAbility.CastSingleTarget(context, caster,
                 optimalCells.ElementAt(Random.Range(0, optimalCells.Count())));
             
             return true;

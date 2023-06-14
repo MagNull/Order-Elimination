@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using OrderElimination.AbilitySystem;
+using UnityEngine;
 
 namespace AI.Utils
 {
@@ -7,19 +9,19 @@ namespace AI.Utils
     {
         public float Damage;
         public float Heal;
-        
+
         private readonly IActiveAbilityData _data;
         private readonly IBattleContext _battleContext;
         private readonly AbilitySystemActor _caster;
-        private readonly AbilitySystemActor _target;
+        private readonly Vector2Int _targetPos;
 
         public AbilityImpact(IActiveAbilityData data, IBattleContext battleContext, AbilitySystemActor caster,
-            AbilitySystemActor target)
+            Vector2Int targetPos)
         {
             _data = data;
             _battleContext = battleContext;
             _caster = caster;
-            _target = target;
+            _targetPos = targetPos;
             Damage = 0;
             Heal = 0;
             StartProcess();
@@ -33,6 +35,7 @@ namespace AI.Utils
             {
                 ProcessInstruction(abilityInstruction);
             }
+
             _data.TargetingSystem.CancelTargeting();
         }
 
@@ -50,7 +53,7 @@ namespace AI.Utils
             {
                 case SingleTargetTargetingSystem singleTargeting:
                 {
-                    singleTargeting.Select(_target.Position);
+                    singleTargeting.Select(_targetPos);
                     break;
                 }
             }
@@ -58,21 +61,57 @@ namespace AI.Utils
 
         private void ProcessInstruction(AbilityInstruction instruction)
         {
-            var actionContext = new ActionContext(_battleContext, _data.TargetingSystem.ExtractCastTargetGroups(),
-                _caster, _target);
-            switch (instruction.Action)
+            var executionContext = new AbilityExecutionContext(_battleContext, _caster,
+                _data.TargetingSystem.ExtractCastTargetGroups());
+            foreach (var cellGroupNumber in instruction.AffectedCellGroups)
             {
-                case InflictDamageAction inflictDamageAction:
-                    Damage += inflictDamageAction.DamageSize.GetValue(actionContext);
-                    break;
-                case HealAction healAction:
-                    Heal += healAction.HealSize.GetValue(actionContext);
-                    break;
+                if (!executionContext.TargetedCellGroups.ContainsGroup(cellGroupNumber))
+                    continue;
+                foreach (var cell in executionContext.TargetedCellGroups.GetGroup(cellGroupNumber))
+                    CalculateImpactFromCell(instruction, cell);
             }
 
             var onSuccess = instruction.InstructionsOnActionSuccess;
-            foreach (var abilityInstruction in onSuccess) 
+            foreach (var abilityInstruction in onSuccess)
                 ProcessInstruction(abilityInstruction);
+
+            var following = instruction.FollowingInstructions;
+            foreach (var abilityInstruction in following)
+                ProcessInstruction(abilityInstruction);
+        }
+
+        private void CalculateImpactFromCell(AbilityInstruction instruction, Vector2Int cell)
+        {
+            //Determine target type
+            AbilitySystemActor[] targets = instruction.Action.ActionRequires switch
+            {
+                ActionRequires.Caster => new[] { _caster },
+                ActionRequires.Cell => new AbilitySystemActor[] { },
+                ActionRequires.Entity => _battleContext.BattleMap.GetContainedEntities(cell).ToArray(),
+                _ => new AbilitySystemActor[] { }
+            };
+            //If there no targets on cell - skip
+            if (!targets.Any())
+                return;
+
+            foreach (var target in targets)
+            {
+                //Form action context
+                var actionContext = new ActionContext(_battleContext,
+                    _data.TargetingSystem.ExtractCastTargetGroups(),
+                    _caster, target, cell);
+
+                //Calculate value based on context
+                switch (instruction.Action)
+                {
+                    case InflictDamageAction inflictDamageAction:
+                        Damage += inflictDamageAction.DamageSize.GetValue(actionContext) * instruction.RepeatNumber;
+                        break;
+                    case HealAction healAction:
+                        Heal += healAction.HealSize.GetValue(actionContext) * instruction.RepeatNumber;
+                        break;
+                }
+            }
         }
     }
 }
