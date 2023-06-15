@@ -18,6 +18,12 @@ namespace UIManagement.Elements
         [SerializeField] private Image _characterAvatar;
         [SerializeField] private HoldableButton _avatarButton;
 
+        public bool IsClickable
+        {
+            get => _avatarButton.ClickAvailable;
+            set => _avatarButton.ClickAvailable = value;
+        }
+
         public event Action<CharacterClickableAvatar> Clicked;
         public event Action<CharacterClickableAvatar> Holded;
 

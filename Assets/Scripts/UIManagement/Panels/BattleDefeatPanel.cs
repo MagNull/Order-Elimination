@@ -49,6 +49,9 @@ public class BattleDefeatPanel : UIPanel
         foreach (var character in charactersToDisplay)
         {
             var avatar = Instantiate(_characterPrefab, _charactersHolder);
+            avatar.UpdateCharacterInfo(character.CharacterData.Name, character.CharacterData.BattleIcon);
+            avatar.IsClickable = true;
+            avatar.Clicked += OnAvatarClicked;
             _charactersByAvatars.Add(avatar, character);
         }
         _primaryCurrency.text = currencyReward.ToString();
