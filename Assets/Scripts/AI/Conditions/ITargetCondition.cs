@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using OrderElimination.AbilitySystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AI.Conditions
 {
@@ -15,13 +16,47 @@ namespace AI.Conditions
     {
         [SerializeField]
         private PassiveAbilityBuilder[] _needPassiveEffects;
+
+        [SerializeField]
+        private bool _has;
         
         public bool Check(AbilitySystemActor target)
         {
             if (!_needPassiveEffects.Any())
-                return true;
+                return _has;
+            
             var targetPassives = target.PassiveAbilities.Select(ab => ab.AbilityData.BasedBuilder);
-            return _needPassiveEffects.All(ef => targetPassives.Contains(ef));
+            if (_needPassiveEffects.All(ef => targetPassives.Contains(ef)))
+            {
+                return _has;
+            }
+
+            return !_has;
+        }
+    }
+    
+    [Serializable]
+    public class TargetHasEffect : ITargetCondition
+    {
+        [FormerlySerializedAs("_needPassiveEffects")]
+        [SerializeField]
+        private EffectDataPreset[] _needEffects;
+
+        [SerializeField]
+        private bool _has;
+        
+        public bool Check(AbilitySystemActor target)
+        {
+            if (!_needEffects.Any())
+                return _has;
+
+            var targetEffects = target.Effects.Select(x => x.EffectData);
+            if (_needEffects.All(ef => targetEffects.Contains(ef)))
+            {
+                return _has;
+            }
+
+            return !_has;
         }
     }
     
