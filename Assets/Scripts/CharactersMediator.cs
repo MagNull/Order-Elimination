@@ -32,6 +32,11 @@ namespace OrderElimination
             => _enemyCharacters = battleStatsList.ToList();
         public void SetScenario(BattleScenario scenario) => BattleScenario = scenario;
 
-        private void Awake() => DontDestroyOnLoad(gameObject);
+        private void Awake()
+        {
+            if(FindObjectsOfType<CharactersMediator>().Length > 1)
+                Destroy(gameObject);
+            DontDestroyOnLoad(gameObject);
+        }
     }
 }
