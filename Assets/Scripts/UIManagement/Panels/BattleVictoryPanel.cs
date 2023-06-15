@@ -43,10 +43,12 @@ public class BattleVictoryPanel : UIPanel
         foreach (var character in charactersToDisplay)
         {
             var avatar = Instantiate(_characterPrefab, _charactersHolder);
+            avatar.UpdateCharacterInfo(character.CharacterData.Name, character.CharacterData.BattleIcon);
+            avatar.IsClickable = true;
+            avatar.Clicked += OnAvatarClicked;
             _charactersByAvatars.Add(avatar, character);
         }
         _primaryCurrency.text = currencyReward.ToString();
-        _pageSwitcher.DisablePage(1);
 
         void ClearCharacters()
         {
@@ -69,6 +71,7 @@ public class BattleVictoryPanel : UIPanel
 
     private void OnAvatarClicked(CharacterClickableAvatar avatar)
     {
+        Logging.Log("Clicked character");
         var characterPanel = (CharacterDescriptionPanel)UIController.SceneInstance.OpenPanel(PanelType.CharacterDescription);
         characterPanel.UpdateCharacterDescription(_charactersByAvatars[avatar]);
     }
