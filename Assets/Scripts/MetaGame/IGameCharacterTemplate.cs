@@ -1,4 +1,5 @@
-﻿using OrderElimination.AbilitySystem;
+﻿using AI;
+using OrderElimination.AbilitySystem;
 using OrderElimination.MetaGame;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace OrderElimination
         public Sprite BattleIcon { get; }
         public Sprite Avatar { get; }
         public int CostValue { get; }
+        public Role Role { get; }
 
         public IReadOnlyGameCharacterStats GetBaseBattleStats();
         public ActiveAbilityBuilder[] GetActiveAbilities();
