@@ -2783,16 +2783,16 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects:
-  - {fileID: 1567597161}
   - {fileID: 1570969711}
   - {fileID: 1441368202}
   - {fileID: 847119335}
   - {fileID: 202007078}
   - {fileID: 108062813}
   - {fileID: 285569637}
-  - {fileID: 3959180}
   - {fileID: 2082264380}
-  - {fileID: 1055080401}
+  - {fileID: 3959180}
+  - {fileID: 1567597161}
+  - {fileID: 2628971837407737378}
   _startMoney: 1000
   _charactersMediatorPrefab: {fileID: 1422321889289218424, guid: 92d0a280c590cac489aa4d276cc5be93, type: 3}
   _pathPrefab: {fileID: -6847120856849632348, guid: fe7a2fb0c4301934a95ede2e72ce1426, type: 3}
@@ -2800,7 +2800,7 @@ MonoBehaviour:
   _pointPrefab: {fileID: 6726622157222742597, guid: 8885d36206496c5468934e18455d60ae, type: 3}
   _squad: {fileID: 1155028019}
   _panelManager: {fileID: 457212514}
-  _library: {fileID: 11400000, guid: e924b2f69fd7e554aa667247d8dafda1, type: 2}
+  _library: {fileID: 11400000, guid: ccf5a05429ccd6e4ea3c89c2b79f7a33, type: 2}
   _squadMembersPanel: {fileID: 1103720969}
   _characterInfoPanel: {fileID: 1055080403}
   _cardWithHealthBar: {fileID: 4089897780089222038, guid: 411db3d6bc8ec471bba9fe51c61fd356, type: 3}
@@ -3435,6 +3435,19 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1658578758412989356, guid: fdbb038d8d3f94641b672d2f58550909, type: 3}
   m_PrefabInstance: {fileID: 316038549}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1567597163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567597161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1db08e13df38f141826481017d31e9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _squad: {fileID: 1155028019}
 --- !u!1 &1570969711
 GameObject:
   m_ObjectHideFlags: 0
