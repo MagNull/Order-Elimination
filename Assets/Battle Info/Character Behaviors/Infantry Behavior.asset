@@ -24,6 +24,8 @@ MonoBehaviour:
   _avoidObject: []
   BehaviorTreeRoot:
     _childrenTask:
+    - rid: 8568508745526804487
+    - rid: 8568508745526804482
     - rid: 8568508697395068933
     - rid: 8568508697395068937
   references:
@@ -59,13 +61,79 @@ MonoBehaviour:
       type: {class: HasTargetsInRadius, ns: AI.Actions, asm: Assembly-CSharp}
       data:
         _sortBy: 0
-        _needPassiveEffects: []
+        _targetConditions: []
         _relationship: 0
         _radius: 1
     - rid: 8568508745526804481
       type: {class: HasTargetsInRadius, ns: AI.Actions, asm: Assembly-CSharp}
       data:
         _sortBy: 0
-        _needPassiveEffects: []
+        _targetConditions: []
         _relationship: 1
         _radius: 10
+    - rid: 8568508745526804482
+      type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
+      data:
+        _childrenTask:
+        - rid: 8568508745526804483
+        - rid: 8568508745526804484
+        - rid: 8568508745526804486
+    - rid: 8568508745526804483
+      type: {class: HasTargetsInRadius, ns: AI.Actions, asm: Assembly-CSharp}
+      data:
+        _sortBy: 1
+        _targetConditions: []
+        _relationship: 1
+        _radius: 10
+    - rid: 8568508745526804484
+      type: {class: DamageTarget, ns: AI.Actions, asm: Assembly-CSharp}
+    - rid: 8568508745526804486
+      type: {class: MoveToNearestShelter, ns: AI.Actions, asm: Assembly-CSharp}
+      data:
+        _needPassiveEffects:
+        - {fileID: 11400000, guid: f6800521c644795469760962fb32601c, type: 2}
+    - rid: 8568508745526804487
+      type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
+      data:
+        _childrenTask:
+        - rid: 8568508745526804489
+    - rid: 8568508745526804489
+      type: {class: LocalBlackboard, ns: AI.Decorators, asm: Assembly-CSharp}
+      data:
+        _childrenTask:
+          rid: 8568508745526804490
+    - rid: 8568508745526804490
+      type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
+      data:
+        _childrenTask:
+        - rid: 8568508745526804491
+        - rid: 8568508745526804495
+        - rid: 8568508745526804493
+        - rid: 8568508745526804494
+    - rid: 8568508745526804491
+      type: {class: HasTargetsInRadius, ns: AI.Actions, asm: Assembly-CSharp}
+      data:
+        _sortBy: 0
+        _targetConditions:
+        - rid: 8568508745526804492
+        _relationship: 0
+        _radius: 10
+    - rid: 8568508745526804492
+      type: {class: TargetHasStatValue, ns: AI.Actions, asm: Assembly-CSharp}
+      data:
+        _battleStat: 0
+        _targetValuePercentage: 51
+        _relation: 2
+    - rid: 8568508745526804493
+      type: {class: MoveToTarget, ns: AI.Conditions, asm: Assembly-CSharp}
+      data:
+        _purpose: 1
+    - rid: 8568508745526804494
+      type: {class: HealTarget, ns: AI.Actions, asm: Assembly-CSharp}
+    - rid: 8568508745526804495
+      type: {class: HasAvailableAbilities, ns: AI.Conditions, asm: Assembly-CSharp}
+      data:
+        _abilitiesToCheck:
+        - {fileID: 11400000, guid: 2771344306a9a0948bff9c14e32bce65, type: 2}
+        - {fileID: 11400000, guid: ede493482ca27e142857a20e494a65db, type: 2}
+        _available: 0

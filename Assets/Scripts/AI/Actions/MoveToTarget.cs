@@ -52,7 +52,6 @@ namespace AI.Conditions
                 Purpose.Heal => AbilityAIPresentation.GetAvailableHealAbilities(battleContext, caster, target),
                 _ => throw new ArgumentOutOfRangeException()
             };
-            Debug.Log(targetAbilities.Count());
             foreach (var damageAbility in targetAbilities)
             {
                 var cellsFromTarget = GetCellsForCastingAbility(damageAbility.ability.AbilityData, target);

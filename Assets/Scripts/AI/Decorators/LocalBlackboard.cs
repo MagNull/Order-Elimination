@@ -2,7 +2,7 @@
 
 namespace AI.Decorators
 {
-    public class BlackboardManager : Decorator
+    public class LocalBlackboard : Decorator
     {
         public override async UniTask<bool> Run(Blackboard blackboard)
         {
