@@ -30,7 +30,7 @@ namespace UIManagement.Elements
         public void Populate(CharacterTemplate[] charactersInfo)
         {
             if (_elementPrefab == null)
-                throw new Exception("No given prefab for instancing.");
+                Logging.LogException( new Exception("No given prefab for instancing."));
             foreach (var characterInfo in charactersInfo)
             {
                 var newElement = Instantiate(_elementPrefab, _elementsHolder);
@@ -49,7 +49,7 @@ namespace UIManagement.Elements
         public void Populate(IReadOnlyList<IBattleCharacterInfo> charactersInfo)
         {
             if (_elementPrefab == null)
-                throw new Exception("No given prefab for instancing.");
+                Logging.LogException( new Exception("No given prefab for instancing."));
             foreach (var characterInfo in charactersInfo)
             {
                 var newElement = Instantiate(_elementPrefab, _elementsHolder);
@@ -72,7 +72,7 @@ namespace UIManagement.Elements
         public void RemoveAt(int index)
         {
             if (index >= ElementsCount || index < 0)
-                throw new IndexOutOfRangeException();
+                Logging.LogException( new IndexOutOfRangeException());
             var element = _characterList[index];
             _characterList.RemoveAt(index);
             DestroyImmediate(element.gameObject);

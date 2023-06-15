@@ -1,15 +1,71 @@
+using Cysharp.Threading.Tasks;
 using DefaultNamespace;
+using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
-using System.Collections;
-using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using VContainer;
 
 public class BattleEndHandler : MonoBehaviour
 {
+    [HideInInspector, SerializeField]
+    private int _onPlayerVictorySceneId;
+    [HideInInspector, SerializeField]
+    private int _onPlayerLoseSceneId;
     private IReadOnlyEntitiesBank _entitiesBank;
     private TextEmitter _textEmitter;
+
+    [ShowInInspector]
+    private int _safeVictorySceneId
+    {
+        get => _onPlayerVictorySceneId;
+        set
+        {
+            var maxIdValue = SceneManager.sceneCountInBuildSettings - 1;
+            if (value < 0) value = 0;
+            if (value > maxIdValue)
+                value = maxIdValue;
+            _onPlayerVictorySceneId = value;
+        }
+    }
+    [ShowInInspector]
+    private int _safeLoseSceneId
+    {
+        get => _onPlayerLoseSceneId;
+        set
+        {
+            var maxIdValue = SceneManager.sceneCountInBuildSettings - 1;
+            if (value < 0) value = 0;
+            if (value > maxIdValue)
+                value = maxIdValue;
+            _onPlayerLoseSceneId = value;
+        }
+    }
+
+    public int OnPlayerVictoryScene
+    {
+        get => _onPlayerVictorySceneId;
+        set
+        {
+            var maxIdValue = SceneManager.sceneCountInBuildSettings - 1;
+            if (value > maxIdValue || value < 0)
+                throw new System.IndexOutOfRangeException($"No scene with id \"{value}\" in build settings!");
+            _onPlayerVictorySceneId = value;
+        }
+    }
+    public int OnPlayerLoseScene
+    {
+        get => _onPlayerLoseSceneId;
+        set
+        {
+            var maxIdValue = SceneManager.sceneCountInBuildSettings - 1;
+            if (value > maxIdValue || value < 0)
+                throw new System.IndexOutOfRangeException($"No scene with id \"{value}\" in build settings!");
+            _onPlayerLoseSceneId = value;
+        }
+    }
 
     [Inject]
     private void Construct(
@@ -33,13 +89,26 @@ public class BattleEndHandler : MonoBehaviour
     {
         if (bank.GetEntities(BattleSide.Enemies).Length == 0)
         {
-            _textEmitter.Emit($"Победа людей.", Color.green, new Vector3(0, 1, -1), Vector3.zero, 1.2f, 100, fontSize: 2f);
-            _textEmitter.Emit($"Нажмите «Esc» для выхода.", Color.white, new Vector3(0, -1, -1), Vector3.zero, 1.2f, 100, fontSize: 0.75f);
+            OnPlayerVictory();
         }
         else if (bank.GetEntities(BattleSide.Player).Length == 0)
         {
-            _textEmitter.Emit($"Победа монстров.", Color.red, new Vector3(0, 1, -1), Vector3.zero, 1.2f, 100, fontSize: 2f);
-            _textEmitter.Emit($"Нажмите «Esc» для выхода.", Color.white, new Vector3(0, -1, -1), Vector3.zero, 1.2f, 100, fontSize: 0.75f);
+            OnPlayerLose();
         }
+    }
+
+    private void OnPlayerVictory()
+    {
+        _textEmitter.Emit($"Победа людей.", Color.green, new Vector3(0, 1, -1), Vector3.zero, 1.2f, 100, fontSize: 2f);
+        _textEmitter.Emit($"Нажмите «Esc» для выхода.", Color.white, new Vector3(0, -1, -1), Vector3.zero, 1.2f, 100, fontSize: 0.75f);
+        var loading = SceneManager.LoadSceneAsync(OnPlayerVictoryScene);
+    }
+
+    private void OnPlayerLose()
+    {
+        _textEmitter.Emit($"Победа монстров.", Color.red, new Vector3(0, 1, -1), Vector3.zero, 1.2f, 100, fontSize: 2f);
+        _textEmitter.Emit($"Нажмите «Esc» для выхода.", Color.white, new Vector3(0, -1, -1), Vector3.zero, 1.2f, 100, fontSize: 0.75f);
+        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        var loading = SceneManager.LoadSceneAsync(OnPlayerLoseScene);
     }
 }

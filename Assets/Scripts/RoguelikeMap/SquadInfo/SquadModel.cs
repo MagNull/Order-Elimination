@@ -51,7 +51,7 @@ namespace OrderElimination
         public void RemoveCharacter(GameCharacter member)
         {
             if (!_members.Contains(member))
-                throw new ArgumentException("No such character in squad");
+                Logging.LogException( new ArgumentException("No such character in squad"));
             _members.Remove(member);
         }
         
@@ -79,14 +79,14 @@ namespace OrderElimination
                     //По идее...
                     //(Всё равно хуйня)
                     member.ChangeStat(stat, newStat);
-                    Debug.Log($"{member.CharacterData.Name}[{stat}]: {originalStat} -> {newStat}; StatGrow: {statsGrowth[stat]}");
+                    Logging.Log($"{member.CharacterData.Name}[{stat}]: {originalStat} -> {newStat}; StatGrow: {statsGrowth[stat]}");
                 }
             }
         }
 
         public void DistributeExperience(float expirience)
         {
-            throw new NotImplementedException();
+            Logging.LogException( new NotImplementedException());
             foreach (var member in _members)
             {
                 //member.RaiseExperience(expirience / AmountOfMembers);
@@ -95,7 +95,7 @@ namespace OrderElimination
         
         public void HealCharacters(int amountHeal)
         {
-            throw new NotImplementedException();
+            Logging.LogException( new NotImplementedException());
             foreach (var member in _members)
             {
                 //member.Heal(amountHeal);
@@ -111,7 +111,6 @@ namespace OrderElimination
         {
             _members = characters.ToList();
             _activeMembersCount = activeMembersCount;
-            Debug.Log(activeMembersCount);
             OnUpdateSquadMembers?.Invoke();
         }
 

@@ -31,7 +31,7 @@ namespace OrderElimination.AbilitySystem.Animations
             {
                 AnimationTarget.Target => context.TargetGamePosition,
                 AnimationTarget.Caster => context.CasterGamePosition,
-                _ => throw new System.NotImplementedException(),
+                _ => throw new System.NotImplementedException()
             };
             if (!targetPos.HasValue)
                 return;

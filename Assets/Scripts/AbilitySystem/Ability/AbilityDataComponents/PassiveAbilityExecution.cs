@@ -42,7 +42,7 @@ namespace OrderElimination.AbilitySystem
             public void Activate()
             {
                 if (HasBeenActivated)
-                    throw new InvalidOperationException("Has already been activated.");
+                    Logging.LogException(new InvalidOperationException("Has already been activated."));
                 foreach (var trigger in _activationTriggers)
                 {
                     trigger.Activate();
@@ -53,7 +53,7 @@ namespace OrderElimination.AbilitySystem
             public void Deactivate()
             {
                 if (HasBeenDeactivated)
-                    throw new InvalidOperationException("Has already been deactivated.");
+                    Logging.LogException( new InvalidOperationException("Has already been deactivated."));
                 foreach (var trigger in _activationTriggers)
                 {
                     trigger.Deactivate();
@@ -90,12 +90,19 @@ namespace OrderElimination.AbilitySystem
 
         public void Dectivate(IPassiveExecutionActivationInfo activationInfo)
         {
-            if (activationInfo == null) 
+            if (activationInfo == null)
+            {
+                Logging.LogException( new ArgumentNullException());
                 throw new ArgumentNullException();
+            }
+
             if (activationInfo is not PassiveExecutionActivationInfo specificInfo)
-                throw new ArgumentException("Unknown activation info implementation");
+            {
+                Logging.LogException( new ArgumentException("Unknown activation info implementation"));
+                throw new ArgumentNullException();
+            }
             if (specificInfo.HasBeenDeactivated)
-                throw new InvalidOperationException("This execution has already been deactivated.");
+                Logging.LogException( new InvalidOperationException("This execution has already been deactivated."));
             specificInfo.Deactivate();
             specificInfo.Triggered -= OnTriggered;
         }

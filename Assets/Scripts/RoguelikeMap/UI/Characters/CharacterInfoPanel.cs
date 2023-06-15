@@ -101,7 +101,7 @@ namespace RoguelikeMap.UI.Characters
                 .ToArray();
             if (displayedActiveAbilities.Length > _activeAbilityButtons.Count
                 || displayedPassiveAbilities.Length > _passiveAbilityButtons.Count)
-                throw new System.NotSupportedException("Abilities to display count is greater than can be shown.");
+                Logging.LogException( new System.NotSupportedException("Abilities to display count is greater than can be shown."));
             for (var i = 0; i < displayedActiveAbilities.Length; i++)
             {
                 var button = _activeAbilityButtons[i];

@@ -15,7 +15,7 @@ namespace OrderElimination.AbilitySystem.Animations
 
         public async UniTask Play(AnimationPlayContext context)
         {
-            throw new NotImplementedException();
+            Logging.LogException( new NotImplementedException());
         }
     }
 }

@@ -105,7 +105,7 @@ namespace OrderElimination
                         if (i == 3) _evasion = perValue;
                         else if (i == 4) _accuracy = perValue;
                     }
-                    else Debug.LogError($"Failed to parse \"{elements[i]}\" value.");
+                    else Logging.LogError($"Failed to parse \"{elements[i]}\" value.");
                 }
             }
 
@@ -127,9 +127,23 @@ namespace OrderElimination
         }
 
         #region Old
-        public IReadOnlyBattleStats GetBattleStats() => throw new System.NotSupportedException();
-        public AbilityInfo[] GetActiveAbilityInfos() => throw new System.NotSupportedException();
-        public AbilityInfo[] GetPassiveAbilityInfos() => throw new System.NotSupportedException();
+        public IReadOnlyBattleStats GetBattleStats()
+        {
+            Logging.LogException(new System.NotSupportedException());
+            throw new System.NotSupportedException();
+        }
+
+        public AbilityInfo[] GetActiveAbilityInfos()
+        {
+            Logging.LogException(new System.NotSupportedException());
+            throw new System.NotSupportedException();
+        }
+
+        public AbilityInfo[] GetPassiveAbilityInfos()
+        {
+            Logging.LogException(new System.NotSupportedException());
+            throw new System.NotSupportedException();
+        }
 
         public void SetLevel(int level)
         {
@@ -162,11 +176,11 @@ namespace OrderElimination
             //};
             //_strategyStats.Lvl++;
 
-            //Debug.Log($"Health: Old - {_battleStats.UnmodifiedHealth}, New - {battleStats.UnmodifiedHealth}");
-            //Debug.Log($"Health: Old - {_battleStats.UnmodifiedArmor}, New - {battleStats.UnmodifiedArmor}");
-            //Debug.Log($"Health: Old - {_battleStats.UnmodifiedAccuracy}, New - {battleStats.UnmodifiedAccuracy}");
-            //Debug.Log($"Health: Old - {_battleStats.UnmodifiedEvasion}, New - {battleStats.UnmodifiedEvasion}");
-            //Debug.Log($"Health: Old - {_battleStats.UnmodifiedAttack}, New - {battleStats.UnmodifiedAttack}");
+            //Logging.Log($"Health: Old - {_battleStats.UnmodifiedHealth}, New - {battleStats.UnmodifiedHealth}");
+            //Logging.Log($"Health: Old - {_battleStats.UnmodifiedArmor}, New - {battleStats.UnmodifiedArmor}");
+            //Logging.Log($"Health: Old - {_battleStats.UnmodifiedAccuracy}, New - {battleStats.UnmodifiedAccuracy}");
+            //Logging.Log($"Health: Old - {_battleStats.UnmodifiedEvasion}, New - {battleStats.UnmodifiedEvasion}");
+            //Logging.Log($"Health: Old - {_battleStats.UnmodifiedAttack}, New - {battleStats.UnmodifiedAttack}");
             //_battleStats = battleStats;
         }
 

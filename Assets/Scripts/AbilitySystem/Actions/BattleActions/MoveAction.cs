@@ -120,7 +120,7 @@ namespace OrderElimination.AbilitySystem
                             break;
                         }
                         currentPoint = path[i];
-                        //Debug.Log($"Path cell {i}: {path[i]}" % Colorize.Orange);
+                        //Logging.Log($"Path cell {i}: {path[i]}" , Colorize.Orange);
                     }
                     success = finishedSuccessfully;
                 }

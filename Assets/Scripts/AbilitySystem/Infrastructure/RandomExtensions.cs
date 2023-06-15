@@ -33,11 +33,11 @@ namespace OrderElimination.Infrastructure
         public static bool IsRandomValueInRange(float minValue, float maxValue, float rangeThreshold)
         {
             var probability = (rangeThreshold - minValue) / (maxValue - minValue);
-            Debug.Log($"Rolling for probability: {probability * 100}%" % Colorize.Yellow);
+            Logging.Log($"Rolling for probability: {probability * 100}%", Colorize.Yellow);
             //if (rangeThreshold < minValue || rangeThreshold > maxValue)
-            //    throw new ArgumentException($"Range threshold value must be between {minValue} and {maxValue}.");
+            //    Logging.LogException( new ArgumentException($"Range threshold value must be between {minValue} and {maxValue}.");
             if (float.IsNaN(rangeThreshold) || !float.IsFinite(rangeThreshold))
-                throw new ArgumentException($"Range threshold value must be finite and not NaN.");
+                Logging.LogException( new ArgumentException($"Range threshold value must be finite and not NaN."));
             return UnityEngine.Random.Range(minValue, maxValue) <= rangeThreshold;
         }
     }

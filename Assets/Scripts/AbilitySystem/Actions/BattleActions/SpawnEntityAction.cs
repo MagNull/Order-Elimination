@@ -68,7 +68,7 @@ namespace OrderElimination.AbilitySystem
 
         public bool Undo(int performId)
         {
-            if (IsUndone(performId)) throw ActionUndoFailedException.AlreadyUndoneException;
+            if (IsUndone(performId)) Logging.LogException( ActionUndoFailedException.AlreadyUndoneException);
             var entity = _spawnedEntities[performId];
             var isSuccessful = true;
             if (!entity.DisposeFromBattle())
@@ -76,7 +76,7 @@ namespace OrderElimination.AbilitySystem
             if (_activeTriggers.ContainsKey(performId))
                 _activeTriggers[performId].Deactivate();
             _undoneOperations.Add(performId);
-            Debug.Log($"Entities disposed: {isSuccessful}" % Colorize.Purple);
+            Logging.Log($"Entities disposed: {isSuccessful}", Colorize.Purple);
             return isSuccessful;
         }
 
@@ -101,7 +101,7 @@ namespace OrderElimination.AbilitySystem
                 _ => throw new NotImplementedException(),
             };
             var performId = _spawnedEntities.Count;
-            Debug.Log($"Spawn perform Id: {performId}" % Colorize.Purple);
+            Logging.Log($"Spawn perform Id: {performId}", Colorize.Purple);
             var pos = useContext.ActionTargetInitialPosition.Value;
             AbilitySystemActor entity = Entity switch
             {

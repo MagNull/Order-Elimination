@@ -58,7 +58,7 @@
 //    private void UpdateListCount(CharacterList list, int expectedCount)
 //    {
 //        if (expectedCount < 0)
-//            throw new System.ArgumentException();
+//            Logging.LogException( new System.ArgumentException();
 //        while (list.CharactersCount != expectedCount)
 //        {
 //            if (list.CharactersCount < expectedCount)

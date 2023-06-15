@@ -52,7 +52,7 @@ namespace OrderElimination.Infrastructure
         {
             var type = typeof(T);
             if (!type.IsInterface)
-                throw new ArgumentException($"Type {nameof(T)} must be an interface.");
+                Logging.LogException( new ArgumentException($"Type {nameof(T)} must be an interface."));
             return Assembly
                 .GetExecutingAssembly()
                 .GetTypes()

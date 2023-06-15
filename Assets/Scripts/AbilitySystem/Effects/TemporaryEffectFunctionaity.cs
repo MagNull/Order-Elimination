@@ -28,7 +28,7 @@ namespace OrderElimination.AbilitySystem
 
         public virtual void OnTimeOut(BattleEffect effect)
         {
-            Debug.Log($"Effect {effect.EffectData.View.Name} has expired.");
+            Logging.Log($"Effect {effect.EffectData.View.Name} has expired.");
             _onTimeOutInstruction?.Execute(effect);
         }
     }

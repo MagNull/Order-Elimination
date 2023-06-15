@@ -39,21 +39,21 @@ namespace OrderElimination.AbilitySystem
         public GameCharacter GetBattleCharacterData(AbilitySystemActor characterEntity)
         {
             if (characterEntity.EntityType != EntityType.Character)
-                throw new ArgumentException($"Passed entity is not a {EntityType.Character}.");
+                Logging.LogException( new ArgumentException($"Passed entity is not a {EntityType.Character}."));
             return _basedCharacters[characterEntity];
         }
 
         public IBattleStructureTemplate GetBattleStructureData(AbilitySystemActor structureEntity)
         {
             if (structureEntity.EntityType != EntityType.Structure)
-                throw new ArgumentException($"Passed entity is not a {EntityType.Structure}.");
+                Logging.LogException( new ArgumentException($"Passed entity is not a {EntityType.Structure}."));
             return _basedStructures[structureEntity];
         }
 
         public void AddCharacterEntity(AbilitySystemActor entity, BattleEntityView view, IGameCharacterTemplate basedData)
         {
             if (entity.EntityType != EntityType.Character)
-                throw new InvalidOperationException("Attempt to add non-character entity.");
+                Logging.LogException( new InvalidOperationException("Attempt to add non-character entity."));
             entity.DisposedFromBattle += OnEntityDisposed;
             _viewsByEntities.Add(entity, view);
             _entitiesByViews.Add(view, entity);
@@ -64,7 +64,7 @@ namespace OrderElimination.AbilitySystem
         public void AddStructureEntity(AbilitySystemActor entity, BattleEntityView view, IBattleStructureTemplate basedData)
         {
             if (entity.EntityType != EntityType.Structure)
-                throw new InvalidOperationException("Attempt to add non-structure entity.");
+                Logging.LogException( new InvalidOperationException("Attempt to add non-structure entity."));
             entity.DisposedFromBattle += OnEntityDisposed;
             _viewsByEntities.Add(entity, view);
             _entitiesByViews.Add(view, entity);

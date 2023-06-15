@@ -23,10 +23,6 @@ namespace AI.Actions
         public override async UniTask<bool> Run(Blackboard blackboard)
         {
             var targets = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
-            foreach (var abilitySystemActor in targets)
-            {
-                Debug.Log(abilitySystemActor.Position);
-            }
             if (!targets.Any())
                 return false;
             
