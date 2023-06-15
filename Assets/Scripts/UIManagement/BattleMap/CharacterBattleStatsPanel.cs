@@ -1,9 +1,5 @@
 using DG.Tweening;
 using OrderElimination.AbilitySystem;
-using OrderElimination.BM;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -64,42 +60,13 @@ namespace UIManagement.Elements
             if (entity == null)
                 throw new System.ArgumentNullException();
             if (_currentEntityView != null)
-            {
-                _currentEntityView.BattleEntity.Damaged -= OnDamaged;
-                _currentEntityView.BattleEntity.Healed -= OnHealed;
-                _currentEntityView.BattleEntity.EffectAdded -= OnEffectsUpdated;
-                _currentEntityView.BattleEntity.EffectRemoved -= OnEffectsUpdated;
-                _currentEntityView.BattleEntity.BattleStats.StatsChanged -= OnStatsChanged;
-            }
+                Unsubscribe(_currentEntityView.BattleEntity);
+
             _currentEntityView = entity;
-            _currentEntityView.BattleEntity.Damaged += OnDamaged;
-            _currentEntityView.BattleEntity.Healed += OnHealed;
-            _currentEntityView.BattleEntity.EffectAdded += OnEffectsUpdated;
-            _currentEntityView.BattleEntity.EffectRemoved += OnEffectsUpdated;
-            _currentEntityView.BattleEntity.BattleStats.StatsChanged += OnStatsChanged;
+            Subscribe(_currentEntityView.BattleEntity);
             _avatar.sprite = _currentEntityView.BattleIcon;
-            UpdateStats();
+            UpdateStats(_currentEntityView);
             UpdateEffects();
-
-            void OnStatsChanged(BattleStat stat) => UpdateStats();
-            void OnDamaged(DealtDamageInfo damage) => UpdateStats();
-            void OnHealed(HealRecoveryInfo heal) => UpdateStats();
-            void UpdateStats()
-            {
-                var stats = _currentEntityView.BattleEntity.LifeStats;
-
-                //Round visual numbers
-                var curHealth = Mathf.RoundToInt(stats.Health);
-                var maxHealth = Mathf.RoundToInt(stats.MaxHealth.ModifiedValue);
-                var curArmor = Mathf.RoundToInt(stats.TotalArmor);
-                var maxArmor = Mathf.RoundToInt(stats.MaxArmor.ModifiedValue);
-                //Round visual numbers
-
-                _healthBar.SetValue(curHealth, 0, maxHealth);
-                _armorBar.SetValue(curArmor, 0, maxArmor);
-            }
-            void OnEffectsUpdated(BattleEffect effect) => UpdateEffects();
-            void UpdateEffects() => _effectsList.UpdateEffects(_currentEntityView.BattleEntity.Effects);
         }
 
         public void Highlight(Color highlightColor)
@@ -151,5 +118,56 @@ namespace UIManagement.Elements
             var entityData = battleContext.EntitiesBank.GetBattleCharacterData(_currentEntityView.BattleEntity);
             characterDescriptionPanel.UpdateCharacterDescription(entityData);
         }
+
+        private void Subscribe(AbilitySystemActor entity)
+        {
+            entity.Damaged += OnDamaged;
+            entity.Healed += OnHealed;
+            entity.EffectAdded += OnEffectsUpdated;
+            entity.EffectRemoved += OnEffectsUpdated;
+            entity.BattleStats.StatsChanged += OnStatsChanged;
+            entity.DisposedFromBattle += OnDisposedFromBattle;
+        }
+
+        private void Unsubscribe(AbilitySystemActor entity)
+        {
+            entity.Damaged -= OnDamaged;
+            entity.Healed -= OnHealed;
+            entity.EffectAdded -= OnEffectsUpdated;
+            entity.EffectRemoved -= OnEffectsUpdated;
+            entity.BattleStats.StatsChanged -= OnStatsChanged;
+            entity.DisposedFromBattle -= OnDisposedFromBattle;
+        }
+
+        #region EntityEventHandlers
+        private void OnStatsChanged(BattleStat stat) => UpdateStats(_currentEntityView);
+        private void OnDamaged(DealtDamageInfo damage) => UpdateStats(_currentEntityView);
+        private void OnHealed(HealRecoveryInfo heal) => UpdateStats(_currentEntityView);
+        private void UpdateStats(BattleEntityView entityView)
+        {
+            var stats = entityView.BattleEntity.LifeStats;
+
+            //Round visual numbers
+            var curHealth = Mathf.RoundToInt(stats.Health);
+            var maxHealth = Mathf.RoundToInt(stats.MaxHealth.ModifiedValue);
+            var curArmor = Mathf.RoundToInt(stats.TotalArmor);
+            var maxArmor = Mathf.RoundToInt(stats.MaxArmor.ModifiedValue);
+            //Round visual numbers
+
+            _healthBar.SetValue(curHealth, 0, maxHealth);
+            _armorBar.SetValue(curArmor, 0, maxArmor);
+        }
+        private void OnEffectsUpdated(BattleEffect effect) => UpdateEffects();
+        private void UpdateEffects() => _effectsList.UpdateEffects(_currentEntityView.BattleEntity.Effects);
+        private void OnDisposedFromBattle(IBattleDisposable entity)
+        {
+            if (_currentEntityView.BattleEntity != entity)
+                throw new System.Exception();
+            Unsubscribe(_currentEntityView.BattleEntity);
+            _currentSequence.Complete();
+            _panelHighlightImage.DOComplete();
+            transform.DOComplete();
+        }
+        #endregion
     }
 }

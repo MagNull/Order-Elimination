@@ -2971,9 +2971,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
     - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
     - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
+    - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
     - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
     - {fileID: 11400000, guid: dc7552cb19317d642ad2af92d805c557, type: 2}
-    - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -2984,11 +2984,11 @@ MonoBehaviour:
       Data: 0
     - Name: _testPlayerCharacters
       Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[IGameCharacterData, Assembly-CSharp]],
-        mscorlib
+      Data: 0|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
+        Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 4
     - Name: 
       Entry: 10
       Data: 1
@@ -2999,6 +2999,9 @@ MonoBehaviour:
       Entry: 10
       Data: 3
     - Name: 
+      Entry: 10
+      Data: 4
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -3006,14 +3009,11 @@ MonoBehaviour:
       Data: 
     - Name: _testEnemyCharacters
       Entry: 7
-      Data: 1|System.Collections.Generic.List`1[[IGameCharacterData, Assembly-CSharp]],
-        mscorlib
+      Data: 1|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
+        Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 3
-    - Name: 
-      Entry: 10
-      Data: 4
+      Data: 2
     - Name: 
       Entry: 10
       Data: 5
@@ -3169,6 +3169,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &2033553828
 GameObject:
   m_ObjectHideFlags: 0

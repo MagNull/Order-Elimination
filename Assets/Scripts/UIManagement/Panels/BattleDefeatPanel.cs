@@ -38,8 +38,8 @@ public class BattleDefeatPanel : UIPanel
 
     private void OnCharacterAvatarHolded(CharacterClickableAvatar characterAvatar)
     {
-        var characterPanel = (CharacterDescriptionPanel)UIController.SceneInstance.OpenPanel(PanelType.CharacterDescription);
-        characterPanel.UpdateCharacterDescription(characterAvatar.CurrentCharacterInfo);
+        //var characterPanel = (CharacterDescriptionPanel)UIController.SceneInstance.OpenPanel(PanelType.CharacterDescription);
+        //characterPanel.UpdateCharacterDescription(characterAvatar.CurrentCharacterInfo);
     }
 
     private void OnContineButtonClick()
