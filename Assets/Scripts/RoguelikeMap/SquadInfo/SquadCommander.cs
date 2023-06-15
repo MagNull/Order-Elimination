@@ -33,8 +33,6 @@ namespace RoguelikeMap.SquadInfo
             SubscribeToEvents(panelManager);
             squadMembersPanel.OnSelected += WereSelectedMembers;
         }
-        
-        
 
         public void SetSquad(Squad squad)
         {
