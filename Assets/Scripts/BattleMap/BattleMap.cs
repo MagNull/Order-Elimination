@@ -26,7 +26,7 @@ public class BattleMap : MonoBehaviour, IBattleMap
     public IEnumerable<AbilitySystemActor> GetContainedEntities(Vector2Int position)
     {
         if (!CellRangeBorders.Contains(position))
-            Logging.LogException( new ArgumentOutOfRangeException());
+            Logging.LogException(new ArgumentOutOfRangeException());
         return GetCell(position.x, position.y).GetContainingEntities();
     }
 
@@ -36,7 +36,7 @@ public class BattleMap : MonoBehaviour, IBattleMap
     public Vector2Int GetPosition(AbilitySystemActor entity)
     {
         if (!Contains(entity))
-            Logging.LogException( new ArgumentException("Entity does not exist on the map."));
+            Logging.LogException(new ArgumentException("Entity does not exist on the map."));
         return _containedEntitiesPositions[entity];
     }
 
