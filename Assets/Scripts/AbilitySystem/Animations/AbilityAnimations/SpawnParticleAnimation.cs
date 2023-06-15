@@ -4,16 +4,13 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.ParticleSystem;
 
 namespace OrderElimination.AbilitySystem.Animations
 {
-    public class SpawnParticleAnimation : IAbilityAnimation
+    public class SpawnParticleAnimation : AwaitableAbilityAnimation
     {
         [HideInInspector, OdinSerialize]
         private int _animationLoops = 1;
@@ -107,7 +104,7 @@ namespace OrderElimination.AbilitySystem.Animations
             }
         }
 
-        public async UniTask Play(AnimationPlayContext context)
+        protected override async UniTask OnAnimationPlayRequest(AnimationPlayContext context, CancellationToken cancellationToken)
         {
             var mapView = context.SceneContext.BattleMapView;
 
@@ -118,7 +115,7 @@ namespace OrderElimination.AbilitySystem.Animations
                 var particles = new List<AnimatedParticle>();
                 foreach (var position in spawnPositions)
                 {
-                    var animTask = SpawnParticle(context, position, mapView, out var particle);
+                    var animTask = SpawnParticle(context, position, mapView, cancellationToken, out var particle);
                     particles.Add(particle);
                     animations.Add(animTask);
                 }
@@ -129,12 +126,12 @@ namespace OrderElimination.AbilitySystem.Animations
             }
             else if (SpawnAt == AnimationTarget.Caster)
             {
-                await SpawnParticle(context, context.Caster.Position, mapView, out var particle);
+                await SpawnParticle(context, context.Caster.Position, mapView, cancellationToken, out var particle);
                 context.SceneContext.ParticlesPool.Release(particle);
             }
             else if (SpawnAt == AnimationTarget.Target)
             {
-                await SpawnParticle(context, context.Target.Position, mapView, out var particle);
+                await SpawnParticle(context, context.Target.Position, mapView, cancellationToken, out var particle);
                 context.SceneContext.ParticlesPool.Release(particle);
             }
             else
@@ -145,6 +142,7 @@ namespace OrderElimination.AbilitySystem.Animations
             AnimationPlayContext context,
             Vector2Int gamePosition,
             BattleMapView mapView,
+            CancellationToken cancellationToken,
             out AnimatedParticle particle)
         {
             particle = context.SceneContext.ParticlesPool.Create(ParticleType);
@@ -198,9 +196,9 @@ namespace OrderElimination.AbilitySystem.Animations
 
             UniTask animationTask;
             if (RemapAnimationTime)
-                animationTask = particle.PlayTimeRemappedAnimation(RemappedTime, AnimationLoops);
+                animationTask = particle.PlayTimeRemappedAnimation(RemappedTime, AnimationLoops, cancellationToken);
             else
-                animationTask = particle.PlayAnimation(AnimationLoops);
+                animationTask = particle.PlayAnimation(AnimationLoops, cancellationToken);
             return animationTask;
         }
 

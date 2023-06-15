@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace OrderElimination.AbilitySystem.Animations
 {
-    public class AnimationCondition : IAbilityAnimation
-    {
-        //Conditions
-        //Animation
+    //public class AnimationCondition : IAbilityAnimation
+    //{
+    //    //Conditions
+    //    //Animation
 
-        public async UniTask Play(AnimationPlayContext context)
-        {
-            Logging.LogException( new NotImplementedException());
-        }
-    }
+    //    public async UniTask Play(AnimationPlayContext context)
+    //    {
+    //        Logging.LogException( new NotImplementedException());
+    //    }
+    //}
 }

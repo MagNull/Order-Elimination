@@ -66,12 +66,12 @@ namespace OrderElimination.Localization
         {
             return battleStat switch
             {
-                BattleStat.MaxHealth => "Макс. здоровье",
-                BattleStat.MaxArmor => "Макс. броня",
+                BattleStat.MaxHealth => "Здоровье",
+                BattleStat.MaxArmor => "Броня",
                 BattleStat.AttackDamage => "Урон",
                 BattleStat.Accuracy => "Точность",
                 BattleStat.Evasion => "Уклонение",
-                BattleStat.MaxMovementDistance => "Дальность перемещения",
+                BattleStat.MaxMovementDistance => "Перемещение",
                 _ => throw new System.NotImplementedException(),
             };
         }
