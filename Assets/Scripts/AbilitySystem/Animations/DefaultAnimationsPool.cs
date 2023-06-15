@@ -33,7 +33,7 @@ namespace OrderElimination.AbilitySystem.Animations
         public IAbilityAnimation GetDefaultAnimation(DefaultAnimation animation)
         {
             if (!IsAnimationAssigned(animation))
-                throw new NotImplementedException($"Default animation of {animation} was not found.");
+                Logging.LogException( new NotImplementedException($"Default animation of {animation} was not found."));
             return _defaultAnimations[animation];
         }
     }

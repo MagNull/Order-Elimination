@@ -22,7 +22,7 @@ namespace UIManagement.trashToRemove_Mockups
 
         public bool TryUpgrade()
         {
-            throw new System.NotImplementedException();
+            Logging.LogException( new System.NotImplementedException());
             //if (TargetCharacter.GetStrategyStats().Lvl >= MaximumLevelCap)
             //    return false;
             //var availableMoney = Money;
@@ -32,6 +32,7 @@ namespace UIManagement.trashToRemove_Mockups
             //availableMoney -= Cost;
             //_playerInformation.SetMoney(availableMoney);
             //return true;
+            throw new System.NotImplementedException();
         }
     }
 

@@ -60,7 +60,7 @@ namespace OrderElimination.AbilitySystem
             bool targetProcessing = true)
         {
             if (context.ActionTarget == null)
-                throw new System.ArgumentNullException();
+                Logging.LogException( new System.ArgumentNullException());
 
             var modifiedAction = this;
 

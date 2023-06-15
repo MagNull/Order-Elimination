@@ -40,7 +40,7 @@ namespace OrderElimination.AbilitySystem
             get => PureArmor + TemporaryArmor;
             set
             {
-                if (value < 0) throw new ArgumentOutOfRangeException();
+                if (value < 0) Logging.LogException( new ArgumentOutOfRangeException());
                 var offset = TotalArmor - value;
                 if (value < TotalArmor)//dmg
                 {
@@ -92,7 +92,7 @@ namespace OrderElimination.AbilitySystem
         {
             get
             {
-                if (!HasParameter(battleStat)) throw new ArgumentException();
+                if (!HasParameter(battleStat)) Logging.LogException( new ArgumentException());
                 return battleStat switch
                 {
                     BattleStat.MaxHealth => MaxHealth,
@@ -169,7 +169,7 @@ namespace OrderElimination.AbilitySystem
         private void OnStatsChanged(ProcessingParameter<float> parameter)
         {
             if (!_battleStatEnums.ContainsKey(parameter))
-                throw new ArgumentException();
+                Logging.LogException( new ArgumentException());
             StatsChanged?.Invoke(_battleStatEnums[parameter]);
         }
     }

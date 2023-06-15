@@ -62,14 +62,21 @@ namespace RoguelikeMap.SquadInfo
         private void StartAttackByBattlePoint()
         {
             if (_target is not BattlePointModel battlePointModel)
+            {
+                Logging.LogException( new ArgumentException("Is not valid point to attack"));
                 throw new ArgumentException("Is not valid point to attack");
+            }
             StartAttack(battlePointModel.Enemies, battlePointModel.Scenario);
         }
         
         private void StartAttackByEventPoint(IReadOnlyList<IGameCharacterTemplate> enemies)
         {
             if (_target is not EventPointModel eventPointModel)
+            {
+                Logging.LogException( new ArgumentException("Is not valid point to attack"));
                 throw new ArgumentException("Is not valid point to attack");
+
+            }
             StartAttack(enemies, eventPointModel.Scenario);
         }
         

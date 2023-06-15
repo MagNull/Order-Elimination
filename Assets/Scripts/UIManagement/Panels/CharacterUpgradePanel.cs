@@ -25,7 +25,7 @@ namespace UIManagement
 
         public void UpdateCharacterUpgradeDescription(CharacterUpgradeTransaction transaction)
         {
-            throw new NotSupportedException("Fuck you!");
+            Logging.LogException( new NotSupportedException("Fuck you!"));
             //base.UpdateCharacterDescription(transaction.TargetCharacter);
             //_currentUpgradeTransaction = transaction;
             //_upgradeCost.text = transaction.Cost.ToString();

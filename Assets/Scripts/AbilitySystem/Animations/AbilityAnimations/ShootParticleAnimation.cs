@@ -107,7 +107,7 @@ namespace OrderElimination.AbilitySystem.Animations
         {
             if (!context.CasterGamePosition.HasValue
                 || !context.TargetGamePosition.HasValue)
-                throw new ArgumentException();
+                Logging.LogException( new ArgumentException());
 
             var bullet = context.SceneContext.ParticlesPool.Create(BulletParticle);
             var mapView = context.SceneContext.BattleMapView;
@@ -128,7 +128,7 @@ namespace OrderElimination.AbilitySystem.Animations
             {
                 MoveByConstant.Time => Time,
                 MoveByConstant.Speed => realWorldOffset.magnitude / Speed,
-                _ => throw new NotImplementedException(),
+                _ => throw new NotImplementedException()
             };
             if (Inverse)
             {

@@ -54,7 +54,7 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
 
         private void OnClick(HoldableButton button)
         {
-            Debug.Log("OnClick");
+            Logging.Log("OnClick");
             OnGetInfo?.Invoke(this);
         }
     }

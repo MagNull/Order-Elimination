@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using OrderElimination;
 using UIManagement.Debugging;
 using UIManagement.trashToRemove_Mockups;
 using UnityEngine;
@@ -87,15 +88,15 @@ namespace UIManagement
         }
 
         #region Debugging
-        private Action<IUIPanel> openedDebug = (p) => Debug.Log($"{nameof(p.PanelType)}.{p.PanelType} \"{(p as PauseMenuPanel).name}\" opened");
-        private Action<IUIPanel> closedDebug = (p) => Debug.Log($"{nameof(p.PanelType)}.{p.PanelType} \"{(p as PauseMenuPanel).name}\" closed");
-        private Action<PauseMenuPanel> saveButtonDebug = (p) => p.ButtonPressedDebug(nameof(_saveGameButton));//Debug.Log($"{nameof(_saveGameButton)} pressed on {nameof(p.PanelType)}:{p.PanelType} \"{p.name}\"");
+        private Action<IUIPanel> openedDebug = (p) => Logging.Log($"{nameof(p.PanelType)}.{p.PanelType} \"{(p as PauseMenuPanel).name}\" opened");
+        private Action<IUIPanel> closedDebug = (p) => Logging.Log($"{nameof(p.PanelType)}.{p.PanelType} \"{(p as PauseMenuPanel).name}\" closed");
+        private Action<PauseMenuPanel> saveButtonDebug = (p) => p.ButtonPressedDebug(nameof(_saveGameButton));//Logging.Log($"{nameof(_saveGameButton)} pressed on {nameof(p.PanelType)}:{p.PanelType} \"{p.name}\"");
         private Action<PauseMenuPanel> loadButtonDebug = (p) => p.ButtonPressedDebug(nameof(_loadGameButton));
         private Action<PauseMenuPanel> returnButtonDebug = (p) => p.ButtonPressedDebug(nameof(_returnButton));
         private Action<PauseMenuPanel, float> musicSliderDebug 
-            = (p, val) => Debug.Log($"{nameof(_musicSlider)}'s value changed on {nameof(p.PanelType)}.{p.PanelType} \"{p.name}\": {val}");
+            = (p, val) => Logging.Log($"{nameof(_musicSlider)}'s value changed on {nameof(p.PanelType)}.{p.PanelType} \"{p.name}\": {val}");
         private Action<PauseMenuPanel, float> soundSliderDebug
-            = (p, val) => Debug.Log($"{nameof(_soundSlider)}'s value changed on {nameof(p.PanelType)}.{p.PanelType} \"{p.name}\": {val}");
+            = (p, val) => Logging.Log($"{nameof(_soundSlider)}'s value changed on {nameof(p.PanelType)}.{p.PanelType} \"{p.name}\": {val}");
 
         public void StartDebugging()
         {

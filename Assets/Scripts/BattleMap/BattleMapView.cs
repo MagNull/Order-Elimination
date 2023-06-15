@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using OrderElimination;
 using OrderElimination.BM;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
@@ -89,6 +90,7 @@ public class BattleMapView : MonoBehaviour
             }
         }
 
+        Logging.LogException( new ArgumentException("BattleObject not found"));
         throw new ArgumentException("BattleObject not found");
     }
 
@@ -149,12 +151,12 @@ public class BattleMapView : MonoBehaviour
                 continue;
             if (tween)
             {
-                Debug.Log("Move");
+                Logging.Log("Move", context: this);
                 battleObject.View.GameObject.transform.DOMove(GetCell(battleObject).transform.position, _moveDuration);
             }
             else
             {
-                //Debug.Log("Spawn");
+                //Logging.Log("Spawn");
                 battleObject.View.GameObject.transform.position = GetCell(battleObject).transform.position;
             }
         }

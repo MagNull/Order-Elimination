@@ -1,4 +1,5 @@
 ﻿using Maths;
+using OrderElimination;
 using UnityEngine;
 
 namespace DefaultNamespace
@@ -12,7 +13,7 @@ namespace DefaultNamespace
         {
             foreach (var v in IntersectionSolver.GetIntersections(_startPoint, _endPoint))
             {
-                Debug.Log($"{v.CellPosition}: {v.SmallestPartSquare}, {v.IntersectionAngle}");
+                Logging.Log($"{v.CellPosition}: {v.SmallestPartSquare}, {v.IntersectionAngle}");
             }
         }
     }

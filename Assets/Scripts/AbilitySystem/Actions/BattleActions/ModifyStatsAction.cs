@@ -46,7 +46,7 @@ namespace OrderElimination.AbilitySystem
         public static bool UndoStatic(int performId)
         {
             if (_undoneOperations.Contains(performId))
-                throw ActionUndoFailedException.AlreadyUndoneException;
+                Logging.LogException( ActionUndoFailedException.AlreadyUndoneException);
             var performResult = _resultsByPerformId[performId];
             var performProcessor = _processorsByPerformId[performId];
             var action = (ModifyStatsAction)performResult.ModifiedAction;

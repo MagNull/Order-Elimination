@@ -34,12 +34,12 @@ namespace OrderElimination.BM
 
         public void ShowAccuracy(float probability)
         {
-            throw new NotImplementedException();
+            Logging.LogException( new NotImplementedException());
         }
 
         public void HideAccuracy()
         {
-            throw new NotImplementedException();
+            Logging.LogException( new NotImplementedException());
         }
 
         public void OnDamaged(TakeDamageInfo damageInfo)

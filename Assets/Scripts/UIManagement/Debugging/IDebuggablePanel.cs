@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OrderElimination;
 using UnityEngine;
 
 namespace UIManagement.Debugging
@@ -18,7 +19,7 @@ namespace UIManagement.Debugging
         public static void ButtonPressedDebug<TPanel>(this IDebuggablePanel<TPanel> panel, string buttonName)
             where TPanel : MonoBehaviour, IUIPanel
         {
-            Debug.Log($"{buttonName} pressed on {nameof(panel.PanelType)}.{panel.PanelType} «{(panel as TPanel).name}»");
+            Logging.Log($"{buttonName} pressed on {nameof(panel.PanelType)}.{panel.PanelType} «{(panel as TPanel).name}»");
         }
     }
 }

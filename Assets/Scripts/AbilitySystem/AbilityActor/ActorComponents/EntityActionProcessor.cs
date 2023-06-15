@@ -60,7 +60,7 @@ namespace OrderElimination.AbilitySystem
             {
                 processedAction = processor.ProcessAction(processedAction, performContext);
                 if (processedAction == null)
-                    throw new ArgumentNullException(nameof(processedAction));
+                    Logging.LogException( new ArgumentNullException(nameof(processedAction)));
             }
             return processedAction;
         }

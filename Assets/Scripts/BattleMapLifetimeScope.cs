@@ -39,7 +39,7 @@ namespace OrderElimination
         {
             var mediator = FindObjectOfType<CharactersMediator>();
             if (!mediator)
-                throw new CheckoutException("No character mediator found");
+                Logging.LogException( new CheckoutException("No character mediator found"));
 
             _charactersBank = new CharactersBank();
             builder.RegisterInstance(_charactersBank).AsSelf().AsImplementedInterfaces();

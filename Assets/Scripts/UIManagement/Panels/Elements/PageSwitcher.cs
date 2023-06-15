@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using OrderElimination;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -69,9 +70,9 @@ namespace UIManagement.Elements
             if (pageButton == null)
                 return;
             if (!_buttonList.Contains(pageButton))
-                throw new ArgumentException();
+                Logging.LogException( new ArgumentException());
             if (!pageButton.Button.interactable)
-                throw new InvalidOperationException("Page disabled");
+                Logging.LogException( new InvalidOperationException("Page disabled"));
             var page = _pages[pageButton];
             foreach (var e in _pages)
             {
@@ -89,7 +90,7 @@ namespace UIManagement.Elements
             var availablePages = AvailablePages.ToList();
             var currentPageIndex = availablePages.IndexOf(_selectedPageButton);
             if (currentPageIndex == -1)
-                throw new InvalidOperationException();
+                Logging.LogException( new InvalidOperationException());
             var nextPageIndex = currentPageIndex + 1;
             if (nextPageIndex >= availablePages.Count)
             {
@@ -109,7 +110,7 @@ namespace UIManagement.Elements
             var availablePages = AvailablePages.ToList();
             var currentPageIndex = availablePages.IndexOf(_selectedPageButton);
             if (currentPageIndex == -1)
-                throw new InvalidOperationException();
+                Logging.LogException( new InvalidOperationException());
             var previousPageIndex = currentPageIndex - 1;
             if (previousPageIndex < 0)
             {
@@ -164,7 +165,7 @@ namespace UIManagement.Elements
         public void RemoveAt(int index)
         {
             if (index >= PageCount || index < 0)
-                throw new IndexOutOfRangeException();
+                Logging.LogException( new IndexOutOfRangeException());
             var pageButton = _buttonList[index];
             var page = _pages[pageButton];
             _buttonList.RemoveAt(index);

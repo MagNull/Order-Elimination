@@ -45,7 +45,10 @@ namespace OrderElimination.AbilitySystem
                     builderData.OptionalTargets);
             }
             else
+            {
+                Logging.LogException( new NotImplementedException());
                 throw new NotImplementedException();
+            }
             var execution = new ActiveAbilityExecution(builderData.AbilityInstructions.ToArray());
 
             View = view;

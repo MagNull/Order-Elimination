@@ -4,6 +4,7 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OrderElimination;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -76,7 +77,7 @@ namespace UIManagement.Elements
         public void Add(Sprite icon = null, string text = "New Text", string value = "0", ValueUnits valueUnits = ValueUnits.None)
         {
             if (_elementPrefab == null)
-                throw new Exception("No prefab given for instancing.");
+                Logging.LogException( new Exception("No prefab given for instancing."));
             _attachedElements.Add(
                 CreateIconTextValueElement(transform, icon, text, $"{value}{Localization.Current.GetUnits(valueUnits)}"));
             OnListUpdated();

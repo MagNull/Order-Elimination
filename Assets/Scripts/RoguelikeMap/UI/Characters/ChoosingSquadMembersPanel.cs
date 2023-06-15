@@ -60,7 +60,7 @@ namespace RoguelikeMap.UI.Characters
         
         protected virtual void TrySelectCard(DropZone dropZone, CharacterCard card)
         {
-            throw new NotImplementedException();
+            Logging.LogException( new NotImplementedException());
         }
 
         private void ShowCharacterInfo(CharacterCard card)

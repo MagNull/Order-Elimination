@@ -3,6 +3,7 @@ using OrderElimination.AbilitySystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OrderElimination;
 using UIManagement;
 using UIManagement.Elements;
 using UnityEngine;
@@ -67,7 +68,7 @@ namespace UIManagement
         {
             if (activeAbilities.Length > _activeAbilityButtons.Length
                 || passiveAbilities.Length > _passiveAbilityButtons.Length)
-                throw new ArgumentException();
+                Logging.LogException( new ArgumentException());
             ResetAbilityButtons();
             _caster = caster;
             _battleContext = caster.BattleContext;

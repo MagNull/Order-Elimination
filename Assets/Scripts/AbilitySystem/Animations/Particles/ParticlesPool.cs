@@ -46,7 +46,7 @@ namespace OrderElimination.AbilitySystem.Animations
         private AnimatedParticle CreateParticle()
         {
             if (_currentAwaitedParticle == null || !_currentAwaitedParticle.HasValue)
-                throw new InvalidOperationException();
+                Logging.LogException( new InvalidOperationException());
             var prefab = _parcticlesPrefabs[_currentAwaitedParticle.Value];
             var particle = Instantiate(prefab, _particlesParent);
             return particle;
@@ -78,7 +78,7 @@ namespace OrderElimination.AbilitySystem.Animations
         public async UniTask Release(AnimatedParticle particle)
         {
             if (!_spawnedParticleTypes.ContainsKey(particle))
-                throw new ArgumentException("Attempt to release unknown particle.");
+                Logging.LogException( new ArgumentException("Attempt to release unknown particle."));
             var parcticleType = _spawnedParticleTypes[particle];
             particle.SetBodyVisibility(false);
             _spawnedParticleTypes.Remove(particle);

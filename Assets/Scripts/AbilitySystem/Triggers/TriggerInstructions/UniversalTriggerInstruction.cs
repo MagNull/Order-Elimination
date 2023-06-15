@@ -31,7 +31,10 @@ namespace OrderElimination.AbilitySystem
                 trigger = entitySetup.GetTrigger(battleContext, trackingEntity);
             }
             else
+            {
+                Logging.LogException( new NotImplementedException());
                 throw new NotImplementedException();
+            }
             trigger.Triggered += OnTriggered;
             return trigger;
 

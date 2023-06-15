@@ -27,7 +27,7 @@ namespace UIManagement.Elements
         {
             if (character == null)
             {
-                throw new InvalidOperationException();
+                Logging.LogException( new InvalidOperationException());
             }
             RemoveCharacterInfo();
             CurrentCharacterInfo = character;
@@ -41,7 +41,7 @@ namespace UIManagement.Elements
         {
             if (characterInfo == null)
             {
-                throw new InvalidOperationException();
+                Logging.LogException( new InvalidOperationException());
             }
             RemoveCharacterInfo();
             currentBattleCharacterInfo = characterInfo;
