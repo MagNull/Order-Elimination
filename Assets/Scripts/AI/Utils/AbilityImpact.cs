@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using OrderElimination.AbilitySystem;
+using OrderElimination.Infrastructure;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -12,6 +13,8 @@ namespace AI.Utils
         public float CurrentHeal;
         public float RawDamage;
         public float RawHeal;
+        public int AffectedEnemies;
+        public int AffectedAlies;
 
         private readonly IActiveAbilityData _data;
         private readonly IBattleContext _battleContext;
@@ -29,6 +32,8 @@ namespace AI.Utils
             CurrentHeal = 0;
             RawDamage = 0;
             RawHeal = 0;
+            AffectedEnemies = 0;
+            AffectedAlies = 0;
             StartProcess();
         }
 
@@ -40,7 +45,7 @@ namespace AI.Utils
             {
                 ProcessInstruction(abilityInstruction);
             }
-
+            Debug.Log(_data.View.Name + ": " + AffectedEnemies);
             _data.TargetingSystem.CancelTargeting();
         }
 
@@ -75,6 +80,7 @@ namespace AI.Utils
                     CalculateRawDamage(instruction);
                     continue;
                 }
+
                 foreach (var cell in executionContext.TargetedCellGroups.GetGroup(cellGroupNumber))
                     CalculateCurrentImpactFromCell(instruction, cell);
             }
@@ -131,13 +137,24 @@ namespace AI.Utils
                 switch (instruction.Action)
                 {
                     case InflictDamageAction inflictDamageAction:
-                        CurrentDamage += inflictDamageAction.DamageSize.GetValue(actionContext) * instruction.RepeatNumber;
+                        CurrentDamage += inflictDamageAction.DamageSize.GetValue(actionContext) *
+                                         instruction.RepeatNumber;
                         RawDamage = CurrentDamage;
                         break;
                     case HealAction healAction:
                         CurrentHeal += healAction.HealSize.GetValue(actionContext) * instruction.RepeatNumber;
                         RawDamage = CurrentDamage;
                         break;
+                }
+
+                if (target != null)
+                {
+                    if (actionContext.BattleContext.GetRelationship(_caster.BattleSide, target.BattleSide) ==
+                        BattleRelationship.Enemy)
+                        AffectedEnemies++;
+                    else if (actionContext.BattleContext.GetRelationship(_caster.BattleSide, target.BattleSide) ==
+                             BattleRelationship.Ally)
+                        AffectedAlies++;
                 }
             }
         }
