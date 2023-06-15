@@ -11,6 +11,8 @@ namespace AI.Actions
     {
         public override async UniTask<bool> Run(Blackboard blackboard)
         {
+            Debug.Log("Heal");
+
             var targets = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
             var context = blackboard.Get<IBattleContext>("context");
             var caster = blackboard.Get<AbilitySystemActor>("caster");

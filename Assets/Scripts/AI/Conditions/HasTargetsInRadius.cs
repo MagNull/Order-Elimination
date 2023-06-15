@@ -26,6 +26,7 @@ namespace AI.Conditions
 
         public override async UniTask<bool> Run(Blackboard blackboard)
         {
+            Debug.Log("Has Target Rdius");
             var context = blackboard.Get<IBattleContext>("context");
             var caster = blackboard.Get<AbilitySystemActor>("caster");
             IEnumerable<AbilitySystemActor> enemies;

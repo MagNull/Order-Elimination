@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using AI.EditorGraph;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
@@ -23,15 +24,15 @@ namespace AI
             _context = context;
         }
 
-        private void OnEnable()
-        {
-            _context.NewTurnStarted += OnTurnStarted;
-        }
-        
-        private void OnDisable()
-        {
-            _context.NewTurnStarted -= OnTurnStarted;
-        }
+        // private void OnEnable()
+        // {
+        //     _context.NewTurnStarted += OnTurnStarted;
+        // }
+        //
+        // private void OnDisable()
+        // {
+        //     _context.NewTurnStarted -= OnTurnStarted;
+        // }
 
         private void OnTurnStarted(IBattleContext context)
         {

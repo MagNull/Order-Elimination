@@ -15,6 +15,8 @@ namespace AI.Compositions
 
         public override async UniTask<bool> Run(Blackboard blackboard)
         {
+            Debug.Log("Sequence");
+
             _childrenTask = GetChildrenTasks();
             foreach (var task in _childrenTask)
             {

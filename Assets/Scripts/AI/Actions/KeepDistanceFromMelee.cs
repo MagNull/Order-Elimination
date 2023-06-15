@@ -21,7 +21,7 @@ namespace AI.Actions
             var context = blackboard.Get<IBattleContext>("context");
             var caster = blackboard.Get<AbilitySystemActor>("caster");
             
-            Vector2Int[] notOptimalCells = Array.Empty<Vector2Int>();
+            var notOptimalCells = new List<Vector2Int>();
             var enemies = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
 
             foreach (var enemy in enemies)

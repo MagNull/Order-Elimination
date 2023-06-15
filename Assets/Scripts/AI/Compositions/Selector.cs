@@ -14,12 +14,13 @@ namespace AI.Compositions
     {
         [Output]
         [SerializeField]
-        private TaskPort ChildrenPort;
+        public TaskPort ChildrenPort;
         
         private BehaviorTreeTask[] _childrenTask;
 
         public override async UniTask<bool> Run(Blackboard blackboard)
         {
+            Debug.Log("Selector");
             _childrenTask = GetChildrenTasks();
             foreach (var task in _childrenTask)
             {
