@@ -6,14 +6,14 @@ using UnityEngine.Serialization;
 
 namespace AI.Conditions
 {
-    public class HasAvailableAbilities : IBehaviorTreeTask
+    public class HasAvailableAbilities : BehaviorTreeTask
     {
         [SerializeField]
         private ActiveAbilityBuilder[] _abilitiesToCheck;
         [SerializeField]
         private bool _available;
 
-        public async UniTask<bool> Run(Blackboard blackboard)
+        public override async UniTask<bool> Run(Blackboard blackboard)
         {
             var caster = blackboard.Get<AbilitySystemActor>("caster");
             var abilities = caster.ActiveAbilities;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AI.Actions;
 using AI.Utils;
 using Cysharp.Threading.Tasks;
 using OrderElimination.AbilitySystem;
@@ -7,9 +8,9 @@ using OrderElimination.Infrastructure;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace AI.Actions
+namespace AI.Conditions
 {
-    public class HasTargetsInRadius : IBehaviorTreeTask
+    public class HasTargetsInRadius : BehaviorTreeTask
     {
         [SerializeField]
         private TargetSort _sortBy;
@@ -23,7 +24,7 @@ namespace AI.Actions
         [SerializeField]
         private int _radius;
 
-        public async UniTask<bool> Run(Blackboard blackboard)
+        public override async UniTask<bool> Run(Blackboard blackboard)
         {
             var context = blackboard.Get<IBattleContext>("context");
             var caster = blackboard.Get<AbilitySystemActor>("caster");

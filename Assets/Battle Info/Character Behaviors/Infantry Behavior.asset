@@ -21,7 +21,8 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _avoidObject: []
+  _avoidObject:
+  - {fileID: 11400000, guid: 249876582c664ea49885b2c46bd89b76, type: 2}
   BehaviorTreeRoot:
     _childrenTask:
     - rid: 8568508745526804487
@@ -108,8 +109,7 @@ MonoBehaviour:
         _childrenTask:
         - rid: 8568508745526804491
         - rid: 8568508745526804495
-        - rid: 8568508745526804493
-        - rid: 8568508745526804494
+        - rid: 8568508745526804496
     - rid: 8568508745526804491
       type: {class: HasTargetsInRadius, ns: AI.Actions, asm: Assembly-CSharp}
       data:
@@ -128,8 +128,6 @@ MonoBehaviour:
       type: {class: MoveToTarget, ns: AI.Conditions, asm: Assembly-CSharp}
       data:
         _purpose: 1
-    - rid: 8568508745526804494
-      type: {class: HealTarget, ns: AI.Actions, asm: Assembly-CSharp}
     - rid: 8568508745526804495
       type: {class: HasAvailableAbilities, ns: AI.Conditions, asm: Assembly-CSharp}
       data:
@@ -137,3 +135,30 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 2771344306a9a0948bff9c14e32bce65, type: 2}
         - {fileID: 11400000, guid: ede493482ca27e142857a20e494a65db, type: 2}
         _available: 0
+    - rid: 8568508745526804496
+      type: {class: Selector, ns: AI, asm: Assembly-CSharp}
+      data:
+        _childrenTask:
+        - rid: 8568508745526804497
+        - rid: 8568508745526804498
+    - rid: 8568508745526804497
+      type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
+      data:
+        _childrenTask:
+        - rid: 8568508745526804499
+        - rid: 8568508745526804501
+    - rid: 8568508745526804498
+      type: {class: Sequence, ns: AI, asm: Assembly-CSharp}
+      data:
+        _childrenTask:
+        - rid: 8568508745526804493
+        - rid: 8568508745526804500
+    - rid: 8568508745526804499
+      type: {class: HealTarget, ns: AI.Actions, asm: Assembly-CSharp}
+    - rid: 8568508745526804500
+      type: {class: HealTarget, ns: AI.Actions, asm: Assembly-CSharp}
+    - rid: 8568508745526804501
+      type: {class: MoveToNearestShelter, ns: AI.Actions, asm: Assembly-CSharp}
+      data:
+        _needPassiveEffects:
+        - {fileID: 11400000, guid: f6488d714b05317408c5f7614b92ba2f, type: 2}

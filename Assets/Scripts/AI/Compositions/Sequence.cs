@@ -1,18 +1,21 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
-using OrderElimination.AbilitySystem;
 using UnityEngine;
 
-namespace AI
+namespace AI.Compositions
 {
     [Serializable]
-    public class Sequence : IBehaviorTreeTask
+    public class Sequence : BehaviorTreeTask
     {
-        [SerializeReference]
-        private IBehaviorTreeTask[] _childrenTask;
+        [Output]
+        [SerializeField]
+        private TaskPort ChildrenPort;
+        
+        private BehaviorTreeTask[] _childrenTask;
 
-        public async UniTask<bool> Run(Blackboard blackboard)
+        public override async UniTask<bool> Run(Blackboard blackboard)
         {
+            _childrenTask = GetChildrenTasks();
             foreach (var task in _childrenTask)
             {
                 var result = await task.Run(blackboard);

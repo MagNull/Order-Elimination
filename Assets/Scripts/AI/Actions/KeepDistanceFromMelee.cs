@@ -11,12 +11,12 @@ using Random = UnityEngine.Random;
 
 namespace AI.Actions
 {
-    public class KeepDistanceFromMelee : IBehaviorTreeTask
+    public class KeepDistanceFromMelee : BehaviorTreeTask
     {
         [SerializeField]
         private int _distance;
 
-        public async UniTask<bool> Run(Blackboard blackboard)
+        public override async UniTask<bool> Run(Blackboard blackboard)
         {
             var context = blackboard.Get<IBattleContext>("context");
             var caster = blackboard.Get<AbilitySystemActor>("caster");

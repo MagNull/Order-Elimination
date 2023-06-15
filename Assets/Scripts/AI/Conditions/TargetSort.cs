@@ -1,4 +1,4 @@
-namespace AI.Actions
+namespace AI.Conditions
 {
     public enum TargetSort
     {

@@ -2,9 +2,8 @@ using System;
 using System.Linq;
 using OrderElimination.AbilitySystem;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace AI.Actions
+namespace AI.Conditions
 {
     public interface ITargetCondition
     {

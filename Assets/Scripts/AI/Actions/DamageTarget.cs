@@ -7,9 +7,9 @@ using UnityEngine;
 
 namespace AI.Actions
 {
-    public class DamageTarget : IBehaviorTreeTask
+    public class DamageTarget : BehaviorTreeTask
     {
-        public async UniTask<bool> Run(Blackboard blackboard)
+        public override async UniTask<bool> Run(Blackboard blackboard)
         {
             var targets = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
             var context = blackboard.Get<IBattleContext>("context");
