@@ -58,6 +58,7 @@ namespace OrderElimination
         {
             var firstPart = _progressBar[ProgressCount - 1];
             var firstPartTransform = firstPart.transform;
+            firstPartTransform.DOComplete();
             firstPartTransform.DOScaleX(StartUpgradeWidthPart, AnimationTime);
             firstPartTransform.DOMoveX(firstPartTransform.position.x - ShiftPart, AnimationTime);
             
