@@ -122,8 +122,9 @@ namespace UIManagement.Elements
 
         private void Subscribe(AbilitySystemActor entity)
         {
-            entity.Damaged += OnDamaged;
-            entity.Healed += OnHealed;
+            //entity.Damaged += OnDamaged;
+            //entity.Healed += OnHealed;
+            entity.LifeStats.LifeStatsChanged += OnLifeStatsChanged;
             entity.EffectAdded += OnEffectsUpdated;
             entity.EffectRemoved += OnEffectsUpdated;
             entity.BattleStats.StatsChanged += OnStatsChanged;
@@ -132,8 +133,9 @@ namespace UIManagement.Elements
 
         private void Unsubscribe(AbilitySystemActor entity)
         {
-            entity.Damaged -= OnDamaged;
-            entity.Healed -= OnHealed;
+            //entity.Damaged -= OnDamaged;
+            //entity.Healed -= OnHealed;
+            entity.LifeStats.LifeStatsChanged -= OnLifeStatsChanged;
             entity.EffectAdded -= OnEffectsUpdated;
             entity.EffectRemoved -= OnEffectsUpdated;
             entity.BattleStats.StatsChanged -= OnStatsChanged;
@@ -144,6 +146,7 @@ namespace UIManagement.Elements
         private void OnStatsChanged(BattleStat stat) => UpdateStats(_currentEntityView);
         private void OnDamaged(DealtDamageInfo damage) => UpdateStats(_currentEntityView);
         private void OnHealed(HealRecoveryInfo heal) => UpdateStats(_currentEntityView);
+        private void OnLifeStatsChanged(IBattleLifeStats stats) => UpdateStats(_currentEntityView);
         private void UpdateStats(BattleEntityView entityView)
         {
             var stats = entityView.BattleEntity.LifeStats;
