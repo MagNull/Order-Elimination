@@ -4,10 +4,11 @@ using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace OrderElimination.AbilitySystem.Animations
 {
-    public class AnimationSequence : IAbilityAnimation
+    public class AnimationSequence : AwaitableAbilityAnimation
     {
         [ShowInInspector, OdinSerialize]
         public bool PlaySequentially { get; set; }
@@ -18,37 +19,43 @@ namespace OrderElimination.AbilitySystem.Animations
         [ShowInInspector, OdinSerialize]
         public List<IAbilityAnimation> Animations { get; set; } = new();
 
-        public async UniTask Play(AnimationPlayContext context)
+        protected override async UniTask OnAnimationPlayRequest(
+            AnimationPlayContext context, CancellationToken cancellationToken)
         {
             if (WaitForCompletion)
             {
                 if (PlaySequentially)
                 {
-                    await PlayAnimationsSequentially(Animations, context);
+                    await PlayAnimationsSequentially(Animations, context, cancellationToken);
                 }
                 else
                 {
-                    await UniTask.WhenAll(Animations.Select(a => a.Play(context)));
+                    await UniTask.WhenAll(Animations.Select(a => a.Play(context)
+                    .AttachExternalCancellation(cancellationToken)));
                 }
             }
             else
             {
                 if (PlaySequentially)
                 {
-                    PlayAnimationsSequentially(Animations, context);
+                    PlayAnimationsSequentially(Animations, context, cancellationToken);
                 }
                 else
                 {
-                    UniTask.WhenAll(Animations.Select(a => a.Play(context)));
+                    UniTask.WhenAll(Animations.Select(a => a.Play(context)
+                    .AttachExternalCancellation(cancellationToken)));
                 }
             }
         }
 
-        private async UniTask PlayAnimationsSequentially(IEnumerable<IAbilityAnimation> animations, AnimationPlayContext context)
+        private async UniTask PlayAnimationsSequentially(
+            IEnumerable<IAbilityAnimation> animations, 
+            AnimationPlayContext context, 
+            CancellationToken cancellationToken)
         {
             foreach (var animation in animations)
             {
-                await animation.Play(context);
+                await animation.Play(context).AttachExternalCancellation(cancellationToken);
             }
         }
     }

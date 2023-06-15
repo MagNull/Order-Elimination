@@ -3,9 +3,7 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -13,7 +11,7 @@ using Random = UnityEngine.Random;
 namespace OrderElimination.AbilitySystem.Animations
 {
 
-    public class ShootParticleAnimation : IAbilityAnimation
+    public class ShootParticleAnimation : AwaitableAbilityAnimation
     {
         [HideInInspector, OdinSerialize]
         private float _minSpread;
@@ -103,11 +101,11 @@ namespace OrderElimination.AbilitySystem.Animations
         //bool ThenReturn
         //bool AwaitReturn
 
-        public async UniTask Play(AnimationPlayContext context)
+        protected override async UniTask OnAnimationPlayRequest(AnimationPlayContext context, CancellationToken cancellationToken)
         {
             if (!context.CasterGamePosition.HasValue
                 || !context.TargetGamePosition.HasValue)
-                Logging.LogException( new ArgumentException());
+                Logging.LogException(new ArgumentException());
 
             var bullet = context.SceneContext.ParticlesPool.Create(BulletParticle);
             var mapView = context.SceneContext.BattleMapView;
@@ -140,13 +138,15 @@ namespace OrderElimination.AbilitySystem.Animations
             if (FaceDirection)
                 bullet.transform.right = direction;
             if (RemapAnimationTime)
-                bullet.PlayTimeRemappedAnimation(time, AnimationLoops);
+                bullet.PlayTimeRemappedAnimation(time, AnimationLoops, cancellationToken);
             else
-                bullet.PlayAnimation(AnimationLoops);
+                bullet.PlayAnimation(AnimationLoops, cancellationToken);
             await bullet.transform
                 .DOMove(to, time)
                 .SetEase(MovementEase)
-                .AsyncWaitForCompletion();
+                .AsyncWaitForCompletion()
+                .AsUniTask()
+                .AttachExternalCancellation(cancellationToken);
             context.SceneContext.ParticlesPool.Release(bullet);
         }
     }

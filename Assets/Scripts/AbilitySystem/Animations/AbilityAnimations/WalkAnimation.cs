@@ -5,11 +5,12 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem.Animations
 {
-    public class WalkAnimation : IAbilityAnimation
+    public class WalkAnimation : AwaitableAbilityAnimation
     {
         [HideInInspector, OdinSerialize]
         private float _time = 1;
@@ -90,7 +91,7 @@ namespace OrderElimination.AbilitySystem.Animations
         [ShowInInspector, OdinSerialize]
         public Ease MoveEase { get; set; }
 
-        public async UniTask Play(AnimationPlayContext context)
+        protected override async UniTask OnAnimationPlayRequest(AnimationPlayContext context, CancellationToken cancellationToken)
         {
             var movingTaget = MovingEntity switch
             {
@@ -149,7 +150,9 @@ namespace OrderElimination.AbilitySystem.Animations
             await movingTaget.transform
                 .DOMove(realWorldEndPos, time)
                 .SetEase(MoveEase)
-                .AsyncWaitForCompletion();
+                .AsyncWaitForCompletion()
+                .AsUniTask()
+                .AttachExternalCancellation(cancellationToken);
         }
     }
 }

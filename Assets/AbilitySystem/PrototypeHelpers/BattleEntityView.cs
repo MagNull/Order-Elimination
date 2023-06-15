@@ -211,6 +211,8 @@ public class BattleEntityView : MonoBehaviour
         await Task.WhenAll(tasks);
         _renderer.DOComplete();
         _renderer.enabled = false;
+        if (CustomModel != null)
+            CustomModel.SetActive(false);
         //gameObject.SetActive(false);
     }
 
