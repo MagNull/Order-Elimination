@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using OrderElimination;
 using UnityEngine;
 using OrderElimination.BM;
 using Sirenix.OdinInspector;
@@ -27,7 +28,7 @@ public class Cell : IReadOnlyCell
     {
         if (_objects.Contains(obj))
         {
-            Debug.LogWarning("Try add existing object to cell");
+            Logging.LogWarning("Try add existing object to cell");
             return;
         }
 
@@ -42,7 +43,7 @@ public class Cell : IReadOnlyCell
     {
         if (!_objects.Contains(obj))
         {
-            Debug.LogWarning("Try remove wrong object from cell");
+            Logging.LogWarning("Try remove wrong object from cell");
             return;
         }
 

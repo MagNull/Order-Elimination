@@ -29,7 +29,7 @@ namespace RoguelikeMap.UI.Characters
             if (card is CharacterCardWithHealthBar characterCardWithHealthBar)
                 TrySelectCard(dropZone, characterCardWithHealthBar);
             else
-                throw new ArgumentException();
+                Logging.LogException( new ArgumentException());
         }
 
         private void TrySelectCard(DropZone dropZone, CharacterCardWithHealthBar card)
@@ -67,7 +67,6 @@ namespace RoguelikeMap.UI.Characters
                     .Where(x => !x.IsSelected)
                     .Select(x => x.Character));
             OnSelected?.Invoke(characters, countActiveCharacters);
-            Debug.Log(characters.Count);
         }
     }
 }

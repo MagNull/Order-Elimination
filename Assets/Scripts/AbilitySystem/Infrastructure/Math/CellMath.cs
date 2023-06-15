@@ -95,6 +95,7 @@ namespace OrderElimination.Infrastructure
             if (priority == CellPriority.FurthestFromTarget)
                 return sortedByTargetPositions.Last();
 
+            Logging.LogException( new NotImplementedException());
             throw new NotImplementedException();
         }
     }

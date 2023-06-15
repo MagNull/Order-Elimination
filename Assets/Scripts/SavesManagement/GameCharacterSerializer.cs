@@ -14,7 +14,7 @@ namespace OrderElimination.SavesManagement
 
         public static async Task SaveCharacter(GameCharacter character)
         {
-            throw new NotImplementedException();
+            Logging.LogException( new NotImplementedException());
             if (!Directory.Exists(PlayerCharactersFileSavePath))
                 Directory.CreateDirectory(PlayerCharactersFileSavePath);
             var filesCount = Directory.GetFiles(PlayerCharactersFileSavePath);
@@ -28,12 +28,13 @@ namespace OrderElimination.SavesManagement
 
         public static async Task<GameCharacter[]> LoadPlayerCharacters()
         {
-            throw new NotImplementedException();
+            Logging.LogException( new NotImplementedException());
             foreach (var file in Directory.EnumerateFiles(PlayerCharactersFileSavePath))
             {
                 var fileStream = new FileStream(file, FileMode.Open);
             }
 
+            Logging.LogException( new NotImplementedException());
             throw new NotImplementedException();
         }
     }

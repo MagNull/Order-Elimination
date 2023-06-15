@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using OrderElimination;
 using OrderElimination.BM;
 using UnityEngine;
 
@@ -76,7 +77,7 @@ namespace CharacterAbility
 
             if (_coolDownTimer > 0)
             {
-                Debug.LogWarning("Ability is on cooldown");
+                Logging.LogWarning("Ability is on cooldown");
                 return;
             }
 
@@ -98,7 +99,7 @@ namespace CharacterAbility
 
         private static void NotEnoughActions()
         {
-            Debug.LogWarning("Dont enough actions");
+            Logging.LogWarning("Dont enough actions");
         }
 
         public void CancelCast()
@@ -140,7 +141,7 @@ namespace CharacterAbility
             IReadOnlyList<IBattleObject> targets = targetSelection.Result;
 
             if (!Caster.TrySpendAction(AbilityInfo.ActionType))
-                throw new Exception("Dont enough actions");
+                Logging.LogException( new Exception("Dont enough actions"));
             foreach (var target in targets) 
                 _ability.Use(target, Caster.Stats);
 
@@ -164,7 +165,7 @@ namespace CharacterAbility
 
             var cellConfirmed = false;
             List<IBattleObject> availableTargets = GetTargets();
-            Debug.Log(availableTargets.Count);
+            Logging.Log(availableTargets.Count);
 
             void OnCellClicked(CellView cellView)
             {

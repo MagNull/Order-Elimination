@@ -1,6 +1,7 @@
 using DG.Tweening;
 using OrderElimination.AbilitySystem;
 using System.Linq;
+using OrderElimination;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -58,7 +59,7 @@ namespace UIManagement.Elements
         public void UpdateEntityInfo(BattleEntityView entity)
         {
             if (entity == null)
-                throw new System.ArgumentNullException();
+                Logging.LogException( new System.ArgumentNullException());
             if (_currentEntityView != null)
                 Unsubscribe(_currentEntityView.BattleEntity);
 
@@ -162,7 +163,7 @@ namespace UIManagement.Elements
         private void OnDisposedFromBattle(IBattleDisposable entity)
         {
             if (_currentEntityView.BattleEntity != entity)
-                throw new System.Exception();
+                Logging.LogException( new System.Exception());
             Unsubscribe(_currentEntityView.BattleEntity);
             _currentSequence.Complete();
             _panelHighlightImage.DOComplete();

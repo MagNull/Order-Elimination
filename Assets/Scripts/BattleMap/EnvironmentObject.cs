@@ -88,16 +88,20 @@ namespace OrderElimination.BM
 
         public IReadOnlyList<ITickEffect> GetTickEffects(ITickEffect tickEffectType)
         {
+            Logging.LogException( new NotImplementedException());
             throw new NotImplementedException();
         }
 
         public IReadOnlyList<StatsBuffEffect> GetTickEffects(StatsBuffEffect tickEffectType)
         {
+            Logging.LogException( new NotImplementedException());
             throw new NotImplementedException();
+
         }
 
         public IReadOnlyList<IncomingBuff> GetTickEffects(IncomingBuff tickEffectType)
         {
+            Logging.LogException( new NotImplementedException());
             throw new NotImplementedException();
         }
 

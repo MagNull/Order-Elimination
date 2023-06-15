@@ -84,7 +84,8 @@ namespace OrderElimination.Infrastructure
 
         public static T GetClonedObject(T instance)
         {
-            if (instance == null) throw new ArgumentNullException();
+            if (instance == null) Logging.LogException( new ArgumentNullException());
+            Logging.LogException( new NotImplementedException());
             throw new NotImplementedException();
         }
     }

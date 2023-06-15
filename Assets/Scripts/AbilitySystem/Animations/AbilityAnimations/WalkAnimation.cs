@@ -133,7 +133,7 @@ namespace OrderElimination.AbilitySystem.Animations
                     _ => throw new NotImplementedException(),
                 };
             }
-            //Debug.Log($"Moving from {context.CasterGamePosition} to {context.TargetGamePosition}.");
+            //Logging.Log($"Moving from {context.CasterGamePosition} to {context.TargetGamePosition}.");
 
             var realWorldStartPos = context.SceneContext.BattleMapView.GetCell(from.x, from.y).transform.position;
             var realWorldEndPos = context.SceneContext.BattleMapView.GetCell(to.x, to.y).transform.position;

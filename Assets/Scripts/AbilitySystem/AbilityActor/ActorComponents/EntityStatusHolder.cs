@@ -33,7 +33,7 @@ namespace OrderElimination.AbilitySystem
                 _statusEffects.Add(status, 0);
             }
             _statusEffects[status]++;
-            Debug.Log($"{status}+" % Colorize.Cyan);
+            Logging.Log($"{status}+", Colorize.Cyan);
             if (_statusEffects[status] > 0)
                 StatusAppeared?.Invoke(status);
 
@@ -43,7 +43,7 @@ namespace OrderElimination.AbilitySystem
         {
             if (!_statusEffects.ContainsKey(status)) return false;
             _statusEffects[status]--;
-            Debug.Log($"{status}-" % Colorize.Cyan);
+            Logging.Log($"{status}-", Colorize.Cyan);
             if (_statusEffects[status] == 0)
             {
                 //_statusEffects.Remove(status);//Can we go minus? (if Remove() -> no)

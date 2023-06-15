@@ -63,7 +63,7 @@ namespace UIManagement
         public void UpdateCharacterDescription(GameCharacter character)
         {
             if (character == null)
-                throw new System.ArgumentNullException();
+                Logging.LogException( new System.ArgumentNullException());
             _characterData = character;
             _characterName.text = character.CharacterData.Name;
             _characterAvatar.sprite = character.CharacterData.Avatar;
@@ -85,7 +85,7 @@ namespace UIManagement
         private void UpdateBattleStats(IReadOnlyGameCharacterStats stats)
         {
             if (_characterStats.Count != 5)
-                throw new System.InvalidOperationException();
+                Logging.LogException( new System.InvalidOperationException());
             foreach (var stat in EnumExtensions.GetValues<BattleStat>())
             {
                 if (_statsElementsIdMapping.ContainsKey(stat))
@@ -117,7 +117,7 @@ namespace UIManagement
                 .ToArray();
             if (displayedActiveAbilities.Length > _activeAbilityButtons.Count
                 || displayedPassiveAbilities.Length > _passiveAbilityButtons.Count)
-                throw new System.NotSupportedException("Abilities to display count is greater than can be shown.");
+                Logging.LogException( new System.NotSupportedException("Abilities to display count is greater than can be shown."));
             for (var i = 0; i < displayedActiveAbilities.Length; i++)
             {
                 var button = _activeAbilityButtons[i];
@@ -127,7 +127,7 @@ namespace UIManagement
 
                 void OnActiveAbilityClicked()
                 {
-                    Debug.Log("No." % Colorize.Gold);
+                    Logging.Log("No." , Colorize.Gold, context: this);
                     //_abilityInfoPanel.InitializeInfo(ability);
                     //_abilityInfoPanel.Open();
                 }
@@ -141,7 +141,7 @@ namespace UIManagement
 
             void OnPassiveAbilityClicked()
             {
-                Debug.Log("No." % Colorize.Gold);
+                Logging.Log("No." , Colorize.Gold, context: this);
                 //_passiveAbilityInfoPanel.InitializeInfo(displayedPassiveAbilities);
                 //_passiveAbilityInfoPanel.Open();
             }

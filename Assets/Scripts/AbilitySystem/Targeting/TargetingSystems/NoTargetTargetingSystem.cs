@@ -19,7 +19,7 @@ namespace OrderElimination.AbilitySystem
             get => _casterRelativePattern;
             set
             {
-                if (IsTargeting) throw new InvalidOperationException();
+                if (IsTargeting) Logging.LogException( new InvalidOperationException());
                 _casterRelativePattern = value;
             }
         }
@@ -37,7 +37,7 @@ namespace OrderElimination.AbilitySystem
         {
             if (IsTargeting)
                 return false;
-            //throw new InvalidOperationException("Targeting has already started and needs to be confirmed or canceled first.");
+            //Logging.LogException( new InvalidOperationException("Targeting has already started and needs to be confirmed or canceled first.");
             _casterPosition = casterPosition;
             _mapBorders = mapBorders;
             IsTargeting = true;

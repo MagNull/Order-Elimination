@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using OrderElimination;
 using UIManagement.Elements;
 using UnityEditor;
 using UnityEngine;
@@ -78,7 +79,7 @@ public class Editor_PageSwitcher : Editor
     private void UpdateListCount(PageSwitcher pageSwitcher, int expectedCount)
     {
         if (expectedCount < 0)
-            throw new System.ArgumentException();
+            Logging.LogException( new System.ArgumentException());
         while (pageSwitcher.PageCount != expectedCount)
         {
             if (pageSwitcher.PageCount < expectedCount)

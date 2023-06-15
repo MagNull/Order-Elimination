@@ -27,7 +27,7 @@ namespace OrderElimination.AbilitySystem
         public CellGroupsContainer(IReadOnlyDictionary<int, Vector2Int[]> cellGroups)
         {
             if (cellGroups == null)
-                throw new ArgumentException();
+                Logging.LogException( new ArgumentException());
             _cellGroups = cellGroups;
         }
 

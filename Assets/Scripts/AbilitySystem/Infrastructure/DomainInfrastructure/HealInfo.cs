@@ -17,7 +17,7 @@ namespace OrderElimination.AbilitySystem
             LifeStatPriority priority, 
             AbilitySystemActor healer)
         {
-            if (value < 0) throw new ArgumentException("Heal value is less than 0.");
+            if (value < 0) Logging.LogException( new ArgumentException("Heal value is less than 0."));
             Value = value;
             ArmorMultiplier = armorMultiplier;
             HealthMultiplier = healthMultiplier;

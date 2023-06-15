@@ -114,7 +114,7 @@ public class BattleCharacter : IActor
     //TODO: Strategy pattern in future if needed
     public void TakeRecover(float value, float accuracy, DamageHealTarget damageHealTarget)
     {
-        Debug.Log("healed");
+        Logging.Log("healed");
         // var isHeal = Random.Range(0, 100) < accuracy;
         // if (!isHeal)
         //     return;
@@ -177,7 +177,7 @@ public class BattleCharacter : IActor
     {
         if (!_tickEffects.Any(ef => ef is StunBuff))
         {
-            Debug.Log("Check");
+            Logging.Log("Check");
             RefreshActions();
         }
         TickEffects();

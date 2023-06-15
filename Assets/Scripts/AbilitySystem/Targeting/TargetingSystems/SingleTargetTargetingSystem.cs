@@ -20,8 +20,8 @@ namespace OrderElimination.AbilitySystem
             get => _targetPattern;
             set
             {
-                if (IsTargeting) throw new InvalidOperationException();
-                if (value is not TargetRelativePattern or CasterToTargetRelativePattern) throw new ArgumentException();
+                if (IsTargeting) Logging.LogException( new InvalidOperationException());
+                if (value is not TargetRelativePattern or CasterToTargetRelativePattern) Logging.LogException( new ArgumentException());
                 _targetPattern = value;
             }
         }
@@ -60,14 +60,14 @@ namespace OrderElimination.AbilitySystem
         public SingleTargetTargetingSystem(CellGroupDistributionPattern targetPattern)
         {
             if (targetPattern is not TargetRelativePattern && targetPattern is not CasterToTargetRelativePattern)
-                throw new ArgumentException();
+                Logging.LogException( new ArgumentException());
             _targetPattern = targetPattern;
         }
 
         public bool SetAvailableCellsForSelection(Vector2Int[] availableCellsForSelection)
         {
             if (IsTargeting)
-                throw new InvalidOperationException("Targeting has already started and needs to be confirmed or canceled first.");
+                Logging.LogException( new InvalidOperationException("Targeting has already started and needs to be confirmed or canceled first."));
             _availableCells = availableCellsForSelection.ToHashSet();
             return true;
         }
@@ -75,7 +75,7 @@ namespace OrderElimination.AbilitySystem
         public bool StartTargeting(CellRangeBorders mapBorders, Vector2Int casterPosition)
         {
             if (IsTargeting || _availableCells == null)
-                throw new InvalidOperationException("Targeting has already started and needs to be confirmed or canceled first.");
+                Logging.LogException( new InvalidOperationException("Targeting has already started and needs to be confirmed or canceled first."));
             SelectedCell = null;
             _casterPosition = casterPosition;
             _mapBorders = mapBorders;
@@ -138,7 +138,7 @@ namespace OrderElimination.AbilitySystem
         public CellGroupsContainer ExtractCastTargetGroups()
         {
             if (!IsTargeting && !IsConfirmed)
-                throw new InvalidOperationException("Targeting is not initiated or being canceled.");
+                Logging.LogException( new InvalidOperationException("Targeting is not initiated or being canceled."));
             var selectedCells = new List<Vector2Int>();
             if (SelectedCell.HasValue)
                 selectedCells.Add(SelectedCell.Value);

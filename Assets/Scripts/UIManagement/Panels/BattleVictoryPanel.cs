@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using OrderElimination;
 using TMPro;
 using UIManagement;
 using UIManagement.Elements;
@@ -50,7 +51,7 @@ public class BattleVictoryPanel : UIPanel
 
     private void OnContinueAtLastPagePressed()
     {
-        Debug.Log("«Continue» button pressed on last page");
+        Logging.Log("«Continue» button pressed on last page", context: this);
         LastContinueButtonPressed?.Invoke();
     }
 }

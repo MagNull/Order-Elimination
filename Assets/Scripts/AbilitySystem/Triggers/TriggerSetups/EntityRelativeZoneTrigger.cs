@@ -45,7 +45,7 @@ namespace OrderElimination.AbilitySystem
 
             void OnDeactivation(ITriggerSetup.BattleTrigger trigger)
             {
-                if (trigger != instance) throw new ArgumentException();
+                if (trigger != instance) Logging.LogException( new ArgumentException());
                 trigger.DeactivationRequested -= OnDeactivation;
                 trigger.OperatingContext.BattleMap.CellChanged -= OnCellChanged;
             }
@@ -84,14 +84,14 @@ namespace OrderElimination.AbilitySystem
                 disappearedEntities.ForEach(e =>
                 {
                     var view = e.BattleContext.EntitiesBank.GetViewByEntity(e);
-                    Debug.Log($"Entity {view.name} left zone" % Colorize.Green);
+                    Logging.Log($"Entity {view.name} left zone" , Colorize.Green);
                 });
                 newEntities.ForEach(e =>
                 {
                     var view = e.BattleContext.EntitiesBank.GetViewByEntity(e);
-                    Debug.Log($"Entity {view.name} entered zone" % Colorize.Green);
+                    Logging.Log($"Entity {view.name} entered zone" , Colorize.Green);
                 });
-                Debug.Log($"Entities in zone [{currentEntities.Length}]: ..." % Colorize.Green);
+                Logging.Log($"Entities in zone [{currentEntities.Length}]: ..." , Colorize.Green);
                 triggerInstance.FireTrigger(new ZoneTriggerFireInfo(
                     triggerInstance, currentEntities, newEntities, disappearedEntities));
             }

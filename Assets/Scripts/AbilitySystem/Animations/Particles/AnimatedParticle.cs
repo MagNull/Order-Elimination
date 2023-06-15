@@ -72,7 +72,7 @@ namespace OrderElimination.AbilitySystem.Animations
 
         public void StartFollowing(Transform transform)
         {
-            //Debug.Log("Start follow" % Colorize.Yellow);
+            //Logging.Log("Start follow" , Colorize.Yellow);
             var source = new ConstraintSource();
             source.sourceTransform = transform;
             source.weight = 1;
@@ -82,7 +82,7 @@ namespace OrderElimination.AbilitySystem.Animations
 
         public void StopFollowing()
         {
-            //Debug.Log("Stop follow" % Colorize.Yellow);
+            //Logging.Log("Stop follow" , Colorize.Yellow);
             if (_positionConstraint != null)
                 _positionConstraint.SetSources(new List<ConstraintSource>());
         }

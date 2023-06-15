@@ -70,7 +70,7 @@ namespace OrderElimination.AbilitySystem
 
                 void Trigger()
                 {
-                    Debug.Log($"Didn't move for {passedRounds}." % Colorize.Red);
+                    Logging.Log($"Didn't move for {passedRounds}." , Colorize.Red);
                     trigger.FireTrigger(new TimerTriggerFireInfo(trigger, passedRounds));
                 }
 

@@ -12,6 +12,7 @@ using VContainer;
 using UIManagement.Elements;
 using UIManagement;
 using UnityEngine.Rendering;
+using Logger = UnityEngine.Logger;
 
 public enum BattleState
 {
@@ -123,21 +124,21 @@ public class BattleSimulation : SerializedMonoBehaviour
 
         if (_battleState == BattleState.PlayerTurn)
         {
-            Debug.Log("Начался ход игрока" % Colorize.Green);
+            Logging.Log("Начался ход игрока" , Colorize.Green);
             PlayerTurnStarted?.Invoke();
         }
         else if (_battleState == BattleState.EnemyTurn)
         {
             EnemyTurnStarted?.Invoke();
             await StartEnemyTurn();
-            Debug.Log("End");
+            Logging.Log("End");
             EndTurn();
         }
     }
 
     private async UniTask StartEnemyTurn()
     {
-        Debug.Log("Начался ход ИИ" % Colorize.Red);
+        Logging.Log("Начался ход ИИ" , Colorize.Red);
 
         _battleState = BattleState.EnemyTurn;
         var enemies = _characters

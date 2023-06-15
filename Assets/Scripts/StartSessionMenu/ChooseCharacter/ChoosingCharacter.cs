@@ -46,7 +46,7 @@ namespace StartSessionMenu.ChooseCharacter
             if (card is CharacterCardWithCost characterCardWithCost)
                 TrySelectCard(dropZone, characterCardWithCost);
             else
-                throw new ArgumentException();
+                Logging.LogException( new ArgumentException());
         }
 
         private void TrySelectCard(DropZone dropZone, CharacterCardWithCost card)

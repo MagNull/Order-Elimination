@@ -54,7 +54,7 @@ namespace RoguelikeMap.SquadInfo
         {
             //var characters = GameCharactersFactory.CreateGameEntities(_testSquadMembers);
             if (SquadMediator.CharacterList == null) 
-                throw new InvalidProgramException();
+                Logging.LogException( new InvalidProgramException());
             var characters = SquadMediator.CharacterList;
             if(SquadMediator.PlayerSquadStats is null)
             {
@@ -118,7 +118,7 @@ namespace RoguelikeMap.SquadInfo
         
         private void Select()
         {
-            Debug.Log("Squad selected");
+            Logging.Log("Squad selected");
             OnSelected?.Invoke(this);
         }
     }
