@@ -5,14 +5,13 @@ using System.Linq;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class BattleStats : IBattleStats, ILifeBattleStats
+    public class BattleStats : IBattleStats, IBattleLifeStats
     {
         private readonly List<TemporaryArmor> _temporaryArmors = new();
         private readonly Dictionary<ProcessingParameter<float>, BattleStat> _battleStatEnums = new();
         private float _health;
         private float _pureArmor;
 
-        public event Action<BattleStat> StatsChanged;
 
         public ProcessingParameter<float> AttackDamage { get; } = new ProcessingParameter<float>();
         public ProcessingParameter<float> Accuracy { get; } = new ProcessingParameter<float>();
@@ -33,6 +32,7 @@ namespace OrderElimination.AbilitySystem
                     _health = 0;
                     HealthDepleted?.Invoke(this);
                 }
+                LifeStatsChanged?.Invoke(this);
             }
         }
         public float TotalArmor
@@ -61,6 +61,7 @@ namespace OrderElimination.AbilitySystem
                     //only heals PureArmor
                     PureArmor = MathF.Min(PureArmor + offset, MaxArmor.ModifiedValue);
                 }
+                LifeStatsChanged?.Invoke(this);
             }
         }
         public float PureArmor
@@ -70,12 +71,22 @@ namespace OrderElimination.AbilitySystem
             {
                 if (value < 0) value = 0;
                 _pureArmor = value;
+                LifeStatsChanged?.Invoke(this);
             }
         }
         public float TemporaryArmor => _temporaryArmors.Sum(a => a.Value);
 
-        public void AddTemporaryArmor(TemporaryArmor armor) => _temporaryArmors.Add(armor);
-        public void RemoveTemporaryArmor(TemporaryArmor armor) => _temporaryArmors.Remove(armor);
+        public void AddTemporaryArmor(TemporaryArmor armor)
+        {
+            _temporaryArmors.Add(armor);
+            LifeStatsChanged?.Invoke(this);
+        }
+        public void RemoveTemporaryArmor(TemporaryArmor armor)
+        {
+            _temporaryArmors.Remove(armor);
+
+            LifeStatsChanged?.Invoke(this);
+        }
 
         public bool HasParameter(BattleStat battleStat)
         {
@@ -107,7 +118,9 @@ namespace OrderElimination.AbilitySystem
 
         }
 
-        public event Action<ILifeBattleStats> HealthDepleted;
+        public event Action<BattleStat> StatsChanged;
+        public event Action<IBattleLifeStats> HealthDepleted;
+        public event Action<IBattleLifeStats> LifeStatsChanged;
 
         public BattleStats(
             float maxHealth,
@@ -157,6 +170,7 @@ namespace OrderElimination.AbilitySystem
             var maxArmor = MaxArmor.ModifiedValue;
             if (maxArmor < PureArmor)
                 PureArmor = maxArmor;
+            LifeStatsChanged?.Invoke(this);
         }
 
         private void OnMaxHealthChanged(ProcessingParameter<float> parameter)
@@ -164,6 +178,7 @@ namespace OrderElimination.AbilitySystem
             var maxHealth = MaxHealth.ModifiedValue;
             if (maxHealth < Health)
                 Health = maxHealth;
+            LifeStatsChanged?.Invoke(this);
         }
 
         private void OnStatsChanged(ProcessingParameter<float> parameter)

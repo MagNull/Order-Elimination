@@ -44,7 +44,7 @@ namespace OrderElimination.AbilitySystem
             _actionProcessor = new Lazy<EntityActionProcessor>(() => EntityActionProcessor.Create(this));
             _obstacle = new Lazy<BattleObstacle>(() => new BattleObstacle(obstacleSetup, this));
 
-            void OnHealthDepleted(ILifeBattleStats lifeStats)
+            void OnHealthDepleted(IBattleLifeStats lifeStats)
             {
                 //IsAlive = false;
             }
@@ -58,7 +58,7 @@ namespace OrderElimination.AbilitySystem
         //public BattleEntityView GetEntityView() => IsDisposedFromBattle ? null : BattleContext.EntitiesBank.GetViewByEntity(this);
 
         #region IHaveLifeStats
-        public ILifeBattleStats LifeStats => _battleStats;
+        public IBattleLifeStats LifeStats => _battleStats;
         public bool IsAlive => LifeStats.Health > 0;
         public event Action<DealtDamageInfo> Damaged;
         public event Action<HealRecoveryInfo> Healed;

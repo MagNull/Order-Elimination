@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 
-public class BaseBattleResultWindow : MonoBehaviour
+public class MenuWindow : MonoBehaviour
 {
     [SerializeField] 
     private Button _previousButton;
@@ -45,7 +45,6 @@ public class BaseBattleResultWindow : MonoBehaviour
     public void StartInMenuClick()
     {
         _startMenuPanel.transform.DOMoveX(-1920, 1.5f);
-        //_startMenuPanel.SetActive(false);
     }
 
     public void ExitInMenuClick()

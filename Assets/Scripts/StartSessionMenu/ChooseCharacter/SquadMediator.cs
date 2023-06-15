@@ -12,8 +12,6 @@ namespace OrderElimination
         public static StrategyStats? PlayerSquadStats { get; private set; }
         public static List<GameCharacter> CharacterList => _characterList;
 
-        public static event Action<StrategyStats> SquadStatsChanged;
-
         public static void SetCharacters(List<GameCharacter> characters)
         {
             _characterList = characters;
@@ -22,7 +20,6 @@ namespace OrderElimination
         public static void SetStatsCoefficient(StrategyStats stats)
         {
             PlayerSquadStats = stats;
-            SquadStatsChanged?.Invoke(stats);
         }
     }   
 }
