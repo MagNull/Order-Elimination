@@ -4,6 +4,7 @@ using System.Linq;
 using OrderElimination;
 using UnityEngine;
 using UnityEngine.UI;
+using Sirenix.OdinInspector;
 
 namespace UIManagement.Elements
 {
@@ -28,14 +29,15 @@ namespace UIManagement.Elements
         private float _highlightTime = 0.5f;
         [SerializeField]
         private Ease _highlightEase = Ease.Flash;
-        [SerializeField]
+        [HideInInspector, SerializeField]
         private bool _isClickingAvatarAvailable;
-        [SerializeField]
+        [HideInInspector, SerializeField]
         private bool _isHoldingAvatarAvailable;
 
         private Sequence _currentSequence;
         private BattleEntityView _currentEntityView;
 
+        [ShowInInspector]
         public bool IsClickingAvatarAvailable
         {
             get => _isClickingAvatarAvailable;
@@ -46,6 +48,7 @@ namespace UIManagement.Elements
             }
         }
 
+        [ShowInInspector]
         public bool IsHoldingAvatarAvailable
         {
             get => _isHoldingAvatarAvailable;
@@ -66,14 +69,15 @@ namespace UIManagement.Elements
             _currentEntityView = entity;
             Subscribe(_currentEntityView.BattleEntity);
             _avatar.sprite = _currentEntityView.BattleIcon;
+            IsClickingAvatarAvailable = true;
             UpdateStats(_currentEntityView);
             UpdateEffects();
+            ShowInfo();
         }
 
         public void Highlight(Color highlightColor)
         {
-            if (_currentSequence != null)
-                _currentSequence.Complete();
+            _currentSequence?.Complete();
             var appearTime = 0.1f;
             _currentSequence = DOTween.Sequence(this)
                 .Append(_panelHighlightImage.DOColor(highlightColor, appearTime))
@@ -81,9 +85,6 @@ namespace UIManagement.Elements
                 .Append(transform.DOScale(1, _highlightTime).SetEase(_highlightEase))
                 .Append(_panelHighlightImage.DOColor(Color.white, 0.8f))
                 .Play();
-
-            //_highlightTweeners.Add(_panelHighlightImage.DOBlendableColor(Color.white, _highlightTime)
-            //    .SetEase(_highlightEase));
         }
 
         public void HideInfo()
@@ -93,6 +94,7 @@ namespace UIManagement.Elements
             _armorBar.gameObject.SetActive(false);
             _avatarButton.gameObject.SetActive(false);
             _effectsList.gameObject.SetActive(false);
+            IsClickingAvatarAvailable = false;
             _avatarButton.Clicked -= OnAvatarButtonPressed;
             _avatarButton.Holded -= OnAvatarButtonHolded;
         }
@@ -104,6 +106,7 @@ namespace UIManagement.Elements
             _armorBar.gameObject.SetActive(true);
             _avatarButton.gameObject.SetActive(true);
             _effectsList.gameObject.SetActive(true);
+            IsClickingAvatarAvailable = true;
             _avatarButton.Clicked += OnAvatarButtonPressed;
             _avatarButton.Holded += OnAvatarButtonHolded;
         }
@@ -115,9 +118,7 @@ namespace UIManagement.Elements
         {
             var characterDescriptionPanel =
                 (CharacterDescriptionPanel) UIController.SceneInstance.OpenPanel(PanelType.CharacterDescription);
-            var battleContext = _currentEntityView.BattleEntity.BattleContext;
-            var entityData = battleContext.EntitiesBank.GetBattleCharacterData(_currentEntityView.BattleEntity);
-            characterDescriptionPanel.UpdateCharacterDescription(entityData);
+            characterDescriptionPanel.UpdateCharacterDescription(_currentEntityView.BattleEntity);
         }
 
         private void Subscribe(AbilitySystemActor entity)

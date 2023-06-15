@@ -245,6 +245,9 @@ public class BattleMapSelector : MonoBehaviour
             + $"\nActionPoints: {string.Join(", ", entity.ActionPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
             + $"\nHealth: {entity.LifeStats.Health}; MaxHealth: {entity.LifeStats.MaxHealth.ModifiedValue}" 
             + $"\nTotalArmor: {entity.LifeStats.TotalArmor}; MaxArmor: {entity.LifeStats.MaxArmor.ModifiedValue}" 
+            + $"\nDamage: {entity.BattleStats[BattleStat.AttackDamage].ModifiedValue};" 
+            + $"\nAccuracy: {entity.BattleStats[BattleStat.Accuracy].ModifiedValue};" 
+            + $"\nEvasion: {entity.BattleStats[BattleStat.Evasion].ModifiedValue};" 
             + $"\n{entity.StatusHolder}"
             + $"\nEffects({entity.Effects.Count()}): {string.Join(", ", entity.Effects.Select(e => $"[{e.EffectData.View.Name}]"))}");
     }

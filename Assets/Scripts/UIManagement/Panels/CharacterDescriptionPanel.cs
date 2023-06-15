@@ -1,5 +1,3 @@
-using CharacterAbility;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,8 +11,8 @@ using UnityEngine.Serialization;
 using OrderElimination.MetaGame;
 using OrderElimination.Localization;
 using OrderElimination.Infrastructure;
-using RoguelikeMap.UI.Abilities;
 using Sirenix.OdinInspector;
+using UnityEngine.TextCore.Text;
 
 namespace UIManagement
 {
@@ -50,11 +48,6 @@ namespace UIManagement
         [SerializeField]
         private InventoryPresenter _characterInventoryPresenter;
 
-        protected GameCharacter _characterData;
-
-        protected GameCharacter _currentCharacterInfo;
-        protected BattleCharacterView _currentBattleCharacterInfo;
-
         protected override void Initialize()
         {
             base.Initialize();
@@ -64,7 +57,6 @@ namespace UIManagement
         {
             if (character == null)
                 Logging.LogException( new System.ArgumentNullException());
-            _characterData = character;
             _characterName.text = character.CharacterData.Name;
             _characterAvatar.sprite = character.CharacterData.Avatar;
             UpdateBattleStats(character.CharacterStats);
@@ -76,10 +68,30 @@ namespace UIManagement
                 .PassiveAbilities
                 .Where(a => !a.View.HideInCharacterDiscription)
                 .ToArray();
-            UpdateAbilityButtonsInfo(activeAbilities, passiveAbilities);
-            //_characterInventoryPresenter.enabled = true;
-            //_playerInventoryPresenter.UpdateTargetInventory(_currentCharacterInfo.Inventory);
-            //_characterInventoryPresenter.InitInventoryModel(_currentCharacterInfo.Inventory);
+            UpdateAbilityButtons(activeAbilities, passiveAbilities);
+            UpdateInventory();
+        }
+        public void UpdateCharacterDescription(AbilitySystemActor entity)
+        {
+            if (entity == null)
+                Logging.LogException(new System.ArgumentNullException());
+            var entitiesBank = entity.BattleContext.EntitiesBank;
+            var gamecharacter = entitiesBank.GetBattleCharacterData(entity);
+            _characterName.text = gamecharacter.CharacterData.Name;
+            _characterAvatar.sprite = gamecharacter.CharacterData.Avatar;
+            UpdateBattleStats(entity.BattleStats);
+            var activeAbilities = entity
+                .ActiveAbilities
+                .Select(runner => runner.AbilityData)
+                .Where(a => !a.View.HideInCharacterDiscription)
+                .ToArray();
+            var passiveAbilities = entity
+                .PassiveAbilities
+                .Select(runner => runner.AbilityData)
+                .Where(a => !a.View.HideInCharacterDiscription)
+                .ToArray();
+            UpdateAbilityButtons(activeAbilities, passiveAbilities);
+            UpdateInventory();
         }
 
         private void UpdateBattleStats(IReadOnlyGameCharacterStats stats)
@@ -100,7 +112,25 @@ namespace UIManagement
             }
         }
 
-        private void UpdateAbilityButtonsInfo(
+        private void UpdateBattleStats(IBattleStats stats)
+        {
+            if (_characterStats.Count != 5)
+                Logging.LogException(new System.InvalidOperationException());
+            foreach (var stat in EnumExtensions.GetValues<BattleStat>())
+            {
+                if (_statsElementsIdMapping.ContainsKey(stat))
+                {
+                    var item = _characterStats[_statsElementsIdMapping[stat]];
+                    item.Text = Localization.Current.GetBattleStatName(stat);
+                    if (stat == BattleStat.Accuracy || stat == BattleStat.Evasion)
+                        item.Value = $"{stats[stat].ModifiedValue * 100}%";
+                    else
+                        item.Value = stats[stat].ModifiedValue.ToString();
+                }
+            }
+        }
+
+        private void UpdateAbilityButtons(
             IActiveAbilityData[] activeAbilities, 
             IPassiveAbilityData[] passiveAbilities)
         {
@@ -147,17 +177,11 @@ namespace UIManagement
             }
         }
 
-        private void OnActiveAbilityButtonClicked(SmallAbilityButton button)
+        private void UpdateInventory()
         {
-            //var descriptionPanel = (AbilityDescriptionPanel)UIController.SceneInstance.OpenPanel(PanelType.AbilityDescription);
-            //var stats = _currentBattleCharacterInfo?.Model.Stats ?? _currentCharacterInfo.GetBattleStats();
-            //descriptionPanel.UpdateAbilityDescription(button.AbilityInfo, stats);
-        }
-
-        private void OnPassiveAbilityButtonClicked(SmallAbilityButton button)
-        {
-            //var passiveSkillsPanel = (PassiveSkillDescriptionPanel)UIController.SceneInstance.OpenPanel(PanelType.PassiveSkillsDescription);
-            //passiveSkillsPanel.AssignPassiveSkillsDescription(_passiveAbilitiesButtons.Select(b => b.AbilityInfo).ToArray());
+            //_characterInventoryPresenter.enabled = true;
+            //_playerInventoryPresenter.UpdateTargetInventory(gamecharacter.Inventory);
+            //_characterInventoryPresenter.InitInventoryModel(_currentCharacterInfo.Inventory);
         }
     }
 }
