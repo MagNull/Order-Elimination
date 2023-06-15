@@ -55,7 +55,7 @@ public class BattleEntitiesFactory : MonoBehaviour
         var entityView = _objectResolver.Instantiate(_characterPrefab, _charactersParent);
         entityView.Initialize(battleEntity, character.CharacterData.Name, character.CharacterData.BattleIcon);
 
-        _entitiesBank.AddCharacterEntity(battleEntity, entityView, character.CharacterData);
+        _entitiesBank.AddCharacterEntity(battleEntity, entityView, character);
 
         _battleContext.BattleMap.PlaceEntity(battleEntity, position);
         battleEntity.PassiveAbilities.ForEach(a => a.Activate(_battleContext, battleEntity));

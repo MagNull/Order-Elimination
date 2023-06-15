@@ -50,14 +50,14 @@ namespace OrderElimination.AbilitySystem
             return _basedStructures[structureEntity];
         }
 
-        public void AddCharacterEntity(AbilitySystemActor entity, BattleEntityView view, IGameCharacterTemplate basedData)
+        public void AddCharacterEntity(AbilitySystemActor entity, BattleEntityView view, GameCharacter basedCharacter)
         {
             if (entity.EntityType != EntityType.Character)
                 Logging.LogException( new InvalidOperationException("Attempt to add non-character entity."));
             entity.DisposedFromBattle += OnEntityDisposed;
             _viewsByEntities.Add(entity, view);
             _entitiesByViews.Add(view, entity);
-            _basedCharacters.Add(entity, GameCharactersFactory.CreateGameEntity(basedData));
+            _basedCharacters.Add(entity, basedCharacter);
             BankChanged?.Invoke(this);
         }
 
