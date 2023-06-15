@@ -368,7 +368,7 @@ MonoBehaviour:
   m_Name: Move To Nearest Shelter
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 424, y: -8}
+  position: {x: 424, y: 88}
   ports:
     keys:
     - InputPort
@@ -899,6 +899,7 @@ MonoBehaviour:
       data:
         _needPassiveEffects:
         - {fileID: 11400000, guid: f6488d714b05317408c5f7614b92ba2f, type: 2}
+        _has: 0
 --- !u!114 &2264023951936442946
 MonoBehaviour:
   m_ObjectHideFlags: 0
