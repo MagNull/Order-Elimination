@@ -4,6 +4,7 @@ using OrderElimination;
 using RoguelikeMap.Points;
 using RoguelikeMap.SquadInfo;
 using UnityEngine;
+using UnityEngine.UI;
 using VContainer;
 
 namespace RoguelikeMap.Map
@@ -16,13 +17,15 @@ namespace RoguelikeMap.Map
         private IMapGenerator _mapGenerator;
         private Squad _squad;
         private bool _isSquadSelected;
+        private IObjectResolver _objectResolver;
         public static int SaveIndex { get; private set; }
 
         [Inject]
-        private void Construct(IMapGenerator mapGenerator, Squad squad)
+        private void Construct(IMapGenerator mapGenerator, Squad squad, IObjectResolver objectResolver)
         {
             _mapGenerator = mapGenerator;
             _squad = squad;
+            _objectResolver = objectResolver;
         }
 
         private void Start()
@@ -82,6 +85,12 @@ namespace RoguelikeMap.Map
         {
             PlayerPrefs.DeleteKey(SquadPositionPrefPath);
             SetSquadPosition();
+        }
+
+        public void LoadStartScene()
+        {
+            var sceneTransition = _objectResolver.Resolve<SceneTransition>();
+            sceneTransition.LoadStartSessionMenu();
         }
     }
 }

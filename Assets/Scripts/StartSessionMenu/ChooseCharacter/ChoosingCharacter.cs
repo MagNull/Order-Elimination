@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using OrderElimination;
 using OrderElimination.MetaGame;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
+using UnityEngine.UI;
 using VContainer;
 
 namespace StartSessionMenu.ChooseCharacter
@@ -18,9 +20,12 @@ namespace StartSessionMenu.ChooseCharacter
         private List<CharacterTemplate> _characters;
         [SerializeField]
         private int MaxSquadSize = 3;
+        [SerializeField] 
+        private ScrollRect _scrollRect;
         
         private Wallet _wallet;
         private int _selectedCount = 0;
+        private Tweener _tweener;
 
         [Inject]
         public void Configure(Wallet wallet)
@@ -82,6 +87,12 @@ namespace StartSessionMenu.ChooseCharacter
                 .ToList();
             SquadMediator.SetCharacters(characters);
             return true;
+        }
+
+        public void ClickShift(float shift)
+        {
+            _tweener?.Kill();
+            _tweener = DOVirtual.Float(_scrollRect.horizontalNormalizedPosition, _scrollRect.horizontalNormalizedPosition + shift, 0.1f, (x) => _scrollRect.horizontalNormalizedPosition = x);
         }
     }
 }
