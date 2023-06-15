@@ -192,7 +192,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 5, y: 0}
+  m_AnchoredPosition: {x: 5, y: 0.5999756}
   m_SizeDelta: {x: 170, y: 168}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &7360740130071662888
@@ -382,9 +382,9 @@ MonoBehaviour:
   _avatarButton: {fileID: 6396469935999913722}
   _effectsList: {fileID: 2972863368896905353}
   _panelHighlightImage: {fileID: 1687997072887608542}
-  _highlightTime: 0.7
-  _highlightEase: 32
-  _isClickingAvatarAvailable: 0
+  _highlightTime: 0.4
+  _highlightEase: 25
+  _isClickingAvatarAvailable: 1
   _isHoldingAvatarAvailable: 0
 --- !u!1001 &6789500383016072163
 PrefabInstance:
@@ -406,6 +406,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4096773940695260067, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: m_fontSize
+      value: 34.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4096773940695260067, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: c5fe5e76cfa58b74fa4c1432029c8ee9, type: 2}
+    - target: {fileID: 4096773940695260067, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: m_fontColor.b
       value: 0.9137255
       objectReference: {fileID: 0}
@@ -420,7 +428,7 @@ PrefabInstance:
     - target: {fileID: 4096773940695260067, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+      objectReference: {fileID: -6398022682925926005, guid: c5fe5e76cfa58b74fa4c1432029c8ee9, type: 2}
     - target: {fileID: 4096773940695260067, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4293509964
@@ -559,9 +567,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 7360740130122911544}
     m_Modifications:
     - target: {fileID: 4096773940695260067, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: m_fontSize
+      value: 34.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4096773940695260067, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: c5fe5e76cfa58b74fa4c1432029c8ee9, type: 2}
+    - target: {fileID: 4096773940695260067, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: m_sharedMaterial
       value: 
-      objectReference: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+      objectReference: {fileID: -6398022682925926005, guid: c5fe5e76cfa58b74fa4c1432029c8ee9, type: 2}
     - target: {fileID: 4096773942194196769, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
