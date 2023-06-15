@@ -20,7 +20,7 @@ namespace OrderElimination.AbilitySystem
         MaxMovementDistance
     }
 
-    public interface ILifeBattleStats : IBattleStats
+    public interface IBattleLifeStats : IBattleStats
     {
         public ProcessingParameter<float> MaxHealth { get; }
         public ProcessingParameter<float> MaxArmor { get; } //ValueChanged += Update Armor
@@ -31,7 +31,8 @@ namespace OrderElimination.AbilitySystem
         public void AddTemporaryArmor(TemporaryArmor armor);
         public void RemoveTemporaryArmor(TemporaryArmor armor);
 
-        public event Action<ILifeBattleStats> HealthDepleted;
+        public event Action<IBattleLifeStats> HealthDepleted;
+        public event Action<IBattleLifeStats> LifeStatsChanged;
     }
 
     public enum LifeStatPriority
@@ -45,5 +46,10 @@ namespace OrderElimination.AbilitySystem
     public class TemporaryArmor
     {
         public float Value { get; set; }
+
+        public TemporaryArmor(float amount)
+        {
+            Value = amount;
+        }
     }
 }
