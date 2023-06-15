@@ -28,6 +28,7 @@ namespace OrderElimination
         
         public SquadModel(IEnumerable<GameCharacter> members, SquadMembersPanel squadMembersPanel)
         {
+            _activeMembersCount = members.Count();
             var characters = 
                 GameCharactersFactory.CreateGameEntities(members.Select(c => c.CharacterData))
                 .ToList();//Grenade here
@@ -75,9 +76,9 @@ namespace OrderElimination
                     float newStat = stat == BattleStat.Accuracy || stat == BattleStat.Evasion
                         ? originalStat + statsGrowth[stat] / 100
                         : Mathf.RoundToInt(originalStat + (originalStat * statsGrowth[stat] / 100));
-                    //Так можно (округление), потому что перс создаётся заново
-                    //По идее...
-                    //(Всё равно хуйня)
+                    //пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ), пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+                    //пїЅпїЅ пїЅпїЅпїЅпїЅ...
+                    //(пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ)
                     member.ChangeStat(stat, newStat);
                     Logging.Log($"{member.CharacterData.Name}[{stat}]: {originalStat} -> {newStat}; StatGrow: {statsGrowth[stat]}");
                 }
