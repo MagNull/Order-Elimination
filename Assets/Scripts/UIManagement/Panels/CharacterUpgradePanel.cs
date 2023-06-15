@@ -32,15 +32,5 @@ namespace UIManagement
             //_upgradeButton.Clicked -= OnUpgradeButtonClicked;
             //_upgradeButton.Clicked += OnUpgradeButtonClicked;
         }
-
-        private void OnUpgradeButtonClicked(HoldableButton button)
-        {
-            var upgradeResult = _currentUpgradeTransaction.TryUpgrade();
-            if(upgradeResult)
-            {
-                _textEmitter.Emit($"-{_currentUpgradeTransaction.Cost}", Color.yellow);
-                UpdateCharacterDescription(_currentCharacterInfo);
-            }
-        }
     }
 }
