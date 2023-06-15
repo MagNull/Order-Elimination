@@ -268,7 +268,7 @@ MonoBehaviour:
   m_Name: Has Targets In Radius
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -152, y: 280}
+  position: {x: -136, y: 264}
   ports:
     keys:
     - InputPort
@@ -712,6 +712,7 @@ MonoBehaviour:
   - {fileID: -1945836671484420119}
   - {fileID: 1226972518160413299}
   - {fileID: -3460323269171088293}
+  - {fileID: 8326828343757816647}
   _avoidObject: []
   BehaviorTreeRoot: {fileID: -4101895195620314421}
 --- !u!114 &331100218537393430
@@ -776,7 +777,7 @@ MonoBehaviour:
   m_Name: Sequence
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -632, y: 600}
+  position: {x: -632, y: 760}
   ports:
     keys:
     - ChildrenPort
@@ -1054,7 +1055,7 @@ MonoBehaviour:
   m_Name: Keep Distance From Melee
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -152, y: 552}
+  position: {x: -152, y: 712}
   ports:
     keys:
     - InputPort
@@ -1102,6 +1103,9 @@ MonoBehaviour:
       - fieldName: InputPort
         node: {fileID: -4280359047876382683}
         reroutePoints: []
+      - fieldName: InputPort
+        node: {fileID: 8326828343757816647}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -1131,7 +1135,7 @@ MonoBehaviour:
   m_Name: Heal Target
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -148.63077, y: 841.0728}
+  position: {x: -152, y: 1000}
   ports:
     keys:
     - InputPort
@@ -1143,6 +1147,36 @@ MonoBehaviour:
       connections:
       - fieldName: ChildrenPort
         node: {fileID: 1177190778180439369}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+--- !u!114 &8326828343757816647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b008e2fd87a4612ad7b8004b4da1c5f, type: 3}
+  m_Name: Heal Target
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -152, y: 520}
+  ports:
+    keys:
+    - InputPort
+    values:
+    - _fieldName: InputPort
+      _node: {fileID: 8326828343757816647}
+      _typeQualifiedName: AI.Compositions.TaskPort, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: ChildrenPort
+        node: {fileID: 6976081827300166015}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -1161,7 +1195,7 @@ MonoBehaviour:
   m_Name: Has Targets In Radius
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -152, y: 680}
+  position: {x: -152, y: 840}
   ports:
     keys:
     - InputPort
