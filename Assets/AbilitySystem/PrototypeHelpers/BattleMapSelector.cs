@@ -66,6 +66,10 @@ public class BattleMapSelector : MonoBehaviour
 
     [TitleGroup("Prototyping")]
     [SerializeField]
+    private bool _lockCharacterWhileCasting;
+
+    [TitleGroup("Prototyping")]
+    [SerializeField]
     private bool _confirmTargetingBySecondClick;
 
     private BattleMapView _battleMapView;
@@ -112,6 +116,10 @@ public class BattleMapSelector : MonoBehaviour
     private void OnCellClicked(CellView cellView)
     {
         if (!_isEnabled) return;
+        if (_lockCharacterWhileCasting
+            && _currentSelectedEntity != null
+            && _currentSelectedEntity.ActiveAbilities.Any(r => r.IsRunning))
+            return;
         if (_lastClickedCell != cellView)
             _currentLoopIndex = 0;
         _lastClickedCell = cellView;
