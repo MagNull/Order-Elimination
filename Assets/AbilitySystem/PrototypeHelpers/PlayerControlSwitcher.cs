@@ -16,7 +16,6 @@ public class PlayerControlSwitcher : MonoBehaviour
     [SerializeField]
     private bool _dontTouchPlayerSelector;
     [SerializeField]
-    [Header("")]
     private bool _lockTurnButtonOnAITurn;
 
     private BattleLoopManager _battleManager;
