@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem.Animations
 {
-    public class AnimationRepeat : IAbilityAnimation
+    public class AnimationRepeat : AwaitableAbilityAnimation
     {
         [HideInInspector, OdinSerialize]
         private int _repeatAmount;
@@ -35,36 +36,44 @@ namespace OrderElimination.AbilitySystem.Animations
         [ShowInInspector, OdinSerialize]
         public bool WaitForCompletion { get; set; } = true;
 
-        public async UniTask Play(AnimationPlayContext context)
+        protected override async UniTask OnAnimationPlayRequest(
+            AnimationPlayContext context, CancellationToken cancellationToken)
         {
             if (WaitForCompletion)
             {
 
                 if (PlaySequentially)
-                    await RepeatAnimation(Animation, context, RepeatAmount, true);
+                    await RepeatAnimation(Animation, context, RepeatAmount, true, cancellationToken);
                 else
-                    await RepeatAnimation(Animation, context, RepeatAmount, false);
+                    await RepeatAnimation(Animation, context, RepeatAmount, false, cancellationToken);
             }
             else
             {
                 if (PlaySequentially)
-                    RepeatAnimation(Animation, context, RepeatAmount, true);
+                    RepeatAnimation(Animation, context, RepeatAmount, true, cancellationToken);
                 else
-                    RepeatAnimation(Animation, context, RepeatAmount, false);
+                    RepeatAnimation(Animation, context, RepeatAmount, false, cancellationToken);
 
             }
         }
 
-        private async UniTask RepeatAnimation(IAbilityAnimation animation, AnimationPlayContext context, int repeatCount, bool waitEach)
+        private async UniTask RepeatAnimation(
+            IAbilityAnimation animation, 
+            AnimationPlayContext context, 
+            int repeatCount, 
+            bool waitEach,
+            CancellationToken cancellationToken)
         {
             var playingAnimations = new List<UniTask>();
             for (var i = 0; i < repeatCount; i++)
             {
                 if (waitEach)
-                    await animation.Play(context);
+                    await animation.Play(context)
+                        .AttachExternalCancellation(cancellationToken);
                 else
                 {
-                    playingAnimations.Add(Animation.Play(context));
+                    playingAnimations.Add(Animation.Play(context)
+                        .AttachExternalCancellation(cancellationToken));
                 }
             }
             await UniTask.WhenAll(playingAnimations);
