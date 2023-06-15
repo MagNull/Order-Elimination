@@ -4,6 +4,7 @@ using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
+using UIManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using VContainer;
@@ -44,7 +45,7 @@ public class BattleEndHandler : MonoBehaviour
         }
     }
 
-    public int OnPlayerVictoryScene
+    public int OnExitScene
     {
         get => _onPlayerVictorySceneId;
         set
@@ -55,7 +56,7 @@ public class BattleEndHandler : MonoBehaviour
             _onPlayerVictorySceneId = value;
         }
     }
-    public int OnPlayerLoseScene
+    public int OnRetryScene
     {
         get => _onPlayerLoseSceneId;
         set
@@ -101,14 +102,22 @@ public class BattleEndHandler : MonoBehaviour
     {
         _textEmitter.Emit($"Победа людей.", Color.green, new Vector3(0, 1, -1), Vector3.zero, 1.2f, 100, fontSize: 2f);
         _textEmitter.Emit($"Нажмите «Esc» для выхода.", Color.white, new Vector3(0, -1, -1), Vector3.zero, 1.2f, 100, fontSize: 0.75f);
-        var loading = SceneManager.LoadSceneAsync(OnPlayerVictoryScene);
+        var panel = (BattleVictoryPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleVictory);
+        panel.UpdateBattleResult(
+            SquadMediator.CharacterList, 
+            1337, 
+            () => SceneManager.LoadSceneAsync(OnExitScene));
     }
 
     private void OnPlayerLose()
     {
         _textEmitter.Emit($"Победа монстров.", Color.red, new Vector3(0, 1, -1), Vector3.zero, 1.2f, 100, fontSize: 2f);
         _textEmitter.Emit($"Нажмите «Esc» для выхода.", Color.white, new Vector3(0, -1, -1), Vector3.zero, 1.2f, 100, fontSize: 0.75f);
-        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
-        var loading = SceneManager.LoadSceneAsync(OnPlayerLoseScene);
+        var panel = (BattleDefeatPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleDefeat);
+        panel.UpdateBattleResult(
+            SquadMediator.CharacterList, 
+            1337, 
+            () => SceneManager.LoadSceneAsync(OnRetryScene),
+            () => SceneManager.LoadSceneAsync(OnExitScene));
     }
 }

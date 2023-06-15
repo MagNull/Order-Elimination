@@ -1,57 +1,93 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using OrderElimination;
+using OrderElimination.MetaGame;
+using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using TMPro;
 using UIManagement;
 using UIManagement.Elements;
-using UIManagement.trashToRemove_Mockups;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BattleDefeatPanel : UIPanel
 {
-    public override PanelType PanelType => PanelType.BattleDefeat;
-    [SerializeField] private PageSwitcher _pageSwitcher;
-    [SerializeField] private CharacterAvatarsList _characterList;
-    [SerializeField] private Button _continueButton;
-    [SerializeField] private TextMeshProUGUI _primaryCurrency;
-    public event Action LastContinueButtonPressed;
+    [Title("Components")]
+    [SerializeField] 
+    private PageSwitcher _pageSwitcher;
+    [SerializeField] 
+    private Button _retryButton;
+    [SerializeField]
+    private Button _surrenderButton;
+    [SerializeField]
+    private RectTransform _charactersHolder;
+    [SerializeField] 
+    private TextMeshProUGUI _primaryCurrency;
+    [Title("Prefabs")]
+    [AssetsOnly]
+    [SerializeField]
+    private CharacterClickableAvatar _characterPrefab;
 
-    public void UpdateBattleResult(BattleResult battleResult)
+    private readonly Dictionary<CharacterClickableAvatar, GameCharacter> _charactersByAvatars = new();
+    private Action _onRetryCallback;
+    private Action _onSurrenderCallback;
+
+    public override PanelType PanelType => PanelType.BattleDefeat;
+
+    public void UpdateBattleResult(
+        IEnumerable<GameCharacter> charactersToDisplay,
+        int currencyReward,
+        Action onRetryCallback,
+        Action onSurrenderCallback)
     {
-        _primaryCurrency.text = battleResult.PrimaryCurrencyReceived.ToString();
-        _characterList.Clear();
-        _characterList.Populate(battleResult.SquadCharacters);
-        if (battleResult.Outcome == BattleOutcome.Defeat)
-            _pageSwitcher.DisablePage(1);
-        else
-            _pageSwitcher.EnablePage(1);
+        ClearCharacters();
+        _onRetryCallback = onRetryCallback;
+        _onSurrenderCallback = onSurrenderCallback;
+        foreach (var character in charactersToDisplay)
+        {
+            var avatar = Instantiate(_characterPrefab, _charactersHolder);
+            _charactersByAvatars.Add(avatar, character);
+        }
+        _primaryCurrency.text = currencyReward.ToString();
+        _pageSwitcher.DisablePage(1);
+
+        void ClearCharacters()
+        {
+            foreach (var avatar in _charactersByAvatars.Keys)
+            {
+                avatar.Clicked -= OnAvatarClicked;
+            }
+            var elementsToDestroy = _charactersByAvatars.Keys.ToArray();
+            _charactersByAvatars.Clear();
+            elementsToDestroy.ForEach(a => Destroy(a));
+        }
     }
 
     protected override void Initialize()
     {
         base.Initialize();
-        _continueButton.onClick.RemoveListener(OnContineButtonClick);
-        _continueButton.onClick.AddListener(OnContineButtonClick);
-        _characterList.ElementHolded += OnCharacterAvatarHolded;
+        _retryButton.onClick.RemoveListener(OnRetry);
+        _retryButton.onClick.AddListener(OnRetry);
+        _surrenderButton.onClick.RemoveListener(OnSurrender);
+        _surrenderButton.onClick.AddListener(OnSurrender);
     }
 
-    private void OnCharacterAvatarHolded(CharacterClickableAvatar characterAvatar)
+    private void OnAvatarClicked(CharacterClickableAvatar avatar)
     {
-        //var characterPanel = (CharacterDescriptionPanel)UIController.SceneInstance.OpenPanel(PanelType.CharacterDescription);
-        //characterPanel.UpdateCharacterDescription(characterAvatar.CurrentCharacterInfo);
+        var characterPanel = (CharacterDescriptionPanel)UIController.SceneInstance.OpenPanel(PanelType.CharacterDescription);
+        characterPanel.UpdateCharacterDescription(_charactersByAvatars[avatar]);
     }
 
-    private void OnContineButtonClick()
+    private void OnRetry()
     {
-        if (!_pageSwitcher.ShowNextAvailablePage(false))
-            OnContinueAtLastPagePressed();
+        _onRetryCallback?.Invoke();
     }
 
-    private void OnContinueAtLastPagePressed()
+    private void OnSurrender()
     {
-        Logging.Log("«Continue» button pressed on last page", context: this);
-        LastContinueButtonPressed?.Invoke();
+        _onSurrenderCallback?.Invoke();
     }
 }
