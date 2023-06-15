@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace AI.Conditions
 {
-    public class HasMoreThanOneEnemy : IBehaviorTreeTask
+    public class HasMoreThanOneEnemy : BehaviorTreeTask
     {
         [SerializeField]
         private int _radius;
         
-        public UniTask<bool> Run(Blackboard blackboard)
+        public override UniTask<bool> Run(Blackboard blackboard)
         {
             var caster = blackboard.Get<AbilitySystemActor>("caster");
             var enemies = blackboard.Get<AbilitySystemActor[]>("targets");

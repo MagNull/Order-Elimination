@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using AI.EditorGraph;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
@@ -35,7 +36,7 @@ namespace AI
 
         private void OnTurnStarted(IBattleContext context)
         {
-            if (context.ActiveSide != BattleSide.Enemies && context.ActiveSide != BattleSide.Others) 
+            if (context.ActiveSide != BattleSide.Enemies) 
                 return;
             
             Run();

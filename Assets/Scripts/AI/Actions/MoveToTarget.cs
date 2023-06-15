@@ -8,7 +8,7 @@ using OrderElimination.Infrastructure;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace AI.Conditions
+namespace AI.Actions
 {
     public enum Purpose
     {
@@ -16,11 +16,11 @@ namespace AI.Conditions
         Heal
     }
     
-    public class MoveToTarget : IBehaviorTreeTask
+    public class MoveToTarget : BehaviorTreeTask
     {
         [SerializeField]
         private Purpose _purpose; 
-        public async UniTask<bool> Run(Blackboard blackboard)
+        public override async UniTask<bool> Run(Blackboard blackboard)
         {
             var targets = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
             foreach (var abilitySystemActor in targets)
@@ -52,7 +52,6 @@ namespace AI.Conditions
                 Purpose.Heal => AbilityAIPresentation.GetAvailableHealAbilities(battleContext, caster, target),
                 _ => throw new ArgumentOutOfRangeException()
             };
-            Debug.Log(targetAbilities.Count());
             foreach (var damageAbility in targetAbilities)
             {
                 var cellsFromTarget = GetCellsForCastingAbility(damageAbility.ability.AbilityData, target);

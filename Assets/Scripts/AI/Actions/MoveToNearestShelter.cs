@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AI.EditorGraph;
 using AI.Utils;
 using Cysharp.Threading.Tasks;
 using OrderElimination.AbilitySystem;
@@ -7,12 +8,12 @@ using UnityEngine;
 
 namespace AI.Actions
 {
-    public class MoveToNearestShelter : IBehaviorTreeTask
+    public class MoveToNearestShelter : BehaviorTreeTask
     {
         [SerializeField]
         private PassiveAbilityBuilder[] _needPassiveEffects;
 
-        public async UniTask<bool> Run(Blackboard blackboard)
+        public override async UniTask<bool> Run(Blackboard blackboard)
         {
             var context = blackboard.Get<IBattleContext>("context");
             var caster = blackboard.Get<AbilitySystemActor>("caster");

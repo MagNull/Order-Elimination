@@ -11,17 +11,17 @@ using Random = UnityEngine.Random;
 
 namespace AI.Actions
 {
-    public class KeepDistanceFromMelee : IBehaviorTreeTask
+    public class KeepDistanceFromMelee : BehaviorTreeTask
     {
         [SerializeField]
         private int _distance;
 
-        public async UniTask<bool> Run(Blackboard blackboard)
+        public override async UniTask<bool> Run(Blackboard blackboard)
         {
             var context = blackboard.Get<IBattleContext>("context");
             var caster = blackboard.Get<AbilitySystemActor>("caster");
             
-            Vector2Int[] notOptimalCells = Array.Empty<Vector2Int>();
+            var notOptimalCells = new List<Vector2Int>();
             var enemies = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
 
             foreach (var enemy in enemies)
