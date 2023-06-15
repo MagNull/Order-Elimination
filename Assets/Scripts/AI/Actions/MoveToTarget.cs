@@ -59,9 +59,11 @@ namespace AI.Actions
                     .Intersect(cellsFromTarget);
                 if (!intersect.Any())
                     continue;
+                
                 var random = Random.Range(0, intersect.Count());
-                await movementAbility.CastSingleTarget(battleContext, caster, intersect.ElementAt(random));
-                return true;
+                var result = await movementAbility.CastSingleTarget(battleContext, caster, intersect.ElementAt(random));
+                movementAbility.AbilityData.TargetingSystem.CancelTargeting();
+                return result;
             }
 
             movementAbility.AbilityData.TargetingSystem.CancelTargeting();
