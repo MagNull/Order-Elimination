@@ -51,9 +51,9 @@ namespace OrderElimination.AbilitySystem
         public void Activate()
         {
             if (IsActive)
-                throw new InvalidOperationException("Attempt to activate effect again.");
+                Logging.LogException( new InvalidOperationException("Attempt to activate effect again."));
             if (EffectHolder == null)
-                throw new InvalidOperationException("Effect hasn't been applied on entity yet.");
+                Logging.LogException( new InvalidOperationException("Effect hasn't been applied on entity yet."));
             
             if (EffectData.View.AnimationOnActivation != null)
             {
@@ -141,7 +141,7 @@ namespace OrderElimination.AbilitySystem
 
         private void Deactivate()
         {
-            if (!IsActive) throw new InvalidOperationException();
+            if (!IsActive) Logging.LogException( new InvalidOperationException());
             if (EffectData.View.AnimationOnDeactivation != null)
             {
                 var cellGroups = CellGroupsContainer.Empty;

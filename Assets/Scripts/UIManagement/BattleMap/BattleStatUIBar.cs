@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
+using OrderElimination;
 
 namespace UIManagement.Elements
 {
@@ -32,10 +33,10 @@ namespace UIManagement.Elements
                 scaledValue /= (maxValue - minValue);
             if (float.IsNaN(scaledValue)) //scaledValue > 1 || scaledValue < 0 || 
             {
-                Debug.Log("Normalized value: " + scaledValue + '\n' +
+                Logging.Log("Normalized value: " + scaledValue + '\n' +
                           "Max value: " + maxValue + '\n' +
                           "Min value: " + minValue + '\n');
-                throw new System.InvalidOperationException("Value is NaN");
+                Logging.LogException( new System.InvalidOperationException("Value is NaN"));
             }
             if (_currentTween != null)
                 _currentTween.Complete();

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CharacterAbility;
+using OrderElimination.AbilitySystem;
 using UnityEngine;
 
 namespace RoguelikeMap.UI.Abilities
@@ -9,11 +10,12 @@ namespace RoguelikeMap.UI.Abilities
         [SerializeField] 
         private List<AbilityInfoView> _views = new();
 
-        public void InitializeInfo(AbilityInfo[] abilityInfos)
+        public void InitializeInfo(IPassiveAbilityData[] passiveAbilities)
         {
-            for (var i = 0; i < abilityInfos.Length; i++)
+            for (var i = 0; i < passiveAbilities.Length; i++)
             {
-                _views[i].SetInfo(abilityInfos[i]);   
+                var view = passiveAbilities[i].View;
+                _views[i].SetInfo(view.Icon, view.Name, view.Description);   
             }
         }
     }

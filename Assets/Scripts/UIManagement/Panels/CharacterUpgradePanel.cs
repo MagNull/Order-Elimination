@@ -25,11 +25,12 @@ namespace UIManagement
 
         public void UpdateCharacterUpgradeDescription(CharacterUpgradeTransaction transaction)
         {
-            base.UpdateCharacterDescription(transaction.TargetCharacter);
-            _currentUpgradeTransaction = transaction;
-            _upgradeCost.text = transaction.Cost.ToString();
-            _upgradeButton.Clicked -= OnUpgradeButtonClicked;
-            _upgradeButton.Clicked += OnUpgradeButtonClicked;
+            Logging.LogException( new NotSupportedException("Fuck you!"));
+            //base.UpdateCharacterDescription(transaction.TargetCharacter);
+            //_currentUpgradeTransaction = transaction;
+            //_upgradeCost.text = transaction.Cost.ToString();
+            //_upgradeButton.Clicked -= OnUpgradeButtonClicked;
+            //_upgradeButton.Clicked += OnUpgradeButtonClicked;
         }
 
         private void OnUpgradeButtonClicked(HoldableButton button)

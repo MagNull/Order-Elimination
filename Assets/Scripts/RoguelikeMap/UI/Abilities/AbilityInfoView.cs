@@ -14,11 +14,11 @@ namespace RoguelikeMap.UI.Abilities
         [SerializeField] 
         private TMP_Text _description;
 
-        public void SetInfo(AbilityInfo abilityInfo)
+        public void SetInfo(Sprite icon, string name, string description)
         {
-            _icon.sprite = abilityInfo.Icon;
-            _name.text = abilityInfo.Name;
-            _description.text = abilityInfo.Description;
+            _icon.sprite = icon;
+            _name.text = name;
+            _description.text = description;
         }
     }
 }

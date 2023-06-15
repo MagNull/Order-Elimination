@@ -6,15 +6,15 @@ using UnityEngine;
 
 namespace AI.Conditions
 {
-    public class HasMoreThanOneEnemy : IBehaviorTreeTask
+    public class HasMoreThanOneEnemy : BehaviorTreeTask
     {
         [SerializeField]
         private int _radius;
         
-        public UniTask<bool> Run(IBattleContext battleContext, AbilitySystemActor caster)
+        public override UniTask<bool> Run(Blackboard blackboard)
         {
-            var enemies = battleContext.EntitiesBank.GetEntities(BattleSide.Allies)
-                .Union(battleContext.EntitiesBank.GetEntities(BattleSide.Player));
+            var caster = blackboard.Get<AbilitySystemActor>("caster");
+            var enemies = blackboard.Get<AbilitySystemActor[]>("targets");
             var count = 0;
             foreach (var enemy in enemies)
             {

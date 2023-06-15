@@ -42,7 +42,7 @@ namespace CharacterAbility
         public Sprite EffectIcon => _effectIcon;
         //private AbilityEffect _effectModel;
         //public IReadOnlyDictionary<string, string> GetDisplayableParameters(IReadOnlyBattleStats characterStats)
-        //    => _effectModel.GetDisplayableParameters(characterStats) ?? throw new InvalidOperationException();
+        //    => _effectModel.GetDisplayableParameters(characterStats) ?? Logging.LogException( new InvalidOperationException();
         public bool DisplayAsMainEffect => _displayAsMainEffect;
         public bool DisplayWhenApplied => _displayWhenApplied;
 
@@ -278,7 +278,7 @@ namespace CharacterAbility
             {
                 var message = $"EffectType {effect.Type} cannot be displayed since it's parameters haven't been described in {nameof(GetDisplayableParameters)}.";
                 Debug.LogError(message);
-                //throw new NotImplementedException(message);
+                //Logging.LogException( new NotImplementedException(message);
             }
             return result;
         }

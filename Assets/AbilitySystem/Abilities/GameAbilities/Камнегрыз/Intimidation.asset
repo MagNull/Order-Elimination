@@ -32,6 +32,9 @@ MonoBehaviour:
     - Name: Description
       Entry: 6
       Data: 
+    - Name: HideInCharacterDiscription
+      Entry: 5
+      Data: false
     - Name: CooldownTime
       Entry: 3
       Data: 0
@@ -571,7 +574,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 7
       Data: 
@@ -597,6 +600,18 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -607,8 +622,8 @@ MonoBehaviour:
       Data: 
     - Name: _specifiedCharacters
       Entry: 7
-      Data: 40|System.Collections.Generic.HashSet`1[[IBattleCharacterData, Assembly-CSharp]],
-        System.Core
+      Data: 40|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
+        Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -620,8 +635,8 @@ MonoBehaviour:
       Data: 
     - Name: _specifiedStructures
       Entry: 7
-      Data: 41|System.Collections.Generic.HashSet`1[[IBattleStructureData, Assembly-CSharp]],
-        System.Core
+      Data: 41|System.Collections.Generic.List`1[[OrderElimination.IBattleStructureTemplate,
+        Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 0

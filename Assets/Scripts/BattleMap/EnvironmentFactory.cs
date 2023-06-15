@@ -18,6 +18,7 @@ namespace OrderElimination.BM
 
         public EnvironmentObject Create(EnvironmentInfo environmentInfo, int lifeTime = 999)
         {
+            Logging.LogException( new System.NotSupportedException("Had been deprecated"));
             throw new System.NotSupportedException("Had been deprecated");
         }
     }

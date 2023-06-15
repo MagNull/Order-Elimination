@@ -12,6 +12,7 @@ using VContainer;
 using UIManagement.Elements;
 using UIManagement;
 using UnityEngine.Rendering;
+using Logger = UnityEngine.Logger;
 
 public enum BattleState
 {
@@ -35,8 +36,8 @@ public class BattleSimulation : SerializedMonoBehaviour
     //TODO: Remove panel, use event instead call inside methods(like EndRound, BattleEnd)
     [SerializeField]
     private AbilityPanel _abilityPanel;
-    [SerializeField]
-    private CharacterBattleStatsPanel _selectedPlayerCharacterStatsPanel;
+    //[SerializeField]
+    //private CharacterBattleStatsPanel _selectedPlayerCharacterStatsPanel;
     [SerializeField]
     private EnemiesListPanel _enemiesListPanel;
     [SerializeField]
@@ -107,7 +108,7 @@ public class BattleSimulation : SerializedMonoBehaviour
     public void EndTurn()
     {
         _abilityPanel.ResetAbilityButtons();
-        _selectedPlayerCharacterStatsPanel.HideInfo();
+        //_selectedPlayerCharacterStatsPanel.HideInfo();
         SwitchTurn();
         StartRound();
     }
@@ -123,21 +124,21 @@ public class BattleSimulation : SerializedMonoBehaviour
 
         if (_battleState == BattleState.PlayerTurn)
         {
-            Debug.Log("Начался ход игрока" % Colorize.Green);
+            Logging.Log("Начался ход игрока" , Colorize.Green);
             PlayerTurnStarted?.Invoke();
         }
         else if (_battleState == BattleState.EnemyTurn)
         {
             EnemyTurnStarted?.Invoke();
             await StartEnemyTurn();
-            Debug.Log("End");
+            Logging.Log("End");
             EndTurn();
         }
     }
 
     private async UniTask StartEnemyTurn()
     {
-        Debug.Log("Начался ход ИИ" % Colorize.Red);
+        Logging.Log("Начался ход ИИ" , Colorize.Red);
 
         _battleState = BattleState.EnemyTurn;
         var enemies = _characters
@@ -154,7 +155,7 @@ public class BattleSimulation : SerializedMonoBehaviour
         if (_battleState == BattleState.End) 
             return;
         BattleEnded?.Invoke(_outcome);
-        _selectedPlayerCharacterStatsPanel.HideInfo();
+        //_selectedPlayerCharacterStatsPanel.HideInfo();
         _abilityPanel.ResetAbilityButtons();
         _battleState = BattleState.End;
         Debug.LogFormat("�������� ��������� - ������� {0}", _outcome == BattleOutcome.Victory ? "�����" : "��");
@@ -193,7 +194,7 @@ public class BattleSimulation : SerializedMonoBehaviour
         //_abilityViewBinder.BindAbilityButtons(_battleMapDirector.MapView, _abilityPanel);
 
         //BattleCharacterView.Selected += _selectedPlayerCharacterStatsPanel.UpdateCharacterInfo;
-        BattleCharacterView.Deselected += info => _selectedPlayerCharacterStatsPanel.HideInfo();
+        //BattleCharacterView.Deselected += info => _selectedPlayerCharacterStatsPanel.HideInfo();
     }
 
     private void OnDisable()

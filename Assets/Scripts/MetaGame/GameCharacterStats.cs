@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace OrderElimination.MetaGame
 {
+    [Serializable]
     public struct GameCharacterStats : IReadOnlyGameCharacterStats
     {
         [OdinSerialize, HideInInspector]
@@ -61,8 +62,8 @@ namespace OrderElimination.MetaGame
             get => _accuracy;
             set
             {
-                if (value < 0) value = 0;
-                if (value > 1) value = 1;
+                //if (value < 0) value = 0;
+                //if (value > 1) value = 1;
                 _accuracy = value;
             }
         }
@@ -74,8 +75,8 @@ namespace OrderElimination.MetaGame
             get => _evasion;
             set
             {
-                if (value < 0) value = 0;
-                if (value > 1) value = 1;
+                //if (value < 0) value = 0;
+                //if (value > 1) value = 1;
                 _evasion = value;
             }
         }
@@ -97,8 +98,11 @@ namespace OrderElimination.MetaGame
             _maxHealth = Mathf.Max(0, maxHealth);
             _maxArmor = Mathf.Max(0, maxArmor);
             _attackDamage = Mathf.Max(0, attack);
-            _accuracy = Mathf.Clamp01(accuracy);
-            _evasion = Mathf.Clamp01(evasion);
+            //_accuracy = Mathf.Clamp01(accuracy);
+            //_evasion = Mathf.Clamp01(evasion);
+            //Lets fkn break it! LETS GO! UUUUUUUUU!#%!&#^%!&#^5183131
+            _accuracy = accuracy;
+            _evasion = evasion;
             _maxMovementDistance = Mathf.Max(0, movement);
         }
 
@@ -114,7 +118,32 @@ namespace OrderElimination.MetaGame
                 BattleStat.MaxMovementDistance => MaxMovementDistance,
                 _ => throw new NotImplementedException(),
             };
-            set => this[battleStat] = value;
+            set
+            {
+                switch (battleStat)
+                {
+                    case BattleStat.MaxHealth:
+                        MaxHealth = value;
+                        break;
+                    case BattleStat.MaxArmor:
+                        MaxArmor = value;
+                        break;
+                    case BattleStat.AttackDamage:
+                        AttackDamage = value;
+                        break;
+                    case BattleStat.Accuracy:
+                        Accuracy = value;
+                        break;
+                    case BattleStat.Evasion:
+                        Evasion = value;
+                        break;
+                    case BattleStat.MaxMovementDistance:
+                        MaxMovementDistance = value;
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
         }
     }
 }

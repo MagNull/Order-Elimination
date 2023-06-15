@@ -71,7 +71,7 @@ namespace OrderElimination.AbilitySystem
                 {
                     //TODO: Fix and remove "return". It shouldn't even call Trigger() after instance diactivation.
                     return;
-                    throw new InvalidOperationException("Trigger hasn't been activated yet or has already been deactivated.");
+                    Logging.LogException( new InvalidOperationException("Trigger hasn't been activated yet or has already been deactivated."));
                 }
                 Triggered?.Invoke(triggerFiredInfo);
                 //AllTriggerHandlersExecuted?.Invoke(this);

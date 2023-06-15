@@ -27,10 +27,11 @@ namespace OrderElimination.AbilitySystem
 
         public BattleSide ActiveSide => _battleLoopManager.ActiveSide;
 
+        public event Action<IBattleContext> BattleStarted;
         public event Action<IBattleContext> NewTurnStarted;
         public event Action<IBattleContext> NewRoundBegan;
 
-        //TODO: Refactor
+        //TODO: Refactor or remove (used to test squares on line vector pattern)
         public static IBattleContext CurrentSceneContext { get; private set; }
         //
 
@@ -44,23 +45,22 @@ namespace OrderElimination.AbilitySystem
             EntitySpawner = objectResolver.Resolve<EntitySpawner>();
             _battleLoopManager.NewTurnStarted += OnNewTurn;
             _battleLoopManager.NewRoundBegan += OnNewRound;
+            _battleLoopManager.BattleStarted += OnBattleStarted;
 
-            //TODO: Refactor
+            //TODO: Refactor or remove
             CurrentSceneContext = this;
             //TODO: Refactor
 
-            void OnNewTurn()
-            {
-                NewTurnStarted?.Invoke(this);
-            }
-            void OnNewRound()
-            {
-                NewRoundBegan?.Invoke(this);
-            }
+            void OnNewTurn() => NewTurnStarted?.Invoke(this);
+            void OnNewRound() => NewRoundBegan?.Invoke(this);
+            void OnBattleStarted() => BattleStarted?.Invoke(this);
         }
 
         public BattleRelationship GetRelationship(BattleSide askingSide, BattleSide relationSide)
         {
+            if (askingSide == BattleSide.NoSide || relationSide == BattleSide.NoSide)
+                return BattleRelationship.Neutral;
+            
             var playerFriends = new HashSet<BattleSide>() { BattleSide.Player, BattleSide.Allies };
             var enemiesFriends = new HashSet<BattleSide>() { BattleSide.Enemies };
             var othersFriends = new HashSet<BattleSide>() { BattleSide.Others };

@@ -22,6 +22,7 @@ public class BattleLoopManager : MonoBehaviour
     public BattleSide ActiveSide { get; private set; }
     public int CurrentRound { get; private set; }
 
+    public event Action BattleStarted;
     public event Action NewTurnStarted;
     public event Action NewRoundBegan;
 
@@ -33,9 +34,9 @@ public class BattleLoopManager : MonoBehaviour
         _entitiesBank = objectResolver.Resolve<IReadOnlyEntitiesBank>();
     }
 
-    public void StartNextTurn()
+    private void Start()
     {
-        StartNewTurn(_battleContext.TurnPriority.GetNextTurnSide(ActiveSide));
+        InitializeBattle();
     }
 
     private void InitializeBattle()
@@ -47,6 +48,12 @@ public class BattleLoopManager : MonoBehaviour
         initializer.InitiateBattle();
         initializer.StartScenario(scenario);
         StartNewTurn(_battleContext.TurnPriority.GetStartingSide());
+        BattleStarted?.Invoke();
+    }
+
+    public void StartNextTurn()
+    {
+        StartNewTurn(_battleContext.TurnPriority.GetNextTurnSide(ActiveSide));
     }
 
     private void StartNewTurn(BattleSide battleSide)
@@ -76,10 +83,5 @@ public class BattleLoopManager : MonoBehaviour
                 entity.SetActionPoints(point, pointsToRestore);
             }
         }
-    }
-
-    private void Start()
-    {
-        InitializeBattle();
     }
 }

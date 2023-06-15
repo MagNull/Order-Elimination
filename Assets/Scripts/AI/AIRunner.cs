@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using AI.EditorGraph;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
@@ -27,10 +28,15 @@ namespace AI
         {
             _context.NewTurnStarted += OnTurnStarted;
         }
+        
+        private void OnDisable()
+        {
+            _context.NewTurnStarted -= OnTurnStarted;
+        }
 
         private void OnTurnStarted(IBattleContext context)
         {
-            if (context.ActiveSide != BattleSide.Enemies && context.ActiveSide != BattleSide.Others) 
+            if (context.ActiveSide != BattleSide.Enemies) 
                 return;
             
             Run();
@@ -43,6 +49,8 @@ namespace AI
             foreach (var enemy in enemies)
             {
                 await _behavior.Run(_context, enemy);
+                foreach (var activeAbilityRunner in enemy.ActiveAbilities)
+                    activeAbilityRunner.AbilityData.TargetingSystem.CancelTargeting();
             }
             _battleLoopManager.StartNextTurn();
         }

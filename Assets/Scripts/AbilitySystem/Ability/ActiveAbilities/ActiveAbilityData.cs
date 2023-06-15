@@ -22,7 +22,8 @@ namespace OrderElimination.AbilitySystem
                 builderData.CellGroupsHighlightColors,
                 builderData.Name,
                 builderData.Icon,
-                builderData.Description);
+                builderData.Description,
+                builderData.HideInCharacterDiscription);
             var gameRepresentation = new AbilityGameRepresentation();
             gameRepresentation.CooldownTime = builderData.CooldownTime;
             var rules = new AbilityRules(builderData.AvailabilityConditions, builderData.TargetCellConditions, builderData.UsageCost);
@@ -44,7 +45,10 @@ namespace OrderElimination.AbilitySystem
                     builderData.OptionalTargets);
             }
             else
+            {
+                Logging.LogException( new NotImplementedException());
                 throw new NotImplementedException();
+            }
             var execution = new ActiveAbilityExecution(builderData.AbilityInstructions.ToArray());
 
             View = view;
@@ -58,6 +62,7 @@ namespace OrderElimination.AbilitySystem
     public interface IActiveAbilityData
     {
         public AbilityView View { get; }
+        //AbilityPreview ? (Range, Damage, etc.)
         public AbilityGameRepresentation GameRepresentation { get; }
         public AbilityRules Rules { get; }
         public IAbilityTargetingSystem TargetingSystem { get; }

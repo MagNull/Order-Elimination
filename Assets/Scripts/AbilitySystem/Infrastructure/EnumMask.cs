@@ -3,6 +3,7 @@ using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using Unity.VisualScripting;
 
 namespace OrderElimination.Infrastructure
@@ -37,6 +38,7 @@ namespace OrderElimination.Infrastructure
             set => _valueFlags[type] = value;
         }
 
+        [OnInspectorInit]
         private void ValidateDictionary()
         {
             _valueFlags ??= new Dictionary<T, bool>();

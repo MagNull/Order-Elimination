@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using OrderElimination;
 using OrderElimination.BM;
 using Sirenix.Utilities;
 using UnityEngine.Rendering;
@@ -25,7 +26,7 @@ public class BattleMap : MonoBehaviour, IBattleMap
     public IEnumerable<AbilitySystemActor> GetContainedEntities(Vector2Int position)
     {
         if (!CellRangeBorders.Contains(position))
-            throw new ArgumentOutOfRangeException();
+            Logging.LogException( new ArgumentOutOfRangeException());
         return GetCell(position.x, position.y).GetContainingEntities();
     }
 
@@ -35,7 +36,7 @@ public class BattleMap : MonoBehaviour, IBattleMap
     public Vector2Int GetPosition(AbilitySystemActor entity)
     {
         if (!Contains(entity))
-            throw new ArgumentException("Entity does not exist on the map.");
+            Logging.LogException( new ArgumentException("Entity does not exist on the map."));
         return _containedEntitiesPositions[entity];
     }
 
@@ -66,7 +67,7 @@ public class BattleMap : MonoBehaviour, IBattleMap
     public void RemoveEntity(AbilitySystemActor entity)
     {
         if (!_containedEntitiesPositions.ContainsKey(entity))
-            throw new InvalidCastException("Entity does not exist on the map.");
+            Logging.LogException( new InvalidCastException("Entity does not exist on the map."));
         var position = _containedEntitiesPositions[entity];
         GetCell(position.x, position.y).RemoveEntity(entity);
         _containedEntitiesPositions.Remove(entity);
@@ -124,7 +125,7 @@ public class BattleMap : MonoBehaviour, IBattleMap
     public Cell GetCell(int x, int y)
     {
         if (x < 0 || x > _width - 1 || y < 0 || y > _height - 1)
-            throw new ArgumentException($"Cell ({x}, {y}) not found");
+            Logging.LogException( new ArgumentException($"Cell ({x}, {y}) not found"));
         return _cellGrid[x, y];
     }
 
@@ -146,7 +147,8 @@ public class BattleMap : MonoBehaviour, IBattleMap
             }
         }
 
-        throw new ArgumentException("BattleObject not found");
+        Logging.LogException( new ArgumentException("BattleObject not found"));
+        throw new NotImplementedException();
     }
 
     public void DestroyObject(IBattleObject battleObject)
@@ -201,7 +203,7 @@ public class BattleMap : MonoBehaviour, IBattleMap
         if (obj is EnvironmentObject env && _activeEnvironmentObjects.ContainsValue(env))
             return _activeEnvironmentObjects.FirstOrDefault(x => x.Value == env).Key;
 
-        Debug.LogWarning($"$Îáúåêò {obj.View.GameObject.name} íå íàéäåí íà ïîëå!");
+        Logging.LogWarning($"$Îáúåêò {obj.View.GameObject.name} íå íàéäåí íà ïîëå!", context: this);
         return new Vector2Int(-1, -1);
     }
 
@@ -397,9 +399,9 @@ public class BattleMap : MonoBehaviour, IBattleMap
     private void SetCell(int x, int y, IBattleObject obj, bool tween)
     {
         if (x < 0 || x > _width - 1 || y < 0 || y > _height - 1)
-            throw new ArgumentException($"Cell ({x}, {y}) not found");
+            Logging.LogException( new ArgumentException($"Cell ({x}, {y}) not found"));
         if (obj is null)
-            throw new ArgumentException($"Try to set null in cell ({x},{y})");
+            Logging.LogException( new ArgumentException($"Try to set null in cell ({x},{y})"));
         if (obj is BattleCharacter &&
             _cellGrid[x, y].Objects.Skip(1).All(o => o is EnvironmentObject environmentObject))
         {

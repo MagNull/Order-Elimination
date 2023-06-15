@@ -62,23 +62,32 @@ namespace RoguelikeMap.SquadInfo
         private void StartAttackByBattlePoint()
         {
             if (_target is not BattlePointModel battlePointModel)
+            {
+                Logging.LogException( new ArgumentException("Is not valid point to attack"));
                 throw new ArgumentException("Is not valid point to attack");
-            StartAttack(GameCharactersFactory.CreateGameEntities(battlePointModel.Enemies), battlePointModel.Scenario);
+            }
+            StartAttack(battlePointModel.Enemies, battlePointModel.Scenario);
         }
         
         private void StartAttackByEventPoint(IReadOnlyList<IGameCharacterTemplate> enemies)
         {
             if (_target is not EventPointModel eventPointModel)
+            {
+                Logging.LogException( new ArgumentException("Is not valid point to attack"));
                 throw new ArgumentException("Is not valid point to attack");
-            StartAttack(GameCharactersFactory.CreateGameEntities(enemies), eventPointModel.Scenario);
+
+            }
+            StartAttack(enemies, eventPointModel.Scenario);
         }
         
-        private void StartAttack(IEnumerable<GameCharacter> enemies, BattleScenario scenario)
+        private void StartAttack(
+            IEnumerable<IGameCharacterTemplate> enemies, BattleScenario scenario)
         {
+            var enemyCharacters = GameCharactersFactory.CreateGameEntities(enemies);
             SaveSquadPosition();
             var charactersMediator = _objectResolver.Resolve<CharactersMediator>();
-            charactersMediator.SetPlayerSquad(_squad.Members);
-            charactersMediator.SetEnemies(enemies);
+            charactersMediator.SetPlayerCharacters(_squad.Members);
+            charactersMediator.SetEnemyCharacters(enemyCharacters);
             charactersMediator.SetScenario(scenario);
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();

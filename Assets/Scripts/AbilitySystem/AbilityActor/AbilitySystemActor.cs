@@ -81,7 +81,7 @@ namespace OrderElimination.AbilitySystem
 
         private void OnDeath()
         {
-            if (IsAlive) return;//throw new InvalidOperationException("Entity is alive.");
+            if (IsAlive) return;//Logging.LogException( new InvalidOperationException("Entity is alive.");
             Died?.Invoke(this);
             DisposeFromBattle();
         }
@@ -112,15 +112,15 @@ namespace OrderElimination.AbilitySystem
         public IReadOnlyDictionary<ActionPoint, int> ActionPoints => _actionPoints;
         public void AddActionPoints(ActionPoint actionPoint, int value = 1)
         {
-            if (value < 0) throw new ArgumentOutOfRangeException();
+            if (value < 0) Logging.LogException(new ArgumentException("Try add action point with less zero value"));
             if (!_actionPoints.ContainsKey(actionPoint)) _actionPoints.Add(actionPoint, 0);
             _actionPoints[actionPoint] += value;
         }
         public void RemoveActionPoints(ActionPoint actionPoint, int value = 1)
         {
-            if (value < 0) throw new ArgumentOutOfRangeException();
-            if (!_actionPoints.ContainsKey(actionPoint)) throw new KeyNotFoundException();
-            if (_actionPoints[actionPoint] < value) throw new ArgumentOutOfRangeException("Entity doesn't have enough points to be removed.");
+            if (value < 0) Logging.LogException(new ArgumentException("Try remove action point with less zero value"));
+            if (!_actionPoints.ContainsKey(actionPoint)) Logging.LogException(new ArgumentException("Try remove unavailable actionPoint type"));
+            if (_actionPoints[actionPoint] < value) Logging.LogException(new ArgumentOutOfRangeException("Entity doesn't have enough points to be removed.")) ;
             _actionPoints[actionPoint] -= value;
         }
         public void RemoveActionPoints(IReadOnlyDictionary<ActionPoint, int> actionPoints)
@@ -128,7 +128,7 @@ namespace OrderElimination.AbilitySystem
             foreach (var point in actionPoints.Keys)
             {
                 if (ActionPoints[point] < actionPoints[point])
-                    throw new ArgumentOutOfRangeException("Entity doesn't have enough points to be removed.");
+                    Logging.LogException(new ArgumentOutOfRangeException("Entity doesn't have enough points to be removed.")) ;
             }
             foreach (var point in actionPoints.Keys)
             {
@@ -137,7 +137,7 @@ namespace OrderElimination.AbilitySystem
         }
         public void SetActionPoints(ActionPoint actionPoint, int value)
         {
-            if (value < 0) throw new ArgumentOutOfRangeException();
+            if (value < 0) Logging.LogException( new ArgumentOutOfRangeException());
             if (!_actionPoints.ContainsKey(actionPoint)) 
                 _actionPoints.Add(actionPoint, 0);
             _actionPoints[actionPoint] = value;

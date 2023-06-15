@@ -49,7 +49,7 @@ namespace OrderElimination.Infrastructure
             Debug.DrawLine(mapView.GameToWorldPosition(startPoint), mapView.GameToWorldPosition(endPoint), Color.green, 3, false);
             foreach (var i in intersections)
             {
-                Debug.Log($"Intersection: position={i.CellPosition}; square={i.SmallestPartSquare}; angle={i.IntersectionAngle}" % Colorize.Magenta);
+                Logging.Log($"Intersection: position={i.CellPosition}; square={i.SmallestPartSquare}; angle={i.IntersectionAngle}", Colorize.Magenta);
                 var pos = mapView.GameToWorldPosition(new Vector3(i.CellPosition.x, i.CellPosition.y));
                 textEmit.Emit($"{Math.Round(i.SmallestPartSquare, 4)}", Color.magenta, pos, Vector3.zero, 3, 0.65f);
                 if (i.SmallestPartSquare >= MinimalSquareThreshold)

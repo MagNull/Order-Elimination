@@ -17,7 +17,7 @@ namespace OrderElimination.AbilitySystem
         public AbilitySystemActor GetEntityByView(BattleEntityView view);
 
         public GameCharacter GetBattleCharacterData(AbilitySystemActor characterEntity);
-        public IBattleStructureData GetBattleStructureData(AbilitySystemActor structureEntity);
+        public IBattleStructureTemplate GetBattleStructureData(AbilitySystemActor structureEntity);
     }
 
     public class BattleEntitiesBank : IReadOnlyEntitiesBank
@@ -25,7 +25,7 @@ namespace OrderElimination.AbilitySystem
         private readonly Dictionary<AbilitySystemActor, BattleEntityView> _viewsByEntities = new ();
         private readonly Dictionary<BattleEntityView, AbilitySystemActor> _entitiesByViews = new ();
         private readonly Dictionary<AbilitySystemActor, GameCharacter> _basedCharacters = new();
-        private readonly Dictionary<AbilitySystemActor, IBattleStructureData> _basedStructures = new();
+        private readonly Dictionary<AbilitySystemActor, IBattleStructureTemplate> _basedStructures = new();
 
         public event Action<IReadOnlyEntitiesBank> BankChanged;
 
@@ -39,21 +39,21 @@ namespace OrderElimination.AbilitySystem
         public GameCharacter GetBattleCharacterData(AbilitySystemActor characterEntity)
         {
             if (characterEntity.EntityType != EntityType.Character)
-                throw new ArgumentException($"Passed entity is not a {EntityType.Character}.");
+                Logging.LogException( new ArgumentException($"Passed entity is not a {EntityType.Character}."));
             return _basedCharacters[characterEntity];
         }
 
-        public IBattleStructureData GetBattleStructureData(AbilitySystemActor structureEntity)
+        public IBattleStructureTemplate GetBattleStructureData(AbilitySystemActor structureEntity)
         {
             if (structureEntity.EntityType != EntityType.Structure)
-                throw new ArgumentException($"Passed entity is not a {EntityType.Structure}.");
+                Logging.LogException( new ArgumentException($"Passed entity is not a {EntityType.Structure}."));
             return _basedStructures[structureEntity];
         }
 
         public void AddCharacterEntity(AbilitySystemActor entity, BattleEntityView view, IGameCharacterTemplate basedData)
         {
             if (entity.EntityType != EntityType.Character)
-                throw new InvalidOperationException("Attempt to add non-character entity.");
+                Logging.LogException( new InvalidOperationException("Attempt to add non-character entity."));
             entity.DisposedFromBattle += OnEntityDisposed;
             _viewsByEntities.Add(entity, view);
             _entitiesByViews.Add(view, entity);
@@ -61,10 +61,10 @@ namespace OrderElimination.AbilitySystem
             BankChanged?.Invoke(this);
         }
 
-        public void AddStructureEntity(AbilitySystemActor entity, BattleEntityView view, IBattleStructureData basedData)
+        public void AddStructureEntity(AbilitySystemActor entity, BattleEntityView view, IBattleStructureTemplate basedData)
         {
             if (entity.EntityType != EntityType.Structure)
-                throw new InvalidOperationException("Attempt to add non-structure entity.");
+                Logging.LogException( new InvalidOperationException("Attempt to add non-structure entity."));
             entity.DisposedFromBattle += OnEntityDisposed;
             _viewsByEntities.Add(entity, view);
             _entitiesByViews.Add(view, entity);

@@ -1,3 +1,4 @@
+using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using OrderElimination.MetaGame;
@@ -34,7 +35,7 @@ public class BattleEntitiesFactory : MonoBehaviour
     public CreatedBattleEntity CreateBattleCharacter(GameCharacter character, BattleSide side, Vector2Int position)
     {
         if (!_battleContext.BattleMap.CellRangeBorders.Contains(position))
-            throw new ArgumentOutOfRangeException("Position is not within map borders");
+            Logging.LogException( new ArgumentOutOfRangeException("Position is not within map borders"));
 
         var battleEntity = new AbilitySystemActor(
             _battleContext,
@@ -47,8 +48,8 @@ public class BattleEntitiesFactory : MonoBehaviour
                 character.CharacterStats.MaxMovementDistance), 
             EntityType.Character, 
             side, 
-            character.PosessedActiveAbilities.ToArray(),
-            character.PosessedPassiveAbilities.ToArray(),
+            character.ActiveAbilities.ToArray(),
+            character.PassiveAbilities.ToArray(),
             new EntityObstacleSetup());
 
         var entityView = _objectResolver.Instantiate(_characterPrefab, _charactersParent);
@@ -62,10 +63,10 @@ public class BattleEntitiesFactory : MonoBehaviour
         return new CreatedBattleEntity(entityView, battleEntity);
     }
 
-    public CreatedBattleEntity CreateBattleStructure(IBattleStructureData structureData, BattleSide side, Vector2Int position)
+    public CreatedBattleEntity CreateBattleStructure(IBattleStructureTemplate structureData, BattleSide side, Vector2Int position)
     {
         if (!_battleContext.BattleMap.CellRangeBorders.Contains(position))
-            throw new ArgumentOutOfRangeException("Position is not within map borders");
+            Logging.LogException( new ArgumentOutOfRangeException("Position is not within map borders"));
 
         var battleStats = new BattleStats(structureData.MaxHealth, 0, 0, 0, 0, 0);
         var passiveAbilities = structureData.GetPossesedAbilities().Select(a => AbilityFactory.CreatePassiveAbility(a)).ToArray();
