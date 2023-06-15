@@ -32,9 +32,10 @@ namespace UIManagement
 
         private void OnCharacterAvatarHolded(CharacterClickableAvatar characterAvatar)
         {
-            var upgradeTransaction = new CharacterUpgradeTransaction(characterAvatar.CurrentCharacterInfo);
-            var characterPanel = (CharacterUpgradePanel)UIController.SceneInstance.OpenPanel(PanelType.CharacterUpgradable);
-            characterPanel.UpdateCharacterUpgradeDescription(upgradeTransaction);
+            throw new System.NotSupportedException();
+            //var upgradeTransaction = new CharacterUpgradeTransaction(characterAvatar.CurrentCharacterInfo);
+            //var characterPanel = (CharacterUpgradePanel)UIController.SceneInstance.OpenPanel(PanelType.CharacterUpgradable);
+            //characterPanel.UpdateCharacterUpgradeDescription(upgradeTransaction);
         }
     }
 }

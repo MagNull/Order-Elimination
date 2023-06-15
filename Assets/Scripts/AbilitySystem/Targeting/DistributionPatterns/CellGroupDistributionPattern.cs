@@ -79,7 +79,7 @@ namespace OrderElimination.AbilitySystem
                         positions[targetGroup] = positions[targetGroup].Union(newPositions).ToArray();
                         break;
                     case CellGroupDistributionPoicy.OnlySingleGroupWithHighestPriority:
-                        throw new NotImplementedException();
+                        Logging.LogException( new NotImplementedException());
                         break;
                 }
             }

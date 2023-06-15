@@ -26,7 +26,7 @@ namespace RoguelikeMap.Points.Models
         public override void Visit(Squad squad)
         {
             base.Visit(squad);
-            Panel.UpdateEnemies(GameCharactersFactory.CreateGameEntities(Enemies));
+            Panel.UpdateEnemies(GameCharactersFactory.CreateGameEntities(Enemies));//TODO: Store GameCharacters
             Panel.Open();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OrderElimination;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -27,13 +28,13 @@ namespace Inventory_Items
         public void AddItem(Item item, int quantity = 1)
         {
             if (item == null)
-                throw new ArgumentException("Item can't be null");
+                Logging.LogException( new ArgumentException("Item can't be null"));
 
             for (var i = 0; i < quantity; i++)
             {
                 if (_cells.Count >= _size)
                 {
-                    Debug.LogWarning("Inventory is full");
+                    Logging.LogWarning("Inventory is full");
                     return;
                 }
 
@@ -47,12 +48,12 @@ namespace Inventory_Items
         public void RemoveItem(Item item, int quantity = 1)
         {
             if (item == null)
-                throw new ArgumentException("Item can't be null");
+                Logging.LogException( new ArgumentException("Item can't be null"));
 
             var indexOfItem = _cells.FindIndex(cell => cell.Item == item);
             if (indexOfItem == -1)
             {
-                Debug.LogWarning("Not found item in inventory");
+                Logging.LogWarning("Not found item in inventory");
                 return;
             }
 

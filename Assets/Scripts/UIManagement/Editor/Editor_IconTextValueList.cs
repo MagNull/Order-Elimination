@@ -59,7 +59,7 @@
 //    private void UpdateListCount(IconTextValueList list, int expectedCount)
 //    {
 //        if (expectedCount < 0)
-//            throw new System.ArgumentException();
+//            Logging.LogException( new System.ArgumentException();
 //        while (list.Count != expectedCount)
 //        {
 //            if (list.Count < expectedCount)

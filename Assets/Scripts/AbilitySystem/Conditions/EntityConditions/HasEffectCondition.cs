@@ -32,8 +32,8 @@ namespace OrderElimination.AbilitySystem.Conditions
 
         public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, AbilitySystemActor entityToCheck)
         {
-            if (RequiredEffects == null) throw new InvalidOperationException();
-            if (entityToCheck == null) throw new ArgumentNullException();
+            if (RequiredEffects == null) Logging.LogException( new InvalidOperationException());
+            if (entityToCheck == null) Logging.LogException( new ArgumentNullException());
             return EffectRequirement switch
             {
                 RequireType.All => RequiredEffects.All(effect => entityToCheck.HasEffect(effect)),

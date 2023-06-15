@@ -1,4 +1,5 @@
 using System;
+using OrderElimination;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -56,7 +57,7 @@ namespace Inventory_Items
             if(Vector2.Distance(_downPosition, eventData.position) > _clickDistanceFault)
                 return;
             
-            Debug.Log("Click");
+            Logging.Log("Click");
             Clicked?.Invoke(_cell);
             _downPosition = Vector2.zero;
         }

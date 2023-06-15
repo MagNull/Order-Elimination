@@ -1,3 +1,4 @@
+using OrderElimination;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -21,7 +22,6 @@ namespace RoguelikeMap.UI.Characters
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            Debug.Log("OnEndDrag");
             if(transform.parent == _defaultParent)
                 transform.SetParent(_initialParent);
             _canvasGroup.blocksRaycasts = true;
@@ -29,7 +29,6 @@ namespace RoguelikeMap.UI.Characters
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            Debug.Log("OnBeginDrag");
             _initialParent = transform.parent;
             _defaultParent = _initialParent.parent;
             transform.SetParent(_defaultParent);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using OrderElimination;
 using UnityEngine;
 
 namespace Inventory_Items
@@ -26,13 +27,13 @@ namespace Inventory_Items
         private void OnCellClicked(IReadOnlyCell cell)
         {
             if (_targetInventory == null)
-                throw new Exception("Target inventory is null");
+                Logging.LogException( new Exception("Target inventory is null"));
 
             var characterItems = _targetInventory.Cells.Select(c => c.Item);
             var itemOfType = characterItems.FirstOrDefault(item => cell.Item.Type == item.Type);
             if (itemOfType != null)
             {
-                Debug.Log("Baga");
+                Logging.Log("Baga");
                 _targetInventory.MoveItemTo(itemOfType, _inventoryModel);
             }
             _inventoryModel.MoveItemTo(cell.Item, _targetInventory);

@@ -38,7 +38,7 @@ namespace StartSessionMenu.ChooseCharacter
         {
             _uiCounter.Initialize(_wallet);
             var gameCharacters = GameCharactersFactory.CreateGameEntities(_characters);
-            base.InitializeCharactersCard(gameCharacters, _unselectedDropZone.transform);
+            InitializeCharactersCard(gameCharacters, _unselectedDropZone.transform);
         }
         
         protected override void TrySelectCard(DropZone dropZone, CharacterCard.CharacterCard card)
@@ -46,15 +46,16 @@ namespace StartSessionMenu.ChooseCharacter
             if (card is CharacterCardWithCost characterCardWithCost)
                 TrySelectCard(dropZone, characterCardWithCost);
             else
-                throw new ArgumentException();
+                Logging.LogException( new ArgumentException());
         }
 
         private void TrySelectCard(DropZone dropZone, CharacterCardWithCost card)
         {
             if (dropZone == _selectedDropZone)
             {
-                if (card.IsSelected || _wallet.Money - card.Cost < 0
-                                    || _selectedCount >= MaxSquadSize) 
+                if (card.IsSelected
+                    || _wallet.Money - card.Cost < 0
+                    || _selectedCount >= MaxSquadSize) 
                     return;
                 _wallet.SubtractMoney(card.Cost);
                 SelectCard(card);

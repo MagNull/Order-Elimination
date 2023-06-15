@@ -44,7 +44,10 @@ namespace RoguelikeMap.UI.Characters
         [SerializeField] 
         private TMP_Text _accuracyText;
 
-        [Title("Abilities")] 
+        [Title("Abilities")]
+        [PreviewField]
+        [SerializeField]
+        private Sprite _noAbilityIcon;
         [SerializeField]
         private List<Button> _activeAbilityButtons = new ();
         [SerializeField]
@@ -88,7 +91,7 @@ namespace RoguelikeMap.UI.Characters
         {
             foreach (var button in _activeAbilityButtons.Concat(_passiveAbilityButtons))
             {
-                button.image.sprite = null;
+                button.image.sprite = _noAbilityIcon;
                 button.onClick.RemoveAllListeners();
             }
             var displayedActiveAbilities = activeAbilities
@@ -99,7 +102,7 @@ namespace RoguelikeMap.UI.Characters
                 .ToArray();
             if (displayedActiveAbilities.Length > _activeAbilityButtons.Count
                 || displayedPassiveAbilities.Length > _passiveAbilityButtons.Count)
-                throw new System.NotSupportedException("Abilities to display count is greater than can be shown.");
+                Logging.LogException( new System.NotSupportedException("Abilities to display count is greater than can be shown."));
             for (var i = 0; i < displayedActiveAbilities.Length; i++)
             {
                 var button = _activeAbilityButtons[i];

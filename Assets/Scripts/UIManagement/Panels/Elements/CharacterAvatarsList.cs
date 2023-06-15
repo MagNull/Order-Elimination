@@ -14,7 +14,8 @@ using UnityEngine.UI;
 namespace UIManagement.Elements
 {
     [ExecuteInEditMode]
-    internal partial class CharacterAvatarsList : MonoBehaviour, IEnumerable<CharacterClickableAvatar>
+    [Obsolete]
+    public class CharacterAvatarsList : MonoBehaviour, IEnumerable<CharacterClickableAvatar>
     {
         [SerializeField] private CharacterClickableAvatar _elementPrefab;
         [SerializeField] private RectTransform _elementsHolder;
@@ -29,18 +30,17 @@ namespace UIManagement.Elements
         [Button]
         public void Populate(CharacterTemplate[] charactersInfo)
         {
+            throw new NotSupportedException();
             if (_elementPrefab == null)
-                throw new Exception("No given prefab for instancing.");
+                Logging.LogException( new Exception("No given prefab for instancing."));
             foreach (var characterInfo in charactersInfo)
             {
                 var newElement = Instantiate(_elementPrefab, _elementsHolder);
-                newElement.UpdateCharacterInfo(characterInfo);
+                //newElement.UpdateCharacterInfo(characterInfo);
                 newElement.Clicked -= OnElementClicked;
                 newElement.Holded -= OnElementHolded;
-                newElement.Destroyed -= OnElementDestroyed;
                 newElement.Clicked += OnElementClicked;
                 newElement.Holded += OnElementHolded;
-                newElement.Destroyed += OnElementDestroyed;
                 _characterList.Add(newElement);
             }
         }
@@ -48,18 +48,17 @@ namespace UIManagement.Elements
         [Button]
         public void Populate(IReadOnlyList<IBattleCharacterInfo> charactersInfo)
         {
+            throw new NotSupportedException();
             if (_elementPrefab == null)
-                throw new Exception("No given prefab for instancing.");
+                Logging.LogException( new Exception("No given prefab for instancing."));
             foreach (var characterInfo in charactersInfo)
             {
                 var newElement = Instantiate(_elementPrefab, _elementsHolder);
-                newElement.UpdateCharacterInfo(characterInfo);
+                //newElement.UpdateCharacterInfo(characterInfo);
                 newElement.Clicked -= OnElementClicked;
                 newElement.Holded -= OnElementHolded;
-                newElement.Destroyed -= OnElementDestroyed;
                 newElement.Clicked += OnElementClicked;
                 newElement.Holded += OnElementHolded;
-                newElement.Destroyed += OnElementDestroyed;
                 _characterList.Add(newElement);
             }
         }
@@ -72,7 +71,7 @@ namespace UIManagement.Elements
         public void RemoveAt(int index)
         {
             if (index >= ElementsCount || index < 0)
-                throw new IndexOutOfRangeException();
+                Logging.LogException( new IndexOutOfRangeException());
             var element = _characterList[index];
             _characterList.RemoveAt(index);
             DestroyImmediate(element.gameObject);
@@ -98,12 +97,7 @@ namespace UIManagement.Elements
             }
             element.Clicked -= OnElementClicked;
             element.Holded -= OnElementHolded;
-            element.Destroyed -= OnElementDestroyed;
         }
-    }
-
-    partial class CharacterAvatarsList : IEnumerable<CharacterClickableAvatar>
-    {
 
         public IEnumerator<CharacterClickableAvatar> GetEnumerator() => _characterList.GetEnumerator();
 

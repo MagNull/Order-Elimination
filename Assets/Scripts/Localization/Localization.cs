@@ -11,7 +11,7 @@ namespace OrderElimination.Localization
         private static Lazy<Localization> _lazyLocalization = new(() => new Localization());
         public static Localization Current { get; } = _lazyLocalization.Value;
 
-        private Dictionary<PanelType, string> _panelTitleNames = new Dictionary<PanelType, string>()
+        private Dictionary<PanelType, string> _panelTitleNames = new()
         { 
             {PanelType.Pause, "Пауза"}, 
             {PanelType.Order, "Выбор приказа"}, 
@@ -26,38 +26,35 @@ namespace OrderElimination.Localization
             {PanelType.CharacterUpgradable, "Информация о бойце"},
             {PanelType.Shop, "Торговец"},
             {PanelType.Event, "Событие"},
-            { PanelType.SquadMembers, "Выбор бойцов отряда" },
+            {PanelType.SquadMembers, "Выбор бойцов отряда"},
         };
-        private Dictionary<ValueUnits, string> _unitNames
-            = new Dictionary<ValueUnits, string>()
+        private Dictionary<ValueUnits, string> _unitNames = new()
         {
-                { ValueUnits.None, "" },
-                { ValueUnits.Percents, "%" },
-                { ValueUnits.Cells, "" },
-                { ValueUnits.Turns, " ход" },
-                { ValueUnits.Enemies, " враг" },
+            { ValueUnits.None, "" },
+            { ValueUnits.Percents, "%" },
+            { ValueUnits.Cells, "" },
+            { ValueUnits.Turns, " ход" },
+            { ValueUnits.Enemies, " враг" },
         };
-        private Dictionary<Buff_Type, string> _buffNames
-            = new Dictionary<Buff_Type, string>()
+        private Dictionary<Buff_Type, string> _buffNames = new()
         {
-                { Buff_Type.Movement, "Перемещение" },
-                { Buff_Type.Attack, "Атака" },
-                { Buff_Type.Health, "Здоровье" },
-                { Buff_Type.Evasion, "Уклонение" },
-                { Buff_Type.IncomingAccuracy, "Вх. точность" },
-                { Buff_Type.IncomingDamageIncrease, "Вх. урон" },
-                { Buff_Type.OutcomingAccuracy, "Вых. точность" },
-                { Buff_Type.OutcomingAttack, "Вых. урон" },
-                { Buff_Type.Accuracy, "Точность" },
-                { Buff_Type.Concealment, "Скрытность" },
-                { Buff_Type.AdditionalArmor, "Доп. броня" },
-                { Buff_Type.Stun, "Оглушение" },
+            { Buff_Type.Movement, "Перемещение" },
+            { Buff_Type.Attack, "Атака" },
+            { Buff_Type.Health, "Здоровье" },
+            { Buff_Type.Evasion, "Уклонение" },
+            { Buff_Type.IncomingAccuracy, "Вх. точность" },
+            { Buff_Type.IncomingDamageIncrease, "Вх. урон" },
+            { Buff_Type.OutcomingAccuracy, "Вых. точность" },
+            { Buff_Type.OutcomingAttack, "Вых. урон" },
+            { Buff_Type.Accuracy, "Точность" },
+            { Buff_Type.Concealment, "Скрытность" },
+            { Buff_Type.AdditionalArmor, "Доп. броня" },
+            { Buff_Type.Stun, "Оглушение" },
         };
-        private Dictionary<OverTimeAbilityType, string> _overtimeTypeNames
-            = new Dictionary<OverTimeAbilityType, string>()
+        private Dictionary<OverTimeAbilityType, string> _overtimeTypeNames = new()
         {
-                { OverTimeAbilityType.Damage, "Ур/ход" },
-                { OverTimeAbilityType.Heal, "Леч/ход" },
+            { OverTimeAbilityType.Damage, "Ур/ход" },
+            { OverTimeAbilityType.Heal, "Леч/ход" },
         };
 
         public string GetWindowTitleName(PanelType windowType) => _panelTitleNames[windowType];
@@ -69,12 +66,12 @@ namespace OrderElimination.Localization
         {
             return battleStat switch
             {
-                BattleStat.MaxHealth => "Макс. здоровье",
-                BattleStat.MaxArmor => "Макс. броня",
+                BattleStat.MaxHealth => "Здоровье",
+                BattleStat.MaxArmor => "Броня",
                 BattleStat.AttackDamage => "Урон",
                 BattleStat.Accuracy => "Точность",
                 BattleStat.Evasion => "Уклонение",
-                BattleStat.MaxMovementDistance => "Дальность перемещения",
+                BattleStat.MaxMovementDistance => "Перемещение",
                 _ => throw new System.NotImplementedException(),
             };
         }

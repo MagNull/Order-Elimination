@@ -244,7 +244,7 @@ public class BattleMapSelector : MonoBehaviour
         Debug.Log($"{entity.EntityType} {view.Name} selected." % Colorize.ByColor(new Color(1, 0.5f, 0.5f))
             + $"\nActionPoints: {string.Join(", ", entity.ActionPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
             + $"\nHealth: {entity.LifeStats.Health}; MaxHealth: {entity.LifeStats.MaxHealth.ModifiedValue}" 
-            + $"\nTotalArmor: {entity.LifeStats.TotalArmor}; MaxHealth: {entity.LifeStats.MaxArmor.ModifiedValue}" 
+            + $"\nTotalArmor: {entity.LifeStats.TotalArmor}; MaxArmor: {entity.LifeStats.MaxArmor.ModifiedValue}" 
             + $"\n{entity.StatusHolder}"
             + $"\nEffects({entity.Effects.Count()}): {string.Join(", ", entity.Effects.Select(e => $"[{e.EffectData.View.Name}]"))}");
     }
@@ -378,8 +378,16 @@ public class BattleMapSelector : MonoBehaviour
     private void OnConfirmationLocked(IRequireTargetsTargetingSystem multiTargetSystem)
         => Debug.Log("Ability use locked.");
 
+    private void CastCurrentAbility()
+    {
+        if (_selectedAbility != null && _selectedAbility.AbilityData.TargetingSystem.IsConfirmAvailable)
+        {
+            var abilityName = _selectedAbility.AbilityData.View.Name;
+            //Debug.Log($"Ability �{abilityName}� has been used." % Colorize.Cyan);
+            _selectedAbility.AbilityData.TargetingSystem.ConfirmTargeting();
+        }
+    }
     #region ToRemove
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -402,23 +410,13 @@ public class BattleMapSelector : MonoBehaviour
         {
             Time.timeScale /= 2;
         }
-#if !UNITY_EDITOR
+        #if !UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Debug.Log("We're cool" % Colorize.Blue);
             Application.Quit();
         }
-#endif
+        #endif
     }
     #endregion
-
-    public void CastCurrentAbility()
-    {
-        if (_selectedAbility != null && _selectedAbility.AbilityData.TargetingSystem.IsConfirmAvailable)
-        {
-            var abilityName = _selectedAbility.AbilityData.View.Name;
-            //Debug.Log($"Ability �{abilityName}� has been used." % Colorize.Cyan);
-            _selectedAbility.AbilityData.TargetingSystem.ConfirmTargeting();
-        }
-    }
 }

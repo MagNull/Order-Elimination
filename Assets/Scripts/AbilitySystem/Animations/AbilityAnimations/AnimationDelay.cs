@@ -1,11 +1,12 @@
 ﻿using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using System.Threading;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem.Animations
 {
-    public class AnimationDelay : IAbilityAnimation
+    public class AnimationDelay : AwaitableAbilityAnimation
     {
         [HideInInspector, OdinSerialize]
         private float _delayTime;
@@ -21,10 +22,10 @@ namespace OrderElimination.AbilitySystem.Animations
             }
         }
 
-        public async UniTask Play(AnimationPlayContext context)
+        protected override async UniTask OnAnimationPlayRequest(AnimationPlayContext context, CancellationToken cancellationToken)
         {
             var timeInMilliseconds = Mathf.RoundToInt(DelayTime * 1000);
-            await UniTask.Delay(timeInMilliseconds);
+            await UniTask.Delay(timeInMilliseconds, cancellationToken: cancellationToken);
         }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using System.Threading;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem.Animations
 {
-    public class DisplayTextAnimation : IAbilityAnimation
+    public class DisplayTextAnimation : AwaitableAbilityAnimation
     {
         [ShowInInspector, OdinSerialize, MultiLineProperty]
         public string Text { get; set; } = "Sample Text";
@@ -25,13 +26,13 @@ namespace OrderElimination.AbilitySystem.Animations
         [ShowInInspector, OdinSerialize]
         public Vector2 FloatingOffset { get; set; }
 
-        public async UniTask Play(AnimationPlayContext context)
+        protected override async UniTask OnAnimationPlayRequest(AnimationPlayContext context, CancellationToken cancellationToken)
         {
             var targetPos = DisplayNear switch
             {
                 AnimationTarget.Target => context.TargetGamePosition,
                 AnimationTarget.Caster => context.CasterGamePosition,
-                _ => throw new System.NotImplementedException(),
+                _ => throw new System.NotImplementedException()
             };
             if (!targetPos.HasValue)
                 return;
@@ -40,7 +41,9 @@ namespace OrderElimination.AbilitySystem.Animations
             var realWorldStartPosition = context.SceneContext.BattleMapView.GameToWorldPosition(textStartPosition.Value);
             var realWorldEndPosition = context.SceneContext.BattleMapView.GameToWorldPosition(textEndPosition.Value);
             var offset = realWorldEndPosition - realWorldStartPosition;
-            await context.SceneContext.TextEmitter.Emit(Text, Color, realWorldStartPosition, offset, Duration, -1);
+            await context.SceneContext.TextEmitter
+                .Emit(Text, Color, realWorldStartPosition, offset, Duration, -1)
+                .AttachExternalCancellation(cancellationToken);
         }
     }
 }

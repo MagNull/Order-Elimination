@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Inventory;
 using Inventory_Items;
 using Sirenix.OdinInspector;
+using OrderElimination;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,13 +24,13 @@ namespace ItemsLibrary
             _addedItems[ItemType.Equipment] = new List<ItemView>();
             _addedItems[ItemType.Modificator] = new List<ItemView>();
             
-            Debug.Log("Initialize library");
+            Logging.Log("Initialize library");
         }
 
         public void AddItem(Inventory_Items.IReadOnlyCell cell)
         {
             if (cell == null)
-                throw new ArgumentException("Item can't be null.");
+                Logging.LogException( new ArgumentException("Item can't be null."));
             
             AddItem(cell.Item);
         }
@@ -37,7 +38,7 @@ namespace ItemsLibrary
         public void AddItem(IReadOnlyList<ItemData> itemsList)
         {
             if (itemsList == null)
-                throw new ArgumentException("Item can't be null.");
+                Logging.LogException( new ArgumentException("Item can't be null."));
             foreach (var item in itemsList)
                 AddItem(item);
         }
@@ -45,11 +46,11 @@ namespace ItemsLibrary
         private void AddItem(Item item)
         {
             if (item == null)
-                throw new ArgumentException("Item can't be null.");
+                Logging.LogException( new ArgumentException("Item can't be null."));
             
             if (!_allItemsIds.Contains(item.Id))
             {
-                Debug.Log("Item added:" + item.View.Name);
+                Logging.Log("Item added:" + item.View.Name);
                 _addedItems[item.Type].Add(item.View);
                 _allItemsIds.Add(item.Id);
             }
@@ -58,11 +59,11 @@ namespace ItemsLibrary
         private void AddItem(ItemData data)
         {
             if (data == null)
-                throw new ArgumentException("Item data can't be null.");
+                Logging.LogException( new ArgumentException("Item data can't be null."));
             
             if (!_allItemsIds.Contains(data.ItemId))
             {
-                Debug.Log("Item added:" + data.ItemView.Name);
+                Logging.Log("Item added:" + data.ItemView.Name);
                 _addedItems[data.ItemType].Add(data.ItemView);
                 _allItemsIds.Add(data.ItemId);
             }

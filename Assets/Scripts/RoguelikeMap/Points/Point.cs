@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using OrderElimination;
 using RoguelikeMap.Panels;
 using RoguelikeMap.SquadInfo;
 using UnityEngine;
@@ -34,7 +35,6 @@ namespace RoguelikeMap.Points
 
         private void Select()
         {
-            Debug.Log("Select point");
             OnSelected?.Invoke(this);
         }
     }

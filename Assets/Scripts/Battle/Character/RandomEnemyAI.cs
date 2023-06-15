@@ -96,7 +96,7 @@ public class RandomEnemyAI : BattleCharacter
         if (availableAbility.Count == 0)
             return;
         _currentAIAbility = availableAbility[Random.Range(0, availableAbility.Count)];
-        Debug.Log(_currentAIAbility.AbilityName);
+        Logging.Log(_currentAIAbility.AbilityName);
     }
 
     private bool TryAttack(BattleCharacter nearestPlayer)
@@ -141,7 +141,7 @@ public class RandomEnemyAI : BattleCharacter
             minDistance = distance;
         }
 
-        Debug.Log(nearestEnemy.View.GameObject.name);
+        Logging.Log(nearestEnemy.View.GameObject.name);
 
         return nearestEnemy;
     }

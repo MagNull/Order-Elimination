@@ -14,7 +14,7 @@ namespace OrderElimination.AbilitySystem
         public ActiveAbilityExecution(AbilityInstruction[] actionInstructions)
         {
             if (actionInstructions == null || actionInstructions.Any(i => i == null))
-                throw new ArgumentNullException();
+                Logging.LogException(new ArgumentNullException());
             ActionInstructions = actionInstructions;
         }
 
