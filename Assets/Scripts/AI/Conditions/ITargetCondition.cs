@@ -25,16 +25,16 @@ namespace AI.Conditions
         }
     }
     
+    enum Relation
+    {
+        Equal,
+        Greater,
+        Less
+    }
+    
     [Serializable]
     public class TargetHasStatValue : ITargetCondition
     {
-        enum Relation
-        {
-            Equal,
-            Greater,
-            Less
-        }
-        
         [SerializeField]
         private BattleStat _battleStat;
 

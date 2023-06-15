@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Local Blackboard
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -136, y: -200}
+  position: {x: -136, y: -104}
   ports:
     keys:
     - ChildrenPort
@@ -56,7 +56,7 @@ MonoBehaviour:
   m_Name: Move To Target
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -376, y: -72}
+  position: {x: -408, y: -72}
   ports:
     keys:
     - InputPort
@@ -185,6 +185,8 @@ MonoBehaviour:
   - rid: 8568508745526804509
   _relationship: 0
   _radius: 10
+  _count: 0
+  _relation: 1
   references:
     version: 2
     RefIds:
@@ -207,7 +209,7 @@ MonoBehaviour:
   m_Name: Damage Target
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -120, y: -328}
+  position: {x: -136, y: -184}
   ports:
     keys:
     - InputPort
@@ -268,7 +270,7 @@ MonoBehaviour:
   m_Name: Has Targets In Radius
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -152, y: 280}
+  position: {x: -168, y: 280}
   ports:
     keys:
     - InputPort
@@ -290,6 +292,8 @@ MonoBehaviour:
   - rid: 8568508745526804510
   _relationship: 0
   _radius: 10
+  _count: 0
+  _relation: 1
   references:
     version: 2
     RefIds:
@@ -659,7 +663,7 @@ MonoBehaviour:
   m_Name: Move To Nearest Shelter
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -152, y: 136}
+  position: {x: -168, y: 152}
   ports:
     keys:
     - InputPort
@@ -885,6 +889,8 @@ MonoBehaviour:
   - rid: 8568508745526804511
   _relationship: 2
   _radius: 0
+  _count: 0
+  _relation: 0
   references:
     version: 2
     RefIds:
@@ -983,7 +989,7 @@ MonoBehaviour:
   m_Name: Damage Target
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -376, y: 56}
+  position: {x: -408, y: 56}
   ports:
     keys:
     - InputPort
@@ -1013,7 +1019,7 @@ MonoBehaviour:
   m_Name: Has Targets In Radius
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -120, y: -504}
+  position: {x: -136, y: -440}
   ports:
     keys:
     - InputPort
@@ -1034,6 +1040,8 @@ MonoBehaviour:
   _targetConditions: []
   _relationship: 1
   _radius: 10
+  _count: 0
+  _relation: 1
   references:
     version: 2
     RefIds: []
@@ -1093,7 +1101,7 @@ MonoBehaviour:
   m_Name: Keep Distance From Melee
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -152, y: 552}
+  position: {x: -168, y: 632}
   ports:
     keys:
     - InputPort
@@ -1170,7 +1178,7 @@ MonoBehaviour:
   m_Name: Heal Target
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -148.63077, y: 841.0728}
+  position: {x: -168, y: 1048}
   ports:
     keys:
     - InputPort
@@ -1200,7 +1208,7 @@ MonoBehaviour:
   m_Name: Has Targets In Radius
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -152, y: 680}
+  position: {x: -168, y: 760}
   ports:
     keys:
     - InputPort
@@ -1221,6 +1229,8 @@ MonoBehaviour:
   _targetConditions: []
   _relationship: 0
   _radius: 3
+  _count: 0
+  _relation: 1
   references:
     version: 2
     RefIds: []
