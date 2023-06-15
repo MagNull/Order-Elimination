@@ -2,21 +2,23 @@ using System;
 using System.Collections.Generic;
 using Inventory;
 using Inventory_Items;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace ItemsLibrary
 {
     [CreateAssetMenu(fileName = "Library", menuName = "Library/LibraryInstance")]
-    public class Library : ScriptableObject
+    public class Library : SerializedScriptableObject
     {
-        private Dictionary<ItemType, List<ItemView>> _addedItems = new Dictionary<ItemType, List<ItemView>>();
-        private HashSet<int> _allItemsIds = new HashSet<int>();
+        [SerializeField]
+        private Dictionary<ItemType, List<ItemView>> _addedItems = new();
+        private HashSet<int> _allItemsIds = new();
         public IReadOnlyCollection<int> GetAllItemIds => _allItemsIds;
         public IReadOnlyList<ItemView> GetItems(ItemType type) => _addedItems[type];
 
         public Library()
         {
-            _addedItems[ItemType.Null] = new List<ItemView>();
             _addedItems[ItemType.Consumable] = new List<ItemView>();
             _addedItems[ItemType.Equipment] = new List<ItemView>();
             _addedItems[ItemType.Modificator] = new List<ItemView>();
