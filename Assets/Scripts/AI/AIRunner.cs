@@ -67,7 +67,7 @@ namespace AI
             foreach (var enemyData in templates)
             {
                 if (!_characterToBehaviors.ContainsKey(enemyData.CharacterData))
-                    return;
+                    continue;
                 await _characterToBehaviors[enemyData.CharacterData].Run(_context, enemyData.enemy);
                 foreach (var activeAbilityRunner in enemyData.enemy.ActiveAbilities)
                     activeAbilityRunner.AbilityData.TargetingSystem.CancelTargeting();

@@ -35,7 +35,9 @@ namespace AI.Actions
 
                 var completed = false;
                 movementAbility.AbilityExecutionCompleted += _ => completed = true;
+                Debug.Log("Start");
                 await UniTask.WaitUntil(() => completed);
+                Debug.Log("End");
 
                 targeting.CancelTargeting();
                 return true;

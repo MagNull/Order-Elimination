@@ -2645,7 +2645,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &971083449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2867,17 +2867,13 @@ PrefabInstance:
       objectReference: {fileID: 2628971838446060146, guid: c823672e2c69d4a72acdcc8505ed1aaa, type: 3}
     - target: {fileID: 2628971838446060146, guid: c823672e2c69d4a72acdcc8505ed1aaa, type: 3}
       propertyPath: serializationData.PrefabModifications.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2628971838446060146, guid: c823672e2c69d4a72acdcc8505ed1aaa, type: 3}
       propertyPath: serializationData.PrefabModifications.Array.data[0]
-      value: '"path":"_cellViewByItemType","add_keys":{"$id":0,"$type":"System.Object[],
-        mscorlib","$rlength":9,"$rcontent":[{"$id":1,"$type":"Inventory.ItemType,
-        Assembly-CSharp",1},{"$id":2,"$type":"Inventory.ItemType, Assembly-CSharp",1},{"$id":3,"$type":"Inventory.ItemType,
-        Assembly-CSharp",2},{"$id":4,"$type":"Inventory.ItemType, Assembly-CSharp",1},{"$id":5,"$type":"Inventory.ItemType,
-        Assembly-CSharp",2},{"$id":6,"$type":"Inventory.ItemType, Assembly-CSharp",3},{"$id":7,"$type":"Inventory.ItemType,
-        Assembly-CSharp",1},{"$id":8,"$type":"Inventory.ItemType, Assembly-CSharp",2},{"$id":9,"$type":"Inventory.ItemType,
-        Assembly-CSharp",3}]},"remove_keys":null'
+      value: '"path":"_cellViewByItemType","value":{"$id":0,"$type":"System.Collections.Generic.Dictionary`2[[Inventory.ItemType,
+        Assembly-CSharp],[UnityEngine.UI.Image, UnityEngine.UI]], mscorlib","comparer":{"$id":1,"$type":"System.Collections.Generic.EnumEqualityComparer`1[[Inventory.ItemType,
+        Assembly-CSharp]], mscorlib","$rlength":0,"$rcontent":[]},"$rlength":2,"$rcontent":[{"$k":1,"$v":$eref:0},{"$k":2,"$v":$eref:1}]}'
       objectReference: {fileID: 0}
     - target: {fileID: 2628971838446060146, guid: c823672e2c69d4a72acdcc8505ed1aaa, type: 3}
       propertyPath: serializationData.PrefabModifications.Array.data[1]
@@ -2888,12 +2884,8 @@ PrefabInstance:
       value: '"path":"_cellViewByItemType.{2es}","value":$eref:1'
       objectReference: {fileID: 0}
     - target: {fileID: 2628971838446060146, guid: c823672e2c69d4a72acdcc8505ed1aaa, type: 3}
-      propertyPath: serializationData.PrefabModifications.Array.data[3]
-      value: '"path":"_cellViewByItemType.{3es}","value":$eref:2'
-      objectReference: {fileID: 0}
-    - target: {fileID: 2628971838446060146, guid: c823672e2c69d4a72acdcc8505ed1aaa, type: 3}
       propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2628971838446060146, guid: c823672e2c69d4a72acdcc8505ed1aaa, type: 3}
       propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[0]
@@ -2903,10 +2895,6 @@ PrefabInstance:
       propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[1]
       value: 
       objectReference: {fileID: 1589241861}
-    - target: {fileID: 2628971838446060146, guid: c823672e2c69d4a72acdcc8505ed1aaa, type: 3}
-      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.data[2]
-      value: 
-      objectReference: {fileID: 1898378037}
     - target: {fileID: 2628971838446060149, guid: c823672e2c69d4a72acdcc8505ed1aaa, type: 3}
       propertyPath: serializationData.Prefab
       value: 
@@ -3871,17 +3859,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9a5a64338344528a779e63ab3f1e7e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1898378037 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7297795229502525510, guid: c823672e2c69d4a72acdcc8505ed1aaa, type: 3}
-  m_PrefabInstance: {fileID: 1133156672}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1982718757 stripped

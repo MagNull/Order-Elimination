@@ -30,7 +30,10 @@ MonoBehaviour:
   _accuracy: 0.85
   _evasion: 0.1
   _maxMovementDistance: 3
-  _activeAbilitiesData: []
+  _activeAbilitiesData:
+  - {fileID: 11400000, guid: 0c8d919ede3c8804383af4fd13473e05, type: 2}
+  - {fileID: 11400000, guid: 6612650bb0c5db545a3d27886b025da4, type: 2}
+  - {fileID: 11400000, guid: 27a00e8494f60704dbcb6dbe10d12634, type: 2}
   _passiveAbilitiesData: []
-  <CostValue>k__BackingField: 0
-  <Role>k__BackingField: 0
+  <CostValue>k__BackingField: 120
+  <Role>k__BackingField: 3
