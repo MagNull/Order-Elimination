@@ -42,10 +42,10 @@ namespace AI.Actions
                 return false;
             }
             
-            await movementAbility.CastSingleTarget(context, caster,
+            var result = await movementAbility.CastSingleTarget(context, caster,
                 optimalCells.ElementAt(Random.Range(0, optimalCells.Count())));
             
-            return true;
+            return result;
         }
     }
 }

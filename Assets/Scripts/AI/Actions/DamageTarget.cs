@@ -42,8 +42,8 @@ namespace AI.Actions
             {
                 case SingleTargetTargetingSystem:
                 {
-                    await bestUseAbility.CastSingleTarget(battleContext, caster, target.Position);
-                    break;
+                    var result = await bestUseAbility.CastSingleTarget(battleContext, caster, target.Position);
+                    return result;
                 }
             }
 

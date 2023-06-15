@@ -22,8 +22,9 @@ namespace AI.Actions
                 .Where(actor => actor.Obstacle != null);
             var movementAbility = AbilityAIPresentation.GetMoveAbility(caster);
             var targeting = (SingleTargetTargetingSystem)movementAbility.AbilityData.TargetingSystem;
-            
-            movementAbility.InitiateCast(context, caster);
+
+            if (!movementAbility.InitiateCast(context, caster))
+                return false;
 
             foreach (var structure in structures)
             {
