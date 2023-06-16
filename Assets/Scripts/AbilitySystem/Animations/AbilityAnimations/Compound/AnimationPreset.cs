@@ -2,10 +2,7 @@
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem.Animations
@@ -23,6 +20,17 @@ namespace OrderElimination.AbilitySystem.Animations
         public async UniTask Play(AnimationPlayContext context)
         {
             await Animation.Play(context);
+        }
+
+        protected async UniTask OnAnimationPlayRequest(
+            AnimationPlayContext context, CancellationToken cancellationToken)
+        {
+            await Animation.Play(context);
+        }
+
+        public static explicit operator AwaitableAbilityAnimation(AnimationPreset animationPreset)
+        {
+            return new AnimationPresetWrapper(animationPreset);
         }
     }
 }
