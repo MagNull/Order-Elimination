@@ -14,7 +14,7 @@ namespace OrderElimination.AbilitySystem
 
         protected override async UniTask OnAnimationPlayRequest(AnimationPlayContext context, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await AnimationPreset.Play(context, cancellationToken);
         }
 
         public AnimationPresetWrapper(AnimationPreset animationPreset)
