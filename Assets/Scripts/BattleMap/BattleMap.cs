@@ -6,8 +6,6 @@ using Cysharp.Threading.Tasks;
 using OrderElimination;
 using OrderElimination.BM;
 using Sirenix.Utilities;
-using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 using OrderElimination.Infrastructure;
 using OrderElimination.AbilitySystem;
 

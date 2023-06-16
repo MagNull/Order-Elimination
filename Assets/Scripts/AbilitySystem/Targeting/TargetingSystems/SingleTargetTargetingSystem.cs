@@ -7,12 +7,23 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class SingleTargetTargetingSystem : IAbilityTargetingSystem, IRequireTargetsTargetingSystem
+    [Obsolete(
+        "Will be replaced with " 
+        + nameof(MultiTargetTargetingSystem)
+        + " in the future.")]
+    public class SingleTargetTargetingSystem : IAbilityTargetingSystem, IRequireSelectionTargetingSystem
     {
+        private CellGroupDistributionPattern _targetPattern;
+        private HashSet<Vector2Int> _availableCells;
+        private IBattleContext _targetingContext;
+        private AbilitySystemActor _targetingCaster;
+
         public bool IsTargeting { get; private set; } = false;
         public bool IsConfirmed { get; private set; } = false;
         public bool IsConfirmAvailable => SelectedCell != null && SelectedCell.HasValue;
-        public IEnumerable<Vector2Int> AvailableCells => _availableCells;
+        public IEnumerable<Vector2Int> CurrentAvailableCells => _availableCells;
+        public IEnumerable<Vector2Int> SelectedCells 
+            => Enumerable.Repeat(SelectedCell, 1).Where(c => c.HasValue).Select(c => c.Value);
 
         [ShowInInspector, SerializeField]
         public CellGroupDistributionPattern TargetPattern
@@ -30,32 +41,11 @@ namespace OrderElimination.AbilitySystem
         public event Action<IAbilityTargetingSystem> TargetingStarted;
         public event Action<IAbilityTargetingSystem> TargetingConfirmed;
         public event Action<IAbilityTargetingSystem> TargetingCanceled;
-        public event Action<SingleTargetTargetingSystem> ConfirmationUnlocked;
-        public event Action<SingleTargetTargetingSystem> ConfirmationLocked;
-        public event Action<SingleTargetTargetingSystem> SelectionUpdated;
-        event Action<IRequireTargetsTargetingSystem> IRequireTargetsTargetingSystem.ConfirmationUnlocked
-        {
-            add => ConfirmationUnlocked += value;
 
-            remove => ConfirmationUnlocked -= value;
-        }
-        event Action<IRequireTargetsTargetingSystem> IRequireTargetsTargetingSystem.ConfirmationLocked
-        {
-            add => ConfirmationLocked += value;
-
-            remove => ConfirmationLocked -= value;
-        }
-        event Action<IRequireTargetsTargetingSystem> IRequireTargetsTargetingSystem.SelectionUpdated
-        {
-            add => SelectionUpdated += value;
-
-            remove => SelectionUpdated -= value;
-        }
-
-        private CellGroupDistributionPattern _targetPattern;
-        private HashSet<Vector2Int> _availableCells;
-        private Vector2Int? _casterPosition;
-        private CellRangeBorders? _mapBorders;
+        public event Action<IRequireSelectionTargetingSystem> ConfirmationUnlocked;
+        public event Action<IRequireSelectionTargetingSystem> ConfirmationLocked;
+        public event Action<IRequireSelectionTargetingSystem> SelectionUpdated;
+        public event Action<IRequireSelectionTargetingSystem> AvailableCellsUpdated;
 
         public SingleTargetTargetingSystem(CellGroupDistributionPattern targetPattern)
         {
@@ -72,13 +62,13 @@ namespace OrderElimination.AbilitySystem
             return true;
         }
 
-        public bool StartTargeting(CellRangeBorders mapBorders, Vector2Int casterPosition)
+        public bool StartTargeting(IBattleContext context, AbilitySystemActor caster)
         {
             if (IsTargeting || _availableCells == null)
                 Logging.LogException( new InvalidOperationException("Targeting has already started and needs to be confirmed or canceled first."));
             SelectedCell = null;
-            _casterPosition = casterPosition;
-            _mapBorders = mapBorders;
+            _targetingCaster = caster;
+            _targetingContext = context;
             IsTargeting = true;
             TargetingStarted?.Invoke(this);
             if (IsConfirmAvailable)
@@ -128,8 +118,8 @@ namespace OrderElimination.AbilitySystem
             IsTargeting = false;
             IsConfirmed = false;
             SelectedCell = null;
-            _casterPosition = null;
-            _mapBorders = null;
+            _targetingCaster = null;
+            _targetingContext = null;
             _availableCells = null;
             TargetingCanceled?.Invoke(this);
             return true;
@@ -139,10 +129,10 @@ namespace OrderElimination.AbilitySystem
         {
             if (!IsTargeting && !IsConfirmed)
                 Logging.LogException( new InvalidOperationException("Targeting is not initiated or being canceled."));
-            var selectedCells = new List<Vector2Int>();
-            if (SelectedCell.HasValue)
-                selectedCells.Add(SelectedCell.Value);
-            return TargetPattern.GetAffectedCellGroups(_mapBorders.Value, _casterPosition.Value, selectedCells.ToArray());
+            var mapBorders = _targetingContext.BattleMap.CellRangeBorders;
+            var casterPosition = _targetingCaster.Position;
+            return TargetPattern.GetAffectedCellGroups(
+                mapBorders, casterPosition, SelectedCells.ToArray());
         }
     }
 }

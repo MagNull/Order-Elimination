@@ -61,12 +61,12 @@ namespace OrderElimination.AbilitySystem
 
     public interface IActiveAbilityData
     {
+        public ActiveAbilityBuilder BasedBuilder { get; }
         public AbilityView View { get; }
         //AbilityPreview ? (Range, Damage, etc.)
         public AbilityGameRepresentation GameRepresentation { get; }
         public AbilityRules Rules { get; }
         public IAbilityTargetingSystem TargetingSystem { get; }
         public ActiveAbilityExecution Execution { get; }
-        public ActiveAbilityBuilder BasedBuilder { get; }
     }
 }
