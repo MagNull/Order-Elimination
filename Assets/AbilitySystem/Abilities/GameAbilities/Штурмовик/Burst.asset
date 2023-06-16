@@ -738,53 +738,10 @@ MonoBehaviour:
       Data: true
     - Name: AnimationBeforeAction
       Entry: 7
-      Data: 42|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
-    - Name: PlaySequentially
-      Entry: 5
-      Data: false
-    - Name: WaitForCompletion
-      Entry: 5
-      Data: true
-    - Name: Animations
-      Entry: 7
-      Data: 43|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 44|OrderElimination.AbilitySystem.Animations.AnimationDelay, Assembly-CSharp
-    - Name: _delayTime
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 45|OrderElimination.AbilitySystem.Animations.AnimationRepeat, Assembly-CSharp
-    - Name: Animation
+      Data: 42|OrderElimination.AbilitySystem.AnimationPresetWrapper, Assembly-CSharp
+    - Name: AnimationPreset
       Entry: 10
       Data: 1
-    - Name: PlaySequentially
-      Entry: 5
-      Data: true
-    - Name: WaitForCompletion
-      Entry: 5
-      Data: true
-    - Name: _repeatAmount
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: 
       Entry: 8
       Data: 
