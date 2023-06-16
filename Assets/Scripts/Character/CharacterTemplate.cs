@@ -7,6 +7,7 @@ using System.Linq;
 using OrderElimination.MetaGame;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using AI;
 
 namespace OrderElimination
 {
@@ -65,8 +66,10 @@ namespace OrderElimination
 
         [TitleGroup("Misc", Alignment = TitleAlignments.Centered, BoldTitle = true, Order = 3)]
         [PropertyOrder(3.0f)]
-        [SerializeField]
+        [field: SerializeField]
         public int CostValue { get; private set; }
+        [field: SerializeField]
+        public Role Role { get; private set; }
 
         public string Name => _name;
         public Sprite BattleIcon => _viewIcon;

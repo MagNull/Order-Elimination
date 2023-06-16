@@ -1,18 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AI.EditorGraph;
+using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UnityEngine;
 using VContainer;
 
 namespace AI
 {
-    public class AIRunner : MonoBehaviour
+    public enum Role
+    {
+        Specialists,
+        Vanguard,
+        Monsters,
+        Shooters,
+        Wizards
+    }
+
+    public class AIRunner : SerializedMonoBehaviour
     {
         [SerializeField]
-        private CharacterBehavior _behavior;
+        private Dictionary<IGameCharacterTemplate, CharacterBehavior> _characterToBehaviors = new();
 
         private IBattleContext _context;
         private BattleLoopManager _battleLoopManager;
@@ -28,7 +40,7 @@ namespace AI
         {
             _context.NewTurnStarted += OnTurnStarted;
         }
-        
+
         private void OnDisable()
         {
             _context.NewTurnStarted -= OnTurnStarted;
@@ -36,9 +48,9 @@ namespace AI
 
         private void OnTurnStarted(IBattleContext context)
         {
-            if (context.ActiveSide != BattleSide.Enemies) 
+            if (context.ActiveSide != BattleSide.Enemies)
                 return;
-            
+
             Run();
         }
 
@@ -46,12 +58,21 @@ namespace AI
         public async void Run()
         {
             var enemies = _context.EntitiesBank.GetEntities(BattleSide.Enemies);
-            foreach (var enemy in enemies)
+            var templates = 
+                enemies
+                    .Select(enemy => 
+                        (_context.EntitiesBank.GetBattleCharacterData(enemy).CharacterData, enemy));
+            templates = templates.OrderBy(el => el.CharacterData.Role);
+            
+            foreach (var enemyData in templates)
             {
-                await _behavior.Run(_context, enemy);
-                foreach (var activeAbilityRunner in enemy.ActiveAbilities)
+                if (!_characterToBehaviors.ContainsKey(enemyData.CharacterData))
+                    return;
+                await _characterToBehaviors[enemyData.CharacterData].Run(_context, enemyData.enemy);
+                foreach (var activeAbilityRunner in enemyData.enemy.ActiveAbilities)
                     activeAbilityRunner.AbilityData.TargetingSystem.CancelTargeting();
             }
+
             _battleLoopManager.StartNextTurn();
         }
     }

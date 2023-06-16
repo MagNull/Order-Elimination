@@ -1,21 +1,18 @@
 using System;
-using Cysharp.Threading.Tasks.Triggers;
 using OrderElimination;
 using OrderElimination.MetaGame;
-using UIManagement.Elements;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Image = UnityEngine.UI.Image;
 
 namespace StartSessionMenu.ChooseCharacter.CharacterCard
 {
-    public class CharacterCard : MonoBehaviour
+    public class CharacterCard : MonoBehaviour, IPointerClickHandler
     {
         private bool _isSelected;
 
         [SerializeField] 
         protected Image _cardImage;
-        [SerializeField]
-        private HoldableButton _button;
         public bool IsSelected
         {
             get => _isSelected;
@@ -35,10 +32,8 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         
         public virtual void InitializeCard(GameCharacter character, bool isSelected)
         {
-            //TODO Remove downcast. Keep changing Character with GameCharacter
             Character = character;
             _cardImage.sprite = character.CharacterData.Avatar;
-            _button.Clicked += OnClick;
             IsSelected = isSelected;
         }
 
@@ -52,7 +47,7 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
             _cardImage.sprite = sprite;
         }
 
-        private void OnClick(HoldableButton button)
+        public void OnPointerClick(PointerEventData eventData)
         {
             Logging.Log("OnClick");
             OnGetInfo?.Invoke(this);

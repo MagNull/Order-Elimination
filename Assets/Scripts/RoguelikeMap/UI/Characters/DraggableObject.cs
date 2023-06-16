@@ -30,7 +30,7 @@ namespace RoguelikeMap.UI.Characters
         public void OnBeginDrag(PointerEventData eventData)
         {
             _initialParent = transform.parent;
-            _defaultParent = _initialParent.parent;
+            _defaultParent = _initialParent.parent.parent;
             transform.SetParent(_defaultParent);
             _canvasGroup.blocksRaycasts = false;
         }
