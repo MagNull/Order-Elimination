@@ -1,32 +1,8 @@
-using Cysharp.Threading.Tasks;
-using OrderElimination.Infrastructure;
+п»їusing Cysharp.Threading.Tasks;
 using System;
 
 namespace OrderElimination.AbilitySystem
 {
-    public enum ActionRequires
-    {
-        Entity,
-        Cell,
-        Caster
-    }
-
-    [Obsolete("Интерфейс " + nameof(IBattleAction) + " является обобщающим. По возможности используйте BattleAction<TAction>.")]
-    public interface IBattleAction : ICloneable<IBattleAction>
-    {
-        public ActionRequires ActionRequires { get; }
-
-        //public bool CanPerform(ActionExecutionContext useContext, bool actionMakerProcessing = true, bool targetProcessing = true);
-
-        public event Action<IActionPerformResult> SuccessfullyPerformed;
-        public event Action<IActionPerformResult> FailedToPerformed;
-        //public int RepeatNumber
-        public UniTask<IActionPerformResult> ModifiedPerform(
-            ActionContext useContext, 
-            bool actionMakerProcessing = true,
-            bool targetProcessing = true);
-    }
-
     public abstract class BattleAction<TAction> : IBattleAction 
         where TAction : BattleAction<TAction>
     {
