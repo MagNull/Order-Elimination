@@ -9,36 +9,28 @@ namespace OrderElimination.AbilitySystem
 {
     public class MultiTargetTargetingSystem : IAbilityTargetingSystem, IRequireSelectionTargetingSystem
     {
-        [HideInInspector, SerializeField]
         private CellGroupDistributionPattern _targetPattern;
-        [HideInInspector, SerializeField]
-        private int _necessaryTargets = 1;
-        [HideInInspector, SerializeField]
+        private List<ICellCondition> _cellConditions;
+        private int _necessaryTargets;
         private int _optionalTargets;
         private HashSet<Vector2Int> _availableCells;
         private HashSet<Vector2Int> _selectedCells;
         private IBattleContext _targetingContext;
         private AbilitySystemActor _targetingCaster;
 
-        public bool IsTargeting { get; private set; } = false;
-        public bool IsConfirmed { get; private set; } = false;
-
-        public bool IsConfirmAvailable =>
-            IsTargeting && !IsConfirmed && NecessaryTargetsLeft == 0;
-
-        [ShowInInspector]
         public CellGroupDistributionPattern TargetPattern
         {
             get => _targetPattern;
             private set
             {
                 if (IsTargeting) Logging.LogException(new InvalidOperationException("Set target while targeting"));
-                if (value is not TargetRelativePattern or CasterToTargetRelativePattern) Logging.LogException( new ArgumentException());
                 _targetPattern = value;
             }
         }
-
-        [ShowInInspector]
+        public bool IsTargeting { get; private set; } = false;
+        public bool IsConfirmed { get; private set; } = false;
+        public bool IsConfirmAvailable =>
+            IsTargeting && !IsConfirmed && NecessaryTargetsLeft == 0;
         public int NecessaryTargets
         {
             get => _necessaryTargets;
@@ -49,23 +41,18 @@ namespace OrderElimination.AbilitySystem
                 _necessaryTargets = value;
             }
         }
-
-        [ShowInInspector]
         public int OptionalTargets
         {
             get => _optionalTargets;
-            set
+            private set
             {
-                if (IsTargeting) Logging.LogException(new InvalidOperationException("Try set OptionalTargets while targeting"));
+                if (IsTargeting) Logging.LogException(new InvalidOperationException("Attempted set OptionalTargets while targeting"));
                 if (value < 0) value = 0;
                 _optionalTargets = value;
             }
-        } //0-...
-
+        }
         public int NecessaryTargetsLeft => Math.Max(NecessaryTargets - _selectedCells.Count, 0);
-
         public int TotalTargetsLeft => NecessaryTargets + OptionalTargets - _selectedCells.Count;
-
         public IEnumerable<Vector2Int> CurrentAvailableCells => _availableCells;
         public IEnumerable<Vector2Int> SelectedCells => _selectedCells;
 
@@ -78,31 +65,30 @@ namespace OrderElimination.AbilitySystem
         public event Action<IRequireSelectionTargetingSystem> SelectionUpdated;
         public event Action<IRequireSelectionTargetingSystem> AvailableCellsUpdated;
 
-        public MultiTargetTargetingSystem(CellGroupDistributionPattern targetPattern, int necessaryTargets = 0,
+        public MultiTargetTargetingSystem(
+            CellGroupDistributionPattern targetPattern, 
+            IEnumerable<ICellCondition> cellConditions,
+            int necessaryTargets = 0,
             int optionalTargets = 0)
         {
             if (necessaryTargets < 0
-                || optionalTargets < 0
-                || targetPattern is not TargetRelativePattern && targetPattern is not CasterToTargetRelativePattern)
-                Logging.LogException(new ArgumentException());
+                || optionalTargets < 0)
+                Logging.LogException(new ArgumentOutOfRangeException());
             _targetPattern = targetPattern;
+            _cellConditions = cellConditions.ToList();
             _necessaryTargets = necessaryTargets;
             _optionalTargets = optionalTargets;
         }
 
-        public bool SetAvailableCellsForSelection(Vector2Int[] availableCellsForSelection)
+        public bool StartTargeting(IBattleContext context, AbilitySystemActor caster)
         {
             if (IsTargeting)
                 return false;
-            _availableCells = availableCellsForSelection.ToHashSet();
-            return true;
-        }
-
-        public bool StartTargeting(IBattleContext context, AbilitySystemActor caster)
-        {
-            if (IsTargeting || _availableCells == null)
-                return false;
-            //Logging.LogException( new InvalidOperationException("Targeting has already started and needs to be confirmed or canceled first.");
+            //Logging.LogException(new InvalidOperationException("Targeting has already started and needs to be confirmed or canceled first.");
+            _availableCells = context.BattleMap.CellRangeBorders
+                .EnumerateCellPositions()
+                .Where(pos => _cellConditions.All(c => c.IsConditionMet(context, caster, pos)))
+                .ToHashSet();
             _selectedCells = new();
             _targetingCaster = caster;
             _targetingContext = context;
@@ -113,25 +99,25 @@ namespace OrderElimination.AbilitySystem
             return true;
         }
 
-        public bool AddToSelection(Vector2Int cell)
+        public bool Select(Vector2Int cellPosition)
         {
             if (!IsTargeting || IsConfirmed || TotalTargetsLeft == 0)
                 return false;
-            if (!_availableCells.Contains(cell))
+            if (!_availableCells.Contains(cellPosition))
                 return false;
-            _selectedCells.Add(cell);
+            _selectedCells.Add(cellPosition);
             SelectionUpdated?.Invoke(this);
             if (IsConfirmAvailable)
                 ConfirmationUnlocked?.Invoke(this);
             return true;
         }
 
-        public bool RemoveFromSelection(Vector2Int cell)
+        public bool Deselect(Vector2Int cellPosition)
         {
             if (!IsTargeting || IsConfirmed)
                 return false;
             var previousSelectionAchievedState = IsConfirmAvailable;
-            if (_selectedCells.Remove(cell))
+            if (_selectedCells.Remove(cellPosition))
             {
                 SelectionUpdated?.Invoke(this);
                 if (previousSelectionAchievedState && !IsConfirmAvailable)

@@ -43,11 +43,6 @@ namespace OrderElimination.AbilitySystem
                 return false;
             var casterPosition = caster.Position;
             var mapBorders = battleContext.BattleMap.CellRangeBorders;
-            if (AbilityData.TargetingSystem is IRequireSelectionTargetingSystem targetingSystem)
-            {
-                var availableCells = AbilityData.Rules.GetAvailableCellPositions(battleContext, caster);
-                targetingSystem.SetAvailableCellsForSelection(availableCells);
-            }
             if (!AbilityData.TargetingSystem.StartTargeting(battleContext, caster))
                 return false;
             AbilityData.TargetingSystem.TargetingConfirmed -= onConfirmed;

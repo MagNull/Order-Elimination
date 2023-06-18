@@ -14,6 +14,9 @@ namespace OrderElimination.Infrastructure
 
     public static class CloneableCollectionsExtensions
     {
+        public static IEnumerable<T> Clone<T>(this IEnumerable<T> source) where T : ICloneable
+            => source.Select(e => (T)e.Clone());
+
         public static List<T> Clone<T>(this List<T> list) where T : ICloneable
         {
             if (list == null) return null;

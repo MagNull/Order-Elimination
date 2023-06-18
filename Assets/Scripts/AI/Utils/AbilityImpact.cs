@@ -51,14 +51,7 @@ namespace AI.Utils
 
         private void PrepareTargetingToProcess()
         {
-            if (_data.TargetingSystem is IRequireSelectionTargetingSystem targetingSystem)
-            {
-                var availableCells = _data.Rules.GetAvailableCellPositions(_battleContext, _caster);
-                targetingSystem.SetAvailableCellsForSelection(availableCells);
-            }
-
-            _data.TargetingSystem.StartTargeting(_battleContext,
-                _caster);
+            _data.TargetingSystem.StartTargeting(_battleContext, _caster);
             switch (_data.TargetingSystem)
             {
                 case SingleTargetTargetingSystem singleTargeting:

@@ -170,9 +170,9 @@ public class BattleMapSelector : MonoBehaviour
         else if (_mode == SelectorMode.SelectingTargets)
         {
             var cellPosition = _battleMap.GetPosition(cellView.Model);
-            if (_selectedAbility.AbilityData.TargetingSystem is MultiTargetTargetingSystem multiTargetSystem)
+            if (_selectedAbility.AbilityData.TargetingSystem is IRequireSelectionTargetingSystem manualTargetingSystem)
             {
-                if (multiTargetSystem.SelectedCells.Contains(cellPosition))
+                if (manualTargetingSystem.SelectedCells.Contains(cellPosition))
                 {
                     //second click
                     if (_confirmTargetingBySecondClick)
@@ -180,32 +180,13 @@ public class BattleMapSelector : MonoBehaviour
                         CastCurrentAbility();
                         return;
                     }
-                    multiTargetSystem.RemoveFromSelection(cellPosition);
+                    manualTargetingSystem.Deselect(cellPosition);
                 }
                 else
                 {
-                    if (!multiTargetSystem.AddToSelection(cellPosition))
+                    if (!manualTargetingSystem.Select(cellPosition))
                         Debug.Log($"Wrong target at {cellPosition}");
                 }
-            }
-            else if (_selectedAbility.AbilityData.TargetingSystem is SingleTargetTargetingSystem singleTargetSystem)
-            {
-                if (singleTargetSystem.SelectedCell == cellPosition)
-                {
-                    //second click
-                    if (_confirmTargetingBySecondClick)
-                    {
-                        CastCurrentAbility();
-                        return;
-                    }
-                    singleTargetSystem.Deselect(cellPosition);
-                }
-                else
-                {
-                    if (!singleTargetSystem.Select(cellPosition))
-                        Debug.Log($"Wrong target at {cellPosition}");
-                }
-                    
             }
             else if (_selectedAbility.AbilityData.TargetingSystem is NoTargetTargetingSystem noTargetSystem)
             {
@@ -336,19 +317,13 @@ public class BattleMapSelector : MonoBehaviour
     private void OnSelectionUpdated(IRequireSelectionTargetingSystem targetingSystem)
     {
         HighlightCells();
-        //Applies slight tint on cells which player pressed while selecting targets
+        //Applies a slight tint on cells which player pressed while selecting targets
         //Unnesessary since can be done through cell group colors
-        var selectedCells = new List<Vector2Int>();
-        if (targetingSystem is MultiTargetTargetingSystem multiTargetSys)
-            selectedCells = multiTargetSys.SelectedCells.ToList();
-        else if (targetingSystem is SingleTargetTargetingSystem singleTargetSys)
-            selectedCells.Add(singleTargetSys.SelectedCell.Value);
-        foreach (var pos in selectedCells)
+        foreach (var pos in targetingSystem.SelectedCells)
         {
             var cellView = _battleMapView.GetCell(pos.x, pos.y);
             _battleMapView.HighlightCell(pos.x, pos.y, cellView.CurrentColor * 0.8f);
         }
-        //
     }
 
     private void OnSelectedEntityDisposed(IBattleDisposable entity)
