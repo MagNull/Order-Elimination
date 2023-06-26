@@ -21,16 +21,20 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _name: 
-  _viewIcon: {fileID: 0}
-  _viewAvatar: {fileID: 0}
-  _maxHealth: 0
-  _maxArmor: 0
-  _attackDamage: 0
-  _accuracy: 0
-  _evasion: 0
-  _maxMovementDistance: 0
-  _activeAbilitiesData: []
+  _name: "\u041E\u0442\u0433\u043E\u043B\u043E\u0441\u043E\u043A \u041D\u0430\u0431\u043B\u044E\u0434\u0430\u0442\u0435\u043B\u044C"
+  _viewIcon: {fileID: 21300000, guid: 1dcb6f325a999ce4d9dc667c6e27c63f, type: 3}
+  _viewAvatar: {fileID: 21300000, guid: a9b00ce4ed4fcd04dab9ce4afe0e5726, type: 3}
+  _maxHealth: 75
+  _maxArmor: 65
+  _attackDamage: 12
+  _accuracy: 0.85
+  _evasion: 0.15
+  _maxMovementDistance: 4
+  _activeAbilitiesData:
+  - {fileID: 11400000, guid: 0c8d919ede3c8804383af4fd13473e05, type: 2}
+  - {fileID: 11400000, guid: b4773bc9479942845951974fc0b18247, type: 2}
+  - {fileID: 11400000, guid: d73b93ac427ab3c4aa8353d3ed0d1de4, type: 2}
+  - {fileID: 11400000, guid: d00053c3bf275a94297bc5d4f64cb6c3, type: 2}
   _passiveAbilitiesData: []
-  <CostValue>k__BackingField: 0
+  <CostValue>k__BackingField: 100
   <Role>k__BackingField: 0

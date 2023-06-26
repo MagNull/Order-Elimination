@@ -21,16 +21,17 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _name: 
-  _viewIcon: {fileID: 0}
-  _viewAvatar: {fileID: 0}
-  _maxHealth: 0
-  _maxArmor: 0
-  _attackDamage: 0
-  _accuracy: 0
-  _evasion: 0
-  _maxMovementDistance: 0
-  _activeAbilitiesData: []
+  _name: "\u0420\u043E\u043D\u0438\u043D"
+  _viewIcon: {fileID: 21300000, guid: 92048caf1ede0b047813c866a2d0dfa2, type: 3}
+  _viewAvatar: {fileID: 21300000, guid: e25d54ec6e9dfdf4ead58bc3d6235afe, type: 3}
+  _maxHealth: 100
+  _maxArmor: 150
+  _attackDamage: 35
+  _accuracy: 0.9
+  _evasion: 0.1
+  _maxMovementDistance: 4
+  _activeAbilitiesData:
+  - {fileID: 11400000, guid: 0c8d919ede3c8804383af4fd13473e05, type: 2}
   _passiveAbilitiesData: []
-  <CostValue>k__BackingField: 0
+  <CostValue>k__BackingField: 150
   <Role>k__BackingField: 0
