@@ -1,5 +1,4 @@
-﻿using CharacterAbility;
-using OrderElimination.AbilitySystem;
+﻿using OrderElimination.AbilitySystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -167,7 +166,7 @@ namespace UIManagement
 
         private void OnPassiveAbilityButtonClicked(SmallAbilityButton skillButton)
         {
-            var panel = _panelController.OpenPanel(PanelType.PassiveSkillsDescription) as PassiveSkillDescriptionPanel;
+            var panel = _panelController.OpenPanel(PanelType.PassiveSkillsDescription) as PassiveAbilityDescriptionPanel;
             //panel.AssignPassiveSkillsDescription(_currentPassiveSkills.Select(v => v.AbilityInfo).ToArray());
         }
     }
