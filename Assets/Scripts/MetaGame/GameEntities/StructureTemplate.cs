@@ -2,11 +2,11 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace OrderElimination.BM
+namespace OrderElimination
 {
     [PropertyTooltip("@$value." + nameof(Name))]
-    [CreateAssetMenu( fileName = "Environment Object", menuName = "Battle/Environment Object" )]
-    public class EnvironmentInfo : SerializedScriptableObject, IBattleStructureTemplate
+    [CreateAssetMenu( fileName = "new Structure", menuName = "Battle/Structure" )]
+    public class StructureTemplate : SerializedScriptableObject, IBattleStructureTemplate
     {
         [SerializeField]
         private string _name;
