@@ -52,8 +52,8 @@ namespace AI.Actions
             SingleTargetTargetingSystem targeting, IBattleContext context)
         {
             return structure.Obstacle.IsAllowedToStay(caster) &&
-                   targeting.AvailableCells != null &&
-                   targeting.AvailableCells.Contains(structure.Position) &&
+                   targeting.CurrentAvailableCells != null &&
+                   targeting.CurrentAvailableCells.Contains(structure.Position) &&
                    !CharacterBehavior.AvoidObject.Contains(context.EntitiesBank.GetBattleStructureData(structure))
                    && _needPassiveEffects.All(ef =>
                        structure.PassiveAbilities.Any(ab => ab.AbilityData.BasedBuilder == ef));

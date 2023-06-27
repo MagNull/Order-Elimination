@@ -2,16 +2,13 @@
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem.Animations
 {
     [CreateAssetMenu(fileName = "AbilityAnimationPreset", menuName = "AbilitySystem/Animations/AnimationPreset")]
-    public class AnimationPreset : SerializedScriptableObject, IAbilityAnimation
+    public class AnimationPreset : SerializedScriptableObject
     {
         [ShowInInspector, NonSerialized]
         [PreviewField(300, ObjectFieldAlignment.Left), ReadOnly]
@@ -20,9 +17,16 @@ namespace OrderElimination.AbilitySystem.Animations
         [ShowInInspector, OdinSerialize]
         public IAbilityAnimation Animation { get; private set; }
 
-        public async UniTask Play(AnimationPlayContext context)
+        public async UniTask Play(
+            AnimationPlayContext context, 
+            CancellationToken cancellationToken)
         {
-            await Animation.Play(context);
+            await Animation.Play(context).AttachExternalCancellation(cancellationToken);
+        }
+
+        public static explicit operator AwaitableAbilityAnimation(AnimationPreset animationPreset)
+        {
+            return new AnimationPresetWrapper(animationPreset);
         }
     }
 }

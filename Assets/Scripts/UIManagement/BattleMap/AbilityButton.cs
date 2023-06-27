@@ -1,11 +1,7 @@
-﻿using CharacterAbility;
-using Cysharp.Threading.Tasks;
-using OrderElimination.AbilitySystem;
-using Sirenix.OdinInspector;
+﻿using OrderElimination.AbilitySystem;
 using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace UIManagement.Elements
@@ -32,7 +28,6 @@ namespace UIManagement.Elements
                     _abilityIcon.sprite = value;
             }
         }
-        public CharacterAbility.AbilityView AbilityView { get; private set; }
         public ActiveAbilityRunner AbilityRunner { get; private set; }
         public event Action<AbilityButton> Clicked;
         public event Action<AbilityButton> Holded;

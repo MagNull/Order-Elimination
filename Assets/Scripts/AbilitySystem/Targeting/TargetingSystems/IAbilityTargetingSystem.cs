@@ -18,20 +18,26 @@ namespace OrderElimination.AbilitySystem
         public event Action<IAbilityTargetingSystem> TargetingConfirmed;
         public event Action<IAbilityTargetingSystem> TargetingCanceled;
 
-        public bool StartTargeting(CellRangeBorders mapBorders, Vector2Int casterPosition);
+        public bool StartTargeting(IBattleContext context, AbilitySystemActor caster);
         public bool ConfirmTargeting();
         public bool CancelTargeting();
         public CellGroupsContainer ExtractCastTargetGroups();
     }
 
-    public interface IRequireTargetsTargetingSystem : IAbilityTargetingSystem
+    public interface IRequireSelectionTargetingSystem : IAbilityTargetingSystem
     {
-        public IEnumerable<Vector2Int> AvailableCells { get; }
+        public IEnumerable<Vector2Int> CurrentAvailableCells { get; }
+        public IEnumerable<Vector2Int> SelectedCells { get; }
+        public int NecessaryTargetsLeft { get; }
+        //No point to show conditions since they can change during targeting
+        //public IEnumerable<ICellCondition> CurrentCellsConditions { get; }
 
-        public event Action<IRequireTargetsTargetingSystem> ConfirmationUnlocked;
-        public event Action<IRequireTargetsTargetingSystem> ConfirmationLocked;
-        public event Action<IRequireTargetsTargetingSystem> SelectionUpdated;
+        public event Action<IRequireSelectionTargetingSystem> ConfirmationUnlocked;
+        public event Action<IRequireSelectionTargetingSystem> ConfirmationLocked;
+        public event Action<IRequireSelectionTargetingSystem> SelectionUpdated;
+        public event Action<IRequireSelectionTargetingSystem> AvailableCellsUpdated;
 
-        public bool SetAvailableCellsForSelection(Vector2Int[] availableCellsForSelection);
+        public bool Select(Vector2Int cellPosition);
+        public bool Deselect(Vector2Int cellPosition);
     }
 }

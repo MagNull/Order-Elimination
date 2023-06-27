@@ -1,5 +1,4 @@
-﻿using OrderElimination.BM;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
@@ -17,7 +16,6 @@ namespace OrderElimination.MetaGame
         public const int MapWidth = 8;
 
         #region OdinVisuals
-
         private static Color GetSpawnTypeColor(SpawnType type)
         {
             return type switch
@@ -53,7 +51,7 @@ namespace OrderElimination.MetaGame
         [TableMatrix(SquareCells = true, HideRowIndices = true, ResizableColumns = false)]
         [OnValueChanged(nameof(UpdateStructureSpawns))]
         [ShowInInspector]
-        private EnvironmentInfo[,] _structureSpawnsLayout;
+        private StructureTemplate[,] _structureSpawnsLayout;
 
         [OnInspectorInit]
         private void UpdateMapPreview()
@@ -77,7 +75,7 @@ namespace OrderElimination.MetaGame
                 _entitiesSpawnsLayout[pos.x, InverseY(pos.y)] = spawnInfo;
             }
 
-            _structureSpawnsLayout = new EnvironmentInfo[MapWidth, MapHeight];
+            _structureSpawnsLayout = new StructureTemplate[MapWidth, MapHeight];
             foreach (var pos in _structureSpawns.Keys)
             {
                 _structureSpawnsLayout[pos.x, InverseY(pos.y)] = _structureSpawns[pos];
@@ -158,7 +156,7 @@ namespace OrderElimination.MetaGame
             }
         }
 
-        private void UpdateStructureSpawns(EnvironmentInfo[,] spawns)
+        private void UpdateStructureSpawns(StructureTemplate[,] spawns)
         {
             _structureSpawns.Clear();
             for (var x = 0; x < spawns.GetLength(0); x++)
@@ -181,14 +179,11 @@ namespace OrderElimination.MetaGame
             //Both
         }
 
-        //[TitleGroup("Editing character spawns", BoldTitle = true, Alignment = TitleAlignments.Centered)]
-        //[DictionaryDrawerSettings(KeyLabel = "Position", ValueLabel = "Spawn Type")]
         [HideInInspector, OdinSerialize]
         private Dictionary<Vector2Int, SpawnType> _entitiesSpawns = new();
 
-        //[DictionaryDrawerSettings(KeyLabel = "Position", ValueLabel = "Structure")]
         [HideInInspector, OdinSerialize]
-        private Dictionary<Vector2Int, EnvironmentInfo> _structureSpawns = new();
+        private Dictionary<Vector2Int, StructureTemplate> _structureSpawns = new();
 
         public Vector2Int[] GetAlliesSpawnPositions()
         {

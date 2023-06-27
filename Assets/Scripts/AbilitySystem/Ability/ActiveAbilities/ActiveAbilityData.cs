@@ -35,12 +35,15 @@ namespace OrderElimination.AbilitySystem
             }
             else if (builderData.TargetingSystem == TargetingSystemType.SingleTarget)
             {
-                targetingSystem = new SingleTargetTargetingSystem(builderData.DistributionPattern);
+                targetingSystem = new SingleTargetTargetingSystem(
+                    builderData.DistributionPattern, 
+                    builderData.TargetCellConditions);
             }
             else if (builderData.TargetingSystem == TargetingSystemType.MultiTarget)
             {
                 targetingSystem = new MultiTargetTargetingSystem(
                     builderData.DistributionPattern,
+                    builderData.TargetCellConditions,
                     builderData.NecessaryTargets,
                     builderData.OptionalTargets);
             }
@@ -61,12 +64,12 @@ namespace OrderElimination.AbilitySystem
 
     public interface IActiveAbilityData
     {
+        public ActiveAbilityBuilder BasedBuilder { get; }
         public AbilityView View { get; }
         //AbilityPreview ? (Range, Damage, etc.)
         public AbilityGameRepresentation GameRepresentation { get; }
         public AbilityRules Rules { get; }
         public IAbilityTargetingSystem TargetingSystem { get; }
         public ActiveAbilityExecution Execution { get; }
-        public ActiveAbilityBuilder BasedBuilder { get; }
     }
 }

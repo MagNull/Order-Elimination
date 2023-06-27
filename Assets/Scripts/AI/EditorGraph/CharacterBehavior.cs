@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using AI.Compositions;
 using Cysharp.Threading.Tasks;
+using OrderElimination;
 using OrderElimination.AbilitySystem;
-using OrderElimination.BM;
 using UnityEngine;
 using XNode;
 
@@ -11,10 +11,10 @@ namespace AI.EditorGraph
     [CreateAssetMenu]
     public class CharacterBehavior : NodeGraph
     {
-        public static IReadOnlyList<EnvironmentInfo> AvoidObject;
+        public static IReadOnlyList<StructureTemplate> AvoidObject;
 
         [SerializeField]
-        private List<EnvironmentInfo> _avoidObject;
+        private List<StructureTemplate> _avoidObject;
 
         public Selector BehaviorTreeRoot;
 

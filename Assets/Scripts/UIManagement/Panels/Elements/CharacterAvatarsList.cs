@@ -46,7 +46,7 @@ namespace UIManagement.Elements
         }
         
         [Button]
-        public void Populate(IReadOnlyList<IBattleCharacterInfo> charactersInfo)
+        public void Populate(IReadOnlyList<IGameCharacterTemplate> charactersInfo)
         {
             throw new NotSupportedException();
             if (_elementPrefab == null)
