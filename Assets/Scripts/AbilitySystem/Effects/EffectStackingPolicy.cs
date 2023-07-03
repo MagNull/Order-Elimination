@@ -5,5 +5,8 @@
         UnlimitedStacking,
         IgnoreNew,
         OverrideOld,
+        //LimitedStacking
+        //ApplyAfterOld
+        //SumDuration
     }
 }

@@ -1,5 +1,4 @@
-﻿using OrderElimination.BM;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
@@ -42,7 +41,8 @@ namespace OrderElimination.MetaGame
         }
 
         [TitleGroup("Editing character spawns", BoldTitle = true, Alignment = TitleAlignments.Centered)]
-        [TableMatrix(DrawElementMethod = nameof(DrawEntitySpawnCell), SquareCells = true, HideRowIndices = true, ResizableColumns = false)]
+        [TableMatrix(DrawElementMethod = nameof(DrawEntitySpawnCell), SquareCells = true, HideRowIndices = true,
+            ResizableColumns = false)]
         [OnValueChanged(nameof(UpdateEntitySpawns))]
         [ShowInInspector]
         private SpawnInfo[,] _entitiesSpawnsLayout;
@@ -51,7 +51,7 @@ namespace OrderElimination.MetaGame
         [TableMatrix(SquareCells = true, HideRowIndices = true, ResizableColumns = false)]
         [OnValueChanged(nameof(UpdateStructureSpawns))]
         [ShowInInspector]
-        private EnvironmentInfo[,] _structureSpawnsLayout;
+        private StructureTemplate[,] _structureSpawnsLayout;
 
         [OnInspectorInit]
         private void UpdateMapPreview()
@@ -68,12 +68,14 @@ namespace OrderElimination.MetaGame
                     _entitiesSpawnsLayout[x, y] = new SpawnInfo(new Vector2Int(x, InverseY(y)), null);
                 }
             }
+
             foreach (var pos in _entitiesSpawns.Keys)
             {
                 var spawnInfo = new SpawnInfo(pos, _entitiesSpawns[pos]);
                 _entitiesSpawnsLayout[pos.x, InverseY(pos.y)] = spawnInfo;
             }
-            _structureSpawnsLayout = new EnvironmentInfo[MapWidth, MapHeight];
+
+            _structureSpawnsLayout = new StructureTemplate[MapWidth, MapHeight];
             foreach (var pos in _structureSpawns.Keys)
             {
                 _structureSpawnsLayout[pos.x, InverseY(pos.y)] = _structureSpawns[pos];
@@ -96,8 +98,9 @@ namespace OrderElimination.MetaGame
                 GUI.changed = true;
                 Event.current.Use();
             }
+
             var cellColor = new Color(0, 0, 0, 0);
-            var cellText = new StringBuilder();//"-";
+            var cellText = new StringBuilder(); //"-";
             cellText.Append(spawnInfo.Position);
             if (spawnInfo.SpawnType != null)
             {
@@ -106,13 +109,14 @@ namespace OrderElimination.MetaGame
                 cellText.Append($"\n{spawnInfo.SpawnType.Value}");
                 //cellText += $"\n{spawnInfo.Position}";
             }
+#if UNITY_EDITOR
             EditorGUI.DrawRect(rect, cellColor);
+#endif
             if (_structureSpawns.ContainsKey(spawnInfo.Position))
             {
                 var structure = _structureSpawns[spawnInfo.Position];
                 DrawStructureSpawnCell(rect, structure);
             }
-
 
             Color.RGBToHSV(cellColor, out var hue, out var sat, out var val);
             DrawLabel(rect, cellText.ToString(), Color.Lerp(Color.white, new Color(0.2f, 0.2f, 0.2f), val));
@@ -130,11 +134,13 @@ namespace OrderElimination.MetaGame
 
         private static void DrawLabel(Rect rect, string text, Color color)
         {
+#if UNITY_EDITOR
             var prevColor = GUI.contentColor;
             var style = new GUIStyle(EditorStyles.boldLabel) { alignment = TextAnchor.MiddleCenter };
             GUI.contentColor = color;
             GUI.Label(rect, text, style);
             GUI.contentColor = prevColor;
+#endif
         }
 
         private void UpdateEntitySpawns(SpawnInfo[,] spawns)
@@ -150,7 +156,7 @@ namespace OrderElimination.MetaGame
             }
         }
 
-        private void UpdateStructureSpawns(EnvironmentInfo[,] spawns)
+        private void UpdateStructureSpawns(StructureTemplate[,] spawns)
         {
             _structureSpawns.Clear();
             for (var x = 0; x < spawns.GetLength(0); x++)
@@ -162,6 +168,7 @@ namespace OrderElimination.MetaGame
                 }
             }
         }
+
         #endregion
 
         [GUIColor("@BattleScenario.GetSpawnTypeColor($value)")]
@@ -172,14 +179,11 @@ namespace OrderElimination.MetaGame
             //Both
         }
 
-        //[TitleGroup("Editing character spawns", BoldTitle = true, Alignment = TitleAlignments.Centered)]
-        //[DictionaryDrawerSettings(KeyLabel = "Position", ValueLabel = "Spawn Type")]
         [HideInInspector, OdinSerialize]
         private Dictionary<Vector2Int, SpawnType> _entitiesSpawns = new();
 
-        //[DictionaryDrawerSettings(KeyLabel = "Position", ValueLabel = "Structure")]
         [HideInInspector, OdinSerialize]
-        private Dictionary<Vector2Int, EnvironmentInfo> _structureSpawns = new();
+        private Dictionary<Vector2Int, StructureTemplate> _structureSpawns = new();
 
         public Vector2Int[] GetAlliesSpawnPositions()
         {
@@ -195,6 +199,7 @@ namespace OrderElimination.MetaGame
                 };
             }
         }
+
         public Vector2Int[] GetEnemySpawnPositions()
         {
             return _entitiesSpawns.Keys.Where(p => IsRequiredSpawn(p)).ToArray();
@@ -209,6 +214,7 @@ namespace OrderElimination.MetaGame
                 };
             }
         }
+
         public IReadOnlyDictionary<Vector2Int, IBattleStructureTemplate> GetStructureSpawns()
             => _structureSpawns.ToDictionary(kv => kv.Key, kv => (IBattleStructureTemplate)kv.Value);
     }

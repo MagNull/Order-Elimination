@@ -8,7 +8,6 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TMPro.EditorUtilities;
 using UnityEngine;
 using VContainer;
 
@@ -91,7 +90,7 @@ public class BattleEntityView : MonoBehaviour
         {
             CustomModel = Instantiate(customModel, transform);
         }
-        if (BattleEntity.DeployedBattleMap.Contains(BattleEntity))
+        if (BattleEntity.DeployedBattleMap.ContainsEntity(BattleEntity))
         {
             throw new InvalidOperationException("Initialize EntityView first and place entity on map after.");
             var gamePosition = BattleEntity.Position;
