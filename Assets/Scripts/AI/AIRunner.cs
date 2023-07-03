@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using AI.EditorGraph;
+using Cysharp.Threading.Tasks;
 using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
@@ -58,17 +60,20 @@ namespace AI
         public async void Run()
         {
             var enemies = _context.EntitiesBank.GetEntities(BattleSide.Enemies);
-            var templates = 
+            var templates =
                 enemies
-                    .Select(enemy => 
+                    .Select(enemy =>
                         (_context.EntitiesBank.GetBattleCharacterData(enemy).CharacterData, enemy));
             templates = templates.OrderBy(el => el.CharacterData.Role);
-            
+
             foreach (var enemyData in templates)
             {
                 if (!_characterToBehaviors.ContainsKey(enemyData.CharacterData))
                     continue;
-                await _characterToBehaviors[enemyData.CharacterData].Run(_context, enemyData.enemy);
+                
+                var characterBehavior = _characterToBehaviors[enemyData.CharacterData];
+                await characterBehavior.Run(_context, enemyData.enemy);
+  
                 foreach (var activeAbilityRunner in enemyData.enemy.ActiveAbilities)
                     activeAbilityRunner.AbilityData.TargetingSystem.CancelTargeting();
             }

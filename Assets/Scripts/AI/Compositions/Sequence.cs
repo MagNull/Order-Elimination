@@ -13,12 +13,12 @@ namespace AI.Compositions
         
         private BehaviorTreeTask[] _childrenTask;
 
-        public override async UniTask<bool> Run(Blackboard blackboard)
+        protected override async UniTask<bool> Run(Blackboard blackboard)
         {
             _childrenTask = GetChildrenTasks();
             foreach (var task in _childrenTask)
             {
-                var result = await task.Run(blackboard);
+                var result = await task.TryRun(blackboard);
                 if (!result)
                     return false;
             }

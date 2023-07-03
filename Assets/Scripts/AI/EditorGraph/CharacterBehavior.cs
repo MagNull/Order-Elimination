@@ -24,7 +24,7 @@ namespace AI.EditorGraph
             var bb = new Blackboard();
             bb.Register("context", battleContext);
             bb.Register("caster", caster);
-            await BehaviorTreeRoot.Run(bb);
+            await BehaviorTreeRoot.TryRun(bb);
         }
     }
 }
