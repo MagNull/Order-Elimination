@@ -22,8 +22,11 @@ namespace RoguelikeMap.UI.Characters
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            if(transform.parent == _defaultParent)
+            if (transform.parent == _defaultParent)
+            {
                 transform.SetParent(_initialParent);
+                transform.localPosition = Vector3.zero;
+            }
             _canvasGroup.blocksRaycasts = true;
         }
 
