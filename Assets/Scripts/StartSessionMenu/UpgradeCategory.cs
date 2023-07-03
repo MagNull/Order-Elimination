@@ -57,11 +57,12 @@ namespace OrderElimination
         private void VisualUpgrade()
         {
             var firstPart = _progressBar[ProgressCount - 1];
+            firstPart.DOColor(Color.yellow, AnimationTime);
             var firstPartTransform = firstPart.transform;
             firstPartTransform.DOComplete();
             firstPartTransform.DOScaleX(StartUpgradeWidthPart, AnimationTime);
             firstPartTransform.DOMoveX(firstPartTransform.position.x - ShiftPart, AnimationTime);
-            
+
             var secondPartTransform = _progressBar[ProgressCount].transform;
             secondPartTransform.transform.DOScaleX(EndUpgradeWidthPart, AnimationTime);
             secondPartTransform.transform.DOMoveX(secondPartTransform.position.x - ShiftPart, AnimationTime);
