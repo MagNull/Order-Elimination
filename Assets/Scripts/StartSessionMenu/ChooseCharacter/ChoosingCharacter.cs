@@ -8,7 +8,6 @@ using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
 using UnityEngine.UI;
-using VContainer;
 
 namespace StartSessionMenu.ChooseCharacter
 {
@@ -24,19 +23,14 @@ namespace StartSessionMenu.ChooseCharacter
         private int MaxSquadSize = 3;
         [SerializeField] 
         private ScrollRect _scrollRect;
-        
+        [SerializeField] private int StartMoney = 1200;
         private Wallet _wallet;
         private int _selectedCount = 0;
         private Tweener _tweener;
 
-        [Inject]
-        public void Configure(Wallet wallet)
-        {
-            _wallet = wallet;
-        }
-        
         private void Start()
         {
+            _wallet = new Wallet(StartMoney);
             InitializeCharactersCard();
             foreach (var zone in _selectedDropZones)
                 zone.OnTrySelect += TrySelectCard;
