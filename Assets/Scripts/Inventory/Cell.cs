@@ -22,7 +22,7 @@ namespace Inventory_Items
             
             _itemQuantity = itemQuantity;
             
-            _item = itemQuantity == 0 ? new Item() : item;
+            _item = itemQuantity == 0 ? null : item;
         }
     }
     

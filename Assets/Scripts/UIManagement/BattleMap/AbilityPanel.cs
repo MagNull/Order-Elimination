@@ -16,7 +16,7 @@ namespace UIManagement
         [SerializeField]
         private AbilityButton[] _activeAbilityButtons;
         [SerializeField]
-        private SmallAbilityButton[] _passiveAbilityButtons;
+        private AbilityButton _consumableAbilityButton;
         [SerializeField]
         private UIController _panelController;
         [SerializeField]
@@ -39,11 +39,9 @@ namespace UIManagement
                 abilityButton.NoSelectedAbilityIcon = _noSelectedAbilityIcon;
             }
 
-            foreach (var abilityButton in _passiveAbilityButtons)
-            {
-                abilityButton.Clicked += OnPassiveAbilityButtonClicked;
-                abilityButton.NoIconAvailableSprite = _noSelectedAbilityIcon;
-            }
+            _consumableAbilityButton.Clicked += OnAbilityButtonClicked;
+            _consumableAbilityButton.Holded += OnActiveAbilityButtonHolded;
+            _consumableAbilityButton.NoSelectedAbilityIcon = _noSelectedAbilityIcon;
         }
 
         private void OnDisable()
@@ -54,10 +52,8 @@ namespace UIManagement
                 button.Holded -= OnActiveAbilityButtonHolded;
             }
 
-            foreach (var skillButton in _passiveAbilityButtons)
-            {
-                skillButton.Clicked -= OnPassiveAbilityButtonClicked;
-            }
+            _consumableAbilityButton.Clicked -= OnAbilityButtonClicked;
+            _consumableAbilityButton.Holded -= OnActiveAbilityButtonHolded;
         }
 
         public void AssignAbilities(
@@ -65,8 +61,7 @@ namespace UIManagement
             ActiveAbilityRunner[] activeAbilities,
             PassiveAbilityRunner[] passiveAbilities)
         {
-            if (activeAbilities.Length > _activeAbilityButtons.Length
-                || passiveAbilities.Length > _passiveAbilityButtons.Length)
+            if (activeAbilities.Length > _activeAbilityButtons.Length)
                 Logging.LogException( new ArgumentException());
             ResetAbilityButtons();
             _caster = caster;

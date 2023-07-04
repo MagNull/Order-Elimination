@@ -12,9 +12,10 @@ namespace Inventory_Items
         public event Action<IReadOnlyCell, IReadOnlyCell> OnCellChanged;
         public event Action<IReadOnlyCell> OnCellRemoved;
         public event Action<IReadOnlyCell> OnCellAdded;
-        
+
         [ShowInInspector]
         private readonly List<Cell> _cells;
+
         private readonly int _size;
 
         public Inventory(int size)
@@ -28,7 +29,7 @@ namespace Inventory_Items
         public void AddItem(Item item, int quantity = 1)
         {
             if (item == null)
-                Logging.LogException( new ArgumentException("Item can't be null"));
+                Logging.LogException(new ArgumentException("Item can't be null"));
 
             for (var i = 0; i < quantity; i++)
             {
@@ -48,7 +49,7 @@ namespace Inventory_Items
         public void RemoveItem(Item item, int quantity = 1)
         {
             if (item == null)
-                Logging.LogException( new ArgumentException("Item can't be null"));
+                Logging.LogException(new ArgumentException("Item can't be null"));
 
             var indexOfItem = _cells.FindIndex(cell => cell.Item == item);
             if (indexOfItem == -1)
@@ -63,9 +64,26 @@ namespace Inventory_Items
                 _cells.RemoveAt(indexOfItem);
                 return;
             }
+
             var newCell = new Cell(item, _cells[indexOfItem].ItemQuantity - quantity);
             OnCellChanged?.Invoke(_cells[indexOfItem], newCell);
             _cells[indexOfItem] = newCell;
+        }
+
+        public List<Item> GetItems()
+        {
+            var result = new List<Item>();
+            foreach (var cell in _cells)
+            {
+                if (cell.Item == null)
+                    continue;
+                for (int i = 0; i < cell.ItemQuantity; i++)
+                {
+                    result.Add(cell.Item);
+                }
+            }
+
+            return result;
         }
 
         public void MoveItemTo(Item item, Inventory other)

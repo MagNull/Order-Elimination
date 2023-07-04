@@ -9,8 +9,10 @@ namespace OrderElimination.MetaGame
     {
         public static GameCharacter CreateGameEntity(IGameCharacterTemplate characterTemplate)
         {
-            var activeAbilities = characterTemplate.GetActiveAbilities().Select(a => AbilityFactory.CreateActiveAbility(a));
-            var passiveAbilities = characterTemplate.GetPassiveAbilities().Select(a => AbilityFactory.CreatePassiveAbility(a));
+            var activeAbilities = characterTemplate.GetActiveAbilities()
+                .Select(a => AbilityFactory.CreateActiveAbility(a));
+            var passiveAbilities = characterTemplate.GetPassiveAbilities()
+                .Select(a => AbilityFactory.CreatePassiveAbility(a));
             return new GameCharacter(characterTemplate, activeAbilities, passiveAbilities);
         }
 
@@ -19,7 +21,8 @@ namespace OrderElimination.MetaGame
 
         //}
 
-        public static IEnumerable<GameCharacter> CreateGameEntities(IEnumerable<IGameCharacterTemplate> characterTempaltes)
+        public static IEnumerable<GameCharacter> CreateGameEntities(
+            IEnumerable<IGameCharacterTemplate> characterTempaltes)
             => characterTempaltes.Select(gameEntity => CreateGameEntity(gameEntity));
     }
 }

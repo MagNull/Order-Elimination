@@ -1,4 +1,5 @@
 ﻿using Inventory;
+using Inventory.Items;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using VContainer;
@@ -61,7 +62,7 @@ namespace Inventory_Items
         [Button]
         public void AddItem()
         {
-            _lastItem = new Item(_items[Random.Range(0, _items.Length)]);
+            _lastItem = ItemFactory.Create(_items[Random.Range(0, _items.Length)]);
             _inventoryModel.AddItem(_lastItem);
         }
 

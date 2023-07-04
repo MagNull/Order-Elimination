@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Inventory_Items;
+using Inventory.Items;
 using OrderElimination;
 using RoguelikeMap.Points.Models;
 using TMPro;
@@ -146,7 +147,7 @@ namespace RoguelikeMap.UI.PointPanels
             {
                 foreach (var itemData in _eventInfo.ItemsId)
                 {
-                    var item = new Item(itemData);
+                    var item = ItemFactory.Create(itemData);
                     _inventory.AddItem(item);
                 }
             }
