@@ -12,9 +12,17 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, SerializeField, DictionaryDrawerSettings(KeyLabel = "Group", ValueLabel = "Pattern")]
         protected Dictionary<int, IPointRelativePattern> _relativeToCasterOffsets = new();
 
-        public override CellGroupDistributionPoicy DistributionPoicy => throw new NotImplementedException();
+        public override CellGroupDistributionPoicy DistributionPoicy
+        {
+            get
+            {
+                Logging.LogException(new NotImplementedException());
+                throw new NotImplementedException();
+            }
+        }
 
-        public override CellGroupsContainer GetAffectedCellGroups(CellRangeBorders mapBorders, Vector2Int casterPosition)
+        public override CellGroupsContainer GetAffectedCellGroups(
+            CellRangeBorders mapBorders, Vector2Int casterPosition)
         {
             var sortedPoints = new Dictionary<int, Vector2Int[]>();
             foreach (var group in _relativeToCasterOffsets.Keys)

@@ -1,4 +1,5 @@
 ﻿using OrderElimination.Infrastructure;
+using OrderElimination.MetaGame;
 using System;
 using UnityEngine;
 using VContainer;
@@ -18,25 +19,25 @@ namespace OrderElimination.AbilitySystem
         }
 
         public AbilitySystemActor SpawnCharacter(
-            IBattleCharacterData characterData, 
+            IGameCharacterTemplate characterTemplate, 
             BattleSide side,
             Vector2Int position)
         {
             var battleMap = _battleContext.Value.BattleMap;
             if (!battleMap.CellRangeBorders.Contains(position))
-                throw new ArgumentOutOfRangeException("Position is outside of the map borders.");
-            var gameCharacter = GameCharactersFactory.CreateGameEntity(characterData);
+                Logging.LogException( new ArgumentOutOfRangeException("Position is outside of the map borders."));
+            var gameCharacter = GameCharactersFactory.CreateGameEntity(characterTemplate);
             return _entitiesFactory.Value.CreateBattleCharacter(gameCharacter, side, position).Model;
         }
 
         public AbilitySystemActor SpawnStructure(
-            IBattleStructureData structureData, 
+            IBattleStructureTemplate structureData, 
             BattleSide side,
             Vector2Int position)
         {
             var battleMap = _battleContext.Value.BattleMap;
             if (!battleMap.CellRangeBorders.Contains(position))
-                throw new ArgumentOutOfRangeException("Position is outside of the map borders.");
+                Logging.LogException( new ArgumentOutOfRangeException("Position is outside of the map borders."));
             return _entitiesFactory.Value.CreateBattleStructure(structureData, side, position).Model;
         }
     }

@@ -4,7 +4,7 @@ using System;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class UniversalTriggerInstruction : ITriggerAbilityInstruction
+    public class UniversalTriggerInstruction : ITriggerInstruction
     {
         [ValidateInput(
             "@!(" + nameof(TriggerSetup) + " is " + nameof(IEntityTriggerSetup) + ")", 
@@ -31,7 +31,10 @@ namespace OrderElimination.AbilitySystem
                 trigger = entitySetup.GetTrigger(battleContext, trackingEntity);
             }
             else
+            {
+                Logging.LogException( new NotImplementedException());
                 throw new NotImplementedException();
+            }
             trigger.Triggered += OnTriggered;
             return trigger;
 

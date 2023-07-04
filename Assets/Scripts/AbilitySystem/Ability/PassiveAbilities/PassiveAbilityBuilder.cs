@@ -32,6 +32,10 @@ namespace OrderElimination.AbilitySystem
         private Dictionary<int, Color> _cellGroupsHighlightColors = new();
         public IReadOnlyDictionary<int, Color> CellGroupsHighlightColors => _cellGroupsHighlightColors;
 
+        [TitleGroup("Visuals"), PropertyOrder(4)]
+        [ShowInInspector, OdinSerialize]
+        public bool HideInCharacterDiscription { get; private set; }
+
         [ValidateInput("@CooldownTime == 0", "Warining! Only first first-fired trigger's instruction will be executed.")]
         [TitleGroup("Game Rules"), PropertyOrder(1)]
         [ShowInInspector, OdinSerialize]
@@ -47,6 +51,6 @@ namespace OrderElimination.AbilitySystem
 
         [TitleGroup("Functionality", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 4), PropertyOrder(0)]
         [ShowInInspector, OdinSerialize]
-        public ITriggerAbilityInstruction[] TriggerInstructions { get; private set; }
+        public ITriggerInstruction[] TriggerInstructions { get; private set; }
     }
 }

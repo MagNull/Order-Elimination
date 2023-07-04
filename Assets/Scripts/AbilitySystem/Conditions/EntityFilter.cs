@@ -50,7 +50,7 @@ namespace OrderElimination.AbilitySystem
         [TitleGroup("Allowed Characters")]
         [ShowIf("@" + nameof(_allowsCharacters))]
         [ShowInInspector, OdinSerialize]
-        private List<IBattleCharacterData> _specifiedCharacters = new();
+        private List<IGameCharacterTemplate> _specifiedCharacters = new();
 
         [TitleGroup("Allowed Structures")]
         [ShowIf("@" + nameof(_allowsStructures))]
@@ -60,7 +60,7 @@ namespace OrderElimination.AbilitySystem
         [TitleGroup("Allowed Structures")]
         [ShowIf("@" + nameof(_allowsStructures))]
         [ShowInInspector, OdinSerialize]
-        private List<IBattleStructureData> _specifiedStructures = new();
+        private List<IBattleStructureTemplate> _specifiedStructures = new();
 
         public EntityFilter Clone()
         {
@@ -82,9 +82,11 @@ namespace OrderElimination.AbilitySystem
             var relationship = battleContext.GetRelationship(askingEntity.BattleSide, entity.BattleSide);
             if (!(AllowedEntityTypes[entity.EntityType] && AllowedRelationships[relationship]))
                 return false;
-            if (AllowedEntityTypes[EntityType.Character] && entity.EntityType == EntityType.Character)
+            if (AllowedEntityTypes[EntityType.Character]
+                && entity.EntityType == EntityType.Character
+                && _specifiedCharacters != null)
             {
-                var characterData = battleContext.EntitiesBank.GetBattleCharacterData(entity);
+                var characterData = battleContext.EntitiesBank.GetBattleCharacterData(entity).CharacterData;
                 switch (CharactersSpecification)
                 {
                     case SpicificationType.ByIgnored:
@@ -99,7 +101,9 @@ namespace OrderElimination.AbilitySystem
                         throw new NotImplementedException();
                 }
             }
-            else if (AllowedEntityTypes[EntityType.Structure] && entity.EntityType == EntityType.Structure)
+            else if (AllowedEntityTypes[EntityType.Structure] 
+                && entity.EntityType == EntityType.Structure
+                && _specifiedStructures != null)
             {
                 var structureData = battleContext.EntitiesBank.GetBattleStructureData(entity);
                 switch (StructuresSpecification)

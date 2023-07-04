@@ -18,8 +18,6 @@ namespace OrderElimination.AbilitySystem
             BattleStats battleStats, 
             EntityType type, 
             BattleSide side,
-            IActiveAbilityData[] activeAbilities,
-            IPassiveAbilityData[] passiveAbilities,
             IBattleObstacleSetup obstacleSetup)//equipment
         {
             BattleContext = battleContext;
@@ -29,14 +27,6 @@ namespace OrderElimination.AbilitySystem
             battleStats.HealthDepleted += OnHealthDepleted;
             EntityType = type;
             BattleSide = side;
-            foreach (var ability in activeAbilities)
-            {
-                ActiveAbilities.Add(new ActiveAbilityRunner(ability));
-            }
-            foreach (var ability in passiveAbilities)
-            {
-                PassiveAbilities.Add(new PassiveAbilityRunner(ability));
-            }
             foreach (var p in EnumExtensions.GetValues<ActionPoint>())
             {
                 _actionPoints.Add(p, 0);
@@ -44,7 +34,7 @@ namespace OrderElimination.AbilitySystem
             _actionProcessor = new Lazy<EntityActionProcessor>(() => EntityActionProcessor.Create(this));
             _obstacle = new Lazy<BattleObstacle>(() => new BattleObstacle(obstacleSetup, this));
 
-            void OnHealthDepleted(ILifeBattleStats lifeStats)
+            void OnHealthDepleted(IBattleLifeStats lifeStats)
             {
                 //IsAlive = false;
             }
@@ -55,9 +45,10 @@ namespace OrderElimination.AbilitySystem
         public IBattleStats BattleStats => _battleStats;
         public IBattleContext BattleContext { get; }
         public IBattleMap DeployedBattleMap { get; private set; }
+        //public BattleEntityView GetEntityView() => IsDisposedFromBattle ? null : BattleContext.EntitiesBank.GetViewByEntity(this);
 
         #region IHaveLifeStats
-        public ILifeBattleStats LifeStats => _battleStats;
+        public IBattleLifeStats LifeStats => _battleStats;
         public bool IsAlive => LifeStats.Health > 0;
         public event Action<DealtDamageInfo> Damaged;
         public event Action<HealRecoveryInfo> Healed;
@@ -80,8 +71,8 @@ namespace OrderElimination.AbilitySystem
 
         private void OnDeath()
         {
-            if (IsAlive) throw new InvalidOperationException("Entity is alive.");
-            Died.Invoke(this);
+            if (IsAlive) return;//Logging.LogException( new InvalidOperationException("Entity is alive.");
+            Died?.Invoke(this);
             DisposeFromBattle();
         }
         #endregion
@@ -106,20 +97,19 @@ namespace OrderElimination.AbilitySystem
         #endregion
 
         #region AbilityCaster
-        private readonly Dictionary<ActionPoint, int> _actionPoints = new Dictionary<ActionPoint, int>();
-
+        private readonly Dictionary<ActionPoint, int> _actionPoints = new();
         public IReadOnlyDictionary<ActionPoint, int> ActionPoints => _actionPoints;
         public void AddActionPoints(ActionPoint actionPoint, int value = 1)
         {
-            if (value < 0) throw new ArgumentOutOfRangeException();
+            if (value < 0) Logging.LogException(new ArgumentException("Try add action point with less zero value"));
             if (!_actionPoints.ContainsKey(actionPoint)) _actionPoints.Add(actionPoint, 0);
             _actionPoints[actionPoint] += value;
         }
         public void RemoveActionPoints(ActionPoint actionPoint, int value = 1)
         {
-            if (value < 0) throw new ArgumentOutOfRangeException();
-            if (!_actionPoints.ContainsKey(actionPoint)) throw new KeyNotFoundException();
-            if (_actionPoints[actionPoint] < value) throw new ArgumentOutOfRangeException("Entity doesn't have enough points to be removed.");
+            if (value < 0) Logging.LogException(new ArgumentException("Try remove action point with less zero value"));
+            if (!_actionPoints.ContainsKey(actionPoint)) Logging.LogException(new ArgumentException("Try remove unavailable actionPoint type"));
+            if (_actionPoints[actionPoint] < value) Logging.LogException(new ArgumentOutOfRangeException("Entity doesn't have enough points to be removed.")) ;
             _actionPoints[actionPoint] -= value;
         }
         public void RemoveActionPoints(IReadOnlyDictionary<ActionPoint, int> actionPoints)
@@ -127,7 +117,7 @@ namespace OrderElimination.AbilitySystem
             foreach (var point in actionPoints.Keys)
             {
                 if (ActionPoints[point] < actionPoints[point])
-                    throw new ArgumentOutOfRangeException("Entity doesn't have enough points to be removed.");
+                    Logging.LogException(new ArgumentOutOfRangeException("Entity doesn't have enough points to be removed.")) ;
             }
             foreach (var point in actionPoints.Keys)
             {
@@ -136,14 +126,32 @@ namespace OrderElimination.AbilitySystem
         }
         public void SetActionPoints(ActionPoint actionPoint, int value)
         {
-            if (value < 0) throw new ArgumentOutOfRangeException();
+            if (value < 0) Logging.LogException( new ArgumentOutOfRangeException());
             if (!_actionPoints.ContainsKey(actionPoint)) 
                 _actionPoints.Add(actionPoint, 0);
             _actionPoints[actionPoint] = value;
         }
-        public List<ActiveAbilityRunner> ActiveAbilities { get; } = new();
-        public List<PassiveAbilityRunner> PassiveAbilities { get; } = new();
+        private readonly List<ActiveAbilityRunner> _activeAbilities = new();
+        private readonly List<PassiveAbilityRunner> _passiveAbilities = new();
+        public IReadOnlyList<ActiveAbilityRunner> ActiveAbilities => _activeAbilities;
+        public IReadOnlyList<PassiveAbilityRunner> PassiveAbilities => _passiveAbilities;
         public bool IsPerformingAbility { get; set; } //Performs ability
+        public void GrantActiveAbility(ActiveAbilityRunner ability)
+        {
+            _activeAbilities.Add(ability);
+        }
+        public bool RemoveActiveAbility(ActiveAbilityRunner ability)
+        {
+            return _activeAbilities.Remove(ability);
+        }
+        public void GrantPassiveAbility(PassiveAbilityRunner ability)
+        {
+            _passiveAbilities.Add(ability);
+        }
+        public bool RemovePassiveAbility(PassiveAbilityRunner ability)
+        {
+            return _passiveAbilities.Remove(ability);
+        }
         #endregion
 
         #region IEffectHolder
@@ -213,7 +221,5 @@ namespace OrderElimination.AbilitySystem
         public EntityActionProcessor ActionProcessor => _actionProcessor.Value;
 
         public BattleObstacle Obstacle => _obstacle.Value;
-
-        //IBattleObstacle?
     }
 }

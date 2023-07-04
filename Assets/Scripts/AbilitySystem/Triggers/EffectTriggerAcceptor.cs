@@ -50,6 +50,7 @@ namespace OrderElimination.AbilitySystem
                 };
                 return entitySetup.GetTrigger(battleContext, trackingEntity);
             }
+            Logging.LogException( new NotImplementedException());
             throw new NotImplementedException();
         }
     }

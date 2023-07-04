@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using OrderElimination;
+using OrderElimination.MetaGame;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
+using UnityEngine.UI;
 using VContainer;
 
 namespace StartSessionMenu.ChooseCharacter
@@ -14,12 +17,15 @@ namespace StartSessionMenu.ChooseCharacter
         [SerializeField] 
         private MoneyCounter _uiCounter;
         [SerializeField]
-        private List<Character> _characters;
+        private List<CharacterTemplate> _characters;
         [SerializeField]
         private int MaxSquadSize = 3;
+        [SerializeField] 
+        private ScrollRect _scrollRect;
         
         private Wallet _wallet;
         private int _selectedCount = 0;
+        private Tweener _tweener;
 
         [Inject]
         public void Configure(Wallet wallet)
@@ -36,7 +42,8 @@ namespace StartSessionMenu.ChooseCharacter
         private void InitializeCharactersCard()
         {
             _uiCounter.Initialize(_wallet);
-            base.InitializeCharactersCard(_characters, _unselectedDropZone.transform);
+            var gameCharacters = GameCharactersFactory.CreateGameEntities(_characters);
+            InitializeCharactersCard(gameCharacters, _unselectedDropZone.transform);
         }
         
         protected override void TrySelectCard(DropZone dropZone, CharacterCard.CharacterCard card)
@@ -44,15 +51,16 @@ namespace StartSessionMenu.ChooseCharacter
             if (card is CharacterCardWithCost characterCardWithCost)
                 TrySelectCard(dropZone, characterCardWithCost);
             else
-                throw new ArgumentException();
+                Logging.LogException( new ArgumentException());
         }
 
         private void TrySelectCard(DropZone dropZone, CharacterCardWithCost card)
         {
             if (dropZone == _selectedDropZone)
             {
-                if (card.IsSelected || _wallet.Money - card.Cost < 0
-                                    || _selectedCount >= MaxSquadSize) 
+                if (card.IsSelected
+                    || _wallet.Money - card.Cost < 0
+                    || _selectedCount >= MaxSquadSize) 
                     return;
                 _wallet.SubtractMoney(card.Cost);
                 SelectCard(card);
@@ -79,6 +87,12 @@ namespace StartSessionMenu.ChooseCharacter
                 .ToList();
             SquadMediator.SetCharacters(characters);
             return true;
+        }
+
+        public void ClickShift(float shift)
+        {
+            _tweener?.Kill();
+            _tweener = DOVirtual.Float(_scrollRect.horizontalNormalizedPosition, _scrollRect.horizontalNormalizedPosition + shift, 0.1f, (x) => _scrollRect.horizontalNormalizedPosition = x);
         }
     }
 }

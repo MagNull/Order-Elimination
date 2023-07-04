@@ -1,5 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using OrderElimination.AbilitySystem;
+using OrderElimination.MetaGame;
+using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.UI.Characters;
 using UnityEngine;
@@ -8,28 +12,32 @@ namespace OrderElimination
 {
     public class SquadModel
     {
-        private List<Character> _members;
+        private List<GameCharacter> _members;
         private SquadMembersPanel _panel;
         private int _activeMembersCount = 3;
         
-        public IReadOnlyList<Character> ActiveMembers =>
+        public IReadOnlyList<GameCharacter> ActiveMembers =>
             _members.GetRange(0, _activeMembersCount);
-        public IReadOnlyList<Character> InactiveMembers => 
+        public IReadOnlyList<GameCharacter> InactiveMembers => 
             _members.GetRange(_activeMembersCount, _members.Count - _activeMembersCount);
         public PointModel Point { get; private set; }
         public int AmountOfMembers => _members.Count;
-        public IReadOnlyList<Character> Members => _members;
+        public IReadOnlyList<GameCharacter> Members => _members;
 
         public event Action OnUpdateSquadMembers;
         
-        public SquadModel(List<Character> members, SquadMembersPanel squadMembersPanel)
+        public SquadModel(IEnumerable<GameCharacter> members, SquadMembersPanel squadMembersPanel)
         {
-            if (members.Count == 0)
+            _activeMembersCount = members.Count();
+            var characters = 
+                GameCharactersFactory.CreateGameEntities(members.Select(c => c.CharacterData))
+                .ToList();//Grenade here
+            if (characters.Count == 0)
                 return;
             //First three members are active
-            SetSquadMembers(members, _activeMembersCount);
-            
-            UpgradeCharacters();
+            SetSquadMembers(characters, _activeMembersCount);
+
+            RestoreUpgrades();
             SetPanel(squadMembersPanel);
         }
         
@@ -39,36 +47,59 @@ namespace OrderElimination
             panel.UpdateMembers(ActiveMembers, InactiveMembers);
         }
 
-        public void Add(Character member) => _members.Add(member);
+        public void Add(GameCharacter member) => _members.Add(member);
 
-        public void RemoveCharacter(Character member)
+        public void RemoveCharacter(GameCharacter member)
         {
             if (!_members.Contains(member))
-                throw new ArgumentException("No such character in squad");
+                Logging.LogException( new ArgumentException("No such character in squad"));
             _members.Remove(member);
         }
         
-        private void UpgradeCharacters()
+        private void RestoreUpgrades()
         {
+            var stats = SquadMediator.PlayerSquadStats.Value;
+            var statsGrowth = new Dictionary<BattleStat, float>()
+            {
+                { BattleStat.MaxHealth, stats.HealthGrowth },
+                { BattleStat.MaxArmor, stats.ArmorGrowth },
+                { BattleStat.AttackDamage, stats.AttackGrowth },
+                { BattleStat.Accuracy, stats.AccuracyGrowth },
+                { BattleStat.Evasion, stats.EvasionGrowth },
+            };
+
             foreach (var member in _members)
             {
-                member.Upgrade(SquadMediator.Stats.Value);
+                foreach (var stat in statsGrowth.Keys)
+                {
+                    var originalStat = member.CharacterStats[stat];
+                    float newStat = stat == BattleStat.Accuracy || stat == BattleStat.Evasion
+                        ? originalStat + statsGrowth[stat] / 100
+                        : Mathf.RoundToInt(originalStat + (originalStat * statsGrowth[stat] / 100));
+                    //��� ����� (����������), ������ ��� ���� �������� ������
+                    //�� ����...
+                    //(�� ����� �����)
+                    member.ChangeStat(stat, newStat);
+                    Logging.Log($"{member.CharacterData.Name}[{stat}]: {originalStat} -> {newStat}; StatGrow: {statsGrowth[stat]}");
+                }
             }
         }
 
         public void DistributeExperience(float expirience)
         {
+            Logging.LogException( new NotImplementedException());
             foreach (var member in _members)
             {
-                member.RaiseExperience(expirience / AmountOfMembers);
+                //member.RaiseExperience(expirience / AmountOfMembers);
             }
         }
         
         public void HealCharacters(int amountHeal)
         {
+            Logging.LogException( new NotImplementedException());
             foreach (var member in _members)
             {
-                member.Heal(amountHeal);
+                //member.Heal(amountHeal);
             }
         }
         
@@ -77,11 +108,10 @@ namespace OrderElimination
             Point = point;
         }
 
-        public void SetSquadMembers(List<Character> characters, int activeMembersCount)
+        public void SetSquadMembers(IEnumerable<GameCharacter> characters, int activeMembersCount)
         {
-            _members = characters;
+            _members = characters.ToList();
             _activeMembersCount = activeMembersCount;
-            Debug.Log(activeMembersCount);
             OnUpdateSquadMembers?.Invoke();
         }
 

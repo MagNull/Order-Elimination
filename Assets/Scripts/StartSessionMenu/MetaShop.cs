@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using OrderElimination;
 using RoguelikeMap.UI;
 using UnityEngine;
@@ -34,9 +33,15 @@ namespace StartSessionMenu
 
         public void SaveStats()
         {
-            var list = new List<int>(5);
-            list.AddRange(_progressCategories.Select(category => category.ProgressCount * category.PercentInPart));
-            SquadMediator.SetStatsCoefficient(list);
+            var statsGrowth = new StrategyStats()
+            {
+                HealthGrowth = _progressCategories[0].ProgressCount * _progressCategories[0].PercentInPart,
+                AttackGrowth = _progressCategories[1].ProgressCount * _progressCategories[1].PercentInPart,
+                ArmorGrowth = _progressCategories[2].ProgressCount * _progressCategories[2].PercentInPart,
+                EvasionGrowth = _progressCategories[3].ProgressCount * _progressCategories[3].PercentInPart,
+                AccuracyGrowth = _progressCategories[4].ProgressCount * _progressCategories[4].PercentInPart
+            };
+            SquadMediator.SetStatsCoefficient(statsGrowth);
         }
     }
 }

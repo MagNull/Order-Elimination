@@ -1,16 +1,11 @@
-using Assets.AbilitySystem.PrototypeHelpers;
-using CharacterAbility;
+using OrderElimination;
 using OrderElimination.AbilitySystem;
-using OrderElimination.Battle;
-using OrderElimination.BM;
-using OrderElimination.Domain;
 using OrderElimination.Infrastructure;
+using OrderElimination.MetaGame;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.TextCore.Text;
 using VContainer;
 using VContainer.Unity;
 
@@ -24,8 +19,10 @@ public class BattleEntitiesFactory : MonoBehaviour
 
     [SerializeField]
     private Transform _charactersParent;
+
     [SerializeField]
     private Transform _structuresParent;
+
     private IBattleContext _battleContext;
     private BattleEntitiesBank _entitiesBank;
     private IObjectResolver _objectResolver;
@@ -41,46 +38,67 @@ public class BattleEntitiesFactory : MonoBehaviour
     public CreatedBattleEntity CreateBattleCharacter(GameCharacter character, BattleSide side, Vector2Int position)
     {
         if (!_battleContext.BattleMap.CellRangeBorders.Contains(position))
-            throw new ArgumentOutOfRangeException("Position is not within map borders");
+            Logging.LogException(new ArgumentOutOfRangeException("Position is not within map borders"));
 
         var battleEntity = new AbilitySystemActor(
-            _battleContext, character.BattleStats, 
-            EntityType.Character, 
-            side, 
-            character.PosessedActiveAbilities.ToArray(),
-            character.PosessedPassiveAbilities.ToArray(),
+            _battleContext,
+            new BattleStats(
+                character.CharacterStats.MaxHealth,
+                character.CharacterStats.MaxArmor,
+                character.CharacterStats.AttackDamage,
+                character.CharacterStats.Accuracy,
+                character.CharacterStats.Evasion,
+                character.CharacterStats.MaxMovementDistance),
+            EntityType.Character,
+            side,
             new EntityObstacleSetup());
 
-        var entityView = _objectResolver.Instantiate(_characterPrefab, _charactersParent);
-        entityView.Initialize(battleEntity, character.CharacterData.BattleIcon, character.CharacterData.Name);
+        foreach (var abilityData in character.ActiveAbilities)
+        {
+            battleEntity.GrantActiveAbility(new ActiveAbilityRunner(abilityData, AbilityProvider.Self));
+        }
 
-        _entitiesBank.AddCharacterEntity(battleEntity, entityView, character.CharacterData);
+        foreach (var abilityData in character.PassiveAbilities)
+        {
+            battleEntity.GrantPassiveAbility(new PassiveAbilityRunner(abilityData, AbilityProvider.Self));
+        }
+
+        foreach (var item in character.Inventory.GetItems())
+            item.OnTook(battleEntity);
+
+        var entityView = _objectResolver.Instantiate(_characterPrefab, _charactersParent);
+        entityView.Initialize(battleEntity, character.CharacterData.Name, character.CharacterData.BattleIcon);
+
+        _entitiesBank.AddCharacterEntity(battleEntity, entityView, character);
 
         _battleContext.BattleMap.PlaceEntity(battleEntity, position);
-        battleEntity.PassiveAbilities.ForEach(a => a.Activate(_battleContext, battleEntity));//
+        battleEntity.PassiveAbilities.ForEach(a => a.Activate(_battleContext, battleEntity));
 
         return new CreatedBattleEntity(entityView, battleEntity);
     }
 
-    public CreatedBattleEntity CreateBattleStructure(IBattleStructureData structureData, BattleSide side, Vector2Int position)
+    public CreatedBattleEntity CreateBattleStructure(IBattleStructureTemplate structureData, BattleSide side,
+        Vector2Int position)
     {
         if (!_battleContext.BattleMap.CellRangeBorders.Contains(position))
-            throw new ArgumentOutOfRangeException("Position is not within map borders");
+            Logging.LogException(new ArgumentOutOfRangeException("Position is not within map borders"));
 
-        var stats = new ReadOnlyBaseStats(structureData.MaxHealth, 0, 0, 0, 0, 0);
-        var battleStats = new BattleStats(stats);
-        var passiveAbilities = structureData.GetPossesedAbilities().Select(a => AbilityFactory.CreatePassiveAbility(a)).ToArray();
+        var battleStats = new BattleStats(structureData.MaxHealth, 0, 0, 0, 0, 0);
+        var passiveAbilities = structureData.GetPossesedAbilities().Select(a => AbilityFactory.CreatePassiveAbility(a))
+            .ToArray();
         var battleEntity = new AbilitySystemActor(
-            _battleContext, 
-            battleStats, 
-            EntityType.Structure, 
+            _battleContext,
+            battleStats,
+            EntityType.Structure,
             side,
-            new ActiveAbilityData[0],
-            passiveAbilities,
             structureData.ObstacleSetup);
+        foreach (var abilityData in passiveAbilities)
+        {
+            battleEntity.GrantPassiveAbility(new PassiveAbilityRunner(abilityData, AbilityProvider.Self));
+        }
 
         var entityView = _objectResolver.Instantiate(_structurePrefab, _structuresParent);
-        entityView.Initialize(battleEntity, structureData.BattleIcon, structureData.Name);
+        entityView.Initialize(battleEntity, structureData.Name, structureData.BattleIcon, structureData.VisualModel);
 
         _entitiesBank.AddStructureEntity(battleEntity, entityView, structureData);
 
@@ -97,10 +115,11 @@ public class BattleEntitiesFactory : MonoBehaviour
         {
             activedPassiveRunner.Deactivate();
         }
+
         //remove ALL effects //Automatically calls effect.Deactivate() on event entity.Disposed
         //? entity.Dispose(); event Disposed; ...
         _battleContext.BattleMap.RemoveEntity(entity);
-        _entitiesBank.RemoveEntity(entity);//Called automatically on event Disposed
+        _entitiesBank.RemoveEntity(entity); //Called automatically on event Disposed
         //destroy EntityView //Called automatically on event Disposed
     }
 }

@@ -4,10 +4,9 @@ using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Services.Analytics;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Animations;
-using static Unity.VisualScripting.Member;
 
 namespace OrderElimination.AbilitySystem.Animations
 {
@@ -37,22 +36,24 @@ namespace OrderElimination.AbilitySystem.Animations
         public event Action PlaybackStopped;
         public event Action<float> TimedPlaybackRequested;
 
-        public async UniTask PlayAnimation(float loops = 1)
+        public async UniTask PlayAnimation(
+            float loops = 1, CancellationToken cancellationToken = default)
         {
             StopAnimation();
             PlaybackRequested?.Invoke();
-            await OnPlayRequest(loops);
+            await OnPlayRequest(loops, cancellationToken);
         }
 
         /// <summary>
         /// Plays a particle animation remapped to a given time in seconds.
         /// </summary>
         /// <param name="remappedTime"></param>
-        public async UniTask PlayTimeRemappedAnimation(float remappedTime, float loops = 1)
+        public async UniTask PlayTimeRemappedAnimation(
+            float remappedTime, float loops = 1, CancellationToken cancellationToken = default)
         {
             StopAnimation();
             TimedPlaybackRequested?.Invoke(remappedTime);
-            await OnTimedPlayRequest(remappedTime, loops);
+            await OnTimedPlayRequest(remappedTime, loops, cancellationToken);
         }
 
         public virtual void StopAnimation()
@@ -72,33 +73,35 @@ namespace OrderElimination.AbilitySystem.Animations
 
         public void StartFollowing(Transform transform)
         {
-            //Debug.Log("Start follow" % Colorize.Yellow);
-            var source = new ConstraintSource();
-            source.sourceTransform = transform;
-            source.weight = 1;
+            //Logging.Log("Start follow" , Colorize.Yellow);
+            var source = new ConstraintSource
+            {
+                sourceTransform = transform,
+                weight = 1
+            };
             var sources = new List<ConstraintSource>() { source };
             _positionConstraint.SetSources(sources);
         }
 
         public void StopFollowing()
         {
-            //Debug.Log("Stop follow" % Colorize.Yellow);
+            //Logging.Log("Stop follow" , Colorize.Yellow);
             if (_positionConstraint != null)
                 _positionConstraint.SetSources(new List<ConstraintSource>());
         }
 
-        protected virtual async UniTask OnPlayRequest(float loops)
+        protected virtual async UniTask OnPlayRequest(float loops, CancellationToken cancellationToken)
         {
             if (_animator != null)
             {
                 _animator.Play(0);
                 var stateLength = _animator.GetCurrentAnimatorStateInfo(0).length;
                 _animator.speed = 1;
-                await UniTask.Delay(Mathf.RoundToInt(stateLength * loops * 1000));
+                await UniTask.Delay(Mathf.RoundToInt(stateLength * loops * 1000), cancellationToken: cancellationToken);
             }
         }
 
-        protected virtual async UniTask OnTimedPlayRequest(float timeSpan, float loops)
+        protected virtual async UniTask OnTimedPlayRequest(float timeSpan, float loops, CancellationToken cancellationToken)
         {
 
             if (_animator != null)
@@ -106,8 +109,14 @@ namespace OrderElimination.AbilitySystem.Animations
                 _animator.Play(0);
                 var stateLength = _animator.GetCurrentAnimatorStateInfo(0).length;
                 _animator.speed = stateLength / timeSpan * loops;
-                await UniTask.Delay(Mathf.RoundToInt(timeSpan * 1000));
+                await UniTask.Delay(Mathf.RoundToInt(timeSpan * 1000), cancellationToken: cancellationToken);
             }
+        }
+
+        protected void Reset()
+        {
+            _animator = GetComponentInChildren<Animator>();
+            _positionConstraint = GetComponentInChildren<PositionConstraint>();
         }
     }
 }

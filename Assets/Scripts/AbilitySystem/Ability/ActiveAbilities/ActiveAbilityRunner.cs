@@ -1,30 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
-
 namespace OrderElimination.AbilitySystem
 {
     public class ActiveAbilityRunner
     {
-        public ActiveAbilityRunner(IActiveAbilityData abilityData)
+        public ActiveAbilityRunner(IActiveAbilityData abilityData, AbilityProvider provider)
         {
             AbilityData = abilityData;
+            AbilityProvider = provider;
         }
 
-        public IActiveAbilityData AbilityData { get; private set; }
+        public IActiveAbilityData AbilityData { get; }
+        public AbilityProvider AbilityProvider { get; }
 
         public bool IsRunning { get; private set; } = false;
         public int Cooldown { get; private set; }
 
-        public event Action<ActiveAbilityRunner> AbilityInitiated;
-        public event Action<ActiveAbilityRunner> AbilityCastCompleted;
+        public event Action<ActiveAbilityRunner> AbilityExecutionStarted;
+        public event Action<ActiveAbilityRunner> AbilityExecutionCompleted;
 
         public bool IsCastAvailable(IBattleContext battleContext, AbilitySystemActor caster)
         {
+            if (caster.IsDisposedFromBattle)
+                Logging.LogException( new InvalidOperationException("Caster is disposed from battle."));
+            if (!caster.IsAlive)
+                Logging.LogException( new InvalidOperationException("Caster is dead."));
             return !IsRunning // :(
+                && !caster.StatusHolder.HasStatus(BattleStatus.ActiveAbilitiesDisabled)
                 && !caster.IsPerformingAbility
                 && Cooldown <= 0 
                 && AbilityData.Rules.IsAbilityAvailable(battleContext, caster);
@@ -38,12 +39,7 @@ namespace OrderElimination.AbilitySystem
                 return false;
             var casterPosition = caster.Position;
             var mapBorders = battleContext.BattleMap.CellRangeBorders;
-            if (AbilityData.TargetingSystem is IRequireTargetsTargetingSystem targetingSystem)
-            {
-                var availableCells = AbilityData.Rules.GetAvailableCellPositions(battleContext, caster);
-                targetingSystem.SetAvailableCellsForSelection(availableCells);
-            }
-            if (!AbilityData.TargetingSystem.StartTargeting(mapBorders, casterPosition))
+            if (!AbilityData.TargetingSystem.StartTargeting(battleContext, caster))
                 return false;
             AbilityData.TargetingSystem.TargetingConfirmed -= onConfirmed;
             AbilityData.TargetingSystem.TargetingConfirmed += onConfirmed;
@@ -66,13 +62,13 @@ namespace OrderElimination.AbilitySystem
                 var abilityUseContext = new AbilityExecutionContext(battleContext, caster, executionGroups);
                 IsRunning = true;
                 caster.IsPerformingAbility = true;
-                AbilityInitiated?.Invoke(this);//Ability functionality initiated, but not finished yet.
+                AbilityExecutionStarted?.Invoke(this);//Ability functionality initiated, but not finished yet.
 
                 await AbilityData.Execution.Execute(abilityUseContext);
 
                 IsRunning = false;
                 caster.IsPerformingAbility = false;
-                AbilityCastCompleted?.Invoke(this);
+                AbilityExecutionCompleted?.Invoke(this);
             }
 
             void onCanceled(IAbilityTargetingSystem targetingSystem)

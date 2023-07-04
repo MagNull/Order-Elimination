@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Inventory;
 using OrderElimination;
+using OrderElimination.AbilitySystem;
+using OrderElimination.MetaGame;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.Points.Models;
@@ -20,7 +22,7 @@ namespace RoguelikeMap.SquadInfo
         private Squad _squad;
         public PointModel Target => _target;
         public Squad Squad => _squad;
-        public event Action<List<Character>, int> OnSelected;
+        public event Action<List<GameCharacter>, int> OnSelected;
         public event Action<int> OnHealAccept;
         public event Action<IReadOnlyList<ItemData>> OnLootAccept;
 
@@ -31,8 +33,6 @@ namespace RoguelikeMap.SquadInfo
             SubscribeToEvents(panelManager);
             squadMembersPanel.OnSelected += WereSelectedMembers;
         }
-        
-        
 
         public void SetSquad(Squad squad)
         {
@@ -60,24 +60,32 @@ namespace RoguelikeMap.SquadInfo
         private void StartAttackByBattlePoint()
         {
             if (_target is not BattlePointModel battlePointModel)
+            {
+                Logging.LogException( new ArgumentException("Is not valid point to attack"));
                 throw new ArgumentException("Is not valid point to attack");
+            }
             StartAttack(battlePointModel.Enemies, battlePointModel.Scenario);
         }
         
-        private void StartAttackByEventPoint(IReadOnlyList<IBattleCharacterInfo> enemies)
+        private void StartAttackByEventPoint(IReadOnlyList<IGameCharacterTemplate> enemies)
         {
             if (_target is not EventPointModel eventPointModel)
+            {
+                Logging.LogException( new ArgumentException("Is not valid point to attack"));
                 throw new ArgumentException("Is not valid point to attack");
+
+            }
             StartAttack(enemies, eventPointModel.Scenario);
         }
         
-        private void StartAttack(IReadOnlyList<IBattleCharacterInfo> enemies, BattleScenario scenario)
+        private void StartAttack(
+            IEnumerable<IGameCharacterTemplate> enemies, BattleScenario scenario)
         {
+            var enemyCharacters = GameCharactersFactory.CreateGameEntities(enemies);
             SaveSquadPosition();
-            var battleStatsList = _squad.Members.Cast<IBattleCharacterInfo>().ToList();
             var charactersMediator = _objectResolver.Resolve<CharactersMediator>();
-            charactersMediator.SetSquad(battleStatsList);
-            charactersMediator.SetEnemies(enemies.ToList());
+            charactersMediator.SetPlayerCharacters(_squad.Members);
+            charactersMediator.SetEnemyCharacters(enemyCharacters);
             charactersMediator.SetScenario(scenario);
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();
@@ -88,7 +96,7 @@ namespace RoguelikeMap.SquadInfo
             PlayerPrefs.SetString(Map.Map.SquadPositionPrefPath, _squad.transform.position.ToString());
         }
 
-        private void WereSelectedMembers(List<Character> characters, int activeMembersCount)
+        private void WereSelectedMembers(List<GameCharacter> characters, int activeMembersCount)
         {
             OnSelected?.Invoke(characters, activeMembersCount);
         }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Inventory;
-using Sirenix.Serialization;
+using OrderElimination;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,7 +46,7 @@ namespace Inventory_Items
 
         public override void OnCellAdded(IReadOnlyCell cell)
         {
-            Debug.Log("OnCellAdded");
+            Logging.Log("OnCellAdded", context: this);
             if (_cellViewByItemType.ContainsKey(cell.Item.Type))
                 _cellViewByItemType[cell.Item.Type].sprite = cell.Item.View.Icon;
         }

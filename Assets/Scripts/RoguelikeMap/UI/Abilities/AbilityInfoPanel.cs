@@ -1,4 +1,4 @@
-using CharacterAbility;
+using OrderElimination.AbilitySystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,14 +20,15 @@ namespace RoguelikeMap.UI.Abilities
         [SerializeField] 
         private TMP_Text _coolDown;
         
-        public void InitializeInfo(AbilityInfo abilityInfo)
+        public void InitializeInfo(IActiveAbilityData activeAbility)
         {
-            _icon.sprite = abilityInfo.Icon;
-            _name.text = abilityInfo.Name;
-            _description.text = abilityInfo.Description;
-            _damage.text = "000";
-            _range.text = "000";
-            _coolDown.text = $"{abilityInfo.CoolDown} x.";
+            var view = activeAbility.View;
+            _icon.sprite = view.Icon;
+            _name.text = view.Name;
+            _description.text = view.Description;
+            _damage.text = "???";
+            _range.text = "???";
+            _coolDown.text = $"{activeAbility.GameRepresentation.CooldownTime} x.";
         }
     }
 }

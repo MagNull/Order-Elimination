@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -62,14 +63,14 @@ namespace OrderElimination.AbilitySystem
         public bool Undo(int performId)
         {
             if (IsUndone(performId))
-                throw ActionUndoFailedException.AlreadyUndoneException;
+                Logging.LogException( ActionUndoFailedException.AlreadyUndoneException);
             var operation = _operations[performId];
             if (!operation.IsSuccessful) return false;
             switch (operation.StatusOperation)
             {
                 case StatusOperation.Increase:
                     if (!operation.Target.DecreaseStatus(operation.AffectedStatus))
-                        throw new ActionUndoFailedException($"Failed to undo {nameof(ChangeStatusAction)} action");
+                        Logging.LogException( new ActionUndoFailedException($"Failed to undo {nameof(ChangeStatusAction)} action"));
                     break;
                 case StatusOperation.Decrease:
                     operation.Target.IncreaseStatus(operation.AffectedStatus);

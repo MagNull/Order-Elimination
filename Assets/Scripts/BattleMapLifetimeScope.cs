@@ -1,13 +1,8 @@
 ﻿using System.ComponentModel.Design;
 using Assets.AbilitySystem.PrototypeHelpers;
-using CharacterAbility;
 using DefaultNamespace;
 using OrderElimination.AbilitySystem;
 using OrderElimination.AbilitySystem.Animations;
-using OrderElimination.Battle;
-using OrderElimination.BM;
-using Sirenix.OdinInspector;
-using UIManagement.Elements;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -32,17 +27,12 @@ namespace OrderElimination
         private BattleMap _battleMap;
         [SerializeField]
         private BattleMapDirector _battleMapDirector;
-        [SerializeField]
-        private CharactersBank _charactersBank; 
 
         protected override void Configure(IContainerBuilder builder)
         {
             var mediator = FindObjectOfType<CharactersMediator>();
             if (!mediator)
-                throw new CheckoutException("No character mediator found");
-
-            _charactersBank = new CharactersBank();
-            builder.RegisterInstance(_charactersBank).AsSelf().AsImplementedInterfaces();
+                Logging.LogException( new CheckoutException("No character mediator found"));
             builder.RegisterInstance(new BattleEntitiesBank()).AsSelf().AsImplementedInterfaces();
 
             builder.RegisterComponent(mediator);

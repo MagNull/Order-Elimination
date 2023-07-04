@@ -1,9 +1,9 @@
 using DefaultNamespace;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
-using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using UIManagement;
 using UIManagement.Elements;
 using UnityEngine;
@@ -25,10 +25,6 @@ public class BattleMapSelector : MonoBehaviour
     [TitleGroup("Components")]
     [SerializeField]
     private CharacterBattleStatsPanel _characterBattleStatsPanel;
-
-    [TitleGroup("Components")]
-    [SerializeField]
-    private Button _castButton;
 
     [TitleGroup("Components")]
     [SerializeField]
@@ -63,6 +59,14 @@ public class BattleMapSelector : MonoBehaviour
     [TitleGroup("Prototyping")]
     [SerializeField]
     private bool _allowOnlyCurrentSideEntities;
+
+    [TitleGroup("Prototyping")]
+    [SerializeField]
+    private bool _allowOnlyPlayerEntities;
+
+    [TitleGroup("Prototyping")]
+    [SerializeField]
+    private bool _lockCharacterWhileCasting;
 
     [TitleGroup("Prototyping")]
     [SerializeField]
@@ -112,6 +116,10 @@ public class BattleMapSelector : MonoBehaviour
     private void OnCellClicked(CellView cellView)
     {
         if (!_isEnabled) return;
+        if (_lockCharacterWhileCasting
+            && _currentSelectedEntity != null
+            && _currentSelectedEntity.ActiveAbilities.Any(r => r.IsRunning))
+            return;
         if (_lastClickedCell != cellView)
             _currentLoopIndex = 0;
         _lastClickedCell = cellView;
@@ -132,6 +140,8 @@ public class BattleMapSelector : MonoBehaviour
                 .ToArray();
             if (_allowOnlyCurrentSideEntities)
                 entities = entities.Where(e => e.BattleSide == _battleContext.ActiveSide).ToArray();
+            if (_allowOnlyPlayerEntities)
+                entities = entities.Where(e => e.BattleSide == BattleSide.Player).ToArray();
             DeselectEntity();
             if (entities.Length > 0)
             {
@@ -160,9 +170,9 @@ public class BattleMapSelector : MonoBehaviour
         else if (_mode == SelectorMode.SelectingTargets)
         {
             var cellPosition = _battleMap.GetPosition(cellView.Model);
-            if (_selectedAbility.AbilityData.TargetingSystem is MultiTargetTargetingSystem multiTargetSystem)
+            if (_selectedAbility.AbilityData.TargetingSystem is IRequireSelectionTargetingSystem manualTargetingSystem)
             {
-                if (multiTargetSystem.SelectedCells.Contains(cellPosition))
+                if (manualTargetingSystem.SelectedCells.Contains(cellPosition))
                 {
                     //second click
                     if (_confirmTargetingBySecondClick)
@@ -170,37 +180,26 @@ public class BattleMapSelector : MonoBehaviour
                         CastCurrentAbility();
                         return;
                     }
-                    multiTargetSystem.RemoveFromSelection(cellPosition);
+                    manualTargetingSystem.Deselect(cellPosition);
                 }
                 else
                 {
-                    if (!multiTargetSystem.AddToSelection(cellPosition))
+                    if (!manualTargetingSystem.Select(cellPosition))
                         Debug.Log($"Wrong target at {cellPosition}");
                 }
             }
-            else if (_selectedAbility.AbilityData.TargetingSystem is SingleTargetTargetingSystem singleTargetSystem)
+            else if (_selectedAbility.AbilityData.TargetingSystem is NoTargetTargetingSystem noTargetSystem)
             {
-                if (singleTargetSystem.SelectedCell == cellPosition)
-                {
-                    //second click
-                    if (_confirmTargetingBySecondClick)
-                    {
-                        CastCurrentAbility();
-                        return;
-                    }
-                    singleTargetSystem.Deselect(cellPosition);
-                }
-                else
-                {
-                    if (!singleTargetSystem.Select(cellPosition))
-                        Debug.Log($"Wrong target at {cellPosition}");
-                }
-                    
+                if (_currentSelectedEntity.Position == cellPosition && _confirmTargetingBySecondClick)
+                    CastCurrentAbility();
             }
-            _abilityPreviewDisplayer.DisplayPreview(
+            if (_selectedAbility != null)
+            {
+                _abilityPreviewDisplayer.DisplayPreview(
                 _selectedAbility.AbilityData,
                 _currentSelectedEntity,
                 _selectedAbility.AbilityData.TargetingSystem.ExtractCastTargetGroups());
+            }
         }
     }
 
@@ -210,15 +209,15 @@ public class BattleMapSelector : MonoBehaviour
         entity.DisposedFromBattle += OnSelectedEntityDisposed;
         _currentSelectedEntity = entity;
         var view = _battleContext.EntitiesBank.GetViewByEntity(entity);
-        _abilityPanel.AssignAbilities(entity, entity.ActiveAbilities.ToArray(), entity.PassiveAbilities.ToArray());
+        _abilityPanel.AssignAbilities(entity, entity.ActiveAbilities.ToArray());
         _abilityPanel.AbilitySelected += OnAbilitySelect;
         _abilityPanel.AbilityDeselected += OnAbilityDeselect;
         foreach (var ability in entity.ActiveAbilities)
         {
-            ability.AbilityInitiated -= OnAbilityUpdated;
-            ability.AbilityInitiated += OnAbilityUpdated;
-            ability.AbilityCastCompleted -= OnAbilityUpdated;
-            ability.AbilityCastCompleted += OnAbilityUpdated;
+            ability.AbilityExecutionStarted -= OnAbilityUpdated;
+            ability.AbilityExecutionStarted += OnAbilityUpdated;
+            ability.AbilityExecutionCompleted -= OnAbilityUpdated;
+            ability.AbilityExecutionCompleted += OnAbilityUpdated;
         }
         _characterBattleStatsPanel.UpdateEntityInfo(view);
         _characterBattleStatsPanel.ShowInfo();
@@ -233,8 +232,13 @@ public class BattleMapSelector : MonoBehaviour
         view.Highlight(highlightColor, 0.1f, 0.2f, 0.3f);
         Debug.Log($"{entity.EntityType} {view.Name} selected." % Colorize.ByColor(new Color(1, 0.5f, 0.5f))
             + $"\nActionPoints: {string.Join(", ", entity.ActionPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
-            + $"\t{entity.StatusHolder}"
-            + $"\tEffects({entity.Effects.Count()}): {string.Join(", ", entity.Effects.Select(e => $"[{e.EffectData.View.Name}]"))}");
+            + $"\nHealth: {entity.LifeStats.Health}; MaxHealth: {entity.LifeStats.MaxHealth.ModifiedValue}" 
+            + $"\nTotalArmor: {entity.LifeStats.TotalArmor}; MaxArmor: {entity.LifeStats.MaxArmor.ModifiedValue}" 
+            + $"\nDamage: {entity.BattleStats[BattleStat.AttackDamage].ModifiedValue};" 
+            + $"\nAccuracy: {entity.BattleStats[BattleStat.Accuracy].ModifiedValue};" 
+            + $"\nEvasion: {entity.BattleStats[BattleStat.Evasion].ModifiedValue};" 
+            + $"\n{entity.StatusHolder}"
+            + $"\nEffects({entity.Effects.Count()}): {string.Join(", ", entity.Effects.Select(e => $"[{e.EffectData.View.Name}]"))}");
     }
 
     private void DeselectEntity()
@@ -247,8 +251,8 @@ public class BattleMapSelector : MonoBehaviour
             _currentSelectedEntity.DisposedFromBattle -= OnSelectedEntityDisposed;
             foreach (var ability in _currentSelectedEntity.ActiveAbilities)
             {
-                ability.AbilityInitiated -= OnAbilityUpdated;
-                ability.AbilityCastCompleted -= OnAbilityUpdated;
+                ability.AbilityExecutionStarted -= OnAbilityUpdated;
+                ability.AbilityExecutionCompleted -= OnAbilityUpdated;
             }
         }
         _characterBattleStatsPanel.HideInfo();
@@ -263,7 +267,7 @@ public class BattleMapSelector : MonoBehaviour
             && !abilityRunner.IsCastAvailable(_battleContext, _currentSelectedEntity))
             return;
         var targetingSystem = abilityRunner.AbilityData.TargetingSystem;
-        var targetRequiringSystem = targetingSystem as IRequireTargetsTargetingSystem;
+        var targetRequiringSystem = targetingSystem as IRequireSelectionTargetingSystem;
         if (targetRequiringSystem != null)
         {
             targetRequiringSystem.SelectionUpdated -= OnSelectionUpdated;
@@ -276,7 +280,7 @@ public class BattleMapSelector : MonoBehaviour
         abilityRunner.InitiateCast(_battleContext, _currentSelectedEntity);
         if (targetRequiringSystem != null)
         {
-            _availableCellsForTargeting = targetRequiringSystem.AvailableCells.ToHashSet();
+            _availableCellsForTargeting = targetRequiringSystem.CurrentAvailableCells.ToHashSet();
         }
         _mode = SelectorMode.SelectingTargets;
         _selectedAbility = abilityRunner;
@@ -292,7 +296,7 @@ public class BattleMapSelector : MonoBehaviour
         if (_selectedAbility == null)
             return;//throw new System.InvalidOperationException("There is no ability selected.");
         _abilityPreviewDisplayer.HidePreview();
-        if (abilityRunner.AbilityData.TargetingSystem is IRequireTargetsTargetingSystem targetingSystem)
+        if (abilityRunner.AbilityData.TargetingSystem is IRequireSelectionTargetingSystem targetingSystem)
         {
             targetingSystem.SelectionUpdated -= OnSelectionUpdated;
             targetingSystem.ConfirmationUnlocked -= OnConfirmationUnlocked;
@@ -310,15 +314,12 @@ public class BattleMapSelector : MonoBehaviour
         _abilityPanel.UpdateAbilityButtonsAvailability();
     }
 
-    private void OnSelectionUpdated(IRequireTargetsTargetingSystem targetingSystem)
+    private void OnSelectionUpdated(IRequireSelectionTargetingSystem targetingSystem)
     {
         HighlightCells();
-        var selectedCells = new List<Vector2Int>();
-        if (targetingSystem is MultiTargetTargetingSystem multiTargetSys)
-            selectedCells = multiTargetSys.SelectedCells.ToList();
-        else if (targetingSystem is SingleTargetTargetingSystem singleTargetSys)
-            selectedCells.Add(singleTargetSys.SelectedCell.Value);
-        foreach (var pos in selectedCells)
+        //Applies a slight tint on cells which player pressed while selecting targets
+        //Unnesessary since can be done through cell group colors
+        foreach (var pos in targetingSystem.SelectedCells)
         {
             var cellView = _battleMapView.GetCell(pos.x, pos.y);
             _battleMapView.HighlightCell(pos.x, pos.y, cellView.CurrentColor * 0.8f);
@@ -336,7 +337,7 @@ public class BattleMapSelector : MonoBehaviour
     {
         var targetedCells = _selectedAbility.AbilityData.TargetingSystem.ExtractCastTargetGroups();
         _battleMapView.DelightCells();
-        if (_selectedAbility.AbilityData.TargetingSystem is IRequireTargetsTargetingSystem)
+        if (_selectedAbility.AbilityData.TargetingSystem is IRequireSelectionTargetingSystem)
         {
             foreach (var pos in _battleMap.CellRangeBorders.EnumerateCellPositions())
             {
@@ -359,22 +360,23 @@ public class BattleMapSelector : MonoBehaviour
         }
     }
 
-    private void OnConfirmationUnlocked(IRequireTargetsTargetingSystem multiTargetSystem)
+    private void OnConfirmationUnlocked(IRequireSelectionTargetingSystem multiTargetSystem)
     {
-        _textEmitter.Emit("������� �E� ��� ����������!", Color.red, fontSize: 1.5f);
         Debug.Log("Ability use ready.");
     }
-    private void OnConfirmationLocked(IRequireTargetsTargetingSystem multiTargetSystem)
+    private void OnConfirmationLocked(IRequireSelectionTargetingSystem multiTargetSystem)
         => Debug.Log("Ability use locked.");
 
-    #region ToRemove
-    private void Start()
+    private void CastCurrentAbility()
     {
-        _castButton.onClick.RemoveListener(CastCurrentAbility);
-        _castButton.onClick.AddListener(CastCurrentAbility);
-        _textEmitter.Emit($"������� �Esc� ��� ������.", Color.red, new Vector3(0, 4.5f, 1), Vector3.zero, 10, fontSize: 1f);
+        if (_selectedAbility != null && _selectedAbility.AbilityData.TargetingSystem.IsConfirmAvailable)
+        {
+            var abilityName = _selectedAbility.AbilityData.View.Name;
+            //Debug.Log($"Ability �{abilityName}� has been used." % Colorize.Cyan);
+            _selectedAbility.AbilityData.TargetingSystem.ConfirmTargeting();
+        }
     }
-
+    #region ToRemove
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -397,23 +399,13 @@ public class BattleMapSelector : MonoBehaviour
         {
             Time.timeScale /= 2;
         }
-#if !UNITY_EDITOR
+        #if !UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Debug.Log("We're cool" % Colorize.Blue);
             Application.Quit();
         }
-#endif
+        #endif
     }
     #endregion
-
-    public void CastCurrentAbility()
-    {
-        if (_selectedAbility != null && _selectedAbility.AbilityData.TargetingSystem.IsConfirmAvailable)
-        {
-            var abilityName = _selectedAbility.AbilityData.View.Name;
-            Debug.Log($"Ability �{abilityName}� has been used." % Colorize.Cyan);
-            _selectedAbility.AbilityData.TargetingSystem.ConfirmTargeting();
-        }
-    }
 }

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd6e3705eee4bf84ab30324927d514de, type: 3}
+  m_Name: "\u041E\u0442\u0433\u043E\u043B\u043E\u0441\u043E\u043A \u041F\u0435\u0445\u043E\u0442\u0438\u043D\u0435\u0446"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _name: "\u041E\u0442\u0433\u043E\u043B\u043E\u0441\u043E\u043A \u041F\u0435\u0445\u043E\u0442\u0438\u043D\u0435\u0446"
+  _viewIcon: {fileID: 21300000, guid: 9fb4240a453d62049bc4c5172797a299, type: 3}
+  _viewAvatar: {fileID: 21300000, guid: 11e25a396b8af4440aa96afab5b746a2, type: 3}
+  _maxHealth: 75
+  _maxArmor: 100
+  _attackDamage: 25
+  _accuracy: 0.85
+  _evasion: 0.1
+  _maxMovementDistance: 3
+  _activeAbilitiesData:
+  - {fileID: 11400000, guid: 0c8d919ede3c8804383af4fd13473e05, type: 2}
+  - {fileID: 11400000, guid: c0a20850594b83c4da4a61fd58a572e3, type: 2}
+  - {fileID: 11400000, guid: 4d229563879608e42ac3f47f09a8166e, type: 2}
+  - {fileID: 11400000, guid: 2771344306a9a0948bff9c14e32bce65, type: 2}
+  - {fileID: 11400000, guid: ede493482ca27e142857a20e494a65db, type: 2}
+  _passiveAbilitiesData:
+  - {fileID: 11400000, guid: ccdaa101d09f91141a1b839ab55d5f49, type: 2}
+  - {fileID: 11400000, guid: 355c08f6d3f30074d9d4664c1c828e9a, type: 2}
+  <CostValue>k__BackingField: 100
+  <Role>k__BackingField: 3

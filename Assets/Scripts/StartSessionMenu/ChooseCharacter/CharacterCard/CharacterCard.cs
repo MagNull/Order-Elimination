@@ -1,29 +1,39 @@
 using System;
 using OrderElimination;
-using UIManagement.Elements;
+using OrderElimination.MetaGame;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Image = UnityEngine.UI.Image;
 
 namespace StartSessionMenu.ChooseCharacter.CharacterCard
 {
-    public class CharacterCard : MonoBehaviour
+    public class CharacterCard : MonoBehaviour, IPointerClickHandler
     {
+        private bool _isSelected;
+
         [SerializeField] 
         protected Image _cardImage;
-        [SerializeField]
-        private HoldableButton _button;
-        
-        private Character _character;
-        private Transform _defaultParent;
-        public bool IsSelected { get; protected set; }
-        public Character Character => _character;
-        public event Action<CharacterCard> OnGetInfo;
-        
-        public virtual void InitializeCard(Character character, bool isSelected)
+        public bool IsSelected
         {
-            _character = character;
-            _cardImage.sprite = character.Avatar;
-            _button.Clicked += OnClick;
+            get => _isSelected;
+            protected set
+            {
+                _isSelected = value;
+                if (value == true)
+                    Selected?.Invoke(this);
+                else
+                    Deselected?.Invoke(this);
+            }
+        }
+        public GameCharacter Character { get; private set; }
+        public event Action<CharacterCard> OnGetInfo;
+        public event Action<CharacterCard> Selected;
+        public event Action<CharacterCard> Deselected;
+        
+        public virtual void InitializeCard(GameCharacter character, bool isSelected)
+        {
+            Character = character;
+            _cardImage.sprite = character.CharacterData.Avatar;
             IsSelected = isSelected;
         }
 
@@ -37,9 +47,9 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
             _cardImage.sprite = sprite;
         }
 
-        private void OnClick(HoldableButton button)
+        public void OnPointerClick(PointerEventData eventData)
         {
-            Debug.Log("OnClick");
+            Logging.Log("OnClick");
             OnGetInfo?.Invoke(this);
         }
     }

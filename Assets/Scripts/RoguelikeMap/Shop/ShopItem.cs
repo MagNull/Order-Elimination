@@ -32,7 +32,7 @@ namespace RoguelikeMap.Shop
             Data = data;
             _isBuy = false;
             _cost = cost;
-            _image.sprite = data.ItemView.Icon;
+            _image.sprite = data.View.Icon;
             GetComponentInChildren<TextMeshProUGUI>().text = _cost.ToString();
             _button.onClick.AddListener(() => OnBuy?.Invoke(this));
         }

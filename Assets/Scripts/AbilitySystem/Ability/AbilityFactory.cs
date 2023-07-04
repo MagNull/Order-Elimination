@@ -10,43 +10,7 @@ namespace OrderElimination.AbilitySystem
     {
         public static IActiveAbilityData CreateActiveAbility(ActiveAbilityBuilder builderData)
         {
-            var abilityData = new ActiveAbilityData();
-
-            var view = new AbilityView(
-                builderData.CellGroupsHighlightColors, 
-                builderData.Name, 
-                builderData.Icon, 
-                builderData.Description);
-            var gameRepresentation = new AbilityGameRepresentation();
-            gameRepresentation.CooldownTime = builderData.CooldownTime;
-            var rules = new AbilityRules(builderData.AvailabilityConditions, builderData.TargetCellConditions, builderData.UsageCost);
-            IAbilityTargetingSystem targetingSystem;
-            if (builderData.TargetingSystem == TargetingSystemType.NoTarget)
-            {
-                var casterPattern = (CasterRelativePattern) builderData.DistributionPattern;
-                targetingSystem = new NoTargetTargetingSystem(casterPattern);
-            }
-            else if (builderData.TargetingSystem == TargetingSystemType.SingleTarget)
-            {
-                targetingSystem = new SingleTargetTargetingSystem(builderData.DistributionPattern);
-            }
-            else if (builderData.TargetingSystem == TargetingSystemType.MultiTarget)
-            {
-                targetingSystem = new MultiTargetTargetingSystem(
-                    builderData.DistributionPattern, 
-                    builderData.NecessaryTargets, 
-                    builderData.OptionalTargets);
-            }
-            else 
-                throw new NotImplementedException();
-            var execution = new ActiveAbilityExecution(builderData.AbilityInstructions.ToArray());
-
-            abilityData.View = view;
-            abilityData.GameRepresentation = gameRepresentation;
-            abilityData.Rules = rules;
-            abilityData.TargetingSystem = targetingSystem;
-            abilityData.Execution = execution;
-
+            var abilityData = new ActiveAbilityData(builderData);
             return abilityData;
         }
 
@@ -58,7 +22,8 @@ namespace OrderElimination.AbilitySystem
                 builderData.CellGroupsHighlightColors,
                 builderData.Name,
                 builderData.Icon,
-                builderData.Description);
+                builderData.Description,
+                builderData.HideInCharacterDiscription);
             var gameRepresentation = new AbilityGameRepresentation();
             gameRepresentation.CooldownTime = builderData.CooldownTime;
             var execution = new PassiveAbilityExecution(builderData.TriggerInstructions.ToArray());
@@ -66,6 +31,7 @@ namespace OrderElimination.AbilitySystem
             abilityData.View = view;
             abilityData.GameRepresentation = gameRepresentation;
             abilityData.Execution = execution;
+            abilityData.BasedBuilder = builderData;
 
             return abilityData;
         }

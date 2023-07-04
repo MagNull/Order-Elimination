@@ -5,11 +5,12 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem.Animations
 {
-    public class WalkAnimation : IAbilityAnimation
+    public class WalkAnimation : AwaitableAbilityAnimation
     {
         [HideInInspector, OdinSerialize]
         private float _time = 1;
@@ -90,7 +91,7 @@ namespace OrderElimination.AbilitySystem.Animations
         [ShowInInspector, OdinSerialize]
         public Ease MoveEase { get; set; }
 
-        public async UniTask Play(AnimationPlayContext context)
+        protected override async UniTask OnAnimationPlayRequest(AnimationPlayContext context, CancellationToken cancellationToken)
         {
             var movingTaget = MovingEntity switch
             {
@@ -133,7 +134,7 @@ namespace OrderElimination.AbilitySystem.Animations
                     _ => throw new NotImplementedException(),
                 };
             }
-            //Debug.Log($"Moving from {context.CasterGamePosition} to {context.TargetGamePosition}.");
+            //Logging.Log($"Moving from {context.CasterGamePosition} to {context.TargetGamePosition}.");
 
             var realWorldStartPos = context.SceneContext.BattleMapView.GetCell(from.x, from.y).transform.position;
             var realWorldEndPos = context.SceneContext.BattleMapView.GetCell(to.x, to.y).transform.position;
@@ -149,7 +150,9 @@ namespace OrderElimination.AbilitySystem.Animations
             await movingTaget.transform
                 .DOMove(realWorldEndPos, time)
                 .SetEase(MoveEase)
-                .AsyncWaitForCompletion();
+                .AsyncWaitForCompletion()
+                .AsUniTask()
+                .AttachExternalCancellation(cancellationToken);
         }
     }
 }

@@ -4,22 +4,18 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.ParticleSystem;
 
 namespace OrderElimination.AbilitySystem.Animations
 {
-    public class SpawnParticleAnimation : IAbilityAnimation
+    public class SpawnParticleAnimation : AwaitableAbilityAnimation
     {
         [HideInInspector, OdinSerialize]
         private int _animationLoops = 1;
 
-        [ShowInInspector, OdinSerialize]
-        public ParticleType ParticleType { get; private set; }
+        [ShowInInspector, OdinSerialize] public ParticleType ParticleType { get; private set; }
 
         [TabGroup("Location")]
         [ShowInInspector, OdinSerialize]
@@ -38,33 +34,36 @@ namespace OrderElimination.AbilitySystem.Animations
         public bool FaceDirection { get; private set; }
 
         #region FaceFrom
+
         [TabGroup("Direction")]
         [ShowIf("@" + nameof(FaceDirection))]
         [ShowInInspector, OdinSerialize]
         public bool FromParticlePosition { get; private set; } = true;
 
         [TabGroup("Direction")]
-        [ShowIf("@" + nameof(FaceDirection) 
-            + " && !" + nameof(FromParticlePosition))]
+        [ShowIf("@" + nameof(FaceDirection)
+                    + " && !" + nameof(FromParticlePosition))]
         [ShowInInspector, OdinSerialize]
         public AnimationTarget FacingFrom { get; private set; }
 
         [TabGroup("Direction")]
-        [ShowIf("@" + nameof(FaceDirection) 
-            + " && " + nameof(FacingFrom) + " == AnimationTarget.CellGroup" 
-            + " && !" + nameof(FromParticlePosition))]
+        [ShowIf("@" + nameof(FaceDirection)
+                    + " && " + nameof(FacingFrom) + " == AnimationTarget.CellGroup"
+                    + " && !" + nameof(FromParticlePosition))]
         [ShowInInspector, OdinSerialize]
         public int FacingFromGroup { get; private set; }
 
         [TabGroup("Direction")]
-        [ShowIf("@" + nameof(FaceDirection) 
-            + " && " + nameof(FacingFrom) + " == AnimationTarget.CellGroup" 
-            + " && !" + nameof(FromParticlePosition))]
+        [ShowIf("@" + nameof(FaceDirection)
+                    + " && " + nameof(FacingFrom) + " == AnimationTarget.CellGroup"
+                    + " && !" + nameof(FromParticlePosition))]
         [ShowInInspector, OdinSerialize]
         public CellPriority FacingFromCell { get; private set; }
+
         #endregion
 
         #region FaceTo
+
         [TabGroup("Direction")]
         [ShowIf("@" + nameof(FaceDirection))]
         [ShowInInspector, OdinSerialize]
@@ -79,6 +78,7 @@ namespace OrderElimination.AbilitySystem.Animations
         [ShowIf("@" + nameof(FaceDirection) + " && " + nameof(FacingTo) + " == AnimationTarget.CellGroup")]
         [ShowInInspector, OdinSerialize]
         public CellPriority FacingToCell { get; private set; }
+
         #endregion
 
         [TabGroup("Animation")]
@@ -104,7 +104,7 @@ namespace OrderElimination.AbilitySystem.Animations
             }
         }
 
-        public async UniTask Play(AnimationPlayContext context)
+        protected override async UniTask OnAnimationPlayRequest(AnimationPlayContext context, CancellationToken cancellationToken)
         {
             var mapView = context.SceneContext.BattleMapView;
 
@@ -115,32 +115,34 @@ namespace OrderElimination.AbilitySystem.Animations
                 var particles = new List<AnimatedParticle>();
                 foreach (var position in spawnPositions)
                 {
-                    var animTask = SpawnParticle(context, position, mapView, out var particle);
+                    var animTask = SpawnParticle(context, position, mapView, cancellationToken, out var particle);
                     particles.Add(particle);
                     animations.Add(animTask);
                 }
+
                 await UniTask.WhenAll(animations);
                 foreach (var particle in particles)
                     context.SceneContext.ParticlesPool.Release(particle);
             }
             else if (SpawnAt == AnimationTarget.Caster)
             {
-                await SpawnParticle(context, context.Caster.Position, mapView, out var particle);
+                await SpawnParticle(context, context.Caster.Position, mapView, cancellationToken, out var particle);
                 context.SceneContext.ParticlesPool.Release(particle);
             }
             else if (SpawnAt == AnimationTarget.Target)
             {
-                await SpawnParticle(context, context.Target.Position, mapView, out var particle);
+                await SpawnParticle(context, context.Target.Position, mapView, cancellationToken, out var particle);
                 context.SceneContext.ParticlesPool.Release(particle);
             }
             else
-                throw new NotImplementedException();
+                Logging.LogException(new NotImplementedException());
         }
 
         private UniTask SpawnParticle(
-            AnimationPlayContext context, 
-            Vector2Int gamePosition, 
-            BattleMapView mapView, 
+            AnimationPlayContext context,
+            Vector2Int gamePosition,
+            BattleMapView mapView,
+            CancellationToken cancellationToken,
             out AnimatedParticle particle)
         {
             particle = context.SceneContext.ParticlesPool.Create(ParticleType);
@@ -158,12 +160,13 @@ namespace OrderElimination.AbilitySystem.Animations
                 else
                 {
                     facingFromGamePos = FacingFrom.SelectGamePosition(
-                    context.Caster.Position,
-                    context.TargetGamePosition,
-                    context.TargetedCellGroups,
-                    FacingFromGroup,
-                    FacingFromCell);
+                        context.Caster.Position,
+                        context.TargetGamePosition,
+                        context.TargetedCellGroups,
+                        FacingFromGroup,
+                        FacingFromCell);
                 }
+
                 Vector2 facingToGamePos = FacingTo.SelectGamePosition(
                     context.Caster.Position,
                     context.TargetGamePosition,
@@ -185,14 +188,17 @@ namespace OrderElimination.AbilitySystem.Animations
                     particle.StartFollowing(context.TargetView.transform);
                     break;
                 default:
+                {
+                    Logging.LogException(new NotImplementedException());
                     throw new NotImplementedException();
+                }
             }
 
             UniTask animationTask;
             if (RemapAnimationTime)
-                animationTask = particle.PlayTimeRemappedAnimation(RemappedTime, AnimationLoops);
+                animationTask = particle.PlayTimeRemappedAnimation(RemappedTime, AnimationLoops, cancellationToken);
             else
-                animationTask = particle.PlayAnimation(AnimationLoops);
+                animationTask = particle.PlayAnimation(AnimationLoops, cancellationToken);
             return animationTask;
         }
 

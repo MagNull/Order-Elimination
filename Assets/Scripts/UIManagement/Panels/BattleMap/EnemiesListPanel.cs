@@ -108,7 +108,7 @@ namespace UIManagement.Elements
             var target = _entitiesPanels[entity];
 
             //var elements = new List<CharacterBattleStatsPanel>();
-            //Debug.Log(_characterPanelsIds.IndexOf(target));
+            //Logging.Log(_characterPanelsIds.IndexOf(target));
 
             //_charactersScrollRect.verticalNormalizedPosition = 1f;// ((RectTransform)target.transform).localPosition.y;
             //0 - bottom 1 - top
@@ -127,8 +127,8 @@ namespace UIManagement.Elements
             var halfContentHeight = contentTransform.rect.height / 2;
             var contentUpperBorder = contentTransform.position.y + halfContentHeight;
             var contentLowerBorder = contentTransform.position.y - halfContentHeight;
-            //Debug.Log($"Scroll[ {scrollTransform.localPosition.y} ] – Element[ {targetTransform.localPosition.y} ]");
-            //Debug.Log($"Scroll[ {scrollLowerBorder} : {scrollUpperBorder} ] – Element[ {elementLowerBorder} : {elementUpperBorder} ]");
+            //Logging.Log($"Scroll[ {scrollTransform.localPosition.y} ] – Element[ {targetTransform.localPosition.y} ]");
+            //Logging.Log($"Scroll[ {scrollLowerBorder} : {scrollUpperBorder} ] – Element[ {elementLowerBorder} : {elementUpperBorder} ]");
             if (elementLowerBorder < scrollLowerBorder)
             {
                 var deltaBottom = scrollLowerBorder - elementLowerBorder;
@@ -159,6 +159,7 @@ namespace UIManagement.Elements
         {
             var enemies = cellView.Model.GetContainingEntities()
                 .Where(e => IsEnemyCharacter(e))
+                .Where(e => !e.StatusHolder.HasStatus(BattleStatus.Invisible))
                 .Where(e => _entitiesPanels.ContainsKey(e))
                 .ToArray();
             if (enemies.Length == 0)

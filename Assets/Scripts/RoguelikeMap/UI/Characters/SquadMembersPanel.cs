@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OrderElimination;
+using OrderElimination.MetaGame;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
 
@@ -14,9 +15,9 @@ namespace RoguelikeMap.UI.Characters
         
         private int _selectedCount = -1;
         
-        public event Action<List<Character>, int> OnSelected;
+        public event Action<List<GameCharacter>, int> OnSelected;
 
-        public void UpdateMembers(IReadOnlyList<Character> activeMembers, IReadOnlyList<Character> inactiveMembers)
+        public void UpdateMembers(IReadOnlyList<GameCharacter> activeMembers, IReadOnlyList<GameCharacter> inactiveMembers)
         {
             _selectedCount = activeMembers.Count;
             InitializeCharactersCard(activeMembers, _selectedDropZone.transform, true);
@@ -28,7 +29,7 @@ namespace RoguelikeMap.UI.Characters
             if (card is CharacterCardWithHealthBar characterCardWithHealthBar)
                 TrySelectCard(dropZone, characterCardWithHealthBar);
             else
-                throw new ArgumentException();
+                Logging.LogException( new ArgumentException());
         }
 
         private void TrySelectCard(DropZone dropZone, CharacterCardWithHealthBar card)
@@ -66,7 +67,6 @@ namespace RoguelikeMap.UI.Characters
                     .Where(x => !x.IsSelected)
                     .Select(x => x.Character));
             OnSelected?.Invoke(characters, countActiveCharacters);
-            Debug.Log(characters.Count);
         }
     }
 }

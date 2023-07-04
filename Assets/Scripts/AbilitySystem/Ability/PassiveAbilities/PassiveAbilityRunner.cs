@@ -6,14 +6,16 @@ namespace OrderElimination.AbilitySystem
 {
     public class PassiveAbilityRunner
     {
-        public PassiveAbilityRunner(IPassiveAbilityData abilityData)
+        public PassiveAbilityRunner(IPassiveAbilityData abilityData, AbilityProvider provider)
         {
             AbilityData = abilityData;
+            AbilityProvider = provider;
         }
 
         private IPassiveExecutionActivationInfo _currentActivationInfo;
 
-        public IPassiveAbilityData AbilityData { get; private set; }
+        public IPassiveAbilityData AbilityData { get; }
+        public AbilityProvider AbilityProvider { get; }
         public bool IsActive { get; private set; } = false;
         public int Cooldown { get; private set; }
 
@@ -22,7 +24,9 @@ namespace OrderElimination.AbilitySystem
 
         public void Activate(IBattleContext battleContext, AbilitySystemActor caster)
         {
-            if (IsActive) throw new InvalidOperationException("Passive Ability Runner has already been activated.");
+            if (IsActive)
+                Logging.LogException(
+                    new InvalidOperationException("Passive Ability Runner has already been activated."));
             AbilityData.Execution.ExecutionTriggered += OnExecutionTriggered;
             _currentActivationInfo = AbilityData.Execution.Activate(battleContext, caster);
             IsActive = true;
@@ -30,7 +34,7 @@ namespace OrderElimination.AbilitySystem
 
         public void Deactivate()
         {
-            if (!IsActive) throw new InvalidOperationException("Passive Ability Runner is not active.");
+            if (!IsActive) Logging.LogException(new InvalidOperationException("Passive Ability Runner is not active."));
             AbilityData.Execution.Dectivate(_currentActivationInfo);
             AbilityData.Execution.ExecutionTriggered -= OnExecutionTriggered;
             IsActive = false;
@@ -40,8 +44,8 @@ namespace OrderElimination.AbilitySystem
         {
             if (_currentActivationInfo != activationInfo)
                 return;
-                //throw new ArgumentException(
-                //    "Unknown activation info. One should be passed only to a Runner instance that created it.");
+            //Logging.LogException( new ArgumentException(
+            //    "Unknown activation info. One should be passed only to a Runner instance that created it.");
             if (AbilityData.GameRepresentation.CooldownTime > 0)
             {
                 _currentActivationInfo.ActivationContext.NewRoundBegan += OnNewRound;

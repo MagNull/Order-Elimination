@@ -1,30 +1,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using OrderElimination.AbilitySystem;
-using RoguelikeMap.Points;
+using OrderElimination.MetaGame;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using UnityEngine;
 
 namespace OrderElimination
 {
     public class CharactersMediator : SerializedMonoBehaviour
     {
-        [OdinSerialize]
-        private List<IBattleCharacterInfo> _playerCharacters;//Change to GameCharacter
-        [OdinSerialize] 
-        private List<IBattleCharacterInfo> _enemies;
+        [ShowInInspector, OdinSerialize]
+        private List<IGameCharacterTemplate> _testPlayerCharacters = new();
+
+        [ShowInInspector, OdinSerialize]
+        private List<IGameCharacterTemplate> _testEnemyCharacters = new();
+
+        private List<GameCharacter> _playerCharacters;
+        private List<GameCharacter> _enemyCharacters;
+
         [OdinSerialize]
         public BattleScenario BattleScenario { get; private set; }
 
-        public IEnumerable<GameCharacter> GetPlayerCharactersInfo() => GameCharactersFactory.CreateGameEntities(_playerCharacters);
-        public IEnumerable<GameCharacter> GetEnemyCharactersInfo() => GameCharactersFactory.CreateGameEntities(_enemies);
-        public void SetSquad(IEnumerable<IBattleCharacterInfo> battleStatsList)
+        public IEnumerable<GameCharacter> GetPlayerCharacters()
+            => _playerCharacters ?? GameCharactersFactory.CreateGameEntities(_testPlayerCharacters);
+        public IEnumerable<GameCharacter> GetEnemyCharacters()
+            => _enemyCharacters ?? GameCharactersFactory.CreateGameEntities(_testEnemyCharacters);
+        public void SetPlayerCharacters(IEnumerable<GameCharacter> battleStatsList)
             => _playerCharacters = battleStatsList.ToList();
-        public void SetEnemies(IEnumerable<IBattleCharacterInfo> battleStatsList)
-            => _enemies = battleStatsList.ToList();
+        public void SetEnemyCharacters(IEnumerable<GameCharacter> battleStatsList)
+            => _enemyCharacters = battleStatsList.ToList();
         public void SetScenario(BattleScenario scenario) => BattleScenario = scenario;
 
-
-        private void Awake() => DontDestroyOnLoad(gameObject);
+        private void Awake()
+        {
+            if(FindObjectsOfType<CharactersMediator>().Length > 1)
+                Destroy(gameObject);
+            DontDestroyOnLoad(gameObject);
+        }
     }
 }

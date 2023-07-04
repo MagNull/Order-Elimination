@@ -1,12 +1,10 @@
 using DG.Tweening;
 using OrderElimination.AbilitySystem;
-using OrderElimination.BM;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
 using System.Linq;
+using OrderElimination;
 using UnityEngine;
 using UnityEngine.UI;
+using Sirenix.OdinInspector;
 
 namespace UIManagement.Elements
 {
@@ -31,14 +29,15 @@ namespace UIManagement.Elements
         private float _highlightTime = 0.5f;
         [SerializeField]
         private Ease _highlightEase = Ease.Flash;
-        [SerializeField]
+        [HideInInspector, SerializeField]
         private bool _isClickingAvatarAvailable;
-        [SerializeField]
+        [HideInInspector, SerializeField]
         private bool _isHoldingAvatarAvailable;
 
         private Sequence _currentSequence;
         private BattleEntityView _currentEntityView;
 
+        [ShowInInspector]
         public bool IsClickingAvatarAvailable
         {
             get => _isClickingAvatarAvailable;
@@ -49,6 +48,7 @@ namespace UIManagement.Elements
             }
         }
 
+        [ShowInInspector]
         public bool IsHoldingAvatarAvailable
         {
             get => _isHoldingAvatarAvailable;
@@ -62,50 +62,22 @@ namespace UIManagement.Elements
         public void UpdateEntityInfo(BattleEntityView entity)
         {
             if (entity == null)
-                throw new System.ArgumentNullException();
+                Logging.LogException( new System.ArgumentNullException());
             if (_currentEntityView != null)
-            {
-                _currentEntityView.BattleEntity.Damaged -= OnDamaged;
-                _currentEntityView.BattleEntity.Healed -= OnHealed;
-                _currentEntityView.BattleEntity.EffectAdded -= OnEffectsUpdated;
-                _currentEntityView.BattleEntity.EffectRemoved -= OnEffectsUpdated;
-                _currentEntityView.BattleEntity.BattleStats.StatsChanged -= OnStatsChanged;
-            }
+                Unsubscribe(_currentEntityView.BattleEntity);
+
             _currentEntityView = entity;
-            _currentEntityView.BattleEntity.Damaged += OnDamaged;
-            _currentEntityView.BattleEntity.Healed += OnHealed;
-            _currentEntityView.BattleEntity.EffectAdded += OnEffectsUpdated;
-            _currentEntityView.BattleEntity.EffectRemoved += OnEffectsUpdated;
-            _currentEntityView.BattleEntity.BattleStats.StatsChanged += OnStatsChanged;
+            Subscribe(_currentEntityView.BattleEntity);
             _avatar.sprite = _currentEntityView.BattleIcon;
-            UpdateStats();
+            IsClickingAvatarAvailable = true;
+            UpdateStats(_currentEntityView);
             UpdateEffects();
-
-            void OnStatsChanged(BattleStat stat) => UpdateStats();
-            void OnDamaged(DealtDamageInfo damage) => UpdateStats();
-            void OnHealed(HealRecoveryInfo heal) => UpdateStats();
-            void UpdateStats()
-            {
-                var stats = _currentEntityView.BattleEntity.LifeStats;
-
-                //Round visual numbers
-                var curHealth = Mathf.RoundToInt(stats.Health);
-                var maxHealth = Mathf.RoundToInt(stats.MaxHealth.ModifiedValue);
-                var curArmor = Mathf.RoundToInt(stats.TotalArmor);
-                var maxArmor = Mathf.RoundToInt(stats.MaxArmor.ModifiedValue);
-                //Round visual numbers
-
-                _healthBar.SetValue(curHealth, 0, maxHealth);
-                _armorBar.SetValue(curArmor, 0, maxArmor);
-            }
-            void OnEffectsUpdated(BattleEffect effect) => UpdateEffects();
-            void UpdateEffects() => _effectsList.UpdateEffects(_currentEntityView.BattleEntity.Effects);
+            ShowInfo();
         }
 
         public void Highlight(Color highlightColor)
         {
-            if (_currentSequence != null)
-                _currentSequence.Complete();
+            _currentSequence?.Complete();
             var appearTime = 0.1f;
             _currentSequence = DOTween.Sequence(this)
                 .Append(_panelHighlightImage.DOColor(highlightColor, appearTime))
@@ -113,9 +85,6 @@ namespace UIManagement.Elements
                 .Append(transform.DOScale(1, _highlightTime).SetEase(_highlightEase))
                 .Append(_panelHighlightImage.DOColor(Color.white, 0.8f))
                 .Play();
-
-            //_highlightTweeners.Add(_panelHighlightImage.DOBlendableColor(Color.white, _highlightTime)
-            //    .SetEase(_highlightEase));
         }
 
         public void HideInfo()
@@ -125,6 +94,7 @@ namespace UIManagement.Elements
             _armorBar.gameObject.SetActive(false);
             _avatarButton.gameObject.SetActive(false);
             _effectsList.gameObject.SetActive(false);
+            IsClickingAvatarAvailable = false;
             _avatarButton.Clicked -= OnAvatarButtonPressed;
             _avatarButton.Holded -= OnAvatarButtonHolded;
         }
@@ -136,6 +106,7 @@ namespace UIManagement.Elements
             _armorBar.gameObject.SetActive(true);
             _avatarButton.gameObject.SetActive(true);
             _effectsList.gameObject.SetActive(true);
+            IsClickingAvatarAvailable = true;
             _avatarButton.Clicked += OnAvatarButtonPressed;
             _avatarButton.Holded += OnAvatarButtonHolded;
         }
@@ -147,7 +118,58 @@ namespace UIManagement.Elements
         {
             var characterDescriptionPanel =
                 (CharacterDescriptionPanel) UIController.SceneInstance.OpenPanel(PanelType.CharacterDescription);
-            //characterDescriptionPanel.UpdateCharacterDescription(_currentCharacterView);
+            characterDescriptionPanel.UpdateCharacterDescription(_currentEntityView.BattleEntity);
         }
+
+        private void Subscribe(AbilitySystemActor entity)
+        {
+            //entity.Damaged += OnDamaged;
+            //entity.Healed += OnHealed;
+            entity.LifeStats.LifeStatsChanged += OnLifeStatsChanged;
+            entity.EffectAdded += OnEffectsUpdated;
+            entity.EffectRemoved += OnEffectsUpdated;
+            entity.BattleStats.StatsChanged += OnStatsChanged;
+            entity.DisposedFromBattle += OnDisposedFromBattle;
+        }
+
+        private void Unsubscribe(AbilitySystemActor entity)
+        {
+            //entity.Damaged -= OnDamaged;
+            //entity.Healed -= OnHealed;
+            entity.LifeStats.LifeStatsChanged -= OnLifeStatsChanged;
+            entity.EffectAdded -= OnEffectsUpdated;
+            entity.EffectRemoved -= OnEffectsUpdated;
+            entity.BattleStats.StatsChanged -= OnStatsChanged;
+            entity.DisposedFromBattle -= OnDisposedFromBattle;
+        }
+
+        #region EntityEventHandlers
+        private void OnStatsChanged(BattleStat stat) => UpdateStats(_currentEntityView);
+        private void OnDamaged(DealtDamageInfo damage) => UpdateStats(_currentEntityView);
+        private void OnHealed(HealRecoveryInfo heal) => UpdateStats(_currentEntityView);
+        private void OnLifeStatsChanged(IBattleLifeStats stats) => UpdateStats(_currentEntityView);
+        private void UpdateStats(BattleEntityView entityView)
+        {
+            var stats = entityView.BattleEntity.LifeStats;
+            var curHealth = stats.Health;
+            var maxHealth = stats.MaxHealth.ModifiedValue;
+            var curArmor = stats.TotalArmor;
+            var maxArmor = stats.MaxArmor.ModifiedValue;
+
+            _healthBar.SetValue(curHealth, 0, maxHealth);
+            _armorBar.SetValue(curArmor, 0, maxArmor);
+        }
+        private void OnEffectsUpdated(BattleEffect effect) => UpdateEffects();
+        private void UpdateEffects() => _effectsList.UpdateEffects(_currentEntityView.BattleEntity.Effects);
+        private void OnDisposedFromBattle(IBattleDisposable entity)
+        {
+            if (_currentEntityView.BattleEntity != entity)
+                Logging.LogException( new System.Exception());
+            Unsubscribe(_currentEntityView.BattleEntity);
+            _currentSequence.Complete();
+            _panelHighlightImage.DOComplete();
+            transform.DOComplete();
+        }
+        #endregion
     }
 }

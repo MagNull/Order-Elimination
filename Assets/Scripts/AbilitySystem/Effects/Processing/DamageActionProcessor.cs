@@ -8,7 +8,7 @@ namespace OrderElimination.AbilitySystem
     {
         [FoldoutGroup("Action Filter", order: -2)]
         [ShowInInspector, OdinSerialize]
-        private EnumMask<DamageType> _allowedDamageTypes = new EnumMask<DamageType>();
+        private EnumMask<DamageType> _allowedDamageTypes = EnumMask<DamageType>.Full;
 
         [ShowInInspector, DisplayAsString, PropertyOrder(-1)]
         [FoldoutGroup("DamageChanger", order: 0)]

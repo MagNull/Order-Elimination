@@ -2,32 +2,34 @@ using System;
 using System.Collections.Generic;
 using Inventory;
 using Inventory_Items;
+using Sirenix.OdinInspector;
+using OrderElimination;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace ItemsLibrary
 {
     [CreateAssetMenu(fileName = "Library", menuName = "Library/LibraryInstance")]
-    public class Library : ScriptableObject
+    public class Library : SerializedScriptableObject
     {
-        private Dictionary<ItemType, List<ItemView>> _addedItems = new Dictionary<ItemType, List<ItemView>>();
-        private HashSet<int> _allItemsIds = new HashSet<int>();
+        [SerializeField]
+        private Dictionary<ItemType, List<ItemView>> _addedItems = new();
+        private HashSet<int> _allItemsIds = new();
         public IReadOnlyCollection<int> GetAllItemIds => _allItemsIds;
         public IReadOnlyList<ItemView> GetItems(ItemType type) => _addedItems[type];
 
         public Library()
         {
-            _addedItems[ItemType.Null] = new List<ItemView>();
             _addedItems[ItemType.Consumable] = new List<ItemView>();
             _addedItems[ItemType.Equipment] = new List<ItemView>();
-            _addedItems[ItemType.Modificator] = new List<ItemView>();
             
-            Debug.Log("Initialize library");
+            Logging.Log("Initialize library");
         }
 
         public void AddItem(Inventory_Items.IReadOnlyCell cell)
         {
             if (cell == null)
-                throw new ArgumentException("Item can't be null.");
+                Logging.LogException( new ArgumentException("Item can't be null."));
             
             AddItem(cell.Item);
         }
@@ -35,7 +37,7 @@ namespace ItemsLibrary
         public void AddItem(IReadOnlyList<ItemData> itemsList)
         {
             if (itemsList == null)
-                throw new ArgumentException("Item can't be null.");
+                Logging.LogException( new ArgumentException("Item can't be null."));
             foreach (var item in itemsList)
                 AddItem(item);
         }
@@ -43,11 +45,11 @@ namespace ItemsLibrary
         private void AddItem(Item item)
         {
             if (item == null)
-                throw new ArgumentException("Item can't be null.");
+                Logging.LogException( new ArgumentException("Item can't be null."));
             
             if (!_allItemsIds.Contains(item.Id))
             {
-                Debug.Log("Item added:" + item.View.Name);
+                Logging.Log("Item added:" + item.View.Name);
                 _addedItems[item.Type].Add(item.View);
                 _allItemsIds.Add(item.Id);
             }
@@ -56,13 +58,13 @@ namespace ItemsLibrary
         private void AddItem(ItemData data)
         {
             if (data == null)
-                throw new ArgumentException("Item data can't be null.");
+                Logging.LogException( new ArgumentException("Item data can't be null."));
             
-            if (!_allItemsIds.Contains(data.ItemId))
+            if (!_allItemsIds.Contains(data.Id))
             {
-                Debug.Log("Item added:" + data.ItemView.Name);
-                _addedItems[data.ItemType].Add(data.ItemView);
-                _allItemsIds.Add(data.ItemId);
+                Logging.Log("Item added:" + data.View.Name);
+                _addedItems[data.Type].Add(data.View);
+                _allItemsIds.Add(data.Id);
             }
         }
     }    

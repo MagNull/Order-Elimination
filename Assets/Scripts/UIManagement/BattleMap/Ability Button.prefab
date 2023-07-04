@@ -161,7 +161,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
-  MillisecondsToHold: 700
+  MillisecondsToHold: 450
   DefaultTint: {r: 1, g: 1, b: 1, a: 1}
   ClickUnavalableTint: {r: 0.6792453, g: 0.28515485, b: 0.29288217, a: 1}
   _clickAvailable: 1
@@ -277,8 +277,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -30, y: 0}
-  m_SizeDelta: {x: 190, y: 120}
+  m_AnchoredPosition: {x: -30, y: 0.0010293}
+  m_SizeDelta: {x: 190, y: 107.55}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &2134820545618955601
 CanvasRenderer:
@@ -310,8 +310,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u041F\u0435\u0440\u0435\u043C\u0435\u0449\u0435\u043D\u0438\u0435"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c5fe5e76cfa58b74fa4c1432029c8ee9, type: 2}
+  m_sharedMaterial: {fileID: -6398022682925926005, guid: c5fe5e76cfa58b74fa4c1432029c8ee9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -335,7 +335,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25.4
+  m_fontSize: 24.25
   m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 1

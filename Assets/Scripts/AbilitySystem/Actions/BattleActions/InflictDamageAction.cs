@@ -60,7 +60,7 @@ namespace OrderElimination.AbilitySystem
             bool targetProcessing = true)
         {
             if (context.ActionTarget == null)
-                throw new System.ArgumentNullException();
+                Logging.LogException( new System.ArgumentNullException());
 
             var modifiedAction = this;
 
@@ -95,7 +95,7 @@ namespace OrderElimination.AbilitySystem
             var accuracy = Accuracy.GetValue(useContext);
             var evasion = IgnoreEvasion || !useContext.ActionTarget.BattleStats.HasParameter(BattleStat.Evasion)
                 ? 0
-                : useContext.ActionTarget.BattleStats.GetParameter(BattleStat.Evasion).ModifiedValue;
+                : useContext.ActionTarget.BattleStats[BattleStat.Evasion].ModifiedValue;
             var hitResult = useContext.BattleContext.HitCalculation.CalculateHitResult(accuracy, evasion);
             var animationContext = new AnimationPlayContext(
                 useContext.AnimationSceneContext,

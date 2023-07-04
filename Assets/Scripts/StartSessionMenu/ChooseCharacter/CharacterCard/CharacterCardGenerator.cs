@@ -1,5 +1,7 @@
 using System;
 using OrderElimination;
+using OrderElimination.MetaGame;
+using RoguelikeMap.UI.Characters;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -12,31 +14,33 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         private CharacterCardWithHealthBar _characterWithHealthBar;
         private CharacterCardWithCost _characterCardWithCost;
         private CharacterCard _characterIcon;
+        private CharacterInfoPanel _characterInfoPanel;
 
         [Inject]
         public CharacterCardGenerator(IObjectResolver objectResolver,
             CharacterCardWithHealthBar cardWithHealthBar, CharacterCardWithCost cardWithCost,
-            CharacterCard characterIcon)
+            CharacterCard characterIcon, CharacterInfoPanel characterInfoPanel)
         {
             _objectResolver = objectResolver;
             _characterWithHealthBar = cardWithHealthBar;
             _characterCardWithCost = cardWithCost;
             _characterIcon = characterIcon;
+            _characterInfoPanel = characterInfoPanel;
         }
 
-        public CharacterCardWithHealthBar GenerateCardWithHealthBar(Character character,
+        public CharacterCardWithHealthBar GenerateCardWithHealthBar(GameCharacter character,
             Transform parent, bool isSelected = false) =>
             (CharacterCardWithHealthBar)Generate(character, CharacterCardType.HealthBar, parent, isSelected);
         
-        public CharacterCardWithCost GenerateCardWithCost(Character character,
+        public CharacterCardWithCost GenerateCardWithCost(GameCharacter character,
             Transform parent, bool isSelected = false) =>
             (CharacterCardWithCost)Generate(character, CharacterCardType.Cost, parent, isSelected);
 
-        public CharacterCard GenerateCardIcon(Character character,
+        public CharacterCard GenerateCardIcon(GameCharacter character,
             Transform parent, bool isSelected = false) => 
             Generate(character, CharacterCardType.Avatar, parent, isSelected);
         
-        private CharacterCard Generate(Character character, CharacterCardType type, Transform parent, bool isSelected)
+        private CharacterCard Generate(GameCharacter character, CharacterCardType type, Transform parent, bool isSelected)
         {
             CharacterCard card = type switch
             {
@@ -47,6 +51,11 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
             };
             
             card.InitializeCard(character, isSelected);
+            card.OnGetInfo += (characterCard) =>
+            {
+                _characterInfoPanel.InitializeCharacterInfo(characterCard.Character);
+                _characterInfoPanel.Open();
+            };
 
             return card;
         }

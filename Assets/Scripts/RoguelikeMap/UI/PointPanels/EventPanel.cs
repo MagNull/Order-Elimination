@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Inventory_Items;
+using Inventory.Items;
+using OrderElimination;
 using RoguelikeMap.Points.Models;
 using TMPro;
 using UnityEngine;
@@ -26,7 +28,7 @@ namespace RoguelikeMap.UI.PointPanels
         private Inventory_Items.Inventory _inventory;
 
         public bool IsContainsBattle { get; private set; }
-        public event Action<IReadOnlyList<IBattleCharacterInfo>> OnStartBattle;
+        public event Action<IReadOnlyList<IGameCharacterTemplate>> OnStartBattle;
         public event Action<bool> OnSafeEventVisit;
         public event Action<bool> OnBattleEventVisit;
 
@@ -145,7 +147,7 @@ namespace RoguelikeMap.UI.PointPanels
             {
                 foreach (var itemData in _eventInfo.ItemsId)
                 {
-                    var item = new Item(itemData);
+                    var item = ItemFactory.Create(itemData);
                     _inventory.AddItem(item);
                 }
             }

@@ -1,19 +1,17 @@
-﻿using OrderElimination.Domain;
-using OrderElimination.Infrastructure;
+﻿using OrderElimination.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class BattleStats : IBattleStats, ILifeBattleStats
+    public class BattleStats : IBattleStats, IBattleLifeStats
     {
         private readonly List<TemporaryArmor> _temporaryArmors = new();
         private readonly Dictionary<ProcessingParameter<float>, BattleStat> _battleStatEnums = new();
         private float _health;
         private float _pureArmor;
 
-        public event Action<BattleStat> StatsChanged;
 
         public ProcessingParameter<float> AttackDamage { get; } = new ProcessingParameter<float>();
         public ProcessingParameter<float> Accuracy { get; } = new ProcessingParameter<float>();
@@ -34,6 +32,7 @@ namespace OrderElimination.AbilitySystem
                     _health = 0;
                     HealthDepleted?.Invoke(this);
                 }
+                LifeStatsChanged?.Invoke(this);
             }
         }
         public float TotalArmor
@@ -41,7 +40,7 @@ namespace OrderElimination.AbilitySystem
             get => PureArmor + TemporaryArmor;
             set
             {
-                if (value < 0) throw new ArgumentOutOfRangeException();
+                if (value < 0) Logging.LogException( new ArgumentOutOfRangeException());
                 var offset = TotalArmor - value;
                 if (value < TotalArmor)//dmg
                 {
@@ -62,6 +61,7 @@ namespace OrderElimination.AbilitySystem
                     //only heals PureArmor
                     PureArmor = MathF.Min(PureArmor + offset, MaxArmor.ModifiedValue);
                 }
+                LifeStatsChanged?.Invoke(this);
             }
         }
         public float PureArmor
@@ -71,12 +71,22 @@ namespace OrderElimination.AbilitySystem
             {
                 if (value < 0) value = 0;
                 _pureArmor = value;
+                LifeStatsChanged?.Invoke(this);
             }
         }
         public float TemporaryArmor => _temporaryArmors.Sum(a => a.Value);
 
-        public void AddTemporaryArmor(TemporaryArmor armor) => _temporaryArmors.Add(armor);
-        public void RemoveTemporaryArmor(TemporaryArmor armor) => _temporaryArmors.Remove(armor);
+        public void AddTemporaryArmor(TemporaryArmor armor)
+        {
+            _temporaryArmors.Add(armor);
+            LifeStatsChanged?.Invoke(this);
+        }
+        public void RemoveTemporaryArmor(TemporaryArmor armor)
+        {
+            _temporaryArmors.Remove(armor);
+
+            LifeStatsChanged?.Invoke(this);
+        }
 
         public bool HasParameter(BattleStat battleStat)
         {
@@ -89,32 +99,43 @@ namespace OrderElimination.AbilitySystem
                 return true;
             return false;
         }
-        public ProcessingParameter<float> this[BattleStat battleStat] => GetParameter(battleStat);
-        public ProcessingParameter<float> GetParameter(BattleStat battleStat)
+        public ProcessingParameter<float> this[BattleStat battleStat]
         {
-            if (!HasParameter(battleStat)) throw new ArgumentException();
-            return battleStat switch
+            get
             {
-                BattleStat.MaxHealth => MaxHealth,
-                BattleStat.MaxArmor => MaxArmor,
-                BattleStat.AttackDamage => AttackDamage,
-                BattleStat.Accuracy => Accuracy,
-                BattleStat.Evasion => Evasion,
-                BattleStat.MaxMovementDistance => MaxMovementDistance,
-                _ => throw new ArgumentException(),
-            };
+                if (!HasParameter(battleStat)) Logging.LogException( new ArgumentException());
+                return battleStat switch
+                {
+                    BattleStat.MaxHealth => MaxHealth,
+                    BattleStat.MaxArmor => MaxArmor,
+                    BattleStat.AttackDamage => AttackDamage,
+                    BattleStat.Accuracy => Accuracy,
+                    BattleStat.Evasion => Evasion,
+                    BattleStat.MaxMovementDistance => MaxMovementDistance,
+                    _ => throw new ArgumentException(),
+                };
+            }
+
         }
 
-        public event Action<ILifeBattleStats> HealthDepleted;
+        public event Action<BattleStat> StatsChanged;
+        public event Action<IBattleLifeStats> HealthDepleted;
+        public event Action<IBattleLifeStats> LifeStatsChanged;
 
-        public BattleStats(ReadOnlyBaseStats baseStats)
+        public BattleStats(
+            float maxHealth,
+            float maxArmor,
+            float attackDamage,
+            float accuracy,
+            float evasion,
+            float maxMovementDistance)
         {
-            MaxHealth.SetUnmodifiedValue(baseStats.MaxHealth);
-            MaxArmor.SetUnmodifiedValue(baseStats.MaxArmor);
-            AttackDamage.SetUnmodifiedValue(baseStats.AttackDamage);
-            Accuracy.SetUnmodifiedValue(baseStats.Accuracy);
-            Evasion.SetUnmodifiedValue(baseStats.Evasion);
-            MaxMovementDistance.SetUnmodifiedValue(baseStats.MaxMovementDistance);
+            MaxHealth.UnmodifiedValue = maxHealth;
+            MaxArmor.UnmodifiedValue = maxArmor;
+            AttackDamage.UnmodifiedValue = attackDamage;
+            Accuracy.UnmodifiedValue = accuracy;
+            Evasion.UnmodifiedValue = evasion;
+            MaxMovementDistance.SetUnmodifiedValue(maxMovementDistance);
 
             _battleStatEnums = new()
             {
@@ -136,7 +157,7 @@ namespace OrderElimination.AbilitySystem
             {
                 if (HasParameter(stat))
                 {
-                    GetParameter(stat).ValueChanged += OnStatsChanged;
+                    this[stat].ValueChanged += OnStatsChanged;
                 }
             }
         }
@@ -149,6 +170,7 @@ namespace OrderElimination.AbilitySystem
             var maxArmor = MaxArmor.ModifiedValue;
             if (maxArmor < PureArmor)
                 PureArmor = maxArmor;
+            LifeStatsChanged?.Invoke(this);
         }
 
         private void OnMaxHealthChanged(ProcessingParameter<float> parameter)
@@ -156,12 +178,13 @@ namespace OrderElimination.AbilitySystem
             var maxHealth = MaxHealth.ModifiedValue;
             if (maxHealth < Health)
                 Health = maxHealth;
+            LifeStatsChanged?.Invoke(this);
         }
 
         private void OnStatsChanged(ProcessingParameter<float> parameter)
         {
             if (!_battleStatEnums.ContainsKey(parameter))
-                throw new ArgumentException();
+                Logging.LogException( new ArgumentException());
             StatsChanged?.Invoke(_battleStatEnums[parameter]);
         }
     }
