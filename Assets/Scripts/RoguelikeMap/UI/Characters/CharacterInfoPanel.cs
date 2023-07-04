@@ -53,8 +53,6 @@ namespace RoguelikeMap.UI.Characters
         
         public void InitializeCharacterInfo(GameCharacter character)
         {
-            if(_playerInventoryPresenter is not null)
-                _characterInventoryPresenter.InitInventoryModel(character.Inventory);
             _characterName.text = character.CharacterData.Name;
             _characterAvatar.sprite = character.CharacterData.Avatar;
             InitializeStatsText(
@@ -67,7 +65,10 @@ namespace RoguelikeMap.UI.Characters
                 character.ActiveAbilities, 
                 character.PassiveAbilities);
             if (_playerInventoryPresenter is not null)
+            {
+                Debug.Log("Init");
                 _characterInventoryPresenter.InitInventoryModel(character.Inventory);
+            }
             //TODO: Update inventory
             //_playerInventoryPresenter.UpdateTargetInventory(character.Inventory);
             _playerInventoryPresenter?.UpdateTargetInventory(character.Inventory);

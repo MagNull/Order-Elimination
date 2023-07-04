@@ -31,17 +31,15 @@ namespace Inventory_Items
     public class EquipmentItem : Item
     {
         private IPassiveAbilityData _equipAbility;
-
-        public IPassiveAbilityData EquipAbility => _equipAbility;
-
+        
         public EquipmentItem(ItemData itemData) : base(itemData)
         {
-            _equipAbility = itemData.EquipAbility;
+            _equipAbility = AbilityFactory.CreatePassiveAbility(itemData.EquipAbility);
         }
 
         public override void OnTook(AbilitySystemActor abilitySystemActor)
         {
-            throw new NotImplementedException();
+            abilitySystemActor.GrantPassiveAbility(new PassiveAbilityRunner(_equipAbility, AbilityProvider.Equipment));
         }
     }
 
@@ -50,17 +48,22 @@ namespace Inventory_Items
         private IActiveAbilityData _useAbility;
         private int _useTimes;
 
-        public IActiveAbilityData UseAbility => _useAbility;
-
         public ConsumableItem(ItemData itemData) : base(itemData)
         {
-            _useAbility = itemData.UseAbility;
+            _useAbility = AbilityFactory.CreateActiveAbility(itemData.UseAbility);
             _useTimes = itemData.UseTimes;
         }
 
         public override void OnTook(AbilitySystemActor abilitySystemActor)
         {
-            throw new NotImplementedException();
+            var ability = new ActiveAbilityRunner(_useAbility, AbilityProvider.Equipment);
+            abilitySystemActor.GrantActiveAbility(ability);
+            ability.AbilityExecutionStarted += _ =>
+            {
+                _useTimes--;
+                if (_useTimes <= 0)
+                    abilitySystemActor.RemoveActiveAbility(ability);
+            };
         }
     }
 }

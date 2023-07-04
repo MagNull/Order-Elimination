@@ -48,25 +48,22 @@ public class BattleEntitiesFactory : MonoBehaviour
                 character.CharacterStats.AttackDamage,
                 character.CharacterStats.Accuracy,
                 character.CharacterStats.Evasion,
-                character.CharacterStats.MaxMovementDistance), 
-            EntityType.Character, 
-            side, 
                 character.CharacterStats.MaxMovementDistance),
             EntityType.Character,
             side,
-            character.ActiveAbilities.ToArray(),
-            character.PassiveAbilities.ToArray(),
             new EntityObstacleSetup());
+
         foreach (var abilityData in character.ActiveAbilities)
         {
             battleEntity.GrantActiveAbility(new ActiveAbilityRunner(abilityData, AbilityProvider.Self));
         }
+
         foreach (var abilityData in character.PassiveAbilities)
         {
             battleEntity.GrantPassiveAbility(new PassiveAbilityRunner(abilityData, AbilityProvider.Self));
         }
 
-        foreach (var item in character.Inventory.GetItems()) 
+        foreach (var item in character.Inventory.GetItems())
             item.OnTook(battleEntity);
 
         var entityView = _objectResolver.Instantiate(_characterPrefab, _charactersParent);
@@ -99,6 +96,7 @@ public class BattleEntitiesFactory : MonoBehaviour
         {
             battleEntity.GrantPassiveAbility(new PassiveAbilityRunner(abilityData, AbilityProvider.Self));
         }
+
         var entityView = _objectResolver.Instantiate(_structurePrefab, _structuresParent);
         entityView.Initialize(battleEntity, structureData.Name, structureData.BattleIcon, structureData.VisualModel);
 

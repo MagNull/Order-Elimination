@@ -7,7 +7,6 @@ namespace Inventory
 {
     public enum ItemType
     {
-        Null,
         Consumable,
         Equipment,
     }
@@ -22,12 +21,12 @@ namespace Inventory
         [field: SerializeField] public int Id { get; private set; }
 
         [field: SerializeReference, ShowIf("@Type == ItemType.Consumable")]
-        public IActiveAbilityData UseAbility { get; private set; }
+        public ActiveAbilityBuilder UseAbility { get; private set; }
 
         [field: SerializeReference, ShowIf("@Type == ItemType.Consumable")]
         public int UseTimes { get; private set; }
 
         [field: SerializeReference, ShowIf("@Type == ItemType.Equipment")]
-        public IPassiveAbilityData EquipAbility { get; private set; }
+        public PassiveAbilityBuilder EquipAbility { get; private set; }
     }
 }
