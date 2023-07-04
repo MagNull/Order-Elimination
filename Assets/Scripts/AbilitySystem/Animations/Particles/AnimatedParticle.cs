@@ -112,5 +112,11 @@ namespace OrderElimination.AbilitySystem.Animations
                 await UniTask.Delay(Mathf.RoundToInt(timeSpan * 1000), cancellationToken: cancellationToken);
             }
         }
+
+        protected void Reset()
+        {
+            _animator = GetComponentInChildren<Animator>();
+            _positionConstraint = GetComponentInChildren<PositionConstraint>();
+        }
     }
 }

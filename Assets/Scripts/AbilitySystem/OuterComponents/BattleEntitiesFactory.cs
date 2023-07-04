@@ -5,6 +5,7 @@ using OrderElimination.MetaGame;
 using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using VContainer;
 using VContainer.Unity;
 
@@ -48,10 +49,15 @@ public class BattleEntitiesFactory : MonoBehaviour
                 character.CharacterStats.MaxMovementDistance), 
             EntityType.Character, 
             side, 
-            character.ActiveAbilities.ToArray(),
-            character.PassiveAbilities.ToArray(),
             new EntityObstacleSetup());
-
+        foreach (var abilityData in character.ActiveAbilities)
+        {
+            battleEntity.GrantActiveAbility(new ActiveAbilityRunner(abilityData, AbilityProvider.Self));
+        }
+        foreach (var abilityData in character.PassiveAbilities)
+        {
+            battleEntity.GrantPassiveAbility(new PassiveAbilityRunner(abilityData, AbilityProvider.Self));
+        }
         var entityView = _objectResolver.Instantiate(_characterPrefab, _charactersParent);
         entityView.Initialize(battleEntity, character.CharacterData.Name, character.CharacterData.BattleIcon);
 
@@ -75,10 +81,11 @@ public class BattleEntitiesFactory : MonoBehaviour
             battleStats, 
             EntityType.Structure, 
             side,
-            new IActiveAbilityData[0],
-            passiveAbilities,
             structureData.ObstacleSetup);
-
+        foreach (var abilityData in passiveAbilities)
+        {
+            battleEntity.GrantPassiveAbility(new PassiveAbilityRunner(abilityData, AbilityProvider.Self));
+        }
         var entityView = _objectResolver.Instantiate(_structurePrefab, _structuresParent);
         entityView.Initialize(battleEntity, structureData.Name, structureData.BattleIcon, structureData.VisualModel);
 
