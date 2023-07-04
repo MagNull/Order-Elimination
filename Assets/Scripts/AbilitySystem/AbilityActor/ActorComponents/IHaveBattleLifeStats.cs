@@ -1,4 +1,5 @@
 ﻿using System;
+using static UnityEngine.GraphicsBuffer;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -25,20 +26,20 @@ namespace OrderElimination.AbilitySystem
             switch (incomingDamage.DamagePriority)
             {
                 case LifeStatPriority.ArmorFirst:
-                    armorDamage = GetUnscaledStatMaxValue(target.LifeStats.TotalArmor, damageRemainder, incomingDamage.ArmorMultiplier);
+                    armorDamage = GetUnscaledStatMaxOffset(target.LifeStats.TotalArmor, damageRemainder, incomingDamage.ArmorMultiplier);
                     damageRemainder -= armorDamage;
-                    healthDamage = GetUnscaledStatMaxValue(target.LifeStats.Health, damageRemainder, incomingDamage.HealthMultiplier);
+                    healthDamage = GetUnscaledStatMaxOffset(target.LifeStats.Health, damageRemainder, incomingDamage.HealthMultiplier);
                     break;
                 case LifeStatPriority.HealthFirst:
-                    healthDamage = GetUnscaledStatMaxValue(target.LifeStats.Health, damageRemainder, incomingDamage.HealthMultiplier);
+                    healthDamage = GetUnscaledStatMaxOffset(target.LifeStats.Health, damageRemainder, incomingDamage.HealthMultiplier);
                     damageRemainder -= healthDamage;
-                    armorDamage = GetUnscaledStatMaxValue(target.LifeStats.TotalArmor, damageRemainder, incomingDamage.ArmorMultiplier);
+                    armorDamage = GetUnscaledStatMaxOffset(target.LifeStats.TotalArmor, damageRemainder, incomingDamage.ArmorMultiplier);
                     break;
                 case LifeStatPriority.ArmorOnly:
-                    armorDamage = GetUnscaledStatMaxValue(target.LifeStats.TotalArmor, damageRemainder, incomingDamage.ArmorMultiplier);
+                    armorDamage = GetUnscaledStatMaxOffset(target.LifeStats.TotalArmor, damageRemainder, incomingDamage.ArmorMultiplier);
                     break;
                 case LifeStatPriority.HealthOnly:
-                    healthDamage = GetUnscaledStatMaxValue(target.LifeStats.Health, damageRemainder, incomingDamage.HealthMultiplier);
+                    healthDamage = GetUnscaledStatMaxOffset(target.LifeStats.Health, damageRemainder, incomingDamage.HealthMultiplier);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -59,20 +60,20 @@ namespace OrderElimination.AbilitySystem
             switch (incomingHeal.HealPriority)
             {
                 case LifeStatPriority.ArmorFirst:
-                    armorRecovery = GetUnscaledStatMaxValue(emptyArmor, healRemainder, incomingHeal.ArmorMultiplier);
+                    armorRecovery = GetUnscaledStatMaxOffset(emptyArmor, healRemainder, incomingHeal.ArmorMultiplier);
                     healRemainder -= armorRecovery;
-                    healthRecovery = GetUnscaledStatMaxValue(emptyHealth, healRemainder, incomingHeal.HealthMultiplier);
+                    healthRecovery = GetUnscaledStatMaxOffset(emptyHealth, healRemainder, incomingHeal.HealthMultiplier);
                     break;
                 case LifeStatPriority.HealthFirst:
-                    healthRecovery = GetUnscaledStatMaxValue(emptyHealth, healRemainder, incomingHeal.HealthMultiplier);
+                    healthRecovery = GetUnscaledStatMaxOffset(emptyHealth, healRemainder, incomingHeal.HealthMultiplier);
                     healRemainder -= healthRecovery;
-                    armorRecovery = GetUnscaledStatMaxValue(emptyArmor, healRemainder, incomingHeal.ArmorMultiplier);
+                    armorRecovery = GetUnscaledStatMaxOffset(emptyArmor, healRemainder, incomingHeal.ArmorMultiplier);
                     break;
                 case LifeStatPriority.ArmorOnly:
-                    armorRecovery = GetUnscaledStatMaxValue(emptyArmor, healRemainder, incomingHeal.ArmorMultiplier);
+                    armorRecovery = GetUnscaledStatMaxOffset(emptyArmor, healRemainder, incomingHeal.ArmorMultiplier);
                     break;
                 case LifeStatPriority.HealthOnly:
-                    healthRecovery = GetUnscaledStatMaxValue(emptyHealth, healRemainder, incomingHeal.HealthMultiplier);
+                    healthRecovery = GetUnscaledStatMaxOffset(emptyHealth, healRemainder, incomingHeal.HealthMultiplier);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -82,10 +83,48 @@ namespace OrderElimination.AbilitySystem
             return new HealRecoveryInfo(healthRecovery, armorRecovery, incomingHeal.Healer);
         }
 
-        private static float GetUnscaledStatMaxValue(float limitingValue, float damage, float multiplier)
+        private static float GetUnscaledStatMaxOffset(
+            float maxOffsetLimit, float desiredOffset, float multiplier)
         {
-            var unscaledLimitedValue = limitingValue / multiplier;
-            return MathF.Min(damage, unscaledLimitedValue);
+            //realOffset * multiplier <= offsetLimit
+            if (maxOffsetLimit < 0) throw new NotSupportedException();
+            var unscaledOffsetLimit = maxOffsetLimit / multiplier;
+            return MathF.Min(desiredOffset, unscaledOffsetLimit);
         }
+
+        //private static (float armorOffset, float healthOffset) CalculateStatOffset(
+        //    float totalOffset, 
+        //    LifeStatPriority statPriority,
+        //    float armorMultiplier,
+        //    float healthMultiplier,
+        //    float maxArmorOffset,
+        //    float maxHealthOffset)
+        //{
+        //    var deltaRemainder = MathF.Abs(totalOffset);
+        //    var armorOffset = 0f;
+        //    var healthOffset = 0f;
+        //    switch (statPriority)
+        //    {
+        //        case LifeStatPriority.ArmorFirst:
+        //            armorOffset = GetUnscaledStatMaxOffset(maxArmorOffset, deltaRemainder, armorMultiplier);
+        //            deltaRemainder -= armorOffset;
+        //            healthOffset = GetUnscaledStatMaxOffset(maxHealthOffset, deltaRemainder, healthMultiplier);
+        //            break;
+        //        case LifeStatPriority.HealthFirst:
+        //            healthOffset = GetUnscaledStatMaxOffset(maxHealthOffset, deltaRemainder, healthMultiplier);
+        //            deltaRemainder -= healthOffset;
+        //            armorOffset = GetUnscaledStatMaxOffset(maxArmorOffset, deltaRemainder, armorMultiplier);
+        //            break;
+        //        case LifeStatPriority.ArmorOnly:
+        //            armorOffset = GetUnscaledStatMaxOffset(maxArmorOffset, deltaRemainder, armorMultiplier);
+        //            break;
+        //        case LifeStatPriority.HealthOnly:
+        //            healthOffset = GetUnscaledStatMaxOffset(maxHealthOffset, deltaRemainder, healthMultiplier);
+        //            break;
+        //        default:
+        //            throw new NotImplementedException();
+        //    }
+        //    return new(armorOffset * armorMultiplier, healthOffset * healthMultiplier);
+        //}
     }
 }

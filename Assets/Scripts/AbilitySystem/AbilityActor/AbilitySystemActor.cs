@@ -18,8 +18,6 @@ namespace OrderElimination.AbilitySystem
             BattleStats battleStats, 
             EntityType type, 
             BattleSide side,
-            IActiveAbilityData[] activeAbilities,
-            IPassiveAbilityData[] passiveAbilities,
             IBattleObstacleSetup obstacleSetup)//equipment
         {
             BattleContext = battleContext;
@@ -29,14 +27,6 @@ namespace OrderElimination.AbilitySystem
             battleStats.HealthDepleted += OnHealthDepleted;
             EntityType = type;
             BattleSide = side;
-            foreach (var ability in activeAbilities)
-            {
-                ActiveAbilities.Add(new ActiveAbilityRunner(ability));
-            }
-            foreach (var ability in passiveAbilities)
-            {
-                PassiveAbilities.Add(new PassiveAbilityRunner(ability));
-            }
             foreach (var p in EnumExtensions.GetValues<ActionPoint>())
             {
                 _actionPoints.Add(p, 0);
@@ -108,7 +98,6 @@ namespace OrderElimination.AbilitySystem
 
         #region AbilityCaster
         private readonly Dictionary<ActionPoint, int> _actionPoints = new();
-
         public IReadOnlyDictionary<ActionPoint, int> ActionPoints => _actionPoints;
         public void AddActionPoints(ActionPoint actionPoint, int value = 1)
         {
@@ -142,9 +131,27 @@ namespace OrderElimination.AbilitySystem
                 _actionPoints.Add(actionPoint, 0);
             _actionPoints[actionPoint] = value;
         }
-        public List<ActiveAbilityRunner> ActiveAbilities { get; } = new();
-        public List<PassiveAbilityRunner> PassiveAbilities { get; } = new();
+        private readonly List<ActiveAbilityRunner> _activeAbilities = new();
+        private readonly List<PassiveAbilityRunner> _passiveAbilities = new();
+        public IReadOnlyList<ActiveAbilityRunner> ActiveAbilities => _activeAbilities;
+        public IReadOnlyList<PassiveAbilityRunner> PassiveAbilities => _passiveAbilities;
         public bool IsPerformingAbility { get; set; } //Performs ability
+        public void GrantActiveAbility(ActiveAbilityRunner ability)
+        {
+            _activeAbilities.Add(ability);
+        }
+        public bool RemoveActiveAbility(ActiveAbilityRunner ability)
+        {
+            return _activeAbilities.Remove(ability);
+        }
+        public void GrantPassiveAbility(PassiveAbilityRunner ability)
+        {
+            _passiveAbilities.Add(ability);
+        }
+        public bool RemovePassiveAbility(PassiveAbilityRunner ability)
+        {
+            return _passiveAbilities.Remove(ability);
+        }
         #endregion
 
         #region IEffectHolder
