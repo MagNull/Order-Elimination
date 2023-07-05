@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Inventory_Items
 {
-    public class SimpleInventoryCellView : MonoBehaviour, IInventoryCellView, IPointerDownHandler, IPointerUpHandler
+    public class InventoryCellView : MonoBehaviour, IInventoryCellView, IPointerDownHandler, IPointerUpHandler
     {
         public event Action<IReadOnlyCell> Clicked;
         

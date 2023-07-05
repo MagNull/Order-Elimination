@@ -77,7 +77,7 @@ namespace Inventory_Items
             {
                 if (cell.Item == null)
                     continue;
-                for (int i = 0; i < cell.ItemQuantity; i++)
+                for (var i = 0; i < cell.ItemQuantity; i++)
                 {
                     result.Add(cell.Item);
                 }
