@@ -2,33 +2,32 @@ using System.Collections.Generic;
 using OrderElimination;
 using RoguelikeMap.UI;
 using UnityEngine;
-using VContainer;
 
 namespace StartSessionMenu
 {
     public class MetaShop : Panel
     {
+        [SerializeField] 
+        private MoneyCounter _uiCounter;
         [SerializeField]
         private List<UpgradeCategory> _progressCategories;
-        
+        [SerializeField] 
+        private int StartMetaMoney = 1000;
         private Wallet _wallet;
-
-        [Inject]
-        public void Configure(Wallet wallet)
-        {
-            _wallet = wallet;
-        }
         
         private void Start()
         {
+            _wallet = new Wallet(StartMetaMoney);
+            _uiCounter.Initialize(_wallet);
             foreach (var category in _progressCategories)
                 category.OnUpgrade += Upgrade;
         }
 
         private void Upgrade(UpgradeCategory category)
         {
-            if (category.TryUpgrade(_wallet.Money))
-                _wallet.SubtractMoney(category.CostOfUpgrade);
+            var cost = category.TryUpgrade(_wallet.Money);
+            if (cost < 0) return;
+            _wallet.SubtractMoney(cost);
         }
 
         public void SaveStats()

@@ -16,6 +16,7 @@ namespace OrderElimination
         [SerializeField]
         private string _name;
 
+
         [PreviewField(Alignment = ObjectFieldAlignment.Left, Height = 80)]
         [PropertyOrder(0.1f)]
         [SerializeField]
@@ -60,11 +61,14 @@ namespace OrderElimination
         [PropertyOrder(2.1f)]
         [SerializeReference]
         private PassiveAbilityBuilder[] _passiveAbilitiesData;
-
+        
+        [field: SerializeField] 
+        public int Price { get; private set; }
+        
         [TitleGroup("Misc", Alignment = TitleAlignments.Centered, BoldTitle = true, Order = 3)]
         [PropertyOrder(3.0f)]
         [field: SerializeField]
-        public int CostValue { get; private set; }
+        public int Reward { get; private set; }
         [field: SerializeField]
         public Role Role { get; private set; }
 

@@ -10,7 +10,8 @@ namespace OrderElimination
         public string Name { get; }
         public Sprite BattleIcon { get; }
         public Sprite Avatar { get; }
-        public int CostValue { get; }
+        public int Price { get; }
+        public int Reward { get; }
         public Role Role { get; }
 
         public IReadOnlyGameCharacterStats GetBaseBattleStats();

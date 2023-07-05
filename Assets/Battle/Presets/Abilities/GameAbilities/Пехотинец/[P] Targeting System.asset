@@ -31,32 +31,15 @@ MonoBehaviour:
     - Name: Description
       Entry: 6
       Data: 
+    - Name: HideInCharacterDiscription
+      Entry: 5
+      Data: false
     - Name: CooldownTime
       Entry: 3
       Data: 0
     - Name: TriggerInstructions
       Entry: 7
-      Data: 0|OrderElimination.AbilitySystem.ITriggerAbilityInstruction[], Assembly-CSharp
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _cellGroupsHighlightColors
-      Entry: 7
-      Data: 1|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[UnityEngine.Color,
-        UnityEngine.CoreModule]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 2|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
-        mscorlib]], mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 0|OrderElimination.AbilitySystem.ITriggerInstruction[], Assembly-CSharp
     - Name: 
       Entry: 12
       Data: 0
