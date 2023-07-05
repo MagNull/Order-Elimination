@@ -12,7 +12,7 @@ namespace AI.Actions
         [SerializeField]
         private ActiveAbilityBuilder _ability;
         
-        public override async UniTask<bool> Run(Blackboard blackboard)
+        protected override async UniTask<bool> Run(Blackboard blackboard)
         {
             var targets = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
             var context = blackboard.Get<IBattleContext>("context");

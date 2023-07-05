@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using AI.Compositions;
 using Cysharp.Threading.Tasks;
+using OrderElimination.AbilitySystem;
 using UnityEngine;
 using XNode;
 
@@ -11,8 +12,18 @@ namespace AI
         [Input]
         [SerializeField]
         private TaskPort InputPort;
-        public abstract UniTask<bool> Run(Blackboard blackboard);
-        
+
+        public async UniTask<bool> TryRun(Blackboard blackboard)
+        {
+            var caster = blackboard.Get<AbilitySystemActor>("caster");
+            if (!caster.IsAlive)
+                return false;
+
+            return await Run(blackboard);
+        }
+
+        protected abstract UniTask<bool> Run(Blackboard blackboard);
+
         protected BehaviorTreeTask[] GetChildrenTasks()
         {
             var ports = GetOutputPort("ChildrenPort").GetConnections();

@@ -9,7 +9,7 @@ namespace AI.Actions
 {
     public class DamageTarget : BehaviorTreeTask
     {
-        public override async UniTask<bool> Run(Blackboard blackboard)
+        protected override async UniTask<bool> Run(Blackboard blackboard)
         {
             var targets = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
             var context = blackboard.Get<IBattleContext>("context");

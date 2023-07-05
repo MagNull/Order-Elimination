@@ -19,7 +19,7 @@ namespace AI.Conditions
         [SerializeField]
         private int _count;
 
-        public async override UniTask<bool> Run(Blackboard blackboard)
+        protected async override UniTask<bool> Run(Blackboard blackboard)
         {
             var targets = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
             var context = blackboard.Get<IBattleContext>("context");

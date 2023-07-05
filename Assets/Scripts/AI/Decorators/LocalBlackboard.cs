@@ -10,10 +10,10 @@ namespace AI.Decorators
         [SerializeField]
         private TaskPort ChildrenPort;
         
-        public override async UniTask<bool> Run(Blackboard blackboard)
+        protected override async UniTask<bool> Run(Blackboard blackboard)
         {
             var new_bb = new Blackboard(blackboard);
-            return await GetChildrenTasks()[0].Run(new_bb);
+            return await GetChildrenTasks()[0].TryRun(new_bb);
         }
     }
 }
