@@ -1,31 +1,36 @@
-﻿using Sirenix.OdinInspector;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Video;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class AbilityView
+    public class ActiveAbilityView
     {
         public string Name { get; }
         public Sprite Icon { get; }
         public string Description { get; }
         //public VideoClip PreviewVideo { get; }
-        public IReadOnlyDictionary<int, Color> TargetGroupsHighlightColors { get; }
-
         public bool HideInCharacterDiscription { get; }
+        //Active-only
+        public IReadOnlyDictionary<int, Color> TargetGroupsHighlightColors { get; }
+        public bool ShowCrosshairWhenTargeting { get; }
+        //CrosshairType
+        //CrosshairTargetGroups
+        public bool ShowTrajectoryWhenTargeting { get; }
 
-        public AbilityView(
+        public ActiveAbilityView(
             IReadOnlyDictionary<int, Color> groupColors, 
             string name, Sprite icon, string description, 
-            bool hideInCharacterDiscription) 
+            bool hideInCharacterDiscription,
+            bool showCrosshair,
+            bool showTrajectory) 
         {
             Name = name;
             Icon = icon;
             Description = description ?? "";
             TargetGroupsHighlightColors = groupColors;
             HideInCharacterDiscription = hideInCharacterDiscription;
+            ShowCrosshairWhenTargeting = showCrosshair;
+            ShowTrajectoryWhenTargeting = showTrajectory;
         }
     }
 }

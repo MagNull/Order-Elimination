@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OrderElimination.MetaGame
+namespace OrderElimination.MacroGame
 {
     public static class GameCharactersFactory
     {

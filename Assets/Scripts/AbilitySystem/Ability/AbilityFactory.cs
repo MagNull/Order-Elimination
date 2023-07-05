@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -10,29 +7,78 @@ namespace OrderElimination.AbilitySystem
     {
         public static IActiveAbilityData CreateActiveAbility(ActiveAbilityBuilder builderData)
         {
-            var abilityData = new ActiveAbilityData(builderData);
+            var view = new ActiveAbilityView(
+                builderData.CellGroupsHighlightColors,
+                builderData.Name,
+                builderData.Icon,
+                builderData.Description,
+                builderData.HideInCharacterDiscription,
+                builderData.ShowCrosshairWhenTargeting,
+                builderData.ShowTrajectoryWhenTargeting);
+            var gameRepresentation = new AbilityGameRepresentation
+            {
+                CooldownTime = builderData.CooldownTime
+            };
+            var rules = new AbilityRules(builderData.AvailabilityConditions, builderData.TargetCellConditions, builderData.UsageCost);
+            IAbilityTargetingSystem targetingSystem;
+            if (builderData.TargetingSystem == TargetingSystemType.NoTarget)
+            {
+                var casterPattern = (CasterRelativePattern)builderData.DistributionPattern;
+                targetingSystem = new NoTargetTargetingSystem(casterPattern);
+            }
+            else if (builderData.TargetingSystem == TargetingSystemType.SingleTarget)
+            {
+                targetingSystem = new SingleTargetTargetingSystem(
+                    builderData.DistributionPattern,
+                    builderData.TargetCellConditions);
+            }
+            else if (builderData.TargetingSystem == TargetingSystemType.MultiTarget)
+            {
+                targetingSystem = new MultiTargetTargetingSystem(
+                    builderData.DistributionPattern,
+                    builderData.TargetCellConditions,
+                    builderData.NecessaryTargets,
+                    builderData.OptionalTargets);
+            }
+            else
+            {
+                Logging.LogException(new NotImplementedException());
+                throw new NotImplementedException();
+            }
+            var execution = new ActiveAbilityExecution(builderData.AbilityInstructions.ToArray());
+
+            var abilityData = new ActiveAbilityData
+            {
+                BasedBuilder = builderData,
+                View = view,
+                GameRepresentation = gameRepresentation,
+                Rules = rules,
+                TargetingSystem = targetingSystem,
+                Execution = execution
+            };
             return abilityData;
         }
 
         public static IPassiveAbilityData CreatePassiveAbility(PassiveAbilityBuilder builderData)
         {
-            var abilityData = new PassiveAbilityData();
-
-            var view = new AbilityView(
-                builderData.CellGroupsHighlightColors,
+            var view = new PassiveAbilityView(
                 builderData.Name,
                 builderData.Icon,
                 builderData.Description,
                 builderData.HideInCharacterDiscription);
-            var gameRepresentation = new AbilityGameRepresentation();
-            gameRepresentation.CooldownTime = builderData.CooldownTime;
+            var gameRepresentation = new AbilityGameRepresentation
+            {
+                CooldownTime = builderData.CooldownTime
+            };
             var execution = new PassiveAbilityExecution(builderData.TriggerInstructions.ToArray());
 
-            abilityData.View = view;
-            abilityData.GameRepresentation = gameRepresentation;
-            abilityData.Execution = execution;
-            abilityData.BasedBuilder = builderData;
-
+            var abilityData = new PassiveAbilityData
+            {
+                View = view,
+                GameRepresentation = gameRepresentation,
+                Execution = execution,
+                BasedBuilder = builderData
+            };
             return abilityData;
         }
     }

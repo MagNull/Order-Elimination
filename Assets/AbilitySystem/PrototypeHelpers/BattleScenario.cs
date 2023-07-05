@@ -7,7 +7,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace OrderElimination.MetaGame
+namespace OrderElimination.MacroGame
 {
     [CreateAssetMenu(fileName = "Battle Scenario", menuName = "Battle/Battle Scenario")]
     public class BattleScenario : SerializedScriptableObject
