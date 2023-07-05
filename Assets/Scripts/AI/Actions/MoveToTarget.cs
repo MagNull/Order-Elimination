@@ -20,7 +20,7 @@ namespace AI.Actions
     {
         [SerializeField]
         private Purpose _purpose; 
-        public override async UniTask<bool> Run(Blackboard blackboard)
+        protected override async UniTask<bool> Run(Blackboard blackboard)
         {
             var targets = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
             if (!targets.Any())

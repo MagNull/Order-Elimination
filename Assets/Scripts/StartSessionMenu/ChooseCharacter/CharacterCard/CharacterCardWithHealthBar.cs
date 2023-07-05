@@ -1,6 +1,6 @@
 using OrderElimination;
 using OrderElimination.AbilitySystem;
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using RoguelikeMap;
 using UnityEngine;
 

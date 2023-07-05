@@ -1,5 +1,5 @@
 ﻿using OrderElimination.Infrastructure;
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using System;
 using System.Collections.Generic;
 using System.Linq;

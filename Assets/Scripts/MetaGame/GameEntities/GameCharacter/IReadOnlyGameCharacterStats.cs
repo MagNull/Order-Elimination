@@ -1,6 +1,6 @@
 ﻿using OrderElimination.AbilitySystem;
 
-namespace OrderElimination.MetaGame
+namespace OrderElimination.MacroGame
 {
     public interface IReadOnlyGameCharacterStats
     {

@@ -13,7 +13,7 @@ namespace AI.Actions
         [SerializeField]
         private PassiveAbilityBuilder[] _needPassiveEffects;
 
-        public override async UniTask<bool> Run(Blackboard blackboard)
+        protected override async UniTask<bool> Run(Blackboard blackboard)
         {
             var context = blackboard.Get<IBattleContext>("context");
             var caster = blackboard.Get<AbilitySystemActor>("caster");

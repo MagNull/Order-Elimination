@@ -9,6 +9,7 @@ using UIManagement.Elements;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
+using OrderElimination;
 
 public enum SelectorMode
 {
@@ -25,6 +26,10 @@ public class BattleMapSelector : MonoBehaviour
     [TitleGroup("Components")]
     [SerializeField]
     private CharacterBattleStatsPanel _characterBattleStatsPanel;
+
+    [TitleGroup("Components")]
+    [SerializeField]
+    private TargetingSystemDisplay _targetingSystemDisplay;
 
     [TitleGroup("Components")]
     [SerializeField]
@@ -174,6 +179,7 @@ public class BattleMapSelector : MonoBehaviour
             {
                 if (manualTargetingSystem.SelectedCells.Contains(cellPosition))
                 {
+                    //_targetingSystemDisplay.HideCrosshair(cellPosition);
                     //second click
                     if (_confirmTargetingBySecondClick)
                     {
@@ -184,8 +190,12 @@ public class BattleMapSelector : MonoBehaviour
                 }
                 else
                 {
-                    if (!manualTargetingSystem.Select(cellPosition))
-                        Debug.Log($"Wrong target at {cellPosition}");
+                    if (manualTargetingSystem.Select(cellPosition))
+                    {
+                        //_targetingSystemDisplay.ShowCrosshair(cellPosition);
+                    }
+                    else
+                        Logging.Log($"Wrong target at {cellPosition}");
                 }
             }
             else if (_selectedAbility.AbilityData.TargetingSystem is NoTargetTargetingSystem noTargetSystem)
@@ -209,7 +219,7 @@ public class BattleMapSelector : MonoBehaviour
         entity.DisposedFromBattle += OnSelectedEntityDisposed;
         _currentSelectedEntity = entity;
         var view = _battleContext.EntitiesBank.GetViewByEntity(entity);
-        _abilityPanel.AssignAbilities(entity, entity.ActiveAbilities.ToArray(), entity.PassiveAbilities.ToArray());
+        _abilityPanel.AssignAbilities(entity, entity.ActiveAbilities.ToArray());
         _abilityPanel.AbilitySelected += OnAbilitySelect;
         _abilityPanel.AbilityDeselected += OnAbilityDeselect;
         foreach (var ability in entity.ActiveAbilities)
@@ -295,6 +305,7 @@ public class BattleMapSelector : MonoBehaviour
     {
         if (_selectedAbility == null)
             return;//throw new System.InvalidOperationException("There is no ability selected.");
+        _targetingSystemDisplay.HideAllVisuals();
         _abilityPreviewDisplayer.HidePreview();
         if (abilityRunner.AbilityData.TargetingSystem is IRequireSelectionTargetingSystem targetingSystem)
         {
@@ -319,7 +330,15 @@ public class BattleMapSelector : MonoBehaviour
         HighlightCells();
         //Applies a slight tint on cells which player pressed while selecting targets
         //Unnesessary since can be done through cell group colors
-        foreach (var pos in targetingSystem.SelectedCells)
+        var selectedCells = targetingSystem.SelectedCells.ToArray();
+        if (_selectedAbility.AbilityData.View.ShowCrosshairWhenTargeting)
+            _targetingSystemDisplay.ShowCrosshairs(selectedCells);
+        if (_selectedAbility.AbilityData.View.ShowTrajectoryWhenTargeting)
+            _targetingSystemDisplay.ShowTrajectories(
+                selectedCells
+                .Select(p => new Vector2IntSegment(_currentSelectedEntity.Position, p))
+                .ToArray());
+        foreach (var pos in selectedCells)
         {
             var cellView = _battleMapView.GetCell(pos.x, pos.y);
             _battleMapView.HighlightCell(pos.x, pos.y, cellView.CurrentColor * 0.8f);

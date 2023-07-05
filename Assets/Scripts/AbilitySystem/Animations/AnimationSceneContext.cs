@@ -49,7 +49,7 @@ namespace OrderElimination.AbilitySystem.Animations
         public void StopAllPlayingAnimations()
         {
             AllAnimationsStopRequested?.Invoke(this);
-            Logging.Log("All animations has been cancelled.");
+            Logging.Log("All animations have been cancelled.");
         }
     }
 }

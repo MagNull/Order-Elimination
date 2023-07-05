@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using DefaultNamespace;
 using DG.Tweening;
+using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.AbilitySystem.Animations;
 using OrderElimination.Infrastructure;
@@ -13,6 +14,7 @@ using VContainer;
 
 public class BattleEntityView : MonoBehaviour
 {
+    [Title("Components")]
     [SerializeField]
     private SpriteRenderer _renderer;
     [SerializeField]
@@ -20,8 +22,16 @@ public class BattleEntityView : MonoBehaviour
 
     [HideInInspector, SerializeField]
     private float _iconTargetSize = 1.9f;
-    [HideInInspector, SerializeField]
+    [Title("Parameters")]
+    [SerializeField]
     private bool _showFloatingNumbers = true;
+    [ShowIf(nameof(_showFloatingNumbers))]
+    [SerializeField]
+    private bool _roundFloatingNumbers = true;
+    [ShowIf("@" + nameof(_showFloatingNumbers) + "&&" + nameof(_roundFloatingNumbers))]
+    [SerializeField]
+    private RoundingOption _roundingMode;
+
     private BattleMapView _battleMapView;
     private IParticlesPool _particlesPool;
     private TextEmitter _textEmitter;
@@ -42,12 +52,6 @@ public class BattleEntityView : MonoBehaviour
             _iconTargetSize = value;
             BattleIcon = BattleIcon;
         }
-    }
-    [ShowInInspector]
-    public bool ShowFloatingNumbers
-    {
-        get => _showFloatingNumbers;
-        set => _showFloatingNumbers = value;
     }
     public AbilitySystemActor BattleEntity { get; private set; }
     public string Name { get; private set; }
@@ -154,7 +158,10 @@ public class BattleEntityView : MonoBehaviour
         var strength = Mathf.InverseLerp(0, 200, damageValue);
         var shake = Mathf.Lerp(0, 0.5f, strength);
         var position = _floatingNumbersPosition.position;
-        if (ShowFloatingNumbers)
+        float roundedDamage = MathExtensions.Round(damageValue, _roundingMode);
+        if (_roundFloatingNumbers)
+            damageValue = roundedDamage;
+        if (_showFloatingNumbers)
                 _textEmitter.Emit($"{damageValue}", Color.red, position, new Vector2(0.5f, 0.5f));
         if (!BattleEntity.IsDisposedFromBattle)
             Shake(shake, shake, 1, 10);
@@ -181,8 +188,13 @@ public class BattleEntityView : MonoBehaviour
 
         var position = _floatingNumbersPosition.position;
         var offset = Vector3.up * 0.25f;
-        if (ShowFloatingNumbers)
+        if (_showFloatingNumbers)
         {
+            if (_roundFloatingNumbers)
+            {
+                armorValue = MathExtensions.Round(armorValue, _roundingMode);
+                healthValue = MathExtensions.Round(healthValue, _roundingMode);
+            }
             _textEmitter.Emit($"+{armorValue}", Color.cyan, position + offset, new Vector2(0.5f, 0.5f), duration: 1);
             _textEmitter.Emit($"+{healthValue}", Color.green, position - offset, new Vector2(0.5f, 0.5f), duration: 1);
         }
