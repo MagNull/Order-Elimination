@@ -5,6 +5,7 @@ using System.Linq;
 using OrderElimination;
 using UIManagement.Elements;
 using UnityEngine;
+using DG.Tweening;
 
 namespace UIManagement
 {
@@ -18,9 +19,6 @@ namespace UIManagement
 
         [SerializeField]
         private UIController _panelController;
-
-        [SerializeField]
-        private Sprite _noSelectedAbilityIcon;
 
         [SerializeField]
         private Color _selectedAbilityTint;
@@ -38,7 +36,6 @@ namespace UIManagement
             {
                 abilityButton.Clicked += OnAbilityButtonClicked;
                 abilityButton.Holded += OnActiveAbilityButtonHolded;
-                abilityButton.NoSelectedAbilityIcon = _noSelectedAbilityIcon;
             }
         }
 
@@ -62,20 +59,21 @@ namespace UIManagement
             _battleContext = caster.BattleContext;
             for (var i = 0; i < activeAbilities.Length; i++)
             {
+                var ability = activeAbilities[i];
                 if (activeAbilities[i].AbilityProvider == AbilityProvider.Equipment)
                 {
-                    _itemAbilityButton.AssignAbiility(activeAbilities[i]);
+                    _itemAbilityButton.AssignAbiility(ability);
                     _itemAbilityButton.HoldableButton.ClickAvailable = true;
                     _itemAbilityButton.HoldableButton.HoldAvailable = true;
                 }
                 else
                 {
-                    _activeAbilityButtons[i].AssignAbiility(activeAbilities[i]);
+                    _activeAbilityButtons[i].AssignAbiility(ability);
                     _activeAbilityButtons[i].HoldableButton.ClickAvailable = true;
                     _activeAbilityButtons[i].HoldableButton.HoldAvailable = true;
+                    _activeAbilityButtons[i].CooldownTimer.SetValue(CalculateCooldown(ability, _battleContext), 0);
                 }
             }
-
             UpdateAbilityButtonsAvailability();
         }
 
@@ -104,7 +102,9 @@ namespace UIManagement
                     continue;
                 }
 
-                var isAvailable = button.AbilityRunner.IsCastAvailable(_battleContext, _caster);
+                var ability = button.AbilityRunner;
+                var isAvailable = ability.IsCastAvailable(_battleContext, _caster);
+                button.CooldownTimer.SetValue(CalculateCooldown(ability, _battleContext));
                 button.SetClickAvailability(isAvailable);
             }
         }
@@ -155,6 +155,26 @@ namespace UIManagement
             else
             {
             }
+        }
+
+        private int CalculateCooldown(ActiveAbilityRunner abilityRunner, IBattleContext battleContext)
+        {
+            var cooldownTime = abilityRunner.Cooldown;
+            var currentRound = battleContext.CurrentRound;
+            var cooldownValueToDisplay = cooldownTime;
+            var roundConditions = abilityRunner.AbilityData.Rules.AvailabilityConditions
+                .Select(c => c as UnlocksAtRoundCondition)
+                .Where(c => c != null)
+                .ToArray();
+            if (roundConditions.Length > 0)
+            {
+                var unlockingRound = roundConditions.Max(c => c.UnlocksAtRound);
+                if (currentRound < unlockingRound)
+                {
+                    cooldownValueToDisplay = Mathf.Max(cooldownTime, unlockingRound - currentRound);
+                }
+            }
+            return cooldownValueToDisplay;
         }
 
         private void OnActiveAbilityButtonHolded(AbilityButton abilityButton)

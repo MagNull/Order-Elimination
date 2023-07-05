@@ -17,6 +17,7 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 21300000, guid: 94046d13d573e464aa6ca640df40ceb2, type: 3}
+    - {fileID: 8300000, guid: b113ded10e28c4940b2ebf3c71a978d3, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -31,6 +32,12 @@ MonoBehaviour:
     - Name: Description
       Entry: 6
       Data: 
+    - Name: ShowCrosshairWhenTargeting
+      Entry: 5
+      Data: true
+    - Name: ShowTrajectoryWhenTargeting
+      Entry: 5
+      Data: false
     - Name: HideInCharacterDiscription
       Entry: 5
       Data: true
@@ -605,7 +612,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 7
       Data: 
@@ -624,6 +631,18 @@ MonoBehaviour:
     - Name: $k
       Entry: 3
       Data: 1
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
     - Name: $v
       Entry: 5
       Data: false
@@ -744,7 +763,20 @@ MonoBehaviour:
       Entry: 5
       Data: true
     - Name: AnimationBeforeAction
-      Entry: 6
+      Entry: 7
+      Data: 45|Assets.Scripts.AbilitySystem.Animations.AbilityAnimations.Special.AnimationSound,
+        Assembly-CSharp
+    - Name: Sound
+      Entry: 10
+      Data: 1
+    - Name: Duration
+      Entry: 4
+      Data: 1
+    - Name: WaitForCompletion
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
       Data: 
     - Name: 
       Entry: 8

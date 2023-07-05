@@ -19,7 +19,7 @@ namespace OrderElimination.AbilitySystem
             {
                 CooldownTime = builderData.CooldownTime
             };
-            var rules = new AbilityRules(builderData.AvailabilityConditions, builderData.TargetCellConditions, builderData.UsageCost);
+            var rules = new AbilityRules(builderData.AvailabilityConditions, builderData.UsageCost);
             IAbilityTargetingSystem targetingSystem;
             if (builderData.TargetingSystem == TargetingSystemType.NoTarget)
             {

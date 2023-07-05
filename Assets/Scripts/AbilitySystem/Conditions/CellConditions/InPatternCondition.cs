@@ -18,8 +18,8 @@ namespace OrderElimination.AbilitySystem
         }
 
         public bool IsConditionMet(IBattleContext context, AbilitySystemActor askingEntity, Vector2Int positionToCheck)
-		{
-			var casterPos = askingEntity.Position;
+        {
+            var casterPos = askingEntity.Position;
 			var pattern = Pattern.GetAbsolutePositions(casterPos);
 
             return pattern.Contains(positionToCheck);
