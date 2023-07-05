@@ -5,14 +5,14 @@ using Sirenix.Serialization;
 using System;
 using System.Threading;
 using UnityEngine;
-using static Sentry.MeasurementUnit;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.AbilitySystem.Animations.AbilityAnimations.Special
 {
     public class AnimationSound : AwaitableAbilityAnimation
     {
         [ShowInInspector, OdinSerialize]
-        public AudioClip Sound { get; set; }
+        public AudioClip[] Sounds { get; set; } = new AudioClip[0];
 
         [ShowInInspector, OdinSerialize]
         public float Duration { get; set; } = -1;
@@ -23,19 +23,21 @@ namespace Assets.Scripts.AbilitySystem.Animations.AbilityAnimations.Special
         protected override async UniTask OnAnimationPlayRequest(
             AnimationPlayContext context, CancellationToken cancellationToken)
         {
-            var playingDuration = Duration > 0 ? Duration : Sound.length;
-            var duration = Mathf.RoundToInt(playingDuration * 1000);
+            if (Sounds.Length == 0)
+                throw new InvalidOperationException("No audioclips to play.");
             if (WaitForCompletion)
-                await PlaySound(context.SceneContext.SoundEffectsPlayer, duration, cancellationToken);
+                await PlaySound(context.SceneContext.SoundEffectsPlayer, cancellationToken);
             else
-                PlaySound(context.SceneContext.SoundEffectsPlayer, duration, cancellationToken);
+                PlaySound(context.SceneContext.SoundEffectsPlayer, cancellationToken);
         }
 
-        private async UniTask PlaySound(SoundEffectsPlayer player, int durationMs, CancellationToken cancellationToken)
+        private async UniTask PlaySound(SoundEffectsPlayer player, CancellationToken cancellationToken)
         {
-            var sound = player.PlaySound(Sound);
-            await UniTask.Delay(durationMs, cancellationToken: cancellationToken);
-            player.StopSound(sound);
+            var clip = Sounds[Random.Range(0, Sounds.Length)];
+            var playingDuration = Duration > 0 ? Duration : clip.length;
+            var duration = Mathf.RoundToInt(playingDuration * 1000);
+            player.PlaySound(clip);
+            await UniTask.Delay(duration, cancellationToken: cancellationToken);
         }
     }
 }

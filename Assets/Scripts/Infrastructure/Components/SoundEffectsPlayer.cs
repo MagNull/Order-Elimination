@@ -8,24 +8,12 @@ using UnityEngine.Audio;
 
 public class SoundEffectsPlayer : MonoBehaviour
 {
-    public class PlayingSound
-    {
-
-    }
-
     [SerializeField]
     private AudioSource _audioSource;
 
-    public PlayingSound PlaySound(AudioClip clip, float playbackSpeed = 1)
+    public void PlaySound(AudioClip clip, float playbackSpeed = 1)
     {
         _audioSource.pitch = playbackSpeed;
         _audioSource.PlayOneShot(clip);
-        return new PlayingSound();
-    }
-
-    public bool StopSound(PlayingSound sound)
-    {
-        _audioSource.Stop();
-        return true;
     }
 }
