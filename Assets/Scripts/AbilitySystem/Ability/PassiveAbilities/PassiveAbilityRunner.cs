@@ -1,5 +1,4 @@
-﻿using Sirenix.Utilities;
-using System;
+﻿using System;
 using static OrderElimination.AbilitySystem.PassiveAbilityExecution;
 
 namespace OrderElimination.AbilitySystem

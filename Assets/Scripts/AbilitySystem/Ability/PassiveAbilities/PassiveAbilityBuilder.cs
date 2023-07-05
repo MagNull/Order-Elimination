@@ -1,10 +1,6 @@
 ﻿using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
@@ -26,11 +22,6 @@ namespace OrderElimination.AbilitySystem
         [TitleGroup("Visuals"), PropertyOrder(2)]
         [ShowInInspector, OdinSerialize, MultiLineProperty]
         public string Description { get; private set; }
-
-        [TitleGroup("Visuals"), PropertyOrder(3)]
-        [ShowInInspector, OdinSerialize, DictionaryDrawerSettings(KeyLabel = "Group", ValueLabel = "Highlight color")]
-        private Dictionary<int, Color> _cellGroupsHighlightColors = new();
-        public IReadOnlyDictionary<int, Color> CellGroupsHighlightColors => _cellGroupsHighlightColors;
 
         [TitleGroup("Visuals"), PropertyOrder(4)]
         [ShowInInspector, OdinSerialize]

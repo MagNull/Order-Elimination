@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Security;
 
-namespace OrderElimination.AbilitySystem
+namespace OrderElimination.Infrastructure
 {
     public enum MathOperation
     {

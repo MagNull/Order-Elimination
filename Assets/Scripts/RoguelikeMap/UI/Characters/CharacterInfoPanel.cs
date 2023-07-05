@@ -3,7 +3,7 @@ using System.Linq;
 using Inventory_Items;
 using OrderElimination;
 using OrderElimination.AbilitySystem;
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using RoguelikeMap.UI.Abilities;
 using Sirenix.OdinInspector;
 using TMPro;

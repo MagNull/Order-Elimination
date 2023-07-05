@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OrderElimination;
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
 

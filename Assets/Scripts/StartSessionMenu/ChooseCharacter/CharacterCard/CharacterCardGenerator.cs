@@ -1,6 +1,6 @@
 using System;
 using OrderElimination;
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using RoguelikeMap.UI.Characters;
 using UnityEngine;
 using VContainer;
