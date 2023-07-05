@@ -14,6 +14,8 @@ namespace StartSessionMenu.ChooseCharacter
     public class ChoosingCharacter : ChoosingSquadMembersPanel
     {
         [SerializeField] 
+        private Button _startGameButton;
+        [SerializeField] 
         private MoneyCounter _uiCounter;
         [SerializeField]
         private List<CharacterTemplate> _characters;
@@ -23,7 +25,9 @@ namespace StartSessionMenu.ChooseCharacter
         private int MaxSquadSize = 3;
         [SerializeField] 
         private ScrollRect _scrollRect;
-        [SerializeField] private int StartMoney = 1200;
+        [SerializeField]
+        private int StartMoney = 1200;
+        
         private Wallet _wallet;
         private int _selectedCount = 0;
         private Tweener _tweener;
@@ -71,6 +75,12 @@ namespace StartSessionMenu.ChooseCharacter
                 SelectCard(card, _unselectedDropZone.transform);
                 _selectedCount--;
             }
+            SetActiveStartButton();
+        }
+
+        private void SetActiveStartButton()
+        {
+            _startGameButton.interactable = _selectedCount != 0;
         }
 
         public bool SaveCharacters()

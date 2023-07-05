@@ -316,7 +316,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 78452349}
   m_OnClick:
     m_PersistentCalls:
@@ -1969,12 +1969,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _windowOpeningTime: 0.3
   _windowOpeningEase: 32
+  _uiCounter: {fileID: 2070371899}
   _progressCategories:
   - {fileID: 620782494}
   - {fileID: 563827440}
   - {fileID: 906364351}
   - {fileID: 1837803561}
   - {fileID: 703908961}
+  StartMetaMoney: 1000
 --- !u!1 &372645049
 GameObject:
   m_ObjectHideFlags: 0
@@ -5452,7 +5454,8 @@ MonoBehaviour:
   _selectedDropZone: {fileID: 0}
   _unselectedDropZone: {fileID: 1811430912}
   _characterButtonPref: {fileID: 82469547036186783, guid: 46af61c7af418f1468beb2ca38630730, type: 3}
-  _uiCounter: {fileID: 2070371899}
+  _startGameButton: {fileID: 78452348}
+  _uiCounter: {fileID: 1272125001}
   _characters:
   - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
   - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
@@ -5466,6 +5469,7 @@ MonoBehaviour:
   - {fileID: 1069356594}
   MaxSquadSize: 3
   _scrollRect: {fileID: 797776870}
+  StartMoney: 1200
 --- !u!1 &1002972822
 GameObject:
   m_ObjectHideFlags: 0
@@ -6990,6 +6994,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1244342160}
   m_CullTransparentMesh: 1
+--- !u!114 &1272125001 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5239559541971330961, guid: a246b125667bc714581d7669bbc550ec, type: 3}
+  m_PrefabInstance: {fileID: 991255235}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e957baca7c12d3a45bbc74bf11f8ef56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1285933320 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2130944313854085108, guid: 3ec24adaaf06b174e9aa56504b1b2d3b, type: 3}
@@ -8468,7 +8483,6 @@ MonoBehaviour:
   - {fileID: 365208845}
   - {fileID: 372645049}
   - {fileID: 78452346}
-  StartMoney: 10000
   _library: {fileID: 11400000, guid: ccf5a05429ccd6e4ea3c89c2b79f7a33, type: 2}
   _characterInfoPanel: {fileID: 1787063235}
 --- !u!4 &1514633135
