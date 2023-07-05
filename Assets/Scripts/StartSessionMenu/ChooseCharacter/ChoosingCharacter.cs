@@ -63,6 +63,8 @@ namespace StartSessionMenu.ChooseCharacter
                     || _wallet.Money - card.Cost < 0
                     || _selectedCount >= MaxSquadSize) 
                     return;
+                if (dropZone.IsSelected)
+                    return;
                 _wallet.SubtractMoney(card.Cost);
                 SelectCard(card, dropZone.transform);
                 _selectedCount++;
@@ -75,6 +77,7 @@ namespace StartSessionMenu.ChooseCharacter
                 SelectCard(card, _unselectedDropZone.transform);
                 _selectedCount--;
             }
+            card.SetDropZone(dropZone);
             SetActiveStartButton();
         }
 
