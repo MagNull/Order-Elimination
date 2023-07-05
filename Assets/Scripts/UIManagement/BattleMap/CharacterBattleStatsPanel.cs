@@ -151,13 +151,10 @@ namespace UIManagement.Elements
         private void UpdateStats(BattleEntityView entityView)
         {
             var stats = entityView.BattleEntity.LifeStats;
-
-            //Round visual numbers
-            var curHealth = Mathf.RoundToInt(stats.Health);
-            var maxHealth = Mathf.RoundToInt(stats.MaxHealth.ModifiedValue);
-            var curArmor = Mathf.RoundToInt(stats.TotalArmor);
-            var maxArmor = Mathf.RoundToInt(stats.MaxArmor.ModifiedValue);
-            //Round visual numbers
+            var curHealth = stats.Health;
+            var maxHealth = stats.MaxHealth.ModifiedValue;
+            var curArmor = stats.TotalArmor;
+            var maxArmor = stats.MaxArmor.ModifiedValue;
 
             _healthBar.SetValue(curHealth, 0, maxHealth);
             _armorBar.SetValue(curArmor, 0, maxArmor);
