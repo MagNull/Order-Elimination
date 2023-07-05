@@ -1,4 +1,4 @@
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using System;
 using System.Collections;
 using System.Collections.Generic;

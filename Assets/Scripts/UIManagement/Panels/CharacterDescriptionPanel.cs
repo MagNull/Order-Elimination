@@ -8,7 +8,7 @@ using Inventory_Items;
 using OrderElimination.AbilitySystem;
 using OrderElimination;
 using UnityEngine.Serialization;
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using OrderElimination.Localization;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;

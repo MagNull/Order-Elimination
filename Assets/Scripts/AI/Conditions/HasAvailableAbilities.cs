@@ -13,7 +13,7 @@ namespace AI.Conditions
         [SerializeField]
         private bool _available;
 
-        public override async UniTask<bool> Run(Blackboard blackboard)
+        protected override async UniTask<bool> Run(Blackboard blackboard)
         {
             var caster = blackboard.Get<AbilitySystemActor>("caster");
             var abilities = caster.ActiveAbilities;

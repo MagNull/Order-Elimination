@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using OrderElimination;
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using Unity.VisualScripting;

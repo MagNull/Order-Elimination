@@ -2,7 +2,7 @@ using OrderElimination.AbilitySystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using System.Linq;
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using System.Text.RegularExpressions;
 using AI;
 

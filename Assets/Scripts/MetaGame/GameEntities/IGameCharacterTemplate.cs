@@ -1,6 +1,6 @@
 ﻿using AI;
 using OrderElimination.AbilitySystem;
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using UnityEngine;
 
 namespace OrderElimination

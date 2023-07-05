@@ -1,4 +1,4 @@
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using TMPro;

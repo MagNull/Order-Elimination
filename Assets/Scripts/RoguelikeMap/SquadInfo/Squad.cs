@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using OrderElimination;
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.UI.Characters;

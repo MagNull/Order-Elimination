@@ -4,7 +4,7 @@ using Sirenix.Serialization;
 using System;
 using UnityEngine;
 
-namespace OrderElimination.MetaGame
+namespace OrderElimination.MacroGame
 {
     [Serializable]
     public struct GameCharacterStats : IReadOnlyGameCharacterStats

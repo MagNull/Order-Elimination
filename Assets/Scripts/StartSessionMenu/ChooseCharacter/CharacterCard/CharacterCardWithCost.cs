@@ -1,5 +1,5 @@
 using OrderElimination;
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using UnityEngine;
 using UnityEngine.UI;
 
