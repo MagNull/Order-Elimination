@@ -17,6 +17,7 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
 
         public override void InitializeCard(GameCharacter character, bool isSelected)
         {
+            _cost = character.CharacterData.Price;
             base.InitializeCard(character, isSelected);
             _cardCost.text = _cost + "$";
         }
