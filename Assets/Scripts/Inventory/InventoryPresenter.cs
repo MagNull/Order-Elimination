@@ -1,4 +1,5 @@
-﻿using Inventory;
+﻿using System.Linq;
+using Inventory;
 using Inventory.Items;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -36,7 +37,6 @@ namespace Inventory_Items
         {
             _inventoryView.UpdateCells(_inventoryModel.Cells);
             _inventoryModel.OnCellAdded += _inventoryView.OnCellAdded;
-            _inventoryModel.OnCellChanged += _inventoryView.OnCellChanged;
             _inventoryModel.OnCellRemoved += _inventoryView.OnCellRemoved;
             OnEnableAdditional();
         }
@@ -49,7 +49,6 @@ namespace Inventory_Items
         private void OnDisable()
         {
             _inventoryModel.OnCellAdded -= _inventoryView.OnCellAdded;
-            _inventoryModel.OnCellChanged -= _inventoryView.OnCellChanged;
             _inventoryModel.OnCellRemoved -= _inventoryView.OnCellRemoved;
             OnDisableAdditional();
         }
@@ -69,7 +68,7 @@ namespace Inventory_Items
         [Button]
         public void RemoveItem()
         {
-            _inventoryModel.RemoveItem(_lastItem);
+            _inventoryModel.RemoveItem(_inventoryModel.GetItems().Last());
         }
     }
 }

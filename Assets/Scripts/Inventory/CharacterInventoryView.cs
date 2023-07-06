@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Inventory;
-using OrderElimination;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,9 +12,6 @@ namespace Inventory_Items
         [SerializeField]
         private Dictionary<ItemType, Image> _cellViewByItemType = new();
 
-        [SerializeField]
-        private Sprite _emptyCellSprite;
-
         public override event Action<IReadOnlyCell> CellClicked;
 
         public override void UpdateCells(IReadOnlyList<IReadOnlyCell> cells)
@@ -24,36 +20,29 @@ namespace Inventory_Items
             {
                 foreach (var cell in cells)
                 {
-                    if (_cellViewByItemType.ContainsKey(cell.Item.Type))
-                    {
-                        _cellViewByItemType[cell.Item.Type].sprite = cell.Item.View.Icon;
-                    }
+                    OnCellAdded(cell);
                 }
             }
             else
             {
                 foreach (var image in _cellViewByItemType)
                 {
-                    image.Value.sprite = _emptyCellSprite;
+                    image.Value.enabled = false;
                 }
             }
         }
 
-        public override void OnCellChanged(IReadOnlyCell oldCell, IReadOnlyCell newCell)
-        {
-            _cellViewByItemType[oldCell.Item.Type].sprite = newCell.Item.View.Icon;
-        }
-
         public override void OnCellAdded(IReadOnlyCell cell)
         {
-            Logging.Log("OnCellAdded", context: this);
-            if (_cellViewByItemType.ContainsKey(cell.Item.Type))
-                _cellViewByItemType[cell.Item.Type].sprite = cell.Item.View.Icon;
+            if (!_cellViewByItemType.ContainsKey(cell.Item.Type)) 
+                return;
+            _cellViewByItemType[cell.Item.Type].sprite = cell.Item.View.Icon;
+            _cellViewByItemType[cell.Item.Type].enabled = true;
         }
 
         public override void OnCellRemoved(IReadOnlyCell cell)
         {
-            _cellViewByItemType[cell.Item.Type].sprite = _emptyCellSprite;
+            _cellViewByItemType[cell.Item.Type].enabled = false;
         }
     }
 }
