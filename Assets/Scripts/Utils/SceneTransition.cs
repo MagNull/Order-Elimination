@@ -1,4 +1,5 @@
-﻿using UnityEngine.SceneManagement;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace OrderElimination
 {
@@ -6,16 +7,24 @@ namespace OrderElimination
     {
         public void LoadBattleMap()
         {
-            SceneManager.LoadSceneAsync(2);
+            PlayerPrefs.SetInt("sceneIndex", 2);
+            LoadSceneLoader();
         }
 
         public void LoadRoguelikeMap()
         {
-            SceneManager.LoadSceneAsync(1);
+            PlayerPrefs.SetInt("sceneIndex", 1);
+            LoadSceneLoader();
         }
         public void LoadStartSessionMenu()
         {
-            SceneManager.LoadSceneAsync(0);
+            PlayerPrefs.SetInt("sceneIndex", 0);
+            LoadSceneLoader();
+        }
+
+        private void LoadSceneLoader()
+        {
+            SceneManager.LoadSceneAsync(3);
         }
     }
 }
