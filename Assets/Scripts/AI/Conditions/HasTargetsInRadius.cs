@@ -48,8 +48,9 @@ namespace AI.Conditions
                     break;
             }
 
-            targets = targets.Where(e =>
-                context.BattleMap.GetGameDistanceBetween(e.Position, caster.Position) <= _radius)
+            targets = targets
+                .Where(e =>
+                e.IsAlive && context.BattleMap.GetGameDistanceBetween(e.Position, caster.Position) <= _radius)
                 .Where(enemy => _targetConditions.All(co => co.Check(enemy)));
 
             if (!targets.Any())
