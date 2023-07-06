@@ -242,8 +242,8 @@ public class BattleMapSelector : MonoBehaviour
         view.Highlight(highlightColor, 0.1f, 0.2f, 0.3f);
         Debug.Log($"{entity.EntityType} {view.Name} selected." % Colorize.ByColor(new Color(1, 0.5f, 0.5f))
             + $"\nActionPoints: {string.Join(", ", entity.ActionPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
-            + $"\nHealth: {entity.LifeStats.Health}; MaxHealth: {entity.LifeStats.MaxHealth.ModifiedValue}" 
-            + $"\nTotalArmor: {entity.LifeStats.TotalArmor}; MaxArmor: {entity.LifeStats.MaxArmor.ModifiedValue}" 
+            + $"\nHealth: {entity.BattleStats.Health}; MaxHealth: {entity.BattleStats.MaxHealth.ModifiedValue}" 
+            + $"\nTotalArmor: {entity.BattleStats.TotalArmor}; MaxArmor: {entity.BattleStats.MaxArmor.ModifiedValue}" 
             + $"\nDamage: {entity.BattleStats[BattleStat.AttackDamage].ModifiedValue};" 
             + $"\nAccuracy: {entity.BattleStats[BattleStat.Accuracy].ModifiedValue};" 
             + $"\nEvasion: {entity.BattleStats[BattleStat.Evasion].ModifiedValue};" 

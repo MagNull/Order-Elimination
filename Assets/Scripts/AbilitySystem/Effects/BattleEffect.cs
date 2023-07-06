@@ -39,7 +39,7 @@ namespace OrderElimination.AbilitySystem
             if (EffectData.StackingPolicy == EffectStackingPolicy.OverrideOld
                 && EffectHolder.HasEffect(EffectData))
             {
-                var effectsToRemove = EffectHolder.Effects.Where(e => e.EffectData == EffectData).ToArray();
+                var effectsToRemove = EffectHolder.GetEffects(EffectData).ToArray();
                 foreach (var oldEffect in effectsToRemove)
                 {
                     oldEffect.Deactivate();

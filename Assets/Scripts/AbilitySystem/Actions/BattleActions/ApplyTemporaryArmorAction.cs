@@ -50,7 +50,7 @@ namespace OrderElimination.AbilitySystem
             if (!result.IsSuccessful) 
                 return false;
             var armor = _appliedTempArmors[performId];
-            result.ActionContext.ActionTarget.LifeStats.RemoveTemporaryArmor(armor);
+            result.ActionContext.ActionTarget.BattleStats.RemoveTemporaryArmor(armor);
             _undoneOperations.Add(performId);
             return true;
         }
@@ -59,7 +59,7 @@ namespace OrderElimination.AbilitySystem
         {
             var temporaryArmor = new TemporaryArmor(TemporaryArmorAmount.GetValue(useContext));
             var currentId = _appliedTempArmors.Count;
-            useContext.ActionTarget.LifeStats.AddTemporaryArmor(temporaryArmor);
+            useContext.ActionTarget.BattleStats.AddTemporaryArmor(temporaryArmor);
             var actionResult = new SimpleUndoablePerformResult(this, useContext, true, currentId);
             _appliedTempArmors.Add(temporaryArmor);
             _actionResults.Add(actionResult);

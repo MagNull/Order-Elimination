@@ -32,9 +32,10 @@ namespace AI.Actions
 
             var movementAbility = AbilityAIPresentation.GetMoveAbility(caster);
             movementAbility.InitiateCast(context, caster);
-
-            var optimalCells = movementAbility.AbilityData.Rules
-                .GetAvailableCellPositions(context, caster)
+            if (movementAbility.AbilityData.TargetingSystem
+                is not IRequireSelectionTargetingSystem manualTargeting)
+                throw new NotSupportedException();
+            var optimalCells = manualTargeting.PeekAvailableCells(context, caster)
                 .Except(notOptimalCells);
             if (!optimalCells.Any())
             {
