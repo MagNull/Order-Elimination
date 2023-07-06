@@ -26,6 +26,11 @@ namespace AI
         [SerializeField]
         private Dictionary<IGameCharacterTemplate, CharacterBehavior> _characterToBehaviors = new();
 
+        [SerializeField]
+        private List<BattleSide> _playableSides;
+
+        private BattleSide _activeSide;
+
         private IBattleContext _context;
         private BattleLoopManager _battleLoopManager;
 
@@ -48,16 +53,17 @@ namespace AI
 
         private void OnTurnStarted(IBattleContext context)
         {
-            if (context.ActiveSide != BattleSide.Enemies)
+            if (!_playableSides.Contains(context.ActiveSide))
                 return;
 
+            _activeSide = context.ActiveSide;
             Run();
         }
 
         [Button]
         public async void Run()
         {
-            var enemies = _context.EntitiesBank.GetEntities(BattleSide.Enemies);
+            var enemies = _context.EntitiesBank.GetEntities(_activeSide);
             var templates =
                 enemies
                     .Select(enemy =>

@@ -2359,6 +2359,14 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 274391217118058627, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
+    - target: {fileID: 274391217118058627, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
+      propertyPath: _playableSides.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 274391217118058627, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
+      propertyPath: _playableSides.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
 --- !u!1 &1600433759
