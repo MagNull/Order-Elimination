@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Plugins.Options;
 using OrderElimination.MacroGame;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
@@ -12,8 +10,6 @@ namespace RoguelikeMap.UI
 {
     public class BattleScenarioVisualiser : SerializedMonoBehaviour
     {
-        [SerializeField]
-        private List<Sprite> _sprites;
         [OdinSerialize]
         private Dictionary<Vector2Int, Image> _objects;
         [SerializeField]
@@ -21,28 +17,10 @@ namespace RoguelikeMap.UI
 
         private BattleScenario _scenario;
         private bool _isZoom = false;
-        private TweenerCore<Vector3, Vector3, VectorOptions> _tweenerCore;
 
         public float windowScaleCoef = 1.5f;
         public float windowOpeningTime = 0.3f;
         public Ease windowOpeningEase = Ease.Flash;
-
-        [ShowInInspector]
-        private const int ExplosibeBattelIndex = 0;
-        [ShowInInspector]
-        private const int HoleIndex = 1;
-        [ShowInInspector]
-        private const int LandMineIndex = 2;
-        [ShowInInspector]
-        private const int ShieldIndex = 3;
-        [ShowInInspector]
-        private const int SmokeIndex = 4;
-        [ShowInInspector]
-        private const int StoneIndex = 5;
-        [ShowInInspector]
-        private const int TowerIndex = 6;
-        [ShowInInspector]
-        private const int TreeIndex = 7;
         
         public void Initialize(BattleScenario battleScenario,
             IReadOnlyList<GameCharacter> enemies, IReadOnlyList<GameCharacter> allies)
@@ -53,21 +31,39 @@ namespace RoguelikeMap.UI
 
         private void UpdateMap(IReadOnlyList<GameCharacter> enemies, IReadOnlyList<GameCharacter> allies)
         {
-            var allySpawns = _scenario.GetAlliesSpawnPositions();
-            var enemySpawns = _scenario.GetEnemySpawnPositions();
+            UpdateCharactersCells(enemies, true);
+            UpdateCharactersCells(allies);
+            
             var structures = _scenario.GetStructureSpawns();
             foreach (var structure in structures)
                 UpdateCell(structure.Key, structure.Value.BattleIcon);
-            for (var i = 0; i < allies.Count; i++)
-                UpdateCell(allySpawns[i], allies[i].CharacterData.BattleIcon);
-            for (var i = 0; i < enemies.Count; i++)
-                UpdateCell(enemySpawns[i], enemies[i].CharacterData.BattleIcon);
+        }
+
+        public void UpdateCharactersCells(IReadOnlyList<GameCharacter> characters, bool isEnemy = false)
+        {
+            var characterSpawns = isEnemy 
+                ? _scenario.GetEnemySpawnPositions() 
+                : _scenario.GetAlliesSpawnPositions();
+            for (var i = 0; i < characters.Count; i++)
+                UpdateCell(characterSpawns[i], characters[i].CharacterData.BattleIcon);
         }
 
         private void UpdateCell(Vector2Int position, Sprite sprite)
         {
             _objects[position].sprite = sprite;
             _objects[position].gameObject.SetActive(true);
+        }
+
+        public void SetActiveAlliesCells(bool isActive)
+        {
+            if (_scenario is not null)
+                SetActiveCells(_scenario.GetAlliesSpawnPositions(), isActive);
+        }
+
+        private void SetActiveCells(IReadOnlyList<Vector2Int> positions, bool isActive)
+        {
+            foreach(var position in positions)
+                _objects[position].gameObject.SetActive(isActive);
         }
 
         public void SetActiveCells(bool isActive)
@@ -79,7 +75,7 @@ namespace RoguelikeMap.UI
         public void ZoomMap()
         {
             _map.DOComplete();
-            _tweenerCore = _map.DOScale(_isZoom ? _map.localScale / windowScaleCoef : _map.localScale * windowScaleCoef,
+            _map.DOScale(_isZoom ? _map.localScale / windowScaleCoef : _map.localScale * windowScaleCoef,
                 windowOpeningTime).SetEase(windowOpeningEase);
             _isZoom = !_isZoom;
         }
