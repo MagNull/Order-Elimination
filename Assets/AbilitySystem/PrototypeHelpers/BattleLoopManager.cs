@@ -68,13 +68,11 @@ public class BattleLoopManager : MonoBehaviour
         {
             CurrentRound++;
             NewRoundBegan?.Invoke();
-            //Debug.Log($"Round {CurrentRound} began.");
         }
         NewTurnStarted?.Invoke();
-        //Debug.Log($"Turn of {ActiveSide} started.");
-        if (_entitiesBank.GetEntities().Length > 0 
-            && !_entitiesBank.GetEntities().Any(e => e.BattleSide == ActiveSide))
-            StartNextTurn();
+        //if (_entitiesBank.GetEntities().Length > 0 
+        //    && !_entitiesBank.GetEntities().Any(e => e.BattleSide == ActiveSide))
+        //    StartNextTurn();
 
         static void RestoreActionPoints(AbilitySystemActor entity, int pointsToRestore)
         {

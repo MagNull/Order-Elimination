@@ -58,17 +58,21 @@ namespace OrderElimination.AbilitySystem
                 AbilitySystemActor trackingEntity,
                 ref HashSet<AbilitySystemActor> entitiesInZone)
         {
-            var entityPos = trackingEntity.Position;
-            var context = triggerInstance.OperatingContext;
-            var map = context.BattleMap;
-            var zonePositions = ZonePattern
-                .GetAbsolutePositions(entityPos)
-                .Where(p => map.CellRangeBorders.Contains(p));
+            var currentEntities = new AbilitySystemActor[0];
+            if (!trackingEntity.IsDisposedFromBattle)
+            {
+                var entityPos = trackingEntity.Position;
+                var context = triggerInstance.OperatingContext;
+                var map = context.BattleMap;
+                var zonePositions = ZonePattern
+                    .GetAbsolutePositions(entityPos)
+                    .Where(p => map.CellRangeBorders.Contains(p));
 
-            var currentEntities = zonePositions
-                .SelectMany(pos => map.GetContainedEntities(pos))
-                .Where(entity => TriggeringEntityConditions.All(c => c.IsConditionMet(context, trackingEntity, entity)))
-                .ToArray();
+                currentEntities = zonePositions
+                    .SelectMany(pos => map.GetContainedEntities(pos))
+                    .Where(entity => TriggeringEntityConditions.All(c => c.IsConditionMet(context, trackingEntity, entity)))
+                    .ToArray();
+            }
             var disappearedEntities = entitiesInZone.Except(currentEntities).ToArray();
             var newEntities = currentEntities.Except(entitiesInZone).ToArray();
             if (disappearedEntities.Length == 0 && newEntities.Length == 0)

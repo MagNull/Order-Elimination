@@ -48,10 +48,8 @@ namespace AI
 
         private void OnTurnStarted(IBattleContext context)
         {
-            if (context.ActiveSide != BattleSide.Enemies)
-                return;
-
-            Run();
+            if (context.ActiveSide != BattleSide.Player)
+                Run();
         }
 
         [Button]
