@@ -22,24 +22,37 @@ namespace OrderElimination.AbilitySystem.Conditions
         [ShowInInspector, OdinSerialize]
         public RequireType EffectRequirement { get; private set; }
 
+        [ShowInInspector, OdinSerialize]
+        public bool IsAppliedByAskingEntity { get; private set; }//change to entity conditions
+
         public IEntityCondition Clone()
         {
             var clone = new HasEffectCondition();
             clone.RequiredEffects = RequiredEffects.ToArray();
             clone.EffectRequirement = EffectRequirement;
+            clone.IsAppliedByAskingEntity = IsAppliedByAskingEntity;
             return clone;
         }
 
         public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, AbilitySystemActor entityToCheck)
         {
-            if (RequiredEffects == null) Logging.LogException( new InvalidOperationException());
-            if (entityToCheck == null) Logging.LogException( new ArgumentNullException());
+            if (RequiredEffects == null) Logging.LogException(new InvalidOperationException());
+            if (entityToCheck == null) Logging.LogException(new ArgumentNullException());
             return EffectRequirement switch
             {
-                RequireType.All => RequiredEffects.All(effect => entityToCheck.HasEffect(effect)),
-                RequireType.Any => RequiredEffects.Any(effect => entityToCheck.HasEffect(effect)),
+                RequireType.All => RequiredEffects.All(effect => HasRequiredEffect(entityToCheck, effect)),
+                RequireType.Any => RequiredEffects.Any(effect => HasRequiredEffect(entityToCheck, effect)),
                 _ => throw new NotImplementedException(),
             };
+
+            bool HasRequiredEffect(AbilitySystemActor entity, IEffectData effectData)
+            {
+                if (IsAppliedByAskingEntity)
+                {
+                    return entity.GetEffects(effectData).Any(e => e.EffectApplier == entity);
+                }
+                return entity.HasEffect(effectData);
+            }
         }
     }
 }

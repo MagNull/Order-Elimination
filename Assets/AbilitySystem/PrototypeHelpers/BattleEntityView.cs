@@ -167,18 +167,18 @@ public class BattleEntityView : MonoBehaviour
             Shake(shake, shake, 1, 10);
     }
 
-    private async void OnHealed(HealRecoveryInfo healInfo)
+    private async void OnHealed(DealtRecoveryInfo healInfo)
     {
         if (_healthCash > 0 || _armorCash > 0)//waiting
         {
-            _healthCash += healInfo.RecoveredHealth;
-            _armorCash += healInfo.RecoveredArmor;
+            _healthCash += healInfo.TotalHealthRecovery;
+            _armorCash += healInfo.TotalArmorRecovery;
             return;
         }
         else//no cash -> start cashing
         {
-            _healthCash += healInfo.RecoveredHealth;
-            _armorCash += healInfo.RecoveredArmor;
+            _healthCash += healInfo.TotalHealthRecovery;
+            _armorCash += healInfo.TotalArmorRecovery;
             await UniTask.Delay(Mathf.RoundToInt(TimeGapToSumValues * 1000), true);
         }
         var healthValue = _healthCash;

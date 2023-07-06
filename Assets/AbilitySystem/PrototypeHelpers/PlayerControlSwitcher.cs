@@ -1,6 +1,7 @@
 using DefaultNamespace;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
+using UIManagement.Elements;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
@@ -12,6 +13,8 @@ public class PlayerControlSwitcher : MonoBehaviour
     private BattleMapSelector PlayerSelector;
     [SerializeField]
     private Button _endTurnButton;
+    [SerializeField]
+    private CooldownTimer _roundCounter;
     [Header("Settings")]
     [SerializeField]
     private bool _dontTouchPlayerSelector;
@@ -19,23 +22,25 @@ public class PlayerControlSwitcher : MonoBehaviour
     private bool _lockTurnButtonOnAITurn;
 
     private BattleLoopManager _battleManager;
+    private IBattleContext _battleContext;
     //private TextEmitter _textEmitter;
 
     [Inject]
-    private void Construct(IObjectResolver objectResolver)
+    private void Construct(BattleLoopManager battleManager, IBattleContext battleContext)
     {
-        _battleManager = objectResolver.Resolve<BattleLoopManager>();
+        _battleManager = battleManager;
+        _battleContext = battleContext;
         //_textEmitter = objectResolver.Resolve<TextEmitter>();
-        _battleManager.NewTurnStarted -= OnNewTurn;
-        _battleManager.NewTurnStarted += OnNewTurn;
+        _battleContext.NewTurnStarted -= OnNewTurn;
+        _battleContext.NewTurnStarted += OnNewTurn;
         _endTurnButton.onClick.RemoveListener(OnEndTurnButtonPressed);
         _endTurnButton.onClick.AddListener(OnEndTurnButtonPressed);
     }
 
-    private void OnNewTurn()
+    private void OnNewTurn(IBattleContext battleContext)
     {
         if (!isActiveAndEnabled) return;
-        if (_battleManager.ActiveSide == BattleSide.Player)
+        if (battleContext.ActiveSide == BattleSide.Player)
         {
             if (!_dontTouchPlayerSelector)
                 PlayerSelector.Enable();
@@ -47,8 +52,17 @@ public class PlayerControlSwitcher : MonoBehaviour
                 PlayerSelector.Disable();
             if (_lockTurnButtonOnAITurn)
                 _endTurnButton.interactable = false;
-            //wait for AI
         }
+        var roundColor = battleContext.ActiveSide switch
+        {
+            BattleSide.Player => Color.Lerp(Color.green, Color.white, 0.5f),
+            BattleSide.Allies => Color.Lerp(Color.cyan, Color.white, 0.2f),
+            BattleSide.Enemies => Color.Lerp(Color.red, Color.white, 0.5f),
+            BattleSide.Others => Color.Lerp(Color.black, Color.white, 0.5f),
+            _ => throw new System.NotSupportedException(),
+        };
+        if (battleContext.EntitiesBank.GetEntities(battleContext.ActiveSide).Length > 0)
+            _roundCounter.SetValue(battleContext.CurrentRound, roundColor);
     }
 
     private void OnEndTurnButtonPressed()

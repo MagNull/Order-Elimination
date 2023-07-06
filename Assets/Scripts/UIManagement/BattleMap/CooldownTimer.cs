@@ -36,12 +36,17 @@ namespace UIManagement.Elements
         }
 
         [Button]
-        public void SetValue(int value)
-        {
-            SetValue(value, ValueChangeDuration);
-        }
+        public void SetValue(int value) => SetValue(value, ValueChangeDuration, null);
 
-        public void SetValue(int value, float setDuration)
+        public void SetValue(int value, float transitionTime) => SetValue(value, transitionTime, null);
+
+        public void SetValue(int value, Color valueColor)
+            => SetValue(value, ValueChangeDuration, valueColor);
+
+        public void SetValue(int value, Color valueColor, float transitionTime)
+            => SetValue(value, transitionTime, valueColor);
+
+        private void SetValue(int value, float transitionTime, Color? valueColor)
         {
             if (IgnoreSameValues && _currentValue == value)
                 return;
@@ -49,17 +54,19 @@ namespace UIManagement.Elements
             var rotation = Quaternion.FromToRotation(Vector3.up, Vector3.forward);
             this.DOComplete();
             DOTween.Sequence(this)
-                .Append(_cooldownValueText.rectTransform.DOLocalRotateQuaternion(rotation, setDuration / 2)
+                .Append(_cooldownValueText.rectTransform.DOLocalRotateQuaternion(rotation, transitionTime / 2)
                     .SetEase(Ease.Linear)
-                    .OnComplete(() => OnValueChange(value)))
-                .Append(_cooldownValueText.rectTransform.DOLocalRotateQuaternion(Quaternion.identity, setDuration / 2)
+                    .OnComplete(() => OnValueChange(value, valueColor)))
+                .Append(_cooldownValueText.rectTransform.DOLocalRotateQuaternion(Quaternion.identity, transitionTime / 2)
                     .SetEase(Ease.Linear))
                 .Play();
         }
 
-        private void OnValueChange(int value)
+        private void OnValueChange(int value, Color? numberColor)
         {
             _cooldownValueText.text = value.ToString();
+            if (numberColor.HasValue)
+                _cooldownValueText.color = numberColor.Value;
             if (value <= 0 && HideValuesBelowOne)
             {
                 _cooldownValueText.gameObject.SetActive(false);
