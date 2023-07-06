@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OrderElimination;
 using OrderElimination.MacroGame;
 using RoguelikeMap.Panels;
@@ -26,7 +27,8 @@ namespace RoguelikeMap.Points.Models
         public override void Visit(Squad squad)
         {
             base.Visit(squad);
-            Panel.UpdateEnemies(GameCharactersFactory.CreateGameEntities(Enemies));//TODO: Store GameCharacters
+            var enemies = GameCharactersFactory.CreateGameEntities(Enemies).ToList();
+            Panel.Initialize(_battleScenario, enemies, squad.Members);//TODO: Store GameCharacters
             Panel.Open();
         }
     }
