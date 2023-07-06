@@ -26,13 +26,9 @@ namespace OrderElimination.AbilitySystem
         //Characters
         //Structures
 
-        //Cell.GetCharacters()
-        //Cell.GetStructures()
-        //Cell.GetContainingObjects()
-
         public event Action<IBattleContext> BattleStarted;
-        public event Action<IBattleContext> NewTurnStarted; //MoveInfo(moveNumber, activeSide, ...)
-        public event Action<IBattleContext> NewRoundBegan; //MoveInfo(moveNumber, activeSide, ...)
-                                                           //public event Action<IBattleContext> ContextChanged;
+        public event Action<IBattleContext> NewTurnStarted;
+        public event Action<IBattleContext> NewRoundBegan;
+        //public event Action<IBattleContext> ContextChanged;//?
     }
 }

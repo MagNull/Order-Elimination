@@ -73,6 +73,7 @@ namespace OrderElimination.AbilitySystem
                 var activationSide = BattleContext.ActiveSide;
                 BattleContext.NewTurnStarted -= OnNewTurn;
                 BattleContext.NewTurnStarted += OnNewTurn;
+                Debug.Log($"{EffectData.View.Name}.Subscribe()" % Colorize.Red);
 
                 void OnNewTurn(IBattleContext context)
                 {
@@ -81,8 +82,10 @@ namespace OrderElimination.AbilitySystem
                         BattleContext.NewTurnStarted -= OnNewTurn;
                         return;
                     }
+                    Debug.Log($"{EffectData.View.Name}: {context.ActiveSide}.{context.CurrentRound}" % Colorize.Orange);
                     if (context.ActiveSide != activationSide) return;
                     LeftDuration--;
+                    Debug.Log($"{EffectData.View.Name}.Duration -> {LeftDuration}" % Colorize.Red);
                     if (LeftDuration > 0) return;
                     BattleContext.NewTurnStarted -= OnNewTurn;
                     EffectData.TemporaryEffectFunctionaity.OnTimeOut(this);

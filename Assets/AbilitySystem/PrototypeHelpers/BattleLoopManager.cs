@@ -70,6 +70,7 @@ public class BattleLoopManager : MonoBehaviour
             NewRoundBegan?.Invoke();
         }
         NewTurnStarted?.Invoke();
+        Debug.LogError($"New Turn started ({ActiveSide}.{CurrentRound})");
         //if (_entitiesBank.GetEntities().Length > 0 
         //    && !_entitiesBank.GetEntities().Any(e => e.BattleSide == ActiveSide))
         //    StartNextTurn();
