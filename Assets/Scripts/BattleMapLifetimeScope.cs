@@ -24,6 +24,8 @@ namespace OrderElimination
         [SerializeField]
         private TextEmitter _textEmitter;
         [SerializeField]
+        private SoundEffectsPlayer _soundEffectsPlayer;
+        [SerializeField]
         private BattleMap _battleMap;
         [SerializeField]
         private BattleMapDirector _battleMapDirector;
@@ -41,6 +43,7 @@ namespace OrderElimination
             builder.RegisterComponent(_particlesPool).AsImplementedInterfaces();
             builder.RegisterComponent(_defaultAnimationsPool);
             builder.RegisterComponent(_textEmitter);
+            builder.RegisterComponent(_soundEffectsPlayer);
             builder.RegisterComponent(_battleEntitiesFactory);
             builder.RegisterComponent(_battleLoopManager);
             builder.RegisterComponent(_battleMap).As<IBattleMap>();

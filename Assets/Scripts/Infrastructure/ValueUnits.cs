@@ -5,6 +5,7 @@
         None,
         Percents,
         Cells,
-        Turns
+        Rounds,
+        Turns,
     }
 }

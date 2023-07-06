@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -15,11 +13,13 @@ namespace UIManagement.Elements
 
         public void UpdateEffectDescription(BattleEffect effect)
         {
-            var view = effect.EffectData.View;
+            var data = effect.EffectData;
+            var view = data.View;
             _effectName.text = view.Name;
             _effectIcon.sprite = view.Icon;
             _parameters.Clear();
-            throw new System.NotImplementedException();
+            if (effect.LeftDuration.HasValue)
+                _parameters.Add(null, "Длительность:", effect.LeftDuration.Value.ToString());
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using UnityEngine;
-using Sirenix.OdinInspector;
-using Sirenix.Serialization;
-using System.Linq;
-using System;
-
-namespace OrderElimination.AbilitySystem
+﻿namespace OrderElimination.AbilitySystem
 {
     public class ActiveAbilityData : IActiveAbilityData
     {

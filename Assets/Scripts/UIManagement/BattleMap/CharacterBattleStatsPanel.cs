@@ -125,7 +125,7 @@ namespace UIManagement.Elements
         {
             //entity.Damaged += OnDamaged;
             //entity.Healed += OnHealed;
-            entity.LifeStats.LifeStatsChanged += OnLifeStatsChanged;
+            entity.BattleStats.LifeStatsChanged += OnLifeStatsChanged;
             entity.EffectAdded += OnEffectsUpdated;
             entity.EffectRemoved += OnEffectsUpdated;
             entity.BattleStats.StatsChanged += OnStatsChanged;
@@ -136,7 +136,7 @@ namespace UIManagement.Elements
         {
             //entity.Damaged -= OnDamaged;
             //entity.Healed -= OnHealed;
-            entity.LifeStats.LifeStatsChanged -= OnLifeStatsChanged;
+            entity.BattleStats.LifeStatsChanged -= OnLifeStatsChanged;
             entity.EffectAdded -= OnEffectsUpdated;
             entity.EffectRemoved -= OnEffectsUpdated;
             entity.BattleStats.StatsChanged -= OnStatsChanged;
@@ -146,11 +146,11 @@ namespace UIManagement.Elements
         #region EntityEventHandlers
         private void OnStatsChanged(BattleStat stat) => UpdateStats(_currentEntityView);
         private void OnDamaged(DealtDamageInfo damage) => UpdateStats(_currentEntityView);
-        private void OnHealed(HealRecoveryInfo heal) => UpdateStats(_currentEntityView);
+        private void OnHealed(DealtRecoveryInfo heal) => UpdateStats(_currentEntityView);
         private void OnLifeStatsChanged(IBattleLifeStats stats) => UpdateStats(_currentEntityView);
         private void UpdateStats(BattleEntityView entityView)
         {
-            var stats = entityView.BattleEntity.LifeStats;
+            var stats = entityView.BattleEntity.BattleStats;
             var curHealth = stats.Health;
             var maxHealth = stats.MaxHealth.ModifiedValue;
             var curArmor = stats.TotalArmor;

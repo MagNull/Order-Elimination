@@ -63,11 +63,11 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
                 .SelectMany(gId => targetedGroups.GetGroup(gId)))
         {
             var visualPosition = battleContext.AnimationSceneContext.BattleMapView.GameToWorldPosition(pos);
-            foreach (var entity in battleContext
+            foreach (var target in battleContext
                 .GetVisibleEntities(pos, caster.BattleSide)
                 .Where(e => instruction.TargetConditions.All(c => c.IsConditionMet(battleContext, caster, e))))
             {
-                var actionContext = new ActionContext(battleContext, targetedGroups, caster, entity);
+                var actionContext = new ActionContext(battleContext, targetedGroups, caster, target);
                 if (instruction.Action is InflictDamageAction damageAction)
                 {
                     damageAction = damageAction.GetModifiedAction(actionContext);
@@ -86,7 +86,14 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
                     healAction = healAction.GetModifiedAction(actionContext);
                     var display = _healDisplaysPool.Get();
                     display.transform.position = visualPosition;
-                    display.HealValue = $"+{healAction.HealSize.GetValue(actionContext)}{repSuffix}";
+                    var healInfo = new RecoveryInfo(
+                        healAction.HealSize.GetValue(actionContext),
+                        healAction.ArmorMultiplier,
+                        healAction.HealthMultiplier,
+                        healAction.HealPriority,
+                        caster);
+                    var availableHeal = IBattleLifeStats.DistributeRecovery(target.BattleStats, healInfo);
+                    display.HealValue = $"+{availableHeal.TotalRecovery}{repSuffix}";
                     if (!_cellDisplays.ContainsKey(pos))
                         _cellDisplays.Add(pos, new());
                     else
