@@ -65,12 +65,7 @@ namespace RoguelikeMap.UI.Characters
                 character.ActiveAbilities, 
                 character.PassiveAbilities);
             if (_playerInventoryPresenter is not null)
-            {
-                Debug.Log("Init");
                 _characterInventoryPresenter.InitInventoryModel(character.Inventory);
-            }
-            //TODO: Update inventory
-            //_playerInventoryPresenter.UpdateTargetInventory(character.Inventory);
             _playerInventoryPresenter?.UpdateTargetInventory(character.Inventory);
         }
 
