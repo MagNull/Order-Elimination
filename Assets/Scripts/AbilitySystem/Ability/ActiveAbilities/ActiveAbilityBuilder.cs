@@ -13,7 +13,7 @@ namespace OrderElimination.AbilitySystem
         private int _optionalTargets;
 
 
-        [TitleGroup("Visuals", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 0), PropertyOrder(0)]
+        [TitleGroup("Visuals", Alignment = TitleAlignments.Centered, BoldTitle = true, Order = 0), PropertyOrder(0)]
         [ShowInInspector, OdinSerialize]
         public string Name { get; private set; } = "";
 
@@ -37,6 +37,14 @@ namespace OrderElimination.AbilitySystem
         public IReadOnlyDictionary<int, Color> CellGroupsHighlightColors => _cellGroupsHighlightColors;
 
         [TitleGroup("Visuals"), PropertyOrder(4)]
+        [ShowInInspector, OdinSerialize]
+        public bool ShowCrosshairWhenTargeting { get; private set; } = true;
+
+        [TitleGroup("Visuals"), PropertyOrder(5)]
+        [ShowInInspector, OdinSerialize]
+        public bool ShowTrajectoryWhenTargeting { get; private set; } = false;
+
+        [TitleGroup("Visuals"), PropertyOrder(10)]
         [ShowInInspector, OdinSerialize]
         public bool HideInCharacterDiscription { get; private set; }
 

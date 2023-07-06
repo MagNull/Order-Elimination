@@ -4,12 +4,12 @@ namespace OrderElimination.AbilitySystem
 {
     public readonly struct DamageInfo
     {
-        public readonly float Value;
-        public readonly float ArmorMultiplier;
-        public readonly float HealthMultiplier;
-        public readonly DamageType DamageType;
-        public readonly LifeStatPriority DamagePriority;
-        public readonly AbilitySystemActor DamageDealer;
+        public float DamageValue { get; }
+        public float ArmorMultiplier { get; }
+        public float HealthMultiplier { get; }
+        public DamageType DamageType { get; }
+        public LifeStatPriority DamagePriority { get; }
+        public AbilitySystemActor DamageDealer { get; }
 
         public DamageInfo(
             float value, 
@@ -20,7 +20,7 @@ namespace OrderElimination.AbilitySystem
             AbilitySystemActor damageDealer)
         {
             if (value < 0) Logging.LogException( new ArgumentException("Damage value is less than 0."));
-            Value = value;
+            DamageValue = value;
             ArmorMultiplier = armorMultiplier;
             HealthMultiplier = healthMultiplier;
             DamageType = damageType;
@@ -31,29 +31,18 @@ namespace OrderElimination.AbilitySystem
 
     public readonly struct DealtDamageInfo
     {
-        public readonly float HealthDamage;
-        public readonly float ArmorDamage;
-        public readonly DamageType DamageType;
-        public readonly AbilitySystemActor DamageDealer;
-        //Target
+        public DamageInfo DamageInfo { get; }
+        public float TotalHealthDamage { get; }
+        public float TotalArmorDamage { get; }
+        //Target?
 
-        public float TotalDamage => HealthDamage + ArmorDamage;
+        public float TotalDamage => TotalHealthDamage + TotalArmorDamage;
 
-        public DealtDamageInfo(float healthDamage, float armorDamage, DamageType damageType, AbilitySystemActor damageDealer)
+        public DealtDamageInfo(DamageInfo damageType, float totalArmorDamage, float totalHealthDamage)
         {
-            HealthDamage = healthDamage;
-            ArmorDamage = armorDamage;
-            DamageType = damageType;
-            DamageDealer = damageDealer;
+            DamageInfo = damageType;
+            TotalHealthDamage = totalHealthDamage;
+            TotalArmorDamage = totalArmorDamage;
         }
-    }
-
-    public enum DamageType
-    {
-        Melee,
-        Shooting,
-        Explosion,
-        Magic,
-        //Effect (Bleeding)
     }
 }

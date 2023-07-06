@@ -1,5 +1,5 @@
 ﻿using OrderElimination.Infrastructure;
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +32,7 @@ namespace OrderElimination.AbilitySystem
         public bool ContainsEntity(AbilitySystemActor entity) => _viewsByEntities.ContainsKey(entity);
         public AbilitySystemActor[] GetEntities() => _viewsByEntities.Keys.ToArray();
         public AbilitySystemActor[] GetEntities(BattleSide side)
-            => GetEntities().Where(e => e.BattleSide == side).ToArray();
+            => GetEntities().Where(e => e.BattleSide == side).ToArray();//TODO optimize by cashing
         public BattleEntityView GetViewByEntity(AbilitySystemActor entity) => _viewsByEntities[entity];
         public AbilitySystemActor GetEntityByView(BattleEntityView view) => _entitiesByViews[view];
 

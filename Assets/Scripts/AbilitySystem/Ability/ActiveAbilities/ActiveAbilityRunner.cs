@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
-
 namespace OrderElimination.AbilitySystem
 {
     public class ActiveAbilityRunner
     {
-        public ActiveAbilityRunner(IActiveAbilityData abilityData)
+        public ActiveAbilityRunner(IActiveAbilityData abilityData, AbilityProvider provider)
         {
             AbilityData = abilityData;
+            AbilityProvider = provider;
         }
 
-        public IActiveAbilityData AbilityData { get; private set; }
+        public IActiveAbilityData AbilityData { get; }
+        public AbilityProvider AbilityProvider { get; }
 
         public bool IsRunning { get; private set; } = false;
         public int Cooldown { get; private set; }

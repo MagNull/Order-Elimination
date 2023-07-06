@@ -26,7 +26,7 @@ namespace AI.Utils
                     battleContext.GetRelationship(caster.BattleSide, en.BattleSide) == relationship)
                 .Where(ent => !ent.StatusHolder.HasStatus(BattleStatus.Invisible));
             return enemies
-                .OrderByDescending(e => entitiesBank.GetBattleCharacterData(e).CharacterData.CostValue)
+                .OrderByDescending(e => entitiesBank.GetBattleCharacterData(e).CharacterData.Reward)
                 .ToArray();
         }
     }

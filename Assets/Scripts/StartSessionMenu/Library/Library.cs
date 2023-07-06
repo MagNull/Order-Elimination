@@ -22,7 +22,6 @@ namespace ItemsLibrary
         {
             _addedItems[ItemType.Consumable] = new List<ItemView>();
             _addedItems[ItemType.Equipment] = new List<ItemView>();
-            _addedItems[ItemType.Modificator] = new List<ItemView>();
             
             Logging.Log("Initialize library");
         }
@@ -61,11 +60,11 @@ namespace ItemsLibrary
             if (data == null)
                 Logging.LogException( new ArgumentException("Item data can't be null."));
             
-            if (!_allItemsIds.Contains(data.ItemId))
+            if (!_allItemsIds.Contains(data.Id))
             {
-                Logging.Log("Item added:" + data.ItemView.Name);
-                _addedItems[data.ItemType].Add(data.ItemView);
-                _allItemsIds.Add(data.ItemId);
+                Logging.Log("Item added:" + data.View.Name);
+                _addedItems[data.Type].Add(data.View);
+                _allItemsIds.Add(data.Id);
             }
         }
     }    

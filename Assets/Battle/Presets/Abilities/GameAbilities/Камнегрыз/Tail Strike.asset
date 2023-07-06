@@ -18,6 +18,7 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 21300000, guid: 02df3903eedbe9740a8f48f9d991a70b, type: 3}
     - {fileID: 11400000, guid: 2079a0cdc5de4044e929c8319593b546, type: 2}
+    - {fileID: 8300000, guid: 958408b32ccf3714ea02821877b0870c, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -32,12 +33,18 @@ MonoBehaviour:
     - Name: Description
       Entry: 6
       Data: 
+    - Name: ShowCrosshairWhenTargeting
+      Entry: 5
+      Data: true
+    - Name: ShowTrajectoryWhenTargeting
+      Entry: 5
+      Data: false
     - Name: HideInCharacterDiscription
       Entry: 5
       Data: false
     - Name: CooldownTime
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TargetingSystem
       Entry: 3
       Data: 1
@@ -1027,7 +1034,7 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 7
       Data: 59|OrderElimination.AbilitySystem.Animations.SpawnParticleAnimation,
@@ -1086,6 +1093,34 @@ MonoBehaviour:
     - Name: _delayTime
       Entry: 4
       Data: 0.1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 61|Assets.Scripts.AbilitySystem.Animations.AbilityAnimations.Special.AnimationSound,
+        Assembly-CSharp
+    - Name: Sounds
+      Entry: 7
+      Data: 62|UnityEngine.AudioClip[], UnityEngine.AudioModule
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Duration
+      Entry: 4
+      Data: -1
+    - Name: WaitForCompletion
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 

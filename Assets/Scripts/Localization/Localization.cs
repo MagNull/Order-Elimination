@@ -33,6 +33,7 @@ namespace OrderElimination.Localization
             { ValueUnits.None, "" },
             { ValueUnits.Percents, "%" },
             { ValueUnits.Cells, "" },
+            { ValueUnits.Rounds, " раунд" },
             { ValueUnits.Turns, " ход" },
             //{ ValueUnits.Enemies, " враг" },
         };

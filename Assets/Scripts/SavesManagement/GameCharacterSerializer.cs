@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using System;
 using System.IO;
 using System.Threading.Tasks;

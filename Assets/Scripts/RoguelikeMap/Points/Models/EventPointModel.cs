@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using OrderElimination;
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using RoguelikeMap.Panels;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI.PointPanels;

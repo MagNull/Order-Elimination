@@ -3,6 +3,7 @@
     public enum EntityType
     {
         Character,
-        Structure
+        Structure,
+        //Prop? - mines barrels etc
     }
 }

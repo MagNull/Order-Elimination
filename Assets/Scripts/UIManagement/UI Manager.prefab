@@ -7212,6 +7212,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1781306636940855605}
     - target: {fileID: 5644166539139549037, guid: 3f56b376ea13749039c8d76c53319d4a, type: 3}
+      propertyPath: _items.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5644166539139549037, guid: 3f56b376ea13749039c8d76c53319d4a, type: 3}
+      propertyPath: _items.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e655c8948143f814c89bb88c7fa0785c, type: 2}
+    - target: {fileID: 5644166539139549037, guid: 3f56b376ea13749039c8d76c53319d4a, type: 3}
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 5644166539139549037, guid: 3f56b376ea13749039c8d76c53319d4a, type: 3}
@@ -8216,7 +8224,8 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: -528
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8502851358515331918, guid: 5da6b2cca607e2645bfe7485165d2bd5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5da6b2cca607e2645bfe7485165d2bd5, type: 3}
 --- !u!224 &6719619680026810673 stripped
 RectTransform:

@@ -3,40 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using OrderElimination;
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
 using UnityEngine.UI;
-using VContainer;
 
 namespace StartSessionMenu.ChooseCharacter
 {
     public class ChoosingCharacter : ChoosingSquadMembersPanel
     {
         [SerializeField] 
+        private Button _startGameButton;
+        [SerializeField] 
         private MoneyCounter _uiCounter;
         [SerializeField]
         private List<CharacterTemplate> _characters;
         [SerializeField]
+        private List<DropZone> _selectedDropZones;
+        [SerializeField]
         private int MaxSquadSize = 3;
         [SerializeField] 
         private ScrollRect _scrollRect;
+        [SerializeField]
+        private int StartMoney = 1200;
         
         private Wallet _wallet;
         private int _selectedCount = 0;
         private Tweener _tweener;
 
-        [Inject]
-        public void Configure(Wallet wallet)
-        {
-            _wallet = wallet;
-        }
-        
         private void Start()
         {
+            _wallet = new Wallet(StartMoney);
             InitializeCharactersCard();
-            _selectedDropZone.OnTrySelect += TrySelectCard;
+            foreach (var zone in _selectedDropZones)
+                zone.OnTrySelect += TrySelectCard;
         }
 
         private void InitializeCharactersCard()
@@ -45,7 +46,7 @@ namespace StartSessionMenu.ChooseCharacter
             var gameCharacters = GameCharactersFactory.CreateGameEntities(_characters);
             InitializeCharactersCard(gameCharacters, _unselectedDropZone.transform);
         }
-        
+
         protected override void TrySelectCard(DropZone dropZone, CharacterCard.CharacterCard card)
         {
             if (card is CharacterCardWithCost characterCardWithCost)
@@ -56,14 +57,16 @@ namespace StartSessionMenu.ChooseCharacter
 
         private void TrySelectCard(DropZone dropZone, CharacterCardWithCost card)
         {
-            if (dropZone == _selectedDropZone)
+            if(_selectedDropZones.Contains(dropZone))
             {
                 if (card.IsSelected
                     || _wallet.Money - card.Cost < 0
                     || _selectedCount >= MaxSquadSize) 
                     return;
+                if (dropZone.IsSelected)
+                    return;
                 _wallet.SubtractMoney(card.Cost);
-                SelectCard(card);
+                SelectCard(card, dropZone.transform);
                 _selectedCount++;
             }
             else
@@ -71,9 +74,16 @@ namespace StartSessionMenu.ChooseCharacter
                 if (!card.IsSelected) 
                     return;
                 _wallet.AddMoney(card.Cost);
-                UnselectCard(card);
+                SelectCard(card, _unselectedDropZone.transform);
                 _selectedCount--;
             }
+            card.SetDropZone(dropZone);
+            SetActiveStartButton();
+        }
+
+        private void SetActiveStartButton()
+        {
+            _startGameButton.interactable = _selectedCount != 0;
         }
 
         public bool SaveCharacters()

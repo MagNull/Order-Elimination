@@ -3,7 +3,7 @@ using System.Linq;
 using Inventory_Items;
 using OrderElimination;
 using OrderElimination.AbilitySystem;
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using RoguelikeMap.UI.Abilities;
 using Sirenix.OdinInspector;
 using TMPro;
@@ -53,8 +53,6 @@ namespace RoguelikeMap.UI.Characters
         
         public void InitializeCharacterInfo(GameCharacter character)
         {
-            if(_playerInventoryPresenter is not null)
-                _characterInventoryPresenter.InitInventoryModel(character.Inventory);
             _characterName.text = character.CharacterData.Name;
             _characterAvatar.sprite = character.CharacterData.Avatar;
             InitializeStatsText(
@@ -68,8 +66,6 @@ namespace RoguelikeMap.UI.Characters
                 character.PassiveAbilities);
             if (_playerInventoryPresenter is not null)
                 _characterInventoryPresenter.InitInventoryModel(character.Inventory);
-            //TODO: Update inventory
-            //_playerInventoryPresenter.UpdateTargetInventory(character.Inventory);
             _playerInventoryPresenter?.UpdateTargetInventory(character.Inventory);
         }
 

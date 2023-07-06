@@ -45,7 +45,7 @@ namespace AI.Utils
             {
                 ProcessInstruction(abilityInstruction);
             }
-            Debug.Log(_data.View.Name + ": " + AffectedEnemies);
+            //Debug.Log(_data.View.Name + ": " + AffectedEnemies);
             _data.TargetingSystem.CancelTargeting();
         }
 

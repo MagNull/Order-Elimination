@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using OrderElimination.AbilitySystem;
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;

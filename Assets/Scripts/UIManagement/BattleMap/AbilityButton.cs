@@ -1,5 +1,7 @@
-﻿using OrderElimination.AbilitySystem;
+﻿using DG.Tweening;
+using OrderElimination.AbilitySystem;
 using System;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,26 +11,20 @@ namespace UIManagement.Elements
     [RequireComponent(typeof(HoldableButton)), DisallowMultipleComponent]
     public class AbilityButton : MonoBehaviour
     {
+        [Header("Components")]
         [SerializeField]
         private Image _abilityIcon;
         [SerializeField]
         private TextMeshProUGUI _abilityName;
         [SerializeField]
         private HoldableButton _button;
+        [field: SerializeField]
+        public CooldownTimer CooldownTimer { get; private set; }
         public HoldableButton HoldableButton => _button;
-
+        [field: SerializeField]
         private Sprite _noSelectedAbilityIcon;
-        public Sprite NoSelectedAbilityIcon
-        {
-            get => _noSelectedAbilityIcon;
-            set
-            {
-                _noSelectedAbilityIcon = value;
-                if (_abilityIcon.sprite != value)
-                    _abilityIcon.sprite = value;
-            }
-        }
         public ActiveAbilityRunner AbilityRunner { get; private set; }
+
         public event Action<AbilityButton> Clicked;
         public event Action<AbilityButton> Holded;
 
@@ -53,15 +49,20 @@ namespace UIManagement.Elements
             _abilityName.text = AbilityRunner.AbilityData.View.Name;
             _abilityIcon.sprite = AbilityRunner.AbilityData.View.Icon;
             _button.interactable = true;
+            CooldownTimer.DOComplete();
+            CooldownTimer.gameObject.SetActive(true);
         }
 
         public void RemoveAbility()
         {
-            _abilityIcon.sprite = NoSelectedAbilityIcon;
+            _abilityIcon.sprite = _noSelectedAbilityIcon;
             HoldableButton.SetImageTint(Color.white);
             _abilityName.text = "";
             AbilityRunner = null;
             _button.interactable = false;
+            CooldownTimer.SetValue(0);
+            CooldownTimer.DOComplete();
+            CooldownTimer.gameObject.SetActive(false);
         }
 
         public void SetClickAvailability(bool isClickAvailable)

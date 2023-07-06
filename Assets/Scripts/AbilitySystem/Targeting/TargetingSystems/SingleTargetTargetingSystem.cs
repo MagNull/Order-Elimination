@@ -52,17 +52,24 @@ namespace OrderElimination.AbilitySystem
             _cellConditions = cellConditions.ToList();//.Clone().ToList() - will prevent real-time changes
         }
 
-        public bool StartTargeting(IBattleContext context, AbilitySystemActor caster)
+        public Vector2Int[] PeekAvailableCells(IBattleContext battleContext, AbilitySystemActor caster)
+        {
+            if (CurrentAvailableCells != null)
+                return CurrentAvailableCells.ToArray();
+            return battleContext.BattleMap.CellRangeBorders
+                .EnumerateCellPositions()
+                .Where(pos => _cellConditions.All(c => c.IsConditionMet(battleContext, caster, pos)))
+                .ToArray();
+        }
+
+        public bool StartTargeting(IBattleContext battleContext, AbilitySystemActor caster)
         {
             if (IsTargeting)
                 Logging.LogException(new InvalidOperationException("Targeting has already started and needs to be confirmed or canceled first."));
-            _availableCells = context.BattleMap.CellRangeBorders
-                .EnumerateCellPositions()
-                .Where(pos => _cellConditions.All(c => c.IsConditionMet(context, caster, pos)))
-                .ToHashSet();
+            _availableCells = PeekAvailableCells(battleContext, caster).ToHashSet();
             _selectedCell = null;
             _targetingCaster = caster;
-            _targetingContext = context;
+            _targetingContext = battleContext;
             IsTargeting = true;
             TargetingStarted?.Invoke(this);
             if (IsConfirmAvailable)
