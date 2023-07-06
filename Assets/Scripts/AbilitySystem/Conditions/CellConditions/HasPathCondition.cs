@@ -32,7 +32,7 @@ namespace OrderElimination.AbilitySystem
             if (LimitByCasterMovement)
             {
                 if (!askingEntity.BattleStats.HasParameter(BattleStat.MaxMovementDistance))
-                    Logging.LogException( new ArgumentException("Caster doesn't have movement parameter."));
+                    Logging.LogException(new ArgumentException("Caster doesn't have movement parameter."));
                 if (path.Length > askingEntity.BattleStats[BattleStat.MaxMovementDistance].ModifiedValue)
                     return false;
             }

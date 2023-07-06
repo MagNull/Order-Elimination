@@ -1,4 +1,3 @@
-using CharacterAbility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -76,8 +75,7 @@ namespace UIManagement.Elements
         {
             var effect = _effectsByButtons[effectButton];
             var descrWindow = (EffectsDescriptionPanel)UIController.SceneInstance.OpenPanel(PanelType.EffectsDesriptionList);
-            //TODO Display Effects list
-            //descrWindow.UpdateEffectsList(_buttonsByEffects.Keys.ToArray());
+            descrWindow.UpdateEffectsList(_buttonsByEffects.Keys.ToArray());
         }
     } 
 }

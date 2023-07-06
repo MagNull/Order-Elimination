@@ -1,7 +1,7 @@
 ﻿using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using System.Linq;
 using VContainer;
 

@@ -16,7 +16,7 @@ namespace AI.Actions
         [SerializeField]
         private int _distance;
 
-        public override async UniTask<bool> Run(Blackboard blackboard)
+        protected override async UniTask<bool> Run(Blackboard blackboard)
         {
             var context = blackboard.Get<IBattleContext>("context");
             var caster = blackboard.Get<AbilitySystemActor>("caster");
@@ -32,9 +32,10 @@ namespace AI.Actions
 
             var movementAbility = AbilityAIPresentation.GetMoveAbility(caster);
             movementAbility.InitiateCast(context, caster);
-
-            var optimalCells = movementAbility.AbilityData.Rules
-                .GetAvailableCellPositions(context, caster)
+            if (movementAbility.AbilityData.TargetingSystem
+                is not IRequireSelectionTargetingSystem manualTargeting)
+                throw new NotSupportedException();
+            var optimalCells = manualTargeting.PeekAvailableCells(context, caster)
                 .Except(notOptimalCells);
             if (!optimalCells.Any())
             {

@@ -20,7 +20,7 @@ namespace AI.Actions
     {
         [SerializeField]
         private Purpose _purpose; 
-        public override async UniTask<bool> Run(Blackboard blackboard)
+        protected override async UniTask<bool> Run(Blackboard blackboard)
         {
             var targets = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
             if (!targets.Any())
@@ -38,10 +38,15 @@ namespace AI.Actions
             return false;
         }
         
-        private async UniTask<bool> TryExecuteTo(IBattleContext battleContext, AbilitySystemActor caster,
+        private async UniTask<bool> TryExecuteTo(
+            IBattleContext battleContext, 
+            AbilitySystemActor caster,
             AbilitySystemActor target)
         {
             var movementAbility = AbilityAIPresentation.GetMoveAbility(caster);
+            if (movementAbility.AbilityData.TargetingSystem
+                is not IRequireSelectionTargetingSystem manualTargeting)
+                throw new NotSupportedException();
             var targetAbilities = _purpose switch
             {
                 Purpose.Damage => AbilityAIPresentation.GetDamageAbilities(battleContext, caster, target),
@@ -50,34 +55,30 @@ namespace AI.Actions
             };
             foreach (var damageAbility in targetAbilities)
             {
-                var cellsFromTarget = GetCellsForCastingAbility(damageAbility.ability.AbilityData, target);
-                var intersect = movementAbility.AbilityData.Rules.GetAvailableCellPositions(battleContext, caster)
+                var cellsFromTarget = GetCellsForCastingAbility(
+                    battleContext, damageAbility.ability.AbilityData, target);
+                var intersect = manualTargeting.PeekAvailableCells(battleContext, caster)
                     .Intersect(cellsFromTarget);
                 if (!intersect.Any())
                     continue;
                 
                 var random = Random.Range(0, intersect.Count());
                 var result = await movementAbility.CastSingleTarget(battleContext, caster, intersect.ElementAt(random));
-                movementAbility.AbilityData.TargetingSystem.CancelTargeting();
+                manualTargeting.CancelTargeting();
                 return result;
             }
 
-            movementAbility.AbilityData.TargetingSystem.CancelTargeting();
+            manualTargeting.CancelTargeting();
 
             return false;
         }
 
-        private Vector2Int[] GetCellsForCastingAbility(IActiveAbilityData abilityData, AbilitySystemActor target)
+        private Vector2Int[] GetCellsForCastingAbility(
+            IBattleContext battleContext, IActiveAbilityData abilityData, AbilitySystemActor target)
         {
-            var cellConditions = abilityData.Rules.CellConditions;
-            var patternCondition = (InPatternCondition)cellConditions.FirstOrDefault(c => c is InPatternCondition);
-            if (patternCondition == null ||
-                patternCondition.Pattern is not DistanceFromPointPattern distanceFromPointPattern)
-                return Array.Empty<Vector2Int>();
-
-            var abilityDistance = distanceFromPointPattern.MaxDistanceFromOrigin;
-
-            return AIUtilities.GetCellsFromTarget(Mathf.FloorToInt(abilityDistance), target.Position);
+            if (abilityData.TargetingSystem is not IRequireSelectionTargetingSystem manualTargeting)
+                throw new NotSupportedException();
+            return manualTargeting.PeekAvailableCells(battleContext, target);
         }
     }
 }

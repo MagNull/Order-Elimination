@@ -1,19 +1,20 @@
-﻿using Sirenix.Utilities;
-using System;
+﻿using System;
 using static OrderElimination.AbilitySystem.PassiveAbilityExecution;
 
 namespace OrderElimination.AbilitySystem
 {
     public class PassiveAbilityRunner
     {
-        public PassiveAbilityRunner(IPassiveAbilityData abilityData)
+        public PassiveAbilityRunner(IPassiveAbilityData abilityData, AbilityProvider provider)
         {
             AbilityData = abilityData;
+            AbilityProvider = provider;
         }
 
         private IPassiveExecutionActivationInfo _currentActivationInfo;
 
-        public IPassiveAbilityData AbilityData { get; private set; }
+        public IPassiveAbilityData AbilityData { get; }
+        public AbilityProvider AbilityProvider { get; }
         public bool IsActive { get; private set; } = false;
         public int Cooldown { get; private set; }
 

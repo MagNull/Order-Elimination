@@ -4,6 +4,7 @@ using System.Linq;
 using OrderElimination;
 using UnityEngine;
 using UnityEngine.UI;
+using Sirenix.OdinInspector;
 
 namespace UIManagement.Elements
 {
@@ -28,14 +29,15 @@ namespace UIManagement.Elements
         private float _highlightTime = 0.5f;
         [SerializeField]
         private Ease _highlightEase = Ease.Flash;
-        [SerializeField]
+        [HideInInspector, SerializeField]
         private bool _isClickingAvatarAvailable;
-        [SerializeField]
+        [HideInInspector, SerializeField]
         private bool _isHoldingAvatarAvailable;
 
         private Sequence _currentSequence;
         private BattleEntityView _currentEntityView;
 
+        [ShowInInspector]
         public bool IsClickingAvatarAvailable
         {
             get => _isClickingAvatarAvailable;
@@ -46,6 +48,7 @@ namespace UIManagement.Elements
             }
         }
 
+        [ShowInInspector]
         public bool IsHoldingAvatarAvailable
         {
             get => _isHoldingAvatarAvailable;
@@ -66,14 +69,15 @@ namespace UIManagement.Elements
             _currentEntityView = entity;
             Subscribe(_currentEntityView.BattleEntity);
             _avatar.sprite = _currentEntityView.BattleIcon;
+            IsClickingAvatarAvailable = true;
             UpdateStats(_currentEntityView);
             UpdateEffects();
+            ShowInfo();
         }
 
         public void Highlight(Color highlightColor)
         {
-            if (_currentSequence != null)
-                _currentSequence.Complete();
+            _currentSequence?.Complete();
             var appearTime = 0.1f;
             _currentSequence = DOTween.Sequence(this)
                 .Append(_panelHighlightImage.DOColor(highlightColor, appearTime))
@@ -81,9 +85,6 @@ namespace UIManagement.Elements
                 .Append(transform.DOScale(1, _highlightTime).SetEase(_highlightEase))
                 .Append(_panelHighlightImage.DOColor(Color.white, 0.8f))
                 .Play();
-
-            //_highlightTweeners.Add(_panelHighlightImage.DOBlendableColor(Color.white, _highlightTime)
-            //    .SetEase(_highlightEase));
         }
 
         public void HideInfo()
@@ -93,6 +94,7 @@ namespace UIManagement.Elements
             _armorBar.gameObject.SetActive(false);
             _avatarButton.gameObject.SetActive(false);
             _effectsList.gameObject.SetActive(false);
+            IsClickingAvatarAvailable = false;
             _avatarButton.Clicked -= OnAvatarButtonPressed;
             _avatarButton.Holded -= OnAvatarButtonHolded;
         }
@@ -104,6 +106,7 @@ namespace UIManagement.Elements
             _armorBar.gameObject.SetActive(true);
             _avatarButton.gameObject.SetActive(true);
             _effectsList.gameObject.SetActive(true);
+            IsClickingAvatarAvailable = true;
             _avatarButton.Clicked += OnAvatarButtonPressed;
             _avatarButton.Holded += OnAvatarButtonHolded;
         }
@@ -115,16 +118,14 @@ namespace UIManagement.Elements
         {
             var characterDescriptionPanel =
                 (CharacterDescriptionPanel) UIController.SceneInstance.OpenPanel(PanelType.CharacterDescription);
-            var battleContext = _currentEntityView.BattleEntity.BattleContext;
-            var entityData = battleContext.EntitiesBank.GetBattleCharacterData(_currentEntityView.BattleEntity);
-            characterDescriptionPanel.UpdateCharacterDescription(entityData);
+            characterDescriptionPanel.UpdateCharacterDescription(_currentEntityView.BattleEntity);
         }
 
         private void Subscribe(AbilitySystemActor entity)
         {
             //entity.Damaged += OnDamaged;
             //entity.Healed += OnHealed;
-            entity.LifeStats.LifeStatsChanged += OnLifeStatsChanged;
+            entity.BattleStats.LifeStatsChanged += OnLifeStatsChanged;
             entity.EffectAdded += OnEffectsUpdated;
             entity.EffectRemoved += OnEffectsUpdated;
             entity.BattleStats.StatsChanged += OnStatsChanged;
@@ -135,7 +136,7 @@ namespace UIManagement.Elements
         {
             //entity.Damaged -= OnDamaged;
             //entity.Healed -= OnHealed;
-            entity.LifeStats.LifeStatsChanged -= OnLifeStatsChanged;
+            entity.BattleStats.LifeStatsChanged -= OnLifeStatsChanged;
             entity.EffectAdded -= OnEffectsUpdated;
             entity.EffectRemoved -= OnEffectsUpdated;
             entity.BattleStats.StatsChanged -= OnStatsChanged;
@@ -145,18 +146,15 @@ namespace UIManagement.Elements
         #region EntityEventHandlers
         private void OnStatsChanged(BattleStat stat) => UpdateStats(_currentEntityView);
         private void OnDamaged(DealtDamageInfo damage) => UpdateStats(_currentEntityView);
-        private void OnHealed(HealRecoveryInfo heal) => UpdateStats(_currentEntityView);
+        private void OnHealed(DealtRecoveryInfo heal) => UpdateStats(_currentEntityView);
         private void OnLifeStatsChanged(IBattleLifeStats stats) => UpdateStats(_currentEntityView);
         private void UpdateStats(BattleEntityView entityView)
         {
-            var stats = entityView.BattleEntity.LifeStats;
-
-            //Round visual numbers
-            var curHealth = Mathf.RoundToInt(stats.Health);
-            var maxHealth = Mathf.RoundToInt(stats.MaxHealth.ModifiedValue);
-            var curArmor = Mathf.RoundToInt(stats.TotalArmor);
-            var maxArmor = Mathf.RoundToInt(stats.MaxArmor.ModifiedValue);
-            //Round visual numbers
+            var stats = entityView.BattleEntity.BattleStats;
+            var curHealth = stats.Health;
+            var maxHealth = stats.MaxHealth.ModifiedValue;
+            var curArmor = stats.TotalArmor;
+            var maxArmor = stats.MaxArmor.ModifiedValue;
 
             _healthBar.SetValue(curHealth, 0, maxHealth);
             _armorBar.SetValue(curArmor, 0, maxArmor);

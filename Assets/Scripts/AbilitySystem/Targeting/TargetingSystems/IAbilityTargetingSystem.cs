@@ -18,20 +18,35 @@ namespace OrderElimination.AbilitySystem
         public event Action<IAbilityTargetingSystem> TargetingConfirmed;
         public event Action<IAbilityTargetingSystem> TargetingCanceled;
 
-        public bool StartTargeting(CellRangeBorders mapBorders, Vector2Int casterPosition);
+        public bool StartTargeting(IBattleContext battleContext, AbilitySystemActor caster);
         public bool ConfirmTargeting();
         public bool CancelTargeting();
         public CellGroupsContainer ExtractCastTargetGroups();
     }
 
-    public interface IRequireTargetsTargetingSystem : IAbilityTargetingSystem
+    public interface IRequireSelectionTargetingSystem : IAbilityTargetingSystem
     {
-        public IEnumerable<Vector2Int> AvailableCells { get; }
+        //Remove because unsafe if until start? In that case Peek...() needs to be optimized.
+        public IEnumerable<Vector2Int> CurrentAvailableCells { get; }
+        public IEnumerable<Vector2Int> SelectedCells { get; }
+        public int NecessaryTargetsLeft { get; }
+        //No point to show conditions since they can change during targeting
+        //public IEnumerable<ICellCondition> CurrentCellsConditions { get; }
 
-        public event Action<IRequireTargetsTargetingSystem> ConfirmationUnlocked;
-        public event Action<IRequireTargetsTargetingSystem> ConfirmationLocked;
-        public event Action<IRequireTargetsTargetingSystem> SelectionUpdated;
+        public event Action<IRequireSelectionTargetingSystem> ConfirmationUnlocked;
+        public event Action<IRequireSelectionTargetingSystem> ConfirmationLocked;
+        public event Action<IRequireSelectionTargetingSystem> SelectionUpdated;
+        public event Action<IRequireSelectionTargetingSystem> AvailableCellsUpdated;
 
-        public bool SetAvailableCellsForSelection(Vector2Int[] availableCellsForSelection);
+        /// <summary>
+        /// Returns positions that can be targeted by specified caster in current conditions. 
+        /// Does not require targeting system to be started first.
+        /// </summary>
+        /// <param name="battleContext"></param>
+        /// <param name="caster"></param>
+        /// <returns></returns>
+        public Vector2Int[] PeekAvailableCells(IBattleContext battleContext, AbilitySystemActor caster);
+        public bool Select(Vector2Int cellPosition);
+        public bool Deselect(Vector2Int cellPosition);
     }
 }

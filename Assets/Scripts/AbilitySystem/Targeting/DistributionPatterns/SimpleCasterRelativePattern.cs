@@ -21,7 +21,8 @@ namespace OrderElimination.AbilitySystem
             }
         }
 
-        public override CellGroupsContainer GetAffectedCellGroups(CellRangeBorders mapBorders, Vector2Int casterPosition)
+        public override CellGroupsContainer GetAffectedCellGroups(
+            CellRangeBorders mapBorders, Vector2Int casterPosition)
         {
             var sortedPoints = new Dictionary<int, Vector2Int[]>();
             foreach (var group in _relativeToCasterOffsets.Keys)

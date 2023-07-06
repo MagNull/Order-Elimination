@@ -1,5 +1,4 @@
-﻿using CharacterAbility;
-using OrderElimination.Localization;
+﻿using OrderElimination.Localization;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
@@ -7,6 +6,7 @@ using System.Linq;
 using OrderElimination;
 using UnityEngine;
 using UnityEngine.UI;
+using OrderElimination.Infrastructure;
 
 namespace UIManagement.Elements
 {

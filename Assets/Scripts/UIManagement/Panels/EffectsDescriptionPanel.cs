@@ -1,9 +1,6 @@
-using CharacterAbility;
-using OrderElimination;
-using System.Collections;
+using OrderElimination.AbilitySystem;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace UIManagement.Elements
 {
@@ -19,7 +16,7 @@ namespace UIManagement.Elements
         private List<EffectDescriptionWindow> _effects = new List<EffectDescriptionWindow>();
 
 
-        public void UpdateEffectsList(ITickEffect[] effects)
+        public void UpdateEffectsList(IEnumerable<BattleEffect> effects)
         {
             RemoveEffects();
             foreach (var e in effects)

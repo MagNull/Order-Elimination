@@ -12,7 +12,8 @@ namespace OrderElimination.AbilitySystem
         public event Action<BattleEffect> EffectAdded;
         public event Action<BattleEffect> EffectRemoved;
 
-        public bool HasEffect(IEffectData effect);
+        public bool HasEffect(IEffectData effectData);
+        public BattleEffect[] GetEffects(IEffectData effectData);
         public bool ApplyEffect(IEffectData effectData, AbilitySystemActor applier, out BattleEffect appliedEffect);
         public bool RemoveEffect(BattleEffect effect);
     }

@@ -1,8 +1,5 @@
-using CharacterAbility;
 using OrderElimination.AbilitySystem;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,7 +27,6 @@ namespace UIManagement.Elements
                     _iconComponent.sprite = value;
             }
         }
-        public AbilityInfo AbilityInfo { get; private set; }//ToRemove
 
         public event Action<SmallAbilityButton> Clicked;
 
@@ -68,7 +64,6 @@ namespace UIManagement.Elements
 
         public void RemoveAbilityView()
         {
-            AbilityInfo = null;
             _iconComponent.sprite = NoIconAvailableSprite;
             _button.interactable = false;
             _activeAbilityData = null;

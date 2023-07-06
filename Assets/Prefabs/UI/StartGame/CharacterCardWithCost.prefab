@@ -342,7 +342,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cardImage: {fileID: 5809841624342609720}
-  _button: {fileID: 0}
   _costImage: {fileID: 3235461534071526195}
   _cardCost: {fileID: 5553228351691667159}
 --- !u!114 &5897113959582451534
@@ -357,6 +356,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa09100f54c345d199079861fd2a41cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isTransparency: 1
+  _image: {fileID: 5809841624342609720}
+  _aplha: 0.5
 --- !u!225 &7052059368809046801
 CanvasGroup:
   m_ObjectHideFlags: 0

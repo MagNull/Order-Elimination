@@ -13,7 +13,7 @@ namespace AI.Actions
         [SerializeField]
         private PassiveAbilityBuilder[] _needPassiveEffects;
 
-        public override async UniTask<bool> Run(Blackboard blackboard)
+        protected override async UniTask<bool> Run(Blackboard blackboard)
         {
             var context = blackboard.Get<IBattleContext>("context");
             var caster = blackboard.Get<AbilitySystemActor>("caster");
@@ -21,7 +21,10 @@ namespace AI.Actions
             var structures = context.EntitiesBank.GetEntities(BattleSide.NoSide)
                 .Where(actor => actor.Obstacle != null);
             var movementAbility = AbilityAIPresentation.GetMoveAbility(caster);
-            var targeting = (SingleTargetTargetingSystem)movementAbility.AbilityData.TargetingSystem;
+            if (movementAbility.AbilityData.TargetingSystem 
+                is not IRequireSelectionTargetingSystem manualTargeting)
+                throw new System.NotSupportedException();
+            var targeting = manualTargeting;
 
             if (!movementAbility.InitiateCast(context, caster))
                 return false;
@@ -35,7 +38,9 @@ namespace AI.Actions
 
                 var completed = false;
                 movementAbility.AbilityExecutionCompleted += _ => completed = true;
+                Debug.Log("Start");
                 await UniTask.WaitUntil(() => completed);
+                Debug.Log("End");
 
                 targeting.CancelTargeting();
                 return true;
@@ -47,11 +52,10 @@ namespace AI.Actions
         }
 
         private bool CheckStructureAllowability(AbilitySystemActor structure, AbilitySystemActor caster,
-            SingleTargetTargetingSystem targeting, IBattleContext context)
+            IRequireSelectionTargetingSystem targeting, IBattleContext context)
         {
             return structure.Obstacle.IsAllowedToStay(caster) &&
-                   targeting.AvailableCells != null &&
-                   targeting.AvailableCells.Contains(structure.Position) &&
+                   targeting.PeekAvailableCells(context, caster).Contains(structure.Position) &&
                    !CharacterBehavior.AvoidObject.Contains(context.EntitiesBank.GetBattleStructureData(structure))
                    && _needPassiveEffects.All(ef =>
                        structure.PassiveAbilities.Any(ab => ab.AbilityData.BasedBuilder == ef));

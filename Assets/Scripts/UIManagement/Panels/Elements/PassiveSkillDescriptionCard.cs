@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using CharacterAbility;
+using OrderElimination.AbilitySystem;
 
 namespace UIManagement.Elements
 {
@@ -13,11 +13,11 @@ namespace UIManagement.Elements
         [SerializeField] private TextMeshProUGUI _name;
         [SerializeField] private TextMeshProUGUI _description;
 
-        public void AssignPassiveSkill(AbilityInfo passiveSkillInfo)
+        public void UpdateAbilityData(string name, Sprite icon, string description)
         {
-            _icon.sprite = passiveSkillInfo.Icon;
-            _name.text = passiveSkillInfo.Name;
-            _description.text = passiveSkillInfo.Description;
+            _icon.sprite = icon;
+            _name.text = name;
+            _description.text = description;
         }
     } 
 }

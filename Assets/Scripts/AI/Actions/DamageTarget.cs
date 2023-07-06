@@ -9,7 +9,7 @@ namespace AI.Actions
 {
     public class DamageTarget : BehaviorTreeTask
     {
-        public override async UniTask<bool> Run(Blackboard blackboard)
+        protected override async UniTask<bool> Run(Blackboard blackboard)
         {
             var targets = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
             var context = blackboard.Get<IBattleContext>("context");
@@ -35,7 +35,7 @@ namespace AI.Actions
 
             //Find first ability that kill target or deal maximum damage
             var bestUseAbility = availableDamageAbilities.FirstOrDefault(ab => ab.Item2.CurrentDamage >=
-                                                                               target.LifeStats.Health).ability ??
+                                                                               target.BattleStats.Health).ability ??
                                  availableDamageAbilities.Last().ability;
 
             switch (bestUseAbility.AbilityData.TargetingSystem)

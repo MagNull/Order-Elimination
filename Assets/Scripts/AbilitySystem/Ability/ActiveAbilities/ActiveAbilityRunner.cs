@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
-
 namespace OrderElimination.AbilitySystem
 {
     public class ActiveAbilityRunner
     {
-        public ActiveAbilityRunner(IActiveAbilityData abilityData)
+        public ActiveAbilityRunner(IActiveAbilityData abilityData, AbilityProvider provider)
         {
             AbilityData = abilityData;
+            AbilityProvider = provider;
         }
 
-        public IActiveAbilityData AbilityData { get; private set; }
+        public IActiveAbilityData AbilityData { get; }
+        public AbilityProvider AbilityProvider { get; }
 
         public bool IsRunning { get; private set; } = false;
         public int Cooldown { get; private set; }
@@ -43,12 +39,7 @@ namespace OrderElimination.AbilitySystem
                 return false;
             var casterPosition = caster.Position;
             var mapBorders = battleContext.BattleMap.CellRangeBorders;
-            if (AbilityData.TargetingSystem is IRequireTargetsTargetingSystem targetingSystem)
-            {
-                var availableCells = AbilityData.Rules.GetAvailableCellPositions(battleContext, caster);
-                targetingSystem.SetAvailableCellsForSelection(availableCells);
-            }
-            if (!AbilityData.TargetingSystem.StartTargeting(mapBorders, casterPosition))
+            if (!AbilityData.TargetingSystem.StartTargeting(battleContext, caster))
                 return false;
             AbilityData.TargetingSystem.TargetingConfirmed -= onConfirmed;
             AbilityData.TargetingSystem.TargetingConfirmed += onConfirmed;

@@ -7,78 +7,69 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class SingleTargetTargetingSystem : IAbilityTargetingSystem, IRequireTargetsTargetingSystem
+    [Obsolete("\nWill be replaced with \"" + nameof(MultiTargetTargetingSystem) + "\" in the future."
+        + "\nRecommended to use interface \"" + nameof(IRequireSelectionTargetingSystem) + "\" instead.")]
+    public class SingleTargetTargetingSystem : IAbilityTargetingSystem, IRequireSelectionTargetingSystem
     {
-        public bool IsTargeting { get; private set; } = false;
-        public bool IsConfirmed { get; private set; } = false;
-        public bool IsConfirmAvailable => SelectedCell != null && SelectedCell.HasValue;
-        public IEnumerable<Vector2Int> AvailableCells => _availableCells;
+        private CellGroupDistributionPattern _targetPattern;
+        private List<ICellCondition> _cellConditions;
+        private HashSet<Vector2Int> _availableCells;
+        private Vector2Int? _selectedCell;
+        private IBattleContext _targetingContext;
+        private AbilitySystemActor _targetingCaster;
 
-        [ShowInInspector, SerializeField]
         public CellGroupDistributionPattern TargetPattern
         {
             get => _targetPattern;
-            set
+            private set
             {
-                if (IsTargeting) Logging.LogException( new InvalidOperationException());
-                if (value is not TargetRelativePattern or CasterToTargetRelativePattern) Logging.LogException( new ArgumentException());
+                if (IsTargeting) Logging.LogException(new InvalidOperationException());
                 _targetPattern = value;
             }
         }
-        public Vector2Int? SelectedCell { get; private set; }
+        public bool IsTargeting { get; private set; } = false;
+        public bool IsConfirmed { get; private set; } = false;
+        public bool IsConfirmAvailable => _selectedCell != null && _selectedCell.HasValue;
+        public IEnumerable<Vector2Int> CurrentAvailableCells => _availableCells;
+        public IEnumerable<Vector2Int> SelectedCells 
+            => Enumerable.Repeat(_selectedCell, 1).Where(c => c.HasValue).Select(c => c.Value);
+        public int NecessaryTargetsLeft => _selectedCell == null ? 1 : 0;
 
         public event Action<IAbilityTargetingSystem> TargetingStarted;
         public event Action<IAbilityTargetingSystem> TargetingConfirmed;
         public event Action<IAbilityTargetingSystem> TargetingCanceled;
-        public event Action<SingleTargetTargetingSystem> ConfirmationUnlocked;
-        public event Action<SingleTargetTargetingSystem> ConfirmationLocked;
-        public event Action<SingleTargetTargetingSystem> SelectionUpdated;
-        event Action<IRequireTargetsTargetingSystem> IRequireTargetsTargetingSystem.ConfirmationUnlocked
+
+        public event Action<IRequireSelectionTargetingSystem> ConfirmationUnlocked;
+        public event Action<IRequireSelectionTargetingSystem> ConfirmationLocked;
+        public event Action<IRequireSelectionTargetingSystem> SelectionUpdated;
+        public event Action<IRequireSelectionTargetingSystem> AvailableCellsUpdated;
+
+        public SingleTargetTargetingSystem(
+            CellGroupDistributionPattern targetPattern, 
+            IEnumerable<ICellCondition> cellConditions)
         {
-            add => ConfirmationUnlocked += value;
-
-            remove => ConfirmationUnlocked -= value;
-        }
-        event Action<IRequireTargetsTargetingSystem> IRequireTargetsTargetingSystem.ConfirmationLocked
-        {
-            add => ConfirmationLocked += value;
-
-            remove => ConfirmationLocked -= value;
-        }
-        event Action<IRequireTargetsTargetingSystem> IRequireTargetsTargetingSystem.SelectionUpdated
-        {
-            add => SelectionUpdated += value;
-
-            remove => SelectionUpdated -= value;
-        }
-
-        private CellGroupDistributionPattern _targetPattern;
-        private HashSet<Vector2Int> _availableCells;
-        private Vector2Int? _casterPosition;
-        private CellRangeBorders? _mapBorders;
-
-        public SingleTargetTargetingSystem(CellGroupDistributionPattern targetPattern)
-        {
-            if (targetPattern is not TargetRelativePattern && targetPattern is not CasterToTargetRelativePattern)
-                Logging.LogException( new ArgumentException());
             _targetPattern = targetPattern;
+            _cellConditions = cellConditions.ToList();//.Clone().ToList() - will prevent real-time changes
         }
 
-        public bool SetAvailableCellsForSelection(Vector2Int[] availableCellsForSelection)
+        public Vector2Int[] PeekAvailableCells(IBattleContext battleContext, AbilitySystemActor caster)
+        {
+            if (CurrentAvailableCells != null)
+                return CurrentAvailableCells.ToArray();
+            return battleContext.BattleMap.CellRangeBorders
+                .EnumerateCellPositions()
+                .Where(pos => _cellConditions.All(c => c.IsConditionMet(battleContext, caster, pos)))
+                .ToArray();
+        }
+
+        public bool StartTargeting(IBattleContext battleContext, AbilitySystemActor caster)
         {
             if (IsTargeting)
-                Logging.LogException( new InvalidOperationException("Targeting has already started and needs to be confirmed or canceled first."));
-            _availableCells = availableCellsForSelection.ToHashSet();
-            return true;
-        }
-
-        public bool StartTargeting(CellRangeBorders mapBorders, Vector2Int casterPosition)
-        {
-            if (IsTargeting || _availableCells == null)
-                Logging.LogException( new InvalidOperationException("Targeting has already started and needs to be confirmed or canceled first."));
-            SelectedCell = null;
-            _casterPosition = casterPosition;
-            _mapBorders = mapBorders;
+                Logging.LogException(new InvalidOperationException("Targeting has already started and needs to be confirmed or canceled first."));
+            _availableCells = PeekAvailableCells(battleContext, caster).ToHashSet();
+            _selectedCell = null;
+            _targetingCaster = caster;
+            _targetingContext = battleContext;
             IsTargeting = true;
             TargetingStarted?.Invoke(this);
             if (IsConfirmAvailable)
@@ -86,24 +77,24 @@ namespace OrderElimination.AbilitySystem
             return true;
         }
 
-        public bool Select(Vector2Int cell)
+        public bool Select(Vector2Int cellPosition)
         {
             if (!IsTargeting || IsConfirmed)
                 return false;
-            if (!_availableCells.Contains(cell))
+            if (!_availableCells.Contains(cellPosition))
                 return false;
-            SelectedCell = cell;
+            _selectedCell = cellPosition;
             SelectionUpdated?.Invoke(this);
             if (IsConfirmAvailable)
                 ConfirmationUnlocked?.Invoke(this);
             return true;
         }
 
-        public bool Deselect(Vector2Int cell)
+        public bool Deselect(Vector2Int cellPosition)
         {
             if (!IsTargeting || IsConfirmed)
                 return false;
-            if (SelectedCell == cell)
+            if (_selectedCell == cellPosition)
             {
                 SelectionUpdated?.Invoke(this);
                 ConfirmationLocked?.Invoke(this);
@@ -127,9 +118,9 @@ namespace OrderElimination.AbilitySystem
 
             IsTargeting = false;
             IsConfirmed = false;
-            SelectedCell = null;
-            _casterPosition = null;
-            _mapBorders = null;
+            _selectedCell = null;
+            _targetingCaster = null;
+            _targetingContext = null;
             _availableCells = null;
             TargetingCanceled?.Invoke(this);
             return true;
@@ -138,11 +129,11 @@ namespace OrderElimination.AbilitySystem
         public CellGroupsContainer ExtractCastTargetGroups()
         {
             if (!IsTargeting && !IsConfirmed)
-                Logging.LogException( new InvalidOperationException("Targeting is not initiated or being canceled."));
-            var selectedCells = new List<Vector2Int>();
-            if (SelectedCell.HasValue)
-                selectedCells.Add(SelectedCell.Value);
-            return TargetPattern.GetAffectedCellGroups(_mapBorders.Value, _casterPosition.Value, selectedCells.ToArray());
+                Logging.LogException(new InvalidOperationException("Targeting is not initiated or being canceled."));
+            var mapBorders = _targetingContext.BattleMap.CellRangeBorders;
+            var casterPosition = _targetingCaster.Position;
+            return TargetPattern.GetAffectedCellGroups(
+                mapBorders, casterPosition, SelectedCells.ToArray());
         }
     }
 }

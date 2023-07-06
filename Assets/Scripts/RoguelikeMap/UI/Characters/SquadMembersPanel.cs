@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OrderElimination;
-using OrderElimination.MetaGame;
+using OrderElimination.MacroGame;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
 
@@ -37,14 +37,14 @@ namespace RoguelikeMap.UI.Characters
             if (_selectedDropZone == dropZone)
             {
                 if (card.IsSelected || _selectedCount >= MaxSquadSize) return;
-                SelectCard(card);
+                SelectCard(card, _selectedDropZone.transform);
                 _selectedCount++;
             }
             else
             {
                 if (!card.IsSelected)
                     return;
-                UnselectCard(card);
+                SelectCard(card, _unselectedDropZone.transform);
                 _selectedCount--;
             }
         }

@@ -1,10 +1,6 @@
-using CharacterAbility;
-using System.Collections;
-using System.Collections.Generic;
 using UIManagement.Elements;
 using UnityEditor;
 using UnityEditor.UI;
-using UnityEngine;
 
 [CustomEditor(typeof(HoldableButton))]
 public class HoldableButtonEditor : ButtonEditor

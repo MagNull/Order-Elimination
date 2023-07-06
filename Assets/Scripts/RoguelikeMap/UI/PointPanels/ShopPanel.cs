@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Inventory;
 using Inventory_Items;
+using Inventory.Items;
 using OrderElimination;
 using RoguelikeMap.Shop;
 using StartSessionMenu;
@@ -53,7 +54,7 @@ namespace RoguelikeMap.UI.PointPanels
                 return;
             _wallet.SubtractMoney(shopItem.Cost);
             shopItem.Buy();
-            var item = new Item(shopItem.Data);
+            var item = ItemFactory.Create(shopItem.Data);
             _inventory.AddItem(item);
         }
 

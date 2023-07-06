@@ -1,5 +1,5 @@
-﻿using CharacterAbility;
-using OrderElimination.AbilitySystem;
+﻿using OrderElimination.AbilitySystem;
+using OrderElimination.Infrastructure;
 using System;
 using System.Collections.Generic;
 using UIManagement;
@@ -33,35 +33,14 @@ namespace OrderElimination.Localization
             { ValueUnits.None, "" },
             { ValueUnits.Percents, "%" },
             { ValueUnits.Cells, "" },
+            { ValueUnits.Rounds, " раунд" },
             { ValueUnits.Turns, " ход" },
-            { ValueUnits.Enemies, " враг" },
-        };
-        private Dictionary<Buff_Type, string> _buffNames = new()
-        {
-            { Buff_Type.Movement, "Перемещение" },
-            { Buff_Type.Attack, "Атака" },
-            { Buff_Type.Health, "Здоровье" },
-            { Buff_Type.Evasion, "Уклонение" },
-            { Buff_Type.IncomingAccuracy, "Вх. точность" },
-            { Buff_Type.IncomingDamageIncrease, "Вх. урон" },
-            { Buff_Type.OutcomingAccuracy, "Вых. точность" },
-            { Buff_Type.OutcomingAttack, "Вых. урон" },
-            { Buff_Type.Accuracy, "Точность" },
-            { Buff_Type.Concealment, "Скрытность" },
-            { Buff_Type.AdditionalArmor, "Доп. броня" },
-            { Buff_Type.Stun, "Оглушение" },
-        };
-        private Dictionary<OverTimeAbilityType, string> _overtimeTypeNames = new()
-        {
-            { OverTimeAbilityType.Damage, "Ур/ход" },
-            { OverTimeAbilityType.Heal, "Леч/ход" },
+            //{ ValueUnits.Enemies, " враг" },
         };
 
         public string GetWindowTitleName(PanelType windowType) => _panelTitleNames[windowType];
         //public string GetEffectParameterName( windowType) => _panelTitleNames[windowType];
         public string GetUnits(ValueUnits unitType) => _unitNames[unitType];
-        public string GetBuffName(Buff_Type buffType) => _buffNames[buffType];
-        public string GetOvertimeTypeName(OverTimeAbilityType overtimeType) => _overtimeTypeNames[overtimeType];
         public string GetBattleStatName(BattleStat battleStat)
         {
             return battleStat switch

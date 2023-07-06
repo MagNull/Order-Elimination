@@ -36,8 +36,8 @@ namespace OrderElimination.AbilitySystem
         {
             var value = HealSize.GetValue(useContext);
             var healer = useContext.ActionMaker;
-            var healInfo = new HealInfo(value, ArmorMultiplier, HealthMultiplier, HealPriority, healer);
-            useContext.ActionTarget.TakeHeal(healInfo);
+            var healInfo = new RecoveryInfo(value, ArmorMultiplier, HealthMultiplier, HealPriority, healer);
+            useContext.ActionTarget.TakeRecovery(healInfo);
             return new SimplePerformResult(this, useContext, true);
         }
 
