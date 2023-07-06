@@ -48,16 +48,7 @@ namespace Inventory_Items
             foreach (var cell in cells.Where(cell => !_cells.ContainsKey(cell)))
                 OnCellAdded(cell);
         }
-
-
-        public override void OnCellChanged(IReadOnlyCell oldCell, IReadOnlyCell newCell)
-        {
-            var cellView = _cells[oldCell];
-            _cells.Remove(oldCell);
-            cellView.OnCellChanged(newCell);
-
-            _cells.Add(newCell, cellView);
-        }
+        
 
         public override void OnCellAdded(IReadOnlyCell cell)
         {
@@ -65,9 +56,9 @@ namespace Inventory_Items
                 ? _unusedCellViews.Pop()
                 : Instantiate(_cellViewPrefab, _cellContainer.transform);
             
+            cellView.Init(cell);
             cellView.Clicked += OnCellClicked;
             cellView.Enable();
-            cellView.OnCellChanged(cell);
             _cells.Add(cell, cellView);
         }
 

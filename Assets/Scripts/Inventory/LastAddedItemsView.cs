@@ -24,7 +24,7 @@ namespace Inventory_Items
         {
             _inventory.OnCellAdded += UpdateLastItems;
             _inventory.OnCellRemoved += UpdateLastItems;
-            UpdateLastItems(new Cell());
+            UpdateLastItems(null);
         }
 
         private void OnDisable()

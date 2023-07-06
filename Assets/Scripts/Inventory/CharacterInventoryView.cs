@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Inventory;
-using OrderElimination;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,11 +36,6 @@ namespace Inventory_Items
                     image.Value.sprite = _emptyCellSprite;
                 }
             }
-        }
-
-        public override void OnCellChanged(IReadOnlyCell oldCell, IReadOnlyCell newCell)
-        {
-            _cellViewByItemType[oldCell.Item.Type].sprite = newCell.Item.View.Icon;
         }
 
         public override void OnCellAdded(IReadOnlyCell cell)

@@ -24,13 +24,8 @@ namespace Inventory_Items
         
         private IReadOnlyCell _cell;
 
-        public void OnCellChanged(IReadOnlyCell newCell)
+        public void Init(IReadOnlyCell newCell)
         {
-            if (newCell.ItemQuantity == 0)
-            {
-                Destroy(gameObject);
-                return;
-            }
             _cell = newCell;
             _nameText.text = _cell.Item.View.Name;
             _descriptionText.text = _cell.Item.View.Description;
