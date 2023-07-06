@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using OrderElimination.MacroGame;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
@@ -13,6 +16,17 @@ namespace RoguelikeMap.UI
         private List<Sprite> _sprites;
         [OdinSerialize]
         private Dictionary<Vector2Int, Image> _objects;
+        [SerializeField]
+        private Transform _map;
+
+        private BattleScenario _scenario;
+        private bool _isZoom = false;
+        private TweenerCore<Vector3, Vector3, VectorOptions> _tweenerCore;
+
+        public float windowScaleCoef = 1.5f;
+        public float windowOpeningTime = 0.3f;
+        public Ease windowOpeningEase = Ease.Flash;
+
         [ShowInInspector]
         private const int ExplosibeBattelIndex = 0;
         [ShowInInspector]
@@ -29,8 +43,6 @@ namespace RoguelikeMap.UI
         private const int TowerIndex = 6;
         [ShowInInspector]
         private const int TreeIndex = 7;
-
-        private BattleScenario _scenario;
         
         public void Initialize(BattleScenario battleScenario,
             IReadOnlyList<GameCharacter> enemies, IReadOnlyList<GameCharacter> allies)
@@ -62,6 +74,14 @@ namespace RoguelikeMap.UI
         {
             foreach(var cell in _objects.Values)
                 cell.gameObject.SetActive(isActive);
+        }
+
+        public void ZoomMap()
+        {
+            _map.DOComplete();
+            _tweenerCore = _map.DOScale(_isZoom ? _map.localScale / windowScaleCoef : _map.localScale * windowScaleCoef,
+                windowOpeningTime).SetEase(windowOpeningEase);
+            _isZoom = !_isZoom;
         }
     }
 }
