@@ -5,6 +5,6 @@ namespace RoguelikeMap.Map
 {
     public interface IMapGenerator
     {
-        public IEnumerable<Point> GenerateMap();
+        public List<Point> GenerateMap();
     }
 }

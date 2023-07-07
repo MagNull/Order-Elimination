@@ -1,16 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Inventory;
 using OrderElimination;
-using OrderElimination.AbilitySystem;
 using OrderElimination.MacroGame;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.Points.Models;
 using RoguelikeMap.UI.Characters;
 using RoguelikeMap.UI.PointPanels;
-using UnityEngine;
 using VContainer;
 
 namespace RoguelikeMap.SquadInfo
@@ -82,18 +79,12 @@ namespace RoguelikeMap.SquadInfo
             IEnumerable<IGameCharacterTemplate> enemies, BattleScenario scenario)
         {
             var enemyCharacters = GameCharactersFactory.CreateGameEntities(enemies);
-            SaveSquadPosition();
             var charactersMediator = _objectResolver.Resolve<CharactersMediator>();
             charactersMediator.SetPlayerCharacters(_squad.Members);
             charactersMediator.SetEnemyCharacters(enemyCharacters);
             charactersMediator.SetScenario(scenario);
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();
-        }
-
-        private void SaveSquadPosition()
-        {
-            PlayerPrefs.SetString(Map.Map.SquadPositionPrefPath, _squad.transform.position.ToString());
         }
 
         private void WereSelectedMembers(List<GameCharacter> characters, int activeMembersCount)
