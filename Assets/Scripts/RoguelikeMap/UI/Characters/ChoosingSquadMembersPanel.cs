@@ -25,7 +25,9 @@ namespace RoguelikeMap.UI.Characters
         protected List<CharacterCard> _characterCards = new ();
 
         private CharacterInfoPanel _characterInfoPanel;
-        
+
+        public IReadOnlyList<CharacterCard> CharacterCards => _characterCards;
+
         [Inject]
         public void Construct(CharacterInfoPanel characterInfoPanel)
         {
@@ -42,7 +44,7 @@ namespace RoguelikeMap.UI.Characters
             {
                 var characterCard = Instantiate(_characterButtonPref, parent);
                 characterCard.InitializeCard(gameCharacter, isSelected);
-                characterCard.OnGetInfo += ShowCharacterInfo;
+                characterCard.OnClicked += ShowCharacterInfo;
                 _characterCards.Add(characterCard);
             }
         }

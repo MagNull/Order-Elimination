@@ -2,6 +2,7 @@ using System;
 using OrderElimination;
 using OrderElimination.MacroGame;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using Image = UnityEngine.UI.Image;
 
@@ -11,25 +12,29 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
     {
         private bool _isSelected;
 
-        [SerializeField] 
+        [SerializeField]
         protected Image _cardImage;
+
         public bool IsSelected
         {
             get => _isSelected;
             protected set
             {
                 _isSelected = value;
-                if (value == true)
+                if (value)
                     Selected?.Invoke(this);
                 else
                     Deselected?.Invoke(this);
             }
         }
+
         public GameCharacter Character { get; private set; }
-        public event Action<CharacterCard> OnGetInfo;
+
+        private UnityEvent _specialClickEvent;
+        public event Action<CharacterCard> OnClicked;
         public event Action<CharacterCard> Selected;
         public event Action<CharacterCard> Deselected;
-        
+
         public virtual void InitializeCard(GameCharacter character, bool isSelected)
         {
             Character = character;
@@ -41,16 +46,39 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         {
             IsSelected = !IsSelected;
         }
-        
+
         public void SetImage(Sprite sprite)
         {
             _cardImage.sprite = sprite;
         }
 
+        public void SetSpecialClickEvent(UnityAction action)
+        {
+            if (action == null)
+            {
+                Logging.LogException(new ArgumentException("Try set null special event"), this);
+                throw new();
+            }
+            
+            _specialClickEvent = new UnityEvent();
+            _specialClickEvent.AddListener(action);
+        }
+
+        public void ResetSpecialClickEvent()
+        {
+            _specialClickEvent.RemoveAllListeners();
+            _specialClickEvent = null;
+        }
+
         public void OnPointerClick(PointerEventData eventData)
         {
-            Logging.Log("OnClick");
-            OnGetInfo?.Invoke(this);
+            if (_specialClickEvent != null)
+            {
+                _specialClickEvent.Invoke();
+                _specialClickEvent = null;
+            }
+            else
+                OnClicked?.Invoke(this);
         }
     }
 }

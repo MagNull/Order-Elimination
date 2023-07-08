@@ -1247,28 +1247,7 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: _cells
-      Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[Inventory_Items.IReadOnlyCell,
-        Assembly-CSharp],[Inventory_Items.IInventoryCellView, Assembly-CSharp]],
-        mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[Inventory_Items.IReadOnlyCell,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+    SerializationNodes: []
   _cellViewPrefab: {fileID: 6965958807145536919, guid: bdc01f35a1b886b4b8206e223653e8b9, type: 3}
   _cellContainer: {fileID: 1658578758961720651}
 --- !u!114 &1658578758412989351
@@ -1294,9 +1273,8 @@ MonoBehaviour:
     SerializationNodes: []
   _inventoryView: {fileID: 1658578758412989344}
   _items:
-  - {fileID: 11400000, guid: 500f3d8fa36045344bd244f4cd3fe7cf, type: 2}
   - {fileID: 11400000, guid: e655c8948143f814c89bb88c7fa0785c, type: 2}
-  - {fileID: 11400000, guid: e377fef54a3079541aee19346c08d46c, type: 2}
+  - {fileID: 11400000, guid: 2b6a0f1f02b355b4ead5adf61643919b, type: 2}
 --- !u!114 &1567597163
 MonoBehaviour:
   m_ObjectHideFlags: 0

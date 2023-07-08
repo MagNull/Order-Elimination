@@ -1,20 +1,15 @@
 using System;
 using OrderElimination;
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Inventory_Items
 {
-    public class InventoryCellView : MonoBehaviour, IInventoryCellView, IPointerDownHandler, IPointerUpHandler
+    public class InventoryCellView : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         public event Action<IReadOnlyCell> Clicked;
         
-        [SerializeField]
-        private TextMeshProUGUI _descriptionText;
-        [SerializeField]
-        private TextMeshProUGUI _nameText;
         [SerializeField]
         private Image _iconRenderer;
 
@@ -24,11 +19,9 @@ namespace Inventory_Items
         
         private IReadOnlyCell _cell;
 
-        public void Init(IReadOnlyCell newCell)
+        public virtual void Init(IReadOnlyCell newCell)
         {
             _cell = newCell;
-            _nameText.text = _cell.Item.View.Name;
-            _descriptionText.text = _cell.Item.View.Description;
             _iconRenderer.sprite = _cell.Item.View.Icon;
         }
 

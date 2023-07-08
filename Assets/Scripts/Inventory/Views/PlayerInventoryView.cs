@@ -11,8 +11,7 @@ namespace Inventory_Items
     {
         public override event Action<IReadOnlyCell> CellClicked;
 
-        [SerializeField]
-        private readonly Dictionary<IReadOnlyCell, IInventoryCellView> _cells = new();
+        private readonly Dictionary<IReadOnlyCell, InventoryCellView> _cells = new();
 
         [SerializeField]
         private InventoryCellView _cellViewPrefab;
@@ -20,7 +19,7 @@ namespace Inventory_Items
         [SerializeField]
         private GridLayoutGroup _cellContainer;
 
-        private readonly Stack<IInventoryCellView> _unusedCellViews = new();
+        private readonly Stack<InventoryCellView> _unusedCellViews = new();
 
         public void ShowItemWithType(int itemType)
         {
