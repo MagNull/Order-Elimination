@@ -1,3 +1,4 @@
+using AI;
 using DefaultNamespace;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
@@ -15,6 +16,8 @@ public class PlayerControlSwitcher : MonoBehaviour
     private Button _endTurnButton;
     [SerializeField]
     private CooldownTimer _roundCounter;
+    [SerializeField]
+    private AIRunner _nonPlayerController;
     [Header("Settings")]
     [SerializeField]
     private bool _dontTouchPlayerSelector;
@@ -52,6 +55,10 @@ public class PlayerControlSwitcher : MonoBehaviour
                 PlayerSelector.Disable();
             if (_lockTurnButtonOnAITurn)
                 _endTurnButton.interactable = false;
+            if (battleContext.ActiveSide != BattleSide.NoSide)
+                _nonPlayerController.Run(battleContext.ActiveSide);
+            else
+                _battleManager.StartNextTurn();
         }
         var roundColor = battleContext.ActiveSide switch
         {
