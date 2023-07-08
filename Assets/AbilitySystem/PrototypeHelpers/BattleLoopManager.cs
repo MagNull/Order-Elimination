@@ -16,10 +16,21 @@ public class BattleLoopManager : MonoBehaviour
     private IObjectResolver _objectResolver;
     private IReadOnlyEntitiesBank _entitiesBank;
     private IBattleContext _battleContext;
+    private BattleSide _activeSide;
 
     //public BattlePlayer ActivePlayer { get; private set; }
+    public bool IsInitialized { get; private set; }
 
-    public BattleSide ActiveSide { get; private set; }
+    public BattleSide ActiveSide
+    {
+        get
+        {
+            //if (!IsInitialized)
+            //    throw new InvalidOperationException(
+            //        $"Attempt to access {nameof(ActiveSide)} before {nameof(BattleLoopManager)} initialization.");
+            return _activeSide;
+        }
+    }
     public int CurrentRound { get; private set; }
 
     public event Action BattleStarted;
@@ -30,7 +41,6 @@ public class BattleLoopManager : MonoBehaviour
     private void Construct(IObjectResolver objectResolver)
     {
         _objectResolver = objectResolver;
-        //_battleMap = objectResolver.Resolve<IBattleMap>();
         _entitiesBank = objectResolver.Resolve<IReadOnlyEntitiesBank>();
     }
 
@@ -41,13 +51,15 @@ public class BattleLoopManager : MonoBehaviour
 
     private void InitializeBattle()
     {
+        IUndoableBattleAction.ClearAllActionsUndoCache();
         var scenario = _objectResolver.Resolve<CharactersMediator>().BattleScenario;
         _battleContext = _objectResolver.Resolve<IBattleContext>();
-        IUndoableBattleAction.ClearAllActionsUndoCache();
         var initializer = _objectResolver.Resolve<BattleInitializer>();
         initializer.InitiateBattle();
         initializer.StartScenario(scenario);
-        StartNewTurn(_battleContext.TurnPriority.GetStartingSide());
+        _activeSide = _battleContext.TurnPriority.GetStartingSide();
+        IsInitialized = true;
+        StartNewTurn(ActiveSide);
         BattleStarted?.Invoke();
     }
 
@@ -58,7 +70,7 @@ public class BattleLoopManager : MonoBehaviour
 
     private void StartNewTurn(BattleSide battleSide)
     {
-        ActiveSide = battleSide;
+        _activeSide = battleSide;
         foreach (var entity in _entitiesBank.GetEntities(ActiveSide))
         {
             RestoreActionPoints(entity, 1);

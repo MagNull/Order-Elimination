@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using AI.EditorGraph;
 using Cysharp.Threading.Tasks;
 using OrderElimination;
@@ -27,17 +26,15 @@ namespace AI
         private Dictionary<IGameCharacterTemplate, CharacterBehavior> _characterToBehaviors = new();
 
         private IBattleContext _context;
-        private BattleLoopManager _battleLoopManager;
 
         [Inject]
-        public void Construct(IBattleContext context, BattleLoopManager battleLoopManager)
+        public void Construct(IBattleContext context)
         {
-            _battleLoopManager = battleLoopManager;
             _context = context;
         }
 
         [Button]
-        public async void Run(BattleSide playingSide)
+        public async UniTask Run(BattleSide playingSide)
         {
             var enemies = _context.EntitiesBank.GetEntities(playingSide);
             var templates =
@@ -57,8 +54,6 @@ namespace AI
                 foreach (var activeAbilityRunner in enemyData.enemy.ActiveAbilities)
                     activeAbilityRunner.AbilityData.TargetingSystem.CancelTargeting();
             }
-
-            _battleLoopManager.StartNextTurn();
         }
     }
 }
