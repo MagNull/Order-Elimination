@@ -40,7 +40,8 @@ namespace OrderElimination.AbilitySystem
             get => PureArmor + TemporaryArmor;
             set
             {
-                if (value < 0) Logging.LogException( new ArgumentOutOfRangeException());
+                if (value < 0) Logging.LogException(new ArgumentOutOfRangeException());
+                if (value == TotalArmor) return;
                 var offset = TotalArmor - value;
                 if (value < TotalArmor)//dmg
                 {

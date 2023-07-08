@@ -12,8 +12,15 @@ namespace OrderElimination.AbilitySystem
 
         [ShowInInspector, DisplayAsString, PropertyOrder(-1)]
         [FoldoutGroup("DamageChanger", order: 0)]
-        private string _damageFormula 
-            => $"=(DamageSize {_damageOperation.AsString()} {_damageValue.DisplayedFormula})";
+        private string _damageFormula
+        {
+            get
+            {
+                if (_damageValue != null)
+                    return $"=(DamageSize {_damageOperation.AsString()} {_damageValue.DisplayedFormula})";
+                return "No value operand.";
+            }
+        }
 
         [FoldoutGroup("DamageChanger")]
         [ShowInInspector, OdinSerialize]
@@ -26,7 +33,14 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, DisplayAsString, PropertyOrder(-1)]
         [FoldoutGroup("AccuracyChanger", order: 1)]
         private string _accuracyFormula
-            => $"=(Accuracy {_accuracyOperation.AsString()} {_accuracyValue.DisplayedFormula})";
+        {
+            get
+            {
+                if (_accuracyValue != null)
+                    return $"=(Accuracy {_accuracyOperation.AsString()} {_accuracyValue.DisplayedFormula})";
+                return "No value operand.";
+            }
+        }
 
         [FoldoutGroup("AccuracyChanger")]
         [ShowInInspector, OdinSerialize]

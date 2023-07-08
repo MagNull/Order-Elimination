@@ -37,7 +37,7 @@ namespace UIManagement
         }
         protected virtual void Initialize()
         {
-            _titleText.text = name = Title;
+            _titleText.text = Title;
             _closingButton.onClick.RemoveListener(Close);
             _closingButton.onClick.AddListener(Close);
             _isInitialized = true;

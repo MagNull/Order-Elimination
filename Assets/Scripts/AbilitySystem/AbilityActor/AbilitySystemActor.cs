@@ -66,7 +66,7 @@ namespace OrderElimination.AbilitySystem
         public DealtRecoveryInfo TakeRecovery(RecoveryInfo incomingHeal)
         {
             var dealtRecovery = IBattleLifeStats.DistributeRecovery(BattleStats, incomingHeal);
-            BattleStats.TotalArmor += dealtRecovery.TotalArmorRecovery;
+            BattleStats.PureArmor += dealtRecovery.TotalArmorRecovery;
             BattleStats.Health += dealtRecovery.TotalHealthRecovery;
             Healed?.Invoke(dealtRecovery);
             return dealtRecovery;

@@ -12,6 +12,7 @@ namespace OrderElimination.AbilitySystem
 
         public IReadOnlyList<ICommonCondition> AvailabilityConditions => _availabilityConditions;
         public IReadOnlyDictionary<ActionPoint, int> UsageCost => _usageCost;
+
         public AbilityRules(
             IEnumerable<ICommonCondition> availabilityConditions, 
             IReadOnlyDictionary<ActionPoint, int> usageCost)

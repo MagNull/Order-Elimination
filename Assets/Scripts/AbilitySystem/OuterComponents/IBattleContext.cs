@@ -18,6 +18,8 @@ namespace OrderElimination.AbilitySystem
         public IReadOnlyEntitiesBank EntitiesBank { get; }
         public BattleRelationship GetRelationship(BattleSide askingSide, BattleSide relationSide);
         public IEnumerable<AbilitySystemActor> GetVisibleEntities(Vector2Int position, BattleSide askingSide);
+        public IContextValueGetter ModifyAccuracyBetween(
+            Vector2Int start, Vector2Int end, IContextValueGetter initialAccuracy, AbilitySystemActor askingEntity);
 
         //public BattleRelationship GetRelationship(Player playerA, PlayerPrefs playerB)
         //public Player[] Players
@@ -27,6 +29,7 @@ namespace OrderElimination.AbilitySystem
         //Structures
 
         public event Action<IBattleContext> BattleStarted;
+        public event Action<IBattleContext> NewTurnUpdatesRequested;
         public event Action<IBattleContext> NewTurnStarted;
         public event Action<IBattleContext> NewRoundBegan;
         //public event Action<IBattleContext> ContextChanged;//?

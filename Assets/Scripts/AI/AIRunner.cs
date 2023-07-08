@@ -49,13 +49,13 @@ namespace AI
         private void OnTurnStarted(IBattleContext context)
         {
             if (context.ActiveSide != BattleSide.Player)
-                Run();
+                Run(context.ActiveSide);
         }
 
         [Button]
-        public async void Run()
+        public async void Run(BattleSide playingSide)
         {
-            var enemies = _context.EntitiesBank.GetEntities(BattleSide.Enemies);
+            var enemies = _context.EntitiesBank.GetEntities(playingSide);
             var templates =
                 enemies
                     .Select(enemy =>
