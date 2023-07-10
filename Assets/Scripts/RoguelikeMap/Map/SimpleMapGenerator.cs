@@ -25,7 +25,7 @@ namespace RoguelikeMap.Map
             _resolver = resolver;
         }
 
-        public IEnumerable<Point> GenerateMap()
+        public List<Point> GenerateMap()
         {
             var path = "Points\\" + NumberOfMap;
             var pointsInfo = Resources.LoadAll<PointInfo>(path);

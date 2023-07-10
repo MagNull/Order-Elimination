@@ -4,6 +4,7 @@ using System.Linq;
 using DG.Tweening;
 using OrderElimination;
 using OrderElimination.MacroGame;
+using OrderElimination.UI;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
@@ -13,9 +14,9 @@ namespace StartSessionMenu.ChooseCharacter
 {
     public class ChoosingCharacter : ChoosingSquadMembersPanel
     {
-        [SerializeField] 
+        [SerializeField]
         private Button _startGameButton;
-        [SerializeField] 
+        [SerializeField]
         private MoneyCounter _uiCounter;
         [SerializeField]
         private List<CharacterTemplate> _characters;
@@ -23,7 +24,7 @@ namespace StartSessionMenu.ChooseCharacter
         private List<DropZone> _selectedDropZones;
         [SerializeField]
         private int MaxSquadSize = 3;
-        [SerializeField] 
+        [SerializeField]
         private ScrollRect _scrollRect;
         [SerializeField]
         private int StartMoney = 1200;
@@ -38,6 +39,7 @@ namespace StartSessionMenu.ChooseCharacter
             InitializeCharactersCard();
             foreach (var zone in _selectedDropZones)
                 zone.OnTrySelect += TrySelectCard;
+            SetActiveStartButton();
         }
 
         private void InitializeCharactersCard()
@@ -83,7 +85,7 @@ namespace StartSessionMenu.ChooseCharacter
 
         private void SetActiveStartButton()
         {
-            _startGameButton.interactable = _selectedCount != 0;
+            _startGameButton.DOInterectable(_selectedCount != 0);
         }
 
         public bool SaveCharacters()
