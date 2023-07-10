@@ -2,14 +2,15 @@ using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using OrderElimination.MacroGame;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using VContainer;
 using VContainer.Unity;
 
-public class BattleEntitiesFactory : MonoBehaviour
+public class BattleEntitiesFactory : SerializedMonoBehaviour
 {
     [SerializeField]
     private BattleEntityView _characterPrefab;
@@ -22,6 +23,9 @@ public class BattleEntitiesFactory : MonoBehaviour
 
     [SerializeField]
     private Transform _structuresParent;
+
+    [ShowInInspector, OdinSerialize]
+    private IBattleObstacleSetup _charactersObstacleSetup;
 
     private IBattleContext _battleContext;
     private BattleEntitiesBank _entitiesBank;
@@ -51,7 +55,7 @@ public class BattleEntitiesFactory : MonoBehaviour
                 character.CharacterStats.MaxMovementDistance),
             EntityType.Character,
             side,
-            new EntityObstacleSetup());
+            _charactersObstacleSetup);
 
         foreach (var abilityData in character.ActiveAbilities)
         {

@@ -62,10 +62,9 @@ namespace UIManagement.Elements
         public void UpdateEntityInfo(BattleEntityView entity)
         {
             if (entity == null)
-                Logging.LogException( new System.ArgumentNullException());
+                Logging.LogException(new System.ArgumentNullException());
             if (_currentEntityView != null)
                 Unsubscribe(_currentEntityView.BattleEntity);
-
             _currentEntityView = entity;
             Subscribe(_currentEntityView.BattleEntity);
             _avatar.sprite = _currentEntityView.BattleIcon;

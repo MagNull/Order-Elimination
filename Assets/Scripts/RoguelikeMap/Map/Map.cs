@@ -4,16 +4,15 @@ using OrderElimination;
 using RoguelikeMap.Points;
 using RoguelikeMap.SquadInfo;
 using UnityEngine;
-using UnityEngine.UI;
 using VContainer;
 
 namespace RoguelikeMap.Map
 {
     public class Map : MonoBehaviour
     {
-        public static string SquadPositionPrefPath = $"{SaveIndex}/Squad/Position";
+        public static string SquadPositionKey = "SquadPosition";
         
-        private IEnumerable<Point> _points;
+        private List<Point> _points;
         private IMapGenerator _mapGenerator;
         private Squad _squad;
         private bool _isSquadSelected;
@@ -59,31 +58,15 @@ namespace RoguelikeMap.Map
 
         private void SetSquadPosition()
         {
-            var position = PlayerPrefs.HasKey(SquadPositionPrefPath)
-                ? PlayerPrefs.GetString(SquadPositionPrefPath).GetVectorFromString()
-                : _points.First().transform.position;
-            var nearestPoint = FindNearestPoint(position);
-            _squad.Visit(nearestPoint.Model);
-        }
-
-        private Point FindNearestPoint(Vector3 position)
-        {
-            Point nearestPoint = null;
-            var minDistance = double.MaxValue;
-            foreach (var point in _points)
-            {
-                var distance = Vector3.Distance(position, point.transform.position);
-                if (!(minDistance > distance)) continue;
-                minDistance = distance;
-                nearestPoint = point;
-            }
-
-            return nearestPoint;
+            var pointIndex = PlayerPrefs.HasKey(SquadPositionKey)
+                ? PlayerPrefs.GetInt(SquadPositionKey)
+                : _points.First().Index;
+            _squad.Visit(_points[pointIndex].Model);
         }
 
         public void ReloadMap()
         {
-            PlayerPrefs.DeleteKey(SquadPositionPrefPath);
+            PlayerPrefs.DeleteKey(SquadPositionKey);
             SetSquadPosition();
         }
 

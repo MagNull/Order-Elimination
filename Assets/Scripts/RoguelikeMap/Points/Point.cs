@@ -16,6 +16,7 @@ namespace RoguelikeMap.Points
         public event Action<Point> OnSelected;
         public IReadOnlyList<int> NextPoints => Model.NextPoints;
         public int Index => Model.Index;
+        public bool IsLastPoint => Model.IsLastPoint;
 
         [Inject]
         private void Construct(PanelManager panelManager)

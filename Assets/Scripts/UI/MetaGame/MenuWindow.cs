@@ -11,7 +11,7 @@ public class MenuWindow : MonoBehaviour
     [SerializeField] 
     private Button _previousButton;
     [SerializeField]
-    private Button _nextButton;
+    private Button _startGameButton;
     [SerializeField] 
     private ChoosingCharacter _choosingCharacterPanel;
     [SerializeField]
@@ -34,7 +34,7 @@ public class MenuWindow : MonoBehaviour
             _startMenuPanel.transform.DOMoveX(960, 1.5f);
         });
         
-        _nextButton.onClick.AddListener(() =>
+        _startGameButton.onClick.AddListener(() =>
         {
             _metaShopPanel.SaveStats();
             if(_choosingCharacterPanel.SaveCharacters())
