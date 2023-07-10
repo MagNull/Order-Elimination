@@ -8,7 +8,9 @@ namespace Inventory.Items
         {
             return data.Type switch
             {
-                ItemType.Consumable => new ConsumableItem(data),
+                ItemType.Consumable => data is HealItemData healItemData
+                    ? new HealItem(healItemData)
+                    : new ConsumableItem(data),
                 ItemType.Equipment => new EquipmentItem(data),
                 _ => null
             };

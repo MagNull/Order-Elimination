@@ -1,6 +1,7 @@
 ﻿using System;
 using Inventory;
 using OrderElimination.AbilitySystem;
+using OrderElimination.MacroGame;
 using Sirenix.OdinInspector;
 
 namespace Inventory_Items
@@ -30,8 +31,8 @@ namespace Inventory_Items
 
     public class EquipmentItem : Item
     {
-        private IPassiveAbilityData _equipAbility;
-        
+        private readonly IPassiveAbilityData _equipAbility;
+
         public EquipmentItem(ItemData itemData) : base(itemData)
         {
             _equipAbility = AbilityFactory.CreatePassiveAbility(itemData.EquipAbility);
@@ -45,8 +46,21 @@ namespace Inventory_Items
 
     public class ConsumableItem : Item
     {
-        private IActiveAbilityData _useAbility;
+        public event Action<ConsumableItem> UseTimesOver;
+        private readonly IActiveAbilityData _useAbility;
         private int _useTimes;
+
+        protected int UseTimes
+        {
+            get => _useTimes;
+            set
+            {
+                _useTimes = value;
+                if (_useTimes > 0)
+                    return;
+                UseTimesOver?.Invoke(this);
+            }
+        }
 
         public ConsumableItem(ItemData itemData) : base(itemData)
         {
@@ -58,12 +72,13 @@ namespace Inventory_Items
         {
             var ability = new ActiveAbilityRunner(_useAbility, AbilityProvider.Equipment);
             abilitySystemActor.GrantActiveAbility(ability);
-            ability.AbilityExecutionStarted += _ =>
-            {
-                _useTimes--;
-                if (_useTimes <= 0)
-                    abilitySystemActor.RemoveActiveAbility(ability);
-            };
+            UseTimesOver += _ => abilitySystemActor.RemoveActiveAbility(ability);
+            ability.AbilityExecutionStarted += _ => _useTimes--;
         }
+    }
+
+    public interface IUsable
+    {
+        public void Use(GameCharacter gameCharacter);
     }
 }

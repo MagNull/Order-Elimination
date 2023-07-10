@@ -51,7 +51,7 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
             };
             
             card.InitializeCard(character, isSelected);
-            card.OnGetInfo += (characterCard) =>
+            card.OnClicked += (characterCard) =>
             {
                 _characterInfoPanel.InitializeCharacterInfo(characterCard.Character);
                 _characterInfoPanel.Open();

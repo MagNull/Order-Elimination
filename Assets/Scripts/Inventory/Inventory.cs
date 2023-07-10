@@ -38,6 +38,8 @@ namespace Inventory_Items
 
             var newCell = new Cell(item);
             _cells.Add(newCell);
+            if(item is ConsumableItem consumableItem)
+                consumableItem.UseTimesOver += OnConsumableItemOver;
             OnCellAdded?.Invoke(newCell);
         }
 
@@ -69,6 +71,13 @@ namespace Inventory_Items
             }
 
             return result;
+        }
+        
+        //TODO: Refactor, Inventory doesnt need to know about consumables
+        private void OnConsumableItemOver(ConsumableItem item)
+        {
+            item.UseTimesOver -= OnConsumableItemOver;
+            RemoveItem(item);
         }
 
         public void MoveItemTo(Item item, Inventory other)
