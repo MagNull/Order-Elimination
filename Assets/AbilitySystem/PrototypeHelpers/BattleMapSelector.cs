@@ -239,7 +239,7 @@ public class BattleMapSelector : MonoBehaviour
             BattleSide.Others => _enemiesHighlightColor,
             _ => _othersHighlightColor,
         };
-        view.Highlight(highlightColor, 0.1f, 0.2f, 0.3f);
+        view.Highlight(highlightColor);
         Debug.Log($"{entity.EntityType} {view.Name} selected." % Colorize.ByColor(new Color(1, 0.5f, 0.5f))
             + $"\nActionPoints: {string.Join(", ", entity.ActionPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
             + $"\nHealth: {entity.BattleStats.Health}; MaxHealth: {entity.BattleStats.MaxHealth.ModifiedValue}" 

@@ -35,7 +35,7 @@ namespace RoguelikeMap.UI.PointPanels
             {
                 var characterCard = Instantiate(_characterCardPrefab, _characterParent);
                 characterCard.InitializeCard(enemy, false);
-                characterCard.OnGetInfo += ShowCharacterInfo;
+                characterCard.OnClicked += ShowCharacterInfo;
             }
             _scenarioVisualiser.Initialize(battleScenario, enemies, allies);
         }

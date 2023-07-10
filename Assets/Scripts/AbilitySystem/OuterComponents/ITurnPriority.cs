@@ -19,10 +19,11 @@ namespace OrderElimination.AbilitySystem
         {
             return currentTurnSide switch
             {
+                BattleSide.NoSide => BattleSide.Player,
                 BattleSide.Player => BattleSide.Allies,
-                BattleSide.Enemies => BattleSide.Others,
                 BattleSide.Allies => BattleSide.Enemies,
-                BattleSide.Others => BattleSide.Player,
+                BattleSide.Enemies => BattleSide.Others,
+                BattleSide.Others => BattleSide.NoSide,
                 _ => throw new NotSupportedException(),
             };
         }

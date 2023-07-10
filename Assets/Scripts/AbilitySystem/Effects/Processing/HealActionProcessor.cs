@@ -8,7 +8,14 @@ namespace OrderElimination.AbilitySystem
     {
         [ShowInInspector, DisplayAsString, PropertyOrder(-1)]
         private string _healFormula
-            => $"=(HealSize {_healOperation.AsString()} {_healValue.DisplayedFormula})";
+        {
+            get
+            {
+                if (_healValue != null)
+                    return $"=(HealSize {_healOperation.AsString()} {_healValue.DisplayedFormula})";
+                return "No value operand.";
+            }
+        }
 
         [ShowInInspector, OdinSerialize]
         private MathOperation _healOperation = MathOperation.Multiply;

@@ -15,9 +15,6 @@ namespace Assets.Scripts.AbilitySystem.Animations.AbilityAnimations.Special
         public AudioClip[] Sounds { get; set; } = new AudioClip[0];
 
         [ShowInInspector, OdinSerialize]
-        public float Duration { get; set; } = -1;
-
-        [ShowInInspector, OdinSerialize]
         public bool WaitForCompletion { get; set; }
 
         protected override async UniTask OnAnimationPlayRequest(
@@ -34,7 +31,7 @@ namespace Assets.Scripts.AbilitySystem.Animations.AbilityAnimations.Special
         private async UniTask PlaySound(SoundEffectsPlayer player, CancellationToken cancellationToken)
         {
             var clip = Sounds[Random.Range(0, Sounds.Length)];
-            var playingDuration = Duration > 0 ? Duration : clip.length;
+            var playingDuration = clip.length;
             var duration = Mathf.RoundToInt(playingDuration * 1000);
             player.PlaySound(clip);
             await UniTask.Delay(duration, cancellationToken: cancellationToken);

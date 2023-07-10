@@ -367,13 +367,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fb6e017969604f4285ba16452de1217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damageDisplayPrefab: {fileID: 5551602970648382351, guid: ec6020ee4f2819f48b1f91abf783e74b, type: 3}
-  _healDisplayPrefab: {fileID: 6443294493302045170, guid: d52c1688d10b66d498ba32348637a274, type: 3}
+  _actionDisplayPrefab: {fileID: -4733392754216633722, guid: efe391543532ebb418171ed1b407da0b, type: 3}
+  _damageIcon: {fileID: 21300000, guid: 49633b4d36c36784da0458c8e094e2cf, type: 3}
+  _accuracyIcon: {fileID: 21300000, guid: c382521a160165c4cad150f9cebae37c, type: 3}
+  _armorIcon: {fileID: 21300000, guid: df2cafcf5686233418fe4983189fcfe3, type: 3}
+  _healthIcon: {fileID: 21300000, guid: 090a960edb6321d41917572de88cb756, type: 3}
+  _accuracyAffectionAsFormulas: 0
 --- !u!1 &97603398 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 274391217118058624, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
   m_PrefabInstance: {fileID: 1580248453}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &97603399 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 274391217118058627, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
+  m_PrefabInstance: {fileID: 1580248453}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97603398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96f6c99ad92b4ca2a1583bf4bcbd608d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &131492486
 GameObject:
   m_ObjectHideFlags: 0
@@ -1034,6 +1049,239 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6581c9f5c787ab84aac7eea6236655af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _charactersObstacleSetup
+      Entry: 7
+      Data: 0|OrderElimination.AbilitySystem.BattleObstacleSetup, Assembly-CSharp
+    - Name: AllowsToStay
+      Entry: 5
+      Data: false
+    - Name: AllowsToWalkOn
+      Entry: 5
+      Data: true
+    - Name: _entityStayConditions
+      Entry: 7
+      Data: 1|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _entityWalkConditions
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 3|OrderElimination.AbilitySystem.EntityFilterCondition, Assembly-CSharp
+    - Name: EntityFilter
+      Entry: 7
+      Data: 4|OrderElimination.AbilitySystem.EntityFilter, Assembly-CSharp
+    - Name: AllowSelf
+      Entry: 5
+      Data: false
+    - Name: CharactersSpecification
+      Entry: 3
+      Data: 0
+    - Name: StructuresSpecification
+      Entry: 3
+      Data: 0
+    - Name: AllowedEntityTypes
+      Entry: 7
+      Data: 5|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.EntityType,
+        Assembly-CSharp]], Assembly-CSharp
+    - Name: _valueFlags
+      Entry: 7
+      Data: 6|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EntityType,
+        Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 7|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.EntityType,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AllowedRelationships
+      Entry: 7
+      Data: 8|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.Infrastructure.BattleRelationship,
+        Assembly-CSharp]], Assembly-CSharp
+    - Name: _valueFlags
+      Entry: 7
+      Data: 9|System.Collections.Generic.Dictionary`2[[OrderElimination.Infrastructure.BattleRelationship,
+        Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 10|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.Infrastructure.BattleRelationship,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _specifiedCharacters
+      Entry: 7
+      Data: 11|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _specifiedStructures
+      Entry: 7
+      Data: 12|System.Collections.Generic.List`1[[OrderElimination.IBattleStructureTemplate,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _accuracyAffectors
+      Entry: 7
+      Data: 13|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.BattleObstacleSetup+AccuracyAffectionRule,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   _characterPrefab: {fileID: -5129956471157022677, guid: 8bae18ab3858f1540bf2d0298e833f18, type: 3}
   _structurePrefab: {fileID: -5129956471157022677, guid: dc76135f61ea9d546abdf7e947d07f38, type: 3}
   _charactersParent: {fileID: 272730709}
@@ -1402,6 +1650,7 @@ MonoBehaviour:
   PlayerSelector: {fileID: 78333931}
   _endTurnButton: {fileID: 1265434198}
   _roundCounter: {fileID: 963284766}
+  _nonPlayerController: {fileID: 97603399}
   _dontTouchPlayerSelector: 1
   _lockTurnButtonOnAITurn: 1
 --- !u!1 &806930971
@@ -1883,8 +2132,8 @@ Canvas:
   m_TargetDisplay: 0
 --- !u!114 &963284766 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4617140060955964160, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-  m_PrefabInstance: {fileID: 1205914903}
+  m_CorrespondingSourceObject: {fileID: 6613174199327723319, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
+  m_PrefabInstance: {fileID: 2005745093244662048}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -1992,6 +2241,7 @@ MonoBehaviour:
   - {fileID: 1503250385}
   - {fileID: 663644913}
   - {fileID: 1455286359}
+  - {fileID: 84768578}
   _battleEntitiesFactory: {fileID: 625776184}
   _battleLoopManager: {fileID: 1031238779}
   _battleMapView: {fileID: 246195458}
@@ -2035,123 +2285,6 @@ Transform:
   m_Father: {fileID: 543468711}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1205914903
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1265434199}
-    m_Modifications:
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_Pivot.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_Pivot.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 39.400146
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 4.7999268
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2221765790520992469, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4617140060955964160, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: <IgnoreSameValues>k__BackingField
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4617140060955964160, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: <HideValuesBelowOne>k__BackingField
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6243146329502230711, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_Name
-      value: Round Counter
-      objectReference: {fileID: 0}
-    - target: {fileID: 8375143762093565044, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_Type
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8375143762093565044, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 0c9d8c8ac56684e45a50895e744ada77, type: 3}
-    - target: {fileID: 8375143762093565044, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
-      propertyPath: m_Color.a
-      value: 0.35686275
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 5923ca9a7043f3640b724e2a64f8a578, type: 3}
 --- !u!1 &1220687553
 GameObject:
   m_ObjectHideFlags: 0
@@ -2203,11 +2336,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &1265434199 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2005745094501093237, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
-  m_PrefabInstance: {fileID: 2005745093244662048}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1455286359
 GameObject:
   m_ObjectHideFlags: 0
@@ -2665,13 +2793,19 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 4
     - Name: 
       Entry: 10
       Data: 6
     - Name: 
       Entry: 10
       Data: 7
+    - Name: 
+      Entry: 10
+      Data: 5
+    - Name: 
+      Entry: 10
+      Data: 1
     - Name: 
       Entry: 13
       Data: 

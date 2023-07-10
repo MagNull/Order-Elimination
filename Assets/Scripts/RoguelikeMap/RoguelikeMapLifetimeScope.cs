@@ -1,3 +1,4 @@
+using System.Linq;
 using ItemsLibrary;
 using OrderElimination;
 using RoguelikeMap.Map;
@@ -49,6 +50,8 @@ namespace RoguelikeMap
             var mediator = FindObjectOfType<CharactersMediator>();
             if (!mediator) 
                 mediator = Instantiate(_charactersMediatorPrefab);
+            else
+                SquadMediator.SetCharacters(mediator.GetPlayerCharacters().ToList());
             
             var wallet = new Wallet(_startMoney);
             

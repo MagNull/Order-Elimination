@@ -71,20 +71,20 @@ namespace OrderElimination.AbilitySystem
                 LeftDuration = EffectData.TemporaryEffectFunctionaity.ApplyingDuration;
                 DurationEnded += EffectData.TemporaryEffectFunctionaity.OnTimeOut;
                 var activationSide = BattleContext.ActiveSide;
-                BattleContext.NewTurnStarted -= OnNewTurn;
-                BattleContext.NewTurnStarted += OnNewTurn;
+                BattleContext.NewTurnUpdatesRequested -= OnNewTurn;
+                BattleContext.NewTurnUpdatesRequested += OnNewTurn;
 
                 void OnNewTurn(IBattleContext context)
                 {
                     if (!IsActive)
                     {
-                        BattleContext.NewTurnStarted -= OnNewTurn;
+                        BattleContext.NewTurnUpdatesRequested -= OnNewTurn;
                         return;
                     }
                     if (context.ActiveSide != activationSide) return;
                     LeftDuration--;
                     if (LeftDuration > 0) return;
-                    BattleContext.NewTurnStarted -= OnNewTurn;
+                    BattleContext.NewTurnUpdatesRequested -= OnNewTurn;
                     EffectData.TemporaryEffectFunctionaity.OnTimeOut(this);
                     Deactivate();
                 }

@@ -102,12 +102,15 @@ public class BattleEntityView : MonoBehaviour
         }
     }
 
-    public void Highlight(Color color, float highlightTime, float duration, float fadeTime)
+    public void Highlight(Color highlightColor)
+        => Highlight(highlightColor, 0.1f, 0.2f, 0.3f);
+
+    public void Highlight(Color highlightColor, float highlightTime, float duration, float fadeTime)
     {
         _renderer.DOComplete();
         var initialColor = _renderer.color;
         DOTween.Sequence(_renderer)
-            .Append(_renderer.DOColor(color, highlightTime))
+            .Append(_renderer.DOColor(highlightColor, highlightTime))
             .Append(_renderer.DOColor(initialColor, fadeTime).SetDelay(duration))
             .Play();
         //_renderer.DOBlendableColor(initialColor, fadeTime);

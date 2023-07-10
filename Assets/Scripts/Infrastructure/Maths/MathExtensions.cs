@@ -15,5 +15,10 @@ namespace OrderElimination.Infrastructure
                 _ => throw new NotImplementedException(),
             };
         }
+
+        //public static bool InRange(float value, float min, float max, bool inclusive = true)
+        //{
+
+        //}
     }
 }
