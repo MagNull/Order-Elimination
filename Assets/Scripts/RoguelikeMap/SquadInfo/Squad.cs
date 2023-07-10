@@ -1,16 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
 using OrderElimination;
 using OrderElimination.MacroGame;
-using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.UI.Characters;
 using Sirenix.OdinInspector;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
-using UnityEngine.UI;
 using VContainer;
 
 namespace RoguelikeMap.SquadInfo
@@ -34,8 +31,11 @@ namespace RoguelikeMap.SquadInfo
 
         public int AmountOfCharacters => _model.AmountOfMembers;
         public IReadOnlyList<GameCharacter> Members => _model.Members;
+        public IReadOnlyList<GameCharacter> ActiveMembers => _model.ActiveMembers;
+        
         public PointModel Point => _model.Point;
         public event Action<Squad> OnSelected;
+        public event Action<IReadOnlyList<GameCharacter>> OnUpdateMembers;
         
         [Inject]
         private void Construct(SquadCommander commander, 
@@ -90,7 +90,10 @@ namespace RoguelikeMap.SquadInfo
         public void DistributeExperience(float expirience) => _model.DistributeExperience(expirience);
 
         private void SetSquadMembers(List<GameCharacter> squadMembers, int countActiveMembers)
-            => _model.SetSquadMembers(squadMembers, countActiveMembers);
+        {
+            _model.SetSquadMembers(squadMembers, countActiveMembers);
+            OnUpdateMembers?.Invoke(ActiveMembers);
+        }
 
         public void Visit(PointModel point)
         {
