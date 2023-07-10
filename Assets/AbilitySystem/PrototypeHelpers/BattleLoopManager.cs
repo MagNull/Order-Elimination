@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using OrderElimination.MacroGame;
 using UnityEngine;
 using VContainer;
 
@@ -52,7 +53,7 @@ public class BattleLoopManager : MonoBehaviour
     private void InitializeBattle()
     {
         IUndoableBattleAction.ClearAllActionsUndoCache();
-        var scenario = _objectResolver.Resolve<CharactersMediator>().BattleScenario;
+        var scenario = _objectResolver.Resolve<ScenesMediator>().Get<BattleScenario>("scenario");
         _battleContext = _objectResolver.Resolve<IBattleContext>();
         var initializer = _objectResolver.Resolve<BattleInitializer>();
         initializer.InitiateBattle();

@@ -2196,7 +2196,7 @@ GameObject:
   - component: {fileID: 1106864594}
   - component: {fileID: 1106864595}
   m_Layer: 0
-  m_Name: LifeScope
+  m_Name: Bootstrap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2743,29 +2743,29 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 960f80274a3bf09459044259dc1ac4cf, type: 2}
-    - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
-    - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
     - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
+    - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
+    - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
     - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
     - {fileID: 11400000, guid: dc7552cb19317d642ad2af92d805c557, type: 2}
+    - {fileID: 11400000, guid: 7be5600522a123a4595c53b6b173a4a7, type: 2}
+    - {fileID: 11400000, guid: cdb88470c4b68c341bad38dde4ae1989, type: 2}
     - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
-    - {fileID: 11400000, guid: 413cda774dba70f46b6202f614fc29b0, type: 2}
+    - {fileID: 11400000, guid: 960f80274a3bf09459044259dc1ac4cf, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: BattleScenario
-      Entry: 10
-      Data: 0
     - Name: _testPlayerCharacters
       Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
-        Assembly-CSharp]], mscorlib
+      Data: 0|OrderElimination.IGameCharacterTemplate[], Assembly-CSharp
     - Name: 
       Entry: 12
       Data: 5
+    - Name: 
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 10
       Data: 1
@@ -2779,9 +2779,6 @@ MonoBehaviour:
       Entry: 10
       Data: 4
     - Name: 
-      Entry: 10
-      Data: 5
-    - Name: 
       Entry: 13
       Data: 
     - Name: 
@@ -2789,11 +2786,13 @@ MonoBehaviour:
       Data: 
     - Name: _testEnemyCharacters
       Entry: 7
-      Data: 1|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
-        Assembly-CSharp]], mscorlib
+      Data: 1|OrderElimination.IGameCharacterTemplate[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 3
+    - Name: 
+      Entry: 10
+      Data: 5
     - Name: 
       Entry: 10
       Data: 6
@@ -2801,17 +2800,14 @@ MonoBehaviour:
       Entry: 10
       Data: 7
     - Name: 
-      Entry: 10
-      Data: 5
-    - Name: 
-      Entry: 10
-      Data: 1
-    - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
+    - Name: _testScenario
+      Entry: 10
+      Data: 8
 --- !u!4 &1908500043
 Transform:
   m_ObjectHideFlags: 0

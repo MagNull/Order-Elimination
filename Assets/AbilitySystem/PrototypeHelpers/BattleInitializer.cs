@@ -1,4 +1,5 @@
-﻿using OrderElimination;
+﻿using System.Collections.Generic;
+using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using OrderElimination.MacroGame;
@@ -10,7 +11,7 @@ namespace Assets.AbilitySystem.PrototypeHelpers
     public class BattleInitializer
     {
         private BattleMapDirector _battleMapDirector;
-        private CharactersMediator _characterMediator;
+        private ScenesMediator _sceneMediator;
         private BattleEntitiesFactory _entitiesFactory;
         private BattleEntitiesBank _entitiesBank;
 
@@ -18,7 +19,7 @@ namespace Assets.AbilitySystem.PrototypeHelpers
         private void Construct(IObjectResolver objectResolver)
         {
             _battleMapDirector = objectResolver.Resolve<BattleMapDirector>();
-            _characterMediator = objectResolver.Resolve<CharactersMediator>();
+            _sceneMediator = objectResolver.Resolve<ScenesMediator>();
             _entitiesFactory = objectResolver.Resolve<BattleEntitiesFactory>();
             _entitiesBank = objectResolver.Resolve<BattleEntitiesBank>();
         }
@@ -31,8 +32,8 @@ namespace Assets.AbilitySystem.PrototypeHelpers
 
         public void StartScenario(BattleScenario scenario)
         {
-            var gameAllies = _characterMediator.GetPlayerCharacters().ToArray();
-            var gameEnemies = _characterMediator.GetEnemyCharacters().ToArray();
+            var gameAllies = _sceneMediator.Get<IEnumerable<GameCharacter>>("player characters").ToArray();
+            var gameEnemies = _sceneMediator.Get<IEnumerable<GameCharacter>>("enemy characters").ToArray();
             var allySpawns = scenario.GetAlliesSpawnPositions();
             var enemySpawns = scenario.GetEnemySpawnPositions();
             var structures = scenario.GetStructureSpawns();
