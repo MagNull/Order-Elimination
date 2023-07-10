@@ -82,17 +82,17 @@ namespace OrderElimination.AbilitySystem
             if (disappearedEntities.Length > 0 && TriggerOnExit
                 || newEntities.Length > 0 && TriggerOnEnter)
             {
-                disappearedEntities.ForEach(e =>
-                {
-                    var view = e.BattleContext.EntitiesBank.GetViewByEntity(e);
-                    Logging.Log($"Entity {view.name} left zone" , Colorize.Green);
-                });
-                newEntities.ForEach(e =>
-                {
-                    var view = e.BattleContext.EntitiesBank.GetViewByEntity(e);
-                    Logging.Log($"Entity {view.name} entered zone" , Colorize.Green);
-                });
-                Logging.Log($"Entities in zone [{currentEntities.Length}]: ..." , Colorize.Green);
+                //disappearedEntities.ForEach(e =>
+                //{
+                //    var view = e.BattleContext.EntitiesBank.GetViewByEntity(e);
+                //    Logging.Log($"Entity {view.name} left zone" , Colorize.Green);
+                //});
+                //newEntities.ForEach(e =>
+                //{
+                //    var view = e.BattleContext.EntitiesBank.GetViewByEntity(e);
+                //    Logging.Log($"Entity {view.name} entered zone" , Colorize.Green);
+                //});
+                Logging.Log($"Entities in zone [{currentEntities.Length}]" , Colorize.Green);
                 triggerInstance.FireTrigger(new ZoneTriggerFireInfo(
                     triggerInstance, currentEntities, newEntities, disappearedEntities));
             }

@@ -20,6 +20,8 @@ MonoBehaviour:
     - {fileID: 8300000, guid: fd706038486fee041947a774223dc22e, type: 3}
     - {fileID: 8300000, guid: c1f8c36ebdb20024ea8a59ec457d582c, type: 3}
     - {fileID: 8300000, guid: d4aee29185389894b9cc0d8873904a49, type: 3}
+    - {fileID: 11400000, guid: 2079a0cdc5de4044e929c8319593b546, type: 2}
+    - {fileID: 11400000, guid: 249876582c664ea49885b2c46bd89b76, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -454,9 +456,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: Duration
-      Entry: 4
-      Data: -1
     - Name: WaitForCompletion
       Entry: 5
       Data: false
@@ -562,7 +561,7 @@ MonoBehaviour:
       Data: 0
     - Name: StructuresSpecification
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: AllowedEntityTypes
       Entry: 7
       Data: 36|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.EntityType,
@@ -708,7 +707,13 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 2
+    - Name: 
+      Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 10
+      Data: 5
     - Name: 
       Entry: 13
       Data: 
