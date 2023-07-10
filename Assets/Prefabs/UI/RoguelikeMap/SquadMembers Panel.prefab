@@ -184,6 +184,7 @@ GameObject:
   - component: {fileID: 1837477821534202858}
   - component: {fileID: 6584076683249827542}
   - component: {fileID: 9201359190038422848}
+  - component: {fileID: 7316395023550991330}
   m_Layer: 5
   m_Name: Viewport
   m_TagString: Untagged
@@ -209,8 +210,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.019348145, y: 0.0004272461}
-  m_SizeDelta: {x: 0.019287, y: 0.0004}
+  m_AnchoredPosition: {x: 0.000061035156, y: 0}
+  m_SizeDelta: {x: -0.00012207031, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &6584076683249827542
 CanvasRenderer:
@@ -233,6 +234,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!114 &7316395023550991330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136845143136446856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: b6e81ce1472c20a4e90be8138d94be50, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &3391754587820238386
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,6 +350,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6788833834265532612}
   - component: {fileID: 7919039249288696008}
+  - component: {fileID: 1950885789844227343}
   m_Layer: 5
   m_Name: Cell Container
   m_TagString: Untagged
@@ -343,8 +375,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000019785017, y: -0.00021265016}
-  m_SizeDelta: {x: 0, y: 300}
+  m_AnchoredPosition: {x: -0.000038146973, y: -0.00021265016}
+  m_SizeDelta: {x: 0, y: 130.77}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &7919039249288696008
 MonoBehaviour:
@@ -368,8 +400,22 @@ MonoBehaviour:
   m_StartAxis: 0
   m_CellSize: {x: 100, y: 100}
   m_Spacing: {x: 0, y: 0}
-  m_Constraint: 0
-  m_ConstraintCount: 2
+  m_Constraint: 2
+  m_ConstraintCount: 1
+--- !u!114 &1950885789844227343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4411499571393170503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 0
 --- !u!1 &7236385346291412734
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,7 +520,6 @@ MonoBehaviour:
   _cellViewPrefab: {fileID: 4008308856870602872, guid: e24b87f7454437542b568f6de0e5917a, type: 3}
   _cellContainer: {fileID: 7919039249288696008}
   _squadMembersPanel: {fileID: 2392810432619578457}
-  _cancelClickingArea: {fileID: 0}
 --- !u!114 &7681420585940335934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513,7 +558,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Content: {fileID: 6788833834265532612}
   m_Horizontal: 1
-  m_Vertical: 1
+  m_Vertical: 0
   m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1
