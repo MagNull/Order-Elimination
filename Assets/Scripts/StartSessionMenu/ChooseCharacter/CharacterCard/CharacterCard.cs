@@ -15,6 +15,9 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         [SerializeField]
         protected Image _cardImage;
 
+        [SerializeField]
+        private Image _highlightBorder;
+
         public bool IsSelected
         {
             get => _isSelected;
@@ -64,8 +67,14 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
             _specialClickEvent.AddListener(action);
         }
 
+        public void EnableHighlight() => _highlightBorder.enabled = true;
+        public void DisableHighlight() => _highlightBorder.enabled = false;
+
         public void ResetSpecialClickEvent()
         {
+            if(_specialClickEvent == null)
+                return;
+            
             _specialClickEvent.RemoveAllListeners();
             _specialClickEvent = null;
         }
