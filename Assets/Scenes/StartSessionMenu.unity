@@ -316,7 +316,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 78452349}
   m_OnClick:
     m_PersistentCalls:
@@ -372,7 +372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _previousButton: {fileID: 1487073707}
-  _nextButton: {fileID: 78452348}
+  _startGameButton: {fileID: 78452348}
   _choosingCharacterPanel: {fileID: 995960054}
   _metaShopPanel: {fileID: 365208847}
   _startMenuPanel: {fileID: 83800225}
