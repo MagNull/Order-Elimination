@@ -13,7 +13,6 @@ namespace UIManagement.Elements
     public class BattleStatUIBar : MonoBehaviour
     {
         private Tween _currentTween;
-        private float _currentScaledValue;
 
         [Header("Components")]
         [SerializeField] private Image _iconImage;
@@ -44,12 +43,8 @@ namespace UIManagement.Elements
                 Logging.Log("Normalized value: " + scaledValue + '\n' +
                           "Max value: " + maxValue + '\n' +
                           "Min value: " + minValue + '\n');
-                Logging.LogException( new System.InvalidOperationException("Value is NaN"));
+                Logging.LogException(new InvalidOperationException("Value is NaN"));
             }
-            if (_currentScaledValue == scaledValue)
-                return;
-
-            _currentScaledValue = scaledValue;
             if (_currentTween != null)
                 _currentTween.Complete();
             if (RoundNumbers)

@@ -1,31 +1,55 @@
 ﻿using OrderElimination.AbilitySystem;
+using OrderElimination.Infrastructure;
+using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
+using VContainer;
 
 public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
 {
+    [Header("Setup")]
     [SerializeField]
-    private DamageActionDisplay _damageDisplayPrefab;
+    private MultilineActionDisplay _actionDisplayPrefab;
+    [SerializeField, PreviewField(Alignment = ObjectFieldAlignment.Left)]
+    private Sprite _damageIcon;
+    [SerializeField, PreviewField(Alignment = ObjectFieldAlignment.Left)]
+    private Sprite _accuracyIcon;
+    [SerializeField, PreviewField(Alignment = ObjectFieldAlignment.Left)]
+    private Sprite _armorIcon;
+    [SerializeField, PreviewField(Alignment = ObjectFieldAlignment.Left)]
+    private Sprite _healthIcon;
+    [Header("Setup")]
     [SerializeField]
-    private HealActionDisplay _healDisplayPrefab;
+    private bool _accuracyAffectionAsFormulas;
 
-    private ObjectPool<DamageActionDisplay> _damageDisplaysPool;
-    private ObjectPool<HealActionDisplay> _healDisplaysPool;
-    private Dictionary<Vector2Int, ActionCellDisplay> _cellDisplays = new();
+    private ObjectPool<MultilineActionDisplay> _displaysPool;
+    private Dictionary<Vector2Int, MultilineActionDisplay> _displaysInCells = new();
+    private BattleMapView _battleMapView;
+
+    [Inject]
+    private void Construct(BattleMapView mapView)
+    {
+        _battleMapView = mapView;
+    }
 
     private void Awake()
     {
-        _damageDisplaysPool = new ObjectPool<DamageActionDisplay>(
-            () => Instantiate(_damageDisplayPrefab, transform),
-            d => d.gameObject.SetActive(true),
-            d => d.gameObject.SetActive(false));
-        _healDisplaysPool = new ObjectPool<HealActionDisplay>(
-            () => Instantiate(_healDisplayPrefab, transform),
-            d => d.gameObject.SetActive(true),
-            d => d.gameObject.SetActive(false));
+        _displaysPool = new ObjectPool<MultilineActionDisplay>(
+            () => Instantiate(_actionDisplayPrefab, transform),
+            d => 
+            { 
+                d.gameObject.SetActive(true);
+                d.ClearParameters();
+            },
+            d =>
+            {
+                d.gameObject.SetActive(false);
+            },
+            d => Destroy(d.gameObject));
     }
 
     public void DisplayPreview(IActiveAbilityData ability, AbilitySystemActor caster, CellGroupsContainer targetedGroups)
@@ -37,25 +61,31 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
 
     public void HidePreview()
     {
-        foreach (var pos in _cellDisplays.Keys)
+        foreach (var display in _displaysInCells.Values)
         {
-            foreach (var display in _cellDisplays[pos].DamageDisplays)
-            {
-                _damageDisplaysPool.Release(display);
-            }
-            foreach (var display in _cellDisplays[pos].HealDisplays)
-            {
-                _healDisplaysPool.Release(display);
-            }
-            _cellDisplays[pos].DamageDisplays.Clear();
-            _cellDisplays[pos].HealDisplays.Clear();
+            _displaysPool.Release(display);
         }
-        _cellDisplays.Clear();
+        _displaysInCells.Clear();
+    }
+
+    private MultilineActionDisplay GetDisplayForCell(Vector2Int position)
+    {
+        MultilineActionDisplay display;
+        if (!_displaysInCells.ContainsKey(position))
+        {
+            display = _displaysPool.Get();
+            _displaysInCells.Add(position, display);
+        }
+        else
+            display = _displaysInCells[position];
+        display.transform.position = _battleMapView.GameToWorldPosition(position);
+        return display;
     }
 
     private void DisplayInstruction(AbilityInstruction instruction, AbilitySystemActor caster, CellGroupsContainer targetedGroups)
     {
         var battleContext = caster.BattleContext;
+        var casterPos = caster.Position;
         var repSuffix = instruction.RepeatNumber > 1 ? $" x {instruction.RepeatNumber}" : "";
         foreach (var pos in targetedGroups
                 .ContainedCellGroups
@@ -70,22 +100,64 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
                 var actionContext = new ActionContext(battleContext, targetedGroups, caster, target);
                 if (instruction.Action is InflictDamageAction damageAction)
                 {
-                    damageAction = damageAction.GetModifiedAction(actionContext);
-                    var display = _damageDisplaysPool.Get();
-                    display.transform.position = visualPosition;
-                    display.DamageValue = $"{damageAction.DamageSize.GetValue(actionContext)}{repSuffix}";
-                    display.AccuracyValue = $"{Mathf.RoundToInt(damageAction.Accuracy.GetValue(actionContext) * 100)} %";
-                    if (!_cellDisplays.ContainsKey(pos))
-                        _cellDisplays.Add(pos, new());
-                    else
-                        Debug.LogError("Placing multiple action displays on the same position.");
-                    _cellDisplays[pos].DamageDisplays.Add(display);
+                    var modifiedAction = damageAction.GetModifiedAction(actionContext);
+                    var display = GetDisplayForCell(pos);
+                    var accuracyValue = Mathf.Max(
+                        0, Mathf.RoundToInt(modifiedAction.Accuracy.GetValue(actionContext) * 100));
+                    display.AddParameter(
+                        _damageIcon,
+                        Color.red,
+                        $"{modifiedAction.DamageSize.GetValue(actionContext)}{repSuffix}");
+                    display.AddParameter(_accuracyIcon, Color.red, $"{accuracyValue} %");
+                    if (modifiedAction.ObjectsBetweenAffectAccuracy 
+                        && caster != null)
+                    {
+                        var intersections = CellMath.GetIntersectionBetween(casterPos, pos);
+                        var modifiedAccuracy = damageAction.Accuracy.Clone();
+                        var previousCellValue = modifiedAccuracy.GetValue(actionContext);
+                        foreach (var intersection in intersections)
+                        {
+                            var intPos = intersection.CellPosition;
+                            var isModified = false;
+                            foreach (var obstacle in battleContext
+                                .GetVisibleEntities(intPos, caster.BattleSide)
+                                .Select(e => e.Obstacle))
+                            {
+                                var modification = obstacle.ModifyAccuracy(
+                                    modifiedAccuracy,
+                                    intersection.IntersectionAngle,
+                                    intersection.SmallestPartSquare,
+                                    caster);
+                                if (modification.IsModificationSuccessful)
+                                {
+                                    modifiedAccuracy = modification.ModifiedValueGetter;
+                                    battleContext.EntitiesBank
+                                        .GetViewByEntity(obstacle.ObstacleEntity)
+                                        .Highlight(Color.red);
+                                    isModified = true;
+                                }
+                            }
+                            if (isModified)
+                            {
+                                var accuracyDisplay = GetDisplayForCell(intPos);
+                                //var initialValue = damageAction.Accuracy.GetValue(actionContext);
+                                var modifiedValue = modifiedAccuracy.GetValue(actionContext);
+                                var affection = Math.Round(
+                                    (modifiedValue - previousCellValue) * 100, 
+                                    MidpointRounding.AwayFromZero);
+                                var displayedAffection = $"{(affection >= 0 ? "+" : "")}{affection}%";
+                                if (_accuracyAffectionAsFormulas)
+                                    displayedAffection = modifiedAccuracy.DisplayedFormula;
+                                accuracyDisplay.AddParameter(_accuracyIcon, Color.red, displayedAffection);
+                            }
+                            previousCellValue = modifiedAccuracy.GetValue(actionContext);
+                        }
+                    }
                 }
                 if (instruction.Action is HealAction healAction)
                 {
                     healAction = healAction.GetModifiedAction(actionContext);
-                    var display = _healDisplaysPool.Get();
-                    display.transform.position = visualPosition;
+                    var display = GetDisplayForCell(pos);
                     var healInfo = new RecoveryInfo(
                         healAction.HealSize.GetValue(actionContext),
                         healAction.ArmorMultiplier,
@@ -93,12 +165,12 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
                         healAction.HealPriority,
                         caster);
                     var availableHeal = IBattleLifeStats.DistributeRecovery(target.BattleStats, healInfo);
-                    display.HealValue = $"+{availableHeal.TotalRecovery}{repSuffix}";
-                    if (!_cellDisplays.ContainsKey(pos))
-                        _cellDisplays.Add(pos, new());
-                    else
-                        Debug.LogError("Placing multiple action displays on the same position.");
-                    _cellDisplays[pos].HealDisplays.Add(display);
+                    display.AddParameter(
+                        _armorIcon,
+                        $"+{availableHeal.TotalArmorRecovery}{repSuffix}");
+                    display.AddParameter(
+                        _healthIcon,
+                        $"+{availableHeal.TotalHealthRecovery}{repSuffix}");
                 }
             }
         }
@@ -115,10 +187,4 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
             DisplayInstruction(followInstruction, caster, targetedGroups);
         }
     }
-}
-
-public class ActionCellDisplay
-{
-    public readonly List<DamageActionDisplay> DamageDisplays = new();
-    public readonly List<HealActionDisplay> HealDisplays = new();
 }

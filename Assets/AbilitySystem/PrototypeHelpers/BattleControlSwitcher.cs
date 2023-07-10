@@ -1,4 +1,4 @@
-using DefaultNamespace;
+using AI;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using UIManagement.Elements;
@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 
-public class PlayerControlSwitcher : MonoBehaviour
+public class BattleControlSwitcher : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField]
@@ -15,6 +15,9 @@ public class PlayerControlSwitcher : MonoBehaviour
     private Button _endTurnButton;
     [SerializeField]
     private CooldownTimer _roundCounter;
+    [SerializeField]
+    private AIRunner _nonPlayerController;
+
     [Header("Settings")]
     [SerializeField]
     private bool _dontTouchPlayerSelector;
@@ -23,7 +26,7 @@ public class PlayerControlSwitcher : MonoBehaviour
 
     private BattleLoopManager _battleManager;
     private IBattleContext _battleContext;
-    //private TextEmitter _textEmitter;
+    //private bool _isTurnRunning;
 
     [Inject]
     private void Construct(BattleLoopManager battleManager, IBattleContext battleContext)
@@ -37,9 +40,24 @@ public class PlayerControlSwitcher : MonoBehaviour
         _endTurnButton.onClick.AddListener(OnEndTurnButtonPressed);
     }
 
-    private void OnNewTurn(IBattleContext battleContext)
+    private async void OnNewTurn(IBattleContext battleContext)
     {
         if (!isActiveAndEnabled) return;
+        //if (_isTurnRunning)
+        //    throw new System.InvalidOperationException("How about \"F*ck you\"?");
+        //_isTurnRunning = true;
+        var roundColor = battleContext.ActiveSide switch
+        {
+            BattleSide.Player => Color.Lerp(Color.green, Color.white, 0.5f),
+            BattleSide.Allies => Color.Lerp(Color.cyan, Color.white, 0.2f),
+            BattleSide.Enemies => Color.Lerp(Color.red, Color.white, 0.5f),
+            BattleSide.Others => Color.Lerp(Color.black, Color.white, 0.5f),
+            BattleSide.NoSide => Color.Lerp(Color.black, Color.white, 0.0f),
+            _ => throw new System.NotSupportedException(),
+        };
+        if (battleContext.EntitiesBank.GetEntities(battleContext.ActiveSide).Length > 0)
+            _roundCounter.SetValue(battleContext.CurrentRound, roundColor);
+
         if (battleContext.ActiveSide == BattleSide.Player)
         {
             if (!_dontTouchPlayerSelector)
@@ -52,17 +70,11 @@ public class PlayerControlSwitcher : MonoBehaviour
                 PlayerSelector.Disable();
             if (_lockTurnButtonOnAITurn)
                 _endTurnButton.interactable = false;
+            if (battleContext.ActiveSide != BattleSide.NoSide)
+                await _nonPlayerController.Run(battleContext.ActiveSide);
+            _battleManager.StartNextTurn();
         }
-        var roundColor = battleContext.ActiveSide switch
-        {
-            BattleSide.Player => Color.Lerp(Color.green, Color.white, 0.5f),
-            BattleSide.Allies => Color.Lerp(Color.cyan, Color.white, 0.2f),
-            BattleSide.Enemies => Color.Lerp(Color.red, Color.white, 0.5f),
-            BattleSide.Others => Color.Lerp(Color.black, Color.white, 0.5f),
-            _ => throw new System.NotSupportedException(),
-        };
-        if (battleContext.EntitiesBank.GetEntities(battleContext.ActiveSide).Length > 0)
-            _roundCounter.SetValue(battleContext.CurrentRound, roundColor);
+        //_isTurnRunning = false;
     }
 
     private void OnEndTurnButtonPressed()

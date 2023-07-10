@@ -46,13 +46,16 @@ public class BattleDefeatPanel : UIPanel
         ClearCharacters();
         _onRetryCallback = onRetryCallback;
         _onSurrenderCallback = onSurrenderCallback;
-        foreach (var character in charactersToDisplay)
+        if (charactersToDisplay != null)
         {
-            var avatar = Instantiate(_characterPrefab, _charactersHolder);
-            avatar.UpdateCharacterInfo(character.CharacterData.Name, character.CharacterData.BattleIcon);
-            avatar.IsClickable = true;
-            avatar.Clicked += OnAvatarClicked;
-            _charactersByAvatars.Add(avatar, character);
+            foreach (var character in charactersToDisplay)
+            {
+                var avatar = Instantiate(_characterPrefab, _charactersHolder);
+                avatar.UpdateCharacterInfo(character.CharacterData.Name, character.CharacterData.BattleIcon);
+                avatar.IsClickable = true;
+                avatar.Clicked += OnAvatarClicked;
+                _charactersByAvatars.Add(avatar, character);
+            }
         }
         _primaryCurrency.text = currencyReward.ToString();
         _pageSwitcher.DisablePage(1);

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using AI.EditorGraph;
 using Cysharp.Threading.Tasks;
 using OrderElimination;
@@ -26,44 +25,18 @@ namespace AI
         [SerializeField]
         private Dictionary<IGameCharacterTemplate, CharacterBehavior> _characterToBehaviors = new();
 
-        [SerializeField]
-        private List<BattleSide> _playableSides;
-
-        private BattleSide _activeSide;
-
         private IBattleContext _context;
-        private BattleLoopManager _battleLoopManager;
 
         [Inject]
-        public void Construct(IBattleContext context, BattleLoopManager battleLoopManager)
+        public void Construct(IBattleContext context)
         {
-            _battleLoopManager = battleLoopManager;
             _context = context;
         }
 
-        private void OnEnable()
-        {
-            _context.NewTurnStarted += OnTurnStarted;
-        }
-
-        private void OnDisable()
-        {
-            _context.NewTurnStarted -= OnTurnStarted;
-        }
-
-        private void OnTurnStarted(IBattleContext context)
-        {
-            if (!_playableSides.Contains(context.ActiveSide))
-                return;
-
-            _activeSide = context.ActiveSide;
-            Run();
-        }
-
         [Button]
-        public async void Run()
+        public async UniTask Run(BattleSide playingSide)
         {
-            var enemies = _context.EntitiesBank.GetEntities(_activeSide);
+            var enemies = _context.EntitiesBank.GetEntities(playingSide);
             var templates =
                 enemies
                     .Select(enemy =>
@@ -81,8 +54,6 @@ namespace AI
                 foreach (var activeAbilityRunner in enemyData.enemy.ActiveAbilities)
                     activeAbilityRunner.AbilityData.TargetingSystem.CancelTargeting();
             }
-
-            _battleLoopManager.StartNextTurn();
         }
     }
 }

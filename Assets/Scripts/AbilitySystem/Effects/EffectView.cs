@@ -35,5 +35,6 @@ namespace OrderElimination.AbilitySystem
         public bool IsHidden { get; }
         public IAbilityAnimation AnimationOnActivation { get; }
         public IAbilityAnimation AnimationOnDeactivation { get; }
+        //public Dictionary<string, string> GetEffectParameters(IEffectData effectData);
     }
 }
