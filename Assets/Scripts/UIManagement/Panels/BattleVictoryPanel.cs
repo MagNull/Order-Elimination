@@ -58,10 +58,13 @@ public class BattleVictoryPanel : UIPanel
         }
         var currencyRewardItem = Instantiate(_rewardItemPrefab, _rewardHolder);
         currencyRewardItem.UpdateItemInfo(null, currencyReward.ToString());
-        foreach (var item in itemsReward)
+        if (itemsReward != null)
         {
-            var rewardItem = Instantiate(_rewardItemPrefab, _rewardHolder);
-            rewardItem.UpdateItemInfo(item.View.Icon, item.View.Name);
+            foreach (var item in itemsReward)
+            {
+                var rewardItem = Instantiate(_rewardItemPrefab, _rewardHolder);
+                rewardItem.UpdateItemInfo(item.View.Icon, item.View.Name);
+            }
         }
 
         void ClearCharacters()

@@ -30,7 +30,7 @@ namespace RoguelikeMap.Map
             var path = "Points\\" + NumberOfMap;
             var pointsInfo = Resources.LoadAll<PointInfo>(path);
             var points = GeneratePoints(pointsInfo);
-            //GeneratePaths(points);
+            GeneratePaths(points);
             return points;
         }
 
@@ -42,12 +42,9 @@ namespace RoguelikeMap.Map
         private Point CreatePoint(PointInfo info)
         {
             var pointObj = _resolver.Instantiate(_pointPrefab, info.Model.Position, Quaternion.identity, _parent);
-            
-            var pointSprite = pointObj.GetComponent<SpriteRenderer>();
-            pointSprite.sprite = info.PointSprite;
 
             var point = pointObj.GetComponent<Point>();
-            point.SetPointModel(info.Model);
+            point.SetPointModel(info.Model, info.PointSprite);
             
             return point;
         }

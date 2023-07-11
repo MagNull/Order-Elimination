@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c682b0bae1680d48becdfdfe16809b5, type: 3}
-  m_Name: LowSkill B
+  m_Name: Point Z
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -30,11 +30,11 @@ MonoBehaviour:
     - rid: 2415168813891584000
       type: {class: BattlePointModel, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
-        _nextPointsIndex: 39050000
+        _nextPointsIndex: 
         _position: {x: 0, y: 500, z: 0}
-        <IsLastPoint>k__BackingField: 0
-        Index: 1338
+        <IsLastPoint>k__BackingField: 1
+        Index: 12
         _enemies:
         - {fileID: 11400000, guid: cdb88470c4b68c341bad38dde4ae1989, type: 2}
-        _battleScenario: {fileID: 11400000, guid: 645568020c6734a33b31a508f38bbbe3, type: 2}
+        _battleScenario: {fileID: 11400000, guid: 3dde67582a39d2a46bf569731536a4a7, type: 2}
         _itemsCount: 2
