@@ -1,4 +1,6 @@
-﻿namespace Inventory_Items
+﻿using GameInventory.Items;
+
+namespace GameInventory
 {
     public class UsableInventoryPresenter : InventoryPresenter
     {

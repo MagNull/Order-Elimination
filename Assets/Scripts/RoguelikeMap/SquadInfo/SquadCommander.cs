@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Inventory;
+using GameInventory.Items;
 using OrderElimination;
 using OrderElimination.MacroGame;
 using RoguelikeMap.Panels;
@@ -79,10 +79,10 @@ namespace RoguelikeMap.SquadInfo
             IEnumerable<IGameCharacterTemplate> enemies, BattleScenario scenario)
         {
             var enemyCharacters = GameCharactersFactory.CreateGameEntities(enemies);
-            var charactersMediator = _objectResolver.Resolve<CharactersMediator>();
-            charactersMediator.SetPlayerCharacters(_squad.Members);
-            charactersMediator.SetEnemyCharacters(enemyCharacters);
-            charactersMediator.SetScenario(scenario);
+            var charactersMediator = _objectResolver.Resolve<ScenesMediator>();
+            charactersMediator.Register("player characters", _squad.Members);
+            charactersMediator.Register("enemy characters", enemyCharacters);
+            charactersMediator.Register("scenario", scenario);
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();
         }

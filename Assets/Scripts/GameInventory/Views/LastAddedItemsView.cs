@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 
-namespace Inventory_Items
+namespace GameInventory.Views
 {
     public class LastAddedItemsView : MonoBehaviour
     {

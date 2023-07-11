@@ -7,13 +7,15 @@ namespace OrderElimination.MacroGame
 {
     public static class GameCharactersFactory
     {
-        public static GameCharacter CreateGameEntity(IGameCharacterTemplate characterTemplate)
+        public static GameCharacter CreateGameCharacter(IGameCharacterTemplate characterTemplate)
         {
             var activeAbilities = characterTemplate.GetActiveAbilities()
                 .Select(a => AbilityFactory.CreateActiveAbility(a));
             var passiveAbilities = characterTemplate.GetPassiveAbilities()
                 .Select(a => AbilityFactory.CreatePassiveAbility(a));
-            return new GameCharacter(characterTemplate, activeAbilities, passiveAbilities);
+            var character = new GameCharacter(characterTemplate, activeAbilities, passiveAbilities);
+            character.CurrentHealth = character.CharacterStats.MaxHealth;
+            return character;
         }
 
         //public static GameCharacter RestoreGameCharacter(IGameCharacterTemplate characterTemplate)
@@ -23,6 +25,6 @@ namespace OrderElimination.MacroGame
 
         public static IEnumerable<GameCharacter> CreateGameEntities(
             IEnumerable<IGameCharacterTemplate> characterTempaltes)
-            => characterTempaltes.Select(gameEntity => CreateGameEntity(gameEntity));
+            => characterTempaltes.Select(gameEntity => CreateGameCharacter(gameEntity));
     }
 }

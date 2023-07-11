@@ -8,7 +8,7 @@ namespace OrderElimination.MacroGame
 
         public float MaxArmor { get; }
 
-        public float AttackDamage { get; }
+        public float Attack { get; }
 
         public float Accuracy { get; }
 

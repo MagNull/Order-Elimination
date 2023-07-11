@@ -42,7 +42,7 @@ namespace UIManagement.Elements
 
         private void OnEntitiesBankChanged(IReadOnlyEntitiesBank bank)
         {
-            var enemies = bank.GetEntities().Where(e => IsEnemyCharacter(e));
+            var enemies = bank.GetActiveEntities().Where(e => IsEnemyCharacter(e));
             if (_entitiesPanels.Count == 0)
             {
                 Populate(enemies);

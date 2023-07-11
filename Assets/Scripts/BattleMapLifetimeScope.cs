@@ -32,7 +32,7 @@ namespace OrderElimination
 
         protected override void Configure(IContainerBuilder builder)
         {
-            var mediator = FindObjectOfType<CharactersMediator>();
+            var mediator = FindObjectOfType<ScenesMediator>();
             if (!mediator)
                 Logging.LogException( new CheckoutException("No character mediator found"));
             builder.RegisterInstance(new BattleEntitiesBank()).AsSelf().AsImplementedInterfaces();

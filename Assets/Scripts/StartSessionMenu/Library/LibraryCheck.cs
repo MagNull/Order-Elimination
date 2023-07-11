@@ -1,3 +1,4 @@
+using GameInventory;
 using ItemsLibrary;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
@@ -9,12 +10,12 @@ using VContainer;
 public class LibraryCheck : MonoBehaviour
 {
     private Library _library;
-    private Inventory_Items.Inventory _inventory;
+    private Inventory _inventory;
     private ShopPanel _shopPanel;
     [SerializeField] private Squad _squad;
 
     [Inject] 
-    public void Configure(Library library, Inventory_Items.Inventory inventory, PanelManager panelManager)
+    public void Configure(Library library, Inventory inventory, PanelManager panelManager)
     {
         _library = library;
         _inventory = inventory;

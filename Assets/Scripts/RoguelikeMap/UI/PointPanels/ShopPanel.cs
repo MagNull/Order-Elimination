@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Inventory;
-using Inventory_Items;
-using Inventory.Items;
+using GameInventory;
+using GameInventory.Items;
 using OrderElimination;
 using RoguelikeMap.Shop;
 using StartSessionMenu;
@@ -21,7 +20,7 @@ namespace RoguelikeMap.UI.PointPanels
         [SerializeField]
         private Transform _itemsParent;
 
-        private Inventory_Items.Inventory _inventory;
+        private Inventory _inventory;
         
         private readonly List<ShopItem> _items = new ();
         private Wallet _wallet;
@@ -30,7 +29,7 @@ namespace RoguelikeMap.UI.PointPanels
         public event Action<bool> OnShopVisit;
         
         [Inject]
-        public void Construct(Wallet wallet, Inventory_Items.Inventory inventory)
+        public void Construct(Wallet wallet, Inventory inventory)
         {
             _wallet = wallet;
             _inventory = inventory;

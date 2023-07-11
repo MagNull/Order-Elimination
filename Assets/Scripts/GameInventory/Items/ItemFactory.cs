@@ -1,6 +1,4 @@
-﻿using Inventory_Items;
-
-namespace Inventory.Items
+﻿namespace GameInventory.Items
 {
     public static class ItemFactory
     {

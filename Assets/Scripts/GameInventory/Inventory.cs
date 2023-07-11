@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameInventory.Items;
 using OrderElimination;
 using Sirenix.OdinInspector;
-using UnityEngine;
 
-namespace Inventory_Items
+namespace GameInventory
 {
     [Serializable]
     public class Inventory

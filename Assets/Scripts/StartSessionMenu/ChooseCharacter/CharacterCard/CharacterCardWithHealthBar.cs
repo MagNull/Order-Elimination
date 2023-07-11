@@ -1,4 +1,4 @@
-using Inventory_Items;
+using GameInventory;
 using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.MacroGame;
@@ -17,7 +17,7 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         public override void InitializeCard(GameCharacter character, bool isSelected)
         {
             _healthBar = GetComponentInChildren<HealthBar>();
-            _healthBar.SetMaxHealth(Mathf.RoundToInt(character.CharacterStats.MaxHealth));
+            _healthBar.SetHealth(character.CharacterStats.MaxHealth, character.CurrentHealth);
             _inventoryPresenter.InitInventoryModel(character.Inventory);
             base.InitializeCard(character, isSelected);
         }

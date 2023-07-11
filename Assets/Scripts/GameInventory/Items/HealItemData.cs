@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Inventory
+namespace GameInventory.Items
 {
     [CreateAssetMenu(fileName = "Item", menuName = "Inventory/Heal Item")]
     public class HealItemData : ItemData

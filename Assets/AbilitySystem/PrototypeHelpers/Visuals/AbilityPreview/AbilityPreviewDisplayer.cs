@@ -25,6 +25,10 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
     [Header("Setup")]
     [SerializeField]
     private bool _accuracyAffectionAsFormulas;
+    [SerializeField]
+    private bool _roundFloatNumbers;
+    [SerializeField, ShowIf(nameof(_roundFloatNumbers))]
+    private RoundingOption _roundingMode;
 
     private ObjectPool<MultilineActionDisplay> _displaysPool;
     private Dictionary<Vector2Int, MultilineActionDisplay> _displaysInCells = new();
@@ -103,11 +107,14 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
                     var modifiedAction = damageAction.GetModifiedAction(actionContext);
                     var display = GetDisplayForCell(pos);
                     var accuracyValue = Mathf.Max(
-                        0, Mathf.RoundToInt(modifiedAction.Accuracy.GetValue(actionContext) * 100));
-                    display.AddParameter(
-                        _damageIcon,
-                        Color.red,
-                        $"{modifiedAction.DamageSize.GetValue(actionContext)}{repSuffix}");
+                        0, modifiedAction.Accuracy.GetValue(actionContext) * 100);
+                    var damageValue = modifiedAction.DamageSize.GetValue(actionContext);
+                    if (_roundFloatNumbers)
+                    {
+                        damageValue = MathExtensions.Round(damageValue, _roundingMode);
+                        accuracyValue = MathExtensions.Round(accuracyValue, _roundingMode);
+                    }
+                    display.AddParameter(_damageIcon, Color.red, $"{damageValue}{repSuffix}");
                     display.AddParameter(_accuracyIcon, Color.red, $"{accuracyValue} %");
                     if (modifiedAction.ObjectsBetweenAffectAccuracy 
                         && caster != null)
@@ -142,9 +149,9 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
                                 var accuracyDisplay = GetDisplayForCell(intPos);
                                 //var initialValue = damageAction.Accuracy.GetValue(actionContext);
                                 var modifiedValue = modifiedAccuracy.GetValue(actionContext);
-                                var affection = Math.Round(
-                                    (modifiedValue - previousCellValue) * 100, 
-                                    MidpointRounding.AwayFromZero);
+                                var affection = (modifiedValue - previousCellValue) * 100;
+                                if (_roundFloatNumbers)
+                                    affection = MathExtensions.Round(affection, _roundingMode);
                                 var displayedAffection = $"{(affection >= 0 ? "+" : "")}{affection}%";
                                 if (_accuracyAffectionAsFormulas)
                                     displayedAffection = modifiedAccuracy.DisplayedFormula;

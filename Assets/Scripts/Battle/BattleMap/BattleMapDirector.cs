@@ -10,7 +10,7 @@ public class BattleMapDirector
     private CellGridGenerator _generator;
     [SerializeField]
     private BattleMapView _battleMapView;
-    private CharactersMediator _charactersMediator;
+    private ScenesMediator _scenesMediator;
     public BattleMap Map => _battleMapView.Map;
     public BattleMapView MapView => _battleMapView;
 
@@ -23,8 +23,8 @@ public class BattleMapDirector
     }
 
     [Inject]
-    private void Construct(CharactersMediator charactersMediator)
+    private void Construct(ScenesMediator scenesMediator)
     {
-        _charactersMediator = charactersMediator;
+        _scenesMediator = scenesMediator;
     }
 }

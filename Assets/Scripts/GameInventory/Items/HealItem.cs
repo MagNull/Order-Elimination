@@ -1,8 +1,7 @@
-using Inventory;
 using OrderElimination.MacroGame;
 using UnityEngine;
 
-namespace Inventory_Items
+namespace GameInventory.Items
 {
     public class HealItem : ConsumableItem, IUsable
     {

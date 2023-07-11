@@ -1,13 +1,16 @@
+using System.Collections.Generic;
 using System.Linq;
+using GameInventory;
 using ItemsLibrary;
 using OrderElimination;
+using OrderElimination.MacroGame;
 using RoguelikeMap.Map;
 using RoguelikeMap.Panels;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI.Characters;
-using RoguelikeMap.UI.PointPanels;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VContainer;
 using VContainer.Unity;
 using SquadCommander = RoguelikeMap.SquadInfo.SquadCommander;
@@ -20,8 +23,9 @@ namespace RoguelikeMap
     {
         [SerializeField] 
         private int _startMoney = 1000;
+        [FormerlySerializedAs("_charactersMediatorPrefab")]
         [SerializeField]
-        private CharactersMediator _charactersMediatorPrefab;
+        private ScenesMediator scenesMediatorPrefab;
         [SerializeField]
         private LineRenderer _pathPrefab;
         [SerializeField]
@@ -47,15 +51,18 @@ namespace RoguelikeMap
 
         protected override void Configure(IContainerBuilder builder)
         {
-            var mediator = FindObjectOfType<CharactersMediator>();
+            var mediator = FindObjectOfType<ScenesMediator>();
             if (!mediator) 
-                mediator = Instantiate(_charactersMediatorPrefab);
+                mediator = Instantiate(scenesMediatorPrefab);
             else
-                SquadMediator.SetCharacters(mediator.GetPlayerCharacters().ToList());
+            {
+                mediator.InitTest();
+                SquadMediator.SetCharacters(mediator.Get<IEnumerable<GameCharacter>>("player characters").ToList());
+            }
             
             var wallet = new Wallet(_startMoney);
             
-            builder.Register<Inventory_Items.Inventory>(Lifetime.Singleton).WithParameter(100);
+            builder.Register<Inventory>(Lifetime.Singleton).WithParameter(100);
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_squad);
             builder.RegisterComponent(_pathPrefab);
