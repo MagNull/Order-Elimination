@@ -15,6 +15,7 @@ namespace OrderElimination
         private List<GameCharacter> _members;
         private SquadMembersPanel _panel;
         private int _activeMembersCount = 3;
+        private ScenesMediator _mediator;
         
         public IReadOnlyList<GameCharacter> ActiveMembers =>
             _members.GetRange(0, _activeMembersCount);
@@ -26,9 +27,11 @@ namespace OrderElimination
 
         public event Action OnUpdateSquadMembers;
         
-        public SquadModel(IEnumerable<GameCharacter> members, SquadMembersPanel squadMembersPanel)
+        public SquadModel(IEnumerable<GameCharacter> members, SquadMembersPanel squadMembersPanel,
+            ScenesMediator scenesMediator)
         {
             _activeMembersCount = members.Count();
+            _mediator = scenesMediator;
             var characters = 
                 GameCharactersFactory.CreateGameEntities(members.Select(c => c.CharacterData))
                 .ToList();//Grenade here
@@ -58,7 +61,7 @@ namespace OrderElimination
         
         private void RestoreUpgrades()
         {
-            var stats = SquadMediator.PlayerSquadStats.Value;
+            var stats = _mediator.Get<StrategyStats>("stats");
             var statsGrowth = new Dictionary<BattleStat, float>()
             {
                 { BattleStat.MaxHealth, stats.HealthGrowth },

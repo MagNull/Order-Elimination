@@ -11,11 +11,13 @@ namespace StartSessionMenu
     {
         [SerializeField] private Library _library;
         [SerializeField] private CharacterInfoPanel _characterInfoPanel;
-        
+        [SerializeField] private ScenesMediator _scenesMediator;
+
         protected override void Configure(IContainerBuilder builder)
         {
             var sceneTransition = new SceneTransition();
             builder.RegisterComponent(_library);
+            builder.RegisterComponent(_scenesMediator);
             builder.RegisterComponent(sceneTransition);
             builder.RegisterComponent(_characterInfoPanel);
         }
