@@ -43,7 +43,7 @@ namespace RoguelikeMap.UI
                 return;
             _mask.transform.SetParent(isActive ? transform.parent : transform);
             _mask.transform.localScale = Vector3.one;
-            _mask.transform.SetSiblingIndex(transform.GetSiblingIndex() - 1);
+            _mask.transform.SetSiblingIndex(transform.GetSiblingIndex());
             _mask.gameObject.SetActive(isActive);
         }
 
