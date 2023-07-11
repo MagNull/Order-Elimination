@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Inventory_Items
+namespace GameInventory.Items
 {
     [Serializable]
     public class ItemView

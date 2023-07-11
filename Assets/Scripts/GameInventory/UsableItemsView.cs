@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Linq;
+using GameInventory.Items;
+using GameInventory.Views;
 using OrderElimination;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Utils;
 
-namespace Inventory_Items
+namespace GameInventory
 {
     public class UsableItemsView : PlayerInventoryView
     {

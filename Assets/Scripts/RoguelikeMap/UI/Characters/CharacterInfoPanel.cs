@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Inventory_Items;
+using GameInventory;
 using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.MacroGame;

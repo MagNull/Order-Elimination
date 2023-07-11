@@ -1,9 +1,8 @@
-﻿using Inventory_Items;
-using OrderElimination.AbilitySystem;
+﻿using OrderElimination.AbilitySystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Inventory
+namespace GameInventory.Items
 {
     public enum ItemType
     {

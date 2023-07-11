@@ -1,12 +1,12 @@
 ﻿using System.Linq;
-using Inventory;
-using Inventory.Items;
+using GameInventory.Items;
+using GameInventory.Views;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using VContainer;
 using Random = UnityEngine.Random;
 
-namespace Inventory_Items
+namespace GameInventory
 {
     public class InventoryPresenter : SerializedMonoBehaviour
     {

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Inventory;
+using GameInventory.Items;
 using OrderElimination;
 using OrderElimination.MacroGame;
 using RoguelikeMap.Panels;

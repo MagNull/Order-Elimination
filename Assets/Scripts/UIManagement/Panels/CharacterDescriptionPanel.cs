@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using UIManagement.Elements;
 using System.Linq;
-using Inventory_Items;
+using GameInventory;
 using OrderElimination.AbilitySystem;
 using OrderElimination;
 using UnityEngine.Serialization;

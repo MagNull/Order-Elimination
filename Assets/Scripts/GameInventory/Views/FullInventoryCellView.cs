@@ -2,7 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 
-namespace Inventory_Items
+namespace GameInventory.Views
 {
     public class FullInventoryCellView : InventoryCellView
     {
