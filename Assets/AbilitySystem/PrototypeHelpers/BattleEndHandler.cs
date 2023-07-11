@@ -124,9 +124,9 @@ public class BattleEndHandler : MonoBehaviour
             1337, 
             () => SceneManager.LoadSceneAsync(OnExitSceneId));
         Logging.Log($"Current squad [{playerCharacters.Length}]: {string.Join(", ", playerCharacters.Select(c => c.CharacterData.Name))}" % Colorize.Red);
-        GameCharacterSerializer.SaveCharacter(playerCharacters.First());
-        //SquadMediator.SetCharacters(
-        //    BattleUnloader.UnloadCharacters(_battleContext, playerCharacters));
+        //GameCharacterSerializer.SaveCharacter(playerCharacters.First());
+        SquadMediator.SetCharacters(
+            BattleUnloader.UnloadCharacters(_battleContext, playerCharacters));
     }
 
     private async void OnPlayerLose()
