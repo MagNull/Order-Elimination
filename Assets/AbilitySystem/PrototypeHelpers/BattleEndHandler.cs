@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DefaultNamespace;
 using OrderElimination;
@@ -5,8 +6,8 @@ using OrderElimination.AbilitySystem;
 using OrderElimination.Battle;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using System.Linq;
+using OrderElimination.MacroGame;
 using UIManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,6 +23,7 @@ public class BattleEndHandler : MonoBehaviour
     private int _onPlayerLoseSceneId;
     private IBattleContext _battleContext;
     private TextEmitter _textEmitter;
+    private ScenesMediator _mediator;
 
     [ShowInInspector]
     private int _safeVictorySceneId
@@ -78,10 +80,12 @@ public class BattleEndHandler : MonoBehaviour
     [Inject]
     private void Construct(
         IBattleContext battleContext, 
-        TextEmitter textEmitter)
+        TextEmitter textEmitter,
+        ScenesMediator scenesMediator)
     {
         _battleContext = battleContext;
         _textEmitter = textEmitter;
+        _mediator = scenesMediator;
         battleContext.BattleStarted -= StartTrackingBattle;
         battleContext.BattleStarted += StartTrackingBattle;
     }
@@ -109,32 +113,31 @@ public class BattleEndHandler : MonoBehaviour
         _battleContext.EntitiesBank.BankChanged -= OnEntitiesBankChanged;
         _playerControls.enabled = false;
         await UniTask.Delay(Mathf.RoundToInt(BattleResultsDisplayDelay * 1000));
-        //_textEmitter.Emit($"Нажмите «Esc» для выхода.", Color.white, new Vector3(0, -1, -1), Vector3.zero, 1.2f, 100, fontSize: 0.75f);
+        //_textEmitter.Emit($"пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅEscпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.", Color.white, new Vector3(0, -1, -1), Vector3.zero, 1.2f, 100, fontSize: 0.75f);
     }
 
     private async void OnPlayerVictory()
     {
         await OnBattleEnded();
-        //_textEmitter.Emit($"Победа людей.", Color.green, new Vector3(0, 1, -1), Vector3.zero, 1.2f, 100, fontSize: 2f);
-        var playerCharacters = SquadMediator.CharacterList.ToArray();
+        //_textEmitter.Emit($"пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.", Color.green, new Vector3(0, 1, -1), Vector3.zero, 1.2f, 100, fontSize: 2f);
+        var playerCharacters = _mediator.Get<GameCharacter[]>("player characters").ToArray();
         var panel = (BattleVictoryPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleVictory);
         panel.UpdateBattleResult(
             playerCharacters, 
             1337, 
             () => SceneManager.LoadSceneAsync(OnExitSceneId));
         Logging.Log($"Current squad [{playerCharacters.Length}]: {string.Join(", ", playerCharacters.Select(c => c.CharacterData.Name))}" % Colorize.Red);
-        SquadMediator.SetCharacters(
-            BattleUnloader.UnloadCharacters(_battleContext, playerCharacters));
+        _mediator.Register("player characters", BattleUnloader.UnloadCharacters(_battleContext, playerCharacters));
     }
 
     private async void OnPlayerLose()
     {
         await OnBattleEnded();
-        //_textEmitter.Emit($"Победа монстров.", Color.red, new Vector3(0, 1, -1), Vector3.zero, 1.2f, 100, fontSize: 2f);
+        //_textEmitter.Emit($"пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.", Color.red, new Vector3(0, 1, -1), Vector3.zero, 1.2f, 100, fontSize: 2f);
         var panel = (BattleDefeatPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleDefeat);
         panel.UpdateBattleResult(
-            SquadMediator.CharacterList, 
-            1337, 
+            _mediator.Get<GameCharacter[]>("player characters"), 
+            1337,
             () => SceneManager.LoadSceneAsync(OnRetrySceneId),
             () => SceneManager.LoadSceneAsync(OnExitSceneId));
     }

@@ -15,14 +15,11 @@ namespace RoguelikeMap.UI.Characters
 
         public void OnDrop(PointerEventData eventData)
         {
-            if (!eventData.pointerDrag.gameObject.TryGetComponent<CharacterCard>(out var characterCard))
+            if (!eventData.pointerDrag.gameObject.TryGetComponent<DraggableObject>(out var dragObject))
                 return;
-            if (characterCard.TryGetComponent<DraggableObject>(out var draggableObject))
-                if(draggableObject.IsCreateCopy && !draggableObject.IsCopy)
-                    characterCard = draggableObject.DragObject.GetComponent<CharacterCard>();
-            if (characterCard is null)
+            if (dragObject is null)
                 return;
-            OnTrySelect?.Invoke(this, characterCard);
+            OnTrySelect?.Invoke(this, dragObject.DragObject);
         }
 
         public void Select(CharacterCard card)
@@ -34,7 +31,7 @@ namespace RoguelikeMap.UI.Characters
 
         private void Unselect()
         {
-            if(!CharacterCard.IsDestroyed())
+            if (!CharacterCard.IsDestroyed())
                 Destroy(CharacterCard.gameObject);
             CharacterCard = null;
         }

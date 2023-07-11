@@ -9,6 +9,7 @@ using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace StartSessionMenu.ChooseCharacter
 {
@@ -32,7 +33,14 @@ namespace StartSessionMenu.ChooseCharacter
         private Wallet _wallet;
         private int _selectedCount = 0;
         private Tweener _tweener;
+        private ScenesMediator _mediator;
 
+        [Inject]
+        private void Construct(ScenesMediator scenesMediator)
+        {
+            _mediator = scenesMediator;
+        }
+        
         private void Start()
         {
             _wallet = new Wallet(StartMoney);
@@ -94,13 +102,12 @@ namespace StartSessionMenu.ChooseCharacter
             if (_selectedCount <= 0)
                 return false;
 
-            var characters = new List<GameCharacter>();
-            foreach (var zone in _selectedDropZones)
-            {
-                if (zone.CharacterCard != null) 
-                    characters.Add(zone.CharacterCard.Character);
-            }
-            SquadMediator.SetCharacters(characters);
+            var characters = 
+                (from zone in _selectedDropZones 
+                where zone.CharacterCard != null 
+                select zone.CharacterCard.Character).ToArray();
+
+            _mediator.Register("player characters", characters);
             return true;
         }
 
