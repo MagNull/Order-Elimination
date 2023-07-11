@@ -6,17 +6,12 @@ namespace RoguelikeMap
     public class HealthBar : MonoBehaviour
     {
         [SerializeField]
-        public Slider _slider;
-        
-        public void SetMaxHealth(int health)
+        private Slider _slider;
+           
+        public void SetHealth(float maxHealth, float currentHealth)
         {
-            _slider.maxValue = health;
-            _slider.value = health;
-        }
-    
-        public void SetHealth(int health)
-        {
-            _slider.value = health;
+            _slider.maxValue = maxHealth;
+            _slider.value = currentHealth;
         }
     }
 }

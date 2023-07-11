@@ -95,8 +95,7 @@ namespace StartSessionMenu.ChooseCharacter
 
             var characters = _characterCards
                 .Where(x => x.IsSelected)
-                .Select(x => x.Character)
-                .ToList();
+                .Select(x => x.Character);
             SquadMediator.SetCharacters(characters);
             return true;
         }

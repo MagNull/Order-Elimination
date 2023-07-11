@@ -2,8 +2,11 @@ using Cysharp.Threading.Tasks;
 using DefaultNamespace;
 using OrderElimination;
 using OrderElimination.AbilitySystem;
+using OrderElimination.Battle;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
+using System.Linq;
 using UIManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,11 +14,13 @@ using VContainer;
 
 public class BattleEndHandler : MonoBehaviour
 {
+    [SerializeField]
+    private BattleMapSelector _playerControls;
     [HideInInspector, SerializeField]
     private int _onPlayerVictorySceneId;
     [HideInInspector, SerializeField]
     private int _onPlayerLoseSceneId;
-    private IReadOnlyEntitiesBank _entitiesBank;
+    private IBattleContext _battleContext;
     private TextEmitter _textEmitter;
 
     [ShowInInspector]
@@ -44,8 +49,10 @@ public class BattleEndHandler : MonoBehaviour
             _onPlayerLoseSceneId = value;
         }
     }
+    [field: SerializeField]
+    public float BattleResultsDisplayDelay { get; set; }
 
-    public int OnExitScene
+    public int OnExitSceneId
     {
         get => _onPlayerVictorySceneId;
         set
@@ -56,7 +63,7 @@ public class BattleEndHandler : MonoBehaviour
             _onPlayerVictorySceneId = value;
         }
     }
-    public int OnRetryScene
+    public int OnRetrySceneId
     {
         get => _onPlayerLoseSceneId;
         set
@@ -71,10 +78,9 @@ public class BattleEndHandler : MonoBehaviour
     [Inject]
     private void Construct(
         IBattleContext battleContext, 
-        IReadOnlyEntitiesBank entitiesBank, 
         TextEmitter textEmitter)
     {
-        _entitiesBank = entitiesBank;
+        _battleContext = battleContext;
         _textEmitter = textEmitter;
         battleContext.BattleStarted -= StartTrackingBattle;
         battleContext.BattleStarted += StartTrackingBattle;
@@ -82,44 +88,54 @@ public class BattleEndHandler : MonoBehaviour
 
     private void StartTrackingBattle(IBattleContext battleContext)
     {
-        _entitiesBank.BankChanged -= OnEntitiesBankChanged;
-        _entitiesBank.BankChanged += OnEntitiesBankChanged;
+        _battleContext.EntitiesBank.BankChanged -= OnEntitiesBankChanged;
+        _battleContext.EntitiesBank.BankChanged += OnEntitiesBankChanged;
     }
 
     private void OnEntitiesBankChanged(IReadOnlyEntitiesBank bank)
     {
-        if (bank.GetEntities(BattleSide.Enemies).Length == 0)
+        if (bank.GetActiveEntities(BattleSide.Enemies).Length == 0)
         {
             OnPlayerVictory();
         }
-        else if (bank.GetEntities(BattleSide.Player).Length == 0)
+        else if (bank.GetActiveEntities(BattleSide.Player).Length == 0)
         {
             OnPlayerLose();
         }
     }
 
-    private void OnPlayerVictory()
+    private async UniTask OnBattleEnded()
     {
-        _entitiesBank.BankChanged -= OnEntitiesBankChanged;
-        //_textEmitter.Emit($"Победа людей.", Color.green, new Vector3(0, 1, -1), Vector3.zero, 1.2f, 100, fontSize: 2f);
+        _battleContext.EntitiesBank.BankChanged -= OnEntitiesBankChanged;
+        _playerControls.enabled = false;
+        await UniTask.Delay(Mathf.RoundToInt(BattleResultsDisplayDelay * 1000));
         //_textEmitter.Emit($"Нажмите «Esc» для выхода.", Color.white, new Vector3(0, -1, -1), Vector3.zero, 1.2f, 100, fontSize: 0.75f);
-        var panel = (BattleVictoryPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleVictory);
-        panel.UpdateBattleResult(
-            SquadMediator.CharacterList, 
-            1337, 
-            () => SceneManager.LoadSceneAsync(OnExitScene));
     }
 
-    private void OnPlayerLose()
+    private async void OnPlayerVictory()
     {
-        _entitiesBank.BankChanged -= OnEntitiesBankChanged;
+        await OnBattleEnded();
+        //_textEmitter.Emit($"Победа людей.", Color.green, new Vector3(0, 1, -1), Vector3.zero, 1.2f, 100, fontSize: 2f);
+        var playerCharacters = SquadMediator.CharacterList.ToArray();
+        var panel = (BattleVictoryPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleVictory);
+        panel.UpdateBattleResult(
+            playerCharacters, 
+            1337, 
+            () => SceneManager.LoadSceneAsync(OnExitSceneId));
+        Logging.Log($"Current squad [{playerCharacters.Length}]: {string.Join(", ", playerCharacters.Select(c => c.CharacterData.Name))}" % Colorize.Red);
+        SquadMediator.SetCharacters(
+            BattleUnloader.UnloadCharacters(_battleContext, playerCharacters));
+    }
+
+    private async void OnPlayerLose()
+    {
+        await OnBattleEnded();
         //_textEmitter.Emit($"Победа монстров.", Color.red, new Vector3(0, 1, -1), Vector3.zero, 1.2f, 100, fontSize: 2f);
-        //_textEmitter.Emit($"Нажмите «Esc» для выхода.", Color.white, new Vector3(0, -1, -1), Vector3.zero, 1.2f, 100, fontSize: 0.75f);
         var panel = (BattleDefeatPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleDefeat);
         panel.UpdateBattleResult(
             SquadMediator.CharacterList, 
             1337, 
-            () => SceneManager.LoadSceneAsync(OnRetryScene),
-            () => SceneManager.LoadSceneAsync(OnExitScene));
+            () => SceneManager.LoadSceneAsync(OnRetrySceneId),
+            () => SceneManager.LoadSceneAsync(OnExitSceneId));
     }
 }

@@ -26,7 +26,7 @@ namespace OrderElimination.AbilitySystem
             var battleMap = _battleContext.Value.BattleMap;
             if (!battleMap.CellRangeBorders.Contains(position))
                 Logging.LogException( new ArgumentOutOfRangeException("Position is outside of the map borders."));
-            var gameCharacter = GameCharactersFactory.CreateGameEntity(characterTemplate);
+            var gameCharacter = GameCharactersFactory.CreateGameCharacter(characterTemplate);
             return _entitiesFactory.Value.CreateBattleCharacter(gameCharacter, side, position).Model;
         }
 

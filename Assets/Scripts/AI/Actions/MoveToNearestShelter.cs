@@ -18,7 +18,7 @@ namespace AI.Actions
             var context = blackboard.Get<IBattleContext>("context");
             var caster = blackboard.Get<AbilitySystemActor>("caster");
 
-            var structures = context.EntitiesBank.GetEntities(BattleSide.NoSide)
+            var structures = context.EntitiesBank.GetActiveEntities(BattleSide.NoSide)
                 .Where(actor => actor.Obstacle != null);
             var movementAbility = AbilityAIPresentation.GetMoveAbility(caster);
             if (movementAbility.AbilityData.TargetingSystem 
@@ -56,7 +56,7 @@ namespace AI.Actions
         {
             return structure.Obstacle.IsAllowedToStay(caster) &&
                    targeting.PeekAvailableCells(context, caster).Contains(structure.Position) &&
-                   !CharacterBehavior.AvoidObject.Contains(context.EntitiesBank.GetBattleStructureData(structure))
+                   !CharacterBehavior.AvoidObject.Contains(context.EntitiesBank.GetBasedStructureTemplate(structure))
                    && _needPassiveEffects.All(ef =>
                        structure.PassiveAbilities.Any(ab => ab.AbilityData.BasedBuilder == ef));
         }

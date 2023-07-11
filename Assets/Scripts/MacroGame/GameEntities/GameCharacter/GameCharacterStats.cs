@@ -28,7 +28,8 @@ namespace OrderElimination.MacroGame
             get => _maxHealth;
             set
             {
-                if (value < 0) value = 0;
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException();
                 _maxHealth = value;
             }
         }
@@ -39,7 +40,8 @@ namespace OrderElimination.MacroGame
             get => _maxArmor;
             set
             {
-                if (value < 0) value = 0;
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException();
                 _maxArmor = value;
             }
         }
@@ -50,7 +52,8 @@ namespace OrderElimination.MacroGame
             get => _attackDamage;
             set
             {
-                if (value < 0) value = 0;
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException();
                 _attackDamage = value;
             }
         }
@@ -87,7 +90,8 @@ namespace OrderElimination.MacroGame
             get => _maxMovementDistance;
             set
             {
-                if (value < 0) value = 0;
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException();
                 _maxMovementDistance = value;
             }
         }
@@ -95,15 +99,17 @@ namespace OrderElimination.MacroGame
         public GameCharacterStats(
             float maxHealth, float maxArmor, float attack, float accuracy, float evasion, float movement)
         {
-            _maxHealth = Mathf.Max(0, maxHealth);
-            _maxArmor = Mathf.Max(0, maxArmor);
-            _attackDamage = Mathf.Max(0, attack);
-            //_accuracy = Mathf.Clamp01(accuracy);
-            //_evasion = Mathf.Clamp01(evasion);
-            //Lets fkn break it! LETS GO! UUUUUUUUU!#%!&#^%!&#^5183131
+            if (maxHealth < 0
+                || maxArmor < 0
+                || attack < 0
+                || movement < 0)
+                throw new ArgumentOutOfRangeException();
+            _maxHealth = maxHealth;
+            _maxArmor = maxArmor;
+            _attackDamage = attack;
             _accuracy = accuracy;
             _evasion = evasion;
-            _maxMovementDistance = Mathf.Max(0, movement);
+            _maxMovementDistance = movement;
         }
 
         public float this[BattleStat battleStat]

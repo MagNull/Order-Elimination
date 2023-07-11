@@ -55,7 +55,7 @@ public class BattleControlSwitcher : MonoBehaviour
             BattleSide.NoSide => Color.Lerp(Color.black, Color.white, 0.0f),
             _ => throw new System.NotSupportedException(),
         };
-        if (battleContext.EntitiesBank.GetEntities(battleContext.ActiveSide).Length > 0)
+        if (battleContext.EntitiesBank.GetActiveEntities(battleContext.ActiveSide).Length > 0)
             _roundCounter.SetValue(battleContext.CurrentRound, roundColor);
 
         if (battleContext.ActiveSide == BattleSide.Player)

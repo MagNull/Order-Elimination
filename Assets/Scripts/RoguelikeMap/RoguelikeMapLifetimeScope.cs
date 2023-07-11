@@ -51,7 +51,7 @@ namespace RoguelikeMap
             if (!mediator) 
                 mediator = Instantiate(_charactersMediatorPrefab);
             else
-                SquadMediator.SetCharacters(mediator.GetPlayerCharacters().ToList());
+                SquadMediator.SetCharacters(mediator.GetPlayerCharacters());
             
             var wallet = new Wallet(_startMoney);
             
