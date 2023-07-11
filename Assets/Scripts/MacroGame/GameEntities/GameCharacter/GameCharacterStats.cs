@@ -47,7 +47,7 @@ namespace OrderElimination.MacroGame
         }
 
         [ShowInInspector][PropertyOrder(1)]
-        public float AttackDamage
+        public float Attack
         {
             get => _attackDamage;
             set
@@ -112,13 +112,22 @@ namespace OrderElimination.MacroGame
             _maxMovementDistance = movement;
         }
 
+        public GameCharacterStats(IReadOnlyGameCharacterStats basedStats) : this(
+            basedStats.MaxHealth,
+            basedStats.MaxArmor,
+            basedStats.Attack,
+            basedStats.Accuracy,
+            basedStats.Evasion,
+            basedStats.MaxMovementDistance)
+        { }
+
         public float this[BattleStat battleStat]
         {
             get => battleStat switch
             {
                 BattleStat.MaxHealth => MaxHealth,
                 BattleStat.MaxArmor => MaxArmor,
-                BattleStat.AttackDamage => AttackDamage,
+                BattleStat.AttackDamage => Attack,
                 BattleStat.Accuracy => Accuracy,
                 BattleStat.Evasion => Evasion,
                 BattleStat.MaxMovementDistance => MaxMovementDistance,
@@ -135,7 +144,7 @@ namespace OrderElimination.MacroGame
                         MaxArmor = value;
                         break;
                     case BattleStat.AttackDamage:
-                        AttackDamage = value;
+                        Attack = value;
                         break;
                     case BattleStat.Accuracy:
                         Accuracy = value;

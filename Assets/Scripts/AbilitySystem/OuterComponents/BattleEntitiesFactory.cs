@@ -47,7 +47,7 @@ public class BattleEntitiesFactory : SerializedMonoBehaviour
         var battleStats = new BattleStats(
                 character.CharacterStats.MaxHealth,
                 character.CharacterStats.MaxArmor,
-                character.CharacterStats.AttackDamage,
+                character.CharacterStats.Attack,
                 character.CharacterStats.Accuracy,
                 character.CharacterStats.Evasion,
                 character.CharacterStats.MaxMovementDistance);

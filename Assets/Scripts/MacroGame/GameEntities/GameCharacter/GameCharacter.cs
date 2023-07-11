@@ -52,7 +52,7 @@ namespace OrderElimination.MacroGame
             _characterStats = new GameCharacterStats(
                 specifiedStats.MaxHealth,
                 specifiedStats.MaxArmor,
-                specifiedStats.AttackDamage,
+                specifiedStats.Attack,
                 specifiedStats.Accuracy,
                 specifiedStats.Evasion,
                 specifiedStats.MaxMovementDistance);
