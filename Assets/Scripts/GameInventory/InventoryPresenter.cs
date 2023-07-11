@@ -66,9 +66,12 @@ namespace GameInventory
         }
 
         [Button]
-        public void RemoveItem()
+        public void Clear()
         {
-            _inventoryModel.RemoveItem(_inventoryModel.GetItems().Last());
+            foreach (var item in _inventoryModel.GetItems())
+            {
+                _inventoryModel.RemoveItem(item);
+            }
         }
     }
 }

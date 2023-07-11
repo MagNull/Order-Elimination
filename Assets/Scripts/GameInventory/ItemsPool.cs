@@ -18,6 +18,18 @@ namespace OrderElimination
         private Dictionary<ItemRarity, float> _rarityProbability = new();
         private static Dictionary<ItemRarity, float> _staticRarityProbability;
 
+        private void Awake()
+        {
+            _staticItems = _items;
+            _staticRarityProbability = _rarityProbability;
+        }
+
+        private void OnEnable()
+        {
+            _staticItems = _items;
+            _staticRarityProbability = _rarityProbability;
+        }
+
         private void OnValidate()
         {
             _staticItems = _items;
