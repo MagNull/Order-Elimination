@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Inventory;
+using GameInventory.Items;
 using TMPro;
 using UnityEngine;
 using Image = UnityEngine.UI.Image;

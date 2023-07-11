@@ -1,7 +1,8 @@
 ﻿using System;
+using GameInventory.Items;
 using Sirenix.OdinInspector;
 
-namespace Inventory_Items
+namespace GameInventory
 {
     [Serializable]
     public class Cell : IReadOnlyCell

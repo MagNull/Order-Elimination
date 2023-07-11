@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
-using Cysharp.Threading.Tasks;
 using OrderElimination;
 using UnityEngine;
 
-namespace Inventory_Items
+namespace GameInventory
 {
     public class PickItemInventoryPresenter : InventoryPresenter
     {

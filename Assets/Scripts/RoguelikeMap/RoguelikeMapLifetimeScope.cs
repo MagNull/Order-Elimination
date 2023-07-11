@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using GameInventory;
 using ItemsLibrary;
 using OrderElimination;
 using OrderElimination.MacroGame;
@@ -61,7 +62,7 @@ namespace RoguelikeMap
             
             var wallet = new Wallet(_startMoney);
             
-            builder.Register<Inventory_Items.Inventory>(Lifetime.Singleton).WithParameter(100);
+            builder.Register<Inventory>(Lifetime.Singleton).WithParameter(100);
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_squad);
             builder.RegisterComponent(_pathPrefab);

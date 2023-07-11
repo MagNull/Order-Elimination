@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Inventory_Items
+namespace GameInventory.Views
 {
     public class InventoryCellView : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {

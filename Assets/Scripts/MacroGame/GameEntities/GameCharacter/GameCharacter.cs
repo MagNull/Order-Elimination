@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GameInventory;
 using OrderElimination.AbilitySystem;
 
 namespace OrderElimination.MacroGame
@@ -29,7 +30,7 @@ namespace OrderElimination.MacroGame
                 StatsChanged?.Invoke(this);
             }
         }
-        public Inventory_Items.Inventory Inventory { get; private set; } = new(2);
+        public Inventory Inventory { get; private set; } = new(2);
 
         public event Action<GameCharacter> StatsChanged;
 

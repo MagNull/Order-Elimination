@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Inventory;
+using GameInventory.Items;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Inventory_Items
+namespace GameInventory.Views
 {
     public class CharacterInventoryView : InventoryView
     {

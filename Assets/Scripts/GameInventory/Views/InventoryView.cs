@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using UnityEngine;
 
-namespace Inventory_Items
+namespace GameInventory.Views
 {
     public abstract class InventoryView : SerializedMonoBehaviour
     {

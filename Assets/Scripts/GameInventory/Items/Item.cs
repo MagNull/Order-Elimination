@@ -1,10 +1,9 @@
 ﻿using System;
-using Inventory;
 using OrderElimination.AbilitySystem;
 using OrderElimination.MacroGame;
 using Sirenix.OdinInspector;
 
-namespace Inventory_Items
+namespace GameInventory.Items
 {
     [Serializable]
     public abstract class Item

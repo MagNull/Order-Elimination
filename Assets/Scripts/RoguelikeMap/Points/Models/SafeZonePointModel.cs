@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Inventory;
+using GameInventory.Items;
 using RoguelikeMap.Panels;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI.PointPanels;
