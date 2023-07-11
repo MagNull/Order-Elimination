@@ -6,7 +6,7 @@ using VContainer;
 
 namespace RoguelikeMap
 {
-    public class BattleEndHandler
+    public class BattleRewardHandler
     {
         private ScenesMediator _scenesMediator;
         private Inventory _inventory;
