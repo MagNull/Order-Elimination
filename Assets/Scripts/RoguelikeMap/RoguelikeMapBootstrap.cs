@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using GameInventory;
 using ItemsLibrary;
 using OrderElimination;
-using OrderElimination.MacroGame;
 using RoguelikeMap.Map;
 using RoguelikeMap.Panels;
+using RoguelikeMap.Points;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI.Characters;
-using Sirenix.OdinInspector;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -33,7 +28,7 @@ namespace RoguelikeMap
         [SerializeField]
         private Transform _pointsParent;
         [SerializeField]
-        private GameObject _pointPrefab;
+        private Point _pointPrefab;
         [SerializeField]
         private Squad _squad;
         [SerializeField]
