@@ -5,6 +5,7 @@ using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Battle;
 using OrderElimination.Infrastructure;
+using OrderElimination.SavesManagement;
 using Sirenix.OdinInspector;
 using System.Linq;
 using GameInventory.Items;
@@ -133,6 +134,9 @@ public class BattleEndHandler : MonoBehaviour
         Logging.Log($"Current squad [{playerCharacters.Length}]: {string.Join(", ", playerCharacters.Select(c => c.CharacterData.Name))}" % Colorize.Red);
         _mediator.Register("player characters", BattleUnloader.UnloadCharacters(_battleContext, playerCharacters));
         _scenesMediator.Register("battle results", battleResult);
+        //GameCharacterSerializer.SaveCharacter(playerCharacters.First());
+        SquadMediator.SetCharacters(
+            BattleUnloader.UnloadCharacters(_battleContext, playerCharacters));
     }
 
     private async void OnPlayerLose()
