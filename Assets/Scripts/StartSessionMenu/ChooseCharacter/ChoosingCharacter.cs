@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using OrderElimination;
 using OrderElimination.MacroGame;
@@ -93,9 +94,12 @@ namespace StartSessionMenu.ChooseCharacter
             if (_selectedCount <= 0)
                 return false;
 
-            var characters = _characterCards
-                .Where(x => x.IsSelected)
-                .Select(x => x.Character);
+            var characters = new List<GameCharacter>();
+            foreach (var zone in _selectedDropZones)
+            {
+                if (zone.CharacterCard != null) 
+                    characters.Add(zone.CharacterCard.Character);
+            }
             SquadMediator.SetCharacters(characters);
             return true;
         }
