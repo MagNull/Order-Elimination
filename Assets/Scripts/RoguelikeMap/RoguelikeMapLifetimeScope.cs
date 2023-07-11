@@ -19,7 +19,7 @@ using Wallet = StartSessionMenu.Wallet;
 //TODO(����): Register Currency
 namespace RoguelikeMap
 {
-    public class RoguelikeMapLifetimeScope : LifetimeScope
+    public class RoguelikeMapLifetimeScope : LifetimeScope, IStartable
     {
         [SerializeField] 
         private int _startMoney = 1000;
@@ -76,11 +76,17 @@ namespace RoguelikeMap
             builder.RegisterComponent(_cardWithCost);
             builder.RegisterComponent(_cardIcon);
             builder.RegisterComponent(_panelManager);
-            
+
+            builder.Register<BattleEndHandler>(Lifetime.Singleton);
             builder.Register<SquadCommander>(Lifetime.Singleton);
             builder.Register<SceneTransition>(Lifetime.Singleton);
             builder.Register<SimpleMapGenerator>(Lifetime.Singleton).As<IMapGenerator>();
             builder.Register<CharacterCardGenerator>(Lifetime.Singleton);
+        }
+
+        public void Start()
+        {
+            Container.Resolve<BattleEndHandler>().Start();
         }
     }
 }

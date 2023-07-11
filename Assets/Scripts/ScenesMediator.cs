@@ -4,6 +4,7 @@ using System.Linq;
 using OrderElimination.MacroGame;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using Sirenix.Utilities;
 
 namespace OrderElimination
 {
@@ -32,6 +33,17 @@ namespace OrderElimination
             return (T)_data[name];
         }
 
+        public bool Contains<T>(string name)
+        {
+            if (!_data.ContainsKey(name.ToLower()))
+                return false;
+
+            var type = typeof(T);
+            return _data.Values.Any(x => type.IsInstanceOfType(x));
+        }
+        
+        public void Unregister(string name) => _data.Remove(name.ToLower());
+        
         public void Register(string name, object obj) => _data[name.ToLower()] = obj;
 
         public void InitTest()

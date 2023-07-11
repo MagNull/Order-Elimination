@@ -17,6 +17,9 @@ namespace RoguelikeMap.Points.Models
         [SerializeField]
         private BattleScenario _battleScenario;
 
+        [SerializeField]
+        private int _itemsCount;
+
         private List<GameCharacter> _enemiesGameCharacter;
         
         protected BattlePanel Panel => _panel as BattlePanel;
@@ -24,6 +27,8 @@ namespace RoguelikeMap.Points.Models
         public override PointType Type => PointType.Battle;
         public IReadOnlyList<IGameCharacterTemplate> Enemies => _enemies;
         public BattleScenario Scenario => _battleScenario;
+
+        public int ItemsCount => _itemsCount;
 
         public override void Visit(Squad squad)
         {

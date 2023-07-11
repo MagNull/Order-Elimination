@@ -13,9 +13,11 @@ namespace GameInventory.Items
 
         private readonly ItemType _itemType;
         private readonly int _itemId;
+        private readonly ItemRarity _itemRarity;
 
         public ItemView View => _itemView;
         public ItemType Type => _itemType;
+        public ItemRarity Rarity => _itemRarity;
         public int Id => _itemId;
 
         protected Item(ItemData itemData)
@@ -23,6 +25,7 @@ namespace GameInventory.Items
             _itemView = itemData.View;
             _itemType = itemData.Type;
             _itemId = itemData.Id;
+            _itemRarity = itemData.Rarity;
         }
 
         public abstract void OnTook(AbilitySystemActor abilitySystemActor);
