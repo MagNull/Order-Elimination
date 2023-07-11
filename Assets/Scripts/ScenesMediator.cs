@@ -51,6 +51,7 @@ namespace OrderElimination
             Register("player characters", GameCharactersFactory.CreateGameEntities(_testPlayerCharacters));
             Register("enemy characters", GameCharactersFactory.CreateGameEntities(_testEnemyCharacters));
             Register("scenario", _testScenario);
+            Register("stats", new StrategyStats());
         }
 
         private void Awake()

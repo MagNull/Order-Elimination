@@ -25,7 +25,7 @@ namespace RoguelikeMap
         private int _startMoney = 1000;
         [FormerlySerializedAs("_charactersMediatorPrefab")]
         [SerializeField]
-        private ScenesMediator scenesMediatorPrefab;
+        private ScenesMediator _testMediator;
         [SerializeField]
         private LineRenderer _pathPrefab;
         [SerializeField]
@@ -52,14 +52,11 @@ namespace RoguelikeMap
         protected override void Configure(IContainerBuilder builder)
         {
             var mediator = FindObjectOfType<ScenesMediator>();
-            if (!mediator) 
-                mediator = Instantiate(scenesMediatorPrefab);
-            else
+            if (!mediator)
             {
+                mediator = _testMediator;
                 mediator.InitTest();
-                SquadMediator.SetCharacters(mediator.Get<IEnumerable<GameCharacter>>("player characters").ToList());
             }
-            
             var wallet = new Wallet(_startMoney);
             
             builder.Register<Inventory>(Lifetime.Singleton).WithParameter(100);

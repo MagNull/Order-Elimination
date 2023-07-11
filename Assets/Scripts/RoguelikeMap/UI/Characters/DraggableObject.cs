@@ -22,13 +22,10 @@ namespace RoguelikeMap.UI.Characters
         private Transform _initialParent;
         private Transform _defaultParent;
         private CanvasGroup _canvasGroup;
-        private Transform _dragTransform;
-        private DraggableObject _dragObject;
-        public bool IsCopy { get; private set; } = false;
-        
-        public DraggableObject DragObject
+        private CharacterCard _dragObject;
+        public CharacterCard DragObject
         {
-            get => IsCreateCopy ? _dragObject : null;
+            get => _dragObject;
             private set => _dragObject = value; 
         }
 
@@ -37,24 +34,25 @@ namespace RoguelikeMap.UI.Characters
             _canvasGroup = gameObject.GetComponent<CanvasGroup>();
         }
         
-        private Transform InitializeTransform()
+        private CharacterCard InitializeDragObject()
         {
             _initialParent = transform.parent;
             _defaultParent = _initialParent.parent.parent;
-            if (!IsCreateCopy || IsCopy)
-                return transform;
-            DragObject = Instantiate(this, transform.position, transform.rotation, _defaultParent);
-            DragObject.IsCopy = true;
-            var copyCard = DragObject.GetComponent<CharacterCard>();
-            copyCard.InitializeCard(GetComponent<CharacterCard>().Character, false);
-            _canvasGroup = DragObject.GetComponent<CanvasGroup>();
-            return DragObject.transform;
+            var card = GetComponent<CharacterCard>();
+            if (!IsCreateCopy)
+                return card;
+            var dragObjectCopy = Instantiate(this, transform.position, transform.rotation, _defaultParent);
+            var characterCardCopy = dragObjectCopy.GetComponent<CharacterCard>();
+            Destroy(dragObjectCopy);
+            characterCardCopy.InitializeCard(card.Character, false);
+            _canvasGroup = characterCardCopy.GetComponent<CanvasGroup>();
+            return characterCardCopy;
         }
         
         public void OnBeginDrag(PointerEventData eventData)
         {
-            _dragTransform = InitializeTransform();
-            _dragTransform.SetParent(_defaultParent);
+            DragObject = InitializeDragObject();
+            DragObject.transform.SetParent(_defaultParent);
             if(_isTransparency)
                 ChangeTransparency(_aplha);
             _canvasGroup.blocksRaycasts = false;
@@ -62,21 +60,19 @@ namespace RoguelikeMap.UI.Characters
 
         public void OnDrag(PointerEventData eventData)
         {
-            _dragTransform.position = Input.mousePosition;
+            DragObject.transform.position = Input.mousePosition;
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            if (_dragTransform.parent == _defaultParent)
+            if (DragObject.transform.parent == _defaultParent)
             {
-                if(IsCreateCopy && IsCopy)
-                    Destroy(gameObject);
-                else if (IsCreateCopy)
+                if (IsCreateCopy)
                     Destroy(DragObject.gameObject);
                 else
                 {
-                    _dragTransform.SetParent(_initialParent);
-                    _dragTransform.localPosition = Vector3.zero;    
+                    DragObject.transform.SetParent(_initialParent);
+                    DragObject.transform.localPosition = Vector3.zero;
                 }
             }
             if (_isTransparency)
