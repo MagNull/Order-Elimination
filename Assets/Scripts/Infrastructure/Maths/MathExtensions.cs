@@ -5,13 +5,13 @@ namespace OrderElimination.Infrastructure
 {
     public static class MathExtensions
     {
-        public static float Round(float value, RoundingOption mode)
+        public static int Round(float value, RoundingOption mode)
         {
             return mode switch
             {
-                RoundingOption.Math => (float)Math.Round(value, MidpointRounding.AwayFromZero),
-                RoundingOption.Floor => Mathf.Floor(value),
-                RoundingOption.Ceiling => Mathf.Ceil(value),
+                RoundingOption.Math => (int)Math.Round(value, MidpointRounding.AwayFromZero),
+                RoundingOption.Floor => Mathf.FloorToInt(value),
+                RoundingOption.Ceiling => Mathf.CeilToInt(value),
                 _ => throw new NotImplementedException(),
             };
         }

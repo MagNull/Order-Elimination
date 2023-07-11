@@ -72,7 +72,7 @@ public class BattleLoopManager : MonoBehaviour
     private void StartNewTurn(BattleSide battleSide)
     {
         _activeSide = battleSide;
-        foreach (var entity in _entitiesBank.GetEntities(ActiveSide))
+        foreach (var entity in _entitiesBank.GetActiveEntities(ActiveSide))
         {
             RestoreActionPoints(entity, 1);
         }

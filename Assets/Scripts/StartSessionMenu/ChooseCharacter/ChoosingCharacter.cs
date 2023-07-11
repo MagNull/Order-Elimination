@@ -93,12 +93,9 @@ namespace StartSessionMenu.ChooseCharacter
             if (_selectedCount <= 0)
                 return false;
 
-            var characters = new List<GameCharacter>();
-            foreach (var zone in _selectedDropZones)
-            {
-                if (zone.CharacterCard != null) 
-                    characters.Add(zone.CharacterCard.Character);
-            }
+            var characters = _characterCards
+                .Where(x => x.IsSelected)
+                .Select(x => x.Character);
             SquadMediator.SetCharacters(characters);
             return true;
         }

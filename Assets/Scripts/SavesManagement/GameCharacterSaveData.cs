@@ -10,13 +10,18 @@ namespace OrderElimination.SavesManagement
     [Serializable]
     public readonly struct GameCharacterSaveData
     {
-        public readonly string BasedTemplateLocation;
-        public readonly GameCharacterStats CharacterStats;
+        public string BasedTemplateLocation { get; }
+        public GameCharacterStats CharacterStats { get; }
+        public float CurrentHealth { get; }
 
-        public GameCharacterSaveData(string basedTemplateLocation, GameCharacterStats characterStats)
+        public GameCharacterSaveData(
+            string basedTemplateLocation, 
+            GameCharacterStats characterStats,
+            float currentHealth)
         {
             BasedTemplateLocation = basedTemplateLocation;
             CharacterStats = characterStats;
+            CurrentHealth = currentHealth;
         }
     }
 }

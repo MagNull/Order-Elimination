@@ -1,8 +1,6 @@
 using OrderElimination.MacroGame;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 
 namespace OrderElimination
 {
@@ -12,9 +10,9 @@ namespace OrderElimination
         public static StrategyStats? PlayerSquadStats { get; private set; }
         public static List<GameCharacter> CharacterList => _characterList;
 
-        public static void SetCharacters(List<GameCharacter> characters)
+        public static void SetCharacters(IEnumerable<GameCharacter> characters)
         {
-            _characterList = characters;
+            _characterList = characters.ToList();
         }
 
         public static void SetStatsCoefficient(StrategyStats stats)

@@ -76,7 +76,7 @@ namespace UIManagement
             if (entity == null)
                 Logging.LogException(new System.ArgumentNullException());
             var entitiesBank = entity.BattleContext.EntitiesBank;
-            var gamecharacter = entitiesBank.GetBattleCharacterData(entity);
+            var gamecharacter = entitiesBank.GetBasedCharacter(entity);
             _characterName.text = gamecharacter.CharacterData.Name;
             _characterAvatar.sprite = gamecharacter.CharacterData.Avatar;
             UpdateBattleStats(entity.BattleStats);
