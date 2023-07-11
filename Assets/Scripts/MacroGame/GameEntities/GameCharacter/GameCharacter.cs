@@ -39,14 +39,14 @@ namespace OrderElimination.MacroGame
             IGameCharacterTemplate template,
             IEnumerable<IActiveAbilityData> activeAbilities,
             IEnumerable<IPassiveAbilityData> passiveAbilities)
-            : this(template, template.GetBaseBattleStats(), activeAbilities, passiveAbilities) { }
+            : this(template, activeAbilities, passiveAbilities, template.GetBaseBattleStats()) { }
 
         [Obsolete("Use " + nameof(GameCharactersFactory) + " instead.")]
         public GameCharacter(
             IGameCharacterTemplate template,
-            IReadOnlyGameCharacterStats specifiedStats,
             IEnumerable<IActiveAbilityData> activeAbilities,
-            IEnumerable<IPassiveAbilityData> passiveAbilities)
+            IEnumerable<IPassiveAbilityData> passiveAbilities,
+            IReadOnlyGameCharacterStats specifiedStats)
         {
             CharacterData = template;
             _characterStats = new GameCharacterStats(

@@ -7,21 +7,25 @@ namespace OrderElimination.MacroGame
 {
     public static class GameCharactersFactory
     {
-        public static GameCharacter CreateGameCharacter(IGameCharacterTemplate characterTemplate)
+        public static GameCharacter CreateGameCharacter(IGameCharacterTemplate template)
         {
-            var activeAbilities = characterTemplate.GetActiveAbilities()
-                .Select(a => AbilityFactory.CreateActiveAbility(a));
-            var passiveAbilities = characterTemplate.GetPassiveAbilities()
-                .Select(a => AbilityFactory.CreatePassiveAbility(a));
-            var character = new GameCharacter(characterTemplate, activeAbilities, passiveAbilities);
-            character.CurrentHealth = character.CharacterStats.MaxHealth;
-            return character;
+            var baseStats = template.GetBaseBattleStats();
+            return RestoreGameCharacter(template, baseStats, baseStats.MaxHealth);
         }
 
-        //public static GameCharacter RestoreGameCharacter(IGameCharacterTemplate characterTemplate)
-        //{
-
-        //}
+        public static GameCharacter RestoreGameCharacter(
+            IGameCharacterTemplate template, 
+            IReadOnlyGameCharacterStats specifiedStats,
+            float health)
+        {
+            var activeAbilities = template.GetActiveAbilities()
+                .Select(a => AbilityFactory.CreateActiveAbility(a));
+            var passiveAbilities = template.GetPassiveAbilities()
+                .Select(a => AbilityFactory.CreatePassiveAbility(a));
+            var character = new GameCharacter(template, activeAbilities, passiveAbilities, specifiedStats);
+            character.CurrentHealth = health;
+            return character;
+        }
 
         public static IEnumerable<GameCharacter> CreateGameEntities(
             IEnumerable<IGameCharacterTemplate> characterTempaltes)

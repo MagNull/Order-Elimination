@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 using OrderElimination;
+using UnityEditor;
 
 public enum SelectorMode
 {
@@ -240,7 +241,12 @@ public class BattleMapSelector : MonoBehaviour
             _ => _othersHighlightColor,
         };
         view.Highlight(highlightColor);
-        Debug.Log($"{entity.EntityType} {view.Name} selected." % Colorize.ByColor(new Color(1, 0.5f, 0.5f))
+        Object so = entity.EntityType == EntityType.Character
+            ? (Object)_battleContext.EntitiesBank.GetBasedCharacter(entity).CharacterData
+            : (Object)_battleContext.EntitiesBank.GetBasedStructureTemplate(entity);
+        EditorUtility.IsPersistent(so);
+        Debug.Log(
+            $"{entity.EntityType} {view.Name} [id:{so.GetInstanceID()}] selected." % Colorize.ByColor(new Color(1, 0.5f, 0.5f))
             + $"\nActionPoints: {string.Join(", ", entity.ActionPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
             + $"\nHealth: {entity.BattleStats.Health}; MaxHealth: {entity.BattleStats.MaxHealth.ModifiedValue}" 
             + $"\nTotalArmor: {entity.BattleStats.TotalArmor}; MaxArmor: {entity.BattleStats.MaxArmor.ModifiedValue}" 
