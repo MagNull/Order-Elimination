@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GameInventory;
 using OrderElimination.AbilitySystem;
+using UnityEngine;
 
 namespace OrderElimination.MacroGame
 {
@@ -24,9 +25,7 @@ namespace OrderElimination.MacroGame
             {
                 if (value < 0)
                     throw new ArgumentOutOfRangeException("Attempt to set health lower than 0");
-                if (value > CharacterStats.MaxHealth)
-                    throw new ArgumentOutOfRangeException("Attempt to set health higher than MaxHealth");
-                _currentHealth = value;
+                _currentHealth = Mathf.Clamp(value, 0, _characterStats.MaxHealth);
                 StatsChanged?.Invoke(this);
             }
         }
