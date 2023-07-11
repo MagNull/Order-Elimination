@@ -7,6 +7,8 @@ using OrderElimination.Battle;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using System.Linq;
+using GameInventory.Items;
+using RoguelikeMap.Points.Models;
 using OrderElimination.MacroGame;
 using UIManagement;
 using UnityEngine;
@@ -23,7 +25,7 @@ public class BattleEndHandler : MonoBehaviour
     private int _onPlayerLoseSceneId;
     private IBattleContext _battleContext;
     private TextEmitter _textEmitter;
-    private ScenesMediator _mediator;
+    private ScenesMediator _scenesMediator;
 
     [ShowInInspector]
     private int _safeVictorySceneId
@@ -85,7 +87,7 @@ public class BattleEndHandler : MonoBehaviour
     {
         _battleContext = battleContext;
         _textEmitter = textEmitter;
-        _mediator = scenesMediator;
+        _scenesMediator = scenesMediator;
         battleContext.BattleStarted -= StartTrackingBattle;
         battleContext.BattleStarted += StartTrackingBattle;
     }
@@ -122,12 +124,15 @@ public class BattleEndHandler : MonoBehaviour
         //_textEmitter.Emit($"������ �����.", Color.green, new Vector3(0, 1, -1), Vector3.zero, 1.2f, 100, fontSize: 2f);
         var playerCharacters = _mediator.Get<GameCharacter[]>("player characters").ToArray();
         var panel = (BattleVictoryPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleVictory);
+        var battleResult = CalculateBattleResult(BattleOutcome.Win);
         panel.UpdateBattleResult(
             playerCharacters, 
-            1337, 
+            battleResult.MoneyReward, 
+            battleResult.ItemsReward,
             () => SceneManager.LoadSceneAsync(OnExitSceneId));
         Logging.Log($"Current squad [{playerCharacters.Length}]: {string.Join(", ", playerCharacters.Select(c => c.CharacterData.Name))}" % Colorize.Red);
         _mediator.Register("player characters", BattleUnloader.UnloadCharacters(_battleContext, playerCharacters));
+        _scenesMediator.Register("battle results", battleResult);
     }
 
     private async void OnPlayerLose()
@@ -135,10 +140,38 @@ public class BattleEndHandler : MonoBehaviour
         await OnBattleEnded();
         //_textEmitter.Emit($"������ ��������.", Color.red, new Vector3(0, 1, -1), Vector3.zero, 1.2f, 100, fontSize: 2f);
         var panel = (BattleDefeatPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleDefeat);
+        var battleResult = CalculateBattleResult(BattleOutcome.Lose);
         panel.UpdateBattleResult(
             _mediator.Get<GameCharacter[]>("player characters"), 
-            1337,
+            battleResult.MoneyReward, 
             () => SceneManager.LoadSceneAsync(OnRetrySceneId),
             () => SceneManager.LoadSceneAsync(OnExitSceneId));
+        _scenesMediator.Register("battle results", battleResult);
+    }
+
+    private BattleResults CalculateBattleResult(BattleOutcome battleOutcome)
+    {
+        var defeatEnemies = _battleContext.EntitiesBank.GetDisposedEntities()
+            .Where(en => en.BattleSide == BattleSide.Enemies);
+        var moneyReward = defeatEnemies
+            .Aggregate(0, (i, actor) => i + _battleContext.EntitiesBank.GetBasedCharacter(actor).CharacterData.Reward);
+        
+        var battleResult = new BattleResults
+        {
+            BattleOutcome = battleOutcome,
+            MoneyReward = moneyReward,
+        };
+        if (battleOutcome == BattleOutcome.Lose)
+            return battleResult;
+        
+        var itemsCount = _scenesMediator.Get<BattlePointModel>("point").ItemsCount;
+        var items = new Item[itemsCount];
+        for(var i = 0; i < itemsCount; i++)
+        {
+            items[i] = ItemsPool.GetRandomItem();
+        }
+
+        battleResult.ItemsReward = items;
+        return battleResult;
     }
 }

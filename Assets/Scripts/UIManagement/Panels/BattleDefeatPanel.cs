@@ -9,8 +9,10 @@ using Sirenix.Utilities;
 using TMPro;
 using UIManagement;
 using UIManagement.Elements;
+using UIManagement.Panels;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class BattleDefeatPanel : UIPanel
@@ -24,12 +26,15 @@ public class BattleDefeatPanel : UIPanel
     private Button _surrenderButton;
     [SerializeField]
     private RectTransform _charactersHolder;
-    [SerializeField] 
-    private TextMeshProUGUI _primaryCurrency;
+    [SerializeField]
+    private RectTransform _rewardHolder;
+    
     [Title("Prefabs")]
     [AssetsOnly]
     [SerializeField]
     private CharacterClickableAvatar _characterPrefab;
+    [SerializeField]
+    private RewardItem _rewardItemPrefab;
 
     private readonly Dictionary<CharacterClickableAvatar, GameCharacter> _charactersByAvatars = new();
     private Action _onRetryCallback;
@@ -57,7 +62,8 @@ public class BattleDefeatPanel : UIPanel
                 _charactersByAvatars.Add(avatar, character);
             }
         }
-        _primaryCurrency.text = currencyReward.ToString();
+        var currencyRewardItem = Instantiate(_rewardItemPrefab, _rewardHolder);
+        currencyRewardItem.UpdateItemInfo(null, currencyReward.ToString());
         _pageSwitcher.DisablePage(1);
 
         void ClearCharacters()

@@ -83,6 +83,7 @@ namespace RoguelikeMap.SquadInfo
             charactersMediator.Register("player characters", _squad.Members);
             charactersMediator.Register("enemy characters", enemyCharacters);
             charactersMediator.Register("scenario", scenario);
+            charactersMediator.Register("point", _target);
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();
         }
