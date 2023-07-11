@@ -18,6 +18,8 @@ public class MenuWindow : MonoBehaviour
     private MetaShop _metaShopPanel;
     [SerializeField] 
     private GameObject _startMenuPanel;
+    [SerializeField] 
+    private GameObject _maskWallpaper;
     
     private SceneTransition _sceneTransition;
     
@@ -32,6 +34,7 @@ public class MenuWindow : MonoBehaviour
         _previousButton.onClick.AddListener(() =>
         {
             _startMenuPanel.transform.DOMoveX(960, 1.5f);
+            _maskWallpaper.SetActive(true);
         });
         
         _startGameButton.onClick.AddListener(() =>
@@ -45,6 +48,7 @@ public class MenuWindow : MonoBehaviour
     public void StartInMenuClick()
     {
         _startMenuPanel.transform.DOMoveX(-1920, 1.5f);
+        _maskWallpaper.SetActive(false);
     }
 
     public void ExitInMenuClick()
