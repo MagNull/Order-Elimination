@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GameInventory.Items;
 using OrderElimination;
 using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace GameInventory
 {
@@ -12,10 +13,11 @@ namespace GameInventory
         public event Action<IReadOnlyCell> OnCellRemoved;
         public event Action<IReadOnlyCell> OnCellAdded;
 
-        [ShowInInspector]
-        private readonly List<Cell> _cells;
+        [ShowInInspector, SerializeField]
+        private List<Cell> _cells;
 
-        private readonly int _size;
+        [SerializeField, HideInInspector]
+        private int _size;
 
         public Inventory(int size)
         {

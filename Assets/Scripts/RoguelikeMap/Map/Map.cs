@@ -49,6 +49,7 @@ namespace RoguelikeMap.Map
 
         private void SelectPoint(Point point)
         {
+            Debug.Log("Point click" % Colorize.Red);
             if (_isSquadSelected is false)
                 return;
             if(_squad.Point.NextPoints.Contains(point.Index))

@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using GameInventory;
 using ItemsLibrary;
 using OrderElimination;
@@ -8,6 +10,7 @@ using RoguelikeMap.Map;
 using RoguelikeMap.Panels;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI.Characters;
+using Sirenix.OdinInspector;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -16,10 +19,9 @@ using VContainer.Unity;
 using SquadCommander = RoguelikeMap.SquadInfo.SquadCommander;
 using Wallet = StartSessionMenu.Wallet;
 
-//TODO(����): Register Currency
 namespace RoguelikeMap
 {
-    public class RoguelikeMapLifetimeScope : LifetimeScope
+    public class RoguelikeMapBootstrap : LifetimeScope, IStartable
     {
         [SerializeField] 
         private int _startMoney = 1000;
@@ -57,13 +59,14 @@ namespace RoguelikeMap
                 mediator = _testMediator;
                 mediator.InitTest();
             }
-            var wallet = new Wallet(_startMoney);
+
+            var inventory = InventorySerializer.Load();
             
-            builder.Register<Inventory>(Lifetime.Singleton).WithParameter(100);
+            builder.Register<Wallet>(Lifetime.Singleton).WithParameter(_startMoney);
+            builder.RegisterComponent(inventory);
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_squad);
             builder.RegisterComponent(_pathPrefab);
-            builder.RegisterComponent(wallet);
             builder.RegisterComponent(_pointPrefab);
             builder.RegisterComponent(_pointsParent);
             builder.RegisterComponent(_library);
@@ -73,11 +76,23 @@ namespace RoguelikeMap
             builder.RegisterComponent(_cardWithCost);
             builder.RegisterComponent(_cardIcon);
             builder.RegisterComponent(_panelManager);
-            
+
+            builder.Register<BattleRewardHandler>(Lifetime.Singleton);
             builder.Register<SquadCommander>(Lifetime.Singleton);
             builder.Register<SceneTransition>(Lifetime.Singleton);
             builder.Register<SimpleMapGenerator>(Lifetime.Singleton).As<IMapGenerator>();
             builder.Register<CharacterCardGenerator>(Lifetime.Singleton);
+        }
+
+        public void Start()
+        {
+            Container.Resolve<BattleRewardHandler>().Start();
+        }
+
+        public void OnDisable()
+        {
+            var inventory = Container.Resolve<Inventory>();
+            InventorySerializer.Save(inventory);
         }
     }
 }

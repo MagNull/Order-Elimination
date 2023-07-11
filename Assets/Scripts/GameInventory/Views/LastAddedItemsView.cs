@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,6 +7,7 @@ using VContainer;
 
 namespace GameInventory.Views
 {
+    [Serializable]
     public class LastAddedItemsView : MonoBehaviour
     {
         [SerializeField]

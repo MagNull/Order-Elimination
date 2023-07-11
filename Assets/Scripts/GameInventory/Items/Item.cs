@@ -2,20 +2,26 @@
 using OrderElimination.AbilitySystem;
 using OrderElimination.MacroGame;
 using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace GameInventory.Items
 {
     [Serializable]
     public abstract class Item
     {
-        [ShowInInspector]
-        private readonly ItemView _itemView;
-
-        private readonly ItemType _itemType;
-        private readonly int _itemId;
+        [ShowInInspector, SerializeField]
+        private ItemView _itemView;
+        
+        [SerializeField, HideInInspector]
+        private ItemType _itemType;
+        [SerializeField, HideInInspector]
+        private int _itemId;
+        [SerializeField, HideInInspector]
+        private ItemRarity _itemRarity;
 
         public ItemView View => _itemView;
         public ItemType Type => _itemType;
+        public ItemRarity Rarity => _itemRarity;
         public int Id => _itemId;
 
         protected Item(ItemData itemData)
@@ -23,14 +29,17 @@ namespace GameInventory.Items
             _itemView = itemData.View;
             _itemType = itemData.Type;
             _itemId = itemData.Id;
+            _itemRarity = itemData.Rarity;
         }
 
         public abstract void OnTook(AbilitySystemActor abilitySystemActor);
     }
 
+    [Serializable]
     public class EquipmentItem : Item
     {
-        private readonly IPassiveAbilityData _equipAbility;
+        [SerializeField, HideInInspector]
+        private IPassiveAbilityData _equipAbility;
 
         public EquipmentItem(ItemData itemData) : base(itemData)
         {
@@ -43,10 +52,14 @@ namespace GameInventory.Items
         }
     }
 
+    [Serializable]
     public class ConsumableItem : Item
     {
         public event Action<ConsumableItem> UseTimesOver;
-        private readonly IActiveAbilityData _useAbility;
+        
+        [SerializeField, HideInInspector]
+        private IActiveAbilityData _useAbility;
+        [SerializeField, HideInInspector]
         private int _useTimes;
 
         protected int UseTimes

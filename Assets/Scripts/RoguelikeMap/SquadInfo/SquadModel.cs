@@ -38,7 +38,7 @@ namespace OrderElimination
             if (characters.Count == 0)
                 return;
             //First three members are active
-            SetSquadMembers(characters, _activeMembersCount);
+            SetSquadMembers(members, _activeMembersCount);
 
             RestoreUpgrades();
             SetPanel(squadMembersPanel);
@@ -73,9 +73,11 @@ namespace OrderElimination
 
             foreach (var member in _members)
             {
+                var baseStats = member.CharacterData.GetBaseBattleStats();
                 foreach (var stat in statsGrowth.Keys)
                 {
-                    var originalStat = member.CharacterStats[stat];
+                    var originalStat = baseStats[stat];
+                    var initialStat = member.CharacterStats[stat];
                     float newStat = stat == BattleStat.Accuracy || stat == BattleStat.Evasion
                         ? originalStat + statsGrowth[stat] / 100
                         : Mathf.RoundToInt(originalStat + (originalStat * statsGrowth[stat] / 100));
@@ -83,7 +85,12 @@ namespace OrderElimination
                     //�� ����...
                     //(�� ����� �����)
                     member.ChangeStat(stat, newStat);
-                    Logging.Log($"{member.CharacterData.Name}[{stat}]: {originalStat} -> {newStat}; StatGrow: {statsGrowth[stat]}");
+                    if (stat == BattleStat.MaxHealth)
+                    {
+                        var prevHealthPercent = member.CurrentHealth / initialStat;
+                        member.CurrentHealth = newStat * prevHealthPercent;
+                    }
+                    //Logging.Log($"{member.CharacterData.Name}[{stat}]: {originalStat} -> {newStat}; StatGrow: {statsGrowth[stat]}");
                 }
             }
         }

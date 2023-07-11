@@ -4,6 +4,8 @@ using OrderElimination;
 using RoguelikeMap.Panels;
 using RoguelikeMap.SquadInfo;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using VContainer;
 
 namespace RoguelikeMap.Points
@@ -11,6 +13,8 @@ namespace RoguelikeMap.Points
     public class Point : MonoBehaviour
     {
         private PanelManager _panelManager;
+        [SerializeField]
+        private Button _button;
      
         public PointModel Model { get; private set; }
         public event Action<Point> OnSelected;
@@ -24,15 +28,19 @@ namespace RoguelikeMap.Points
             _panelManager = panelManager;
         }
 
-        public void SetPointModel(PointModel pointModel)
+        private void Awake()
+        {
+            _button.onClick.AddListener(Select);
+        }
+
+        public void SetPointModel(PointModel pointModel, Sprite pointIcon)
         {
             Model = pointModel ?? throw new ArgumentException("PointModel is null");
             Model.SetPanel(_panelManager);
+            _button.image.sprite = pointIcon;
         }
 
         public void Visit(Squad squad) => Model.Visit(squad);
-
-        private void OnMouseDown() => Select();
 
         private void Select()
         {

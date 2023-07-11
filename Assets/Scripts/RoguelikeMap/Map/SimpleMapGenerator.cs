@@ -42,12 +42,9 @@ namespace RoguelikeMap.Map
         private Point CreatePoint(PointInfo info)
         {
             var pointObj = _resolver.Instantiate(_pointPrefab, info.Model.Position, Quaternion.identity, _parent);
-            
-            var pointSprite = pointObj.GetComponent<SpriteRenderer>();
-            pointSprite.sprite = info.PointSprite;
 
             var point = pointObj.GetComponent<Point>();
-            point.SetPointModel(info.Model);
+            point.SetPointModel(info.Model, info.PointSprite);
             
             return point;
         }

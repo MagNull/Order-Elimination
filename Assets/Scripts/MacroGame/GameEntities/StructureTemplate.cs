@@ -24,6 +24,7 @@ namespace OrderElimination
         [SerializeField]
         private IBattleObstacleSetup _obstacleSetup;
 
+        public int TemplateId => GetInstanceID();
         public string Name => _name;
         public Sprite BattleIcon => _spriteView;
         public GameObject VisualModel => _visualModel;

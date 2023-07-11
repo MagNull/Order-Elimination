@@ -5,6 +5,7 @@ namespace OrderElimination
 {
     public interface IBattleStructureTemplate
     {
+        public int TemplateId { get; }
         public string Name { get; }
         public Sprite BattleIcon { get; }
         public GameObject VisualModel { get; }
