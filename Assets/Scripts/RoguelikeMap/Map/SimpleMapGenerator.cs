@@ -30,7 +30,7 @@ namespace RoguelikeMap.Map
             var path = "Points\\" + NumberOfMap;
             var pointsInfo = Resources.LoadAll<PointInfo>(path);
             var points = GeneratePoints(pointsInfo);
-            GeneratePaths(points);
+            //GeneratePaths(points);
             return points;
         }
 
