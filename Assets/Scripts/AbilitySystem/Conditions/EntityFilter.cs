@@ -86,7 +86,7 @@ namespace OrderElimination.AbilitySystem
                 && entity.EntityType == EntityType.Character
                 && _specifiedCharacters != null)
             {
-                var characterData = battleContext.EntitiesBank.GetBattleCharacterData(entity).CharacterData;
+                var characterData = battleContext.EntitiesBank.GetBasedCharacter(entity).CharacterData;
                 switch (CharactersSpecification)
                 {
                     case SpicificationType.ByIgnored:
@@ -105,7 +105,7 @@ namespace OrderElimination.AbilitySystem
                 && entity.EntityType == EntityType.Structure
                 && _specifiedStructures != null)
             {
-                var structureData = battleContext.EntitiesBank.GetBattleStructureData(entity);
+                var structureData = battleContext.EntitiesBank.GetBasedStructureTemplate(entity);
                 switch (StructuresSpecification)
                 {
                     case SpicificationType.ByIgnored:

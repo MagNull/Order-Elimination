@@ -54,32 +54,33 @@ namespace StartSessionMenu.ChooseCharacter
             if (card is CharacterCardWithCost characterCardWithCost)
                 TrySelectCard(dropZone, characterCardWithCost);
             else
-                Logging.LogException( new ArgumentException());
+                Logging.LogException(new ArgumentException());
         }
 
         private void TrySelectCard(DropZone dropZone, CharacterCardWithCost card)
         {
-            if(_selectedDropZones.Contains(dropZone))
+            if(!_selectedDropZones.Contains(dropZone))
+                return;
+            if (dropZone.IsEmpty)
             {
                 if (card.IsSelected
                     || _wallet.Money - card.Cost < 0
                     || _selectedCount >= MaxSquadSize) 
                     return;
-                if (dropZone.IsSelected)
-                    return;
                 _wallet.SubtractMoney(card.Cost);
                 SelectCard(card, dropZone.transform);
                 _selectedCount++;
+                dropZone.Select(card);
             }
             else
             {
-                if (!card.IsSelected) 
+                var cost = dropZone.TryGetCost();
+                if (cost < 0 || _wallet.Money + cost < card.Cost)
                     return;
-                _wallet.AddMoney(card.Cost);
-                SelectCard(card, _unselectedDropZone.transform);
-                _selectedCount--;
+                SelectCard(card, dropZone.transform);
+                _wallet.SubtractMoney(card.Cost - cost);
+                dropZone.Select(card);
             }
-            card.SetDropZone(dropZone);
             SetActiveStartButton();
         }
 
@@ -93,10 +94,12 @@ namespace StartSessionMenu.ChooseCharacter
             if (_selectedCount <= 0)
                 return false;
 
-            var characters = _characterCards
-                .Where(x => x.IsSelected)
-                .Select(x => x.Character)
-                .ToList();
+            var characters = new List<GameCharacter>();
+            foreach (var zone in _selectedDropZones)
+            {
+                if (zone.CharacterCard != null) 
+                    characters.Add(zone.CharacterCard.Character);
+            }
             SquadMediator.SetCharacters(characters);
             return true;
         }
@@ -104,7 +107,9 @@ namespace StartSessionMenu.ChooseCharacter
         public void ClickShift(float shift)
         {
             _tweener?.Kill();
-            _tweener = DOVirtual.Float(_scrollRect.horizontalNormalizedPosition, _scrollRect.horizontalNormalizedPosition + shift, 0.1f, (x) => _scrollRect.horizontalNormalizedPosition = x);
+            _tweener = DOVirtual.Float(_scrollRect.horizontalNormalizedPosition,
+                _scrollRect.horizontalNormalizedPosition + shift, 0.1f, 
+                x => _scrollRect.horizontalNormalizedPosition = x);
         }
     }
 }

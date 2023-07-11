@@ -1798,7 +1798,7 @@ PrefabInstance:
     - target: {fileID: 3542853466390985365, guid: a41fc4d65f5324bd080a5a4e7776e7d4, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1493717384}
+      objectReference: {fileID: 0}
     - target: {fileID: 3542853466390985365, guid: a41fc4d65f5324bd080a5a4e7776e7d4, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Click
@@ -1826,7 +1826,7 @@ PrefabInstance:
     - target: {fileID: 6243576366760687977, guid: a41fc4d65f5324bd080a5a4e7776e7d4, type: 3}
       propertyPath: _cancelClickingArea
       value: 
-      objectReference: {fileID: 1493717384}
+      objectReference: {fileID: 0}
     - target: {fileID: 6243576366760687977, guid: a41fc4d65f5324bd080a5a4e7776e7d4, type: 3}
       propertyPath: serializationData.Prefab
       value: 
@@ -2930,7 +2930,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &971083449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2947,34 +2947,32 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 960f80274a3bf09459044259dc1ac4cf, type: 2}
     - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
-    - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
-    - {fileID: 11400000, guid: 453c8cf2cf3e7a74cb250d5e0ecbc691, type: 2}
+    - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
+    - {fileID: 11400000, guid: dc7552cb19317d642ad2af92d805c557, type: 2}
+    - {fileID: 11400000, guid: cdb88470c4b68c341bad38dde4ae1989, type: 2}
+    - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+    - {fileID: 11400000, guid: 375cdc3a6bbcb1e4480ffb04423fa49c, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: BattleScenario
-      Entry: 10
-      Data: 0
     - Name: _testPlayerCharacters
       Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
-        Assembly-CSharp]], mscorlib
+      Data: 0|OrderElimination.IGameCharacterTemplate[], Assembly-CSharp
     - Name: 
       Entry: 12
       Data: 3
+    - Name: 
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 10
       Data: 1
     - Name: 
       Entry: 10
       Data: 2
-    - Name: 
-      Entry: 10
-      Data: 3
     - Name: 
       Entry: 13
       Data: 
@@ -2983,17 +2981,25 @@ MonoBehaviour:
       Data: 
     - Name: _testEnemyCharacters
       Entry: 7
-      Data: 1|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
-        Assembly-CSharp]], mscorlib
+      Data: 1|OrderElimination.IGameCharacterTemplate[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 2
+    - Name: 
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 10
+      Data: 4
     - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
+    - Name: _testScenario
+      Entry: 10
+      Data: 5
 --- !u!4 &971083450
 Transform:
   m_ObjectHideFlags: 0
@@ -3054,7 +3060,7 @@ MonoBehaviour:
   - {fileID: 1759019698}
   - {fileID: 652102107}
   _startMoney: 1000
-  _charactersMediatorPrefab: {fileID: 1422321889289218424, guid: 92d0a280c590cac489aa4d276cc5be93, type: 3}
+  scenesMediatorPrefab: {fileID: 1422321889289218424, guid: 92d0a280c590cac489aa4d276cc5be93, type: 3}
   _pathPrefab: {fileID: -6847120856849632348, guid: fe7a2fb0c4301934a95ede2e72ce1426, type: 3}
   _pointsParent: {fileID: 1441368203}
   _pointPrefab: {fileID: 6726622157222742597, guid: 8885d36206496c5468934e18455d60ae, type: 3}
@@ -3804,17 +3810,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1493717384 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3551909130342685241, guid: a41fc4d65f5324bd080a5a4e7776e7d4, type: 3}
-  m_PrefabInstance: {fileID: 452325619}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a13a1d7af17b40d8836430538321a1ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1511003658
 GameObject:
   m_ObjectHideFlags: 0

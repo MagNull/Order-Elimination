@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6401453960035494337}
   - component: {fileID: 1422321889289218424}
   m_Layer: 0
-  m_Name: CharacterInfoMediator
+  m_Name: Scene mediator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,3 +44,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f123f30326af4f2f852d1e01ffd85d6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 960f80274a3bf09459044259dc1ac4cf, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _testPlayerCharacters
+      Entry: 7
+      Data: 0|OrderElimination.IGameCharacterTemplate[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _testEnemyCharacters
+      Entry: 7
+      Data: 1|OrderElimination.IGameCharacterTemplate[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _testScenario
+      Entry: 10
+      Data: 0

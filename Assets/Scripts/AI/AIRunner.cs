@@ -36,11 +36,11 @@ namespace AI
         [Button]
         public async UniTask Run(BattleSide playingSide)
         {
-            var enemies = _context.EntitiesBank.GetEntities(playingSide);
+            var enemies = _context.EntitiesBank.GetActiveEntities(playingSide);
             var templates =
                 enemies
                     .Select(enemy =>
-                        (_context.EntitiesBank.GetBattleCharacterData(enemy).CharacterData, enemy));
+                        (_context.EntitiesBank.GetBasedCharacter(enemy).CharacterData, enemy));
             templates = templates.OrderBy(el => el.CharacterData.Role);
 
             foreach (var enemyData in templates)

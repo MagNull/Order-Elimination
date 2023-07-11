@@ -58,7 +58,7 @@ namespace RoguelikeMap.UI.Characters
             InitializeStatsText(
                 character.CharacterStats.MaxHealth,
                 character.CharacterStats.MaxArmor,
-                character.CharacterStats.AttackDamage,
+                character.CharacterStats.Attack,
                 character.CharacterStats.Accuracy,
                 character.CharacterStats.Evasion);
             InitializeAbilityButtons(
