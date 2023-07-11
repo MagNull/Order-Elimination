@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c682b0bae1680d48becdfdfe16809b5, type: 3}
-  m_Name: Point A
+  m_Name: Point Z
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,20 +21,20 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _sprite: {fileID: 787670512, guid: 5897665c51c6ee04e8c18c5fa5db7853, type: 3}
+  _sprite: {fileID: 21300000, guid: c887ed2a931c29040bc544cd8c546e9f, type: 3}
   _model:
-    rid: 7872520390573555731
+    rid: 2415168813891584000
   references:
     version: 2
     RefIds:
-    - rid: 7872520390573555731
+    - rid: 2415168813891584000
       type: {class: BattlePointModel, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
-        _nextPointsIndex: 0100000002000000030000000a000000
-        _position: {x: -1000, y: 0, z: 0}
-        <IsLastPoint>k__BackingField: 0
-        Index: 0
+        _nextPointsIndex: 
+        _position: {x: 0, y: 500, z: 0}
+        <IsLastPoint>k__BackingField: 1
+        Index: 12
         _enemies:
-        - {fileID: 11400000, guid: 7be5600522a123a4595c53b6b173a4a7, type: 2}
-        _battleScenario: {fileID: 11400000, guid: 960f80274a3bf09459044259dc1ac4cf, type: 2}
-        _itemsCount: 3
+        - {fileID: 11400000, guid: cdb88470c4b68c341bad38dde4ae1989, type: 2}
+        _battleScenario: {fileID: 11400000, guid: 3dde67582a39d2a46bf569731536a4a7, type: 2}
+        _itemsCount: 2

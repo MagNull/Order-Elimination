@@ -122,7 +122,6 @@ public class BattleEndHandler : MonoBehaviour
     private async void OnPlayerVictory()
     {
         await OnBattleEnded();
-        //_textEmitter.Emit($"������ �����.", Color.green, new Vector3(0, 1, -1), Vector3.zero, 1.2f, 100, fontSize: 2f);
         var playerCharacters = _scenesMediator.Get<IEnumerable<GameCharacter>>("player characters").ToArray();
         var panel = (BattleVictoryPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleVictory);
         var battleResult = CalculateBattleResult(BattleOutcome.Win);
@@ -135,14 +134,11 @@ public class BattleEndHandler : MonoBehaviour
         _scenesMediator.Register("player characters", BattleUnloader.UnloadCharacters(_battleContext, playerCharacters));
         _scenesMediator.Register("battle results", battleResult);
         //GameCharacterSerializer.SaveCharacter(playerCharacters.First());
-        SquadMediator.SetCharacters(
-            BattleUnloader.UnloadCharacters(_battleContext, playerCharacters));
     }
 
     private async void OnPlayerLose()
     {
         await OnBattleEnded();
-        //_textEmitter.Emit($"������ ��������.", Color.red, new Vector3(0, 1, -1), Vector3.zero, 1.2f, 100, fontSize: 2f);
         var panel = (BattleDefeatPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleDefeat);
         var battleResult = CalculateBattleResult(BattleOutcome.Lose);
         panel.UpdateBattleResult(
@@ -167,10 +163,10 @@ public class BattleEndHandler : MonoBehaviour
         };
         if (battleOutcome == BattleOutcome.Lose)
             return battleResult;
-        
+
         var itemsCount = _scenesMediator.Get<BattlePointModel>("point").ItemsCount;
         var items = new Item[itemsCount];
-        for(var i = 0; i < itemsCount; i++)
+        for (var i = 0; i < itemsCount; i++)
         {
             items[i] = ItemsPool.GetRandomItem();
         }
