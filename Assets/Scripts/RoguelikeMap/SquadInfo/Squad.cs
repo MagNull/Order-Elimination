@@ -55,7 +55,7 @@ namespace RoguelikeMap.SquadInfo
 
         private void Start()
         {
-            var characters = _mediator.Get<GameCharacter[]>("player characters");
+            var characters = _mediator.Get<IEnumerable<GameCharacter>>("player characters");
             _model = new SquadModel(characters, _squadMembersPanel, _mediator);
             _model.OnUpdateSquadMembers += GenerateCharactersCard;
             GenerateCharactersCard();

@@ -18,9 +18,9 @@ namespace GameInventory
 
         public override void OnCellAdded(IReadOnlyCell cell)
         {
-            if (cell.Item is not IUsable)
-                return;
             base.OnCellAdded(cell);
+            if (cell.Item is not IUsable)
+                _cells[cell].Disable();
         }
 
         private void Update()
@@ -53,7 +53,7 @@ namespace GameInventory
         {
             var usableItem = cell.Item as IUsable;
             if (usableItem == null)
-                Logging.LogException(new ArgumentException("Item is not usable"), this);
+                return;
 
             _clickChecking = true;
             foreach (var characterCard in _squadMembersPanel.CharacterCards)

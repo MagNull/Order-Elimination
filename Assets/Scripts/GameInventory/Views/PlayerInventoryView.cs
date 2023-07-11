@@ -11,7 +11,8 @@ namespace GameInventory.Views
     {
         public override event Action<IReadOnlyCell> CellClicked;
 
-        private readonly Dictionary<IReadOnlyCell, InventoryCellView> _cells = new();
+        [SerializeField]
+        protected Dictionary<IReadOnlyCell, InventoryCellView> _cells = new();
 
         [SerializeField]
         private InventoryCellView _cellViewPrefab;
