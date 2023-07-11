@@ -1510,7 +1510,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2314733739949690803
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1552,7 +1552,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.65882355}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2292,6 +2292,15 @@ MonoBehaviour:
   _inventoryView: {fileID: 2373140156916163237}
   _items:
   - {fileID: 11400000, guid: e655c8948143f814c89bb88c7fa0785c, type: 2}
+  _inventoryModel:
+    _cells: []
+    _size: 0
+  _targetInventory:
+    _cells: []
+    _size: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &2373140156916163237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2312,7 +2321,28 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: _cells
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[GameInventory.IReadOnlyCell,
+        Assembly-CSharp],[GameInventory.Views.InventoryCellView, Assembly-CSharp]],
+        mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[GameInventory.IReadOnlyCell,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   _cellViewPrefab: {fileID: 6965958807145536919, guid: bdc01f35a1b886b4b8206e223653e8b9, type: 3}
   _cellContainer: {fileID: 2628971837523925999}
 --- !u!1 &2628971838446060150
@@ -2450,6 +2480,12 @@ MonoBehaviour:
     SerializationNodes: []
   _inventoryView: {fileID: 2628971838446060146}
   _items: []
+  _inventoryModel:
+    _cells: []
+    _size: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &2700693059322730685
 GameObject:
   m_ObjectHideFlags: 0
