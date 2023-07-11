@@ -12,8 +12,6 @@ namespace GameInventory
             Debug.Log(path);
             var json = JsonUtility.ToJson(inventory, true);
             File.WriteAllText(path, json);
-            Debug.Log(json);
-            Debug.Log(File.ReadAllText(path));
         }
 
         public static Inventory Load()
@@ -22,6 +20,8 @@ namespace GameInventory
             if (File.Exists(path))
             {
                 var json = File.ReadAllText(path);
+                if (json == "" || json == "{}s")
+                    return new Inventory(100);
                 return JsonUtility.FromJson<Inventory>(json);
             }
 
