@@ -64,7 +64,7 @@ namespace GameInventory.Items
         [SerializeField]
         private ActiveAbilityBuilder _useAbility;
 
-        [SerializeField, HideInInspector]
+        [SerializeField]
         private int _useTimes;
 
         protected int UseTimes
@@ -91,7 +91,7 @@ namespace GameInventory.Items
                 AbilityProvider.Equipment);
             abilitySystemActor.GrantActiveAbility(ability);
             UseTimesOver += _ => abilitySystemActor.RemoveActiveAbility(ability);
-            ability.AbilityExecutionStarted += _ => _useTimes--;
+            ability.AbilityExecutionStarted += _ => UseTimes--;
         }
     }
 
