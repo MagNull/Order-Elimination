@@ -49,6 +49,7 @@ namespace StartSessionMenu
                 EvasionGrowth = _progressCategories[3].ProgressCount * _progressCategories[3].PercentInPart,
                 AccuracyGrowth = _progressCategories[4].ProgressCount * _progressCategories[4].PercentInPart
             };
+            Debug.LogError($"<Saving stats> \n{statsGrowth}");
             _mediator.Register("stats", statsGrowth);
         }
     }

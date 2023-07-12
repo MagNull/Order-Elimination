@@ -24,6 +24,8 @@ namespace OrderElimination
         private bool _test;
         
         private readonly Dictionary<string, object> _data = new();
+
+        private static ScenesMediator s_instance;
         
         public T Get<T>(string name)
         {
@@ -52,16 +54,26 @@ namespace OrderElimination
 
         public void InitTest()
         {
-            Register("player characters", GameCharactersFactory.CreateGameCharacters(_testPlayerCharacters));
-            Register("enemy characters", GameCharactersFactory.CreateGameCharacters(_testEnemyCharacters));
-            Register("scenario", _testScenario);
-            Register("stats", new StrategyStats());
+            var playerChars = "player characters";
+            var enemyChars = "enemy characters";
+            var scenario = "scenario";
+            var stats = "stats";
+            if (!Contains<IEnumerable<GameCharacter>>(playerChars))
+                Register(playerChars, GameCharactersFactory.CreateGameCharacters(_testPlayerCharacters));
+            if (!Contains<IEnumerable<GameCharacter>>(enemyChars))
+                Register(enemyChars, GameCharactersFactory.CreateGameCharacters(_testEnemyCharacters));
+            if (!Contains<BattleScenario>(scenario))
+                Register(scenario, _testScenario);
+            if (!Contains<StrategyStats>(stats))
+                Register("stats", new StrategyStats());
         }
 
         private void Awake()
         {
-            if(FindObjectsOfType<ScenesMediator>().Length > 1 && _test)
+            if (s_instance && s_instance != this)
                 Destroy(gameObject);
+            else
+                s_instance = this;
             DontDestroyOnLoad(gameObject);
 
             InitTest();

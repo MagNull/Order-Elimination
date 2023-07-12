@@ -61,6 +61,7 @@ namespace OrderElimination
         private void RestoreUpgrades()
         {
             var stats = _mediator.Get<StrategyStats>("stats");
+            Debug.LogError(stats.ToString());
             var statsGrowth = new Dictionary<BattleStat, float>()
             {
                 { BattleStat.MaxHealth, stats.HealthGrowth },
@@ -80,9 +81,6 @@ namespace OrderElimination
                     float newStat = stat == BattleStat.Accuracy || stat == BattleStat.Evasion
                         ? originalStat + statsGrowth[stat] / 100
                         : Mathf.RoundToInt(originalStat + (originalStat * statsGrowth[stat] / 100));
-                    //��� ����� (����������), ������ ��� ���� �������� ������
-                    //�� ����...
-                    //(�� ����� �����)
                     member.ChangeStat(stat, newStat);
                     if (stat == BattleStat.MaxHealth)
                     {
