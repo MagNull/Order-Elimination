@@ -48,16 +48,25 @@ namespace OrderElimination
 
         public void InitTest()
         {
-            Register("player characters", GameCharactersFactory.CreateGameCharacters(_testPlayerCharacters));
-            Register("enemy characters", GameCharactersFactory.CreateGameCharacters(_testEnemyCharacters));
-            Register("scenario", _testScenario);
-            Register("stats", new StrategyStats());
+            var playerChars = "player characters";
+            var enemyChars = "enemy characters";
+            var scenario = "scenario";
+            var stats = "stats";
+            if (!Contains<IEnumerable<GameCharacter>>(playerChars))
+                Register(playerChars, GameCharactersFactory.CreateGameCharacters(_testPlayerCharacters));
+            if (!Contains<IEnumerable<GameCharacter>>(enemyChars))
+                Register(enemyChars, GameCharactersFactory.CreateGameCharacters(_testEnemyCharacters));
+            if (!Contains<BattleScenario>(scenario))
+                Register(scenario, _testScenario);
+            if (!Contains<StrategyStats>(stats))
+                Register("stats", new StrategyStats());
         }
 
         private void Awake()
         {
-            if(FindObjectsOfType<ScenesMediator>().Length > 1)
-                Destroy(gameObject);
+            if (FindObjectsOfType<ScenesMediator>().Length > 1)
+                throw new Exception($"Multiple instances of {nameof(ScenesMediator)} in the scene");
+                //Destroy(gameObject);
             DontDestroyOnLoad(gameObject);
 
             InitTest();
