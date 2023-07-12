@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using GameInventory.Items;
 using OrderElimination;
 using Sirenix.OdinInspector;
@@ -24,7 +25,7 @@ namespace GameInventory
             _cells = new List<Cell>(size);
             _size = size;
         }
-
+        
         public IReadOnlyList<IReadOnlyCell> Cells => _cells;
 
         public void AddItem(Item item)
@@ -74,18 +75,28 @@ namespace GameInventory
 
             return result;
         }
-        
-        //TODO: Refactor, Inventory doesnt need to know about consumables
-        private void OnConsumableItemOver(ConsumableItem item)
+
+        public void InitConsumables()
         {
-            item.UseTimesOver -= OnConsumableItemOver;
-            RemoveItem(item);
+            foreach (var item in GetItems())
+            {
+                if (item is ConsumableItem consumableItem)
+                {
+                    consumableItem.UseTimesOver += OnConsumableItemOver;
+                }
+            }
         }
 
         public void MoveItemTo(Item item, Inventory other)
         {
             RemoveItem(item);
             other.AddItem(item);
+        }
+
+        private void OnConsumableItemOver(ConsumableItem item)
+        {
+            item.UseTimesOver -= OnConsumableItemOver;
+            RemoveItem(item);
         }
     }
 }
