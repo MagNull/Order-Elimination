@@ -92,5 +92,7 @@ namespace GameInventory.Items
     public interface IUsable
     {
         public void Use(GameCharacter gameCharacter);
+        
+        public bool CheckConditionToUse(GameCharacter gameCharacter);
     }
 }

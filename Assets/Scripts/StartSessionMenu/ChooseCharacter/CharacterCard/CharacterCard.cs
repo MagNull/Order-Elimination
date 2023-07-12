@@ -21,22 +21,13 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         public bool IsSelected
         {
             get => _isSelected;
-            protected set
-            {
-                _isSelected = value;
-                if (value)
-                    Selected?.Invoke(this);
-                else
-                    Deselected?.Invoke(this);
-            }
+            private set => _isSelected = value;
         }
 
         public GameCharacter Character { get; private set; }
 
         private UnityEvent _specialClickEvent;
         public event Action<CharacterCard> OnClicked;
-        public event Action<CharacterCard> Selected;
-        public event Action<CharacterCard> Deselected;
 
         public virtual void InitializeCard(GameCharacter character, bool isSelected)
         {
