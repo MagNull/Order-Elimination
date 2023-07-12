@@ -21,7 +21,9 @@ namespace OrderElimination.AbilitySystem
         public Vector2Int[] GetCellPositions(CellSelectorContext context)
         {
             //Optimization
-            var selectionA = SelectorA.GetCellPositions(context).ToArray();
+            var selectionA = SelectorA.GetCellPositions(context)
+                .Where(p => context.BattleContext.BattleMap.ContainsPosition(p))
+                .ToArray();
             Vector2Int[] selectionB;
             if (BooleanOperation == BooleanOperation.Intersect
                 || BooleanOperation == BooleanOperation.Except)
@@ -37,13 +39,14 @@ namespace OrderElimination.AbilitySystem
                 selectionB = SelectorB.GetCellPositions(context);
             //Optimization
 
-            return BooleanOperation switch
+            var result = BooleanOperation switch
             {
-                BooleanOperation.Union => selectionA.Union(selectionB).ToArray(),
-                BooleanOperation.Intersect => selectionA.Intersect(selectionB).ToArray(),
-                BooleanOperation.Except => selectionA.Except(selectionB).ToArray(),
+                BooleanOperation.Union => selectionA.Union(selectionB),
+                BooleanOperation.Intersect => selectionA.Intersect(selectionB),
+                BooleanOperation.Except => selectionA.Except(selectionB),
                 _ => throw new System.NotImplementedException(),
             };
+            return result.Where(p => context.BattleContext.BattleMap.ContainsPosition(p)).ToArray();
         }
     }
 }

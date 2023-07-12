@@ -43,15 +43,14 @@ namespace OrderElimination.Infrastructure
         {
             var intersections = IntersectionSolver.GetIntersections(startPoint, endPoint).ToArray();
             var result = new List<Vector2Int>();
-            var battleContext = BattleContext.CurrentSceneContext;
-            var mapView = battleContext.AnimationSceneContext.BattleMapView;
-            var textEmit = battleContext.AnimationSceneContext.TextEmitter;
-            Debug.DrawLine(mapView.GameToWorldPosition(startPoint), mapView.GameToWorldPosition(endPoint), Color.green, 3, false);
+            //var mapView = battleContext.AnimationSceneContext.BattleMapView;
+            //var textEmit = battleContext.AnimationSceneContext.TextEmitter;
+            //Debug.DrawLine(mapView.GameToWorldPosition(startPoint), mapView.GameToWorldPosition(endPoint), Color.green, 3, false);
             foreach (var i in intersections)
             {
                 Logging.Log($"Intersection: position={i.CellPosition}; square={i.SmallestPartSquare}; angle={i.IntersectionAngle}", Colorize.Magenta);
-                var pos = mapView.GameToWorldPosition(new Vector3(i.CellPosition.x, i.CellPosition.y));
-                textEmit.Emit($"{Math.Round(i.SmallestPartSquare, 4)}", Color.magenta, pos, Vector3.zero, 3, 0.65f);
+                //var pos = mapView.GameToWorldPosition(new Vector3(i.CellPosition.x, i.CellPosition.y));
+                //textEmit.Emit($"{Math.Round(i.SmallestPartSquare, 4)}", Color.magenta, pos, Vector3.zero, 3, 0.65f);
                 if (i.SmallestPartSquare >= MinimalSquareThreshold)
                     result.Add(i.CellPosition);
             }

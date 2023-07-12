@@ -1,7 +1,6 @@
 ﻿using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -16,7 +15,10 @@ namespace OrderElimination.AbilitySystem
         {
             if (!context.BattleContext.BattleMap.ContainsEntity(context.AskingEntity))
                 throw new ArgumentException("Entity doesn't exist on the map");
-            return RelativeToCasterOffsets.GetAbsolutePositions(context.AskingEntity.Position);
+            return RelativeToCasterOffsets
+                .GetAbsolutePositions(context.AskingEntity.Position)
+                .Where(p => context.BattleContext.BattleMap.ContainsPosition(p))
+                .ToArray();
         }
     }
 }
