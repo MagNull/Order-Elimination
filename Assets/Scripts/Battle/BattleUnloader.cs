@@ -12,10 +12,10 @@ namespace OrderElimination.Battle
             var entitiesBank = battleContext.EntitiesBank;
             foreach (var character in characters)
             {
-                // var battleEntity = entitiesBank.GetEntityByBasedCharacter(character);
-                // character.CurrentHealth = battleEntity.BattleStats.Health;
-                // if (!battleEntity.IsDisposedFromBattle)
-                //     battleEntity.DisposeFromBattle();
+                var battleEntity = entitiesBank.GetEntityByBasedCharacter(character);
+                character.CurrentHealth = battleEntity.BattleStats.Health;
+                if (!battleEntity.IsDisposedFromBattle)
+                    battleEntity.DisposeFromBattle();
             }
             return characters;
         }

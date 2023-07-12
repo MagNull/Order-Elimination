@@ -35,7 +35,7 @@ namespace RoguelikeMap.Points.Models
             squad.OnUpdateMembers -= Panel.UpdateAlliesOnMap;
             squad.OnUpdateMembers += Panel.UpdateAlliesOnMap;
             base.Visit(squad);
-            _enemiesGameCharacter = GameCharactersFactory.CreateGameEntities(Enemies).ToList();
+            _enemiesGameCharacter = GameCharactersFactory.CreateGameCharacters(Enemies).ToList();
             Panel.Initialize(_battleScenario, _enemiesGameCharacter, squad.Members);//TODO: Store GameCharacters
             Panel.Open();
         }

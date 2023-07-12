@@ -78,7 +78,7 @@ namespace RoguelikeMap.SquadInfo
         private void StartAttack(
             IEnumerable<IGameCharacterTemplate> enemies, BattleScenario scenario)
         {
-            var enemyCharacters = GameCharactersFactory.CreateGameEntities(enemies);
+            var enemyCharacters = GameCharactersFactory.CreateGameCharacters(enemies);
             var charactersMediator = _objectResolver.Resolve<ScenesMediator>();
             charactersMediator.Register("player characters", _squad.Members);
             charactersMediator.Register("enemy characters", enemyCharacters);

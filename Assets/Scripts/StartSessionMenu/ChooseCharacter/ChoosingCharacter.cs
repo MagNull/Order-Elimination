@@ -53,7 +53,7 @@ namespace StartSessionMenu.ChooseCharacter
         private void InitializeCharactersCard()
         {
             _uiCounter.Initialize(_wallet);
-            var gameCharacters = GameCharactersFactory.CreateGameEntities(_characters);
+            var gameCharacters = GameCharactersFactory.CreateGameCharacters(_characters);
             InitializeCharactersCard(gameCharacters, _unselectedDropZone.transform);
             foreach (var card in _characterCards)
                 card.GetComponent<DraggableObject>().OnDestroy += AddMoneyByDestroy;

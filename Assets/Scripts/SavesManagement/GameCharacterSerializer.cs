@@ -12,14 +12,13 @@ namespace OrderElimination.SavesManagement
     public static class GameCharacterSerializer
     {
         public static string CharacterFileExtension => ".oechar";
-        public static string PlayerCharacterSavesPath => @"C:\Users\Fakumen\Documents\Projects\Order-Elimination\Assets\Saves";
-        //fileExtension = .oegc//order elimination game character
+        public static string PlayerCharacterSavesPath => Path.Combine(Application.persistentDataPath, "Saves", "PlayerCharacters");
 
         public static void SaveCharacter(GameCharacter character)
         {
             if (!Directory.Exists(PlayerCharacterSavesPath))
                 Directory.CreateDirectory(PlayerCharacterSavesPath);
-            var filesCount = Directory.GetFiles(PlayerCharacterSavesPath, CharacterFileExtension).Length;
+            var filesCount = Directory.GetFiles(PlayerCharacterSavesPath, $"*{CharacterFileExtension}").Length;
             var filename = Path.Combine(PlayerCharacterSavesPath, $"playercharacter{filesCount}{CharacterFileExtension}");
 
             var characterTemplateId = character.CharacterData.TemplateId;
@@ -49,7 +48,7 @@ namespace OrderElimination.SavesManagement
                 throw new DirectoryNotFoundException($"Saved characters directory wasn't found at {PlayerCharacterSavesPath}");
             var formatter = new BinaryFormatter();
             var restoredCharacters = new List<GameCharacter>();
-            foreach (var file in Directory.EnumerateFiles(PlayerCharacterSavesPath))
+            foreach (var file in Directory.EnumerateFiles(PlayerCharacterSavesPath, $"*{CharacterFileExtension}"))
             {
                 var fileStream = new FileStream(file, FileMode.Open);
                 var saveData = (GameCharacterSaveData)formatter.Deserialize(fileStream);
