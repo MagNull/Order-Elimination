@@ -1,3 +1,4 @@
+using System;
 using OrderElimination.MacroGame;
 using UnityEngine;
 
@@ -14,9 +15,16 @@ namespace GameInventory.Items
 
         public void Use(GameCharacter gameCharacter)
         {
-            //TODO: Implement healing
-            Debug.Log("Heal " + gameCharacter.CharacterData.Name + " " + _healAmount + " health");
+            if (!CheckConditionToUse(gameCharacter))
+                throw new ArgumentException("Character is already full health");
+            
+            gameCharacter.CurrentHealth += _healAmount;
             UseTimes--;
+        }
+
+        public bool CheckConditionToUse(GameCharacter gameCharacter)
+        {
+            return gameCharacter.CurrentHealth < gameCharacter.CharacterStats.MaxHealth;
         }
     }
 }

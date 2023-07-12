@@ -921,6 +921,7 @@ MonoBehaviour:
   _isTransparency: 0
   _image: {fileID: 5809841624342609720}
   _aplha: 0.5
+  <IsCreateCopy>k__BackingField: 0
 --- !u!114 &-7911694170156763436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -966,11 +967,11 @@ MonoBehaviour:
     SerializationNodes:
     - Name: _cellViewByItemType
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[Inventory.ItemType, Assembly-CSharp],[UnityEngine.UI.Image,
-        UnityEngine.UI]], mscorlib
+      Data: 0|System.Collections.Generic.Dictionary`2[[GameInventory.Items.ItemType,
+        Assembly-CSharp],[UnityEngine.UI.Image, UnityEngine.UI]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Inventory.ItemType,
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[GameInventory.Items.ItemType,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -1673,6 +1674,14 @@ PrefabInstance:
     - target: {fileID: 3498503341290371138, guid: aa07002f3e49d45538126b3aa3030b2f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5223630103389421942, guid: aa07002f3e49d45538126b3aa3030b2f, type: 3}
+      propertyPath: m_Value
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5223630103389421942, guid: aa07002f3e49d45538126b3aa3030b2f, type: 3}
+      propertyPath: m_MaxValue
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7470644669701048145, guid: aa07002f3e49d45538126b3aa3030b2f, type: 3}
       propertyPath: m_Name
