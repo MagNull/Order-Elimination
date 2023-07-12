@@ -116,7 +116,9 @@ namespace StartSessionMenu.ChooseCharacter
             var characters = 
                 (from zone in _selectedDropZones 
                 where zone.CharacterCard != null 
-                select zone.CharacterCard.Character).ToArray();
+                select GameCharactersFactory.CreateGameCharacter(zone.CharacterCard.Character.CharacterData))
+                .ToArray();
+            
 
             _mediator.Register("player characters", characters);
             return true;
