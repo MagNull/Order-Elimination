@@ -18,7 +18,7 @@ namespace OrderElimination.AbilitySystem
         public event Action<IAbilityTargetingSystem> TargetingConfirmed;
         public event Action<IAbilityTargetingSystem> TargetingCanceled;
 
-        public bool StartTargeting(IBattleContext context, AbilitySystemActor caster);
+        public bool StartTargeting(IBattleContext battleContext, AbilitySystemActor caster);
         public bool ConfirmTargeting();
         public bool CancelTargeting();
         public CellGroupsContainer ExtractCastTargetGroups();
@@ -26,6 +26,7 @@ namespace OrderElimination.AbilitySystem
 
     public interface IRequireSelectionTargetingSystem : IAbilityTargetingSystem
     {
+        //Remove because unsafe if until start? In that case Peek...() needs to be optimized.
         public IEnumerable<Vector2Int> CurrentAvailableCells { get; }
         public IEnumerable<Vector2Int> SelectedCells { get; }
         public int NecessaryTargetsLeft { get; }
@@ -37,6 +38,14 @@ namespace OrderElimination.AbilitySystem
         public event Action<IRequireSelectionTargetingSystem> SelectionUpdated;
         public event Action<IRequireSelectionTargetingSystem> AvailableCellsUpdated;
 
+        /// <summary>
+        /// Returns positions that can be targeted by specified caster in current conditions. 
+        /// Does not require targeting system to be started first.
+        /// </summary>
+        /// <param name="battleContext"></param>
+        /// <param name="caster"></param>
+        /// <returns></returns>
+        public Vector2Int[] PeekAvailableCells(IBattleContext battleContext, AbilitySystemActor caster);
         public bool Select(Vector2Int cellPosition);
         public bool Deselect(Vector2Int cellPosition);
     }

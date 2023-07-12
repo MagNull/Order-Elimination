@@ -8,9 +8,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.IO;
 using System.Linq;
+using GameInventory.Items;
 using Sirenix.Utilities;
 using OrderElimination;
+using UIManagement.Panels;
+using UnityEngine.Serialization;
 
 public class BattleVictoryPanel : UIPanel
 {
@@ -22,11 +26,14 @@ public class BattleVictoryPanel : UIPanel
     [SerializeField]
     private RectTransform _charactersHolder;
     [SerializeField]
-    private TextMeshProUGUI _primaryCurrency;
+    private RectTransform _rewardHolder;
+    
     [Title("Prefabs")]
     [AssetsOnly]
     [SerializeField]
     private CharacterClickableAvatar _characterPrefab;
+    [SerializeField]
+    private RewardItem _rewardItemPrefab;
 
     private readonly Dictionary<CharacterClickableAvatar, GameCharacter> _charactersByAvatars = new();
     private Action _onAcceptCallback;
@@ -36,6 +43,7 @@ public class BattleVictoryPanel : UIPanel
     public void UpdateBattleResult(
         IEnumerable<GameCharacter> charactersToDisplay,
         int currencyReward,
+        Item[] itemsReward,
         Action onAcceptCallback)
     {
         ClearCharacters();
@@ -48,7 +56,16 @@ public class BattleVictoryPanel : UIPanel
             avatar.Clicked += OnAvatarClicked;
             _charactersByAvatars.Add(avatar, character);
         }
-        _primaryCurrency.text = currencyReward.ToString();
+        var currencyRewardItem = Instantiate(_rewardItemPrefab, _rewardHolder);
+        currencyRewardItem.UpdateItemInfo(null, currencyReward.ToString());
+        if (itemsReward != null)
+        {
+            foreach (var item in itemsReward)
+            {
+                var rewardItem = Instantiate(_rewardItemPrefab, _rewardHolder);
+                rewardItem.UpdateItemInfo(item.View.Icon, item.View.Name);
+            }
+        }
 
         void ClearCharacters()
         {

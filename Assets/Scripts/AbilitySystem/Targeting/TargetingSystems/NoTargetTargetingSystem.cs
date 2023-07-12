@@ -33,13 +33,13 @@ namespace OrderElimination.AbilitySystem
             _casterRelativePattern = casterRelativePattern;
         }
 
-        public bool StartTargeting(IBattleContext context, AbilitySystemActor caster)
+        public bool StartTargeting(IBattleContext battleContext, AbilitySystemActor caster)
         {
             if (IsTargeting)
                 return false;
             //Logging.LogException( new InvalidOperationException("Targeting has already started and needs to be confirmed or canceled first.");
             _targetingCaster = caster;
-            _targetingContext = context;
+            _targetingContext = battleContext;
             IsTargeting = true;
             TargetingStarted?.Invoke(this);
             return true;

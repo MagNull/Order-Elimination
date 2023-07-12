@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace OrderElimination.Infrastructure
@@ -13,8 +11,13 @@ namespace OrderElimination.Infrastructure
             Vector2Int origin, 
             Vector2Int destination, 
             CellRangeBorders borders,
-            Predicate<Vector2Int> positionPredicate, out Vector2Int[] path)
+            Predicate<Vector2Int> positionPredicate, 
+            out Vector2Int[] path)
         {
+            var availablePositions = borders
+                .EnumerateCellPositions()
+                .Where(p => positionPredicate(p))
+                .ToHashSet();
             var result = new List<Vector2Int>();
             var visited = new HashSet<Vector2Int>();
             var queue = new Queue<Vector2Int>();
@@ -38,7 +41,7 @@ namespace OrderElimination.Infrastructure
 
                 foreach (var neighbour in GetNeighbours(current, borders))
                 {
-                    if (visited.Contains(neighbour) || !positionPredicate(neighbour))
+                    if (visited.Contains(neighbour) || !availablePositions.Contains(neighbour))
                         continue;
 
                     visited.Add(neighbour);

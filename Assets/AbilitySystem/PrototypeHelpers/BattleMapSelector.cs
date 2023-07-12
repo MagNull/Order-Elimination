@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 using OrderElimination;
+using UnityEditor;
 
 public enum SelectorMode
 {
@@ -239,11 +240,16 @@ public class BattleMapSelector : MonoBehaviour
             BattleSide.Others => _enemiesHighlightColor,
             _ => _othersHighlightColor,
         };
-        view.Highlight(highlightColor, 0.1f, 0.2f, 0.3f);
-        Debug.Log($"{entity.EntityType} {view.Name} selected." % Colorize.ByColor(new Color(1, 0.5f, 0.5f))
+        view.Highlight(highlightColor);
+        Object so = entity.EntityType == EntityType.Character
+            ? (Object)_battleContext.EntitiesBank.GetBasedCharacter(entity).CharacterData
+            : (Object)_battleContext.EntitiesBank.GetBasedStructureTemplate(entity);
+        EditorUtility.IsPersistent(so);
+        Debug.Log(
+            $"{entity.EntityType} {view.Name} [id:{so.GetInstanceID()}] selected." % Colorize.ByColor(new Color(1, 0.5f, 0.5f))
             + $"\nActionPoints: {string.Join(", ", entity.ActionPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
-            + $"\nHealth: {entity.LifeStats.Health}; MaxHealth: {entity.LifeStats.MaxHealth.ModifiedValue}" 
-            + $"\nTotalArmor: {entity.LifeStats.TotalArmor}; MaxArmor: {entity.LifeStats.MaxArmor.ModifiedValue}" 
+            + $"\nHealth: {entity.BattleStats.Health}; MaxHealth: {entity.BattleStats.MaxHealth.ModifiedValue}" 
+            + $"\nTotalArmor: {entity.BattleStats.TotalArmor}; MaxArmor: {entity.BattleStats.MaxArmor.ModifiedValue}" 
             + $"\nDamage: {entity.BattleStats[BattleStat.AttackDamage].ModifiedValue};" 
             + $"\nAccuracy: {entity.BattleStats[BattleStat.Accuracy].ModifiedValue};" 
             + $"\nEvasion: {entity.BattleStats[BattleStat.Evasion].ModifiedValue};" 

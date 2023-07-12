@@ -8,27 +8,35 @@ namespace StartSessionMenu
 {
     public class MetaShop : Panel
     {
+        [SerializeField] 
+        private MoneyCounter _uiCounter;
         [SerializeField]
         private List<UpgradeCategory> _progressCategories;
+        [SerializeField] 
+        private int StartMetaMoney = 1000;
         
         private Wallet _wallet;
-
+        private ScenesMediator _mediator;
+        
         [Inject]
-        public void Configure(Wallet wallet)
+        private void Construct(ScenesMediator scenesMediator)
         {
-            _wallet = wallet;
+            _mediator = scenesMediator;
         }
         
         private void Start()
         {
+            _wallet = new Wallet(StartMetaMoney);
+            _uiCounter.Initialize(_wallet);
             foreach (var category in _progressCategories)
                 category.OnUpgrade += Upgrade;
         }
 
         private void Upgrade(UpgradeCategory category)
         {
-            if (category.TryUpgrade(_wallet.Money))
-                _wallet.SubtractMoney(category.CostOfUpgrade);
+            var cost = category.TryUpgrade(_wallet.Money);
+            if (cost < 0) return;
+            _wallet.SubtractMoney(cost);
         }
 
         public void SaveStats()
@@ -41,7 +49,7 @@ namespace StartSessionMenu
                 EvasionGrowth = _progressCategories[3].ProgressCount * _progressCategories[3].PercentInPart,
                 AccuracyGrowth = _progressCategories[4].ProgressCount * _progressCategories[4].PercentInPart
             };
-            SquadMediator.SetStatsCoefficient(statsGrowth);
+            _mediator.Register("stats", statsGrowth);
         }
     }
 }

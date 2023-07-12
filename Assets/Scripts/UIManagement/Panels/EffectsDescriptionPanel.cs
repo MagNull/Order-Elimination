@@ -19,7 +19,6 @@ namespace UIManagement.Elements
         public void UpdateEffectsList(IEnumerable<BattleEffect> effects)
         {
             RemoveEffects();
-            throw new System.NotImplementedException();
             foreach (var e in effects)
             {
                 var newEffectWindow = Instantiate(_effectDescriptionPrefab, _effectsHolder);

@@ -1,16 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
 using OrderElimination;
 using OrderElimination.MacroGame;
-using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.UI.Characters;
 using Sirenix.OdinInspector;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
-using UnityEngine.UI;
 using VContainer;
 
 namespace RoguelikeMap.SquadInfo
@@ -31,19 +28,25 @@ namespace RoguelikeMap.SquadInfo
         private SquadMembersPanel _squadMembersPanel;
         private CharacterCardGenerator _characterCardGenerator;
         private List<CharacterCard> _cardsOnButton = new();
+        private ScenesMediator _mediator;
 
         public int AmountOfCharacters => _model.AmountOfMembers;
         public IReadOnlyList<GameCharacter> Members => _model.Members;
+        public IReadOnlyList<GameCharacter> ActiveMembers => _model.ActiveMembers;
+        
         public PointModel Point => _model.Point;
         public event Action<Squad> OnSelected;
+        public event Action<IReadOnlyList<GameCharacter>> OnUpdateMembers;
         
         [Inject]
         private void Construct(SquadCommander commander, 
-            SquadMembersPanel squadMembersPanel, CharacterCardGenerator cardGenerator)
+            SquadMembersPanel squadMembersPanel, CharacterCardGenerator cardGenerator,
+            ScenesMediator scenesMediator)
         {
             _commander = commander;
             _squadMembersPanel = squadMembersPanel;
             _characterCardGenerator = cardGenerator;
+            _mediator = scenesMediator;
             
             _commander.SetSquad(this);
             _commander.OnSelected += SetSquadMembers;
@@ -52,15 +55,9 @@ namespace RoguelikeMap.SquadInfo
 
         private void Start()
         {
-            //var characters = GameCharactersFactory.CreateGameEntities(_testSquadMembers);
-            if (SquadMediator.CharacterList == null) 
-                Logging.LogException( new InvalidProgramException());
-            var characters = SquadMediator.CharacterList;
-            if(SquadMediator.PlayerSquadStats is null)
-            {
-                SquadMediator.SetStatsCoefficient(new());
-            }
-            _model = new SquadModel(characters, _squadMembersPanel);
+            var characters = _mediator.Get<IEnumerable<GameCharacter>>("player characters");
+            _model = new SquadModel(characters, _squadMembersPanel, _mediator);
+            Debug.Log("New squad created" % Colorize.Red);
             _model.OnUpdateSquadMembers += GenerateCharactersCard;
             GenerateCharactersCard();
         }
@@ -90,7 +87,10 @@ namespace RoguelikeMap.SquadInfo
         public void DistributeExperience(float expirience) => _model.DistributeExperience(expirience);
 
         private void SetSquadMembers(List<GameCharacter> squadMembers, int countActiveMembers)
-            => _model.SetSquadMembers(squadMembers, countActiveMembers);
+        {
+            _model.SetSquadMembers(squadMembers, countActiveMembers);
+            OnUpdateMembers?.Invoke(ActiveMembers);
+        }
 
         public void Visit(PointModel point)
         {

@@ -68,10 +68,10 @@ namespace OrderElimination.AbilitySystem
 
         public bool Undo(int performId)
         {
-            if (IsUndone(performId)) Logging.LogException( ActionUndoFailedException.AlreadyUndoneException);
+            if (IsUndone(performId)) Logging.LogException(ActionUndoFailedException.AlreadyUndoneException);
             var entity = _spawnedEntities[performId];
             var isSuccessful = true;
-            if (!entity.DisposeFromBattle())
+            if (! entity.IsDisposedFromBattle && !entity.DisposeFromBattle())
                 isSuccessful = false;
             if (_activeTriggers.ContainsKey(performId))
                 _activeTriggers[performId].Deactivate();

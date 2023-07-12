@@ -11,13 +11,15 @@ public class MenuWindow : MonoBehaviour
     [SerializeField] 
     private Button _previousButton;
     [SerializeField]
-    private Button _nextButton;
+    private Button _startGameButton;
     [SerializeField] 
     private ChoosingCharacter _choosingCharacterPanel;
     [SerializeField]
     private MetaShop _metaShopPanel;
     [SerializeField] 
     private GameObject _startMenuPanel;
+    [SerializeField] 
+    private Image _maskWallpaper;
     
     private SceneTransition _sceneTransition;
     
@@ -32,9 +34,11 @@ public class MenuWindow : MonoBehaviour
         _previousButton.onClick.AddListener(() =>
         {
             _startMenuPanel.transform.DOMoveX(960, 1.5f);
+            _maskWallpaper.gameObject.SetActive(true);
+            _maskWallpaper.DOFade(0.65f, 1.5f);
         });
         
-        _nextButton.onClick.AddListener(() =>
+        _startGameButton.onClick.AddListener(() =>
         {
             _metaShopPanel.SaveStats();
             if(_choosingCharacterPanel.SaveCharacters())
@@ -45,6 +49,8 @@ public class MenuWindow : MonoBehaviour
     public void StartInMenuClick()
     {
         _startMenuPanel.transform.DOMoveX(-1920, 1.5f);
+        _maskWallpaper.DOFade(0, 1.25f)
+            .OnComplete(() => _maskWallpaper.gameObject.SetActive(false));
     }
 
     public void ExitInMenuClick()

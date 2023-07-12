@@ -42,26 +42,28 @@ namespace OrderElimination
             OnUpgrade?.Invoke(this);
         }
         
-        public bool TryUpgrade(int availableMoney)
+        public int TryUpgrade(int availableMoney)
         {
             if (availableMoney < CostOfUpgrade)
-                return false;
+                return -1;
             if (ProgressCount == MaxProgressCount - 1)
-                return false;
+                return -1;
+            var cost = CostOfUpgrade;
             CostOfUpgrade += StartCostOfUpgrade;
             ProgressCount++;
             VisualUpgrade();
-            return true;
+            return cost;
         }
 
         private void VisualUpgrade()
         {
             var firstPart = _progressBar[ProgressCount - 1];
+            firstPart.DOColor(Color.yellow, AnimationTime);
             var firstPartTransform = firstPart.transform;
             firstPartTransform.DOComplete();
             firstPartTransform.DOScaleX(StartUpgradeWidthPart, AnimationTime);
             firstPartTransform.DOMoveX(firstPartTransform.position.x - ShiftPart, AnimationTime);
-            
+
             var secondPartTransform = _progressBar[ProgressCount].transform;
             secondPartTransform.transform.DOScaleX(EndUpgradeWidthPart, AnimationTime);
             secondPartTransform.transform.DOMoveX(secondPartTransform.position.x - ShiftPart, AnimationTime);

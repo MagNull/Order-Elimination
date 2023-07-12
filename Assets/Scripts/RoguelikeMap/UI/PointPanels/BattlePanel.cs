@@ -4,7 +4,6 @@ using OrderElimination;
 using OrderElimination.MacroGame;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
-using Unity.VisualScripting;
 using UnityEngine;
 using VContainer;
 
@@ -16,25 +15,29 @@ namespace RoguelikeMap.UI.PointPanels
         private Transform _characterParent;
         [SerializeField]
         private CharacterCard _characterCardPrefab;
+        [SerializeField]
+        private BattleScenarioVisualiser _scenarioVisualiser;
 
         private List<CharacterTemplate> _enemies;
         private CharacterInfoPanel _characterInfoPanel;
         public event Action OnStartAttack;
         
         [Inject]
-        public void Initialize(CharacterInfoPanel characterInfoPanel)
+        public void Construct(CharacterInfoPanel characterInfoPanel)
         {
             _characterInfoPanel = characterInfoPanel;
         }
         
-        public void UpdateEnemies(IEnumerable<GameCharacter> enemies)
+        public void Initialize(BattleScenario battleScenario, 
+            IReadOnlyList<GameCharacter> enemies, IReadOnlyList<GameCharacter> allies)
         {
             foreach (var enemy in enemies)
             {
                 var characterCard = Instantiate(_characterCardPrefab, _characterParent);
                 characterCard.InitializeCard(enemy, false);
-                characterCard.OnGetInfo += ShowCharacterInfo;
+                characterCard.OnClicked += ShowCharacterInfo;
             }
+            _scenarioVisualiser.Initialize(battleScenario, enemies, allies);
         }
 
         private void ShowCharacterInfo(CharacterCard card)
@@ -43,13 +46,17 @@ namespace RoguelikeMap.UI.PointPanels
             _characterInfoPanel.Open();
         }
 
+        public void UpdateAlliesOnMap(IReadOnlyList<GameCharacter> allies)
+        {
+            _scenarioVisualiser.SetActiveAlliesCells(false);
+            _scenarioVisualiser.UpdateCharactersCells(allies);
+        }
+            
+
         public void OnClickAttackButton()
         {
             OnStartAttack?.Invoke();
-            // foreach (var character in _enemies)
-            // {
-            //     Destroy(character);
-            // }
+            _scenarioVisualiser.SetActiveCells(false);
             base.Close();
         }
     }

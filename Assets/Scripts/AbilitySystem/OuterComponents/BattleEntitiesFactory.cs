@@ -2,14 +2,15 @@ using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using OrderElimination.MacroGame;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using VContainer;
 using VContainer.Unity;
 
-public class BattleEntitiesFactory : MonoBehaviour
+public class BattleEntitiesFactory : SerializedMonoBehaviour
 {
     [SerializeField]
     private BattleEntityView _characterPrefab;
@@ -22,6 +23,9 @@ public class BattleEntitiesFactory : MonoBehaviour
 
     [SerializeField]
     private Transform _structuresParent;
+
+    [ShowInInspector, OdinSerialize]
+    private IBattleObstacleSetup _charactersObstacleSetup;
 
     private IBattleContext _battleContext;
     private BattleEntitiesBank _entitiesBank;
@@ -40,18 +44,16 @@ public class BattleEntitiesFactory : MonoBehaviour
         if (!_battleContext.BattleMap.CellRangeBorders.Contains(position))
             Logging.LogException(new ArgumentOutOfRangeException("Position is not within map borders"));
 
-        var battleEntity = new AbilitySystemActor(
-            _battleContext,
-            new BattleStats(
+        var battleStats = new BattleStats(
                 character.CharacterStats.MaxHealth,
                 character.CharacterStats.MaxArmor,
-                character.CharacterStats.AttackDamage,
+                character.CharacterStats.Attack,
                 character.CharacterStats.Accuracy,
                 character.CharacterStats.Evasion,
-                character.CharacterStats.MaxMovementDistance),
-            EntityType.Character,
-            side,
-            new EntityObstacleSetup());
+                character.CharacterStats.MaxMovementDistance);
+        battleStats.Health = character.CurrentHealth;
+        var battleEntity = new AbilitySystemActor(
+            _battleContext, battleStats, EntityType.Character, side, _charactersObstacleSetup);
 
         foreach (var abilityData in character.ActiveAbilities)
         {
@@ -106,21 +108,6 @@ public class BattleEntitiesFactory : MonoBehaviour
         battleEntity.PassiveAbilities.ForEach(a => a.Activate(_battleContext, battleEntity));
 
         return new CreatedBattleEntity(entityView, battleEntity);
-    }
-
-    //TODO Move to entity.Dispose()
-    public void DisposeEntity(AbilitySystemActor entity)
-    {
-        foreach (var activedPassiveRunner in entity.PassiveAbilities.Where(runner => runner.IsActive))
-        {
-            activedPassiveRunner.Deactivate();
-        }
-
-        //remove ALL effects //Automatically calls effect.Deactivate() on event entity.Disposed
-        //? entity.Dispose(); event Disposed; ...
-        _battleContext.BattleMap.RemoveEntity(entity);
-        _entitiesBank.RemoveEntity(entity); //Called automatically on event Disposed
-        //destroy EntityView //Called automatically on event Disposed
     }
 }
 

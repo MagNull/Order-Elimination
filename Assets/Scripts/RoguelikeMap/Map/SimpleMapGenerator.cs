@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RoguelikeMap.Points;
 using UnityEngine;
+using Utils;
 using VContainer;
 using VContainer.Unity;
 
@@ -11,12 +12,12 @@ namespace RoguelikeMap.Map
     {
         private const int NumberOfMap = 0;
         private readonly Transform _parent;
-        private readonly GameObject _pointPrefab;
+        private readonly Point _pointPrefab;
         private readonly LineRenderer _pathPrefab;
         private readonly IObjectResolver _resolver;
 
         [Inject]
-        public SimpleMapGenerator(GameObject pointPrefab, Transform pointsParent,
+        public SimpleMapGenerator(Point pointPrefab, Transform pointsParent,
             LineRenderer pathPrefab, IObjectResolver resolver)
         {
             _pointPrefab = pointPrefab;
@@ -25,7 +26,7 @@ namespace RoguelikeMap.Map
             _resolver = resolver;
         }
 
-        public IEnumerable<Point> GenerateMap()
+        public List<Point> GenerateMap()
         {
             var path = "Points\\" + NumberOfMap;
             var pointsInfo = Resources.LoadAll<PointInfo>(path);
@@ -41,14 +42,8 @@ namespace RoguelikeMap.Map
 
         private Point CreatePoint(PointInfo info)
         {
-            var pointObj = _resolver.Instantiate(_pointPrefab, info.Model.Position, Quaternion.identity, _parent);
-            
-            var pointSprite = pointObj.GetComponent<SpriteRenderer>();
-            pointSprite.sprite = info.PointSprite;
-
-            var point = pointObj.GetComponent<Point>();
-            point.SetPointModel(info.Model);
-            
+            var point = _resolver.Instantiate(_pointPrefab, info.Model.Position, Quaternion.identity, _parent);
+            point.Initialize(info);
             return point;
         }
 

@@ -102,12 +102,15 @@ public class BattleEntityView : MonoBehaviour
         }
     }
 
-    public void Highlight(Color color, float highlightTime, float duration, float fadeTime)
+    public void Highlight(Color highlightColor)
+        => Highlight(highlightColor, 0.1f, 0.2f, 0.3f);
+
+    public void Highlight(Color highlightColor, float highlightTime, float duration, float fadeTime)
     {
         _renderer.DOComplete();
         var initialColor = _renderer.color;
         DOTween.Sequence(_renderer)
-            .Append(_renderer.DOColor(color, highlightTime))
+            .Append(_renderer.DOColor(highlightColor, highlightTime))
             .Append(_renderer.DOColor(initialColor, fadeTime).SetDelay(duration))
             .Play();
         //_renderer.DOBlendableColor(initialColor, fadeTime);
@@ -167,18 +170,18 @@ public class BattleEntityView : MonoBehaviour
             Shake(shake, shake, 1, 10);
     }
 
-    private async void OnHealed(HealRecoveryInfo healInfo)
+    private async void OnHealed(DealtRecoveryInfo healInfo)
     {
         if (_healthCash > 0 || _armorCash > 0)//waiting
         {
-            _healthCash += healInfo.RecoveredHealth;
-            _armorCash += healInfo.RecoveredArmor;
+            _healthCash += healInfo.TotalHealthRecovery;
+            _armorCash += healInfo.TotalArmorRecovery;
             return;
         }
         else//no cash -> start cashing
         {
-            _healthCash += healInfo.RecoveredHealth;
-            _armorCash += healInfo.RecoveredArmor;
+            _healthCash += healInfo.TotalHealthRecovery;
+            _armorCash += healInfo.TotalArmorRecovery;
             await UniTask.Delay(Mathf.RoundToInt(TimeGapToSumValues * 1000), true);
         }
         var healthValue = _healthCash;

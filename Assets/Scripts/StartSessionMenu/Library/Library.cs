@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Inventory;
-using Inventory_Items;
+using GameInventory.Items;
 using Sirenix.OdinInspector;
 using OrderElimination;
 using UnityEngine;
@@ -26,7 +25,7 @@ namespace ItemsLibrary
             Logging.Log("Initialize library");
         }
 
-        public void AddItem(Inventory_Items.IReadOnlyCell cell)
+        public void AddItem(GameInventory.IReadOnlyCell cell)
         {
             if (cell == null)
                 Logging.LogException( new ArgumentException("Item can't be null."));

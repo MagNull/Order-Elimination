@@ -84,9 +84,9 @@ namespace AI.Conditions
             switch (_battleStat)
             {
                 case BattleStat.MaxHealth:
-                    return Compare(target.LifeStats.Health, target.BattleStats[_battleStat].UnmodifiedValue);
+                    return Compare(target.BattleStats.Health, target.BattleStats[_battleStat].UnmodifiedValue);
                 case BattleStat.MaxArmor:
-                    return Compare(target.LifeStats.TotalArmor, target.BattleStats[_battleStat].UnmodifiedValue);
+                    return Compare(target.BattleStats.TotalArmor, target.BattleStats[_battleStat].UnmodifiedValue);
                 default:
                     return Compare(target.BattleStats[_battleStat].ModifiedValue, 100);
             }

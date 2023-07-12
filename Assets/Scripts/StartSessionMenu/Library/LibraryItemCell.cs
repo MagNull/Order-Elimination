@@ -1,5 +1,4 @@
-﻿using Inventory;
-using Inventory_Items;
+﻿using GameInventory.Items;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

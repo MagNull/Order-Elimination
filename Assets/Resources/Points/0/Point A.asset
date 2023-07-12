@@ -21,18 +21,20 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _sprite: {fileID: 787670512, guid: 5897665c51c6ee04e8c18c5fa5db7853, type: 3}
+  _sprite: {fileID: 0}
   _model:
-    rid: 7872520390573555731
+    rid: 2885433238915645443
   references:
     version: 2
     RefIds:
-    - rid: 7872520390573555731
+    - rid: 2885433238915645443
       type: {class: BattlePointModel, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
-        _nextPointsIndex: 010000000200000003000000
+        _nextPointsIndex: 0100000002000000030000000a000000
         _position: {x: -1000, y: 0, z: 0}
+        <IsLastPoint>k__BackingField: 0
         Index: 0
         _enemies:
-        - {fileID: 11400000, guid: 7be5600522a123a4595c53b6b173a4a7, type: 2}
-        _battleScenario: {fileID: 11400000, guid: 960f80274a3bf09459044259dc1ac4cf, type: 2}
+        - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+        _battleScenario: {fileID: 11400000, guid: 645568020c6734a33b31a508f38bbbe3, type: 2}
+        _itemsCount: 0

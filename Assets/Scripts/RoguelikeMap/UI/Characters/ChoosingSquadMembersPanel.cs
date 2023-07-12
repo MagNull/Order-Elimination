@@ -25,7 +25,9 @@ namespace RoguelikeMap.UI.Characters
         protected List<CharacterCard> _characterCards = new ();
 
         private CharacterInfoPanel _characterInfoPanel;
-        
+
+        public IReadOnlyList<CharacterCard> CharacterCards => _characterCards;
+
         [Inject]
         public void Construct(CharacterInfoPanel characterInfoPanel)
         {
@@ -34,27 +36,23 @@ namespace RoguelikeMap.UI.Characters
         
         protected void InitializeCharactersCard(IEnumerable<GameCharacter> characterToSelect, Transform parent, bool isSelected = false)
         {
-            _selectedDropZone.OnTrySelect += TrySelectCard;
+            if(_selectedDropZone is not null)
+                _selectedDropZone.OnTrySelect += TrySelectCard;
             _unselectedDropZone.OnTrySelect += TrySelectCard;
             
             foreach (var gameCharacter in characterToSelect)
             {
                 var characterCard = Instantiate(_characterButtonPref, parent);
                 characterCard.InitializeCard(gameCharacter, isSelected);
-                characterCard.OnGetInfo += ShowCharacterInfo;
+                characterCard.OnClicked += ShowCharacterInfo;
                 _characterCards.Add(characterCard);
             }
         }
 
-        protected void SelectCard(CharacterCard card)
+        protected void SelectCard(CharacterCard card, Transform dropZone)
         {
-            card.transform.SetParent(_selectedDropZone.transform);
-            card.Select();
-        }
-
-        protected void UnselectCard(CharacterCard card)
-        {
-            card.transform.SetParent(_unselectedDropZone.transform);
+            card.transform.SetParent(dropZone);
+            card.transform.localPosition = Vector3.zero;
             card.Select();
         }
         

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using VContainer;
 
@@ -17,7 +18,9 @@ namespace OrderElimination.AbilitySystem.Animations
         public DefaultAnimationsPool DefaultAnimations { get; private set; }
         public TextEmitter TextEmitter { get; private set; }
         public IReadOnlyEntitiesBank EntitiesBank { get; private set; }
+        public SoundEffectsPlayer SoundEffectsPlayer { get; private set; }
         public Scene CurrentScene { get; private set; }
+
         public Action<AnimationSceneContext> AllAnimationsStopRequested;
 
         [Inject]
@@ -26,11 +29,13 @@ namespace OrderElimination.AbilitySystem.Animations
             IParticlesPool particlesPool,
             TextEmitter textEmitter,
             IReadOnlyEntitiesBank entitiesBank,
-            DefaultAnimationsPool defaultAnimationsPool)
+            DefaultAnimationsPool defaultAnimationsPool,
+            SoundEffectsPlayer soundPlayer)
         {
             BattleMapView = battleMapView;
             ParticlesPool = particlesPool;
             TextEmitter = textEmitter;
+            SoundEffectsPlayer = soundPlayer;
             EntitiesBank = entitiesBank;
             DefaultAnimations = defaultAnimationsPool;
             CurrentScene = SceneManager.GetActiveScene();

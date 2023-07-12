@@ -41,7 +41,7 @@ namespace OrderElimination.AbilitySystem
                 var movedInRound = false;
                 var interval = RoundInterval;
                 var activationSide = trigger.OperatingContext.ActiveSide;
-                trigger.OperatingContext.NewTurnStarted += OnNewTurn;
+                trigger.OperatingContext.NewTurnUpdatesRequested += OnNewTurn;
                 trigger.DeactivationRequested += OnDeactivation;
                 trackingEntity.MovedFromTo += OnEntityMoved;
 
@@ -77,7 +77,7 @@ namespace OrderElimination.AbilitySystem
                 void OnDeactivation(ITriggerSetup.BattleTrigger trigger)
                 {
                     trigger.DeactivationRequested -= OnDeactivation;
-                    trigger.OperatingContext.NewTurnStarted -= OnNewTurn;
+                    trigger.OperatingContext.NewTurnUpdatesRequested -= OnNewTurn;
                     trackingEntity.MovedFromTo -= OnEntityMoved;
                 }
             }

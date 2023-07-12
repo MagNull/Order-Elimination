@@ -15,6 +15,7 @@ namespace OrderElimination
         private List<GameCharacter> _members;
         private SquadMembersPanel _panel;
         private int _activeMembersCount = 3;
+        private ScenesMediator _mediator;
         
         public IReadOnlyList<GameCharacter> ActiveMembers =>
             _members.GetRange(0, _activeMembersCount);
@@ -26,16 +27,17 @@ namespace OrderElimination
 
         public event Action OnUpdateSquadMembers;
         
-        public SquadModel(IEnumerable<GameCharacter> members, SquadMembersPanel squadMembersPanel)
+        public SquadModel(IEnumerable<GameCharacter> members, SquadMembersPanel squadMembersPanel,
+            ScenesMediator scenesMediator)
         {
-            _activeMembersCount = members.Count();
-            var characters = 
-                GameCharactersFactory.CreateGameEntities(members.Select(c => c.CharacterData))
-                .ToList();//Grenade here
-            if (characters.Count == 0)
-                return;
+            _mediator = scenesMediator;
+            //var characters = 
+            //    GameCharactersFactory.CreateGameCharacters(members.Select(c => c.CharacterData))
+            //    .ToList();//Grenade here
+            if (members.Count() == 0)
+                throw new ArgumentException($"Attempt to create {nameof(SquadModel)} with 0 members.");
             //First three members are active
-            SetSquadMembers(characters, _activeMembersCount);
+            SetSquadMembers(members, members.Count());
 
             RestoreUpgrades();
             SetPanel(squadMembersPanel);
@@ -58,7 +60,7 @@ namespace OrderElimination
         
         private void RestoreUpgrades()
         {
-            var stats = SquadMediator.PlayerSquadStats.Value;
+            var stats = _mediator.Get<StrategyStats>("stats");
             var statsGrowth = new Dictionary<BattleStat, float>()
             {
                 { BattleStat.MaxHealth, stats.HealthGrowth },
@@ -70,9 +72,11 @@ namespace OrderElimination
 
             foreach (var member in _members)
             {
+                var baseStats = member.CharacterData.GetBaseBattleStats();
                 foreach (var stat in statsGrowth.Keys)
                 {
-                    var originalStat = member.CharacterStats[stat];
+                    var originalStat = baseStats[stat];
+                    var initialStat = member.CharacterStats[stat];
                     float newStat = stat == BattleStat.Accuracy || stat == BattleStat.Evasion
                         ? originalStat + statsGrowth[stat] / 100
                         : Mathf.RoundToInt(originalStat + (originalStat * statsGrowth[stat] / 100));
@@ -80,7 +84,12 @@ namespace OrderElimination
                     //�� ����...
                     //(�� ����� �����)
                     member.ChangeStat(stat, newStat);
-                    Logging.Log($"{member.CharacterData.Name}[{stat}]: {originalStat} -> {newStat}; StatGrow: {statsGrowth[stat]}");
+                    if (stat == BattleStat.MaxHealth)
+                    {
+                        var prevHealthPercent = member.CurrentHealth / initialStat;
+                        member.CurrentHealth = newStat * prevHealthPercent;
+                    }
+                    Logging.Log($"{member.CharacterData.Name}[{stat}]: {initialStat} -> {newStat}; StatGrow: {statsGrowth[stat]}");
                 }
             }
         }

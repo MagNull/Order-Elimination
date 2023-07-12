@@ -1,16 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Inventory;
+using GameInventory.Items;
 using OrderElimination;
-using OrderElimination.AbilitySystem;
 using OrderElimination.MacroGame;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.Points.Models;
 using RoguelikeMap.UI.Characters;
 using RoguelikeMap.UI.PointPanels;
-using UnityEngine;
 using VContainer;
 
 namespace RoguelikeMap.SquadInfo
@@ -81,19 +78,14 @@ namespace RoguelikeMap.SquadInfo
         private void StartAttack(
             IEnumerable<IGameCharacterTemplate> enemies, BattleScenario scenario)
         {
-            var enemyCharacters = GameCharactersFactory.CreateGameEntities(enemies);
-            SaveSquadPosition();
-            var charactersMediator = _objectResolver.Resolve<CharactersMediator>();
-            charactersMediator.SetPlayerCharacters(_squad.Members);
-            charactersMediator.SetEnemyCharacters(enemyCharacters);
-            charactersMediator.SetScenario(scenario);
+            var enemyCharacters = GameCharactersFactory.CreateGameCharacters(enemies);
+            var charactersMediator = _objectResolver.Resolve<ScenesMediator>();
+            charactersMediator.Register("player characters", _squad.Members);
+            charactersMediator.Register("enemy characters", enemyCharacters);
+            charactersMediator.Register("scenario", scenario);
+            charactersMediator.Register("point", _target);
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();
-        }
-
-        private void SaveSquadPosition()
-        {
-            PlayerPrefs.SetString(Map.Map.SquadPositionPrefPath, _squad.transform.position.ToString());
         }
 
         private void WereSelectedMembers(List<GameCharacter> characters, int activeMembersCount)

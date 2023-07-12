@@ -42,31 +42,34 @@ namespace OrderElimination.AbilitySystem
 
         public EntityType EntityType { get; }
         public BattleSide BattleSide { get; }
-        public IBattleStats BattleStats => _battleStats;
+        public IBattleLifeStats BattleStats => _battleStats;
         public IBattleContext BattleContext { get; }
         public IBattleMap DeployedBattleMap { get; private set; }
         //public BattleEntityView GetEntityView() => IsDisposedFromBattle ? null : BattleContext.EntitiesBank.GetViewByEntity(this);
 
         #region IHaveLifeStats
-        public IBattleLifeStats LifeStats => _battleStats;
-        public bool IsAlive => LifeStats.Health > 0;
+        public bool IsAlive => BattleStats.Health > 0;
         public event Action<DealtDamageInfo> Damaged;
-        public event Action<HealRecoveryInfo> Healed;
+        public event Action<DealtRecoveryInfo> Healed;
         public event Action<AbilitySystemActor> Died;
 
-        public DealtDamageInfo TakeDamage(DamageInfo damageInfo)
+        public DealtDamageInfo TakeDamage(DamageInfo incomingDamage)
         {
-            var dealtDamage = this.NoEventTakeDamage(damageInfo);
+            var dealtDamage = IBattleLifeStats.DistributeDamage(BattleStats, incomingDamage);
+            BattleStats.TotalArmor -= dealtDamage.TotalArmorDamage;
+            BattleStats.Health -= dealtDamage.TotalHealthDamage;
             Damaged?.Invoke(dealtDamage);
             if (!IsAlive) OnDeath();
             return dealtDamage;
         }
 
-        public HealRecoveryInfo TakeHeal(HealInfo healInfo)
+        public DealtRecoveryInfo TakeRecovery(RecoveryInfo incomingHeal)
         {
-            var recoveryInfo = this.NoEventTakeHeal(healInfo);
-            Healed?.Invoke(recoveryInfo);
-            return recoveryInfo;
+            var dealtRecovery = IBattleLifeStats.DistributeRecovery(BattleStats, incomingHeal);
+            BattleStats.PureArmor += dealtRecovery.TotalArmorRecovery;
+            BattleStats.Health += dealtRecovery.TotalHealthRecovery;
+            Healed?.Invoke(dealtRecovery);
+            return dealtRecovery;
         }
 
         private void OnDeath()
@@ -159,6 +162,8 @@ namespace OrderElimination.AbilitySystem
 
         public IEnumerable<BattleEffect> Effects => _effects;
         public bool HasEffect(IEffectData effect) => _effects.Any(e => e.EffectData == effect);
+        public BattleEffect[] GetEffects(IEffectData effectData)
+            => _effects.Where(e => e.EffectData == effectData).ToArray();
         public event Action<BattleEffect> EffectAdded;
         public event Action<BattleEffect> EffectRemoved;
 

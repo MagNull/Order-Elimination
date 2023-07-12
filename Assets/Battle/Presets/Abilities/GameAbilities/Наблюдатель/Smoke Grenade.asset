@@ -18,6 +18,9 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 21300000, guid: c6997e336472c6b45b07675dded608f7, type: 3}
     - {fileID: 11400000, guid: 852a4e420e5699f4b942a22be3e95628, type: 2}
+    - {fileID: 8300000, guid: 419336aa8912ae0468e104596863a0a1, type: 3}
+    - {fileID: 8300000, guid: 64baa1f44691afc42a584e482cd9a27d, type: 3}
+    - {fileID: 8300000, guid: fa16bd6cbe8bcba40ad0f5c9644c9607, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -32,12 +35,18 @@ MonoBehaviour:
     - Name: Description
       Entry: 6
       Data: 
+    - Name: ShowCrosshairWhenTargeting
+      Entry: 5
+      Data: true
+    - Name: ShowTrajectoryWhenTargeting
+      Entry: 5
+      Data: false
     - Name: HideInCharacterDiscription
       Entry: 5
       Data: false
     - Name: CooldownTime
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: TargetingSystem
       Entry: 3
       Data: 1
@@ -544,10 +553,90 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
-      Data: 32|OrderElimination.AbilitySystem.Animations.ShootParticleAnimation,
+      Data: 32|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
+    - Name: PlaySequentially
+      Entry: 5
+      Data: true
+    - Name: WaitForCompletion
+      Entry: 5
+      Data: false
+    - Name: Animations
+      Entry: 7
+      Data: 33|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 34|OrderElimination.AbilitySystem.Animations.AnimationDelay, Assembly-CSharp
+    - Name: _delayTime
+      Entry: 4
+      Data: 0.4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 35|OrderElimination.AbilitySystem.Animations.AnimationRepeat, Assembly-CSharp
+    - Name: Animation
+      Entry: 7
+      Data: 36|Assets.Scripts.AbilitySystem.Animations.AbilityAnimations.Special.AnimationSound,
+        Assembly-CSharp
+    - Name: Sounds
+      Entry: 7
+      Data: 37|UnityEngine.AudioClip[], UnityEngine.AudioModule
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: WaitForCompletion
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: PlaySequentially
+      Entry: 5
+      Data: true
+    - Name: WaitForCompletion
+      Entry: 5
+      Data: false
+    - Name: _repeatAmount
+      Entry: 3
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 38|OrderElimination.AbilitySystem.Animations.ShootParticleAnimation,
         Assembly-CSharp
     - Name: BulletParticle
       Entry: 3

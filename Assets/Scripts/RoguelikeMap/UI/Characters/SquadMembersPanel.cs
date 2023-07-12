@@ -37,14 +37,14 @@ namespace RoguelikeMap.UI.Characters
             if (_selectedDropZone == dropZone)
             {
                 if (card.IsSelected || _selectedCount >= MaxSquadSize) return;
-                SelectCard(card);
+                SelectCard(card, _selectedDropZone.transform);
                 _selectedCount++;
             }
             else
             {
                 if (!card.IsSelected)
                     return;
-                UnselectCard(card);
+                SelectCard(card, _unselectedDropZone.transform);
                 _selectedCount--;
             }
         }
