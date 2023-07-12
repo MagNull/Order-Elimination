@@ -102,14 +102,7 @@ namespace OrderElimination.AbilitySystem
                 _optionalTargets = value;
             }
         }
-
-        //FOR MULTITARGET ABILITIES
-
-        [TabGroup("Targeting System"), PropertyOrder(8)]
-        [GUIColor(1, 0, 0)]
-        [ShowInInspector, OdinSerialize]
-        public CellGroupDistributionPattern DistributionPattern { get; private set; }
-
+ 
         [TabGroup("Targeting System"), PropertyOrder(8)]
         [ShowInInspector, OdinSerialize]
         public ICellGroupsDistributor CellGroupsDistributor { get; private set; }
