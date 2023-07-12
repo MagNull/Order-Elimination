@@ -15,7 +15,7 @@ namespace OrderElimination.AbilitySystem
         public CellGroupsContainer DistributeSelection(
             IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int[] selectedPositions)
         {
-            var mapPositions = battleContext.BattleMap.CellRangeBorders.EnumerateCellPositions().ToArray();
+            var mapPositions = battleContext.BattleMap.CellRangeBorders.EnumerateCellPositions();
             var cellSelectorContext = new CellSelectorContext(
                 battleContext, mapPositions, askingEntity, selectedPositions);
             var distributedCells = new Dictionary<int, Vector2Int[]>();

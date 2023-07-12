@@ -109,26 +109,11 @@ namespace OrderElimination.AbilitySystem
 
         [TitleGroup("Targeting System"), PropertyOrder(8)]
         [ShowInInspector, OdinSerialize]
-        [ValidateInput(nameof(ValidateCellPattern))]
         public CellGroupDistributionPattern DistributionPattern { get; private set; }
 
         [TitleGroup("Functionality", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 4), PropertyOrder(0)]
         [ShowInInspector, OdinSerialize]
         public AbilityInstruction[] AbilityInstructions;
-
-        //private const float TitleSpacing = 50;
-        private bool ValidateCellPattern(CellGroupDistributionPattern pattern)
-        {
-            if (TargetingSystem == TargetingSystemType.NoTarget)
-            {
-                return pattern is CasterRelativePattern;
-            }
-            else if (TargetingSystem == TargetingSystemType.MultiTarget || TargetingSystem == TargetingSystemType.SingleTarget)
-            {
-                return pattern is TargetRelativePattern or CasterToTargetRelativePattern;
-            }
-            return false;
-        }
     }
 
     public enum TargetingSystemType

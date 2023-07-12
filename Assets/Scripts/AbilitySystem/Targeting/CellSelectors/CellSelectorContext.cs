@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -11,11 +13,11 @@ namespace OrderElimination.AbilitySystem
 
         public CellSelectorContext(
             IBattleContext battleContext,
-            Vector2Int[] positionsPool,
+            IEnumerable<Vector2Int> positionsPool,
             AbilitySystemActor askingEntity, 
             Vector2Int[] selectedCellPositions)
         {
-            PositionsPool = positionsPool;
+            PositionsPool = positionsPool.ToArray();
             AskingEntity = askingEntity;
             SelectedCellPositions = selectedCellPositions;
             BattleContext = battleContext;
