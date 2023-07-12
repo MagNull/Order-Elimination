@@ -22,29 +22,39 @@ namespace RoguelikeMap.UI.Characters
         private Transform _initialParent;
         private Transform _defaultParent;
         private CanvasGroup _canvasGroup;
+        private CharacterCard _characterCard;
         private CharacterCard _dragObject;
+        public bool IsCopy { get; private set; } = false;
         public CharacterCard DragObject
         {
             get => _dragObject;
             private set => _dragObject = value; 
         }
 
+        public event Action<CharacterCard> OnDestroy;
+
         private void Start()
         {
             _canvasGroup = gameObject.GetComponent<CanvasGroup>();
+            _characterCard = gameObject.GetComponent<CharacterCard>();
         }
         
         private CharacterCard InitializeDragObject()
         {
             _initialParent = transform.parent;
             _defaultParent = _initialParent.parent.parent;
-            var card = GetComponent<CharacterCard>();
-            if (!IsCreateCopy)
-                return card;
+            if (!IsCreateCopy || IsCopy)
+                return _characterCard;
+            return CreateCopy();
+        }
+
+        private CharacterCard CreateCopy()
+        {
             var dragObjectCopy = Instantiate(this, transform.position, transform.rotation, _defaultParent);
+            dragObjectCopy.IsCopy = true;
+            dragObjectCopy.OnDestroy += OnDestroy;
             var characterCardCopy = dragObjectCopy.GetComponent<CharacterCard>();
-            Destroy(dragObjectCopy);
-            characterCardCopy.InitializeCard(card.Character, false);
+            characterCardCopy.InitializeCard(_characterCard.Character, false);
             _canvasGroup = characterCardCopy.GetComponent<CanvasGroup>();
             return characterCardCopy;
         }
@@ -68,7 +78,10 @@ namespace RoguelikeMap.UI.Characters
             if (DragObject.transform.parent == _defaultParent)
             {
                 if (IsCreateCopy)
+                {
+                    OnDestroy?.Invoke(DragObject);
                     Destroy(DragObject.gameObject);
+                }
                 else
                 {
                     DragObject.transform.SetParent(_initialParent);

@@ -3087,7 +3087,7 @@ MonoBehaviour:
   _testMediator: {fileID: 0}
   _pathPrefab: {fileID: -6847120856849632348, guid: fe7a2fb0c4301934a95ede2e72ce1426, type: 3}
   _pointsParent: {fileID: 1126624361}
-  _pointPrefab: {fileID: 6726622157222742597, guid: 8885d36206496c5468934e18455d60ae, type: 3}
+  _pointPrefab: {fileID: 6640861533747466784, guid: 358097a9ad964fb499311acb0cbde78a, type: 3}
   _squad: {fileID: 1155028019}
   _panelManager: {fileID: 457212514}
   _library: {fileID: 11400000, guid: ccf5a05429ccd6e4ea3c89c2b79f7a33, type: 2}
@@ -3147,8 +3147,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1126624361}
-  - component: {fileID: 1126624360}
-  - component: {fileID: 1126624362}
   m_Layer: 0
   m_Name: Points
   m_TagString: Untagged
@@ -3156,27 +3154,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!223 &1126624360
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1126624359}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
 --- !u!224 &1126624361
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3197,23 +3174,6 @@ RectTransform:
   m_AnchoredPosition: {x: -44.957504, y: 82.20224}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1126624362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1126624359}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 55
 --- !u!1001 &1133156672
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3515,7 +3475,7 @@ RectTransform:
   m_GameObject: {fileID: 1155028014}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 70.62215, y: 70.62215, z: 0}
+  m_LocalScale: {x: 82.26192, y: 82.26192, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3524,7 +3484,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -1036, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 100, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1155028017
 CanvasRenderer:
@@ -3601,7 +3561,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 0c9d8c8ac56684e45a50895e744ada77, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -4531,6 +4491,7 @@ GameObject:
   - component: {fileID: 2085094092}
   - component: {fileID: 2085094091}
   - component: {fileID: 2085094090}
+  - component: {fileID: 2085094093}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4604,6 +4565,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2085094093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085094089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &2086786151
 GameObject:
   m_ObjectHideFlags: 0

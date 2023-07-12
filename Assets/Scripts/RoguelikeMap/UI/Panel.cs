@@ -45,6 +45,7 @@ namespace RoguelikeMap.UI
             _mask.transform.localScale = Vector3.one;
             _mask.transform.SetSiblingIndex(transform.GetSiblingIndex());
             _mask.gameObject.SetActive(isActive);
+            _mask.DOFade(isActive ? 0.65f : 0, _windowOpeningTime);
         }
 
         public void OpenWithoutAnimation()

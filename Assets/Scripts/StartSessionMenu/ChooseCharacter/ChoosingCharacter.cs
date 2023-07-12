@@ -55,6 +55,8 @@ namespace StartSessionMenu.ChooseCharacter
             _uiCounter.Initialize(_wallet);
             var gameCharacters = GameCharactersFactory.CreateGameEntities(_characters);
             InitializeCharactersCard(gameCharacters, _unselectedDropZone.transform);
+            foreach (var card in _characterCards)
+                card.GetComponent<DraggableObject>().OnDestroy += AddMoneyByDestroy;
         }
 
         protected override void TrySelectCard(DropZone dropZone, CharacterCard.CharacterCard card)
@@ -95,6 +97,15 @@ namespace StartSessionMenu.ChooseCharacter
         private void SetActiveStartButton()
         {
             _startGameButton.DOInterectable(_selectedCount != 0);
+        }
+
+        private void AddMoneyByDestroy(CharacterCard.CharacterCard characterCard)
+        {
+            if (!characterCard.IsSelected)
+                return;
+            _wallet.AddMoney(characterCard.Character.CharacterData.Price);
+            _selectedCount--;
+            SetActiveStartButton();
         }
 
         public bool SaveCharacters()
