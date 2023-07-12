@@ -48,8 +48,8 @@ namespace OrderElimination
 
         public void InitTest()
         {
-            Register("player characters", GameCharactersFactory.CreateGameEntities(_testPlayerCharacters));
-            Register("enemy characters", GameCharactersFactory.CreateGameEntities(_testEnemyCharacters));
+            Register("player characters", GameCharactersFactory.CreateGameCharacters(_testPlayerCharacters));
+            Register("enemy characters", GameCharactersFactory.CreateGameCharacters(_testEnemyCharacters));
             Register("scenario", _testScenario);
             Register("stats", new StrategyStats());
         }
