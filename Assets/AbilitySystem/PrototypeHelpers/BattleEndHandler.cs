@@ -27,6 +27,7 @@ public class BattleEndHandler : MonoBehaviour
     private IBattleContext _battleContext;
     private TextEmitter _textEmitter;
     private ScenesMediator _scenesMediator;
+    private ItemsPool _itemsPool;
 
     [ShowInInspector]
     private int _safeVictorySceneId
@@ -84,8 +85,10 @@ public class BattleEndHandler : MonoBehaviour
     private void Construct(
         IBattleContext battleContext, 
         TextEmitter textEmitter,
-        ScenesMediator scenesMediator)
+        ScenesMediator scenesMediator,
+        ItemsPool itemsPool)
     {
+        _itemsPool = itemsPool;
         _battleContext = battleContext;
         _textEmitter = textEmitter;
         _scenesMediator = scenesMediator;
@@ -168,7 +171,7 @@ public class BattleEndHandler : MonoBehaviour
         var items = new Item[itemsCount];
         for (var i = 0; i < itemsCount; i++)
         {
-            items[i] = ItemsPool.GetRandomItem();
+            items[i] = _itemsPool.GetRandomItem();
         }
 
         battleResult.ItemsReward = items;

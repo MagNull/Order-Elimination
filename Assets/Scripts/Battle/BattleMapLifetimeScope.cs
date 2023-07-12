@@ -29,6 +29,8 @@ namespace OrderElimination
         private BattleMap _battleMap;
         [SerializeField]
         private BattleMapDirector _battleMapDirector;
+        [SerializeField]
+        private ItemsPool _itemsPool;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -47,6 +49,7 @@ namespace OrderElimination
             builder.RegisterComponent(_battleEntitiesFactory);
             builder.RegisterComponent(_battleLoopManager);
             builder.RegisterComponent(_battleMap).As<IBattleMap>();
+            builder.RegisterComponent(_itemsPool);
 
             builder.Register<SceneTransition>(Lifetime.Singleton);
 
