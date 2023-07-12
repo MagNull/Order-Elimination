@@ -5,6 +5,7 @@ using OrderElimination.MacroGame;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using Sirenix.Utilities;
+using UnityEngine;
 
 namespace OrderElimination
 {
@@ -18,8 +19,13 @@ namespace OrderElimination
 
         [OdinSerialize]
         private BattleScenario _testScenario;
+
+        [SerializeField]
+        private bool _test;
         
         private readonly Dictionary<string, object> _data = new();
+
+        private static ScenesMediator s_instance;
         
         public T Get<T>(string name)
         {
@@ -64,9 +70,10 @@ namespace OrderElimination
 
         private void Awake()
         {
-            if (FindObjectsOfType<ScenesMediator>().Length > 1)
-                throw new Exception($"Multiple instances of {nameof(ScenesMediator)} in the scene");
-                //Destroy(gameObject);
+            if (s_instance && s_instance != this)
+                Destroy(gameObject);
+            else
+                s_instance = this;
             DontDestroyOnLoad(gameObject);
 
             InitTest();

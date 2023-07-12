@@ -9,7 +9,6 @@ namespace GameInventory
         public static void Save(Inventory inventory)
         {
             var path = Application.persistentDataPath + "/inventory.json";
-            Debug.Log(path);
             var json = JsonUtility.ToJson(inventory, true);
             File.WriteAllText(path, json);
         }

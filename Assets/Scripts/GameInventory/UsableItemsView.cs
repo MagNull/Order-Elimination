@@ -55,9 +55,12 @@ namespace GameInventory
             if (usableItem == null)
                 return;
 
-            _clickChecking = true;
             foreach (var characterCard in _squadMembersPanel.CharacterCards)
             {
+                if(!usableItem.CheckConditionToUse(characterCard.Character))
+                    continue;
+                
+                _clickChecking = true;
                 characterCard.EnableHighlight();
                 characterCard.SetSpecialClickEvent(() =>
                 {

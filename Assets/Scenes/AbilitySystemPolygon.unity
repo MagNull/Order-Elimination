@@ -2256,6 +2256,7 @@ MonoBehaviour:
   _battleMapDirector:
     _generator: {fileID: 246195457}
     _battleMapView: {fileID: 246195458}
+  _itemsPool: {fileID: 11400000, guid: 93c01c736e486634fa627c0d29c0603c, type: 2}
 --- !u!1 &1194000819
 GameObject:
   m_ObjectHideFlags: 0
@@ -2813,6 +2814,7 @@ MonoBehaviour:
     - Name: _testScenario
       Entry: 10
       Data: 8
+  _test: 1
 --- !u!4 &1908500043
 Transform:
   m_ObjectHideFlags: 0

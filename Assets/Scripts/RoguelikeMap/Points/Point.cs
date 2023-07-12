@@ -12,10 +12,10 @@ namespace RoguelikeMap.Points
 {
     public class Point : MonoBehaviour
     {
-        private PanelManager _panelManager;
         [SerializeField]
-        private Button _button;
-     
+        private SpriteRenderer _spriteRenderer;
+        private PanelManager _panelManager;
+        
         public PointModel Model { get; private set; }
         public event Action<Point> OnSelected;
         public IReadOnlyList<int> NextPoints => Model.NextPoints;
@@ -28,19 +28,16 @@ namespace RoguelikeMap.Points
             _panelManager = panelManager;
         }
 
-        private void Awake()
+        public void Initialize(PointInfo info)
         {
-            _button.onClick.AddListener(Select);
-        }
-
-        public void SetPointModel(PointModel pointModel, Sprite pointIcon)
-        {
-            Model = pointModel ?? throw new ArgumentException("PointModel is null");
+            Model = info.Model ?? throw new ArgumentException("PointModel is null");
+            _spriteRenderer.sprite = info.PointSprite;
             Model.SetPanel(_panelManager);
-            _button.image.sprite = pointIcon;
         }
 
         public void Visit(Squad squad) => Model.Visit(squad);
+
+        private void OnMouseDown() => Select();
 
         private void Select()
         {

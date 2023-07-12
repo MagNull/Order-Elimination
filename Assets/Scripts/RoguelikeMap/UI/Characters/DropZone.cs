@@ -9,6 +9,7 @@ namespace RoguelikeMap.UI.Characters
 {
     public class DropZone : MonoBehaviour, IDropHandler
     {
+        private DraggableObject _lastDragObject;
         [CanBeNull] public CharacterCard CharacterCard { get; private set; }
         public bool IsEmpty => CharacterCard is null;
         public event Action<DropZone, CharacterCard> OnTrySelect;
@@ -19,6 +20,10 @@ namespace RoguelikeMap.UI.Characters
                 return;
             if (dragObject is null)
                 return;
+            _lastDragObject = dragObject.DragObject.GetComponent<DraggableObject>();
+            if (_lastDragObject.IsCopy
+                && dragObject.DragObject.IsSelected)
+                return;
             OnTrySelect?.Invoke(this, dragObject.DragObject);
         }
 
@@ -27,9 +32,10 @@ namespace RoguelikeMap.UI.Characters
             if(CharacterCard is not null)
                 Unselect();
             CharacterCard = card;
+            _lastDragObject.OnDestroy += Unselect;
         }
 
-        private void Unselect()
+        private void Unselect(CharacterCard card = null)
         {
             if (!CharacterCard.IsDestroyed())
                 Destroy(CharacterCard.gameObject);
