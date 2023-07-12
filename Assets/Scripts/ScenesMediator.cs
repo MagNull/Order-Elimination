@@ -5,6 +5,7 @@ using OrderElimination.MacroGame;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using Sirenix.Utilities;
+using UnityEngine;
 
 namespace OrderElimination
 {
@@ -18,6 +19,9 @@ namespace OrderElimination
 
         [OdinSerialize]
         private BattleScenario _testScenario;
+
+        [SerializeField]
+        private bool _test;
         
         private readonly Dictionary<string, object> _data = new();
         
@@ -56,7 +60,7 @@ namespace OrderElimination
 
         private void Awake()
         {
-            if(FindObjectsOfType<ScenesMediator>().Length > 1)
+            if(FindObjectsOfType<ScenesMediator>().Length > 1 && _test)
                 Destroy(gameObject);
             DontDestroyOnLoad(gameObject);
 

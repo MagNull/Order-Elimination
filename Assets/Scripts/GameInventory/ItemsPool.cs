@@ -16,7 +16,6 @@ namespace OrderElimination
         [SerializeField]
         private Dictionary<ItemRarity, float> _rarityProbability = new();
 
-
         public Item GetRandomItem()
         {
             var randomRarity = GetRandomRarity();
@@ -32,7 +31,7 @@ namespace OrderElimination
             var probabilitySum = 0f;
             foreach (var (rarity, probability) in _rarityProbability)
             {
-                probabilitySum += probability;
+                probabilitySum += probability / 100;
                 if (randomValue <= probabilitySum)
                     return rarity;
             }

@@ -37,7 +37,7 @@ namespace OrderElimination
             var mediator = FindObjectOfType<ScenesMediator>();
             if (!mediator)
                 Logging.LogException( new CheckoutException("No character mediator found"));
-            builder.RegisterInstance(new BattleEntitiesBank()).AsSelf().AsImplementedInterfaces();
+            builder.Register<BattleEntitiesBank>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
 
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_battleMapDirector);
