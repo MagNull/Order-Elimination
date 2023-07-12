@@ -6,7 +6,8 @@ namespace GameInventory.Items
 {
     public class HealItem : ConsumableItem, IUsable
     {
-        private readonly int _healAmount;
+        [SerializeField]
+        private int _healAmount;
         
         public HealItem(HealItemData itemData) : base(itemData)
         {
@@ -18,13 +19,16 @@ namespace GameInventory.Items
             if (!CheckConditionToUse(gameCharacter))
                 throw new ArgumentException("Character is already full health");
             
+            Debug.Log(gameCharacter.CurrentHealth);
             gameCharacter.CurrentHealth += _healAmount;
+            Debug.Log(gameCharacter.CurrentHealth);
+
             UseTimes--;
         }
 
         public bool CheckConditionToUse(GameCharacter gameCharacter)
         {
-            return gameCharacter.CurrentHealth < gameCharacter.CharacterStats.MaxHealth;
+            return true; //gameCharacter.CurrentHealth < gameCharacter.CharacterStats.MaxHealth;
         }
     }
 }

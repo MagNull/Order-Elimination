@@ -1,7 +1,5 @@
-﻿using System;
-using GameInventory.Items;
+﻿using GameInventory.Items;
 using GameInventory.Views;
-using OrderElimination;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
