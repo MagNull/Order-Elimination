@@ -73,7 +73,6 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public TargetingSystemType TargetingSystem { get; private set; }
 
-        //FOR MULTITARGET ABILITIES
         [TitleGroup("Targeting System"), PropertyOrder(5)]
         [ShowInInspector, OdinSerialize]
         [ShowIf("@TargetingSystem == TargetingSystemType.MultiTarget || TargetingSystem == TargetingSystemType.SingleTarget")]
@@ -110,6 +109,10 @@ namespace OrderElimination.AbilitySystem
         [TitleGroup("Targeting System"), PropertyOrder(8)]
         [ShowInInspector, OdinSerialize]
         public CellGroupDistributionPattern DistributionPattern { get; private set; }
+
+        [TitleGroup("Targeting System"), PropertyOrder(8)]
+        [ShowInInspector, OdinSerialize]
+        public ICellGroupsDistributor CellGroupsDistributor { get; private set; }
 
         [TitleGroup("Functionality", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 4), PropertyOrder(0)]
         [ShowInInspector, OdinSerialize]

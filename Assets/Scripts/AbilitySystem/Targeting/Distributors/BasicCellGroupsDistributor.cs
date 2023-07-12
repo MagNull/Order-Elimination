@@ -13,11 +13,13 @@ namespace OrderElimination.AbilitySystem
         private Dictionary<int, ICellSelector> _groupSelectors = new();
 
         public CellGroupsContainer DistributeSelection(
-            IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int[] selectedPositions)
+            IBattleContext battleContext, 
+            AbilitySystemActor askingEntity, 
+            IEnumerable<Vector2Int> selectedPositions)
         {
             var mapPositions = battleContext.BattleMap.CellRangeBorders.EnumerateCellPositions();
             var cellSelectorContext = new CellSelectorContext(
-                battleContext, mapPositions, askingEntity, selectedPositions);
+                battleContext, mapPositions, askingEntity, selectedPositions.ToArray());
             var distributedCells = new Dictionary<int, Vector2Int[]>();
             foreach (var group in _groupSelectors.Keys)
             {
