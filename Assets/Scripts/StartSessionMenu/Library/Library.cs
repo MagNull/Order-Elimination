@@ -22,7 +22,7 @@ namespace ItemsLibrary
             _addedItems[ItemType.Consumable] = new List<ItemView>();
             _addedItems[ItemType.Equipment] = new List<ItemView>();
             
-            Logging.Log("Initialize library");
+            //Logging.Log("Initialize library");
         }
 
         public void AddItem(GameInventory.IReadOnlyCell cell)

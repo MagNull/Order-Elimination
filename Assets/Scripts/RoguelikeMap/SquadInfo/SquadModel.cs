@@ -30,15 +30,14 @@ namespace OrderElimination
         public SquadModel(IEnumerable<GameCharacter> members, SquadMembersPanel squadMembersPanel,
             ScenesMediator scenesMediator)
         {
-            _activeMembersCount = members.Count();
             _mediator = scenesMediator;
-            var characters = 
-                GameCharactersFactory.CreateGameEntities(members.Select(c => c.CharacterData))
-                .ToList();//Grenade here
-            if (characters.Count == 0)
-                return;
+            //var characters = 
+            //    GameCharactersFactory.CreateGameCharacters(members.Select(c => c.CharacterData))
+            //    .ToList();//Grenade here
+            if (members.Count() == 0)
+                throw new ArgumentException($"Attempt to create {nameof(SquadModel)} with 0 members.");
             //First three members are active
-            SetSquadMembers(members, _activeMembersCount);
+            SetSquadMembers(members, members.Count());
 
             RestoreUpgrades();
             SetPanel(squadMembersPanel);
@@ -62,6 +61,7 @@ namespace OrderElimination
         private void RestoreUpgrades()
         {
             var stats = _mediator.Get<StrategyStats>("stats");
+            Debug.LogError(stats.ToString());
             var statsGrowth = new Dictionary<BattleStat, float>()
             {
                 { BattleStat.MaxHealth, stats.HealthGrowth },
@@ -81,16 +81,13 @@ namespace OrderElimination
                     float newStat = stat == BattleStat.Accuracy || stat == BattleStat.Evasion
                         ? originalStat + statsGrowth[stat] / 100
                         : Mathf.RoundToInt(originalStat + (originalStat * statsGrowth[stat] / 100));
-                    //��� ����� (����������), ������ ��� ���� �������� ������
-                    //�� ����...
-                    //(�� ����� �����)
                     member.ChangeStat(stat, newStat);
                     if (stat == BattleStat.MaxHealth)
                     {
                         var prevHealthPercent = member.CurrentHealth / initialStat;
                         member.CurrentHealth = newStat * prevHealthPercent;
                     }
-                    //Logging.Log($"{member.CharacterData.Name}[{stat}]: {originalStat} -> {newStat}; StatGrow: {statsGrowth[stat]}");
+                    Logging.Log($"{member.CharacterData.Name}[{stat}]: {initialStat} -> {newStat}; StatGrow: {statsGrowth[stat]}");
                 }
             }
         }

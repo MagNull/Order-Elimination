@@ -29,13 +29,15 @@ namespace OrderElimination
         private BattleMap _battleMap;
         [SerializeField]
         private BattleMapDirector _battleMapDirector;
+        [SerializeField]
+        private ItemsPool _itemsPool;
 
         protected override void Configure(IContainerBuilder builder)
         {
             var mediator = FindObjectOfType<ScenesMediator>();
             if (!mediator)
                 Logging.LogException( new CheckoutException("No character mediator found"));
-            builder.RegisterInstance(new BattleEntitiesBank()).AsSelf().AsImplementedInterfaces();
+            builder.Register<BattleEntitiesBank>(Lifetime.Singleton).AsSelf().AsImplementedInterfaces();
 
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_battleMapDirector);
@@ -47,6 +49,7 @@ namespace OrderElimination
             builder.RegisterComponent(_battleEntitiesFactory);
             builder.RegisterComponent(_battleLoopManager);
             builder.RegisterComponent(_battleMap).As<IBattleMap>();
+            builder.RegisterComponent(_itemsPool);
 
             builder.Register<SceneTransition>(Lifetime.Singleton);
 

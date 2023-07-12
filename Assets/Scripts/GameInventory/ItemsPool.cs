@@ -12,34 +12,26 @@ namespace OrderElimination
     {
         [SerializeField]
         private ItemData[] _items;
-        private static ItemData[] _staticItems;
 
         [SerializeField]
         private Dictionary<ItemRarity, float> _rarityProbability = new();
-        private static Dictionary<ItemRarity, float> _staticRarityProbability;
 
-        private void OnValidate()
-        {
-            _staticItems = _items;
-            _staticRarityProbability = _rarityProbability;
-        }
-
-        public static Item GetRandomItem()
+        public Item GetRandomItem()
         {
             var randomRarity = GetRandomRarity();
-            var items = _staticItems.Where(item => item.Rarity == randomRarity).ToList();
+            var items = _items.Where(item => item.Rarity == randomRarity).ToList();
 
             var randomItemIndex = UnityEngine.Random.Range(0, items.Count);
             return ItemFactory.Create(items[randomItemIndex]);
         }
         
-        private static ItemRarity GetRandomRarity()
+        private ItemRarity GetRandomRarity()
         {
             var randomValue = UnityEngine.Random.value;
             var probabilitySum = 0f;
-            foreach (var (rarity, probability) in _staticRarityProbability)
+            foreach (var (rarity, probability) in _rarityProbability)
             {
-                probabilitySum += probability;
+                probabilitySum += probability / 100;
                 if (randomValue <= probabilitySum)
                     return rarity;
             }

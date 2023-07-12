@@ -27,7 +27,7 @@ namespace OrderElimination.MacroGame
             return character;
         }
 
-        public static IEnumerable<GameCharacter> CreateGameEntities(
+        public static IEnumerable<GameCharacter> CreateGameCharacters(
             IEnumerable<IGameCharacterTemplate> characterTempaltes)
             => characterTempaltes.Select(gameEntity => CreateGameCharacter(gameEntity));
     }
