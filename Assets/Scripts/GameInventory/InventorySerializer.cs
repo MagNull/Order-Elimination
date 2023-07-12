@@ -5,20 +5,19 @@ namespace GameInventory
 {
     public static class InventorySerializer
     {
-        //Serialize and save inventory to JSON
+        private static readonly string _path = Application.persistentDataPath + "/inventory.json";
+        
         public static void Save(Inventory inventory)
         {
-            var path = Application.persistentDataPath + "/inventory.json";
             var json = JsonUtility.ToJson(inventory, true);
-            File.WriteAllText(path, json);
+            File.WriteAllText(_path, json);
         }
 
         public static Inventory Load()
         {
-            var path = Application.persistentDataPath + "/inventory.json";
-            if (File.Exists(path))
+            if (File.Exists(_path))
             {
-                var json = File.ReadAllText(path);
+                var json = File.ReadAllText(_path);
                 if (json == "" || json == "{}s")
                     return new Inventory(100);
                 var inventory = JsonUtility.FromJson<Inventory>(json);
@@ -27,6 +26,11 @@ namespace GameInventory
             }
 
             return new Inventory(100);
+        }
+
+        public static void Delete()
+        {
+            File.Delete(_path);
         }
     }
 }

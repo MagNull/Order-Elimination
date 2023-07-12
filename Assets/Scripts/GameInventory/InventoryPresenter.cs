@@ -71,6 +71,7 @@ namespace GameInventory
             {
                 _inventoryModel.RemoveItem(item);
             }
+            InventorySerializer.Delete();
         }
     }
 }
