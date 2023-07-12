@@ -12,17 +12,16 @@ namespace OrderElimination.AbilitySystem
         private int _necessaryTargets;
         private int _optionalTargets;
 
-
-        [TitleGroup("Visuals", Alignment = TitleAlignments.Centered, BoldTitle = true, Order = 0), PropertyOrder(0)]
+        [TabGroup("Visuals", Order = 0), PropertyOrder(-99)]
         [ShowInInspector, OdinSerialize]
         public string Name { get; private set; } = "";
 
-        [TitleGroup("Visuals"), PropertyOrder(1)]
+        [TabGroup("Visuals"), PropertyOrder(1)]
         [PreviewField(Alignment = ObjectFieldAlignment.Left)]
         [ShowInInspector, OdinSerialize]
         public Sprite Icon { get; private set; }
 
-        [TitleGroup("Visuals"), PropertyOrder(2)]
+        [TabGroup("Visuals"), PropertyOrder(2)]
         [ShowInInspector, OdinSerialize, MultiLineProperty]
         public string Description { get; private set; } = "";
 
@@ -31,29 +30,29 @@ namespace OrderElimination.AbilitySystem
         //[ShowInInspector, OdinSerialize]
         //public VideoClip PreviewVideo { get; private set; }
 
-        [TitleGroup("Visuals"), PropertyOrder(3)]
+        [TabGroup("Visuals"), PropertyOrder(3)]
         [ShowInInspector, OdinSerialize, DictionaryDrawerSettings(KeyLabel = "Group", ValueLabel = "Highlight color")]
         private Dictionary<int, Color> _cellGroupsHighlightColors = new();
         public IReadOnlyDictionary<int, Color> CellGroupsHighlightColors => _cellGroupsHighlightColors;
 
-        [TitleGroup("Visuals"), PropertyOrder(4)]
+        [TabGroup("Visuals"), PropertyOrder(4)]
         [ShowInInspector, OdinSerialize]
         public bool ShowCrosshairWhenTargeting { get; private set; } = true;
 
-        [TitleGroup("Visuals"), PropertyOrder(5)]
+        [TabGroup("Visuals"), PropertyOrder(5)]
         [ShowInInspector, OdinSerialize]
         public bool ShowTrajectoryWhenTargeting { get; private set; } = false;
 
-        [TitleGroup("Visuals"), PropertyOrder(10)]
+        [TabGroup("Visuals"), PropertyOrder(10)]
         [ShowInInspector, OdinSerialize]
         public bool HideInCharacterDiscription { get; private set; }
 
-        [TitleGroup("Game Rules", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 1), PropertyOrder(0)]
+        [TabGroup("Game Rules", Order = 1), PropertyOrder(-98)]
         [ShowInInspector, OdinSerialize]
         private Dictionary<ActionPoint, int> _usageCost = new();
         public IReadOnlyDictionary<ActionPoint, int> UsageCost => _usageCost;
 
-        [TitleGroup("Game Rules"), PropertyOrder(1)]
+        [TabGroup("Game Rules"), PropertyOrder(1)]
         [ShowInInspector, OdinSerialize]
         public int CooldownTime
         {
@@ -65,20 +64,20 @@ namespace OrderElimination.AbilitySystem
             }
         }
 
-        [TitleGroup("Game Rules"), PropertyOrder(3)]
+        [TabGroup("Game Rules"), PropertyOrder(3)]
         [ShowInInspector, OdinSerialize]
         public ICommonCondition[] AvailabilityConditions = new ICommonCondition[0];
 
-        [TitleGroup("Targeting System", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 2), PropertyOrder(4)]
+        [TabGroup("Targeting System", Order = 2), PropertyOrder(-97)]
         [ShowInInspector, OdinSerialize]
         public TargetingSystemType TargetingSystem { get; private set; }
 
-        [TitleGroup("Targeting System"), PropertyOrder(5)]
+        [TabGroup("Targeting System"), PropertyOrder(5)]
         [ShowInInspector, OdinSerialize]
         [ShowIf("@TargetingSystem == TargetingSystemType.MultiTarget || TargetingSystem == TargetingSystemType.SingleTarget")]
         public ICellCondition[] TargetCellConditions = new ICellCondition[0];
 
-        [TitleGroup("Targeting System"), PropertyOrder(6)]
+        [TabGroup("Targeting System"), PropertyOrder(6)]
         [ShowInInspector, OdinSerialize]
         [ShowIf("@TargetingSystem == TargetingSystemType.MultiTarget")]
         public int NecessaryTargets
@@ -91,7 +90,7 @@ namespace OrderElimination.AbilitySystem
             }
         }
 
-        [TitleGroup("Targeting System"), PropertyOrder(7)]
+        [TabGroup("Targeting System"), PropertyOrder(7)]
         [ShowInInspector, OdinSerialize]
         [ShowIf("@TargetingSystem == TargetingSystemType.MultiTarget")]
         public int OptionalTargets
@@ -106,15 +105,16 @@ namespace OrderElimination.AbilitySystem
 
         //FOR MULTITARGET ABILITIES
 
-        [TitleGroup("Targeting System"), PropertyOrder(8)]
+        [TabGroup("Targeting System"), PropertyOrder(8)]
+        [GUIColor(1, 0, 0)]
         [ShowInInspector, OdinSerialize]
         public CellGroupDistributionPattern DistributionPattern { get; private set; }
 
-        [TitleGroup("Targeting System"), PropertyOrder(8)]
+        [TabGroup("Targeting System"), PropertyOrder(8)]
         [ShowInInspector, OdinSerialize]
         public ICellGroupsDistributor CellGroupsDistributor { get; private set; }
 
-        [TitleGroup("Functionality", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 4), PropertyOrder(0)]
+        [TabGroup("Functionality", Order = 4), PropertyOrder(-96)]
         [ShowInInspector, OdinSerialize]
         public AbilityInstruction[] AbilityInstructions;
     }
