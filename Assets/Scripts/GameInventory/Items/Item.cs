@@ -38,7 +38,7 @@ namespace GameInventory.Items
     [Serializable]
     public class EquipmentItem : Item
     {
-        [SerializeField, HideInInspector]
+        [SerializeReference, HideInInspector]
         private IPassiveAbilityData _equipAbility;
 
         public EquipmentItem(ItemData itemData) : base(itemData)
@@ -57,7 +57,7 @@ namespace GameInventory.Items
     {
         public event Action<ConsumableItem> UseTimesOver;
         
-        [SerializeField, HideInInspector]
+        [SerializeReference, HideInInspector]
         private IActiveAbilityData _useAbility;
         [SerializeField, HideInInspector]
         private int _useTimes;

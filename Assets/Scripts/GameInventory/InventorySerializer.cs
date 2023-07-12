@@ -21,7 +21,9 @@ namespace GameInventory
                 var json = File.ReadAllText(path);
                 if (json == "" || json == "{}s")
                     return new Inventory(100);
-                return JsonUtility.FromJson<Inventory>(json);
+                var inventory = JsonUtility.FromJson<Inventory>(json);
+                inventory.InitConsumables();
+                return inventory;
             }
 
             return new Inventory(100);
