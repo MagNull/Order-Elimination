@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    [CreateAssetMenu(fileName = "new Passive Ability", menuName = "AbilitySystem/Passive Ability")]
+    [CreateAssetMenu(fileName = "new Passive Ability", menuName = "OrderElimination/AbilitySystem/Passive Ability")]
     public class PassiveAbilityBuilder : SerializedScriptableObject
     {
         private int _cooldownTime = 0;

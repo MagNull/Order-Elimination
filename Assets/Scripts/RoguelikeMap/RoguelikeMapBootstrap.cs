@@ -1,12 +1,16 @@
 using GameInventory;
 using ItemsLibrary;
 using OrderElimination;
+using OrderElimination.MacroGame;
+using OrderElimination.SavesManagement;
 using RoguelikeMap.Map;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using VContainer;
@@ -45,6 +49,8 @@ namespace RoguelikeMap
         private CharacterCardWithCost _cardWithCost;
         [SerializeField]
         private CharacterCard _cardIcon;
+        [SerializeField]
+        private CharacterTemplatesMapping _characterTemplatesMapping;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -55,10 +61,8 @@ namespace RoguelikeMap
                 mediator.InitTest();
             }
 
-            var inventory = InventorySerializer.Load();
-            
+            LoadLocalData(mediator, builder);
             builder.Register<Wallet>(Lifetime.Singleton).WithParameter(_startMoney);
-            builder.RegisterComponent(inventory);
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_squad);
             builder.RegisterComponent(_pathPrefab);
@@ -87,7 +91,30 @@ namespace RoguelikeMap
         public void OnDisable()
         {
             var inventory = Container.Resolve<Inventory>();
+            var playerSquad = Container
+                .Resolve<ScenesMediator>()
+                .Get<IEnumerable<GameCharacter>>("player characters");
+            SaveLocalData(playerSquad, inventory);
+        }
+
+        protected void SaveLocalData(IEnumerable<GameCharacter> playerSquad, Inventory inventory)
+        {
             InventorySerializer.Save(inventory);
+            //GameCharacterSerializer.SaveCharacters(playerSquad, _characterTemplatesMapping);
+        }
+
+        protected void LoadLocalData(ScenesMediator mediator, IContainerBuilder containerBuilder)
+        {
+            var inventory = InventorySerializer.Load();
+            containerBuilder.RegisterComponent(inventory);
+
+            //var playerCharacters = GameCharacterSerializer.LoadPlayerCharacters(_characterTemplatesMapping);
+            //if (playerCharacters.Length != 0)
+            //    mediator.Register("player characters", playerCharacters);
+            //else
+            //    Debug.LogError(
+            //        new Exception("Player character local saves corrupted (squad members count is 0)"));
+
         }
     }
 }

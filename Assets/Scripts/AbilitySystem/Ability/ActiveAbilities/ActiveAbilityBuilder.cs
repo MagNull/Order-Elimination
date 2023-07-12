@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    [CreateAssetMenu(fileName = "new Active Ability", menuName = "AbilitySystem/Active Ability")]
+    [CreateAssetMenu(fileName = "new Active Ability", menuName = "OrderElimination/AbilitySystem/Active Ability")]
     public class ActiveAbilityBuilder : SerializedScriptableObject
     {
         private int _cooldownTime;
