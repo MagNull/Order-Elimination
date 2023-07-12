@@ -73,7 +73,6 @@ namespace OrderElimination
         [field: SerializeField]
         public Role Role { get; private set; }
 
-        public int TemplateId => GetInstanceID();
         public string Name => _name;
         public Sprite BattleIcon => _viewIcon;
         public Sprite Avatar => _viewAvatar;

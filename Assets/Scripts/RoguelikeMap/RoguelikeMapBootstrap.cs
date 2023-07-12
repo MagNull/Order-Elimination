@@ -49,6 +49,8 @@ namespace RoguelikeMap
         private CharacterCardWithCost _cardWithCost;
         [SerializeField]
         private CharacterCard _cardIcon;
+
+        [Header("Data Mapping")]
         [SerializeField]
         private CharacterTemplatesMapping _characterTemplatesMapping;
 
@@ -114,7 +116,6 @@ namespace RoguelikeMap
             //else
             //    Debug.LogError(
             //        new Exception("Player character local saves corrupted (squad members count is 0)"));
-
         }
     }
 }

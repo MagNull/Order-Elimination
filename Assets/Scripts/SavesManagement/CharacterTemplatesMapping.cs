@@ -7,19 +7,22 @@ using UnityEngine;
 
 namespace OrderElimination.SavesManagement
 {
-    [CreateAssetMenu(fileName = "new Character Template mapping", menuName = "OrderElimination/Project/CharacterTemplatesMapping")]
+    [CreateAssetMenu(fileName = "new Character Templates mapping", menuName = "OrderElimination/Project/CharacterTemplatesMapping")]
     public class CharacterTemplatesMapping : 
         SerializedScriptableObject, 
         IDataMapping<int, IGameCharacterTemplate>
     {
-        [OdinSerialize]
+        [HideInInspector, OdinSerialize]
         private Dictionary<int, IGameCharacterTemplate> _templatesMapping = new();
 
-        [OdinSerialize]
+        [HideInInspector, OdinSerialize]
         private Dictionary<IGameCharacterTemplate, int> _keysMapping = new();
 
+        [ShowInInspector]
+        public IReadOnlyDictionary<int, IGameCharacterTemplate> MappedTemplates => _templatesMapping;
+
         [Button]
-        public void AddTemplatesToMapping(IEnumerable<IGameCharacterTemplate> templates)
+        public void AddTemplatesToMapping(IGameCharacterTemplate[] templates)
         {
             foreach (var template in templates)
             {
@@ -39,7 +42,7 @@ namespace OrderElimination.SavesManagement
             return true;
         }
 
-        public bool RemoveTemplateFromMapping(IGameCharacterTemplate template)
+        public bool RemoveFromMapping(IGameCharacterTemplate template)
         {
             if (!_keysMapping.ContainsKey(template))
                 return false;
@@ -47,6 +50,14 @@ namespace OrderElimination.SavesManagement
             _keysMapping.Remove(template);
             _templatesMapping.Remove(key);
             return true;
+        }
+
+        [Button]
+        public bool RemoveFromMapping(int key)
+        {
+            if (!_templatesMapping.ContainsKey(key))
+                return false;
+            return RemoveFromMapping(_templatesMapping[key]);
         }
 
         public void Clear()
@@ -57,7 +68,14 @@ namespace OrderElimination.SavesManagement
 
         private int GetNextAvailableKey()
         {
+            var startingKey = 0;
+            if (_keysMapping.Count == startingKey)
+                return 0;
+            if (_keysMapping.Count == 1) 
+                return 1;
             var occupiedKeys = _templatesMapping.Keys.OrderBy(k => k).ToArray();
+            if (occupiedKeys.Length > 0 && occupiedKeys[0] > startingKey)
+                return startingKey;
             for (var i = 0; i < occupiedKeys.Length - 1; i++)
             {
                 if (occupiedKeys[i + 1] > occupiedKeys[i] + 1)

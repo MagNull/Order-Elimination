@@ -7,7 +7,6 @@ namespace OrderElimination
 {
     public interface IGameCharacterTemplate
     {
-        public int TemplateId { get; }
         public string Name { get; }
         public Sprite BattleIcon { get; }
         public Sprite Avatar { get; }
