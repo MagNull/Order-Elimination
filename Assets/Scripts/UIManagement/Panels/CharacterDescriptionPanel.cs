@@ -62,7 +62,7 @@ namespace UIManagement
             UpdateBattleStats(character.CharacterStats);
             var activeAbilities = character
                 .ActiveAbilities
-                .Where(a => !a.View.HideInCharacterDiscription)
+                .Where(a => !a.View.HideInCharacterDescription)
                 .ToArray();
             var passiveAbilities = character
                 .PassiveAbilities
@@ -83,7 +83,7 @@ namespace UIManagement
             var activeAbilities = entity
                 .ActiveAbilities
                 .Select(runner => runner.AbilityData)
-                .Where(a => !a.View.HideInCharacterDiscription)
+                .Where(a => !a.View.HideInCharacterDescription)
                 .ToArray();
             var passiveAbilities = entity
                 .PassiveAbilities
@@ -140,7 +140,7 @@ namespace UIManagement
                 button.onClick.RemoveAllListeners();
             }
             var displayedActiveAbilities = activeAbilities
-                .Where(a => !a.View.HideInCharacterDiscription)
+                .Where(a => !a.View.HideInCharacterDescription)
                 .ToArray();
             var displayedPassiveAbilities = passiveAbilities
                 .Where(a => !a.View.HideInCharacterDiscription)

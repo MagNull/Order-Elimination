@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace OrderElimination.MacroGame
 {
-    [CreateAssetMenu(fileName = "new BattleScenario", menuName = "Battle/Battle Scenario")]
+    [CreateAssetMenu(fileName = "new BattleScenario", menuName = "OrderElimination/Battle/Battle Scenario")]
     public class BattleScenario : SerializedScriptableObject
     {
         public const int MapHeight = 8;

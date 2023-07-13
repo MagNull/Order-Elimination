@@ -1428,7 +1428,7 @@ PrefabInstance:
     - target: {fileID: 1658578758412989351, guid: fdbb038d8d3f94641b672d2f58550909, type: 3}
       propertyPath: _items.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: e655c8948143f814c89bb88c7fa0785c, type: 2}
+      objectReference: {fileID: 11400000, guid: cef91e7b67b653f419f9f00b95729e2f, type: 2}
     - target: {fileID: 1658578758412989351, guid: fdbb038d8d3f94641b672d2f58550909, type: 3}
       propertyPath: _items.Array.data[1]
       value: 
@@ -3002,8 +3002,6 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
-    - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
-    - {fileID: 11400000, guid: dc7552cb19317d642ad2af92d805c557, type: 2}
     - {fileID: 11400000, guid: cdb88470c4b68c341bad38dde4ae1989, type: 2}
     - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
     - {fileID: 11400000, guid: 375cdc3a6bbcb1e4480ffb04423fa49c, type: 2}
@@ -3017,16 +3015,10 @@ MonoBehaviour:
       Data: 0|OrderElimination.IGameCharacterTemplate[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 3
-    - Name: 
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 10
       Data: 1
     - Name: 
       Entry: 10
-      Data: 2
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -3041,10 +3033,10 @@ MonoBehaviour:
       Data: 2
     - Name: 
       Entry: 10
-      Data: 3
+      Data: 1
     - Name: 
       Entry: 10
-      Data: 4
+      Data: 2
     - Name: 
       Entry: 13
       Data: 
@@ -3053,7 +3045,7 @@ MonoBehaviour:
       Data: 
     - Name: _testScenario
       Entry: 10
-      Data: 5
+      Data: 3
   _test: 1
 --- !u!4 &971083450
 Transform:
@@ -3128,6 +3120,9 @@ MonoBehaviour:
   _cardWithHealthBar: {fileID: 4089897780089222038, guid: 411db3d6bc8ec471bba9fe51c61fd356, type: 3}
   _cardWithCost: {fileID: 82469547036186783, guid: 46af61c7af418f1468beb2ca38630730, type: 3}
   _cardIcon: {fileID: 8737231771345929656, guid: dd831775d334e1e43ba7d95603267c7b, type: 3}
+  _characterTemplatesMapping: {fileID: 11400000, guid: 119bb01f886ffe54a90278bd31ec0f2c, type: 2}
+  _saveLocalData: 0
+  _loadLocalData: 0
 --- !u!4 &1027601678
 Transform:
   m_ObjectHideFlags: 0

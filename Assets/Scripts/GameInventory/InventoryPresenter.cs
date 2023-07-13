@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using GameInventory.Items;
+﻿using GameInventory.Items;
 using GameInventory.Views;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -72,6 +71,7 @@ namespace GameInventory
             {
                 _inventoryModel.RemoveItem(item);
             }
+            InventorySerializer.Delete();
         }
     }
 }

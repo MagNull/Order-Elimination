@@ -11,11 +11,13 @@ namespace GameInventory.Items
     {
         [ShowInInspector, SerializeField]
         private ItemView _itemView;
-        
+
         [SerializeField, HideInInspector]
         private ItemType _itemType;
+
         [SerializeField, HideInInspector]
         private int _itemId;
+
         [SerializeField, HideInInspector]
         private ItemRarity _itemRarity;
 
@@ -38,17 +40,19 @@ namespace GameInventory.Items
     [Serializable]
     public class EquipmentItem : Item
     {
-        [SerializeField, HideInInspector]
-        private IPassiveAbilityData _equipAbility;
+        [SerializeField]
+        private PassiveAbilityBuilder _equipAbility;
 
         public EquipmentItem(ItemData itemData) : base(itemData)
         {
-            _equipAbility = AbilityFactory.CreatePassiveAbility(itemData.EquipAbility);
+            _equipAbility = itemData.EquipAbility;
         }
 
         public override void OnTook(AbilitySystemActor abilitySystemActor)
         {
-            abilitySystemActor.GrantPassiveAbility(new PassiveAbilityRunner(_equipAbility, AbilityProvider.Equipment));
+            abilitySystemActor.GrantPassiveAbility(
+                new PassiveAbilityRunner(AbilityFactory.CreatePassiveAbility(_equipAbility),
+                    AbilityProvider.Equipment));
         }
     }
 
@@ -56,10 +60,11 @@ namespace GameInventory.Items
     public class ConsumableItem : Item
     {
         public event Action<ConsumableItem> UseTimesOver;
-        
-        [SerializeField, HideInInspector]
-        private IActiveAbilityData _useAbility;
-        [SerializeField, HideInInspector]
+
+        [SerializeField]
+        private ActiveAbilityBuilder _useAbility;
+
+        [SerializeField]
         private int _useTimes;
 
         protected int UseTimes
@@ -76,23 +81,24 @@ namespace GameInventory.Items
 
         public ConsumableItem(ItemData itemData) : base(itemData)
         {
-            _useAbility = AbilityFactory.CreateActiveAbility(itemData.UseAbility);
+            _useAbility = itemData.UseAbility;
             _useTimes = itemData.UseTimes;
         }
 
         public override void OnTook(AbilitySystemActor abilitySystemActor)
         {
-            var ability = new ActiveAbilityRunner(_useAbility, AbilityProvider.Equipment);
+            var ability = new ActiveAbilityRunner(AbilityFactory.CreateActiveAbility(_useAbility),
+                AbilityProvider.Equipment);
             abilitySystemActor.GrantActiveAbility(ability);
             UseTimesOver += _ => abilitySystemActor.RemoveActiveAbility(ability);
-            ability.AbilityExecutionStarted += _ => _useTimes--;
+            ability.AbilityExecutionStarted += _ => UseTimes--;
         }
     }
 
     public interface IUsable
     {
         public void Use(GameCharacter gameCharacter);
-        
+
         public bool CheckConditionToUse(GameCharacter gameCharacter);
     }
 }

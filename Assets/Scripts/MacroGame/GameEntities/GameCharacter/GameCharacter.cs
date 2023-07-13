@@ -66,5 +66,10 @@ namespace OrderElimination.MacroGame
             _characterStats[battleStat] = value;
             StatsChanged?.Invoke(this);
         }
+
+        public void SetInventory(Inventory inventory)
+        {
+            Inventory = inventory;
+        }
     }
 }

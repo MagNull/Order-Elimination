@@ -8,7 +8,7 @@ using AI;
 
 namespace OrderElimination
 {
-    [CreateAssetMenu(fileName = "new CharacterTemplate", menuName = "Battle/Character Template")]
+    [CreateAssetMenu(fileName = "new CharacterTemplate", menuName = "OrderElimination/Battle/Character Template")]
     [System.Serializable]
     public class CharacterTemplate : SerializedScriptableObject, IGameCharacterTemplate
     {
@@ -73,7 +73,6 @@ namespace OrderElimination
         [field: SerializeField]
         public Role Role { get; private set; }
 
-        public int TemplateId => GetInstanceID();
         public string Name => _name;
         public Sprite BattleIcon => _viewIcon;
         public Sprite Avatar => _viewAvatar;
