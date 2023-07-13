@@ -9,7 +9,7 @@ namespace OrderElimination.AbilitySystem
         public Sprite Icon { get; }
         public string Description { get; }
         //public VideoClip PreviewVideo { get; }
-        public bool HideInCharacterDiscription { get; }
+        public bool HideInCharacterDescription { get; }
         //Active-only
         public IReadOnlyDictionary<int, Color> TargetGroupsHighlightColors { get; }
         public bool ShowCrosshairWhenTargeting { get; }
@@ -20,7 +20,7 @@ namespace OrderElimination.AbilitySystem
         public ActiveAbilityView(
             IReadOnlyDictionary<int, Color> groupColors, 
             string name, Sprite icon, string description, 
-            bool hideInCharacterDiscription,
+            bool hideInCharacterDescription,
             bool showCrosshair,
             bool showTrajectory) 
         {
@@ -28,7 +28,7 @@ namespace OrderElimination.AbilitySystem
             Icon = icon;
             Description = description ?? "";
             TargetGroupsHighlightColors = groupColors;
-            HideInCharacterDiscription = hideInCharacterDiscription;
+            HideInCharacterDescription = hideInCharacterDescription;
             ShowCrosshairWhenTargeting = showCrosshair;
             ShowTrajectoryWhenTargeting = showTrajectory;
         }

@@ -8,6 +8,12 @@ namespace OrderElimination.AbilitySystem
 {
     public class EntitiesInZoneTriggerInstruction : ITriggerInstruction
     {
+        private enum ActionsTarget
+        {
+            EnteredEntity,
+            Caster
+        }
+
         private class UndoableResultsContainer
         {
             public HashSet<IUndoableActionPerformResult> OnEnterUndoableResults = new();
@@ -35,6 +41,9 @@ namespace OrderElimination.AbilitySystem
         [ShowIf("@" + nameof(_hasUndoableEnterActions) + " || " + nameof(_hasUndoableExitActions))]
         [ShowInInspector, OdinSerialize]
         private bool _undoOnTriggerDeactivation { get; set; }
+
+        [ShowInInspector, OdinSerialize]
+        private ActionsTarget _actionTarget { get; set; }
 
         [ShowInInspector, OdinSerialize]
         private List<IBattleAction> _actionsOnEnter { get; set; } = new();
@@ -112,7 +121,14 @@ namespace OrderElimination.AbilitySystem
             {
                 //var executionContext = new AbilityExecutionContext(battleContext, caster, cellGroups, leaver);
                 //InstructionForLeavedEntities.ExecuteRecursive(executionContext);
-                var actionContext = new ActionContext(battleContext, cellGroups, caster, leaver);
+
+                var targetEntity = _actionTarget switch
+                {
+                    ActionsTarget.EnteredEntity => leaver,
+                    ActionsTarget.Caster => caster,
+                    _ => throw new System.NotImplementedException(),
+                };
+                var actionContext = new ActionContext(battleContext, cellGroups, caster, targetEntity);
                 foreach (var action in _actionsOnExit)
                 {
                     var result = await action.ModifiedPerform(actionContext);
@@ -135,7 +151,13 @@ namespace OrderElimination.AbilitySystem
             {
                 //var executionContext = new AbilityExecutionContext(battleContext, caster, cellGroups, newcomer);
                 //InstructionForEnteredEntities.ExecuteRecursive(executionContext);
-                var actionContext = new ActionContext(battleContext, cellGroups, caster, newcomer);
+                var targetEntity = _actionTarget switch
+                {
+                    ActionsTarget.EnteredEntity => newcomer,
+                    ActionsTarget.Caster => caster,
+                    _ => throw new System.NotImplementedException(),
+                };
+                var actionContext = new ActionContext(battleContext, cellGroups, caster, targetEntity);
                 foreach (var action in _actionsOnEnter)
                 {
                     var result = await action.ModifiedPerform(actionContext);

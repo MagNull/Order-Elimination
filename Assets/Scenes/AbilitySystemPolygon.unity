@@ -319,8 +319,8 @@ MonoBehaviour:
   _alliesHighlightColor: {r: 0.0047169924, g: 0.9905467, b: 1, a: 1}
   _enemiesHighlightColor: {r: 1, g: 0.3820755, b: 0.3820755, a: 1}
   _othersHighlightColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
-  _allowOnlyCurrentSideEntities: 1
-  _allowOnlyPlayerEntities: 1
+  _allowOnlyCurrentSideEntities: 0
+  _allowOnlyPlayerEntities: 0
   _lockCharacterWhileCasting: 1
   _confirmTargetingBySecondClick: 1
 --- !u!1 &84768578
@@ -2732,7 +2732,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1908500042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2751,11 +2751,12 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
     - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
-    - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
-    - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
+    - {fileID: 11400000, guid: 04588733ccd1f2a4bb0aad35a508b4de, type: 2}
     - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
+    - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
     - {fileID: 11400000, guid: 7be5600522a123a4595c53b6b173a4a7, type: 2}
     - {fileID: 11400000, guid: cdb88470c4b68c341bad38dde4ae1989, type: 2}
+    - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
     - {fileID: 11400000, guid: 3dde67582a39d2a46bf569731536a4a7, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -2803,7 +2804,7 @@ MonoBehaviour:
       Data: 6
     - Name: 
       Entry: 10
-      Data: 2
+      Data: 7
     - Name: 
       Entry: 13
       Data: 
@@ -2812,7 +2813,7 @@ MonoBehaviour:
       Data: 
     - Name: _testScenario
       Entry: 10
-      Data: 7
+      Data: 8
   _test: 1
 --- !u!4 &1908500043
 Transform:
