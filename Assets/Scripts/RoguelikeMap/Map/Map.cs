@@ -62,7 +62,7 @@ namespace RoguelikeMap.Map
             var pointIndex = PlayerPrefs.HasKey(SquadPositionKey)
                 ? PlayerPrefs.GetInt(SquadPositionKey)
                 : _points.First().Index;
-            _squad.Visit(_points[pointIndex].Model);
+            _points[pointIndex].Visit(_squad);
         }
 
         public void ReloadMap()

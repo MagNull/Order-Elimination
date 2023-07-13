@@ -69,7 +69,8 @@ namespace RoguelikeMap.UI.PointPanels
         public void FinishEvent(IEnumerable<ItemData> items = null)
         {
             if (items is not null)
-                AddItemsToInventory(items);
+                Debug.Log("add items");
+                //AddItemsToInventory(items);
             Close();
         }
 

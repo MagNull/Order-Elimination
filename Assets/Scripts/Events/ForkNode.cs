@@ -25,7 +25,7 @@ namespace Events
         public void Process(EventPanel panel, int index = 0)
         {
             if (IsRandom)
-                index = Random.Range(0, Outputs.Count());
+                index = Random.Range(0, Outputs.First().ConnectionCount);
             var ports = GetPort("exits").GetConnections();
             if(index > ports.Count)
                 Debug.LogError("Invalid port index");
@@ -37,6 +37,11 @@ namespace Events
         {
             var eventGraph = graph as EventPointGraph;
             eventGraph.currentNode = this;
+            if (IsRandom)
+            {
+                Process(panel);
+                return;
+            }
             panel.UpdateAnswersText(_answers);
         }
     }
