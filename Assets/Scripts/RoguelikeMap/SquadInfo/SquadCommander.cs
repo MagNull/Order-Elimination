@@ -21,7 +21,6 @@ namespace RoguelikeMap.SquadInfo
         public Squad Squad => _squad;
         public event Action<List<GameCharacter>, int> OnSelected;
         public event Action<int> OnHealAccept;
-        public event Action<IReadOnlyList<ItemData>> OnLootAccept;
 
         [Inject]
         public SquadCommander(IObjectResolver objectResolver, PanelManager panelManager, SquadMembersPanel squadMembersPanel)
@@ -44,7 +43,6 @@ namespace RoguelikeMap.SquadInfo
         private void SubscribeToEvents(PanelManager panelManager)
         {
             var safeZonePanel = (SafeZonePanel)panelManager.GetPanelByPointInfo(PointType.SafeZone);
-            safeZonePanel.OnLootAccept += LootAccept;
             safeZonePanel.OnHealAccept += HealAccept;
 
             var battlePanel = (BattlePanel)panelManager.GetPanelByPointInfo(PointType.Battle);
@@ -96,12 +94,6 @@ namespace RoguelikeMap.SquadInfo
         private void HealAccept(int amountHeal)
         {
             OnHealAccept?.Invoke(amountHeal);
-        }
-
-        //TODO(coder): add loot to player inventory after create inventory system
-        private void LootAccept(IReadOnlyList<ItemData> itemsId)
-        {
-            OnLootAccept?.Invoke(itemsId);
         }
     }
 }

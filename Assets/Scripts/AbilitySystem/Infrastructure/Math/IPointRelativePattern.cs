@@ -7,13 +7,6 @@ using UnityEngine;
 
 namespace OrderElimination.Infrastructure
 {
-    public enum PatternBooleanOperation
-    {
-        Union,
-        Intersect,
-        Except
-    }
-
     [GUIColor(0.6f, 1, 0.6f)]
     public interface IPointRelativePattern : ICloneable<IPointRelativePattern>
     {
@@ -133,7 +126,7 @@ namespace OrderElimination.Infrastructure
         public IPointRelativePattern PatternA { get; set; }
 
         [ShowInInspector, OdinSerialize]
-        public PatternBooleanOperation BooleanOperation { get; set; }
+        public BooleanOperation BooleanOperation { get; set; }
 
         [ShowInInspector, OdinSerialize]
         public IPointRelativePattern PatternB { get; set; }
@@ -153,9 +146,9 @@ namespace OrderElimination.Infrastructure
             var patternBPositions = PatternB.GetAbsolutePositions(originPoint);
             var result = BooleanOperation switch
             {
-                PatternBooleanOperation.Union => patternAPositions.Union(patternBPositions),
-                PatternBooleanOperation.Intersect => patternAPositions.Intersect(patternBPositions),
-                PatternBooleanOperation.Except => patternAPositions.Except(patternBPositions),
+                BooleanOperation.Union => patternAPositions.Union(patternBPositions),
+                BooleanOperation.Intersect => patternAPositions.Intersect(patternBPositions),
+                BooleanOperation.Except => patternAPositions.Except(patternBPositions),
                 _ => throw new NotImplementedException(),
             };
             return result.ToArray();

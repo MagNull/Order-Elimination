@@ -334,9 +334,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6466862578594710767}
-        m_TargetAssemblyTypeName: RoguelikeMap.Panels.EventPanel, Assembly-CSharp
-        m_MethodName: OnClickSkipButton
-        m_Mode: 1
+        m_TargetAssemblyTypeName: RoguelikeMap.UI.PointPanels.EventPanel, Assembly-CSharp
+        m_MethodName: ClickAnswer
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -898,7 +898,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6466862578594710767}
         m_TargetAssemblyTypeName: RoguelikeMap.Panels.EventPanel, Assembly-CSharp
-        m_MethodName: OnClickAnswer
+        m_MethodName: ClickAnswer
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -960,6 +960,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _windowOpeningTime: 0.3
   _windowOpeningEase: 32
+  _isHaveMask: 0
+  _mask: {fileID: 0}
   _eventText: {fileID: 6466862578360727173}
   _answerButtons:
   - {fileID: 6466862578511403210}
@@ -1540,7 +1542,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6466862578594710767}
         m_TargetAssemblyTypeName: RoguelikeMap.Panels.EventPanel, Assembly-CSharp
-        m_MethodName: OnClickAnswer
+        m_MethodName: ClickAnswer
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

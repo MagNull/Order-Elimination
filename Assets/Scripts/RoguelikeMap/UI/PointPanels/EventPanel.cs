@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using GameInventory;
 using GameInventory.Items;
 using OrderElimination;
-using RoguelikeMap.Points.Models;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
-using Random = System.Random;
 
 namespace RoguelikeMap.UI.PointPanels
 {
@@ -23,11 +21,9 @@ namespace RoguelikeMap.UI.PointPanels
         [SerializeField] 
         private Image _sprite;
 
-        private EventInfo _eventInfo;
-        private Random _random;
+        private EventPointGraph _eventGraph;
         private Inventory _inventory;
 
-        public bool IsContainsBattle { get; private set; }
         public event Action<IReadOnlyList<IGameCharacterTemplate>> OnStartBattle;
         public event Action<bool> OnSafeEventVisit;
         public event Action<bool> OnBattleEventVisit;
@@ -38,17 +34,12 @@ namespace RoguelikeMap.UI.PointPanels
             _inventory = inventory;
         }
         
-        public void SetEventInfo(EventInfo info, bool isContainsBattle)
+        public void Initialize(EventPointGraph graph)
         {
-            _eventInfo = info;
-            IsContainsBattle = isContainsBattle;
-            LoadEventText();
-        }
-
-        private void UpdateEventText(string eventText, IReadOnlyList<string> answers = null)
-        {
-            _eventText.text = eventText;
-            UpdateAnswersText(answers);
+            graph.ResetGraph();
+            _eventGraph = graph;
+            _eventGraph.OnEventEnd += FinishEvent;
+            LoadEventInfo();
         }
 
         private void SetActiveAnswers(bool isActive)
@@ -59,98 +50,62 @@ namespace RoguelikeMap.UI.PointPanels
                 button.gameObject.SetActive(isActive);
         }
 
-        private void UpdateAnswersText(IReadOnlyList<string> answers = null)
+        private void UpdateAnswersText()
         {
-            if (answers is null)
+            SetActiveAnswers(true);
+            for (var i = 0; i < _eventGraph.Current.Answers.Count; i++)
+            {
+                var buttonText = _answerButtons[i].GetComponentInChildren<TMP_Text>();
+                buttonText.text = _eventGraph.Current.Answers[i];
+            }
+        }
+
+        private void LoadEventInfo()
+        {
+            _sprite.sprite = _eventGraph.Current.Sprite;
+            _eventText.text = _eventGraph.Current.Text;
+            if (!_eventGraph.Current.IsFork)
             {
                 SetActiveAnswers(false);
                 return;
             }
-            
-            SetActiveAnswers(true);
-            for (var i = 0; i < _answerButtons.Count; i++)
-            {
-                var buttonText = _answerButtons[i].GetComponentInChildren<TMP_Text>();
-                buttonText.text = answers[i];
-            }
+            UpdateAnswersText();
         }
 
-        private void LoadEventText()
+        private void FinishEvent()
         {
-            if (IsEventEnd())
-                return;
-            if (_eventInfo.IsRandomFork)
-                LoadRandomFork();
-            _sprite.sprite = _eventInfo.Sprite;
-            var text = _eventInfo.Text;
-            var possibleAnswers = GetPossibleAnswers();
-            UpdateEventText(text, possibleAnswers);
-        }
-
-        private void LoadRandomFork()
-        {
-            _random ??= new Random();
-            var index = _random.Next(_eventInfo.NextStages.Count);
-            _eventInfo = _eventInfo.NextStages[index];
-        }
-
-        private bool IsEventEnd()
-        {
-            if (!_eventInfo.IsEnd && !_eventInfo.IsBattle)
-                return false;
-            
-            if (_eventInfo.IsEnd)
+            if (_eventGraph.Current.IsEnd)
                 EventEnd();
-            else if (_eventInfo.IsBattle)
+            else if (_eventGraph.Current.IsBattle)
                 EventEndWithBattle();
-
             Close();
-            return true;
         }
 
-        private void UpdateEventInfo(int buttonIndex = -1)
+        private void UpdateEventInfo(int buttonIndex)
         {
-            _eventInfo = buttonIndex switch
-            {
-                -1 => _eventInfo.NextStage,
-                0 => _eventInfo.NextStages[0],
-                1 => _eventInfo.NextStages[1],
-                _ => throw new ArgumentException("Is not valid button index")
-            };
+            _eventGraph.NextNode(buttonIndex);
         }
 
-        private IReadOnlyList<string> GetPossibleAnswers()
-        {
-            return !_eventInfo.IsFork ? null : _eventInfo.Answers;
-        }
-
-        public void OnClickAnswer(int buttonIndex)
+        public void ClickAnswer(int buttonIndex)
         {
             UpdateEventInfo(buttonIndex);
-            LoadEventText();
-        }
-
-        public void OnClickSkipButton()
-        {
-            UpdateEventInfo();
-            LoadEventText();
-        }
-
-        private void EventEndWithBattle()
-        {
-            OnStartBattle?.Invoke(_eventInfo.Enemies);
+            LoadEventInfo();
         }
 
         private void EventEnd()
         {
-            if (_eventInfo.IsHaveItems)
+            if (!_eventGraph.Current.IsHaveItems) 
+                return;
+            foreach (var itemData in _eventGraph.Current.ItemsId)
             {
-                foreach (var itemData in _eventInfo.ItemsId)
-                {
-                    var item = ItemFactory.Create(itemData);
-                    _inventory.AddItem(item);
-                }
+                var item = ItemFactory.Create(itemData);
+                _inventory.AddItem(item);
             }
+        }
+
+        private void EventEndWithBattle()
+        {
+            OnStartBattle?.Invoke(_eventGraph.Current.Enemies);
         }
 
         public override void Open()
@@ -164,13 +119,23 @@ namespace RoguelikeMap.UI.PointPanels
             VisitEventInvoke();
             base.Close();
         }
-        
+
         private void VisitEventInvoke(bool isPlay = false)
         {
-            if (IsContainsBattle)
+            if (_eventGraph is null)
+            {
+                Logging.LogException(new MissingFieldException());
+                return;
+            }
+            if (_eventGraph.IsContainsBattle)
                 OnBattleEventVisit?.Invoke(isPlay);
             else
                 OnSafeEventVisit?.Invoke(isPlay);
+        }
+
+        private void OnDisable()
+        {
+            _eventGraph.OnEventEnd -= FinishEvent;
         }
     }
 }

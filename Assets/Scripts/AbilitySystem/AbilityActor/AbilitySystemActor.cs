@@ -82,7 +82,7 @@ namespace OrderElimination.AbilitySystem
 
         #region EntityMover
         public Vector2Int Position => DeployedBattleMap.GetPosition(this);
-        public bool CanMove => !StatusHolder.HasStatus(BattleStatus.CantMove);
+        public bool CanMove => !StatusHolder.HasStatus(BattleStatus.CantMove) && !IsDisposedFromBattle;
 
         public bool Move(Vector2Int destination, bool forceMove = false)
         {
