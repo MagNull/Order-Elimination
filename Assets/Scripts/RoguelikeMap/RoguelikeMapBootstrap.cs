@@ -11,6 +11,7 @@ using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 using VContainer;
@@ -50,9 +51,13 @@ namespace RoguelikeMap
         [SerializeField]
         private CharacterCard _cardIcon;
 
-        [Header("Data Mapping")]
+        [Header("Saves Management")]
         [SerializeField]
         private CharacterTemplatesMapping _characterTemplatesMapping;
+        [SerializeField]
+        private bool _saveLocalData;
+        [SerializeField]
+        private bool _loadLocalData;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -62,7 +67,6 @@ namespace RoguelikeMap
                 mediator = _testMediator;
                 mediator.InitTest();
             }
-
             LoadLocalData(mediator, builder);
             builder.Register<Wallet>(Lifetime.Singleton).WithParameter(_startMoney);
             builder.RegisterComponent(mediator);
@@ -92,17 +96,22 @@ namespace RoguelikeMap
 
         public void OnDisable()
         {
+            var sceneMediator = Container.Resolve<ScenesMediator>();
             var inventory = Container.Resolve<Inventory>();
-            var playerSquad = Container
-                .Resolve<ScenesMediator>()
-                .Get<IEnumerable<GameCharacter>>("player characters");
-            SaveLocalData(playerSquad, inventory);
+            var playerSquad = sceneMediator.Get<IEnumerable<GameCharacter>>("player characters");
+            var upgradeStats = sceneMediator.Get<StrategyStats>("stats");
+            SaveLocalData(playerSquad, inventory, upgradeStats);
         }
 
-        protected void SaveLocalData(IEnumerable<GameCharacter> playerSquad, Inventory inventory)
+        protected void SaveLocalData(
+            IEnumerable<GameCharacter> playerSquad, 
+            Inventory inventory,
+            StrategyStats upgradeStats)
         {
             InventorySerializer.Save(inventory);
-            //GameCharacterSerializer.SaveCharacters(playerSquad, _characterTemplatesMapping);
+            if (!_saveLocalData) return;
+            LocalDataManager.SaveLocalData(
+                playerSquad.ToArray(), upgradeStats, _characterTemplatesMapping);
         }
 
         protected void LoadLocalData(ScenesMediator mediator, IContainerBuilder containerBuilder)
@@ -110,12 +119,24 @@ namespace RoguelikeMap
             var inventory = InventorySerializer.Load();
             containerBuilder.RegisterComponent(inventory);
 
-            //var playerCharacters = GameCharacterSerializer.LoadPlayerCharacters(_characterTemplatesMapping);
-            //if (playerCharacters.Length != 0)
-            //    mediator.Register("player characters", playerCharacters);
-            //else
-            //    Debug.LogError(
-            //        new Exception("Player character local saves corrupted (squad members count is 0)"));
+            if (!_loadLocalData) return;
+            if (LocalDataManager.IsLocalDataExists)
+            {
+                var localData = LocalDataManager.LoadLocalData();
+                var playerCharacters = localData.PlayerSquadCharacters
+                    .Select(d => GameCharacterSerializer.SaveDataToCharacter(d, _characterTemplatesMapping))
+                    .ToArray();
+                if (playerCharacters.Length == 0)
+                {
+                    Logging.LogError(new LocalDataCorruptedException("Squad members count is 0"));
+                }
+                else
+                {
+                    mediator.Register("player characters", playerCharacters);
+                    //localData.PlayerInventory;
+                    mediator.Register("stats", localData.StatsUpgrades);
+                }
+            }
         }
     }
 }
