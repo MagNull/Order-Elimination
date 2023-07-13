@@ -21,10 +21,11 @@ namespace RoguelikeMap.UI.PointPanels
         [SerializeField] 
         private Image _sprite;
 
-        private EventPointGraph _eventGraph;
         private Inventory _inventory;
-
-        public event Action<IReadOnlyList<IGameCharacterTemplate>> OnStartBattle;
+        private bool _isContainsBattle = false;
+        
+        public event Action<int> OnAnswerClick;
+        public event Action<IEnumerable<IGameCharacterTemplate>> OnStartBattle;
         public event Action<bool> OnSafeEventVisit;
         public event Action<bool> OnBattleEventVisit;
 
@@ -32,14 +33,6 @@ namespace RoguelikeMap.UI.PointPanels
         public void Construct(Inventory inventory)
         {
             _inventory = inventory;
-        }
-        
-        public void Initialize(EventPointGraph graph)
-        {
-            graph.ResetGraph();
-            _eventGraph = graph;
-            _eventGraph.OnEventEnd += FinishEvent;
-            LoadEventInfo();
         }
 
         private void SetActiveAnswers(bool isActive)
@@ -50,92 +43,79 @@ namespace RoguelikeMap.UI.PointPanels
                 button.gameObject.SetActive(isActive);
         }
 
-        private void UpdateAnswersText()
+        public void UpdateAnswersText(IReadOnlyList<string> answers)
         {
             SetActiveAnswers(true);
-            for (var i = 0; i < _eventGraph.Current.Answers.Count; i++)
+            for (var i = 0; i < answers.Count; i++)
             {
                 var buttonText = _answerButtons[i].GetComponentInChildren<TMP_Text>();
-                buttonText.text = _eventGraph.Current.Answers[i];
+                buttonText.text = answers[i];
             }
         }
 
-        private void LoadEventInfo()
+        public void UpdateSprite(Sprite sprite)
         {
-            _sprite.sprite = _eventGraph.Current.Sprite;
-            _eventText.text = _eventGraph.Current.Text;
-            if (!_eventGraph.Current.IsFork)
-            {
-                SetActiveAnswers(false);
+            if (sprite is null)
                 return;
-            }
-            UpdateAnswersText();
+            _sprite.sprite = sprite;
         }
 
-        private void FinishEvent()
+        public void UpdateText(string text)
         {
-            if (_eventGraph.Current.IsEnd)
-                EventEnd();
-            else if (_eventGraph.Current.IsBattle)
-                EventEndWithBattle();
+            _eventText.text = text;
+            SetActiveAnswers(false);
+        }
+
+        public void FinishEvent(IEnumerable<ItemData> items = null)
+        {
+            if (items is not null)
+                AddItemsToInventory(items);
             Close();
         }
 
-        private void UpdateEventInfo(int buttonIndex)
+        private void AddItemsToInventory(IEnumerable<ItemData> items)
         {
-            _eventGraph.NextNode(buttonIndex);
-        }
-
-        public void ClickAnswer(int buttonIndex)
-        {
-            UpdateEventInfo(buttonIndex);
-            LoadEventInfo();
-        }
-
-        private void EventEnd()
-        {
-            if (!_eventGraph.Current.IsHaveItems) 
-                return;
-            foreach (var itemData in _eventGraph.Current.ItemsId)
+            foreach (var itemData in items)
             {
                 var item = ItemFactory.Create(itemData);
                 _inventory.AddItem(item);
             }
         }
 
-        private void EventEndWithBattle()
+        public void FinishEventWithBattle(IEnumerable<IGameCharacterTemplate> enemies)
         {
-            OnStartBattle?.Invoke(_eventGraph.Current.Enemies);
+            OnStartBattle?.Invoke(enemies);
         }
 
-        public override void Open()
+        public void ClickAnswer(int buttonIndex)
         {
-            base.Open();
-            VisitEventInvoke(true);
-        }
-        
-        public override void Close()
-        {
-            VisitEventInvoke();
-            base.Close();
+            OnAnswerClick?.Invoke(buttonIndex);
         }
 
-        private void VisitEventInvoke(bool isPlay = false)
+        private void PlayEventMusic(bool isPlay)
         {
-            if (_eventGraph is null)
-            {
-                Logging.LogException(new MissingFieldException());
-                return;
-            }
-            if (_eventGraph.IsContainsBattle)
+            if (_isContainsBattle)
                 OnBattleEventVisit?.Invoke(isPlay);
             else
                 OnSafeEventVisit?.Invoke(isPlay);
         }
 
-        private void OnDisable()
+        public void Open(bool isContainBattle)
         {
-            _eventGraph.OnEventEnd -= FinishEvent;
+            _isContainsBattle = isContainBattle;
+            Open();
+        }
+
+        public override void Open()
+        {
+            base.Open();
+            PlayEventMusic(true);
+        }
+
+        public override void Close()
+        {
+            PlayEventMusic(false);
+            base.Close();
         }
     }
 }

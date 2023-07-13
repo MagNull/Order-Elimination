@@ -62,7 +62,7 @@ namespace RoguelikeMap.SquadInfo
             StartAttack(battlePointModel.Enemies, battlePointModel.Scenario);
         }
         
-        private void StartAttackByEventPoint(IReadOnlyList<IGameCharacterTemplate> enemies)
+        private void StartAttackByEventPoint(IEnumerable<IGameCharacterTemplate> enemies)
         {
             if (_target is not EventPointModel eventPointModel)
             {
