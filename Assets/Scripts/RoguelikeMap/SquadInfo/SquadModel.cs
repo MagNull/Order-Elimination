@@ -61,7 +61,6 @@ namespace OrderElimination
         private void RestoreUpgrades()
         {
             var stats = _mediator.Get<StrategyStats>("stats");
-            Debug.LogError(stats.ToString());
             var statsGrowth = new Dictionary<BattleStat, float>()
             {
                 { BattleStat.MaxHealth, stats.HealthGrowth },

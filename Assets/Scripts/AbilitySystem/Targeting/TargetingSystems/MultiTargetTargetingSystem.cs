@@ -1,6 +1,4 @@
-﻿using OrderElimination.Infrastructure;
-using Sirenix.OdinInspector;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,7 +7,6 @@ namespace OrderElimination.AbilitySystem
 {
     public class MultiTargetTargetingSystem : IAbilityTargetingSystem, IRequireSelectionTargetingSystem
     {
-        private CellGroupDistributionPattern _targetPattern;
         private List<ICellCondition> _cellConditions;
         private int _necessaryTargets;
         private int _optionalTargets;
@@ -18,19 +15,11 @@ namespace OrderElimination.AbilitySystem
         private IBattleContext _targetingContext;
         private AbilitySystemActor _targetingCaster;
 
-        public CellGroupDistributionPattern TargetPattern
-        {
-            get => _targetPattern;
-            private set
-            {
-                if (IsTargeting) Logging.LogException(new InvalidOperationException("Set target while targeting"));
-                _targetPattern = value;
-            }
-        }
         public bool IsTargeting { get; private set; } = false;
         public bool IsConfirmed { get; private set; } = false;
         public bool IsConfirmAvailable =>
             IsTargeting && !IsConfirmed && NecessaryTargetsLeft == 0;
+
         public int NecessaryTargets
         {
             get => _necessaryTargets;
@@ -56,6 +45,8 @@ namespace OrderElimination.AbilitySystem
         public IEnumerable<Vector2Int> CurrentAvailableCells => _availableCells;
         public IEnumerable<Vector2Int> SelectedCells => _selectedCells;
 
+        public ICellGroupsDistributor CellGroupsDistributor { get; private set; }
+
         public event Action<IAbilityTargetingSystem> TargetingStarted;
         public event Action<IAbilityTargetingSystem> TargetingConfirmed;
         public event Action<IAbilityTargetingSystem> TargetingCanceled;
@@ -66,7 +57,7 @@ namespace OrderElimination.AbilitySystem
         public event Action<IRequireSelectionTargetingSystem> AvailableCellsUpdated;
 
         public MultiTargetTargetingSystem(
-            CellGroupDistributionPattern targetPattern, 
+            ICellGroupsDistributor groupDistributor, 
             IEnumerable<ICellCondition> cellConditions,
             int necessaryTargets = 0,
             int optionalTargets = 0)
@@ -74,7 +65,7 @@ namespace OrderElimination.AbilitySystem
             if (necessaryTargets < 0
                 || optionalTargets < 0)
                 Logging.LogException(new ArgumentOutOfRangeException());
-            _targetPattern = targetPattern;
+            CellGroupsDistributor = groupDistributor;
             _cellConditions = cellConditions.ToList();
             _necessaryTargets = necessaryTargets;
             _optionalTargets = optionalTargets;
@@ -160,10 +151,8 @@ namespace OrderElimination.AbilitySystem
 
         public CellGroupsContainer ExtractCastTargetGroups()
         {
-            var mapBorders = _targetingContext.BattleMap.CellRangeBorders;
-            var casterPosition = _targetingCaster.Position;
-            return TargetPattern.GetAffectedCellGroups(
-                mapBorders, casterPosition, SelectedCells.ToArray());
+            return CellGroupsDistributor.DistributeSelection(
+                _targetingContext, _targetingCaster, SelectedCells);
         }
     }
 }

@@ -10,20 +10,19 @@ namespace OrderElimination.MacroGame
         public static GameCharacter CreateGameCharacter(IGameCharacterTemplate template)
         {
             var baseStats = template.GetBaseBattleStats();
-            return RestoreGameCharacter(template, baseStats, baseStats.MaxHealth);
+            return CreateGameCharacter(template, baseStats);
         }
 
-        public static GameCharacter RestoreGameCharacter(
+        public static GameCharacter CreateGameCharacter(
             IGameCharacterTemplate template, 
-            IReadOnlyGameCharacterStats specifiedStats,
-            float health)
+            IReadOnlyGameCharacterStats specifiedStats)
         {
             var activeAbilities = template.GetActiveAbilities()
                 .Select(a => AbilityFactory.CreateActiveAbility(a));
             var passiveAbilities = template.GetPassiveAbilities()
                 .Select(a => AbilityFactory.CreatePassiveAbility(a));
             var character = new GameCharacter(template, activeAbilities, passiveAbilities, specifiedStats);
-            character.CurrentHealth = health;
+            character.CurrentHealth = character.CharacterStats.MaxHealth;
             return character;
         }
 

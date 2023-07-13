@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem.Animations
 {
-    [CreateAssetMenu(fileName = "AbilityAnimationPreset", menuName = "AbilitySystem/Animations/AnimationPreset")]
+    [CreateAssetMenu(fileName = "AbilityAnimationPreset", menuName = "OrderElimination/AbilitySystem/Animations/AnimationPreset")]
     public class AnimationPreset : SerializedScriptableObject
     {
         [ShowInInspector, NonSerialized]

@@ -11,22 +11,12 @@ namespace OrderElimination.AbilitySystem
         + "\nRecommended to use interface \"" + nameof(IRequireSelectionTargetingSystem) + "\" instead.")]
     public class SingleTargetTargetingSystem : IAbilityTargetingSystem, IRequireSelectionTargetingSystem
     {
-        private CellGroupDistributionPattern _targetPattern;
         private List<ICellCondition> _cellConditions;
         private HashSet<Vector2Int> _availableCells;
         private Vector2Int? _selectedCell;
         private IBattleContext _targetingContext;
         private AbilitySystemActor _targetingCaster;
 
-        public CellGroupDistributionPattern TargetPattern
-        {
-            get => _targetPattern;
-            private set
-            {
-                if (IsTargeting) Logging.LogException(new InvalidOperationException());
-                _targetPattern = value;
-            }
-        }
         public bool IsTargeting { get; private set; } = false;
         public bool IsConfirmed { get; private set; } = false;
         public bool IsConfirmAvailable => _selectedCell != null && _selectedCell.HasValue;
@@ -34,6 +24,8 @@ namespace OrderElimination.AbilitySystem
         public IEnumerable<Vector2Int> SelectedCells 
             => Enumerable.Repeat(_selectedCell, 1).Where(c => c.HasValue).Select(c => c.Value);
         public int NecessaryTargetsLeft => _selectedCell == null ? 1 : 0;
+
+        public ICellGroupsDistributor CellGroupsDistributor { get; private set; }
 
         public event Action<IAbilityTargetingSystem> TargetingStarted;
         public event Action<IAbilityTargetingSystem> TargetingConfirmed;
@@ -45,10 +37,10 @@ namespace OrderElimination.AbilitySystem
         public event Action<IRequireSelectionTargetingSystem> AvailableCellsUpdated;
 
         public SingleTargetTargetingSystem(
-            CellGroupDistributionPattern targetPattern, 
+            ICellGroupsDistributor groupDistributor, 
             IEnumerable<ICellCondition> cellConditions)
         {
-            _targetPattern = targetPattern;
+            CellGroupsDistributor = groupDistributor;
             _cellConditions = cellConditions.ToList();//.Clone().ToList() - will prevent real-time changes
         }
 
@@ -128,12 +120,8 @@ namespace OrderElimination.AbilitySystem
 
         public CellGroupsContainer ExtractCastTargetGroups()
         {
-            if (!IsTargeting && !IsConfirmed)
-                Logging.LogException(new InvalidOperationException("Targeting is not initiated or being canceled."));
-            var mapBorders = _targetingContext.BattleMap.CellRangeBorders;
-            var casterPosition = _targetingCaster.Position;
-            return TargetPattern.GetAffectedCellGroups(
-                mapBorders, casterPosition, SelectedCells.ToArray());
+            return CellGroupsDistributor.DistributeSelection(
+                _targetingContext, _targetingCaster, SelectedCells);
         }
     }
 }

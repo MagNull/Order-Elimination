@@ -1,6 +1,7 @@
 ﻿using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
+using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -13,7 +14,7 @@ namespace OrderElimination.AbilitySystem
         public ITriggerSetup TriggerSetup { get; private set; }
 
         [ShowInInspector, OdinSerialize]
-        public CasterRelativePattern CellDistributionPattern { get; private set; }
+        public ICellGroupsDistributor GroupDistributor { get; private set; }
 
         [ShowInInspector, OdinSerialize]
         public AbilityInstruction[] Instructions { get; private set; }
@@ -41,7 +42,8 @@ namespace OrderElimination.AbilitySystem
             async void OnTriggered(ITriggerFireInfo fireInfo)
             {
                 var borders = battleContext.BattleMap.CellRangeBorders;
-                var cellGroups = CellDistributionPattern.GetAffectedCellGroups(borders, caster.Position);
+                var cellGroups = GroupDistributor.DistributeSelection(
+                    battleContext, caster, new Vector2Int[0]);
                 var executionContext = new AbilityExecutionContext(battleContext, caster, cellGroups);
                 foreach (var i in Instructions)
                 {

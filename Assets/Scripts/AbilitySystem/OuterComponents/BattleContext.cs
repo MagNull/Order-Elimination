@@ -29,10 +29,6 @@ namespace OrderElimination.AbilitySystem
         public event Action<IBattleContext> NewTurnStarted;
         public event Action<IBattleContext> NewRoundBegan;
 
-        //TODO: Refactor or remove (used to test squares on line vector pattern)
-        public static IBattleContext CurrentSceneContext { get; private set; }
-        //
-
         [Inject]
         private void Construct(IObjectResolver objectResolver)
         {
@@ -44,10 +40,6 @@ namespace OrderElimination.AbilitySystem
             _battleLoopManager.NewTurnStarted += OnNewTurn;
             _battleLoopManager.NewRoundBegan += OnNewRound;
             _battleLoopManager.BattleStarted += OnBattleStarted;
-
-            //TODO: Refactor or remove
-            CurrentSceneContext = this;
-            //TODO: Refactor
 
             void OnNewTurn()
             {
