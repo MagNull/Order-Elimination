@@ -45,7 +45,7 @@ namespace OrderElimination.AbilitySystem
 
         [TabGroup("Visuals"), PropertyOrder(10)]
         [ShowInInspector, OdinSerialize]
-        public bool HideInCharacterDiscription { get; private set; }
+        public bool HideInCharacterDescription { get; private set; }
 
         [TabGroup("Game Rules", Order = 1), PropertyOrder(-98)]
         [ShowInInspector, OdinSerialize]
