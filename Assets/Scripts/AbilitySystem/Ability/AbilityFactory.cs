@@ -12,7 +12,7 @@ namespace OrderElimination.AbilitySystem
                 builderData.Name,
                 builderData.Icon,
                 builderData.Description,
-                builderData.HideInCharacterDiscription,
+                builderData.HideInCharacterDescription,
                 builderData.ShowCrosshairWhenTargeting,
                 builderData.ShowTrajectoryWhenTargeting);
             var gameRepresentation = new AbilityGameRepresentation
