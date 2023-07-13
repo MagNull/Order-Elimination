@@ -10,18 +10,18 @@ namespace OrderElimination.SavesManagement
         public int BasedTemplateId { get; }
         public GameCharacterStats CharacterStats { get; }
         public float CurrentHealth { get; }
-        public Inventory CharacterInventory { get; }
+        //public Inventory CharacterInventory { get; }
 
         public GameCharacterSaveData(
             int basedTemplateId, 
             GameCharacterStats characterStats,
-            float currentHealth,
-            Inventory inventory)
+            float currentHealth)//,
+            //Inventory inventory)
         {
             BasedTemplateId = basedTemplateId;
             CharacterStats = characterStats;
             CurrentHealth = currentHealth;
-            CharacterInventory = inventory;
+            //CharacterInventory = inventory;
         }
     }
 }

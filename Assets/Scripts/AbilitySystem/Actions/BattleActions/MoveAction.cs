@@ -110,6 +110,7 @@ namespace OrderElimination.AbilitySystem
                             useContext.ActionMaker,
                             useContext.ActionTarget,
                             path[i]);
+                        if (movingEntity.CanMove )
                         if (MoveAnimation != null)
                             await MoveAnimation.Play(pathAnimContext);
                         if (!movingEntity.Move(path[i]))

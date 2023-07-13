@@ -67,8 +67,8 @@ namespace OrderElimination.SavesManagement
                 var charData = new GameCharacterSaveData(
                     templateId,
                     new GameCharacterStats(character.CharacterStats),
-                    character.CurrentHealth,
-                    character.Inventory);
+                    character.CurrentHealth);
+                    //character.Inventory);
                 playerCharactersData.Add(charData);
             }
             var saveData = new PlayerProgressLocalData(
