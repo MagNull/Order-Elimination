@@ -32,6 +32,9 @@ MonoBehaviour:
     - Name: Description
       Entry: 6
       Data: 
+    - Name: HideInCharacterDiscription
+      Entry: 5
+      Data: false
     - Name: CooldownTime
       Entry: 3
       Data: 0
@@ -228,8 +231,8 @@ MonoBehaviour:
       Data: 
     - Name: _specifiedCharacters
       Entry: 7
-      Data: 14|System.Collections.Generic.List`1[[IBattleCharacterData, Assembly-CSharp]],
-        mscorlib
+      Data: 14|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
+        Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -241,8 +244,8 @@ MonoBehaviour:
       Data: 
     - Name: _specifiedStructures
       Entry: 7
-      Data: 15|System.Collections.Generic.List`1[[IBattleStructureData, Assembly-CSharp]],
-        mscorlib
+      Data: 15|System.Collections.Generic.List`1[[OrderElimination.IBattleStructureTemplate,
+        Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -276,6 +279,9 @@ MonoBehaviour:
     - Name: _undoOnTriggerDeactivation
       Entry: 5
       Data: true
+    - Name: _actionTarget
+      Entry: 3
+      Data: 0
     - Name: _actionsOnEnter
       Entry: 7
       Data: 16|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IBattleAction,
@@ -329,26 +335,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _cellGroupsHighlightColors
-      Entry: 7
-      Data: 20|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[UnityEngine.Color,
-        UnityEngine.CoreModule]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 21|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
-        mscorlib]], mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 0
     - Name: 
       Entry: 13
       Data: 
