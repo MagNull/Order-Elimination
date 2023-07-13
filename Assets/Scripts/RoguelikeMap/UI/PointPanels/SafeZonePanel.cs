@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameInventory;
 using GameInventory.Items;
 using TMPro;
 using UnityEngine;
+using VContainer;
 using Image = UnityEngine.UI.Image;
 
 namespace RoguelikeMap.UI.PointPanels
@@ -16,11 +18,17 @@ namespace RoguelikeMap.UI.PointPanels
 
         private int _amountHeal;
         private IReadOnlyList<ItemData> _items;
+        private Inventory _inventory;
         
         public event Action<int> OnHealAccept;
-        public event Action<IReadOnlyList<ItemData>> OnLootAccept;
         public event Action<bool> OnSafeZoneVisit;
         
+        [Inject]
+        public void Construct(Inventory inventory)
+        {
+            _inventory = inventory;
+        }
+
         public void SetInfo(int amountHeal, IReadOnlyList<ItemData> items, Sprite sprite, string text)
         {
             _amountHeal = amountHeal;
@@ -38,7 +46,11 @@ namespace RoguelikeMap.UI.PointPanels
         //TODO(coder): add loot to player inventory after create inventory system
         public void LootAccept()
         {
-            OnLootAccept?.Invoke(_items);
+            foreach (var itemData in _items)
+            {
+                var item = ItemFactory.Create(itemData);
+                _inventory.AddItem(item);
+            }
             Close();
         }
 

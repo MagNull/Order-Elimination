@@ -4,74 +4,91 @@ using GameInventory.Items;
 using OrderElimination;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
+using XNode;
+using Random = UnityEngine.Random;
 
 namespace RoguelikeMap.Points.Models
 {
     [Serializable]
-    public class EventInfo
+    public class EventInfo : Node
     {
-        [SerializeField] 
-        private Sprite sprite;
+        [Input, HideIf("@this.IsStart")]
+        public EventInfo entries;
         
-        [SerializeField]
-        [HideIf("@this._isEnd || this._isBattle")]
-        private string _text;
+        [Output, HideIf("@this.IsEnd")]
+        public EventInfo exits;
         
-        [SerializeField] 
-        [HideIf("@this._isFork || this._isBattle")]
-        private bool _isEnd;
+        [field: SerializeField]
+        public Sprite Sprite { get; private set; }
         
-        [SerializeField]
-        [HideIf("@this._isEnd || this._isBattle")]
-        private bool _isFork;
+        [field: SerializeField, HideIf("@this.IsEnd || this.IsBattle"), MultiLineProperty]
+        public string Text { get; private set; }
 
-        [SerializeField] 
-        [ShowIf("_isFork")] 
-        private bool _isRandom;
+        [field: SerializeField, HideIf("@this.IsEnd")]
+        public bool IsStart { get; private set; }
         
-        [SerializeField]
-        [ShowIf("_isEnd")]
-        private bool _isHaveItems;
+        [field: SerializeField, HideIf("@this.IsFork || this.IsBattle || this.IsStart")]
+        public bool IsEnd { get; private set; }
+        
+        [field: SerializeField, HideIf("@this.IsEnd || this.IsBattle")]
+        public bool IsFork { get; private set; }
 
-        [SerializeField]
-        [HideIf("@this._isEnd || this._isFork")]
-        private bool _isBattle;
+        [field: SerializeField, ShowIf("IsFork")]
+        public bool IsRandom { get; private set; }
         
-        [SerializeField]
-        [ShowIf("@this._isEnd && this._isHaveItems")]
+        [field: SerializeField, ShowIf("IsEnd")]
+        public bool IsHaveItems { get; private set; }
+
+        [field: SerializeField, HideIf("@this.IsEnd || this.IsFork")]
+        public bool IsBattle { get; private set; }
+        
+        [SerializeField, ShowIf("@this.IsEnd && this.IsHaveItems")]
         private List<ItemData> _itemsData;
 
-        [SerializeReference]
-        [HideIf("@this._isFork || this._isEnd || this._isBattle")]
-        private EventInfo _nextStage;
-        
-        [ShowIf("@this._isFork && !_isRandom")]
         [TabGroup("Answers")]
-        [SerializeReference]
+        [SerializeReference, ShowIf("@this.IsFork && !IsRandom")]
         private List<string> _answers;
-        
-        [ShowIf("_isFork")]
-        [TabGroup("NextStages")]
-        [SerializeReference]
-        private List<EventInfo> _nextStages;
 
-        [ShowIf("_isBattle")] 
-        [SerializeField]
+        [SerializeField, ShowIf("IsBattle")]
         private List<CharacterTemplate> _enemies;
 
         public IReadOnlyList<ItemData> ItemsId => _itemsData;
         public IReadOnlyList<string> Answers => _answers;
-        public IReadOnlyList<EventInfo> NextStages => _nextStages;
         public IReadOnlyList<IGameCharacterTemplate> Enemies => _enemies;
-        public EventInfo NextStage => _nextStage;
-        public bool IsHaveItems => _itemsData is not null;
-        public bool IsEnd => _isEnd;
-        public bool IsFork => _isFork;
-        public bool IsBattle => _isBattle;
-        public bool IsRandomFork => _isFork && _isRandom;
-        public string Text => _text;
-        public Sprite Sprite => sprite;
+        public bool IsRandomFork => IsFork && IsRandom;
+        
+        public override object GetValue(NodePort port)
+        {
+            return this;
+        }
+
+        public EventInfo MoveNext(int index)
+        {
+            var ports = GetPorts();
+            if(index > ports.Count)
+                Debug.LogError("Invalid port index");
+            var nodePort = ports[index];
+            return (EventInfo)nodePort.node.GetValue(nodePort);
+        }
+        
+        public EventInfo NextRandomNode()
+        {
+            var ports = GetPorts();
+            var index = Random.Range(0, ports.Count);
+            var nodePort = ports[index];
+            return (EventInfo)nodePort.node.GetValue(nodePort);
+        }
+
+        private List<NodePort> GetPorts()
+        {
+            var eventGraph = graph as EventPointGraph;
+
+            if (eventGraph.Current != this) {
+                Debug.LogWarning("Node isn't active");
+                return null;
+            }
+
+            return GetOutputPort("exits").GetConnections();
+        }
     }
 }
