@@ -13,7 +13,7 @@ namespace OrderElimination.SavesManagement
             var character = GameCharactersFactory.CreateGameCharacter(
                 template, characterSaveData.CharacterStats);
             character.CurrentHealth = characterSaveData.CurrentHealth;
-            character.SetInventory(characterSaveData.CharacterInventory);
+            //character.SetInventory(characterSaveData.CharacterInventory);
             return character;
         }
 
@@ -24,7 +24,7 @@ namespace OrderElimination.SavesManagement
             var characterTemplateId = templatesMapping.GetKey(character.CharacterData);
             var stats = new GameCharacterStats(character.CharacterStats);
             var saveData = new GameCharacterSaveData(
-                characterTemplateId, stats, character.CurrentHealth, character.Inventory);
+                characterTemplateId, stats, character.CurrentHealth);
             return saveData;
         }
     }
