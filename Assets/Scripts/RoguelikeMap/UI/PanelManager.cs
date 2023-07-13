@@ -21,7 +21,7 @@ namespace RoguelikeMap.Panels
         
         public Panel GetPanelByPointInfo(PointType pointType)
         {
-            return _panels[(int)pointType];
+            return _panels[(int)pointType % _panels.Count];
         }
     }
 }
