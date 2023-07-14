@@ -104,16 +104,27 @@ namespace OrderElimination.AbilitySystem
         public IReadOnlyDictionary<EnergyPoint, int> EnergyPoints => _energyPoints;
         public void AddEnergyPoints(EnergyPoint energyPoint, int value = 1)
         {
-            if (value < 0) Logging.LogException(new ArgumentException("Try add action point with less zero value"));
-            if (!_energyPoints.ContainsKey(energyPoint)) _energyPoints.Add(energyPoint, 0);
+            if (value < 0)
+                Logging.LogException(
+                    new ArgumentException("Attempt to remove energy point with less zero value"));
+            if (!_energyPoints.ContainsKey(energyPoint))
+                _energyPoints.Add(energyPoint, 0);
             _energyPoints[energyPoint] += value;
         }
-        public void RemoveEnergyPoints(EnergyPoint energyPoint, int value = 1)
+        public bool RemoveEnergyPoints(EnergyPoint energyPoint, int value = 1)
         {
-            if (value < 0) Logging.LogException(new ArgumentException("Try remove action point with less zero value"));
-            if (!_energyPoints.ContainsKey(energyPoint)) Logging.LogException(new ArgumentException("Try remove unavailable actionPoint type"));
-            if (_energyPoints[energyPoint] < value) Logging.LogException(new ArgumentOutOfRangeException("Entity doesn't have enough points to be removed.")) ;
-            _energyPoints[energyPoint] -= value;
+            if (value < 0) 
+                Logging.LogException(
+                    new ArgumentException("Attempt to remove energy point with less zero value"));
+            if (!_energyPoints.ContainsKey(energyPoint)) 
+                Logging.LogException(new ArgumentException("Try remove unavailable actionPoint type"));
+            if (value <= _energyPoints[energyPoint])
+            {
+                _energyPoints[energyPoint] -= value;
+                return true;
+            }
+            _energyPoints[energyPoint] -= Mathf.Min(_energyPoints[energyPoint], value);
+            return false;
         }
         public void RemoveEnergyPoints(IReadOnlyDictionary<EnergyPoint, int> energyPoint)
         {
@@ -129,7 +140,8 @@ namespace OrderElimination.AbilitySystem
         }
         public void SetEnergyPoints(EnergyPoint energyPoint, int value)
         {
-            if (value < 0) Logging.LogException(new ArgumentOutOfRangeException());
+            if (value < 0)
+                Logging.LogException(new ArgumentOutOfRangeException());
             if (!_energyPoints.ContainsKey(energyPoint)) 
                 _energyPoints.Add(energyPoint, 0);
             _energyPoints[energyPoint] = value;
