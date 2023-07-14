@@ -218,6 +218,7 @@ public class BattleMapSelector : MonoBehaviour
     {
         DeselectEntity();
         entity.DisposedFromBattle += OnSelectedEntityDisposed;
+        entity.AbilitiesChanged += e => _abilityPanel.AssignAbilities(e, entity.ActiveAbilities.ToArray());
         _currentSelectedEntity = entity;
         var view = _battleContext.EntitiesBank.GetViewByEntity(entity);
         _abilityPanel.AssignAbilities(entity, entity.ActiveAbilities.ToArray());
@@ -247,7 +248,7 @@ public class BattleMapSelector : MonoBehaviour
         EditorUtility.IsPersistent(so);
         Debug.Log(
             $"{entity.EntityType} {view.Name} selected." % Colorize.ByColor(new Color(1, 0.5f, 0.5f))
-            + $"\nActionPoints: {string.Join(", ", entity.ActionPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
+            + $"\nActionPoints: {string.Join(", ", entity.EnergyPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
             + $"\nHealth: {entity.BattleStats.Health}; MaxHealth: {entity.BattleStats.MaxHealth.ModifiedValue}" 
             + $"\nTotalArmor: {entity.BattleStats.TotalArmor}; MaxArmor: {entity.BattleStats.MaxArmor.ModifiedValue}" 
             + $"\nDamage: {entity.BattleStats[BattleStat.AttackDamage].ModifiedValue};" 
