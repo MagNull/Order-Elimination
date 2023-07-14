@@ -380,7 +380,7 @@ public class BattleMapSelector : MonoBehaviour
             foreach (var pos in targetedCells.GetGroup(group))
             {
                 var currentColor = _battleMapView.GetCell(pos.x, pos.y).CurrentColor;
-                var newColor = Color.Lerp(currentColor, colors[group], colors[group].a);//colors[group]
+                var newColor = Color.Lerp(currentColor, colors[group], colors[group].a);
                 _battleMapView.HighlightCell(pos.x, pos.y, newColor);
             }
         }

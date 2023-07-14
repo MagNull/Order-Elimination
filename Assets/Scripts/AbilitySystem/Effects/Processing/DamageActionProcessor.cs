@@ -65,6 +65,11 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         private float _healthMultiplier = 1;
 
+        [FoldoutGroup("DamageChanger")]
+        [BoxGroup("DamageChanger/DamageProperties")]
+        [ShowInInspector, OdinSerialize]
+        private bool _ignoreEvasion;
+
         [ShowInInspector, DisplayAsString, PropertyOrder(-1)]
         [FoldoutGroup("AccuracyChanger", order: 1)]
         private string _accuracyFormula
@@ -99,6 +104,8 @@ namespace OrderElimination.AbilitySystem
                 damageAction.DamageType = _damageType;
             damageAction.ArmorMultiplier *= _armorMultiplier;
             damageAction.HealthMultiplier *= _healthMultiplier;
+            if (_ignoreEvasion)
+                damageAction.IgnoreEvasion = true;
             damageAction.Accuracy = ChangeValueGetter(damageAction.Accuracy, _accuracyOperation, _accuracyValue);
             return originalAction;
         }
