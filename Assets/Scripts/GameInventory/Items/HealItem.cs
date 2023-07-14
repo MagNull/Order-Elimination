@@ -28,7 +28,7 @@ namespace GameInventory.Items
 
         public bool CheckConditionToUse(GameCharacter gameCharacter)
         {
-            return true; //gameCharacter.CurrentHealth < gameCharacter.CharacterStats.MaxHealth;
+            return gameCharacter.CurrentHealth < gameCharacter.CharacterStats.MaxHealth;
         }
     }
 }
