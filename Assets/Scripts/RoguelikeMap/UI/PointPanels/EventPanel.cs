@@ -51,6 +51,11 @@ namespace RoguelikeMap.UI.PointPanels
             }
         }
 
+        public void ResetEvent()
+        {
+            OnAnswerClick = null;
+        }
+
         public bool CheckItem(ItemData itemData)
         {
             Logging.Log("Check inventory contains item");

@@ -1,4 +1,5 @@
-﻿using OrderElimination.Events;
+﻿using System;
+using OrderElimination.Events;
 using RoguelikeMap.UI.PointPanels;
 using UnityEngine;
 using XNode;
@@ -18,8 +19,7 @@ namespace Events
         
         public void Process(EventPanel panel)
         {
-            if (_panel is not null)
-                _panel.OnAnswerClick -= NextNode;
+            panel.ResetEvent();
             _panel = panel;
             currentNode = _startNode;
             _startNode.OnEnter(panel);
