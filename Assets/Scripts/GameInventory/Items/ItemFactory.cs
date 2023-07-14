@@ -1,4 +1,6 @@
-﻿namespace GameInventory.Items
+﻿using System;
+
+namespace GameInventory.Items
 {
     public static class ItemFactory
     {
@@ -10,7 +12,8 @@
                     ? new HealItem(healItemData)
                     : new ConsumableItem(data),
                 ItemType.Equipment => new EquipmentItem(data),
-                _ => null
+                ItemType.Others => new Item(data),
+                _ => throw new NotImplementedException()
             };
         }
     }

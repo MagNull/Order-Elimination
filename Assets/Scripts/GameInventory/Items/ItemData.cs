@@ -8,6 +8,7 @@ namespace GameInventory.Items
     {
         Consumable,
         Equipment,
+        Others
     }
     
     public enum ItemRarity
