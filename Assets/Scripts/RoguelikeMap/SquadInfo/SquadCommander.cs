@@ -17,6 +17,8 @@ namespace RoguelikeMap.SquadInfo
         private readonly IObjectResolver _objectResolver;
         private PointModel _target;
         private Squad _squad;
+        private SquadMembersPanel _squadMembersPanel;
+        
         public PointModel Target => _target;
         public Squad Squad => _squad;
         public event Action<List<GameCharacter>, int> OnSelected;
@@ -76,6 +78,7 @@ namespace RoguelikeMap.SquadInfo
         private void StartAttack(
             IEnumerable<IGameCharacterTemplate> enemies, BattleScenario scenario)
         {
+            _squadMembersPanel.OnSelected -= WereSelectedMembers;
             var enemyCharacters = GameCharactersFactory.CreateGameCharacters(enemies);
             var charactersMediator = _objectResolver.Resolve<ScenesMediator>();
             charactersMediator.Register("player characters", _squad.Members);

@@ -110,7 +110,7 @@ namespace RoguelikeMap.SquadInfo
             _model.SetPoint(point);
         }
         
-        public void MoveAnimation(Vector3 position)
+        private void MoveAnimation(Vector3 position)
         {
             var target = position +
                          new Vector3(-IconSize,

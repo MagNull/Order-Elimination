@@ -53,8 +53,7 @@ namespace RoguelikeMap.UI.PointPanels
 
         public bool CheckItem(ItemData itemData)
         {
-            Logging.Log("Check inventory contains item");
-            return false;
+            return _inventory.Contains(itemData);
         }
 
         public void SetInteractableAnswer(int answerIndex, bool isInteractable)
@@ -89,8 +88,7 @@ namespace RoguelikeMap.UI.PointPanels
             IEnumerable<CharacterTemplate> characters = null)
         {
             if (items is not null)
-                Logging.Log("add items");
-                //AddItemsToInventory(items);
+                AddItemsToInventory(items);
             if(characters is not null)
                 _squad.AddMembers(GameCharactersFactory.CreateGameCharacters(characters));
             Close();
