@@ -419,8 +419,10 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   <IsHaveItems>k__BackingField: 1
+  <IsAddMember>k__BackingField: 0
   _itemsData:
   - {fileID: 11400000, guid: 8cf14f270c3336c4da3f6168e1b739a1, type: 2}
+  _characters: []
 --- !u!114 &-1033399906135040479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,7 +487,6 @@ MonoBehaviour:
   ports:
     keys:
     - entries
-    - exits
     values:
     - _fieldName: entries
       _node: {fileID: -37017505298068050}
@@ -502,20 +503,11 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-    - _fieldName: exits
-      _node: {fileID: -37017505298068050}
-      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  text: 
   _enemies:
   - {fileID: 11400000, guid: 9461f9304513865429fcf3420fd25287, type: 2}
   - {fileID: 11400000, guid: 8461a20f43795594cbe00ebbabe08b55, type: 2}
   - {fileID: 11400000, guid: 1f6151b456f616343bbd2806f780dee0, type: 2}
+  <CountItems>k__BackingField: 3
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -758,7 +750,9 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   <IsHaveItems>k__BackingField: 0
+  <IsAddMember>k__BackingField: 0
   _itemsData: []
+  _characters: []
 --- !u!114 &6278466764784341673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -790,7 +784,9 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   <IsHaveItems>k__BackingField: 0
+  <IsAddMember>k__BackingField: 0
   _itemsData: []
+  _characters: []
 --- !u!114 &7567160541601615855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -870,4 +866,6 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   <IsHaveItems>k__BackingField: 0
+  <IsAddMember>k__BackingField: 0
   _itemsData: []
+  _characters: []

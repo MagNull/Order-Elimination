@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Events;
 using GameInventory;
 using GameInventory.Items;
 using OrderElimination;
@@ -29,7 +30,7 @@ namespace RoguelikeMap.UI.PointPanels
         private bool _isContainsBattle = false;
         
         public event Action<int> OnAnswerClick;
-        public event Action<IEnumerable<IGameCharacterTemplate>> OnStartBattle;
+        public event Action<BattleNode> OnStartBattle;
         public event Action<bool> OnSafeEventVisit;
         public event Action<bool> OnBattleEventVisit;
 
@@ -103,9 +104,9 @@ namespace RoguelikeMap.UI.PointPanels
             }
         }
 
-        public void FinishEventWithBattle(IEnumerable<IGameCharacterTemplate> enemies)
+        public void FinishEventWithBattle(BattleNode battleNode)
         {
-            OnStartBattle?.Invoke(enemies);
+            OnStartBattle?.Invoke(battleNode);
         }
 
         public void ClickAnswer(int buttonIndex)

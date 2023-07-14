@@ -14,7 +14,12 @@ namespace Events
         
         [SerializeField]
         private List<CharacterTemplate> _enemies;
-        
+
+        [field: SerializeField]
+        public int CountItems { get; private set; }
+
+        public IReadOnlyList<CharacterTemplate> Enemies => _enemies;
+
         public void Process(EventPanel panel, int index = 0)
         {
             Logging.LogError(new System.NotImplementedException());
@@ -22,7 +27,7 @@ namespace Events
 
         public void OnEnter(EventPanel panel)
         {
-            panel.FinishEventWithBattle(_enemies);
+            panel.FinishEventWithBattle(this);
         }
     }
 }
