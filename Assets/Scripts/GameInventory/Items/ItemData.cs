@@ -1,5 +1,8 @@
-﻿using OrderElimination.AbilitySystem;
+﻿using AI;
+using OrderElimination.AbilitySystem;
+using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
 namespace GameInventory.Items
@@ -10,7 +13,7 @@ namespace GameInventory.Items
         Equipment,
         Others
     }
-    
+
     public enum ItemRarity
     {
         Common,
@@ -19,8 +22,9 @@ namespace GameInventory.Items
     }
 
     [CreateAssetMenu(fileName = "Item", menuName = "Inventory/Item")]
-    public class ItemData : ScriptableObject
+    public class ItemData : SerializedScriptableObject
     {
+        public EnumMask<Role> RoleFilter = new();
         [field: SerializeField] public ItemView View { get; private set; }
         [field: SerializeField] public ItemType Type { get; private set; }
         

@@ -1,7 +1,10 @@
 ﻿using System;
+using AI;
 using OrderElimination.AbilitySystem;
+using OrderElimination.Infrastructure;
 using OrderElimination.MacroGame;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
 namespace GameInventory.Items
@@ -9,29 +12,19 @@ namespace GameInventory.Items
     [Serializable]
     public class Item
     {
-        [ShowInInspector, SerializeField]
-        private ItemView _itemView;
-
         [SerializeField, HideInInspector]
-        private ItemType _itemType;
+        private ItemData _itemData;
 
-        [SerializeField, HideInInspector]
-        private int _itemId;
+        public ItemView View => _itemData.View;
+        public ItemType Type => _itemData.Type;
+        public ItemRarity Rarity => _itemData.Rarity;
+        public int Id => _itemData.Id;
 
-        [SerializeField, HideInInspector]
-        private ItemRarity _itemRarity;
-
-        public ItemView View => _itemView;
-        public ItemType Type => _itemType;
-        public ItemRarity Rarity => _itemRarity;
-        public int Id => _itemId;
+        public EnumMask<Role> CanTook => _itemData.RoleFilter;
 
         public Item(ItemData itemData)
         {
-            _itemView = itemData.View;
-            _itemType = itemData.Type;
-            _itemId = itemData.Id;
-            _itemRarity = itemData.Rarity;
+            _itemData = itemData;
         }
 
         public virtual void OnTook(AbilitySystemActor abilitySystemActor)

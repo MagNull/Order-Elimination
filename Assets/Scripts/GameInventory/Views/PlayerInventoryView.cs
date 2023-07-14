@@ -48,7 +48,6 @@ namespace GameInventory.Views
             foreach (var cell in cells.Where(cell => !_cells.ContainsKey(cell)))
                 OnCellAdded(cell);
         }
-        
 
         public override void OnCellAdded(IReadOnlyCell cell)
         {
