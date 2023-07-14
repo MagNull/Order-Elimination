@@ -43,7 +43,7 @@ namespace GameInventory.Items
 
         private void Awake()
         {
-            Id = ItemIdGenerator.GetID(this);
+            Id = ItemIdentifier.GetID(this);
         }
     }
 }

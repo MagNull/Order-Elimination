@@ -22,7 +22,7 @@ namespace GameInventory.Views
         public virtual void Init(IReadOnlyCell newCell)
         {
             _cell = newCell;
-            _iconRenderer.sprite = _cell.Item.View.Icon;
+            _iconRenderer.sprite = _cell.Item.Data.View.Icon;
         }
 
         public void Enable()

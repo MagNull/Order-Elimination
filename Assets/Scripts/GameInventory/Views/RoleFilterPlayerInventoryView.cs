@@ -14,7 +14,7 @@ namespace GameInventory.Views
             {
                 if (cell.Key.Item == null)
                     continue;
-                if (!cell.Key.Item.CanTook[_currentCharacterRole])
+                if (!cell.Key.Item.Data.RoleFilter[_currentCharacterRole])
                     cell.Value.Disable();
             }
         }

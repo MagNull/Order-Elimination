@@ -39,7 +39,7 @@ namespace GameInventory.Views
             var lastItems = _inventory.GetItems().TakeLast(_cellsSprites.Count).ToArray();
             for (var i = 0; i < lastItems.Length; i++)
             {
-                _cellsSprites[i].sprite = lastItems[i].View.Icon;
+                _cellsSprites[i].sprite = lastItems[i].Data.View.Icon;
             }
 
             foreach (var cellsSprite in _cellsSprites) 

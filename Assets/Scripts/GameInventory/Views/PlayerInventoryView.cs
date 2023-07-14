@@ -28,7 +28,7 @@ namespace GameInventory.Views
             {
                 if (cell.Key.Item == null)
                     continue;
-                if (cell.Key.Item.Type == (ItemType)itemType)
+                if (cell.Key.Item.Data.Type == (ItemType)itemType)
                     cell.Value.Enable();
                 else
                     cell.Value.Disable();

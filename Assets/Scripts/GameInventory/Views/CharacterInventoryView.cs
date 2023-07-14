@@ -33,15 +33,15 @@ namespace GameInventory.Views
 
         public override void OnCellAdded(IReadOnlyCell cell)
         {
-            if (!_cellViewByItemType.ContainsKey(cell.Item.Type))
+            if (!_cellViewByItemType.ContainsKey(cell.Item.Data.Type))
                 return;
-            _cellViewByItemType[cell.Item.Type].sprite = cell.Item.View.Icon;
-            _cellViewByItemType[cell.Item.Type].enabled = true;
+            _cellViewByItemType[cell.Item.Data.Type].sprite = cell.Item.Data.View.Icon;
+            _cellViewByItemType[cell.Item.Data.Type].enabled = true;
         }
 
         public override void OnCellRemoved(IReadOnlyCell cell)
         {
-            _cellViewByItemType[cell.Item.Type].enabled = false;
+            _cellViewByItemType[cell.Item.Data.Type].enabled = false;
         }
     }
 }
