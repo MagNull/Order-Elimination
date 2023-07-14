@@ -61,6 +61,7 @@ namespace OrderElimination.AbilitySystem
         private List<ICellCondition> _cellConditions { get; set; } = new();
 
         [TabGroup("Targeting")]
+        [ShowIf("@" + nameof(_instructionRequireCellGroups))]
         [ShowInInspector, OdinSerialize]
         private List<IEntityCondition> _targetConditions { get; set; } = new();
         public IReadOnlyList<IEntityCondition> TargetConditions => _targetConditions;

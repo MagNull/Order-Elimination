@@ -16,6 +16,7 @@
         Buff_Stats,
         Debuff,
         MuzzleFlash_Laser,
-        Projectile_Laser
+        Projectile_Laser,
+        Fire_Simple
     }
 }
