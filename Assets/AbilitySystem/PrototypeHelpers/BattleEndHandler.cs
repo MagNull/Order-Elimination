@@ -167,7 +167,7 @@ public class BattleEndHandler : MonoBehaviour
         if (battleOutcome == BattleOutcome.Lose)
             return battleResult;
 
-        var itemsCount = _scenesMediator.Get<BattlePointModel>("point").ItemsCount;
+        var itemsCount = _scenesMediator.Get<int>("items count");
         var items = new Item[itemsCount];
         for (var i = 0; i < itemsCount; i++)
         {

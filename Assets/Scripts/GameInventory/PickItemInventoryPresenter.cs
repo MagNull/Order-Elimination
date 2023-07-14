@@ -29,7 +29,7 @@ namespace GameInventory
                 Logging.LogException( new Exception("Target inventory is null"));
 
             var characterItems = _targetInventory.Cells.Select(c => c.Item);
-            var itemOfType = characterItems.FirstOrDefault(item => cell.Item.Type == item.Type);
+            var itemOfType = characterItems.FirstOrDefault(item => cell.Item.Data.Type == item.Data.Type);
             if (itemOfType != null) 
                 _targetInventory.MoveItemTo(itemOfType, _inventoryModel);
             

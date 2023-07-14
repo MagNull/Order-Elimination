@@ -23,18 +23,14 @@ MonoBehaviour:
     SerializationNodes: []
   _sprite: {fileID: 0}
   _model:
-    rid: 2885433238915645443
+    rid: 2885433286625591538
   references:
     version: 2
     RefIds:
-    - rid: 2885433238915645443
-      type: {class: BattlePointModel, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
+    - rid: 2885433286625591538
+      type: {class: PointModel, ns: RoguelikeMap.Points, asm: Assembly-CSharp}
       data:
         _nextPointsIndex: 0100000002000000030000000a000000
         _position: {x: -1000, y: 0, z: 0}
         <IsLastPoint>k__BackingField: 0
         Index: 0
-        _enemies:
-        - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
-        _battleScenario: {fileID: 11400000, guid: 645568020c6734a33b31a508f38bbbe3, type: 2}
-        _itemsCount: 0

@@ -92,6 +92,12 @@ namespace RoguelikeMap.SquadInfo
             OnUpdateMembers?.Invoke(ActiveMembers);
         }
 
+        public void AddMembers(IEnumerable<GameCharacter> members)
+        {
+            _model.Add(members);
+            GenerateCharactersCard();
+        }
+
         public void Visit(PointModel point)
         {
             UpdatePoint(point);
@@ -104,7 +110,7 @@ namespace RoguelikeMap.SquadInfo
             _model.SetPoint(point);
         }
         
-        public void MoveAnimation(Vector3 position)
+        private void MoveAnimation(Vector3 position)
         {
             var target = position +
                          new Vector3(-IconSize,

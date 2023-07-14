@@ -91,6 +91,7 @@ namespace RoguelikeMap
 
         public void Start()
         {
+            Container.Resolve<SquadCommander>().Start();
             Container.Resolve<BattleRewardHandler>().Start();
         }
 
