@@ -89,9 +89,9 @@ public class BattleLoopManager : MonoBehaviour
 
         static void RestoreActionPoints(AbilitySystemActor entity, int pointsToRestore)
         {
-            foreach (var point in EnumExtensions.GetValues<ActionPoint>())
+            foreach (var point in EnumExtensions.GetValues<EnergyPoint>())
             {
-                entity.SetActionPoints(point, pointsToRestore);
+                entity.SetEnergyPoints(point, pointsToRestore);
             }
         }
     }

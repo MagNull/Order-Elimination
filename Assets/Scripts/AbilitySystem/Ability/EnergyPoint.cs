@@ -1,6 +1,6 @@
 ﻿namespace OrderElimination.AbilitySystem
 {
-    public enum ActionPoint
+    public enum EnergyPoint
     {
         MovementPoint, 
         AttackPoint, 

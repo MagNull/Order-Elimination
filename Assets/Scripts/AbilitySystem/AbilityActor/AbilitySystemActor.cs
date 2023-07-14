@@ -27,9 +27,9 @@ namespace OrderElimination.AbilitySystem
             battleStats.HealthDepleted += OnHealthDepleted;
             EntityType = type;
             BattleSide = side;
-            foreach (var p in EnumExtensions.GetValues<ActionPoint>())
+            foreach (var p in EnumExtensions.GetValues<EnergyPoint>())
             {
-                _actionPoints.Add(p, 0);
+                _energyPoints.Add(p, 0);
             }
             _actionProcessor = new Lazy<EntityActionProcessor>(() => EntityActionProcessor.Create(this));
             _obstacle = new Lazy<BattleObstacle>(() => new BattleObstacle(obstacleSetup, this));
@@ -100,44 +100,44 @@ namespace OrderElimination.AbilitySystem
         #endregion
 
         #region AbilityCaster
-        private readonly Dictionary<ActionPoint, int> _actionPoints = new();
-        public IReadOnlyDictionary<ActionPoint, int> ActionPoints => _actionPoints;
-        public void AddActionPoints(ActionPoint actionPoint, int value = 1)
+        private readonly Dictionary<EnergyPoint, int> _energyPoints = new();
+        public IReadOnlyDictionary<EnergyPoint, int> EnergyPoints => _energyPoints;
+        public void AddEnergyPoints(EnergyPoint energyPoint, int value = 1)
         {
             if (value < 0) Logging.LogException(new ArgumentException("Try add action point with less zero value"));
-            if (!_actionPoints.ContainsKey(actionPoint)) _actionPoints.Add(actionPoint, 0);
-            _actionPoints[actionPoint] += value;
+            if (!_energyPoints.ContainsKey(energyPoint)) _energyPoints.Add(energyPoint, 0);
+            _energyPoints[energyPoint] += value;
         }
-        public void RemoveActionPoints(ActionPoint actionPoint, int value = 1)
+        public void RemoveEnergyPoints(EnergyPoint energyPoint, int value = 1)
         {
             if (value < 0) Logging.LogException(new ArgumentException("Try remove action point with less zero value"));
-            if (!_actionPoints.ContainsKey(actionPoint)) Logging.LogException(new ArgumentException("Try remove unavailable actionPoint type"));
-            if (_actionPoints[actionPoint] < value) Logging.LogException(new ArgumentOutOfRangeException("Entity doesn't have enough points to be removed.")) ;
-            _actionPoints[actionPoint] -= value;
+            if (!_energyPoints.ContainsKey(energyPoint)) Logging.LogException(new ArgumentException("Try remove unavailable actionPoint type"));
+            if (_energyPoints[energyPoint] < value) Logging.LogException(new ArgumentOutOfRangeException("Entity doesn't have enough points to be removed.")) ;
+            _energyPoints[energyPoint] -= value;
         }
-        public void RemoveActionPoints(IReadOnlyDictionary<ActionPoint, int> actionPoints)
+        public void RemoveEnergyPoints(IReadOnlyDictionary<EnergyPoint, int> energyPoint)
         {
-            foreach (var point in actionPoints.Keys)
+            foreach (var point in energyPoint.Keys)
             {
-                if (ActionPoints[point] < actionPoints[point])
+                if (EnergyPoints[point] < energyPoint[point])
                     Logging.LogException(new ArgumentOutOfRangeException("Entity doesn't have enough points to be removed.")) ;
             }
-            foreach (var point in actionPoints.Keys)
+            foreach (var point in energyPoint.Keys)
             {
-                RemoveActionPoints(point, actionPoints[point]);
+                RemoveEnergyPoints(point, energyPoint[point]);
             }
         }
-        public void SetActionPoints(ActionPoint actionPoint, int value)
+        public void SetEnergyPoints(EnergyPoint energyPoint, int value)
         {
             if (value < 0) Logging.LogException(new ArgumentOutOfRangeException());
-            if (!_actionPoints.ContainsKey(actionPoint)) 
-                _actionPoints.Add(actionPoint, 0);
-            _actionPoints[actionPoint] = value;
+            if (!_energyPoints.ContainsKey(energyPoint)) 
+                _energyPoints.Add(energyPoint, 0);
+            _energyPoints[energyPoint] = value;
         }
-        public void ClearActionPoints(ActionPoint actionPoint)
+        public void ClearEnergyPoints(EnergyPoint energyPoint)
         {
-            if (_actionPoints.ContainsKey(actionPoint))
-                _actionPoints[actionPoint] = 0;
+            if (_energyPoints.ContainsKey(energyPoint))
+                _energyPoints[energyPoint] = 0;
         }
         //event ActionPoint ActionPointsChanged
 

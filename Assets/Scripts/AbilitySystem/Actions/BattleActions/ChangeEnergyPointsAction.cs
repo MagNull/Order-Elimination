@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class ChangeActionPointsAction : BattleAction<ChangeActionPointsAction>
+    public class ChangeEnergyPointsAction : BattleAction<ChangeEnergyPointsAction>
     {
         public enum ModificationType
         {
@@ -21,7 +21,7 @@ namespace OrderElimination.AbilitySystem
         }
 
         [ShowInInspector, OdinSerialize]
-        public ActionPoint ActionPoint { get; private set; }
+        public EnergyPoint EnergyPoint { get; private set; }
 
         [ShowInInspector, OdinSerialize]
         public ModificationType Modification { get; private set; }
@@ -36,13 +36,13 @@ namespace OrderElimination.AbilitySystem
             switch (Modification)
             {
                 case ModificationType.Add:
-                    useContext.ActionTarget.AddActionPoints(ActionPoint, Value);
+                    useContext.ActionTarget.AddEnergyPoints(EnergyPoint, Value);
                     break;
                 case ModificationType.Remove:
-                    useContext.ActionTarget.RemoveActionPoints(ActionPoint, Value);
+                    useContext.ActionTarget.RemoveEnergyPoints(EnergyPoint, Value);
                     break;
                 case ModificationType.Set:
-                    useContext.ActionTarget.SetActionPoints(ActionPoint, Value);
+                    useContext.ActionTarget.SetEnergyPoints(EnergyPoint, Value);
                     break;
                 //case ModificationType.Clear:
                 //    useContext.ActionTarget.ClearActionPoints(ActionPoint);
@@ -55,8 +55,8 @@ namespace OrderElimination.AbilitySystem
 
         public override IBattleAction Clone()
         {
-            var clone = new ChangeActionPointsAction();
-            clone.ActionPoint = ActionPoint;
+            var clone = new ChangeEnergyPointsAction();
+            clone.EnergyPoint = EnergyPoint;
             clone.Modification = Modification;
             clone.Value = Value;
             return clone;
