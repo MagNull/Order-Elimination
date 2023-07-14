@@ -1,4 +1,5 @@
 ﻿using System;
+using Events;
 using OrderElimination.MacroGame;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI.PointPanels;
@@ -13,7 +14,6 @@ namespace RoguelikeMap.Points.Models
         private EventPointGraph _eventGraph;
         [SerializeField]
         private BattleScenario _battleScenario;
-        //private bool _isContainsBattle => IsContainsBattle();
         
         protected EventPanel Panel => _panel as EventPanel;
         
@@ -23,13 +23,8 @@ namespace RoguelikeMap.Points.Models
         public override void Visit(Squad squad)
         {
             base.Visit(squad);
-            Panel.Initialize(_eventGraph);
-            Panel.Open();
+            Panel.Open(_eventGraph.IsContainsBattle);
+            _eventGraph.Process(Panel);
         }
-
-        // private bool IsContainsBattle()
-        // {
-        //     return _eventGraph is not null && _eventGraph.IsContainsBattle;
-        // }
     }
 }

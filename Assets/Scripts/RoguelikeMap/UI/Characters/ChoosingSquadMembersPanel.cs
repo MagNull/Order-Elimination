@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using OrderElimination;
 using OrderElimination.MacroGame;
+using RoguelikeMap.SquadInfo;
 using Sirenix.OdinInspector;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
@@ -36,10 +37,6 @@ namespace RoguelikeMap.UI.Characters
         
         protected void InitializeCharactersCard(IEnumerable<GameCharacter> characterToSelect, Transform parent, bool isSelected = false)
         {
-            if(_selectedDropZone is not null)
-                _selectedDropZone.OnTrySelect += TrySelectCard;
-            _unselectedDropZone.OnTrySelect += TrySelectCard;
-            
             foreach (var gameCharacter in characterToSelect)
             {
                 var characterCard = Instantiate(_characterButtonPref, parent);
@@ -65,6 +62,22 @@ namespace RoguelikeMap.UI.Characters
         {
             _characterInfoPanel.InitializeCharacterInfo(card.Character);
             _characterInfoPanel.Open();
+        }
+
+        protected void Subscribe()
+        {
+            if(_selectedDropZone is not null)
+                _selectedDropZone.OnTrySelect += TrySelectCard;
+            _unselectedDropZone.OnTrySelect += TrySelectCard;
+        }
+
+        protected void Unsubscribe()
+        {
+            if(_selectedDropZone is not null)
+                _selectedDropZone.OnTrySelect -= TrySelectCard;
+            _unselectedDropZone.OnTrySelect -= TrySelectCard;
+            foreach (var card in _characterCards)
+                card.OnClicked -= ShowCharacterInfo;
         }
     }
 }
