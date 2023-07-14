@@ -13,16 +13,13 @@ namespace ItemsLibrary
     {
         [SerializeField]
         private Dictionary<ItemType, List<ItemView>> _addedItems = new();
-        private HashSet<int> _allItemsIds = new();
-        public IReadOnlyCollection<int> GetAllItemIds => _allItemsIds;
+        private readonly HashSet<string> _allItemsIds = new();
         public IReadOnlyList<ItemView> GetItems(ItemType type) => _addedItems[type];
 
         public Library()
         {
             _addedItems[ItemType.Consumable] = new List<ItemView>();
             _addedItems[ItemType.Equipment] = new List<ItemView>();
-            
-            //Logging.Log("Initialize library");
         }
 
         public void AddItem(GameInventory.IReadOnlyCell cell)

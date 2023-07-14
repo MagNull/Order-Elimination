@@ -24,7 +24,8 @@ namespace AI.Utils
             var enemies = entitiesBank.GetActiveEntities()
                 .Where(en =>
                     battleContext.GetRelationship(caster.BattleSide, en.BattleSide) == relationship)
-                .Where(ent => !ent.StatusHolder.HasStatus(BattleStatus.Invisible));
+                .Where(ent =>
+                    !ent.StatusHolder.HasStatus(BattleStatus.Invisible) && ent.EntityType == EntityType.Character);
             return enemies
                 .OrderByDescending(e => entitiesBank.GetBasedCharacter(e).CharacterData.Reward)
                 .ToArray();
