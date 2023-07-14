@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: acb2e992d7d6fa849b36b6f05febfd6b, type: 3}
-  m_Name: "[E] \u041C\u0435\u0434\u0430\u043B\u044C\u043E\u043D \u0418\u043B\u043B\u044E\u0437\u0438\u0439"
+  m_Name: "[E] \u041F\u0440\u0438\u0437\u0440\u0430\u0447\u043D\u044B\u0439 \u043A\u043B\u0438\u043D\u043E\u043A"
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -137,16 +137,16 @@ MonoBehaviour:
       Data: 4|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
-      Data: 1
+      Data: 0.6
     - Name: 
       Entry: 8
       Data: 
     - Name: _changeDamagePriority
       Entry: 5
-      Data: false
+      Data: true
     - Name: _damagePriority
       Entry: 3
-      Data: 0
+      Data: 3
     - Name: _changeDamageType
       Entry: 5
       Data: false
@@ -167,7 +167,7 @@ MonoBehaviour:
       Data: 5|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
-      Data: 0.1
+      Data: 0
     - Name: 
       Entry: 8
       Data: 

@@ -7,6 +7,7 @@ using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VContainer;
 
 namespace AI
@@ -24,6 +25,9 @@ namespace AI
     {
         [SerializeField]
         private Dictionary<IGameCharacterTemplate, CharacterBehavior> _characterToBehaviors = new();
+
+        [SerializeField]
+        private CharacterBehavior _generalBehavior;
 
         private IBattleContext _context;
 
@@ -45,10 +49,8 @@ namespace AI
 
             foreach (var enemyData in templates)
             {
-                if (!_characterToBehaviors.ContainsKey(enemyData.CharacterData))
-                    continue;
-                
-                var characterBehavior = _characterToBehaviors[enemyData.CharacterData];
+                var characterBehavior = _characterToBehaviors.TryGetValue(enemyData.CharacterData, out var behavior) ? 
+                    behavior : _generalBehavior;
                 await characterBehavior.Run(_context, enemyData.enemy);
   
                 foreach (var activeAbilityRunner in enemyData.enemy.ActiveAbilities)
