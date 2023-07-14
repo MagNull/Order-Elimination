@@ -73,34 +73,13 @@ MonoBehaviour:
       Data: 
     - Name: Operation
       Entry: 3
-      Data: 0
-    - Name: Right
-      Entry: 7
-      Data: 6|OrderElimination.AbilitySystem.MathValueGetter, Assembly-CSharp
-    - Name: Left
-      Entry: 7
-      Data: 7|OrderElimination.AbilitySystem.TargetStatGetter, Assembly-CSharp
-    - Name: TargetStat
-      Entry: 3
-      Data: 0
-    - Name: UseUnmodifiedValue
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: Operation
-      Entry: 3
       Data: 2
     - Name: Right
       Entry: 7
-      Data: 8|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+      Data: 6|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
-      Data: 0.25
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 1.25
     - Name: 
       Entry: 8
       Data: 
@@ -124,16 +103,16 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 9|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
+      Data: 7|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
     - Name: _target
       Entry: 3
       Data: 0
     - Name: _battleAction
       Entry: 7
-      Data: 10|OrderElimination.AbilitySystem.HealAction, Assembly-CSharp
+      Data: 8|OrderElimination.AbilitySystem.HealAction, Assembly-CSharp
     - Name: HealSize
       Entry: 7
-      Data: 11|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+      Data: 9|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
       Data: 20
@@ -166,22 +145,22 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 12|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
+      Data: 10|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
     - Name: _target
       Entry: 3
       Data: 0
     - Name: _battleAction
       Entry: 7
-      Data: 13|OrderElimination.AbilitySystem.ModifyStatsAction, Assembly-CSharp
+      Data: 11|OrderElimination.AbilitySystem.ModifyStatsAction, Assembly-CSharp
     - Name: TargetBattleStat
       Entry: 3
       Data: 5
     - Name: ValueModifier
       Entry: 7
-      Data: 14|OrderElimination.AbilitySystem.MathValueGetter, Assembly-CSharp
+      Data: 12|OrderElimination.AbilitySystem.MathValueGetter, Assembly-CSharp
     - Name: Left
       Entry: 7
-      Data: 15|OrderElimination.AbilitySystem.TargetStatGetter, Assembly-CSharp
+      Data: 13|OrderElimination.AbilitySystem.TargetStatGetter, Assembly-CSharp
     - Name: TargetStat
       Entry: 3
       Data: 5
@@ -196,7 +175,7 @@ MonoBehaviour:
       Data: 0
     - Name: Right
       Entry: 7
-      Data: 16|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+      Data: 14|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
       Data: 1
@@ -250,7 +229,7 @@ MonoBehaviour:
       Data: 
     - Name: _view
       Entry: 7
-      Data: 17|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
+      Data: 15|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
     - Name: Name
       Entry: 1
       Data: "\u0421\u0442\u0438\u043C\u0443\u043B\u044F\u0442\u043E\u0440"
@@ -271,17 +250,17 @@ MonoBehaviour:
       Data: 
     - Name: _removeTriggers
       Entry: 7
-      Data: 18|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+      Data: 16|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
         Assembly-CSharp]], System.Core
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 19|OrderElimination.AbilitySystem.EffectTriggerAcceptor, Assembly-CSharp
+      Data: 17|OrderElimination.AbilitySystem.EffectTriggerAcceptor, Assembly-CSharp
     - Name: TriggerSetup
       Entry: 7
-      Data: 20|OrderElimination.AbilitySystem.TimerTrigger, Assembly-CSharp
+      Data: 18|OrderElimination.AbilitySystem.TimerTrigger, Assembly-CSharp
     - Name: TriggerOnStart
       Entry: 5
       Data: false
@@ -305,12 +284,12 @@ MonoBehaviour:
       Data: 
     - Name: _triggerInstructions
       Entry: 7
-      Data: 21|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+      Data: 19|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
         Assembly-CSharp],[OrderElimination.AbilitySystem.IEffectInstruction, Assembly-CSharp]],
         mscorlib
     - Name: comparer
       Entry: 7
-      Data: 22|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+      Data: 20|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 8

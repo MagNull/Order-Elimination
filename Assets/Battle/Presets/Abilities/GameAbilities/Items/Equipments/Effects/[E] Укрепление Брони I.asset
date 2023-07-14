@@ -1,0 +1,166 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acb2e992d7d6fa849b36b6f05febfd6b, type: 3}
+  m_Name: "[E] \u0423\u043A\u0440\u0435\u043F\u043B\u0435\u043D\u0438\u0435 \u0411\u0440\u043E\u043D\u0438
+    I"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: StackingPolicy
+      Entry: 3
+      Data: 2
+    - Name: UseApplierProcessing
+      Entry: 5
+      Data: false
+    - Name: UseHolderProcessing
+      Entry: 5
+      Data: false
+    - Name: IsTemporary
+      Entry: 5
+      Data: false
+    - Name: InstructionOnActivation
+      Entry: 7
+      Data: 0|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
+    - Name: _target
+      Entry: 3
+      Data: 0
+    - Name: _battleAction
+      Entry: 7
+      Data: 1|OrderElimination.AbilitySystem.ModifyStatsAction, Assembly-CSharp
+    - Name: TargetBattleStat
+      Entry: 3
+      Data: 1
+    - Name: ValueModifier
+      Entry: 7
+      Data: 2|OrderElimination.AbilitySystem.MathValueGetter, Assembly-CSharp
+    - Name: Left
+      Entry: 7
+      Data: 3|OrderElimination.AbilitySystem.CasterStatGetter, Assembly-CSharp
+    - Name: CasterStat
+      Entry: 3
+      Data: 1
+    - Name: UseUnmodifiedValue
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Operation
+      Entry: 3
+      Data: 2
+    - Name: Right
+      Entry: 7
+      Data: 4|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+    - Name: Value
+      Entry: 4
+      Data: 1.1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: UndoOnDeactivation
+      Entry: 5
+      Data: true
+    - Name: _animationBeforeAction
+      Entry: 6
+      Data: 
+    - Name: _animationAfterAction
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: InstructionOnDeactivation
+      Entry: 6
+      Data: 
+    - Name: TemporaryEffectFunctionaity
+      Entry: 6
+      Data: 
+    - Name: IsProcessingIncomingAction
+      Entry: 5
+      Data: false
+    - Name: IncomingActionProcessor
+      Entry: 6
+      Data: 
+    - Name: IsProcessingOutcomingAction
+      Entry: 5
+      Data: false
+    - Name: OutcomingActionProcessor
+      Entry: 6
+      Data: 
+    - Name: _view
+      Entry: 7
+      Data: 5|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
+    - Name: Name
+      Entry: 1
+      Data: "\u0423\u043A\u0440\u0435\u043F"
+    - Name: Icon
+      Entry: 6
+      Data: 
+    - Name: IsHidden
+      Entry: 5
+      Data: true
+    - Name: AnimationOnActivation
+      Entry: 6
+      Data: 
+    - Name: AnimationOnDeactivation
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _removeTriggers
+      Entry: 7
+      Data: 6|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+        Assembly-CSharp]], System.Core
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _triggerInstructions
+      Entry: 7
+      Data: 7|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+        Assembly-CSharp],[OrderElimination.AbilitySystem.IEffectInstruction, Assembly-CSharp]],
+        mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 8|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
