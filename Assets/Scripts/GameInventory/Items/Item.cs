@@ -18,7 +18,7 @@ namespace GameInventory.Items
         public ItemView View => _itemData.View;
         public ItemType Type => _itemData.Type;
         public ItemRarity Rarity => _itemData.Rarity;
-        public int Id => _itemData.Id;
+        public string Id => _itemData.Id;
 
         public EnumMask<Role> CanTook => _itemData.RoleFilter;
 

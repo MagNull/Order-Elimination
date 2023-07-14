@@ -1,4 +1,5 @@
-﻿using AI;
+﻿using System;
+using AI;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
@@ -29,7 +30,7 @@ namespace GameInventory.Items
         [field: SerializeField] public ItemType Type { get; private set; }
         
         [field: SerializeField] public ItemRarity Rarity { get; private set; }
-        [field: SerializeField] public int Id { get; private set; }
+        [field: ShowInInspector, DisplayAsString] public string Id { get; private set; }
 
         [field: SerializeReference, ShowIf("@Type == ItemType.Consumable")]
         public ActiveAbilityBuilder UseAbility { get; private set; }
@@ -39,5 +40,10 @@ namespace GameInventory.Items
 
         [field: SerializeReference, ShowIf("@Type == ItemType.Equipment")]
         public PassiveAbilityBuilder EquipAbility { get; private set; }
+
+        private void Awake()
+        {
+            Id = ItemIdGenerator.GetID(this);
+        }
     }
 }
