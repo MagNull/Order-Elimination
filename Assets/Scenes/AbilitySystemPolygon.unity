@@ -1818,6 +1818,7 @@ MonoBehaviour:
     - {fileID: 5869387579307615028, guid: d8f69a0ac0efd9640aa425569d43eab0, type: 3}
     - {fileID: 5869387579307615028, guid: 0cb76fd80f09eb54db9d6c35c7d0f0d1, type: 3}
     - {fileID: 3443483850292592821, guid: 58c863f85c77a364a87adf99b911082a, type: 3}
+    - {fileID: 2742454428654191453, guid: b3d5665d81418694dbbdd88f4efd5831, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -1846,7 +1847,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 15
+      Data: 16
     - Name: 
       Entry: 7
       Data: 
@@ -2024,6 +2025,18 @@ MonoBehaviour:
     - Name: $v
       Entry: 10
       Data: 15
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 15
+    - Name: $v
+      Entry: 10
+      Data: 16
     - Name: 
       Entry: 8
       Data: 
@@ -3354,6 +3367,10 @@ PrefabInstance:
     - target: {fileID: 2005745093246702765, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005745094331833769, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -101
       objectReference: {fileID: 0}
     - target: {fileID: 2005745094502167488, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
       propertyPath: m_Camera
