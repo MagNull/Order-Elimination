@@ -42,19 +42,13 @@ namespace UIManagement
         private List<Button> _activeAbilityButtons;
         [SerializeReference]
         private List<Button> _passiveAbilityButtons;
-        [FormerlySerializedAs("_inventoryPresenter")]
-        [SerializeField]
-        private PickItemInventoryPresenter _playerInventoryPresenter;
         [SerializeField]
         private InventoryPresenter _characterInventoryPresenter;
-
-        protected override void Initialize()
-        {
-            base.Initialize();
-        }
+        
 
         public void UpdateCharacterDescription(GameCharacter character)
         {
+            Debug.Log("HUEBOBA");
             if (character == null)
                 Logging.LogException( new System.ArgumentNullException());
             _characterName.text = character.CharacterData.Name;
@@ -93,7 +87,11 @@ namespace UIManagement
                 .ToArray();
             UpdateAbilityButtons(activeAbilities, passiveAbilities);
             _characterInventoryPresenter.enabled = false;
-            //UpdateInventory();
+            if (entity.EntityType == EntityType.Character)
+            {
+                var character = entity.BattleContext.EntitiesBank.GetBasedCharacter(entity);
+                UpdateInventory(character.Inventory);
+            }
         }
 
         private void UpdateBattleStats(IReadOnlyGameCharacterStats stats)
@@ -184,7 +182,6 @@ namespace UIManagement
         private void UpdateInventory(Inventory inventory)
         {
             _characterInventoryPresenter.enabled = true;
-            _playerInventoryPresenter.UpdateTargetInventory(inventory);
             _characterInventoryPresenter.InitInventoryModel(inventory);
         }
     }
