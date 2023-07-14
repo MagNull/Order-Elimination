@@ -5,11 +5,9 @@ using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Battle;
 using OrderElimination.Infrastructure;
-using OrderElimination.SavesManagement;
 using Sirenix.OdinInspector;
 using System.Linq;
 using GameInventory.Items;
-using RoguelikeMap.Points.Models;
 using OrderElimination.MacroGame;
 using UIManagement;
 using UnityEngine;
@@ -104,11 +102,17 @@ public class BattleEndHandler : MonoBehaviour
 
     private void OnEntitiesBankChanged(IReadOnlyEntitiesBank bank)
     {
-        if (bank.GetActiveEntities(BattleSide.Enemies).Length == 0)
+        if (bank
+            .GetActiveEntities(BattleSide.Enemies)
+            .Where(e => e.EntityType == EntityType.Character)
+            .Count() == 0)
         {
             OnPlayerVictory();
         }
-        else if (bank.GetActiveEntities(BattleSide.Player).Length == 0)
+        else if (bank
+            .GetActiveEntities(BattleSide.Player)
+            .Where(e => e.EntityType == EntityType.Character)
+            .Count() == 0)
         {
             OnPlayerLose();
         }

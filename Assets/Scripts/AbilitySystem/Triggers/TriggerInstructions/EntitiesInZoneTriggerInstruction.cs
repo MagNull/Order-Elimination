@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using AI.Conditions;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System.Collections.Generic;
@@ -44,6 +45,9 @@ namespace OrderElimination.AbilitySystem
 
         [ShowInInspector, OdinSerialize]
         private ActionsTarget _actionTarget { get; set; }
+
+        //[ShowInInspector, OdinSerialize]
+        //private List<ITargetCondition> _targetConditions { get; set; } = new ();
 
         [ShowInInspector, OdinSerialize]
         private List<IBattleAction> _actionsOnEnter { get; set; } = new();
