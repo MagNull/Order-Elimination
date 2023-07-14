@@ -129,31 +129,47 @@ namespace OrderElimination.AbilitySystem
         }
         public void SetActionPoints(ActionPoint actionPoint, int value)
         {
-            if (value < 0) Logging.LogException( new ArgumentOutOfRangeException());
+            if (value < 0) Logging.LogException(new ArgumentOutOfRangeException());
             if (!_actionPoints.ContainsKey(actionPoint)) 
                 _actionPoints.Add(actionPoint, 0);
             _actionPoints[actionPoint] = value;
         }
+        public void ClearActionPoints(ActionPoint actionPoint)
+        {
+            if (_actionPoints.ContainsKey(actionPoint))
+                _actionPoints[actionPoint] = 0;
+        }
+        //event ActionPoint ActionPointsChanged
+
         private readonly List<ActiveAbilityRunner> _activeAbilities = new();
         private readonly List<PassiveAbilityRunner> _passiveAbilities = new();
         public IReadOnlyList<ActiveAbilityRunner> ActiveAbilities => _activeAbilities;
         public IReadOnlyList<PassiveAbilityRunner> PassiveAbilities => _passiveAbilities;
         public bool IsPerformingAbility { get; set; } //Performs ability
+
+        public event Action<AbilitySystemActor> AbilitiesChanged;
+
         public void GrantActiveAbility(ActiveAbilityRunner ability)
         {
             _activeAbilities.Add(ability);
+            AbilitiesChanged?.Invoke(this);
         }
         public bool RemoveActiveAbility(ActiveAbilityRunner ability)
         {
-            return _activeAbilities.Remove(ability);
+            var result = _activeAbilities.Remove(ability);
+            AbilitiesChanged?.Invoke(this);
+            return result;
         }
         public void GrantPassiveAbility(PassiveAbilityRunner ability)
         {
             _passiveAbilities.Add(ability);
+            AbilitiesChanged?.Invoke(this);
         }
         public bool RemovePassiveAbility(PassiveAbilityRunner ability)
         {
-            return _passiveAbilities.Remove(ability);
+            var result = _passiveAbilities.Remove(ability);
+            AbilitiesChanged?.Invoke(this);
+            return result;
         }
         #endregion
 

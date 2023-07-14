@@ -218,6 +218,7 @@ public class BattleMapSelector : MonoBehaviour
     {
         DeselectEntity();
         entity.DisposedFromBattle += OnSelectedEntityDisposed;
+        entity.AbilitiesChanged += e => _abilityPanel.AssignAbilities(e, entity.ActiveAbilities.ToArray());
         _currentSelectedEntity = entity;
         var view = _battleContext.EntitiesBank.GetViewByEntity(entity);
         _abilityPanel.AssignAbilities(entity, entity.ActiveAbilities.ToArray());
