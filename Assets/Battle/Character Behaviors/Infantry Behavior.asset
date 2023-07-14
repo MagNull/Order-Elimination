@@ -25,7 +25,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: InputPort
-        node: {fileID: -1945836671484420119}
+        node: {fileID: -3460323269171088293}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -270,7 +270,7 @@ MonoBehaviour:
   m_Name: Has Targets In Radius
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -168, y: 280}
+  position: {x: -104, y: 200}
   ports:
     keys:
     - InputPort
@@ -291,7 +291,7 @@ MonoBehaviour:
   _targetConditions:
   - rid: 8568508745526804510
   _relationship: 0
-  _radius: 10
+  _radius: 1
   _count: 0
   _relation: 1
   references:
@@ -368,7 +368,7 @@ MonoBehaviour:
   m_Name: Move To Nearest Shelter
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 424, y: 88}
+  position: {x: 264, y: -104}
   ports:
     keys:
     - InputPort
@@ -379,13 +379,14 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: ChildrenPort
-        node: {fileID: -1945836671484420119}
+        node: {fileID: -8335427530684540955}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  _needPassiveEffects: []
+  _needPassiveEffects:
+  - {fileID: 11400000, guid: f6488d714b05317408c5f7614b92ba2f, type: 2}
 --- !u!114 &-2861009385137549262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -570,52 +571,6 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
---- !u!114 &-1945836671484420119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 231c2ccba1df48d190290c676470b947, type: 3}
-  m_Name: Selector
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 120, y: -200}
-  ports:
-    keys:
-    - ChildrenPort
-    - InputPort
-    values:
-    - _fieldName: ChildrenPort
-      _node: {fileID: -1945836671484420119}
-      _typeQualifiedName: AI.Compositions.TaskPort, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: InputPort
-        node: {fileID: 1226972518160413299}
-        reroutePoints: []
-      - fieldName: InputPort
-        node: {fileID: -3460323269171088293}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: InputPort
-      _node: {fileID: -1945836671484420119}
-      _typeQualifiedName: AI.Compositions.TaskPort, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: ChildrenPort
-        node: {fileID: -8335427530684540955}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
 --- !u!114 &-1279289126133856282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -663,7 +618,7 @@ MonoBehaviour:
   m_Name: Move To Nearest Shelter
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -168, y: 152}
+  position: {x: -120, y: 88}
   ports:
     keys:
     - InputPort
@@ -680,7 +635,8 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  _needPassiveEffects: []
+  _needPassiveEffects:
+  - {fileID: 0}
 --- !u!114 &-60947761322912960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -751,9 +707,8 @@ MonoBehaviour:
   - {fileID: 8895501440964651557}
   - {fileID: 7746986287675137239}
   - {fileID: -8335427530684540955}
-  - {fileID: -1945836671484420119}
-  - {fileID: 1226972518160413299}
   - {fileID: -3460323269171088293}
+  - {fileID: 6163739816508194027}
   _avoidObject: []
   BehaviorTreeRoot: {fileID: -4101895195620314421}
 --- !u!114 &331100218537393430
@@ -854,52 +809,6 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
---- !u!114 &1226972518160413299
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4b8e80a9bb04d9db0d2633447a17966, type: 3}
-  m_Name: Has Targets In Radius
-  m_EditorClassIdentifier: 
-  graph: {fileID: 11400000}
-  position: {x: 424, y: -296}
-  ports:
-    keys:
-    - InputPort
-    values:
-    - _fieldName: InputPort
-      _node: {fileID: 1226972518160413299}
-      _typeQualifiedName: AI.Compositions.TaskPort, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-      connections:
-      - fieldName: ChildrenPort
-        node: {fileID: -1945836671484420119}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  _sortBy: 0
-  _targetConditions:
-  - rid: 8568508745526804511
-  _relationship: 2
-  _radius: 0
-  _count: 0
-  _relation: 0
-  references:
-    version: 2
-    RefIds:
-    - rid: 8568508745526804511
-      type: {class: TargetHasPassive, ns: AI.Conditions, asm: Assembly-CSharp}
-      data:
-        _needPassiveEffects:
-        - {fileID: 11400000, guid: f6488d714b05317408c5f7614b92ba2f, type: 2}
-        _has: 0
 --- !u!114 &2264023951936442946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -930,7 +839,8 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  _needPassiveEffects: []
+  _needPassiveEffects:
+  - {fileID: 0}
 --- !u!114 &2764420598627448711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1120,6 +1030,36 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   _distance: 2
+--- !u!114 &6163739816508194027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b008e2fd87a4612ad7b8004b4da1c5f, type: 3}
+  m_Name: Heal Target
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 136, y: 520}
+  ports:
+    keys:
+    - InputPort
+    values:
+    - _fieldName: InputPort
+      _node: {fileID: 6163739816508194027}
+      _typeQualifiedName: AI.Compositions.TaskPort, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: ChildrenPort
+        node: {fileID: 6976081827300166015}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
 --- !u!114 &6976081827300166015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1150,6 +1090,9 @@ MonoBehaviour:
       - fieldName: InputPort
         node: {fileID: -4280359047876382683}
         reroutePoints: []
+      - fieldName: InputPort
+        node: {fileID: 6163739816508194027}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -1179,7 +1122,7 @@ MonoBehaviour:
   m_Name: Heal Target
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -168, y: 1048}
+  position: {x: -168, y: 1112}
   ports:
     keys:
     - InputPort
@@ -1227,11 +1170,18 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   _sortBy: 0
-  _targetConditions: []
+  _targetConditions:
+  - rid: 2807853955416588940
   _relationship: 0
-  _radius: 3
+  _radius: 1
   _count: 0
   _relation: 1
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2807853955416588940
+      type: {class: TargetHasStatValue, ns: AI.Conditions, asm: Assembly-CSharp}
+      data:
+        _battleStat: 0
+        _targetValuePercentage: 51
+        _relation: 2
