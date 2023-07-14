@@ -43,7 +43,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, SerializeField]
         public bool ObjectsBetweenAffectAccuracy { get; set; } //TODO Extract to Accuracy ValueGetter
 
-        public override ActionRequires ActionRequires => ActionRequires.Entity;
+        public override ActionRequires ActionRequires => ActionRequires.Target;
 
         protected override InflictDamageAction ProcessAction(
             ActionContext context,

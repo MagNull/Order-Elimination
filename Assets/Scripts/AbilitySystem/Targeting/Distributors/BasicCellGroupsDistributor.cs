@@ -17,9 +17,8 @@ namespace OrderElimination.AbilitySystem
             AbilitySystemActor askingEntity, 
             IEnumerable<Vector2Int> selectedPositions)
         {
-            var mapPositions = battleContext.BattleMap.CellRangeBorders.EnumerateCellPositions();
             var cellSelectorContext = new CellSelectorContext(
-                battleContext, mapPositions, askingEntity, selectedPositions.ToArray());
+                battleContext, askingEntity, selectedPositions.ToArray());
             var distributedCells = new Dictionary<int, Vector2Int[]>();
             foreach (var group in _groupSelectors.Keys)
             {

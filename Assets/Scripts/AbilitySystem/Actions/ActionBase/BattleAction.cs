@@ -27,7 +27,7 @@ namespace OrderElimination.AbilitySystem
             bool targetProcessing = true)
         {
             //TODO: Refactor. "Entity disposed" case shouldn't be reached.
-            if (ActionRequires == ActionRequires.Entity && useContext.ActionTarget.IsDisposedFromBattle)
+            if (ActionRequires == ActionRequires.Target && useContext.ActionTarget.IsDisposedFromBattle)
             {
                 Logging.LogError("Attempt to perform action on entity that had been disposed.");
                 return new SimplePerformResult(this, useContext, false);
