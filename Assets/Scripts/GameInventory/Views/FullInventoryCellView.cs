@@ -14,8 +14,8 @@ namespace GameInventory.Views
         public override void Init(IReadOnlyCell newCell)
         {
             base.Init(newCell);
-            _nameText.text = newCell.Item.View.Name;
-            _descriptionText.text = newCell.Item.View.Description;
+            _nameText.text = newCell.Item.Data.View.Name;
+            _descriptionText.text = newCell.Item.Data.View.Description;
         }
     }
 }
