@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using OrderElimination;
+using OrderElimination.Battle;
 using RoguelikeMap.Points;
 using RoguelikeMap.SquadInfo;
 using UnityEngine;
@@ -16,14 +17,18 @@ namespace RoguelikeMap.Map
         private IMapGenerator _mapGenerator;
         private Squad _squad;
         private bool _isSquadSelected;
+        private SquadCommander _squadCommander;
+
         private IObjectResolver _objectResolver;
         public static int SaveIndex { get; private set; }
 
         [Inject]
-        private void Construct(IMapGenerator mapGenerator, Squad squad, IObjectResolver objectResolver)
+        private void Construct(IMapGenerator mapGenerator, SquadCommander squadCommander,
+            Squad squad, IObjectResolver objectResolver)
         {
             _mapGenerator = mapGenerator;
             _squad = squad;
+            _squadCommander = squadCommander;
             _objectResolver = objectResolver;
         }
 
@@ -62,7 +67,10 @@ namespace RoguelikeMap.Map
             var pointIndex = PlayerPrefs.HasKey(SquadPositionKey)
                 ? PlayerPrefs.GetInt(SquadPositionKey)
                 : _points.First().Index;
-            _points[pointIndex].Visit(_squad);
+            if(_squadCommander.BattleOutcome is null or BattleOutcome.Lose)
+                _points[pointIndex].Visit(_squad);
+            else
+                _squad.Visit(_points[pointIndex].Model);
         }
 
         public void ReloadMap()
