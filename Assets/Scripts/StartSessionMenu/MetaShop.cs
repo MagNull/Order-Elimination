@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using OrderElimination;
 using RoguelikeMap.UI;
 using UnityEngine;
+using VContainer;
 
 namespace StartSessionMenu
 {
@@ -13,10 +14,23 @@ namespace StartSessionMenu
         private List<UpgradeCategory> _progressCategories;
         [SerializeField] 
         private int StartMetaMoney = 1000;
+        
         private Wallet _wallet;
+        private ScenesMediator _mediator;
+        
+        [Inject]
+        private void Construct(ScenesMediator scenesMediator)
+        {
+            _mediator = scenesMediator;
+        }
         
         private void Start()
         {
+            if (PlayerPrefs.HasKey("MoneyAfterGameEnd"))
+            {
+                StartMetaMoney += PlayerPrefs.GetInt("MoneyAfterGameEnd");
+                PlayerPrefs.DeleteKey("MoneyAfterGameEnd");
+            }
             _wallet = new Wallet(StartMetaMoney);
             _uiCounter.Initialize(_wallet);
             foreach (var category in _progressCategories)
@@ -40,7 +54,7 @@ namespace StartSessionMenu
                 EvasionGrowth = _progressCategories[3].ProgressCount * _progressCategories[3].PercentInPart,
                 AccuracyGrowth = _progressCategories[4].ProgressCount * _progressCategories[4].PercentInPart
             };
-            SquadMediator.SetStatsCoefficient(statsGrowth);
+            _mediator.Register("stats", statsGrowth);
         }
     }
 }

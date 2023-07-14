@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using OrderElimination.MacroGame;
 using UnityEngine;
 using VContainer;
 
@@ -16,10 +17,21 @@ public class BattleLoopManager : MonoBehaviour
     private IObjectResolver _objectResolver;
     private IReadOnlyEntitiesBank _entitiesBank;
     private IBattleContext _battleContext;
+    private BattleSide _activeSide;
 
     //public BattlePlayer ActivePlayer { get; private set; }
+    public bool IsInitialized { get; private set; }
 
-    public BattleSide ActiveSide { get; private set; }
+    public BattleSide ActiveSide
+    {
+        get
+        {
+            //if (!IsInitialized)
+            //    throw new InvalidOperationException(
+            //        $"Attempt to access {nameof(ActiveSide)} before {nameof(BattleLoopManager)} initialization.");
+            return _activeSide;
+        }
+    }
     public int CurrentRound { get; private set; }
 
     public event Action BattleStarted;
@@ -30,7 +42,6 @@ public class BattleLoopManager : MonoBehaviour
     private void Construct(IObjectResolver objectResolver)
     {
         _objectResolver = objectResolver;
-        //_battleMap = objectResolver.Resolve<IBattleMap>();
         _entitiesBank = objectResolver.Resolve<IReadOnlyEntitiesBank>();
     }
 
@@ -41,13 +52,15 @@ public class BattleLoopManager : MonoBehaviour
 
     private void InitializeBattle()
     {
-        var scenario = _objectResolver.Resolve<CharactersMediator>().BattleScenario;
-        _battleContext = _objectResolver.Resolve<IBattleContext>();
         IUndoableBattleAction.ClearAllActionsUndoCache();
+        var scenario = _objectResolver.Resolve<ScenesMediator>().Get<BattleScenario>("scenario");
+        _battleContext = _objectResolver.Resolve<IBattleContext>();
         var initializer = _objectResolver.Resolve<BattleInitializer>();
         initializer.InitiateBattle();
         initializer.StartScenario(scenario);
-        StartNewTurn(_battleContext.TurnPriority.GetStartingSide());
+        _activeSide = _battleContext.TurnPriority.GetStartingSide();
+        IsInitialized = true;
+        StartNewTurn(ActiveSide);
         BattleStarted?.Invoke();
     }
 
@@ -58,8 +71,8 @@ public class BattleLoopManager : MonoBehaviour
 
     private void StartNewTurn(BattleSide battleSide)
     {
-        ActiveSide = battleSide;
-        foreach (var entity in _entitiesBank.GetEntities(ActiveSide))
+        _activeSide = battleSide;
+        foreach (var entity in _entitiesBank.GetActiveEntities(ActiveSide))
         {
             RestoreActionPoints(entity, 1);
         }
@@ -68,19 +81,17 @@ public class BattleLoopManager : MonoBehaviour
         {
             CurrentRound++;
             NewRoundBegan?.Invoke();
-            //Debug.Log($"Round {CurrentRound} began.");
         }
         NewTurnStarted?.Invoke();
-        //Debug.Log($"Turn of {ActiveSide} started.");
-        if (_entitiesBank.GetEntities().Length > 0 
-            && !_entitiesBank.GetEntities().Any(e => e.BattleSide == ActiveSide))
-            StartNextTurn();
+        //if (_entitiesBank.GetEntities().Length > 0 
+        //    && !_entitiesBank.GetEntities().Any(e => e.BattleSide == ActiveSide))
+        //    StartNextTurn();
 
         static void RestoreActionPoints(AbilitySystemActor entity, int pointsToRestore)
         {
-            foreach (var point in EnumExtensions.GetValues<ActionPoint>())
+            foreach (var point in EnumExtensions.GetValues<EnergyPoint>())
             {
-                entity.SetActionPoints(point, pointsToRestore);
+                entity.SetEnergyPoints(point, pointsToRestore);
             }
         }
     }

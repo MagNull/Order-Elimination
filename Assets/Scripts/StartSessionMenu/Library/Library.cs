@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Inventory;
-using Inventory_Items;
+using GameInventory.Items;
 using Sirenix.OdinInspector;
 using OrderElimination;
 using UnityEngine;
@@ -14,19 +13,16 @@ namespace ItemsLibrary
     {
         [SerializeField]
         private Dictionary<ItemType, List<ItemView>> _addedItems = new();
-        private HashSet<int> _allItemsIds = new();
-        public IReadOnlyCollection<int> GetAllItemIds => _allItemsIds;
+        private readonly HashSet<string> _allItemsIds = new();
         public IReadOnlyList<ItemView> GetItems(ItemType type) => _addedItems[type];
 
         public Library()
         {
             _addedItems[ItemType.Consumable] = new List<ItemView>();
             _addedItems[ItemType.Equipment] = new List<ItemView>();
-            
-            Logging.Log("Initialize library");
         }
 
-        public void AddItem(Inventory_Items.IReadOnlyCell cell)
+        public void AddItem(GameInventory.IReadOnlyCell cell)
         {
             if (cell == null)
                 Logging.LogException( new ArgumentException("Item can't be null."));
@@ -47,11 +43,11 @@ namespace ItemsLibrary
             if (item == null)
                 Logging.LogException( new ArgumentException("Item can't be null."));
             
-            if (!_allItemsIds.Contains(item.Id))
+            if (!_allItemsIds.Contains(item.Data.Id))
             {
-                Logging.Log("Item added:" + item.View.Name);
-                _addedItems[item.Type].Add(item.View);
-                _allItemsIds.Add(item.Id);
+                Logging.Log("Item added:" + item.Data.View.Name);
+                _addedItems[item.Data.Type].Add(item.Data.View);
+                _allItemsIds.Add(item.Data.Id);
             }
         }
 

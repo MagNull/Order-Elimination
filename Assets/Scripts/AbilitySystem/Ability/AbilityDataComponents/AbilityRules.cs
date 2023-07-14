@@ -7,14 +7,15 @@ namespace OrderElimination.AbilitySystem
 {
     public class AbilityRules
     {
-        private readonly Dictionary<ActionPoint, int> _usageCost = new();
+        private readonly Dictionary<EnergyPoint, int> _usageCost = new();
         private readonly List<ICommonCondition> _availabilityConditions = new();
 
         public IReadOnlyList<ICommonCondition> AvailabilityConditions => _availabilityConditions;
-        public IReadOnlyDictionary<ActionPoint, int> UsageCost => _usageCost;
+        public IReadOnlyDictionary<EnergyPoint, int> UsageCost => _usageCost;
+
         public AbilityRules(
             IEnumerable<ICommonCondition> availabilityConditions, 
-            IReadOnlyDictionary<ActionPoint, int> usageCost)
+            IReadOnlyDictionary<EnergyPoint, int> usageCost)
         {
             _availabilityConditions = availabilityConditions.ToList();
             _usageCost = usageCost.ToDictionary(e => e.Key, e => e.Value);
@@ -29,7 +30,7 @@ namespace OrderElimination.AbilitySystem
 
         private bool IsCostAffordableByCaster(AbilitySystemActor caster)
         {
-            return UsageCost.Keys.All(actionPoint => UsageCost[actionPoint] <= caster.ActionPoints[actionPoint]);
+            return UsageCost.Keys.All(actionPoint => UsageCost[actionPoint] <= caster.EnergyPoints[actionPoint]);
         }
     }
 }

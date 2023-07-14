@@ -1,11 +1,8 @@
-﻿using Assets.AbilitySystem.PrototypeHelpers;
-using OrderElimination.AbilitySystem.Animations;
+﻿using OrderElimination.AbilitySystem.Animations;
 using OrderElimination.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using VContainer;
 
@@ -28,12 +25,9 @@ namespace OrderElimination.AbilitySystem
         public BattleSide ActiveSide => _battleLoopManager.ActiveSide;
 
         public event Action<IBattleContext> BattleStarted;
+        public event Action<IBattleContext> NewTurnUpdatesRequested;
         public event Action<IBattleContext> NewTurnStarted;
         public event Action<IBattleContext> NewRoundBegan;
-
-        //TODO: Refactor or remove (used to test squares on line vector pattern)
-        public static IBattleContext CurrentSceneContext { get; private set; }
-        //
 
         [Inject]
         private void Construct(IObjectResolver objectResolver)
@@ -47,11 +41,11 @@ namespace OrderElimination.AbilitySystem
             _battleLoopManager.NewRoundBegan += OnNewRound;
             _battleLoopManager.BattleStarted += OnBattleStarted;
 
-            //TODO: Refactor or remove
-            CurrentSceneContext = this;
-            //TODO: Refactor
-
-            void OnNewTurn() => NewTurnStarted?.Invoke(this);
+            void OnNewTurn()
+            {
+                NewTurnUpdatesRequested?.Invoke(this);
+                NewTurnStarted?.Invoke(this);
+            }
             void OnNewRound() => NewRoundBegan?.Invoke(this);
             void OnBattleStarted() => BattleStarted?.Invoke(this);
         }
@@ -90,6 +84,40 @@ namespace OrderElimination.AbilitySystem
                     visibleEntities.Add(entity);
             }
             return visibleEntities;
+        }
+
+        public IContextValueGetter ModifyAccuracyBetween(
+            Vector2Int start, Vector2Int end, IContextValueGetter initialAccuracy, AbilitySystemActor askingEntity)
+        {
+            var battleMap = BattleMap;
+            if (!battleMap.ContainsPosition(start)
+                || !battleMap.ContainsPosition(end))
+                throw new ArgumentOutOfRangeException("Position is not presented in the BattleMap.");
+            if (askingEntity.IsDisposedFromBattle)
+                throw new InvalidOperationException("Attempt to calculate accuracy for disposed caster");
+            var intersections = CellMath.GetIntersectionBetween(start, end);
+            var modifiedAccuracy = initialAccuracy.Clone();
+            foreach (var intersection in intersections)
+            {
+                var position = intersection.CellPosition;
+                //cell 
+                foreach (var battleObstacle in this
+                    .GetVisibleEntities(position, askingEntity.BattleSide)//!!Considers affection outside obstacle class!!
+                    .Select(e => e.Obstacle))
+                {
+                    //obstacle
+                    var modification = battleObstacle.ModifyAccuracy(
+                        modifiedAccuracy,
+                        intersection.IntersectionAngle,
+                        intersection.SmallestPartSquare,
+                        askingEntity);
+                    if (modification.IsModificationSuccessful)
+                    {
+                        modifiedAccuracy = modification.ModifiedValueGetter;
+                    }
+                }
+            }
+            return modifiedAccuracy;
         }
     }
 }

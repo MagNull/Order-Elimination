@@ -5,7 +5,7 @@ using UnityEngine;
 namespace OrderElimination
 {
     [PropertyTooltip("@$value." + nameof(Name))]
-    [CreateAssetMenu( fileName = "new Structure", menuName = "Battle/Structure" )]
+    [CreateAssetMenu( fileName = "new StructureTemplate", menuName = "OrderElimination/Battle/Structure Template")]
     public class StructureTemplate : SerializedScriptableObject, IBattleStructureTemplate
     {
         [SerializeField]
@@ -24,6 +24,7 @@ namespace OrderElimination
         [SerializeField]
         private IBattleObstacleSetup _obstacleSetup;
 
+        public int TemplateId => GetInstanceID();
         public string Name => _name;
         public Sprite BattleIcon => _spriteView;
         public GameObject VisualModel => _visualModel;

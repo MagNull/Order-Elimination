@@ -4,10 +4,6 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -17,12 +13,6 @@ namespace OrderElimination.AbilitySystem
         private static readonly Dictionary<int, IBattleTrigger> _activeTriggers = new();
         private static readonly Dictionary<IBattleTrigger, int> _perforIdsByTriggers = new();
         private static readonly HashSet<int> _undoneOperations = new();
-
-        public enum SpawningEntityBattleSide
-        {
-            Same,
-            Absolute
-        }
 
         [ShowInInspector, OdinSerialize]
         public EntityType Entity { get; private set; }
@@ -36,9 +26,9 @@ namespace OrderElimination.AbilitySystem
         public IBattleStructureTemplate StructureData { get; private set; }
 
         [ShowInInspector, OdinSerialize]
-        public SpawningEntityBattleSide SideType { get; private set; }
+        public BattleSideReference SideType { get; private set; }
 
-        [ShowIf("@" + nameof(SideType) + " == " + nameof(SpawningEntityBattleSide) + "." + nameof(SpawningEntityBattleSide.Absolute))]
+        [ShowIf("@" + nameof(SideType) + " == " + nameof(BattleSideReference) + "." + nameof(BattleSideReference.Absolute))]
         [ShowInInspector, OdinSerialize]
         public BattleSide AbsoluteSide { get; private set; }
 
@@ -68,10 +58,10 @@ namespace OrderElimination.AbilitySystem
 
         public bool Undo(int performId)
         {
-            if (IsUndone(performId)) Logging.LogException( ActionUndoFailedException.AlreadyUndoneException);
+            if (IsUndone(performId)) Logging.LogException(ActionUndoFailedException.AlreadyUndoneException);
             var entity = _spawnedEntities[performId];
             var isSuccessful = true;
-            if (!entity.DisposeFromBattle())
+            if (! entity.IsDisposedFromBattle && !entity.DisposeFromBattle())
                 isSuccessful = false;
             if (_activeTriggers.ContainsKey(performId))
                 _activeTriggers[performId].Deactivate();
@@ -93,10 +83,12 @@ namespace OrderElimination.AbilitySystem
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
+            var battleContext = useContext.BattleContext;
+            var caster = useContext.ActionMaker;
             var side = SideType switch
             {
-                SpawningEntityBattleSide.Same => useContext.ActionMaker.BattleSide,
-                SpawningEntityBattleSide.Absolute => AbsoluteSide,
+                BattleSideReference.Same => caster.BattleSide,
+                BattleSideReference.Absolute => AbsoluteSide,
                 //SpawningEntityBattleSide.Opposite => GetOppositeSide(useContext.ActionMaker.BattleSide),
                 _ => throw new NotImplementedException(),
             };
@@ -105,14 +97,14 @@ namespace OrderElimination.AbilitySystem
             var pos = useContext.ActionTargetInitialPosition.Value;
             AbilitySystemActor entity = Entity switch
             {
-                EntityType.Character => useContext.BattleContext.EntitySpawner.SpawnCharacter(CharacterData, side, pos),
-                EntityType.Structure => useContext.BattleContext.EntitySpawner.SpawnStructure(StructureData, side, pos),
+                EntityType.Character => battleContext.EntitySpawner.SpawnCharacter(CharacterData, side, pos),
+                EntityType.Structure => battleContext.EntitySpawner.SpawnStructure(StructureData, side, pos),
                 _ => throw new NotImplementedException(),
             };
             _spawnedEntities.Add(entity);
             if (RemoveByTrigger)
             {
-                var trigger = RemoveTrigger.GetTrigger(useContext.BattleContext);
+                var trigger = RemoveTrigger.GetTrigger(battleContext);
                 _activeTriggers.Add(performId, trigger);
                 _perforIdsByTriggers.Add(trigger, performId);
                 trigger.Triggered += OnTriggerFired;

@@ -14,6 +14,8 @@ namespace RoguelikeMap.Points
         private List<int> _nextPointsIndex;
         [SerializeField]
         private Vector3 _position;
+        [field: SerializeField]
+        public bool IsLastPoint { get; private set; }
 
         protected Panel _panel;
         
@@ -25,7 +27,11 @@ namespace RoguelikeMap.Points
         public virtual PointType Type => PointType.None;
         public event Action<PointModel> OnSelected;
 
-        public virtual void Visit(Squad squad) => squad.Visit(this);
+        public virtual void Visit(Squad squad)
+        {
+            squad.Visit(this);
+            PlayerPrefs.SetInt(Map.Map.SquadPositionKey, Index);
+        }
 
         public void SetPanel(PanelManager panelManager) => _panel = panelManager.GetPanelByPointInfo(Type);
     }

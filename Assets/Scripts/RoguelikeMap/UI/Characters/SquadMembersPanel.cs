@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OrderElimination;
 using OrderElimination.MacroGame;
+using Sirenix.Serialization;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
 
@@ -19,6 +20,12 @@ namespace RoguelikeMap.UI.Characters
 
         public void UpdateMembers(IReadOnlyList<GameCharacter> activeMembers, IReadOnlyList<GameCharacter> inactiveMembers)
         {
+            if (_characterCards is not null)
+            {
+                Unsubscribe();
+                ResetCharactersCard();
+            }
+            Subscribe();
             _selectedCount = activeMembers.Count;
             InitializeCharactersCard(activeMembers, _selectedDropZone.transform, true);
             InitializeCharactersCard(inactiveMembers, _unselectedDropZone.transform);
@@ -67,6 +74,13 @@ namespace RoguelikeMap.UI.Characters
                     .Where(x => !x.IsSelected)
                     .Select(x => x.Character));
             OnSelected?.Invoke(characters, countActiveCharacters);
+        }
+
+        private void ResetCharactersCard()
+        {
+            foreach (var card in _characterCards)
+                Destroy(card.gameObject);
+            _characterCards.Clear();
         }
     }
 }

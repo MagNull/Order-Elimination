@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using Inventory_Items;
+using GameInventory;
+using GameInventory.Views;
 using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.MacroGame;
@@ -20,6 +21,8 @@ namespace RoguelikeMap.UI.Characters
         private PassiveAbilityInfoPanel _passiveAbilityInfoPanel;
         [SerializeField] 
         private PickItemInventoryPresenter _playerInventoryPresenter;
+        [SerializeField]
+        private RoleFilterPlayerInventoryView _playerInventoryView;
 
         [SerializeField]
         private InventoryPresenter _characterInventoryPresenter;
@@ -58,7 +61,7 @@ namespace RoguelikeMap.UI.Characters
             InitializeStatsText(
                 character.CharacterStats.MaxHealth,
                 character.CharacterStats.MaxArmor,
-                character.CharacterStats.AttackDamage,
+                character.CharacterStats.Attack,
                 character.CharacterStats.Accuracy,
                 character.CharacterStats.Evasion);
             InitializeAbilityButtons(
@@ -67,6 +70,7 @@ namespace RoguelikeMap.UI.Characters
             if (_playerInventoryPresenter is not null)
                 _characterInventoryPresenter.InitInventoryModel(character.Inventory);
             _playerInventoryPresenter?.UpdateTargetInventory(character.Inventory);
+            _playerInventoryView.UpdateCharacterRole(character.CharacterData.Role);
         }
 
         private void InitializeStatsText(
@@ -89,7 +93,7 @@ namespace RoguelikeMap.UI.Characters
                 button.onClick.RemoveAllListeners();
             }
             var displayedActiveAbilities = activeAbilities
-                .Where(a => !a.View.HideInCharacterDiscription)
+                .Where(a => !a.View.HideInCharacterDescription)
                 .ToArray();
             var displayedPassiveAbilities = passiveAbilities
                 .Where(a => !a.View.HideInCharacterDiscription)

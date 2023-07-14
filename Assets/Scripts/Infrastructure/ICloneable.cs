@@ -7,6 +7,8 @@ namespace OrderElimination.Infrastructure
 {
     public interface ICloneable<T> : ICloneable
     {
+        //public bool IsClone { get; }
+
         public new T Clone();
 
         object ICloneable.Clone() => Clone();

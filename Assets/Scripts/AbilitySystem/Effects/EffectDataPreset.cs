@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    [CreateAssetMenu(fileName = "EffectPreset", menuName = "AbilitySystem/Effect")]
+    [CreateAssetMenu(fileName = "EffectPreset", menuName = "OrderElimination/AbilitySystem/Effect")]
     public sealed class EffectDataPreset : SerializedScriptableObject, IEffectData
     {
         private void _validateFunctionality()
@@ -159,14 +159,14 @@ namespace OrderElimination.AbilitySystem
 
         public void OnActivation(BattleEffect effect)
         {
-            var targetView = effect.BattleContext.EntitiesBank.GetViewByEntity(effect.EffectHolder);
-            Logging.Log($"Effect {effect.EffectData.View.Name} has been applied on {targetView.Name}.", Colorize.Orange, this);
+            //var targetView = effect.BattleContext.EntitiesBank.GetViewByEntity(effect.EffectHolder);
+            //Logging.Log($"Effect {effect.EffectData.View.Name} has been applied on {targetView.Name}.", Colorize.Orange, this);
         }
 
         public void OnDeactivation(BattleEffect effect)
         {
-            var targetView = effect.BattleContext.EntitiesBank.GetViewByEntity(effect.EffectHolder);
-            Logging.Log($"Effect {effect.EffectData.View.Name} has been removed from {targetView.Name}.", Colorize.Orange, this);
+            //var targetView = effect.BattleContext.EntitiesBank.GetViewByEntity(effect.EffectHolder);
+            //Logging.Log($"Effect {effect.EffectData.View.Name} has been removed from {targetView.Name}.", Colorize.Orange, this);
         }
     }
 }

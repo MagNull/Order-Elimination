@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using Inventory_Items;
-using Inventory.Items;
+using Events;
+using GameInventory;
+using GameInventory.Items;
 using OrderElimination;
-using RoguelikeMap.Points.Models;
+using OrderElimination.MacroGame;
+using OrderElimination.UI;
+using RoguelikeMap.SquadInfo;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
-using Random = System.Random;
 
 namespace RoguelikeMap.UI.PointPanels
 {
     public class EventPanel : Panel
     {
-        [SerializeField] 
+        [SerializeField]
         private TMP_Text _eventText;
         [SerializeField] 
         private List<Button> _answerButtons;
@@ -23,154 +25,124 @@ namespace RoguelikeMap.UI.PointPanels
         [SerializeField] 
         private Image _sprite;
 
-        private EventInfo _eventInfo;
-        private Random _random;
-        private Inventory_Items.Inventory _inventory;
-
-        public bool IsContainsBattle { get; private set; }
-        public event Action<IReadOnlyList<IGameCharacterTemplate>> OnStartBattle;
+        private Inventory _inventory;
+        private Squad _squad;
+        private bool _isContainsBattle = false;
+        
+        public event Action<int> OnAnswerClick;
+        public event Action<BattleNode> OnStartBattle;
         public event Action<bool> OnSafeEventVisit;
         public event Action<bool> OnBattleEventVisit;
 
         [Inject]
-        public void Construct(Inventory_Items.Inventory inventory)
+        public void Construct(Inventory inventory, Squad squad)
         {
             _inventory = inventory;
-        }
-        
-        public void SetEventInfo(EventInfo info, bool isContainsBattle)
-        {
-            _eventInfo = info;
-            IsContainsBattle = isContainsBattle;
-            LoadEventText();
-        }
-
-        private void UpdateEventText(string eventText, IReadOnlyList<string> answers = null)
-        {
-            _eventText.text = eventText;
-            UpdateAnswersText(answers);
+            _squad = squad;
         }
 
         private void SetActiveAnswers(bool isActive)
         {
             _skipButton.gameObject.SetActive(!isActive);
-            
-            foreach(var button in _answerButtons)
+
+            foreach (var button in _answerButtons)
+            {
                 button.gameObject.SetActive(isActive);
+                button.DOInterectable(true);
+            }
         }
 
-        private void UpdateAnswersText(IReadOnlyList<string> answers = null)
+        public bool CheckItem(ItemData itemData)
         {
-            if (answers is null)
-            {
-                SetActiveAnswers(false);
-                return;
-            }
-            
+            return _inventory.Contains(itemData);
+        }
+
+        public void SetInteractableAnswer(int answerIndex, bool isInteractable)
+        {
+            _answerButtons[answerIndex].DOInterectable(isInteractable);
+        }
+
+        public void UpdateAnswersText(IReadOnlyList<string> answers)
+        {
             SetActiveAnswers(true);
-            for (var i = 0; i < _answerButtons.Count; i++)
+            for (var i = 0; i < answers.Count; i++)
             {
                 var buttonText = _answerButtons[i].GetComponentInChildren<TMP_Text>();
                 buttonText.text = answers[i];
             }
         }
 
-        private void LoadEventText()
+        public void UpdateSprite(Sprite sprite)
         {
-            if (IsEventEnd())
+            if (sprite is null)
                 return;
-            if (_eventInfo.IsRandomFork)
-                LoadRandomFork();
-            _sprite.sprite = _eventInfo.Sprite;
-            var text = _eventInfo.Text;
-            var possibleAnswers = GetPossibleAnswers();
-            UpdateEventText(text, possibleAnswers);
+            _sprite.sprite = sprite;
         }
 
-        private void LoadRandomFork()
+        public void UpdateText(string text)
         {
-            _random ??= new Random();
-            var index = _random.Next(_eventInfo.NextStages.Count);
-            _eventInfo = _eventInfo.NextStages[index];
+            _eventText.text = text;
+            SetActiveAnswers(false);
         }
 
-        private bool IsEventEnd()
+        public void FinishEvent(IEnumerable<ItemData> items = null, 
+            IEnumerable<CharacterTemplate> characters = null)
         {
-            if (!_eventInfo.IsEnd && !_eventInfo.IsBattle)
-                return false;
-            
-            if (_eventInfo.IsEnd)
-                EventEnd();
-            else if (_eventInfo.IsBattle)
-                EventEndWithBattle();
-
+            if (items is not null)
+                AddItemsToInventory(items);
+            if(characters is not null)
+                _squad.AddMembers(GameCharactersFactory.CreateGameCharacters(characters));
             Close();
-            return true;
         }
 
-        private void UpdateEventInfo(int buttonIndex = -1)
+        private void AddItemsToInventory(IEnumerable<ItemData> items)
         {
-            _eventInfo = buttonIndex switch
+            foreach (var itemData in items)
             {
-                -1 => _eventInfo.NextStage,
-                0 => _eventInfo.NextStages[0],
-                1 => _eventInfo.NextStages[1],
-                _ => throw new ArgumentException("Is not valid button index")
-            };
-        }
-
-        private IReadOnlyList<string> GetPossibleAnswers()
-        {
-            return !_eventInfo.IsFork ? null : _eventInfo.Answers;
-        }
-
-        public void OnClickAnswer(int buttonIndex)
-        {
-            UpdateEventInfo(buttonIndex);
-            LoadEventText();
-        }
-
-        public void OnClickSkipButton()
-        {
-            UpdateEventInfo();
-            LoadEventText();
-        }
-
-        private void EventEndWithBattle()
-        {
-            OnStartBattle?.Invoke(_eventInfo.Enemies);
-        }
-
-        private void EventEnd()
-        {
-            if (_eventInfo.IsHaveItems)
-            {
-                foreach (var itemData in _eventInfo.ItemsId)
-                {
-                    var item = ItemFactory.Create(itemData);
-                    _inventory.AddItem(item);
-                }
+                var item = ItemFactory.Create(itemData);
+                _inventory.AddItem(item);
             }
+        }
+
+        public void FinishEventWithBattle(BattleNode battleNode)
+        {
+            OnStartBattle?.Invoke(battleNode);
+        }
+
+        public void ClickAnswer(int buttonIndex)
+        {
+            OnAnswerClick?.Invoke(buttonIndex);
+        }
+
+        private void PlayEventMusic(bool isPlay)
+        {
+            if (_isContainsBattle)
+                OnBattleEventVisit?.Invoke(isPlay);
+            else
+                OnSafeEventVisit?.Invoke(isPlay);
+        }
+
+        public void Open(bool isContainBattle)
+        {
+            _isContainsBattle = isContainBattle;
+            Open();
         }
 
         public override void Open()
         {
             base.Open();
-            VisitEventInvoke(true);
+            PlayEventMusic(true);
         }
-        
+
         public override void Close()
         {
-            VisitEventInvoke();
+            PlayEventMusic(false);
             base.Close();
         }
         
-        private void VisitEventInvoke(bool isPlay = false)
+        public void ResetEvent()
         {
-            if (IsContainsBattle)
-                OnBattleEventVisit?.Invoke(isPlay);
-            else
-                OnSafeEventVisit?.Invoke(isPlay);
+            OnAnswerClick = null;
         }
     }
 }

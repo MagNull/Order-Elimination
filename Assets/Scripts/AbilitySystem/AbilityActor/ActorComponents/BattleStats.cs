@@ -12,7 +12,6 @@ namespace OrderElimination.AbilitySystem
         private float _health;
         private float _pureArmor;
 
-
         public ProcessingParameter<float> AttackDamage { get; } = new ProcessingParameter<float>();
         public ProcessingParameter<float> Accuracy { get; } = new ProcessingParameter<float>();
         public ProcessingParameter<float> Evasion { get; } = new ProcessingParameter<float>();
@@ -40,7 +39,8 @@ namespace OrderElimination.AbilitySystem
             get => PureArmor + TemporaryArmor;
             set
             {
-                if (value < 0) Logging.LogException( new ArgumentOutOfRangeException());
+                if (value < 0) Logging.LogException(new ArgumentOutOfRangeException());
+                if (value == TotalArmor) return;
                 var offset = TotalArmor - value;
                 if (value < TotalArmor)//dmg
                 {
@@ -161,6 +161,7 @@ namespace OrderElimination.AbilitySystem
                 }
             }
         }
+
         //Можно заменить изменением ценой способности перемещения у конкретного персонажа. Тогда очки должны быть дробными (энергия).
         //ActionPoint.MovementPoint: float
         //public int MovementPointsPerMove { get; } //Очки перемещения, начислясляющиеся каждый ход

@@ -1,36 +1,25 @@
-﻿using OrderElimination.Infrastructure;
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
     public class NoTargetTargetingSystem : IAbilityTargetingSystem
     {
-        private CasterRelativePattern _casterRelativePattern;
         private IBattleContext _targetingContext;
         private AbilitySystemActor _targetingCaster;
 
         public bool IsTargeting { get; private set; }
         public bool IsConfirmed { get; private set; }
         public bool IsConfirmAvailable => IsTargeting && !IsConfirmed;
+        public ICellGroupsDistributor CellGroupsDistributor { get; private set; }
 
         public event Action<IAbilityTargetingSystem> TargetingStarted;
         public event Action<IAbilityTargetingSystem> TargetingConfirmed;
         public event Action<IAbilityTargetingSystem> TargetingCanceled;
 
-        public CasterRelativePattern CasterRelativePattern
+        public NoTargetTargetingSystem(ICellGroupsDistributor cellDistributor)
         {
-            get => _casterRelativePattern;
-            set
-            {
-                if (IsTargeting) Logging.LogException( new InvalidOperationException());
-                _casterRelativePattern = value;
-            }
-        }
-
-        public NoTargetTargetingSystem(CasterRelativePattern casterRelativePattern)
-        {
-            _casterRelativePattern = casterRelativePattern;
+            CellGroupsDistributor = cellDistributor;
         }
 
         public bool StartTargeting(IBattleContext battleContext, AbilitySystemActor caster)
@@ -68,9 +57,8 @@ namespace OrderElimination.AbilitySystem
 
         public CellGroupsContainer ExtractCastTargetGroups()
         {
-            var mapBorders = _targetingContext.BattleMap.CellRangeBorders;
-            var casterPosition = _targetingCaster.Position;
-            return CasterRelativePattern.GetAffectedCellGroups(mapBorders, casterPosition);
+            return CellGroupsDistributor.DistributeSelection(
+                _targetingContext, _targetingCaster, new Vector2Int[0]);
         }
     }
 }

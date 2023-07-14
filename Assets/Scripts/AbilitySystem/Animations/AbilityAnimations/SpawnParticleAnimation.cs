@@ -131,6 +131,8 @@ namespace OrderElimination.AbilitySystem.Animations
             }
             else if (SpawnAt == AnimationTarget.Target)
             {
+                if (context.Target.IsDisposedFromBattle)
+                    return;
                 await SpawnParticle(context, context.Target.Position, mapView, cancellationToken, out var particle);
                 context.SceneContext.ParticlesPool.Release(particle);
             }

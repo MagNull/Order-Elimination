@@ -47,7 +47,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public IAbilityAnimation MoveFailedAnimation { get; private set; }
 
-        public override ActionRequires ActionRequires => ActionRequires.Entity;
+        public override ActionRequires ActionRequires => ActionRequires.Target;
 
         public IEnumerable<int> UtilizingCellGroups => new[] { DestinationCellGroup };
 
@@ -110,6 +110,7 @@ namespace OrderElimination.AbilitySystem
                             useContext.ActionMaker,
                             useContext.ActionTarget,
                             path[i]);
+                        if (movingEntity.CanMove )
                         if (MoveAnimation != null)
                             await MoveAnimation.Play(pathAnimContext);
                         if (!movingEntity.Move(path[i]))

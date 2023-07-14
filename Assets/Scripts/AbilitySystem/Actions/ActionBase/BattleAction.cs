@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
+using System.Diagnostics;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -25,6 +26,12 @@ namespace OrderElimination.AbilitySystem
             bool actionMakerProcessing = true,
             bool targetProcessing = true)
         {
+            //TODO: Refactor. "Entity disposed" case shouldn't be reached.
+            if (ActionRequires == ActionRequires.Target && useContext.ActionTarget.IsDisposedFromBattle)
+            {
+                Logging.LogError("Attempt to perform action on entity that had been disposed.");
+                return new SimplePerformResult(this, useContext, false);
+            }
             var modifiedAction = GetModifiedAction(useContext, actionMakerProcessing, targetProcessing);
             var performResult = await modifiedAction.Perform(useContext);
             if (performResult.IsSuccessful)
@@ -48,6 +55,8 @@ namespace OrderElimination.AbilitySystem
         }
 
         protected abstract UniTask<IActionPerformResult> Perform(ActionContext useContext);
+
+        //protected abstract IActionPerformResult GetOnFailResult();
 
         public abstract IBattleAction Clone();
     }

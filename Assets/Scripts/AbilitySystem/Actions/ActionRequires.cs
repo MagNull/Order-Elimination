@@ -2,8 +2,8 @@
 {
     public enum ActionRequires
     {
-        Entity,
+        Target,
         Cell,
-        Caster
+        Maker
     }
 }

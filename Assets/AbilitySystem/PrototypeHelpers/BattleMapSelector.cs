@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
 using OrderElimination;
+using UnityEditor;
 
 public enum SelectorMode
 {
@@ -217,6 +218,7 @@ public class BattleMapSelector : MonoBehaviour
     {
         DeselectEntity();
         entity.DisposedFromBattle += OnSelectedEntityDisposed;
+        entity.AbilitiesChanged += e => _abilityPanel.AssignAbilities(e, entity.ActiveAbilities.ToArray());
         _currentSelectedEntity = entity;
         var view = _battleContext.EntitiesBank.GetViewByEntity(entity);
         _abilityPanel.AssignAbilities(entity, entity.ActiveAbilities.ToArray());
@@ -239,9 +241,14 @@ public class BattleMapSelector : MonoBehaviour
             BattleSide.Others => _enemiesHighlightColor,
             _ => _othersHighlightColor,
         };
-        view.Highlight(highlightColor, 0.1f, 0.2f, 0.3f);
-        Debug.Log($"{entity.EntityType} {view.Name} selected." % Colorize.ByColor(new Color(1, 0.5f, 0.5f))
-            + $"\nActionPoints: {string.Join(", ", entity.ActionPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
+        view.Highlight(highlightColor);
+        Object so = entity.EntityType == EntityType.Character
+            ? (Object)_battleContext.EntitiesBank.GetBasedCharacter(entity).CharacterData
+            : (Object)_battleContext.EntitiesBank.GetBasedStructureTemplate(entity);
+        EditorUtility.IsPersistent(so);
+        Debug.Log(
+            $"{entity.EntityType} {view.Name} selected." % Colorize.ByColor(new Color(1, 0.5f, 0.5f))
+            + $"\nActionPoints: {string.Join(", ", entity.EnergyPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
             + $"\nHealth: {entity.BattleStats.Health}; MaxHealth: {entity.BattleStats.MaxHealth.ModifiedValue}" 
             + $"\nTotalArmor: {entity.BattleStats.TotalArmor}; MaxArmor: {entity.BattleStats.MaxArmor.ModifiedValue}" 
             + $"\nDamage: {entity.BattleStats[BattleStat.AttackDamage].ModifiedValue};" 

@@ -12,7 +12,7 @@ namespace OrderElimination.AbilitySystem
                 builderData.Name,
                 builderData.Icon,
                 builderData.Description,
-                builderData.HideInCharacterDiscription,
+                builderData.HideInCharacterDescription,
                 builderData.ShowCrosshairWhenTargeting,
                 builderData.ShowTrajectoryWhenTargeting);
             var gameRepresentation = new AbilityGameRepresentation
@@ -23,19 +23,18 @@ namespace OrderElimination.AbilitySystem
             IAbilityTargetingSystem targetingSystem;
             if (builderData.TargetingSystem == TargetingSystemType.NoTarget)
             {
-                var casterPattern = (CasterRelativePattern)builderData.DistributionPattern;
-                targetingSystem = new NoTargetTargetingSystem(casterPattern);
+                targetingSystem = new NoTargetTargetingSystem(builderData.CellGroupsDistributor);
             }
             else if (builderData.TargetingSystem == TargetingSystemType.SingleTarget)
             {
                 targetingSystem = new SingleTargetTargetingSystem(
-                    builderData.DistributionPattern,
+                    builderData.CellGroupsDistributor,
                     builderData.TargetCellConditions);
             }
             else if (builderData.TargetingSystem == TargetingSystemType.MultiTarget)
             {
                 targetingSystem = new MultiTargetTargetingSystem(
-                    builderData.DistributionPattern,
+                    builderData.CellGroupsDistributor,
                     builderData.TargetCellConditions,
                     builderData.NecessaryTargets,
                     builderData.OptionalTargets);

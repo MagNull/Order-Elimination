@@ -15,7 +15,10 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 21300000, guid: 6288e8ba9fe786f4b916e1799d64918b, type: 3}
+    - {fileID: 21300000, guid: 1e45a37decf11694fb3c928164078c76, type: 3}
+    - {fileID: 21300000, guid: c6997e336472c6b45b07675dded608f7, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -23,11 +26,12 @@ MonoBehaviour:
     SerializationNodes:
     - Name: _addedItems
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[Inventory.ItemType, Assembly-CSharp],[System.Collections.Generic.List`1[[Inventory_Items.ItemView,
+      Data: 0|System.Collections.Generic.Dictionary`2[[GameInventory.Items.ItemType,
+        Assembly-CSharp],[System.Collections.Generic.List`1[[GameInventory.Items.ItemView,
         Assembly-CSharp]], mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Inventory.ItemType,
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[GameInventory.Items.ItemType,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -40,7 +44,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 7
       Data: 
@@ -49,7 +53,7 @@ MonoBehaviour:
       Data: 1
     - Name: $v
       Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[Inventory_Items.ItemView, Assembly-CSharp]],
+      Data: 2|System.Collections.Generic.List`1[[GameInventory.Items.ItemView, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
@@ -71,11 +75,108 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 7
-      Data: 3|System.Collections.Generic.List`1[[Inventory_Items.ItemView, Assembly-CSharp]],
+      Data: 3|System.Collections.Generic.List`1[[GameInventory.Items.ItemView, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: 4|GameInventory.Items.ItemView, Assembly-CSharp
+    - Name: _name
+      Entry: 1
+      Data: "\u0413\u0440\u0430\u043D\u0430\u0442\u0430"
+    - Name: _description
+      Entry: 1
+      Data: "\u0411\u0430\u0445\u0430\u0435\u0442"
+    - Name: _icon
+      Entry: 10
       Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 5|GameInventory.Items.ItemView, Assembly-CSharp
+    - Name: _name
+      Entry: 1
+      Data: HEAL
+    - Name: _description
+      Entry: 1
+      Data: "\u0445\u0438\u043B\u0438\u0442"
+    - Name: _icon
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|GameInventory.Items.ItemView, Assembly-CSharp
+    - Name: _name
+      Entry: 1
+      Data: HEAL
+    - Name: _description
+      Entry: 1
+      Data: "\u0445\u0438\u043B\u0438\u0442"
+    - Name: _icon
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|GameInventory.Items.ItemView, Assembly-CSharp
+    - Name: _name
+      Entry: 1
+      Data: "\u0413\u0440\u0430\u043D\u0430\u0442\u0430"
+    - Name: _description
+      Entry: 1
+      Data: "\u0411\u0430\u0445\u0430\u0435\u0442"
+    - Name: _icon
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 7
+      Data: 8|System.Collections.Generic.List`1[[GameInventory.Items.ItemView, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 9|GameInventory.Items.ItemView, Assembly-CSharp
+    - Name: _name
+      Entry: 1
+      Data: "\u0421\u043C\u043E\u0443\u043A"
+    - Name: _description
+      Entry: 1
+      Data: "\u0434\u044B\u043C \u0434\u044B\u043C \u0434\u044B\u043C"
+    - Name: _icon
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 

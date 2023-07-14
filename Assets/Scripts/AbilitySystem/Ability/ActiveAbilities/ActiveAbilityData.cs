@@ -1,4 +1,6 @@
-﻿namespace OrderElimination.AbilitySystem
+﻿using UnityEngine;
+
+namespace OrderElimination.AbilitySystem
 {
     public class ActiveAbilityData : IActiveAbilityData
     {

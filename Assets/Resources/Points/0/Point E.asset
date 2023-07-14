@@ -21,111 +21,18 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _sprite: {fileID: -300597444, guid: 5897665c51c6ee04e8c18c5fa5db7853, type: 3}
+  _sprite: {fileID: 21300000, guid: 9812eefff5e9242f1af115010e390a42, type: 3}
   _model:
     rid: 7872520390573555735
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
     - rid: 7872520390573555735
       type: {class: EventPointModel, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
       data:
         _nextPointsIndex: 07000000
         _position: {x: -200, y: 300, z: 0}
+        <IsLastPoint>k__BackingField: 0
         Index: 4
-        _startEventInfo:
-          rid: 7872520390573555736
+        _eventGraph: {fileID: 11400000, guid: edacec9e195bb4fefbe4345190698c09, type: 2}
         _battleScenario: {fileID: 11400000, guid: 645568020c6734a33b31a508f38bbbe3, type: 2}
-    - rid: 7872520390573555736
-      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
-      data:
-        sprite: {fileID: 21300000, guid: 42831ab3c8a2644489258bc5a91b6d14, type: 3}
-        _text: "\u0412\u044B \u0432\u0438\u0434\u0438\u0442\u0435 \u043F\u043E\u0432\u0440\u0435\u0436\u0434\u0435\u043D\u043D\u043E\u0433\u043E
-          \u0434\u0440\u043E\u043D\u0430 \u0441\u043E\u044E\u0437\u043D\u0438\u043A\u0430,
-          \u0441\u043A\u0430\u043D\u0438\u0440\u0443\u044E\u0449\u0435\u0433\u043E
-          \u043C\u0435\u0441\u0442\u043D\u043E\u0441\u0442\u044C"
-        _isEnd: 0
-        _isFork: 1
-        _isRandom: 0
-        _isHaveItems: 0
-        _isBattle: 0
-        _itemsData: []
-        _nextStage:
-          rid: -2
-        _answers:
-        - "O\u0431\u043E\u0439\u0442\u0438"
-        - "\u041F\u0440\u0438\u0431\u043B\u0438\u0437\u0438\u0442\u044C\u0441\u044F"
-        _nextStages:
-        - rid: 7872520390573555743
-        - rid: 7872520390573555744
-        _enemies: []
-    - rid: 7872520390573555743
-      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
-      data:
-        sprite: {fileID: 21300000, guid: 42831ab3c8a2644489258bc5a91b6d14, type: 3}
-        _text: 
-        _isEnd: 1
-        _isFork: 0
-        _isRandom: 0
-        _isHaveItems: 0
-        _isBattle: 0
-        _itemsData: []
-        _nextStage:
-          rid: -2
-        _answers: []
-        _nextStages: []
-        _enemies: []
-    - rid: 7872520390573555744
-      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
-      data:
-        sprite: {fileID: 21300000, guid: 42831ab3c8a2644489258bc5a91b6d14, type: 3}
-        _text: "\u0414\u0440\u043E\u043D\u0438 \u043F\u0438\u043B\u0438\u043A\u043D\u0443\u043B
-          \u0438 \u043F\u043E\u0434\u0435\u043B\u0438\u043B\u0441\u044F \u0440\u0430\u0437\u0432\u0435\u0434\u0434\u0430\u043D\u044B\u043C\u0438
-          \u0441\u043E\u0431\u0440\u0430\u043D\u043D\u044B\u043C\u0438 \u043D\u0430
-          \u044D\u0442\u0430\u0436\u0435"
-        _isEnd: 0
-        _isFork: 0
-        _isRandom: 0
-        _isHaveItems: 0
-        _isBattle: 0
-        _itemsData: []
-        _nextStage:
-          rid: 7872520390573555745
-        _answers: []
-        _nextStages: []
-        _enemies: []
-    - rid: 7872520390573555745
-      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
-      data:
-        sprite: {fileID: 21300000, guid: 42831ab3c8a2644489258bc5a91b6d14, type: 3}
-        _text: "*\u0412\u044B \u043F\u043E\u043B\u0443\u0447\u0438\u043B\u0438 \u0440\u0430\u0437\u0432\u0435\u0434\u0434\u0430\u043D\u044B\u0435*"
-        _isEnd: 0
-        _isFork: 0
-        _isRandom: 0
-        _isHaveItems: 0
-        _isBattle: 0
-        _itemsData: []
-        _nextStage:
-          rid: 7872520390573555746
-        _answers: []
-        _nextStages: []
-        _enemies: []
-    - rid: 7872520390573555746
-      type: {class: EventInfo, ns: RoguelikeMap.Points.Models, asm: Assembly-CSharp}
-      data:
-        sprite: {fileID: 21300000, guid: 42831ab3c8a2644489258bc5a91b6d14, type: 3}
-        _text: 
-        _isEnd: 1
-        _isFork: 0
-        _isRandom: 0
-        _isHaveItems: 1
-        _isBattle: 0
-        _itemsData:
-        - {fileID: 11400000, guid: e655c8948143f814c89bb88c7fa0785c, type: 2}
-        _nextStage:
-          rid: -2
-        _answers: []
-        _nextStages: []
-        _enemies: []

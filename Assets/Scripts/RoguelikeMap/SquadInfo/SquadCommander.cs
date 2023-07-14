@@ -1,16 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Inventory;
+using Events;
 using OrderElimination;
-using OrderElimination.AbilitySystem;
+using OrderElimination.Battle;
 using OrderElimination.MacroGame;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.Points.Models;
 using RoguelikeMap.UI.Characters;
 using RoguelikeMap.UI.PointPanels;
-using UnityEngine;
 using VContainer;
 
 namespace RoguelikeMap.SquadInfo
@@ -20,18 +18,31 @@ namespace RoguelikeMap.SquadInfo
         private readonly IObjectResolver _objectResolver;
         private PointModel _target;
         private Squad _squad;
+        private SquadMembersPanel _squadMembersPanel;
+        private ScenesMediator _mediator;
+
+        public BattleOutcome? BattleOutcome { get; private set; } = null;
         public PointModel Target => _target;
         public Squad Squad => _squad;
         public event Action<List<GameCharacter>, int> OnSelected;
         public event Action<int> OnHealAccept;
-        public event Action<IReadOnlyList<ItemData>> OnLootAccept;
 
         [Inject]
-        public SquadCommander(IObjectResolver objectResolver, PanelManager panelManager, SquadMembersPanel squadMembersPanel)
+        public SquadCommander(IObjectResolver objectResolver, ScenesMediator mediator,
+            PanelManager panelManager, SquadMembersPanel squadMembersPanel)
         {
             _objectResolver = objectResolver;
             SubscribeToEvents(panelManager);
+            _squadMembersPanel = squadMembersPanel;
+            _mediator = mediator;
             squadMembersPanel.OnSelected += WereSelectedMembers;
+        }
+
+        public void Start()
+        {
+            if (!_mediator.Contains<BattleResults>("battle results"))
+                return;
+            BattleOutcome = _mediator.Get<BattleResults>("battle results").BattleOutcome;
         }
 
         public void SetSquad(Squad squad)
@@ -47,7 +58,6 @@ namespace RoguelikeMap.SquadInfo
         private void SubscribeToEvents(PanelManager panelManager)
         {
             var safeZonePanel = (SafeZonePanel)panelManager.GetPanelByPointInfo(PointType.SafeZone);
-            safeZonePanel.OnLootAccept += LootAccept;
             safeZonePanel.OnHealAccept += HealAccept;
 
             var battlePanel = (BattlePanel)panelManager.GetPanelByPointInfo(PointType.Battle);
@@ -64,10 +74,10 @@ namespace RoguelikeMap.SquadInfo
                 Logging.LogException( new ArgumentException("Is not valid point to attack"));
                 throw new ArgumentException("Is not valid point to attack");
             }
-            StartAttack(battlePointModel.Enemies, battlePointModel.Scenario);
+            StartAttack(battlePointModel.Enemies, battlePointModel.Scenario, battlePointModel.ItemsCount);
         }
         
-        private void StartAttackByEventPoint(IReadOnlyList<IGameCharacterTemplate> enemies)
+        private void StartAttackByEventPoint(BattleNode battleNode)
         {
             if (_target is not EventPointModel eventPointModel)
             {
@@ -75,25 +85,21 @@ namespace RoguelikeMap.SquadInfo
                 throw new ArgumentException("Is not valid point to attack");
 
             }
-            StartAttack(enemies, eventPointModel.Scenario);
+            StartAttack(battleNode.Enemies, eventPointModel.Scenario, battleNode.CountItems);
         }
         
         private void StartAttack(
-            IEnumerable<IGameCharacterTemplate> enemies, BattleScenario scenario)
+            IEnumerable<IGameCharacterTemplate> enemies, BattleScenario scenario, int itemsCount)
         {
-            var enemyCharacters = GameCharactersFactory.CreateGameEntities(enemies);
-            SaveSquadPosition();
-            var charactersMediator = _objectResolver.Resolve<CharactersMediator>();
-            charactersMediator.SetPlayerCharacters(_squad.Members);
-            charactersMediator.SetEnemyCharacters(enemyCharacters);
-            charactersMediator.SetScenario(scenario);
+            _squadMembersPanel.OnSelected -= WereSelectedMembers;
+            var enemyCharacters = GameCharactersFactory.CreateGameCharacters(enemies);
+            var charactersMediator = _objectResolver.Resolve<ScenesMediator>();
+            charactersMediator.Register("player characters", _squad.Members);
+            charactersMediator.Register("enemy characters", enemyCharacters);
+            charactersMediator.Register("scenario", scenario);
+            charactersMediator.Register("items count", itemsCount);
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();
-        }
-
-        private void SaveSquadPosition()
-        {
-            PlayerPrefs.SetString(Map.Map.SquadPositionPrefPath, _squad.transform.position.ToString());
         }
 
         private void WereSelectedMembers(List<GameCharacter> characters, int activeMembersCount)
@@ -104,12 +110,6 @@ namespace RoguelikeMap.SquadInfo
         private void HealAccept(int amountHeal)
         {
             OnHealAccept?.Invoke(amountHeal);
-        }
-
-        //TODO(coder): add loot to player inventory after create inventory system
-        private void LootAccept(IReadOnlyList<ItemData> itemsId)
-        {
-            OnLootAccept?.Invoke(itemsId);
         }
     }
 }

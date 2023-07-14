@@ -43,17 +43,8 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, SerializeField]
         public bool ObjectsBetweenAffectAccuracy { get; set; } //TODO Extract to Accuracy ValueGetter
 
-        public override ActionRequires ActionRequires => ActionRequires.Entity;
+        public override ActionRequires ActionRequires => ActionRequires.Target;
 
-        //[ShowInInspector, SerializeField]
-        //public IDamageAnimation SuccessfulHitAnimation { get; private set; }
-        //[ShowInInspector, SerializeField]
-        //public IDamageAnimation FailedHitAnimation { get; private set; }
-
-        //ConditionalDamageModifiers { get; set; } //по условиям цели изменяет наносимый урон
-        //public bool IgnoreDeadTargets { get; set; }
-
-        //*При вызове Perform IBattleAction уже обработан.
         protected override InflictDamageAction ProcessAction(
             ActionContext context,
             bool actionMakerProcessing = true,
@@ -70,18 +61,11 @@ namespace OrderElimination.AbilitySystem
             var modifiedAccuracy = modifiedAction.Accuracy;
             if (ObjectsBetweenAffectAccuracy && context.ActionMaker != null)
             {
-                var battleMap = context.BattleContext.BattleMap;
-                var intersections = CellMath.GetIntersectionBetween(
-                    context.ActionMaker.Position, context.ActionTarget.Position);
-                foreach (var intersection in intersections)
-                {
-                    foreach (var battleObstacle in context.BattleContext
-                        .GetVisibleEntities(intersection.CellPosition, context.ActionMaker.BattleSide)
-                        .Select(e => e.Obstacle))
-                    {
-                        modifiedAccuracy = battleObstacle.ModifyAccuracy(modifiedAccuracy, intersection.IntersectionAngle, intersection.SmallestPartSquare);
-                    }
-                }
+                modifiedAccuracy = context.BattleContext.ModifyAccuracyBetween(
+                    context.ActionMaker.Position,
+                    context.ActionTarget.Position,
+                    modifiedAccuracy,
+                    context.ActionMaker);
             }
             modifiedAction.Accuracy = modifiedAccuracy;
 

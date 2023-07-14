@@ -204,7 +204,7 @@ RectTransform:
   m_Children:
   - {fileID: 1658578757513689224}
   m_Father: {fileID: 3026913726501118994}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -338,7 +338,7 @@ RectTransform:
   m_Children:
   - {fileID: 1658578757538771536}
   m_Father: {fileID: 3026913726501118994}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -640,7 +640,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u041C\u043E\u0434\u0438\u0444\u0438\u043A\u0430\u0442\u043E\u0440\u044B"
+  m_text: "\u041F\u0440\u043E\u0447\u0435\u0435"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fc24ad91d37718649a9c5ef95f1acd79, type: 2}
   m_sharedMaterial: {fileID: -593488370296087514, guid: fc24ad91d37718649a9c5ef95f1acd79, type: 2}
@@ -1250,12 +1250,12 @@ MonoBehaviour:
     SerializationNodes:
     - Name: _cells
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[Inventory_Items.IReadOnlyCell,
-        Assembly-CSharp],[Inventory_Items.IInventoryCellView, Assembly-CSharp]],
+      Data: 0|System.Collections.Generic.Dictionary`2[[GameInventory.IReadOnlyCell,
+        Assembly-CSharp],[GameInventory.Views.InventoryCellView, Assembly-CSharp]],
         mscorlib
     - Name: comparer
       Entry: 7
-      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[Inventory_Items.IReadOnlyCell,
+      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[GameInventory.IReadOnlyCell,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 8
@@ -1294,9 +1294,14 @@ MonoBehaviour:
     SerializationNodes: []
   _inventoryView: {fileID: 1658578758412989344}
   _items:
-  - {fileID: 11400000, guid: 500f3d8fa36045344bd244f4cd3fe7cf, type: 2}
   - {fileID: 11400000, guid: e655c8948143f814c89bb88c7fa0785c, type: 2}
-  - {fileID: 11400000, guid: e377fef54a3079541aee19346c08d46c, type: 2}
+  - {fileID: 11400000, guid: 2b6a0f1f02b355b4ead5adf61643919b, type: 2}
+  _inventoryModel:
+    _cells: []
+    _size: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &1567597163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1845,8 +1850,8 @@ RectTransform:
   m_Children:
   - {fileID: 1658578758766382290}
   - {fileID: 1658578758188924463}
-  - {fileID: 1658578757387298422}
   - {fileID: 1658578756941808132}
+  - {fileID: 1658578757387298422}
   m_Father: {fileID: 1658578758412989356}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

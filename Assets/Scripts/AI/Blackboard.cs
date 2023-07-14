@@ -22,6 +22,6 @@ namespace AI
             return default;
         }
 
-        public object Register(string name, object obj) => _data[name] = obj;
+        public void Register(string name, object obj) => _data[name] = obj;
     }
 }

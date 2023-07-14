@@ -27,9 +27,9 @@ namespace OrderElimination.AbilitySystem
             battleStats.HealthDepleted += OnHealthDepleted;
             EntityType = type;
             BattleSide = side;
-            foreach (var p in EnumExtensions.GetValues<ActionPoint>())
+            foreach (var p in EnumExtensions.GetValues<EnergyPoint>())
             {
-                _actionPoints.Add(p, 0);
+                _energyPoints.Add(p, 0);
             }
             _actionProcessor = new Lazy<EntityActionProcessor>(() => EntityActionProcessor.Create(this));
             _obstacle = new Lazy<BattleObstacle>(() => new BattleObstacle(obstacleSetup, this));
@@ -66,7 +66,7 @@ namespace OrderElimination.AbilitySystem
         public DealtRecoveryInfo TakeRecovery(RecoveryInfo incomingHeal)
         {
             var dealtRecovery = IBattleLifeStats.DistributeRecovery(BattleStats, incomingHeal);
-            BattleStats.TotalArmor += dealtRecovery.TotalArmorRecovery;
+            BattleStats.PureArmor += dealtRecovery.TotalArmorRecovery;
             BattleStats.Health += dealtRecovery.TotalHealthRecovery;
             Healed?.Invoke(dealtRecovery);
             return dealtRecovery;
@@ -82,7 +82,7 @@ namespace OrderElimination.AbilitySystem
 
         #region EntityMover
         public Vector2Int Position => DeployedBattleMap.GetPosition(this);
-        public bool CanMove => !StatusHolder.HasStatus(BattleStatus.CantMove);
+        public bool CanMove => !StatusHolder.HasStatus(BattleStatus.CantMove) && !IsDisposedFromBattle;
 
         public bool Move(Vector2Int destination, bool forceMove = false)
         {
@@ -100,60 +100,88 @@ namespace OrderElimination.AbilitySystem
         #endregion
 
         #region AbilityCaster
-        private readonly Dictionary<ActionPoint, int> _actionPoints = new();
-        public IReadOnlyDictionary<ActionPoint, int> ActionPoints => _actionPoints;
-        public void AddActionPoints(ActionPoint actionPoint, int value = 1)
+        private readonly Dictionary<EnergyPoint, int> _energyPoints = new();
+        public IReadOnlyDictionary<EnergyPoint, int> EnergyPoints => _energyPoints;
+        public void AddEnergyPoints(EnergyPoint energyPoint, int value = 1)
         {
-            if (value < 0) Logging.LogException(new ArgumentException("Try add action point with less zero value"));
-            if (!_actionPoints.ContainsKey(actionPoint)) _actionPoints.Add(actionPoint, 0);
-            _actionPoints[actionPoint] += value;
+            if (value < 0)
+                Logging.LogException(
+                    new ArgumentException("Attempt to remove energy point with less zero value"));
+            if (!_energyPoints.ContainsKey(energyPoint))
+                _energyPoints.Add(energyPoint, 0);
+            _energyPoints[energyPoint] += value;
         }
-        public void RemoveActionPoints(ActionPoint actionPoint, int value = 1)
+        public bool RemoveEnergyPoints(EnergyPoint energyPoint, int value = 1)
         {
-            if (value < 0) Logging.LogException(new ArgumentException("Try remove action point with less zero value"));
-            if (!_actionPoints.ContainsKey(actionPoint)) Logging.LogException(new ArgumentException("Try remove unavailable actionPoint type"));
-            if (_actionPoints[actionPoint] < value) Logging.LogException(new ArgumentOutOfRangeException("Entity doesn't have enough points to be removed.")) ;
-            _actionPoints[actionPoint] -= value;
-        }
-        public void RemoveActionPoints(IReadOnlyDictionary<ActionPoint, int> actionPoints)
-        {
-            foreach (var point in actionPoints.Keys)
+            if (value < 0) 
+                Logging.LogException(
+                    new ArgumentException("Attempt to remove energy point with less zero value"));
+            if (!_energyPoints.ContainsKey(energyPoint)) 
+                Logging.LogException(new ArgumentException("Try remove unavailable actionPoint type"));
+            if (value <= _energyPoints[energyPoint])
             {
-                if (ActionPoints[point] < actionPoints[point])
+                _energyPoints[energyPoint] -= value;
+                return true;
+            }
+            _energyPoints[energyPoint] -= Mathf.Min(_energyPoints[energyPoint], value);
+            return false;
+        }
+        public void RemoveEnergyPoints(IReadOnlyDictionary<EnergyPoint, int> energyPoint)
+        {
+            foreach (var point in energyPoint.Keys)
+            {
+                if (EnergyPoints[point] < energyPoint[point])
                     Logging.LogException(new ArgumentOutOfRangeException("Entity doesn't have enough points to be removed.")) ;
             }
-            foreach (var point in actionPoints.Keys)
+            foreach (var point in energyPoint.Keys)
             {
-                RemoveActionPoints(point, actionPoints[point]);
+                RemoveEnergyPoints(point, energyPoint[point]);
             }
         }
-        public void SetActionPoints(ActionPoint actionPoint, int value)
+        public void SetEnergyPoints(EnergyPoint energyPoint, int value)
         {
-            if (value < 0) Logging.LogException( new ArgumentOutOfRangeException());
-            if (!_actionPoints.ContainsKey(actionPoint)) 
-                _actionPoints.Add(actionPoint, 0);
-            _actionPoints[actionPoint] = value;
+            if (value < 0)
+                Logging.LogException(new ArgumentOutOfRangeException());
+            if (!_energyPoints.ContainsKey(energyPoint)) 
+                _energyPoints.Add(energyPoint, 0);
+            _energyPoints[energyPoint] = value;
         }
+        public void ClearEnergyPoints(EnergyPoint energyPoint)
+        {
+            if (_energyPoints.ContainsKey(energyPoint))
+                _energyPoints[energyPoint] = 0;
+        }
+        //event ActionPoint ActionPointsChanged
+
         private readonly List<ActiveAbilityRunner> _activeAbilities = new();
         private readonly List<PassiveAbilityRunner> _passiveAbilities = new();
         public IReadOnlyList<ActiveAbilityRunner> ActiveAbilities => _activeAbilities;
         public IReadOnlyList<PassiveAbilityRunner> PassiveAbilities => _passiveAbilities;
         public bool IsPerformingAbility { get; set; } //Performs ability
+
+        public event Action<AbilitySystemActor> AbilitiesChanged;
+
         public void GrantActiveAbility(ActiveAbilityRunner ability)
         {
             _activeAbilities.Add(ability);
+            AbilitiesChanged?.Invoke(this);
         }
         public bool RemoveActiveAbility(ActiveAbilityRunner ability)
         {
-            return _activeAbilities.Remove(ability);
+            var result = _activeAbilities.Remove(ability);
+            AbilitiesChanged?.Invoke(this);
+            return result;
         }
         public void GrantPassiveAbility(PassiveAbilityRunner ability)
         {
             _passiveAbilities.Add(ability);
+            AbilitiesChanged?.Invoke(this);
         }
         public bool RemovePassiveAbility(PassiveAbilityRunner ability)
         {
-            return _passiveAbilities.Remove(ability);
+            var result = _passiveAbilities.Remove(ability);
+            AbilitiesChanged?.Invoke(this);
+            return result;
         }
         #endregion
 

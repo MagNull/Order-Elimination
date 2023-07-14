@@ -9,7 +9,7 @@ namespace AI.Utils
         public static AbilitySystemActor[] GetTargetsByDistance(this IReadOnlyEntitiesBank entitiesBank,
             IBattleContext battleContext, AbilitySystemActor caster, BattleRelationship relationship)
         {
-            var enemies = entitiesBank.GetEntities()
+            var enemies = entitiesBank.GetActiveEntities()
                 .Where(en =>
                     battleContext.GetRelationship(caster.BattleSide, en.BattleSide) == relationship)
                 .Where(ent => !ent.StatusHolder.HasStatus(BattleStatus.Invisible));
@@ -21,12 +21,13 @@ namespace AI.Utils
         public static AbilitySystemActor[] GetTargetsByValue(this IReadOnlyEntitiesBank entitiesBank,
             IBattleContext battleContext, AbilitySystemActor caster, BattleRelationship relationship)
         {
-            var enemies = entitiesBank.GetEntities()
+            var enemies = entitiesBank.GetActiveEntities()
                 .Where(en =>
                     battleContext.GetRelationship(caster.BattleSide, en.BattleSide) == relationship)
-                .Where(ent => !ent.StatusHolder.HasStatus(BattleStatus.Invisible));
+                .Where(ent =>
+                    !ent.StatusHolder.HasStatus(BattleStatus.Invisible) && ent.EntityType == EntityType.Character);
             return enemies
-                .OrderByDescending(e => entitiesBank.GetBattleCharacterData(e).CharacterData.Reward)
+                .OrderByDescending(e => entitiesBank.GetBasedCharacter(e).CharacterData.Reward)
                 .ToArray();
         }
     }

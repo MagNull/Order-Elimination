@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using UIManagement.Elements;
 using System.Linq;
-using Inventory_Items;
+using GameInventory;
 using OrderElimination.AbilitySystem;
 using OrderElimination;
 using UnityEngine.Serialization;
@@ -42,19 +42,13 @@ namespace UIManagement
         private List<Button> _activeAbilityButtons;
         [SerializeReference]
         private List<Button> _passiveAbilityButtons;
-        [FormerlySerializedAs("_inventoryPresenter")]
-        [SerializeField]
-        private PickItemInventoryPresenter _playerInventoryPresenter;
         [SerializeField]
         private InventoryPresenter _characterInventoryPresenter;
-
-        protected override void Initialize()
-        {
-            base.Initialize();
-        }
+        
 
         public void UpdateCharacterDescription(GameCharacter character)
         {
+            Debug.Log("HUEBOBA");
             if (character == null)
                 Logging.LogException( new System.ArgumentNullException());
             _characterName.text = character.CharacterData.Name;
@@ -62,28 +56,29 @@ namespace UIManagement
             UpdateBattleStats(character.CharacterStats);
             var activeAbilities = character
                 .ActiveAbilities
-                .Where(a => !a.View.HideInCharacterDiscription)
+                .Where(a => !a.View.HideInCharacterDescription)
                 .ToArray();
             var passiveAbilities = character
                 .PassiveAbilities
                 .Where(a => !a.View.HideInCharacterDiscription)
                 .ToArray();
             UpdateAbilityButtons(activeAbilities, passiveAbilities);
-            UpdateInventory();
+            UpdateInventory(character.Inventory);
         }
+
         public void UpdateCharacterDescription(AbilitySystemActor entity)
         {
             if (entity == null)
                 Logging.LogException(new System.ArgumentNullException());
             var entitiesBank = entity.BattleContext.EntitiesBank;
-            var gamecharacter = entitiesBank.GetBattleCharacterData(entity);
+            var gamecharacter = entitiesBank.GetBasedCharacter(entity);
             _characterName.text = gamecharacter.CharacterData.Name;
             _characterAvatar.sprite = gamecharacter.CharacterData.Avatar;
             UpdateBattleStats(entity.BattleStats);
             var activeAbilities = entity
                 .ActiveAbilities
                 .Select(runner => runner.AbilityData)
-                .Where(a => !a.View.HideInCharacterDiscription)
+                .Where(a => !a.View.HideInCharacterDescription)
                 .ToArray();
             var passiveAbilities = entity
                 .PassiveAbilities
@@ -91,7 +86,12 @@ namespace UIManagement
                 .Where(a => !a.View.HideInCharacterDiscription)
                 .ToArray();
             UpdateAbilityButtons(activeAbilities, passiveAbilities);
-            UpdateInventory();
+            _characterInventoryPresenter.enabled = false;
+            if (entity.EntityType == EntityType.Character)
+            {
+                var character = entity.BattleContext.EntitiesBank.GetBasedCharacter(entity);
+                UpdateInventory(character.Inventory);
+            }
         }
 
         private void UpdateBattleStats(IReadOnlyGameCharacterStats stats)
@@ -140,7 +140,7 @@ namespace UIManagement
                 button.onClick.RemoveAllListeners();
             }
             var displayedActiveAbilities = activeAbilities
-                .Where(a => !a.View.HideInCharacterDiscription)
+                .Where(a => !a.View.HideInCharacterDescription)
                 .ToArray();
             var displayedPassiveAbilities = passiveAbilities
                 .Where(a => !a.View.HideInCharacterDiscription)
@@ -157,9 +157,10 @@ namespace UIManagement
 
                 void OnActiveAbilityClicked()
                 {
-                    Logging.Log("No." , Colorize.Gold, context: this);
-                    //_abilityInfoPanel.InitializeInfo(ability);
-                    //_abilityInfoPanel.Open();
+                    var panel = (AbilityDescriptionPanel)
+                    UIController.SceneInstance.OpenPanel(PanelType.AbilityDescription);
+                    panel.UpdateAbilityData(ability);
+                    panel.Open();
                 }
             }
             for (var i = 0; i < displayedPassiveAbilities.Length; i++)
@@ -171,17 +172,17 @@ namespace UIManagement
 
             void OnPassiveAbilityClicked()
             {
-                Logging.Log("No." , Colorize.Gold, context: this);
-                //_passiveAbilityInfoPanel.InitializeInfo(displayedPassiveAbilities);
-                //_passiveAbilityInfoPanel.Open();
+                var panel = (PassiveAbilityDescriptionPanel)
+                    UIController.SceneInstance.OpenPanel(PanelType.PassiveAbilityDescription);
+                panel.UpdateAbilitiesDescription(displayedPassiveAbilities);
+                panel.Open();
             }
         }
 
-        private void UpdateInventory()
+        private void UpdateInventory(Inventory inventory)
         {
-            //_characterInventoryPresenter.enabled = true;
-            //_playerInventoryPresenter.UpdateTargetInventory(gamecharacter.Inventory);
-            //_characterInventoryPresenter.InitInventoryModel(_currentCharacterInfo.Inventory);
+            _characterInventoryPresenter.enabled = true;
+            _characterInventoryPresenter.InitInventoryModel(inventory);
         }
     }
 }
