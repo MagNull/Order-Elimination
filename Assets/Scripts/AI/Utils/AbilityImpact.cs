@@ -110,9 +110,9 @@ namespace AI.Utils
             //Determine target type
             AbilitySystemActor[] targets = instruction.Action.ActionRequires switch
             {
-                ActionRequires.Caster => new[] { _caster },
+                ActionRequires.Maker => new[] { _caster },
                 ActionRequires.Cell => new AbilitySystemActor[] { },
-                ActionRequires.Entity => _battleContext.BattleMap.GetContainedEntities(cell).ToArray(),
+                ActionRequires.Target => _battleContext.BattleMap.GetContainedEntities(cell).ToArray(),
                 _ => new AbilitySystemActor[] { }
             };
             //If there no targets on cell - skip

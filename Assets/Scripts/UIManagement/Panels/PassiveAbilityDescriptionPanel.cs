@@ -9,10 +9,10 @@ namespace UIManagement
 {
     public class PassiveAbilityDescriptionPanel : UIPanel
     {
-        public override PanelType PanelType => PanelType.PassiveSkillsDescription;
-        [SerializeField] private PassiveSkillDescriptionCard _descriptionCardPrefab;
+        public override PanelType PanelType => PanelType.PassiveAbilityDescription;
+        [SerializeField] private PassiveAbilityDescriptionCard _descriptionCardPrefab;
         [SerializeField] private RectTransform _descriptionCardsHolder;
-        private List<PassiveSkillDescriptionCard> _skillCards = new List<PassiveSkillDescriptionCard>();
+        private List<PassiveAbilityDescriptionCard> _skillCards = new List<PassiveAbilityDescriptionCard>();
 
         private void Awake()
         {

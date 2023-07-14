@@ -69,8 +69,9 @@ namespace UIManagement
                 .Where(a => !a.View.HideInCharacterDiscription)
                 .ToArray();
             UpdateAbilityButtons(activeAbilities, passiveAbilities);
-            UpdateInventory();
+            UpdateInventory(character.Inventory);
         }
+
         public void UpdateCharacterDescription(AbilitySystemActor entity)
         {
             if (entity == null)
@@ -91,7 +92,8 @@ namespace UIManagement
                 .Where(a => !a.View.HideInCharacterDiscription)
                 .ToArray();
             UpdateAbilityButtons(activeAbilities, passiveAbilities);
-            UpdateInventory();
+            _characterInventoryPresenter.enabled = false;
+            //UpdateInventory();
         }
 
         private void UpdateBattleStats(IReadOnlyGameCharacterStats stats)
@@ -157,9 +159,10 @@ namespace UIManagement
 
                 void OnActiveAbilityClicked()
                 {
-                    Logging.Log("No." , Colorize.Gold, context: this);
-                    //_abilityInfoPanel.InitializeInfo(ability);
-                    //_abilityInfoPanel.Open();
+                    var panel = (AbilityDescriptionPanel)
+                    UIController.SceneInstance.OpenPanel(PanelType.AbilityDescription);
+                    panel.UpdateAbilityData(ability);
+                    panel.Open();
                 }
             }
             for (var i = 0; i < displayedPassiveAbilities.Length; i++)
@@ -171,17 +174,18 @@ namespace UIManagement
 
             void OnPassiveAbilityClicked()
             {
-                Logging.Log("No." , Colorize.Gold, context: this);
-                //_passiveAbilityInfoPanel.InitializeInfo(displayedPassiveAbilities);
-                //_passiveAbilityInfoPanel.Open();
+                var panel = (PassiveAbilityDescriptionPanel)
+                    UIController.SceneInstance.OpenPanel(PanelType.PassiveAbilityDescription);
+                panel.UpdateAbilitiesDescription(displayedPassiveAbilities);
+                panel.Open();
             }
         }
 
-        private void UpdateInventory()
+        private void UpdateInventory(Inventory inventory)
         {
-            //_characterInventoryPresenter.enabled = true;
-            //_playerInventoryPresenter.UpdateTargetInventory(gamecharacter.Inventory);
-            //_characterInventoryPresenter.InitInventoryModel(_currentCharacterInfo.Inventory);
+            _characterInventoryPresenter.enabled = true;
+            _playerInventoryPresenter.UpdateTargetInventory(inventory);
+            _characterInventoryPresenter.InitInventoryModel(inventory);
         }
     }
 }
