@@ -319,8 +319,8 @@ MonoBehaviour:
   _alliesHighlightColor: {r: 0.0047169924, g: 0.9905467, b: 1, a: 1}
   _enemiesHighlightColor: {r: 1, g: 0.3820755, b: 0.3820755, a: 1}
   _othersHighlightColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
-  _allowOnlyCurrentSideEntities: 0
-  _allowOnlyPlayerEntities: 0
+  _allowOnlyCurrentSideEntities: 1
+  _allowOnlyPlayerEntities: 1
   _lockCharacterWhileCasting: 1
   _confirmTargetingBySecondClick: 1
 --- !u!1 &84768578
@@ -2764,7 +2764,7 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
     - {fileID: 11400000, guid: 7be5600522a123a4595c53b6b173a4a7, type: 2}
-    - {fileID: 11400000, guid: 3ffdf409484600f46b35f626a35ec884, type: 2}
+    - {fileID: 11400000, guid: 960f80274a3bf09459044259dc1ac4cf, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -2790,6 +2790,9 @@ MonoBehaviour:
       Data: 1|OrderElimination.IGameCharacterTemplate[], Assembly-CSharp
     - Name: 
       Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 10
       Data: 1
     - Name: 
       Entry: 10
