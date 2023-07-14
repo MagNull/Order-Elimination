@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using GameInventory.Items;
 using OrderElimination;
@@ -74,6 +75,11 @@ namespace GameInventory
             }
 
             return result;
+        }
+
+        public bool Contains(Item item)
+        {
+            return _cells.Any(cell => cell.Item == item);
         }
 
         public void InitConsumables()

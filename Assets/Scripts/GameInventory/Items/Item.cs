@@ -7,7 +7,7 @@ using UnityEngine;
 namespace GameInventory.Items
 {
     [Serializable]
-    public abstract class Item
+    public class Item
     {
         [ShowInInspector, SerializeField]
         private ItemView _itemView;
@@ -26,7 +26,7 @@ namespace GameInventory.Items
         public ItemRarity Rarity => _itemRarity;
         public int Id => _itemId;
 
-        protected Item(ItemData itemData)
+        public Item(ItemData itemData)
         {
             _itemView = itemData.View;
             _itemType = itemData.Type;
@@ -34,7 +34,10 @@ namespace GameInventory.Items
             _itemRarity = itemData.Rarity;
         }
 
-        public abstract void OnTook(AbilitySystemActor abilitySystemActor);
+        public virtual void OnTook(AbilitySystemActor abilitySystemActor)
+        {
+            return;
+        }
     }
 
     [Serializable]
