@@ -26,6 +26,11 @@ namespace StartSessionMenu
         
         private void Start()
         {
+            if (PlayerPrefs.HasKey("MoneyAfterGameEnd"))
+            {
+                StartMetaMoney += PlayerPrefs.GetInt("MoneyAfterGameEnd");
+                PlayerPrefs.DeleteKey("MoneyAfterGameEnd");
+            }
             _wallet = new Wallet(StartMetaMoney);
             _uiCounter.Initialize(_wallet);
             foreach (var category in _progressCategories)

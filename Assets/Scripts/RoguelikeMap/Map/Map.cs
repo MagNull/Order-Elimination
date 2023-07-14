@@ -4,6 +4,8 @@ using OrderElimination;
 using OrderElimination.Battle;
 using RoguelikeMap.Points;
 using RoguelikeMap.SquadInfo;
+using RoguelikeMap.UI;
+using StartSessionMenu;
 using UnityEngine;
 using VContainer;
 
@@ -11,6 +13,9 @@ namespace RoguelikeMap.Map
 {
     public class Map : MonoBehaviour
     {
+        [SerializeField]
+        private Panel _victoryPanel;
+        
         public static string SquadPositionKey = "SquadPosition";
         
         private List<Point> _points;
@@ -18,16 +23,21 @@ namespace RoguelikeMap.Map
         private Squad _squad;
         private bool _isSquadSelected;
         private SquadCommander _squadCommander;
-
+        private ScenesMediator _mediator;
+        private Wallet _wallet;
+        
         private IObjectResolver _objectResolver;
         public static int SaveIndex { get; private set; }
 
         [Inject]
-        private void Construct(IMapGenerator mapGenerator, SquadCommander squadCommander,
+        private void Construct(IMapGenerator mapGenerator, ScenesMediator mediator,
+            SquadCommander squadCommander, Wallet wallet,
             Squad squad, IObjectResolver objectResolver)
         {
             _mapGenerator = mapGenerator;
             _squad = squad;
+            _mediator = mediator;
+            _wallet = wallet;
             _squadCommander = squadCommander;
             _objectResolver = objectResolver;
         }
@@ -67,10 +77,13 @@ namespace RoguelikeMap.Map
             var pointIndex = PlayerPrefs.HasKey(SquadPositionKey)
                 ? PlayerPrefs.GetInt(SquadPositionKey)
                 : _points.First().Index;
+            var point = _points[pointIndex];
             if(_squadCommander.BattleOutcome is null or BattleOutcome.Lose)
-                _points[pointIndex].Visit(_squad);
+                point.Visit(_squad);
+            else if (point.Model.IsLastPoint)
+                GameEnd();
             else
-                _squad.Visit(_points[pointIndex].Model);
+                _squad.Visit(point.Model);
         }
 
         public void ReloadMap()
@@ -83,6 +96,13 @@ namespace RoguelikeMap.Map
         {
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadStartSessionMenu();
+        }
+
+        private void GameEnd()
+        {
+            _victoryPanel.Open();
+            PlayerPrefs.SetInt("Money", _wallet.Money + 1000);
+            Destroy(_mediator.gameObject);
         }
     }
 }
