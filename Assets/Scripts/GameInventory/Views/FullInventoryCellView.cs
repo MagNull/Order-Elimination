@@ -6,8 +6,6 @@ namespace GameInventory.Views
 {
     public class FullInventoryCellView : InventoryCellView
     {
-        public event Action<IReadOnlyCell> Clicked;
-        
         [SerializeField]
         private TextMeshProUGUI _descriptionText;
         [SerializeField]

@@ -12,6 +12,7 @@ namespace OrderElimination.AbilitySystem
         public event Action<IReadOnlyEntitiesBank> BankChanged;
 
         public bool ContainsEntity(AbilitySystemActor entity, bool includeDisposed = false);
+        public bool ContainsCharacter(GameCharacter character, bool includeDisposed = false);
         public AbilitySystemActor[] GetActiveEntities();
         public AbilitySystemActor[] GetActiveEntities(BattleSide side);
         public AbilitySystemActor[] GetDisposedEntities();
@@ -31,7 +32,7 @@ namespace OrderElimination.AbilitySystem
         private readonly Dictionary<AbilitySystemActor, BattleEntityView> _viewsByEntities = new ();
         private readonly Dictionary<BattleEntityView, AbilitySystemActor> _entitiesByViews = new ();
         private readonly Dictionary<AbilitySystemActor, GameCharacter> _basedCharacters = new();
-        private readonly ConcurrentDictionary<GameCharacter, AbilitySystemActor> _entitiesByCharacters = new();
+        private readonly Dictionary<GameCharacter, AbilitySystemActor> _entitiesByCharacters = new();
         private readonly Dictionary<AbilitySystemActor, IBattleStructureTemplate> _basedStructures = new();
 
         public event Action<IReadOnlyEntitiesBank> BankChanged;
@@ -41,6 +42,12 @@ namespace OrderElimination.AbilitySystem
             if (!includeDisposed)
                 return _activeEntities.Contains(entity);
             return _activeEntities.Contains(entity) || _disposedEntities.Contains(entity);
+        }
+        public bool ContainsCharacter(GameCharacter character, bool includeDisposed = false)
+        {
+            if (!_entitiesByCharacters.ContainsKey(character)) return false;
+            var entity = _entitiesByCharacters[character];
+            return !entity.IsDisposedFromBattle || includeDisposed;
         }
         public AbilitySystemActor[] GetActiveEntities() => _activeEntities.ToArray();
         public AbilitySystemActor[] GetActiveEntities(BattleSide side)
@@ -77,7 +84,7 @@ namespace OrderElimination.AbilitySystem
             _viewsByEntities.Add(entity, view);
             _entitiesByViews.Add(view, entity);
             _basedCharacters.Add(entity, basedCharacter);
-            _entitiesByCharacters.AddOrUpdate(basedCharacter, entity, (ch, e) => entity);
+            _entitiesByCharacters.Add(basedCharacter, entity);
             BankChanged?.Invoke(this);
         }
 
