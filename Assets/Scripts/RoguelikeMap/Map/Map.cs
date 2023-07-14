@@ -101,7 +101,7 @@ namespace RoguelikeMap.Map
         private void GameEnd()
         {
             _victoryPanel.Open();
-            PlayerPrefs.SetInt("Money", _wallet.Money + 1000);
+            PlayerPrefs.SetInt("MoneyAfterGameEnd", _wallet.Money + 1000);
             Destroy(_mediator.gameObject);
         }
     }

@@ -43,8 +43,6 @@ namespace RoguelikeMap.UI.PointPanels
 
         private void SetActiveAnswers(bool isActive)
         {
-            _skipButton.gameObject.SetActive(!isActive);
-
             foreach (var button in _answerButtons)
             {
                 button.gameObject.SetActive(isActive);
@@ -64,9 +62,11 @@ namespace RoguelikeMap.UI.PointPanels
 
         public void UpdateAnswersText(IReadOnlyList<string> answers)
         {
-            SetActiveAnswers(true);
+            SetActiveSkipButton(false);
+            SetActiveAnswers(false);
             for (var i = 0; i < answers.Count; i++)
             {
+                _answerButtons[i].gameObject.SetActive(true);
                 var buttonText = _answerButtons[i].GetComponentInChildren<TMP_Text>();
                 buttonText.text = answers[i];
             }
@@ -82,7 +82,13 @@ namespace RoguelikeMap.UI.PointPanels
         public void UpdateText(string text)
         {
             _eventText.text = text;
+            SetActiveSkipButton(true);
             SetActiveAnswers(false);
+        }
+
+        private void SetActiveSkipButton(bool isActive)
+        {
+            _skipButton.gameObject.SetActive(isActive);
         }
 
         public void FinishEvent(IEnumerable<ItemData> items = null, 
