@@ -19,9 +19,11 @@ namespace AI.Actions
             var caster = blackboard.Get<AbilitySystemActor>("caster");
 
             var structures = context.EntitiesBank.GetActiveEntities(BattleSide.NoSide)
-                .Where(actor => actor.Obstacle != null);
+                .Where(actor => actor.Obstacle != null)
+                .OrderByDescending(st =>
+                    st.PassiveAbilities.Count(abi => _needPassiveEffects.Contains(abi.AbilityData.BasedBuilder)));
             var movementAbility = AbilityAIPresentation.GetMoveAbility(caster);
-            if (movementAbility.AbilityData.TargetingSystem 
+            if (movementAbility.AbilityData.TargetingSystem
                 is not IRequireSelectionTargetingSystem manualTargeting)
                 throw new System.NotSupportedException();
             var targeting = manualTargeting;
@@ -38,9 +40,7 @@ namespace AI.Actions
 
                 var completed = false;
                 movementAbility.AbilityExecutionCompleted += _ => completed = true;
-                Debug.Log("Start");
                 await UniTask.WaitUntil(() => completed);
-                Debug.Log("End");
 
                 targeting.CancelTargeting();
                 return true;
@@ -56,9 +56,7 @@ namespace AI.Actions
         {
             return structure.Obstacle.IsAllowedToStay(caster) &&
                    targeting.PeekAvailableCells(context, caster).Contains(structure.Position) &&
-                   !CharacterBehavior.AvoidObject.Contains(context.EntitiesBank.GetBasedStructureTemplate(structure))
-                   && _needPassiveEffects.All(ef =>
-                       structure.PassiveAbilities.Any(ab => ab.AbilityData.BasedBuilder == ef));
+                   !CharacterBehavior.AvoidObject.Contains(context.EntitiesBank.GetBasedStructureTemplate(structure));
         }
     }
 }
