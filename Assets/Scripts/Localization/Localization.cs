@@ -20,7 +20,7 @@ namespace OrderElimination.Localization
             {PanelType.BattleVictory, "Победа"}, 
             {PanelType.BattleDefeat, "Поражение"}, 
             {PanelType.AbilityDescription, "Описание способности"}, 
-            {PanelType.PassiveSkillsDescription, "Пассивные навыки"}, 
+            {PanelType.PassiveAbilityDescription, "Пассивные навыки"}, 
             {PanelType.CharacterDescription, "Информация о бойце"}, 
             {PanelType.EffectsDesriptionList, "Описание эффектов"}, 
             {PanelType.CharacterUpgradable, "Информация о бойце"},

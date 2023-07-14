@@ -186,7 +186,7 @@ namespace UIManagement
         private void OnPassiveAbilityButtonClicked(SmallAbilityButton skillButton)
         {
             var panel =
-                _panelController.OpenPanel(PanelType.PassiveSkillsDescription) as PassiveAbilityDescriptionPanel;
+                _panelController.OpenPanel(PanelType.PassiveAbilityDescription) as PassiveAbilityDescriptionPanel;
             //panel.AssignPassiveSkillsDescription(_currentPassiveSkills.Select(v => v.AbilityInfo).ToArray());
         }
     }

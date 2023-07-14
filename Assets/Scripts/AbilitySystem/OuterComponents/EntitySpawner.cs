@@ -30,6 +30,19 @@ namespace OrderElimination.AbilitySystem
             return _entitiesFactory.Value.CreateBattleCharacter(gameCharacter, side, position).Model;
         }
 
+        public AbilitySystemActor SpawnCharacter(
+            GameCharacter gameCharacter,
+            BattleSide side,
+            Vector2Int position)
+        {
+            var battleMap = _battleContext.Value.BattleMap;
+            if (!battleMap.CellRangeBorders.Contains(position))
+                Logging.LogException(new ArgumentOutOfRangeException("Position is outside of the map borders."));
+            if (_battleContext.Value.EntitiesBank.ContainsCharacter(gameCharacter))
+                throw new InvalidOperationException("Passed GameCharacter already exists in battle.");
+            return _entitiesFactory.Value.CreateBattleCharacter(gameCharacter, side, position).Model;
+        }
+
         public AbilitySystemActor SpawnStructure(
             IBattleStructureTemplate structureData, 
             BattleSide side,

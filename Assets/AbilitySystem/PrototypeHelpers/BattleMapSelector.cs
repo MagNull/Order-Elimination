@@ -246,7 +246,7 @@ public class BattleMapSelector : MonoBehaviour
             : (Object)_battleContext.EntitiesBank.GetBasedStructureTemplate(entity);
         EditorUtility.IsPersistent(so);
         Debug.Log(
-            $"{entity.EntityType} {view.Name} [id:{so.GetInstanceID()}] selected." % Colorize.ByColor(new Color(1, 0.5f, 0.5f))
+            $"{entity.EntityType} {view.Name} selected." % Colorize.ByColor(new Color(1, 0.5f, 0.5f))
             + $"\nActionPoints: {string.Join(", ", entity.ActionPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
             + $"\nHealth: {entity.BattleStats.Health}; MaxHealth: {entity.BattleStats.MaxHealth.ModifiedValue}" 
             + $"\nTotalArmor: {entity.BattleStats.TotalArmor}; MaxArmor: {entity.BattleStats.MaxArmor.ModifiedValue}" 

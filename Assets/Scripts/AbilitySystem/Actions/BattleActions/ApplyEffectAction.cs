@@ -24,7 +24,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public IContextValueGetter ApplyChance { get; set; }
 
-        public override ActionRequires ActionRequires => ActionRequires.Entity;
+        public override ActionRequires ActionRequires => ActionRequires.Target;
 
         public override IBattleAction Clone()
         {

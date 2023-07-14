@@ -48,7 +48,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public StatusOperation Operation { get; private set; }
 
-        public override ActionRequires ActionRequires => ActionRequires.Entity;
+        public override ActionRequires ActionRequires => ActionRequires.Target;
 
         public override IBattleAction Clone()
         {

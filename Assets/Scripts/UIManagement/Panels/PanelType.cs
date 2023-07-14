@@ -16,7 +16,7 @@ namespace UIManagement
         CharacterDescription, 
         CharacterUpgradable, 
         AbilityDescription,
-        PassiveSkillsDescription,
+        PassiveAbilityDescription,
         EffectsDesriptionList,
         Shop,
         Event,

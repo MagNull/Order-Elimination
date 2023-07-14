@@ -32,10 +32,10 @@ namespace OrderElimination.AbilitySystem
                 var actionTarget = Action.ActionRequires;
                 var actionRequireCellGroups = actionTarget switch
                 {
-                    ActionRequires.Entity => true,
+                    ActionRequires.Target => true,
                     ActionRequires.Cell => true,
                     //ActionExecutes.OncePerGroup => true,
-                    ActionRequires.Caster => false,
+                    ActionRequires.Maker => false,
                     _ => throw new NotImplementedException(),
                 };
                 return actionRequireCellGroups;// && !AffectPreviousTarget;
@@ -140,7 +140,7 @@ namespace OrderElimination.AbilitySystem
             if (_commonConditions != null && !_commonConditions.All(c => c.IsConditionMet(battleContext, caster)))
                 return;
             var groups = executionContext.TargetedCellGroups;
-            if (Action.ActionRequires == ActionRequires.Caster)
+            if (Action.ActionRequires == ActionRequires.Maker)
             {
                 if (Action is IUtilizeCellGroupsAction groupAction
                     && !groupAction.UtilizingCellGroups
@@ -168,7 +168,7 @@ namespace OrderElimination.AbilitySystem
                     {
                         await ExecuteNextInstructions(cellConditionsMet, null, pos);
                     }
-                    else if (Action.ActionRequires == ActionRequires.Entity)
+                    else if (Action.ActionRequires == ActionRequires.Target)
                     {
                         var entitiesInCell = battleMap.GetContainedEntities(pos).ToArray();
                         foreach (var entity in entitiesInCell)
@@ -252,7 +252,7 @@ namespace OrderElimination.AbilitySystem
                 {
                     if (AnimationBeforeAction != null)
                         await AnimationBeforeAction.Play(animationContext);
-                    if (Action.ActionRequires == ActionRequires.Entity
+                    if (Action.ActionRequires == ActionRequires.Target
                         && actionContext.ActionTarget.IsDisposedFromBattle)
                         continue;
                     if ((await Action.ModifiedPerform(actionContext)).IsSuccessful) //Action Success

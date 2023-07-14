@@ -86,6 +86,8 @@ namespace OrderElimination.AbilitySystem
                 else
                     throw new NotImplementedException();
             }
+            if (result.Any(p => !context.BattleContext.BattleMap.ContainsPosition(p)))
+                throw new InvalidProgramException("Positions outside borders have been passed from other modules.");
             return result.ToArray();
         }
     }

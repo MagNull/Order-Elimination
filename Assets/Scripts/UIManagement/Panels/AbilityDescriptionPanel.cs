@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UIManagement.Elements;
 using OrderElimination.AbilitySystem;
+using System.Linq;
 
 namespace UIManagement
 {
@@ -33,7 +34,12 @@ namespace UIManagement
 
         public void UpdateAbilityData(IActiveAbilityData abilityData)
         {
-            throw new System.NotImplementedException();
+            _abilityParameters.Clear();
+            _effectsHolder.gameObject.SetActive(false);
+            var view = abilityData.View;
+            _abilityName.text = view.Name;
+            _abilityIcon.sprite = view.Icon;
+            _abilityDescription.text = view.Description;
         }
     }
 }
