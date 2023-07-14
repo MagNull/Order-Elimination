@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GameInventory.Items;
 
 namespace GameInventory
 {
-    public static class ItemIdGenerator
+    public static class ItemIdentifier
     {
-        private static Dictionary<ItemData, string> _itemsById = new();
+        private static readonly Dictionary<ItemData, string> _itemsById = new();
 
         public static string GetID(ItemData itemData)
         {
@@ -14,5 +15,12 @@ namespace GameInventory
                 _itemsById.Add(itemData, Guid.NewGuid().ToString());
             return _itemsById[itemData];
         }
+
+        public static void RecoverID(ItemData itemData, string id)
+        {
+            _itemsById[itemData] = id;
+        }
+        
+        public static ItemData[] GetItems() => _itemsById.Keys.ToArray();
     }
 }

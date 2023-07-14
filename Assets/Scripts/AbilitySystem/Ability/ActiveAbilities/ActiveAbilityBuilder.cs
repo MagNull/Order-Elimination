@@ -48,9 +48,10 @@ namespace OrderElimination.AbilitySystem
         public bool HideInCharacterDescription { get; private set; }
 
         [TabGroup("Game Rules", Order = 1), PropertyOrder(-98)]
+        [DictionaryDrawerSettings(KeyLabel = "Energy Point", ValueLabel = "Amount")]
         [ShowInInspector, OdinSerialize]
-        private Dictionary<ActionPoint, int> _usageCost = new();
-        public IReadOnlyDictionary<ActionPoint, int> UsageCost => _usageCost;
+        private Dictionary<EnergyPoint, int> _usageCost = new();
+        public IReadOnlyDictionary<EnergyPoint, int> UsageCost => _usageCost;
 
         [TabGroup("Game Rules"), PropertyOrder(1)]
         [ShowInInspector, OdinSerialize]

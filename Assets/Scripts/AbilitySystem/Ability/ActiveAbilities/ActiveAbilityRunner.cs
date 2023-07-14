@@ -55,7 +55,7 @@ namespace OrderElimination.AbilitySystem
                 AbilityData.TargetingSystem.TargetingCanceled -= onCanceled;
                 var executionGroups = AbilityData.TargetingSystem.ExtractCastTargetGroups();
                 AbilityData.TargetingSystem.CancelTargeting();
-                caster.RemoveActionPoints(AbilityData.Rules.UsageCost);
+                caster.RemoveEnergyPoints(AbilityData.Rules.UsageCost);
                 Cooldown = AbilityData.GameRepresentation.CooldownTime;
                 battleContext.NewRoundBegan -= decreaseCooldown;
                 battleContext.NewRoundBegan += decreaseCooldown;

@@ -15,12 +15,7 @@ namespace GameInventory.Items
         [SerializeField, HideInInspector]
         private ItemData _itemData;
 
-        public ItemView View => _itemData.View;
-        public ItemType Type => _itemData.Type;
-        public ItemRarity Rarity => _itemData.Rarity;
-        public string Id => _itemData.Id;
-
-        public EnumMask<Role> CanTook => _itemData.RoleFilter;
+        public ItemData Data => _itemData;
 
         public Item(ItemData itemData)
         {

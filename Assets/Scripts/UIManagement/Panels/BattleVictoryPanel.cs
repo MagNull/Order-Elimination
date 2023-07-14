@@ -63,7 +63,7 @@ public class BattleVictoryPanel : UIPanel
             foreach (var item in itemsReward)
             {
                 var rewardItem = Instantiate(_rewardItemPrefab, _rewardHolder);
-                rewardItem.UpdateItemInfo(item.View.Icon, item.View.Name);
+                rewardItem.UpdateItemInfo(item.Data.View.Icon, item.Data.View.Name);
             }
         }
 
