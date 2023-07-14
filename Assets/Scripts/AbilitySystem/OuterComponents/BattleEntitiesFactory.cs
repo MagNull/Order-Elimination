@@ -39,6 +39,7 @@ public class BattleEntitiesFactory : SerializedMonoBehaviour
         _entitiesBank = objectResolver.Resolve<BattleEntitiesBank>();
     }
 
+    [Obsolete("Use " + nameof(EntitySpawner) + " instead.")]
     public CreatedBattleEntity CreateBattleCharacter(GameCharacter character, BattleSide side, Vector2Int position)
     {
         if (!_battleContext.BattleMap.CellRangeBorders.Contains(position))
@@ -74,11 +75,12 @@ public class BattleEntitiesFactory : SerializedMonoBehaviour
         _entitiesBank.AddCharacterEntity(battleEntity, entityView, character);
 
         _battleContext.BattleMap.PlaceEntity(battleEntity, position);
-        battleEntity.PassiveAbilities.ForEach(a => a.Activate(_battleContext, battleEntity));
+        //battleEntity.PassiveAbilities.ForEach(a => a.Activate(_battleContext, battleEntity));
 
         return new CreatedBattleEntity(entityView, battleEntity);
     }
 
+    [Obsolete("Use " + nameof(EntitySpawner) + " instead.")]
     public CreatedBattleEntity CreateBattleStructure(IBattleStructureTemplate structureData, BattleSide side,
         Vector2Int position)
     {
@@ -105,7 +107,7 @@ public class BattleEntitiesFactory : SerializedMonoBehaviour
         _entitiesBank.AddStructureEntity(battleEntity, entityView, structureData);
 
         _battleContext.BattleMap.PlaceEntity(battleEntity, position);
-        battleEntity.PassiveAbilities.ForEach(a => a.Activate(_battleContext, battleEntity));
+        //battleEntity.PassiveAbilities.ForEach(a => a.Activate(_battleContext, battleEntity));
 
         return new CreatedBattleEntity(entityView, battleEntity);
     }

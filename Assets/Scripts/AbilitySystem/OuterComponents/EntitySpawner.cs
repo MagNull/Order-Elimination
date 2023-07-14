@@ -23,11 +23,15 @@ namespace OrderElimination.AbilitySystem
             BattleSide side,
             Vector2Int position)
         {
-            var battleMap = _battleContext.Value.BattleMap;
+            var battleContext = _battleContext.Value;
+            var battleMap = battleContext.BattleMap;
             if (!battleMap.CellRangeBorders.Contains(position))
                 Logging.LogException( new ArgumentOutOfRangeException("Position is outside of the map borders."));
             var gameCharacter = GameCharactersFactory.CreateGameCharacter(characterTemplate);
-            return _entitiesFactory.Value.CreateBattleCharacter(gameCharacter, side, position).Model;
+            var entity = _entitiesFactory.Value.CreateBattleCharacter(gameCharacter, side, position).Model;
+            entity.PassiveAbilities.ForEach(a => a.Activate(battleContext, entity));
+            //Activate passive abilities
+            return entity;
         }
 
         public AbilitySystemActor SpawnCharacter(
@@ -35,12 +39,15 @@ namespace OrderElimination.AbilitySystem
             BattleSide side,
             Vector2Int position)
         {
-            var battleMap = _battleContext.Value.BattleMap;
+            var battleContext = _battleContext.Value;
+            var battleMap = battleContext.BattleMap;
             if (!battleMap.CellRangeBorders.Contains(position))
                 Logging.LogException(new ArgumentOutOfRangeException("Position is outside of the map borders."));
-            if (_battleContext.Value.EntitiesBank.ContainsCharacter(gameCharacter))
+            if (battleContext.EntitiesBank.ContainsCharacter(gameCharacter))
                 throw new InvalidOperationException("Passed GameCharacter already exists in battle.");
-            return _entitiesFactory.Value.CreateBattleCharacter(gameCharacter, side, position).Model;
+            var entity = _entitiesFactory.Value.CreateBattleCharacter(gameCharacter, side, position).Model;
+            entity.PassiveAbilities.ForEach(a => a.Activate(battleContext, entity));
+            return entity;
         }
 
         public AbilitySystemActor SpawnStructure(
@@ -48,10 +55,13 @@ namespace OrderElimination.AbilitySystem
             BattleSide side,
             Vector2Int position)
         {
-            var battleMap = _battleContext.Value.BattleMap;
+            var battleContext = _battleContext.Value;
+            var battleMap = battleContext.BattleMap;
             if (!battleMap.CellRangeBorders.Contains(position))
                 Logging.LogException( new ArgumentOutOfRangeException("Position is outside of the map borders."));
-            return _entitiesFactory.Value.CreateBattleStructure(structureData, side, position).Model;
+            var entity = _entitiesFactory.Value.CreateBattleStructure(structureData, side, position).Model;
+            entity.PassiveAbilities.ForEach(a => a.Activate(battleContext, entity));
+            return entity;
         }
     }
 }
