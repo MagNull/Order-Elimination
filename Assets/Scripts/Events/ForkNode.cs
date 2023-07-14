@@ -33,7 +33,7 @@ namespace Events
             node.OnEnter(panel);
         }
 
-        public void OnEnter(EventPanel panel)
+        public virtual void OnEnter(EventPanel panel)
         {
             var eventGraph = graph as EventPointGraph;
             eventGraph.currentNode = this;

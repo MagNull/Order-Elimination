@@ -10,11 +10,12 @@ namespace Events
     {
         [SerializeField] 
         private StartNode _startNode;
+        [field: SerializeField]
+        public bool IsContainsBattle { get; private set; }
+        
         private EventPanel _panel;
         public IEventNode currentNode;
-    
-        public bool IsContainsBattle => CheckContainsBattle();
-
+        
         public void Process(EventPanel panel)
         {
             if (_panel is not null)
@@ -33,24 +34,6 @@ namespace Events
         private bool CheckContainsBattle()
         {
             return false;
-            // return StartNode.IsFork 
-            //     ? CheckContainsBattle(StartNode.exits)
-            //return CheckContainsBattle(StartNode.exits);
         }
-
-        // private bool CheckContainsBattle(IEnumerable<EventInfo> eventInfos)
-        // {
-        //     return eventInfos.Select(x => x).Any(CheckContainsBattle);
-        // }
-        //
-        // private bool CheckContainsBattle(EventInfo eventInfo)
-        // {
-        //     if (eventInfo.IsEnd)
-        //         return false;
-        //     if (eventInfo.IsFork)
-        //         return CheckContainsBattle(eventInfo.exits);
-        //         
-        //     return eventInfo.exits is null ? eventInfo.IsBattle : CheckContainsBattle(eventInfo.exits);
-        // }
     }
 }

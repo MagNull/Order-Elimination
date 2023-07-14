@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using GameInventory;
 using GameInventory.Items;
 using OrderElimination;
+using OrderElimination.MacroGame;
+using OrderElimination.UI;
+using RoguelikeMap.SquadInfo;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,7 +15,7 @@ namespace RoguelikeMap.UI.PointPanels
 {
     public class EventPanel : Panel
     {
-        [SerializeField] 
+        [SerializeField]
         private TMP_Text _eventText;
         [SerializeField] 
         private List<Button> _answerButtons;
@@ -22,6 +25,7 @@ namespace RoguelikeMap.UI.PointPanels
         private Image _sprite;
 
         private Inventory _inventory;
+        private Squad _squad;
         private bool _isContainsBattle = false;
         
         public event Action<int> OnAnswerClick;
@@ -30,17 +34,32 @@ namespace RoguelikeMap.UI.PointPanels
         public event Action<bool> OnBattleEventVisit;
 
         [Inject]
-        public void Construct(Inventory inventory)
+        public void Construct(Inventory inventory, Squad squad)
         {
             _inventory = inventory;
+            _squad = squad;
         }
 
         private void SetActiveAnswers(bool isActive)
         {
             _skipButton.gameObject.SetActive(!isActive);
-            
-            foreach(var button in _answerButtons)
+
+            foreach (var button in _answerButtons)
+            {
                 button.gameObject.SetActive(isActive);
+                button.DOInterectable(true);
+            }
+        }
+
+        public bool CheckItem(ItemData itemData)
+        {
+            Logging.Log("Check inventory contains item");
+            return false;
+        }
+
+        public void SetInteractableAnswer(int answerIndex, bool isInteractable)
+        {
+            _answerButtons[answerIndex].DOInterectable(isInteractable);
         }
 
         public void UpdateAnswersText(IReadOnlyList<string> answers)
@@ -66,11 +85,14 @@ namespace RoguelikeMap.UI.PointPanels
             SetActiveAnswers(false);
         }
 
-        public void FinishEvent(IEnumerable<ItemData> items = null)
+        public void FinishEvent(IEnumerable<ItemData> items = null, 
+            IEnumerable<CharacterTemplate> characters = null)
         {
             if (items is not null)
-                Debug.Log("add items");
+                Logging.Log("add items");
                 //AddItemsToInventory(items);
+            if(characters is not null)
+                _squad.AddMembers(GameCharactersFactory.CreateGameCharacters(characters));
             Close();
         }
 

@@ -1,27 +1,39 @@
 using System.Collections.Generic;
 using GameInventory.Items;
+using OrderElimination;
+using OrderElimination.Events;
 using RoguelikeMap.UI.PointPanels;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using XNode;
 
 namespace Events
 {
-    public class ExitNode : EventNode
+    public class ExitNode : Node, IEventNode
     {
+        [Input]
+        public Empty entries;
+
         [field: SerializeField]
         public bool IsHaveItems { get; private set; }
+        
+        [field: SerializeField]
+        public bool IsAddMember { get; private set; }
         
         [SerializeField, ShowIf("IsHaveItems")]
         private List<ItemData> _itemsData;
 
-        // public override void Process(EventPanel panel, int index = 0)
-        // {
-        //     panel.FinishEvent(_itemsData);
-        // }
+        [SerializeField, ShowIf("IsAddMember")]
+        private List<CharacterTemplate> _characters;
 
-        public override void OnEnter(EventPanel panel)
+        public void Process(EventPanel panel, int index = 0)
         {
-            panel.FinishEvent(_itemsData);
+            Logging.LogError(new System.NotImplementedException());
+        }
+
+        public void OnEnter(EventPanel panel)
+        {
+            panel.FinishEvent(_itemsData, _characters);
         }
     }
 }

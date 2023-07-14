@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using OrderElimination.Events;
 using RoguelikeMap.UI.PointPanels;
 using Sirenix.OdinInspector;
@@ -16,7 +15,7 @@ namespace Events
         [Input] public Empty entries;
         [Output] public Empty exits;
 
-        [SerializeField]
+        [SerializeField, MultiLineProperty]
         protected string text;
         
         public override object GetValue(NodePort port)

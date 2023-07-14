@@ -16,18 +16,8 @@ MonoBehaviour:
   position: {x: 136, y: -152}
   ports:
     keys:
-    - exits
     - entries
     values:
-    - _fieldName: exits
-      _node: {fileID: -8888819597395860758}
-      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
     - _fieldName: entries
       _node: {fileID: -8888819597395860758}
       _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
@@ -40,7 +30,6 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  text: 
   <IsHaveItems>k__BackingField: 0
   _itemsData: []
 --- !u!114 &-6060827718317099756
@@ -60,7 +49,6 @@ MonoBehaviour:
   ports:
     keys:
     - exits
-    - entries
     values:
     - _fieldName: exits
       _node: {fileID: -6060827718317099756}
@@ -74,16 +62,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-    - _fieldName: entries
-      _node: {fileID: -6060827718317099756}
-      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  text: "\u0412\u044B \u0432\u0438\u0434\u0438\u0442\u0435 \u043F\u043E\u0432\u0440\u0435\u0436\u0434\u0435\u043D\u043D\u043E\u0433\u043E
+  _text: "\u0412\u044B \u0432\u0438\u0434\u0438\u0442\u0435 \u043F\u043E\u0432\u0440\u0435\u0436\u0434\u0435\u043D\u043D\u043E\u0433\u043E
     \u0434\u0440\u043E\u043D\u0430 \u0441\u043E\u044E\u0437\u043D\u0438\u043A\u0430
     \u0441\u043A\u0430\u043D\u0438\u0440\u0443\u044E\u0449\u0435\u0433\u043E \u043C\u0435\u0441\u0442\u043D\u043E\u0441\u0442\u044C"
   _sprite: {fileID: 21300000, guid: 42831ab3c8a2644489258bc5a91b6d14, type: 3}
@@ -106,6 +85,7 @@ MonoBehaviour:
   - {fileID: 7317311818778251706}
   - {fileID: -6060827718317099756}
   _startNode: {fileID: -6060827718317099756}
+  <IsContainsBattle>k__BackingField: 0
 --- !u!114 &1195340552515177551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,18 +198,8 @@ MonoBehaviour:
   position: {x: 504, y: 120}
   ports:
     keys:
-    - exits
     - entries
     values:
-    - _fieldName: exits
-      _node: {fileID: 7317311818778251706}
-      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
     - _fieldName: entries
       _node: {fileID: 7317311818778251706}
       _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
@@ -242,7 +212,6 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  text: 
   <IsHaveItems>k__BackingField: 1
   _itemsData:
   - {fileID: 11400000, guid: e655c8948143f814c89bb88c7fa0785c, type: 2}

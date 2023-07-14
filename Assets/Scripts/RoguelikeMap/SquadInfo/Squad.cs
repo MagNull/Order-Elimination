@@ -92,6 +92,12 @@ namespace RoguelikeMap.SquadInfo
             OnUpdateMembers?.Invoke(ActiveMembers);
         }
 
+        public void AddMembers(IEnumerable<GameCharacter> members)
+        {
+            _model.Add(members);
+            GenerateCharactersCard();
+        }
+
         public void Visit(PointModel point)
         {
             UpdatePoint(point);

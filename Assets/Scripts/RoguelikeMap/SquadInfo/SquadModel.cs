@@ -49,7 +49,7 @@ namespace OrderElimination
             panel.UpdateMembers(ActiveMembers, InactiveMembers);
         }
 
-        public void Add(GameCharacter member) => _members.Add(member);
+        public void Add(IEnumerable<GameCharacter> members) => _members.AddRange(members);
 
         public void RemoveCharacter(GameCharacter member)
         {
