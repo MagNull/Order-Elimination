@@ -77,9 +77,9 @@ namespace GameInventory
             return result;
         }
 
-        public bool Contains(Item item)
+        public bool Contains(ItemData itemData)
         {
-            return _cells.Any(cell => cell.Item == item);
+            return _cells.Any(cell => cell.Item.Id == itemData.Id);
         }
 
         public void InitConsumables()

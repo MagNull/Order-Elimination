@@ -49,13 +49,24 @@ namespace OrderElimination
             panel.UpdateMembers(ActiveMembers, InactiveMembers);
         }
 
-        public void Add(GameCharacter member) => _members.Add(member);
+        public void Add(IEnumerable<GameCharacter> members)
+        {
+            _members.AddRange(members);
+            UpdateActiveMembersCount();
+            _panel.UpdateMembers(ActiveMembers, InactiveMembers);
+        }
 
         public void RemoveCharacter(GameCharacter member)
         {
             if (!_members.Contains(member))
                 Logging.LogException( new ArgumentException("No such character in squad"));
             _members.Remove(member);
+            UpdateActiveMembersCount();
+        }
+
+        private void UpdateActiveMembersCount()
+        {
+            _activeMembersCount = _members.Count <= 3 ? _members.Count : 3;
         }
         
         private void RestoreUpgrades()

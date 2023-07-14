@@ -54,6 +54,7 @@ namespace StartSessionMenu.ChooseCharacter
         {
             _uiCounter.Initialize(_wallet);
             var gameCharacters = GameCharactersFactory.CreateGameCharacters(_characters);
+            Subscribe();
             InitializeCharactersCard(gameCharacters, _unselectedDropZone.transform);
             foreach (var card in _characterCards)
                 card.GetComponent<DraggableObject>().OnDestroy += AddMoneyByDestroy;
@@ -130,6 +131,15 @@ namespace StartSessionMenu.ChooseCharacter
             _tweener = DOVirtual.Float(_scrollRect.horizontalNormalizedPosition,
                 _scrollRect.horizontalNormalizedPosition + shift, 0.1f, 
                 x => _scrollRect.horizontalNormalizedPosition = x);
+        }
+
+        private void OnDestroy()
+        {
+            foreach (var zone in _selectedDropZones)
+                zone.OnTrySelect -= TrySelectCard;
+            foreach (var card in _characterCards)
+                card.GetComponent<DraggableObject>().OnDestroy -= AddMoneyByDestroy;
+            Unsubscribe();
         }
     }
 }

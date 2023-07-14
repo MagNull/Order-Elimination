@@ -76,7 +76,8 @@ namespace OrderElimination
                 s_instance = this;
             DontDestroyOnLoad(gameObject);
 
-            InitTest();
+            if(_test)
+                InitTest();
         }
     }
 }
