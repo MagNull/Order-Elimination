@@ -1,40 +1,36 @@
 ﻿using System;
+using AI;
 using OrderElimination.AbilitySystem;
+using OrderElimination.Infrastructure;
 using OrderElimination.MacroGame;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
 namespace GameInventory.Items
 {
     [Serializable]
-    public abstract class Item
+    public class Item
     {
-        [ShowInInspector, SerializeField]
-        private ItemView _itemView;
-
         [SerializeField, HideInInspector]
-        private ItemType _itemType;
+        private ItemData _itemData;
 
-        [SerializeField, HideInInspector]
-        private int _itemId;
+        public ItemView View => _itemData.View;
+        public ItemType Type => _itemData.Type;
+        public ItemRarity Rarity => _itemData.Rarity;
+        public int Id => _itemData.Id;
 
-        [SerializeField, HideInInspector]
-        private ItemRarity _itemRarity;
+        public EnumMask<Role> CanTook => _itemData.RoleFilter;
 
-        public ItemView View => _itemView;
-        public ItemType Type => _itemType;
-        public ItemRarity Rarity => _itemRarity;
-        public int Id => _itemId;
-
-        protected Item(ItemData itemData)
+        public Item(ItemData itemData)
         {
-            _itemView = itemData.View;
-            _itemType = itemData.Type;
-            _itemId = itemData.Id;
-            _itemRarity = itemData.Rarity;
+            _itemData = itemData;
         }
 
-        public abstract void OnTook(AbilitySystemActor abilitySystemActor);
+        public virtual void OnTook(AbilitySystemActor abilitySystemActor)
+        {
+            return;
+        }
     }
 
     [Serializable]

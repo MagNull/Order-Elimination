@@ -1379,7 +1379,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1658578756941808132, guid: fdbb038d8d3f94641b672d2f58550909, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1320
+      value: 920
       objectReference: {fileID: 0}
     - target: {fileID: 1658578756941808132, guid: fdbb038d8d3f94641b672d2f58550909, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1395,11 +1395,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1658578757387298422, guid: fdbb038d8d3f94641b672d2f58550909, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 900
+      value: 1340
       objectReference: {fileID: 0}
     - target: {fileID: 1658578757387298422, guid: fdbb038d8d3f94641b672d2f58550909, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -46
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658578757538771543, guid: fdbb038d8d3f94641b672d2f58550909, type: 3}
+      propertyPath: m_text
+      value: "\u041F\u0440\u043E\u0447\u0435\u0435"
       objectReference: {fileID: 0}
     - target: {fileID: 1658578758188924463, guid: fdbb038d8d3f94641b672d2f58550909, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1423,16 +1427,16 @@ PrefabInstance:
       objectReference: {fileID: 1658578758412989344, guid: fdbb038d8d3f94641b672d2f58550909, type: 3}
     - target: {fileID: 1658578758412989351, guid: fdbb038d8d3f94641b672d2f58550909, type: 3}
       propertyPath: _items.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1658578758412989351, guid: fdbb038d8d3f94641b672d2f58550909, type: 3}
       propertyPath: _items.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: cef91e7b67b653f419f9f00b95729e2f, type: 2}
+      objectReference: {fileID: 11400000, guid: f8ab1648091d40c4a8908afc3271cfb2, type: 2}
     - target: {fileID: 1658578758412989351, guid: fdbb038d8d3f94641b672d2f58550909, type: 3}
       propertyPath: _items.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 2b6a0f1f02b355b4ead5adf61643919b, type: 2}
+      objectReference: {fileID: 11400000, guid: bf4c7720ca23b654f823fbff4e7cd52e, type: 2}
     - target: {fileID: 1658578758412989351, guid: fdbb038d8d3f94641b672d2f58550909, type: 3}
       propertyPath: _items.Array.data[2]
       value: 
@@ -3002,6 +3006,7 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
+    - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
     - {fileID: 11400000, guid: cdb88470c4b68c341bad38dde4ae1989, type: 2}
     - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
     - {fileID: 11400000, guid: 375cdc3a6bbcb1e4480ffb04423fa49c, type: 2}
@@ -3015,10 +3020,13 @@ MonoBehaviour:
       Data: 0|OrderElimination.IGameCharacterTemplate[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 10
       Data: 0
+    - Name: 
+      Entry: 10
+      Data: 1
     - Name: 
       Entry: 13
       Data: 
@@ -3033,10 +3041,10 @@ MonoBehaviour:
       Data: 2
     - Name: 
       Entry: 10
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 10
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 13
       Data: 
@@ -3045,7 +3053,7 @@ MonoBehaviour:
       Data: 
     - Name: _testScenario
       Entry: 10
-      Data: 3
+      Data: 4
   _test: 1
 --- !u!4 &971083450
 Transform:
@@ -3344,6 +3352,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3305563651078720841, guid: c823672e2c69d4a72acdcc8505ed1aaa, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 3305563651078720841, guid: c823672e2c69d4a72acdcc8505ed1aaa, type: 3}
     - target: {fileID: 4941229554250032061, guid: c823672e2c69d4a72acdcc8505ed1aaa, type: 3}
       propertyPath: m_Name
       value: CharacterInfoPanel
@@ -4246,7 +4258,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1759019698}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 540693905b8746c380c4210c8201d73b, type: 3}
+  m_Script: {fileID: 11500000, guid: 75371088425366d478d3085eea0b06dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &1762089639 stripped

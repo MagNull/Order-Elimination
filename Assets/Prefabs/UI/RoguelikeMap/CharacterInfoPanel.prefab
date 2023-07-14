@@ -2170,7 +2170,7 @@ GameObject:
   - component: {fileID: 2628971838120699538}
   - component: {fileID: 2628971838120699541}
   - component: {fileID: 2628971838120699537}
-  - component: {fileID: 2373140156916163237}
+  - component: {fileID: 3305563651078720841}
   m_Layer: 5
   m_Name: Pick Item Inventory
   m_TagString: Untagged
@@ -2277,7 +2277,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2628971838120699543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 540693905b8746c380c4210c8201d73b, type: 3}
+  m_Script: {fileID: 11500000, guid: 75371088425366d478d3085eea0b06dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
@@ -2289,9 +2289,8 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _inventoryView: {fileID: 2373140156916163237}
-  _items:
-  - {fileID: 11400000, guid: e655c8948143f814c89bb88c7fa0785c, type: 2}
+  _inventoryView: {fileID: 3305563651078720841}
+  _items: []
   _inventoryModel:
     _cells: []
     _size: 0
@@ -2301,7 +2300,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
---- !u!114 &2373140156916163237
+--- !u!114 &3305563651078720841
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2310,7 +2309,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2628971838120699543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d474f88ccc9fca48b2cf245818cf029, type: 3}
+  m_Script: {fileID: 11500000, guid: 62e5d28db913469d91adf32760d9ae50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
@@ -3038,14 +3037,27 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 2373140156916163237}
-        m_TargetAssemblyTypeName: Inventory_Items.PlayerInventoryView, Assembly-CSharp
+      - m_Target: {fileID: 3305563651078720841}
+        m_TargetAssemblyTypeName: GameInventory.Views.PlayerInventoryView, Assembly-CSharp
         m_MethodName: ShowItemWithType
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 3305563651078720841}
+        m_TargetAssemblyTypeName: GameInventory.Views.RoleFilterPlayerInventoryView,
+          Assembly-CSharp
+        m_MethodName: FilterWithRole
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
@@ -4533,6 +4545,7 @@ MonoBehaviour:
   _abilityInfoPanel: {fileID: 0}
   _passiveAbilityInfoPanel: {fileID: 0}
   _playerInventoryPresenter: {fileID: 0}
+  _playerInventoryView: {fileID: 3305563651078720841}
   _characterInventoryPresenter: {fileID: 0}
   _characterName: {fileID: 7525290646176372465}
   _characterAvatar: {fileID: 7644588219955235284}
@@ -5815,7 +5828,7 @@ GameObject:
   - component: {fileID: 3030017694929157638}
   - component: {fileID: 2833385656960571819}
   m_Layer: 5
-  m_Name: ConsumableImageBackground
+  m_Name: ConsumableButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5936,10 +5949,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 2373140156916163237}
-        m_TargetAssemblyTypeName: Inventory_Items.PlayerInventoryView, Assembly-CSharp
+      - m_Target: {fileID: 3305563651078720841}
+        m_TargetAssemblyTypeName: GameInventory.Views.PlayerInventoryView, Assembly-CSharp
         m_MethodName: ShowItemWithType
         m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 3305563651078720841}
+        m_TargetAssemblyTypeName: GameInventory.Views.RoleFilterPlayerInventoryView,
+          Assembly-CSharp
+        m_MethodName: FilterWithRole
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
