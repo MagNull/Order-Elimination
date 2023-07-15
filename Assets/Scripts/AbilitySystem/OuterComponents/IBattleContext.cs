@@ -8,16 +8,31 @@ namespace OrderElimination.AbilitySystem
 {
     public interface IBattleContext
     {
+        #region Components
         public AnimationSceneContext AnimationSceneContext { get; }
+        public IReadOnlyEntitiesBank EntitiesBank { get; }
         public EntitySpawner EntitySpawner { get; }
         public IBattleMap BattleMap { get; }
-        public IHitCalculation HitCalculation { get; }
-        public ITurnPriority TurnPriority { get; }
-        public BattleSide ActiveSide { get; }
+        #endregion
+
+        #region Data
         public int CurrentRound { get; }
-        public IReadOnlyEntitiesBank EntitiesBank { get; }
+        public BattleSide ActiveSide { get; }
+        #endregion
+
+        #region Rules
+        public ITurnPriority TurnPriority { get; }
+        public IHitCalculation HitCalculation { get; }
+        //public int MovementPointsPerRound { get; }
+        //public int AttackPointsPerRound { get; }
+        //public int ConsumablesPointsPerRound { get; }
+        public int GetEnergyPointsPerRound(EnergyPoint pointType);
+        public void SetEnergyPointsPerRound(EnergyPoint pointType, int valuePerRound);
+        #endregion
+
         public BattleRelationship GetRelationship(BattleSide askingSide, BattleSide relationSide);
-        public IEnumerable<AbilitySystemActor> GetVisibleEntities(Vector2Int position, BattleSide askingSide);
+        public IEnumerable<AbilitySystemActor> GetVisibleEntities(BattleSide askingSide);
+        public IEnumerable<AbilitySystemActor> GetVisibleEntitiesAt(Vector2Int position, BattleSide askingSide);
         public IContextValueGetter ModifyAccuracyBetween(
             Vector2Int start, Vector2Int end, IContextValueGetter initialAccuracy, AbilitySystemActor askingEntity);
 

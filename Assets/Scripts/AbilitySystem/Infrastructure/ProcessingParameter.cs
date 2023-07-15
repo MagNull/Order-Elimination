@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OrderElimination.Infrastructure
 {
-    public class ProcessingParameter<TValue>
+    public class ProcessingParameter<TValue> //Make ICloneable or Rework without delegates
     {
         private TValue _unmodifiedValue = default;
         private readonly List<Func<TValue, TValue>> modifyingFormulas = new();

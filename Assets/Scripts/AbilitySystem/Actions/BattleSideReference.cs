@@ -4,6 +4,7 @@
     {
         Same,
         Absolute,
-        //Opposite
+        //Opposite,
+        //Ally
     }
 }

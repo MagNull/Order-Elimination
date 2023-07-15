@@ -12,17 +12,55 @@ namespace OrderElimination.AbilitySystem
     {
         private BattleLoopManager _battleLoopManager;
         private IHitCalculation _hitCalculation = new StandartHitCalculation();
+        private int _movementPointsPerRound = 1;
+        private int _attackPointsPerRound = 1;
+        private int _consumablesPointsPerRound = 1;
 
+        #region Components
         public AnimationSceneContext AnimationSceneContext { get; private set; }
-        public EntitySpawner EntitySpawner { get; private set; }
-        public int CurrentRound => _battleLoopManager.CurrentRound;
-        public IBattleMap BattleMap { get; private set; }
-        public IHitCalculation HitCalculation => _hitCalculation;
         public IReadOnlyEntitiesBank EntitiesBank { get; private set; }
+        public EntitySpawner EntitySpawner { get; private set; }
+        public IBattleMap BattleMap { get; private set; }
+        #endregion
 
-        public ITurnPriority TurnPriority { get; } = new PlayerFirstTurnPriority();
-
+        #region Data
+        public int CurrentRound => _battleLoopManager.CurrentRound;
         public BattleSide ActiveSide => _battleLoopManager.ActiveSide;
+        #endregion
+
+        #region Rules
+        public ITurnPriority TurnPriority { get; } = new PlayerFirstTurnPriority();
+        public IHitCalculation HitCalculation => _hitCalculation;
+        public int GetEnergyPointsPerRound(EnergyPoint pointType)
+        {
+            return pointType switch
+            {
+                EnergyPoint.MovementPoint => _movementPointsPerRound,
+                EnergyPoint.AttackPoint => _attackPointsPerRound,
+                EnergyPoint.ConsumablesPoint => _consumablesPointsPerRound,
+                _ => throw new NotImplementedException(),
+            };
+        }
+        public void SetEnergyPointsPerRound(EnergyPoint pointType, int valuePerRound)
+        {
+            switch (pointType)
+            {
+                case EnergyPoint.MovementPoint:
+                    _movementPointsPerRound = valuePerRound;
+                    break;
+                case EnergyPoint.AttackPoint:
+                    _attackPointsPerRound = valuePerRound;
+                    break;
+                case EnergyPoint.ConsumablesPoint:
+                    _consumablesPointsPerRound = valuePerRound;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+        #endregion
+
+
 
         public event Action<IBattleContext> BattleStarted;
         public event Action<IBattleContext> NewTurnUpdatesRequested;
@@ -73,10 +111,25 @@ namespace OrderElimination.AbilitySystem
             return BattleRelationship.Enemy;
         }
 
-        public IEnumerable<AbilitySystemActor> GetVisibleEntities(Vector2Int position, BattleSide askingSide)
+        public IEnumerable<AbilitySystemActor> GetVisibleEntities(BattleSide askingSide)
         {
             var visibleEntities = new List<AbilitySystemActor>();
-            foreach (var entity in BattleMap.GetContainedEntities(position))
+            var entitiesSource = EntitiesBank.GetActiveEntities();
+            foreach (var entity in entitiesSource)
+            {
+                var relationship = GetRelationship(askingSide, entity.BattleSide);
+                if (!entity.StatusHolder.HasStatus(BattleStatus.Invisible)
+                    || relationship == BattleRelationship.Ally)
+                    visibleEntities.Add(entity);
+            }
+            return visibleEntities;
+        }
+
+        public IEnumerable<AbilitySystemActor> GetVisibleEntitiesAt(Vector2Int position, BattleSide askingSide)
+        {
+            var visibleEntities = new List<AbilitySystemActor>();
+            var entitiesSource = BattleMap.GetContainedEntities(position);
+            foreach (var entity in entitiesSource)
             {
                 var relationship = GetRelationship(askingSide, entity.BattleSide);
                 if (!entity.StatusHolder.HasStatus(BattleStatus.Invisible)
@@ -102,7 +155,7 @@ namespace OrderElimination.AbilitySystem
                 var position = intersection.CellPosition;
                 //cell 
                 foreach (var battleObstacle in this
-                    .GetVisibleEntities(position, askingEntity.BattleSide)//!!Considers affection outside obstacle class!!
+                    .GetVisibleEntitiesAt(position, askingEntity.BattleSide)//!!Considers affection outside obstacle class!!
                     .Select(e => e.Obstacle))
                 {
                     //obstacle

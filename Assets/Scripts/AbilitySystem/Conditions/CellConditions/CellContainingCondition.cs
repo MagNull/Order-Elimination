@@ -41,7 +41,7 @@ namespace OrderElimination.AbilitySystem
         {
             AbilitySystemActor[] cellEntities;
             if (VisibleEntitiesOnly)
-                cellEntities = battleContext.GetVisibleEntities(ositionToCheck, askingEntity.BattleSide).ToArray();
+                cellEntities = battleContext.GetVisibleEntitiesAt(ositionToCheck, askingEntity.BattleSide).ToArray();
             else
                 cellEntities = battleContext.BattleMap.GetContainedEntities(ositionToCheck).ToArray();
             var cellIsEmpty = cellEntities.Length == 0;
