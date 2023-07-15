@@ -6,30 +6,64 @@ using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
     public class CloneTargetEntityAction : BattleAction<CloneTargetEntityAction>, IUndoableBattleAction
     {
+        public enum CloningType
+        {
+            UseDefault,//Skip, Base
+            Copy,
+            Override,
+            //Add
+        }
+
         private static readonly List<AbilitySystemActor[]> _spawnedEntities = new();
         private static readonly Dictionary<int, IBattleTrigger> _activeTriggers = new();
         private static readonly Dictionary<IBattleTrigger, int> _perforIdsByTriggers = new();
         private static readonly HashSet<int> _undoneOperations = new();
 
         [ShowInInspector, OdinSerialize]
+        [ValidateInput(
+            "@false",
+            "Following features are not supported or not fully implemented yet:\n"
+            + "- BattleStats copying\n"
+            + "- Abilities copying\n"
+            + "- Effects and Inventory cloning\n"
+            + "- Abilities cloning for structures\n")]
         public int SpawnAtCellGroup { get; private set; }
 
         #region CloningParameters
         [ShowInInspector, OdinSerialize]
-        public bool CloneStats { get; set; }
+        public CloningType StatsCloning { get; set; }
 
-        [PropertyTooltip("Not implemented")]
+        [ShowIf("@" + nameof(StatsCloning) + "==" + nameof(CloningType) + "." + nameof(CloningType.Override))]
         [ShowInInspector, OdinSerialize]
-        public bool CloneEffects { get; set; }
+        public GameCharacterStats OverridedStats { get; private set; }
 
-        [PropertyTooltip("Not implemented")]
+        //[PropertyTooltip("Not implemented")]
+        //[ShowInInspector, OdinSerialize]
+        //public CloningType EffectsCloning { get; set; }
+
+        //[PropertyTooltip("Not implemented")]
+        //[ShowInInspector, OdinSerialize]
+        //public CloningType InventoryCloning { get; set; }
+
         [ShowInInspector, OdinSerialize]
-        public bool CloneInventory { get; set; }
+        public CloningType ActiveAbilitiesCloning { get; set; }
+
+        [ShowIf("@" + nameof(ActiveAbilitiesCloning) + "==" + nameof(CloningType) + "." + nameof(CloningType.Override))]
+        [ShowInInspector, OdinSerialize]
+        public ActiveAbilityBuilder[] OverridedActiveAbilities { get; set; } = new ActiveAbilityBuilder[0];
+
+        [ShowInInspector, OdinSerialize]
+        public CloningType PassiveAbilitiesCloning { get; set; }
+
+        [ShowIf("@" + nameof(PassiveAbilitiesCloning) + "==" + nameof(CloningType) + "." + nameof(CloningType.Override))]
+        [ShowInInspector, OdinSerialize]
+        public PassiveAbilityBuilder[] OverridedPassiveAbilities { get; set; } = new PassiveAbilityBuilder[0];
 
         //IgnoredItems (avoid abuse)
         #endregion
@@ -58,9 +92,11 @@ namespace OrderElimination.AbilitySystem
         {
             var clone = new CloneTargetEntityAction();
             clone.SpawnAtCellGroup = SpawnAtCellGroup;
-            clone.CloneStats = CloneStats;
-            clone.CloneEffects = CloneEffects;
-            clone.CloneInventory = CloneInventory;
+            clone.StatsCloning = StatsCloning;
+            //clone.EffectsCloning = EffectsCloning;
+            //clone.InventoryCloning = InventoryCloning;
+            clone.OverridedStats = new GameCharacterStats(OverridedStats);
+            clone.OverridedActiveAbilities = OverridedActiveAbilities.ToArray();
             clone.SideType = SideType;
             clone.AbsoluteSide = AbsoluteSide;
             clone.RemoveByTrigger = RemoveByTrigger;
@@ -115,33 +151,8 @@ namespace OrderElimination.AbilitySystem
             var spawnedInActionEntities = new List<AbilitySystemActor>();
             foreach (var pos in useContext.TargetCellGroups.GetGroup(SpawnAtCellGroup))
             {
-                AbilitySystemActor entity;
-
-                if (useContext.ActionTarget.EntityType == EntityType.Structure)
-                {
-                    var structureTemplate = battleContext.EntitiesBank.GetBasedStructureTemplate(target);
-                    entity = battleContext.EntitySpawner.SpawnStructure(structureTemplate, side, pos);
-                }
-                else if (useContext.ActionTarget.EntityType == EntityType.Character)
-                {
-                    var original = battleContext.EntitiesBank.GetBasedCharacter(target);
-                    var stats = original.CharacterData.GetBaseBattleStats();
-                    if (CloneStats)
-                    {
-                        stats = new GameCharacterStats(original.CharacterStats);
-                    }
-                    var clone = GameCharactersFactory.CreateGameCharacter(original.CharacterData, stats);
-                    entity = battleContext.EntitySpawner.SpawnCharacter(clone, side, pos);
-                    //TODO Full cloning
-                    if (CloneStats)
-                    {
-                        entity.BattleStats.Health = target.BattleStats.Health;
-                        entity.BattleStats.PureArmor = target.BattleStats.PureArmor;
-                    }
-                }
-                else throw new NotImplementedException();
-
-                spawnedInActionEntities.Add(entity);
+                var clone = MakeClone(target, battleContext, side, pos);
+                spawnedInActionEntities.Add(clone);
             }
             _spawnedEntities.Add(spawnedInActionEntities.ToArray());
             if (RemoveByTrigger)
@@ -160,6 +171,88 @@ namespace OrderElimination.AbilitySystem
             fireInfo.Trigger.Triggered -= OnTriggerFired;
             var performId = _perforIdsByTriggers[fireInfo.Trigger];
             Undo(performId);
+        }
+
+        private AbilitySystemActor MakeClone(
+            AbilitySystemActor target,
+            IBattleContext battleContext,
+            BattleSide side,
+            Vector2Int pos)
+        {
+            var statsCloning = StatsCloning == CloningType.Copy;
+            var statsOverride = StatsCloning == CloningType.Override;
+            var activeAbilitiesOverride = ActiveAbilitiesCloning == CloningType.Override;
+            var passiveAbilitiesOverride = PassiveAbilitiesCloning == CloningType.Override;
+            var statsValues = EnumExtensions.GetValues<BattleStat>().ToArray();
+
+            AbilitySystemActor clonedEntity;
+
+            if (target.EntityType == EntityType.Structure)
+            {
+                var structureTemplate = battleContext.EntitiesBank.GetBasedStructureTemplate(target);
+                clonedEntity = battleContext.EntitySpawner.SpawnStructure(structureTemplate, side, pos);
+                if (statsCloning)
+                {
+                    clonedEntity.BattleStats.Health = target.BattleStats.Health;
+                    clonedEntity.BattleStats.PureArmor = target.BattleStats.PureArmor;
+                    //...
+                }
+                else if (statsOverride)
+                {
+                    foreach (var stat in statsValues)
+                    {
+                        clonedEntity.BattleStats[stat].UnmodifiedValue = OverridedStats[stat];
+                    }
+                }
+            }
+            else if (target.EntityType == EntityType.Character)
+            {
+                var original = battleContext.EntitiesBank.GetBasedCharacter(target);
+                var stats = StatsCloning switch
+                {
+                    CloningType.UseDefault => original.CharacterData.GetBaseBattleStats(),
+                    CloningType.Copy => new GameCharacterStats(original.CharacterStats),
+                    CloningType.Override => new GameCharacterStats(OverridedStats),
+                    _ => throw new NotImplementedException(),
+                };
+                var activeAbilities = ActiveAbilitiesCloning switch
+                {
+                    CloningType.UseDefault 
+                    => original.ActiveAbilities.Select(d => d.BasedBuilder).ToArray(),
+                    CloningType.Copy 
+                    => throw new NotImplementedException(),
+                    CloningType.Override 
+                    => OverridedActiveAbilities,
+                    _ 
+                    => throw new NotImplementedException(),
+                };
+                var passiveAbilities = PassiveAbilitiesCloning switch
+                {
+                    CloningType.UseDefault
+                    => original.PassiveAbilities.Select(d => d.BasedBuilder).ToArray(),
+                    CloningType.Copy
+                    => throw new NotImplementedException(),
+                    CloningType.Override
+                    => OverridedPassiveAbilities,
+                    _
+                    => throw new NotImplementedException(),
+                };
+                var clonedCharacter = GameCharactersFactory
+                    .CreateGameCharacter(original.CharacterData, stats, activeAbilities, passiveAbilities);
+                if (statsCloning)
+                    clonedCharacter.CurrentHealth = original.CurrentHealth;
+
+                clonedEntity = battleContext.EntitySpawner.SpawnCharacter(clonedCharacter, side, pos);
+
+                if (statsCloning)
+                {
+                    //TODO Full BattleStats cloning
+                    clonedEntity.BattleStats.Health = target.BattleStats.Health;
+                    clonedEntity.BattleStats.PureArmor = target.BattleStats.PureArmor;
+                }
+            }
+            else throw new NotImplementedException();
+            return clonedEntity;
         }
     }
 }

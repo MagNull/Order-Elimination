@@ -18,17 +18,13 @@ public class BattleLoopManager : MonoBehaviour
     private IReadOnlyEntitiesBank _entitiesBank;
     private IBattleContext _battleContext;
     private BattleSide _activeSide;
+    private EnergyPoint[] _energyPointTypes = EnumExtensions.GetValues<EnergyPoint>().ToArray();
 
     //public BattlePlayer ActivePlayer { get; private set; }
-    public bool IsInitialized { get; private set; }
-
     public BattleSide ActiveSide
     {
         get
         {
-            //if (!IsInitialized)
-            //    throw new InvalidOperationException(
-            //        $"Attempt to access {nameof(ActiveSide)} before {nameof(BattleLoopManager)} initialization.");
             return _activeSide;
         }
     }
@@ -59,7 +55,6 @@ public class BattleLoopManager : MonoBehaviour
         initializer.InitiateBattle();
         _activeSide = _battleContext.TurnPriority.GetStartingSide();
         initializer.StartScenario(scenario);
-        IsInitialized = true;
         _entitiesBank.GetActiveEntities()
             .ForEach(e => e.PassiveAbilities.ForEach(a => a.Activate(_battleContext, e)));
         StartNewTurn(ActiveSide);
@@ -77,7 +72,7 @@ public class BattleLoopManager : MonoBehaviour
         _activeSide = battleSide;
         foreach (var entity in _entitiesBank.GetActiveEntities(ActiveSide))
         {
-            RestoreActionPoints(entity, 1);
+            RestoreEnergyPoints(entity);
         }
 
         if (ActiveSide == _battleContext.TurnPriority.GetStartingSide())
@@ -90,10 +85,11 @@ public class BattleLoopManager : MonoBehaviour
         //    && !_entitiesBank.GetEntities().Any(e => e.BattleSide == ActiveSide))
         //    StartNextTurn();
 
-        static void RestoreActionPoints(AbilitySystemActor entity, int pointsToRestore)
+        void RestoreEnergyPoints(AbilitySystemActor entity)
         {
-            foreach (var point in EnumExtensions.GetValues<EnergyPoint>())
+            foreach (var point in _energyPointTypes)
             {
+                var pointsToRestore = _battleContext.GetEnergyPointsPerRound(point);
                 entity.SetEnergyPoints(point, pointsToRestore);
             }
         }

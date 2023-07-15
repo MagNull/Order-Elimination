@@ -98,7 +98,7 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
         {
             var visualPosition = battleContext.AnimationSceneContext.BattleMapView.GameToWorldPosition(pos);
             foreach (var target in battleContext
-                .GetVisibleEntities(pos, caster.BattleSide)
+                .GetVisibleEntitiesAt(pos, caster.BattleSide)
                 .Where(e => instruction.TargetConditions.All(c => c.IsConditionMet(battleContext, caster, e))))
             {
                 var actionContext = new ActionContext(battleContext, targetedGroups, caster, target);
@@ -127,7 +127,7 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
                             var intPos = intersection.CellPosition;
                             var isModified = false;
                             foreach (var obstacle in battleContext
-                                .GetVisibleEntities(intPos, caster.BattleSide)
+                                .GetVisibleEntitiesAt(intPos, caster.BattleSide)
                                 .Select(e => e.Obstacle))
                             {
                                 var modification = obstacle.ModifyAccuracy(

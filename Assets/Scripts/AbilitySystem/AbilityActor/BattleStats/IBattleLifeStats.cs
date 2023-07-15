@@ -3,7 +3,7 @@ using System;
 
 namespace OrderElimination.AbilitySystem
 {
-    public interface IBattleLifeStats : IBattleStats
+    public interface IBattleLifeStats : IBattleStats 
     {
         public ProcessingParameter<float> MaxHealth { get; }
         public ProcessingParameter<float> MaxArmor { get; } //ValueChanged += Update Armor

@@ -2,8 +2,10 @@
 
 namespace OrderElimination.AbilitySystem
 {
-    public class DisposeEntityAction : BattleAction<DisposeEntityAction>
+    public class DisposeEntityAction : BattleAction<DisposeEntityAction>//, IUndoableBattleAction
     {
+        //Where to place entity on undo?
+
         public override ActionRequires ActionRequires => ActionRequires.Target;
 
         public override IBattleAction Clone()

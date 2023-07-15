@@ -17,9 +17,22 @@ namespace OrderElimination.MacroGame
             IGameCharacterTemplate template, 
             IReadOnlyGameCharacterStats specifiedStats)
         {
-            var activeAbilities = template.GetActiveAbilities()
+            return CreateGameCharacter(
+                template,
+                specifiedStats,
+                template.GetActiveAbilities(),
+                template.GetPassiveAbilities());
+        }
+
+        public static GameCharacter CreateGameCharacter(
+            IGameCharacterTemplate template,
+            IReadOnlyGameCharacterStats specifiedStats,
+            ActiveAbilityBuilder[] specifiedActiveAbilities,
+            PassiveAbilityBuilder[] specifiedPassiveAbilities)
+        {
+            var activeAbilities = specifiedActiveAbilities
                 .Select(a => AbilityFactory.CreateActiveAbility(a));
-            var passiveAbilities = template.GetPassiveAbilities()
+            var passiveAbilities = specifiedPassiveAbilities
                 .Select(a => AbilityFactory.CreatePassiveAbility(a));
             var character = new GameCharacter(template, activeAbilities, passiveAbilities, specifiedStats);
             character.CurrentHealth = character.CharacterStats.MaxHealth;

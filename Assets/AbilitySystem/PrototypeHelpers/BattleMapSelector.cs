@@ -140,7 +140,7 @@ public class BattleMapSelector : MonoBehaviour
             _characterBattleStatsPanel.HideInfo();
 
             var clickedPosition = _battleContext.BattleMap.GetPosition(cellView.Model);
-            var entities = _battleContext.GetVisibleEntities(clickedPosition, BattleSide.Player)
+            var entities = _battleContext.GetVisibleEntitiesAt(clickedPosition, BattleSide.Player)
                 .OrderBy(e => e.EntityType)
                 .ThenBy(e => e.BattleSide)//ThenBy controlling Player
                 .ToArray();
