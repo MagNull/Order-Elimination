@@ -60,7 +60,6 @@ namespace UIManagement.Elements
         {
             if (value == _targetValue)
                 return;
-            Debug.Log($"Set value to {value}" % Colorize.Red);
             _targetValue = value;
             var duration = TweenNumbers ? TweeningTime : 0;
             if (_currentNumberTween != null)
@@ -77,7 +76,6 @@ namespace UIManagement.Elements
                 _currentValue = value;
                 if (RoundNumbers)
                     value = MathExtensions.Round(value, RoundingMode);
-                Debug.Log($"Set value to {value}" % Colorize.Red);
                 _textValueComponent.text = value.ToString();
             }
         }
