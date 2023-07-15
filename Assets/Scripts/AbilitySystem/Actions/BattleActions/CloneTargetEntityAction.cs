@@ -93,10 +93,15 @@ namespace OrderElimination.AbilitySystem
             var clone = new CloneTargetEntityAction();
             clone.SpawnAtCellGroup = SpawnAtCellGroup;
             clone.StatsCloning = StatsCloning;
+            clone.ActiveAbilitiesCloning = ActiveAbilitiesCloning;
+            clone.PassiveAbilitiesCloning = PassiveAbilitiesCloning;
             //clone.EffectsCloning = EffectsCloning;
             //clone.InventoryCloning = InventoryCloning;
             clone.OverridedStats = new GameCharacterStats(OverridedStats);
-            clone.OverridedActiveAbilities = OverridedActiveAbilities.ToArray();
+            if (clone.OverridedActiveAbilities != null)
+                clone.OverridedActiveAbilities = OverridedActiveAbilities.ToArray();
+            if (clone.OverridedPassiveAbilities != null)
+                clone.OverridedPassiveAbilities = OverridedPassiveAbilities.ToArray();
             clone.SideType = SideType;
             clone.AbsoluteSide = AbsoluteSide;
             clone.RemoveByTrigger = RemoveByTrigger;
