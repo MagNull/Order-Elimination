@@ -242,11 +242,11 @@ MonoBehaviour:
       Data: 
     - Name: _usageCost
       Entry: 7
-      Data: 10|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.ActionPoint,
+      Data: 10|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EnergyPoint,
         Assembly-CSharp],[System.Int32, mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 11|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.ActionPoint,
+      Data: 11|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.EnergyPoint,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -532,15 +532,45 @@ MonoBehaviour:
     - Name: SpawnAtCellGroup
       Entry: 3
       Data: 0
-    - Name: CloneStats
-      Entry: 5
-      Data: true
-    - Name: CloneEffects
-      Entry: 5
-      Data: true
-    - Name: CloneInventory
-      Entry: 5
-      Data: false
+    - Name: StatsCloning
+      Entry: 3
+      Data: 1
+    - Name: OverridedStats
+      Entry: 7
+      Data: OrderElimination.MacroGame.GameCharacterStats, Assembly-CSharp
+    - Name: _maxHealth
+      Entry: 4
+      Data: 0
+    - Name: _maxArmor
+      Entry: 4
+      Data: 0
+    - Name: _attackDamage
+      Entry: 4
+      Data: 0
+    - Name: _accuracy
+      Entry: 4
+      Data: 0
+    - Name: _evasion
+      Entry: 4
+      Data: 0
+    - Name: _maxMovementDistance
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ActiveAbilitiesCloning
+      Entry: 3
+      Data: 0
+    - Name: OverridedActiveAbilities
+      Entry: 6
+      Data: 
+    - Name: PassiveAbilitiesCloning
+      Entry: 3
+      Data: 0
+    - Name: OverridedPassiveAbilities
+      Entry: 6
+      Data: 
     - Name: SideType
       Entry: 3
       Data: 0
