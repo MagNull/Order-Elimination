@@ -1,0 +1,221 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acb2e992d7d6fa849b36b6f05febfd6b, type: 3}
+  m_Name: "[E] \u041F\u043E\u0434\u043F\u0438\u0442\u043A\u0430 \u0449\u0438\u0442\u0430"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 21300000, guid: b9cb99eb94506dc4ab586c89ca57d98e, type: 3}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: StackingPolicy
+      Entry: 3
+      Data: 0
+    - Name: UseApplierProcessing
+      Entry: 5
+      Data: false
+    - Name: UseHolderProcessing
+      Entry: 5
+      Data: false
+    - Name: IsTemporary
+      Entry: 5
+      Data: true
+    - Name: InstructionOnActivation
+      Entry: 7
+      Data: 0|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
+    - Name: _target
+      Entry: 3
+      Data: 0
+    - Name: _battleAction
+      Entry: 7
+      Data: 1|OrderElimination.AbilitySystem.ApplyTemporaryArmorAction, Assembly-CSharp
+    - Name: TemporaryArmorAmount
+      Entry: 7
+      Data: 2|OrderElimination.AbilitySystem.MathValueGetter, Assembly-CSharp
+    - Name: Left
+      Entry: 7
+      Data: 3|OrderElimination.AbilitySystem.CasterStatGetter, Assembly-CSharp
+    - Name: CasterStat
+      Entry: 3
+      Data: 1
+    - Name: UseUnmodifiedValue
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Operation
+      Entry: 3
+      Data: 3
+    - Name: Right
+      Entry: 7
+      Data: 4|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+    - Name: Value
+      Entry: 4
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: UndoOnDeactivation
+      Entry: 5
+      Data: true
+    - Name: _animationBeforeAction
+      Entry: 6
+      Data: 
+    - Name: _animationAfterAction
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: InstructionOnDeactivation
+      Entry: 6
+      Data: 
+    - Name: TemporaryEffectFunctionaity
+      Entry: 7
+      Data: 5|OrderElimination.AbilitySystem.TemporaryEffectFunctionaity, Assembly-CSharp
+    - Name: _applyingDuration
+      Entry: 3
+      Data: 2
+    - Name: _onTimeOutInstruction
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: IsProcessingIncomingAction
+      Entry: 5
+      Data: false
+    - Name: IncomingActionProcessor
+      Entry: 6
+      Data: 
+    - Name: IsProcessingOutcomingAction
+      Entry: 5
+      Data: false
+    - Name: OutcomingActionProcessor
+      Entry: 6
+      Data: 
+    - Name: _view
+      Entry: 7
+      Data: 6|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
+    - Name: Name
+      Entry: 1
+      Data: "\u042D\u043D\u0435\u0440\u0433\u0435\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0439
+        \u0449\u0438\u0442"
+    - Name: Icon
+      Entry: 10
+      Data: 0
+    - Name: IsHidden
+      Entry: 5
+      Data: false
+    - Name: AnimationOnActivation
+      Entry: 7
+      Data: 7|OrderElimination.AbilitySystem.Animations.SpawnParticleAnimation, Assembly-CSharp
+    - Name: ParticleType
+      Entry: 3
+      Data: 11
+    - Name: SpawnAt
+      Entry: 3
+      Data: 0
+    - Name: SpawnGroup
+      Entry: 3
+      Data: 0
+    - Name: Follow
+      Entry: 3
+      Data: 0
+    - Name: FaceDirection
+      Entry: 5
+      Data: false
+    - Name: FromParticlePosition
+      Entry: 5
+      Data: true
+    - Name: FacingFrom
+      Entry: 3
+      Data: 0
+    - Name: FacingFromGroup
+      Entry: 3
+      Data: 0
+    - Name: FacingFromCell
+      Entry: 3
+      Data: 0
+    - Name: FacingTo
+      Entry: 3
+      Data: 0
+    - Name: FacingToGroup
+      Entry: 3
+      Data: 0
+    - Name: FacingToCell
+      Entry: 3
+      Data: 0
+    - Name: RemapAnimationTime
+      Entry: 5
+      Data: false
+    - Name: RemappedTime
+      Entry: 4
+      Data: 0
+    - Name: _animationLoops
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AnimationOnDeactivation
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _removeTriggers
+      Entry: 7
+      Data: 8|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+        Assembly-CSharp]], System.Core
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _triggerInstructions
+      Entry: 7
+      Data: 9|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+        Assembly-CSharp],[OrderElimination.AbilitySystem.IEffectInstruction, Assembly-CSharp]],
+        mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 10|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
