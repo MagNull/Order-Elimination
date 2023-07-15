@@ -113,10 +113,9 @@ namespace OrderElimination
         
         public void HealCharacters(int amountHeal)
         {
-            Logging.LogException( new NotImplementedException());
             foreach (var member in _members)
             {
-                //member.Heal(amountHeal);
+                member.CurrentHealth += amountHeal;
             }
         }
         

@@ -35,7 +35,11 @@ namespace RoguelikeMap.Points
             Model.SetPanel(_panelManager);
         }
 
-        public void Visit(Squad squad) => Model.Visit(squad);
+        public void Visit(Squad squad)
+        {
+            Model.Visit(squad);
+            GetComponent<Collider2D>().enabled = false;
+        }
 
         private void OnMouseDown() => Select();
 
