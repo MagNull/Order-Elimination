@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GameInventory.Items;
+using UnityEngine;
 
 namespace GameInventory
 {
@@ -16,9 +17,13 @@ namespace GameInventory
             return _itemsById[itemData];
         }
 
-        public static void RecoverID(ItemData itemData, string id)
+        public static void RecoverID()
         {
-            _itemsById[itemData] = id;
+            var items = Resources.FindObjectsOfTypeAll<ItemData>();
+            foreach (var itemData in items)
+            {
+                _itemsById[itemData] = itemData.Id;
+            }
         }
         
         public static ItemData[] GetItems() => _itemsById.Keys.ToArray();

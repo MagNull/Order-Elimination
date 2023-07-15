@@ -15,26 +15,18 @@ namespace GameInventory
 
         public static Inventory Load()
         {
+            ItemIdentifier.RecoverID();
             if (File.Exists(_path))
             {
                 var json = File.ReadAllText(_path);
-                if (json == "" || json == "{}s")
+                if (json == "" || json == "{}")
                     return new Inventory(100);
                 var inventory = JsonUtility.FromJson<Inventory>(json);
                 inventory.InitConsumables();
-                RecoverItemIds(inventory);
                 return inventory;
             }
 
             return new Inventory(100);
-        }
-        
-        private static void RecoverItemIds(Inventory inventory)
-        {
-            foreach (var item in inventory.GetItems())
-            {
-                ItemIdentifier.RecoverID(item.Data, item.Data.Id);
-            }
         }
 
         public static void Delete()

@@ -259,10 +259,44 @@ MonoBehaviour:
       - fieldName: InputPort
         node: {fileID: 1177190778180439369}
         reroutePoints: []
+      - fieldName: InputPort
+        node: {fileID: 5950939574053268301}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
+--- !u!114 &-3699076941753368297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76e40f3f0e4f427695c5583cf9ce66af, type: 3}
+  m_Name: Move To Nearest Shelter
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -312, y: 152}
+  ports:
+    keys:
+    - InputPort
+    values:
+    - _fieldName: InputPort
+      _node: {fileID: -3699076941753368297}
+      _typeQualifiedName: AI.Compositions.TaskPort, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: ChildrenPort
+        node: {fileID: 1177190778180439369}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _needPassiveEffects: []
 --- !u!114 &-3460323269171088293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,6 +454,7 @@ MonoBehaviour:
   - {fileID: 4572026999641870890}
   - {fileID: -6515828114653670787}
   - {fileID: 3839012947504574750}
+  - {fileID: -3699076941753368297}
   _avoidObject:
   - {fileID: 11400000, guid: 249876582c664ea49885b2c46bd89b76, type: 2}
   - {fileID: 11400000, guid: 2079a0cdc5de4044e929c8319593b546, type: 2}
@@ -499,7 +534,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: InputPort
-        node: {fileID: 5950939574053268301}
+        node: {fileID: -3699076941753368297}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -765,7 +800,7 @@ MonoBehaviour:
   m_Name: Keep Distance From Melee
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -392, y: 200}
+  position: {x: -792, y: 520}
   ports:
     keys:
     - InputPort
@@ -776,7 +811,7 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: ChildrenPort
-        node: {fileID: 1177190778180439369}
+        node: {fileID: -4101895195620314421}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
