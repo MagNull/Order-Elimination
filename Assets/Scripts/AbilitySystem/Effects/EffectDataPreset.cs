@@ -74,6 +74,10 @@ namespace OrderElimination.AbilitySystem
         #region Rules
         [TitleGroup("Rules", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 1)]
         [ShowInInspector, OdinSerialize]
+        public EffectCharacter EffectCharacter { get; protected set; }
+
+        [TitleGroup("Rules")]
+        [ShowInInspector, OdinSerialize]
         public EffectStackingPolicy StackingPolicy { get; protected set; }
 
         [TitleGroup("Rules")]
@@ -92,6 +96,7 @@ namespace OrderElimination.AbilitySystem
         [TitleGroup("Rules")]
         [ShowInInspector, OdinSerialize]
         private HashSet<EffectTriggerAcceptor> _removeTriggers = new();
+
         public IEnumerable<EffectTriggerAcceptor> RemoveTriggers => _removeTriggers;
         #endregion
 
