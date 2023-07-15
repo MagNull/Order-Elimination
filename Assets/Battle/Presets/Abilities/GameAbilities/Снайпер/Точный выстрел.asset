@@ -18,7 +18,7 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 21300000, guid: 93c2ac17257ccd641a9c86bcbd614cd2, type: 3}
     - {fileID: 11400000, guid: 4efd7f8a9a25b9b4193d9538adb22a2f, type: 2}
-    - {fileID: 11400000, guid: 256aed2da1a21da4c8fcf61f08bcc553, type: 2}
+    - {fileID: 8300000, guid: a28f97506cbe82d479cd46f40fa6efe0, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -194,13 +194,25 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
       Data: 
     - Name: $k
       Entry: 3
       Data: 1
+    - Name: $v
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
     - Name: $v
       Entry: 3
       Data: 1
@@ -508,16 +520,19 @@ MonoBehaviour:
       Data: 0
     - Name: Accuracy
       Entry: 7
-      Data: 31|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
-    - Name: Value
-      Entry: 4
-      Data: 1
+      Data: 31|OrderElimination.AbilitySystem.CasterStatGetter, Assembly-CSharp
+    - Name: CasterStat
+      Entry: 3
+      Data: 3
+    - Name: UseUnmodifiedValue
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
     - Name: IgnoreEvasion
       Entry: 5
-      Data: false
+      Data: true
     - Name: ObjectsBetweenAffectAccuracy
       Entry: 5
       Data: false
@@ -887,10 +902,100 @@ MonoBehaviour:
       Data: true
     - Name: AnimationBeforeAction
       Entry: 7
-      Data: 55|OrderElimination.AbilitySystem.AnimationPresetWrapper, Assembly-CSharp
-    - Name: AnimationPreset
+      Data: 55|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
+    - Name: PlaySequentially
+      Entry: 5
+      Data: true
+    - Name: WaitForCompletion
+      Entry: 5
+      Data: true
+    - Name: Animations
+      Entry: 7
+      Data: 56|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 57|Assets.Scripts.AbilitySystem.Animations.AbilityAnimations.Special.AnimationSound,
+        Assembly-CSharp
+    - Name: Sounds
+      Entry: 7
+      Data: 58|UnityEngine.AudioClip[], UnityEngine.AudioModule
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
       Entry: 10
       Data: 2
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: WaitForCompletion
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 59|OrderElimination.AbilitySystem.Animations.AnimationDelay, Assembly-CSharp
+    - Name: _delayTime
+      Entry: 4
+      Data: 1.9
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 60|OrderElimination.AbilitySystem.Animations.ShootParticleAnimation,
+        Assembly-CSharp
+    - Name: BulletParticle
+      Entry: 3
+      Data: 14
+    - Name: MoveBy
+      Entry: 3
+      Data: 1
+    - Name: MovementEase
+      Entry: 3
+      Data: 32
+    - Name: FaceDirection
+      Entry: 5
+      Data: true
+    - Name: Inverse
+      Entry: 5
+      Data: false
+    - Name: RemapAnimationTime
+      Entry: 5
+      Data: false
+    - Name: _minSpread
+      Entry: 4
+      Data: 0
+    - Name: _maxSpread
+      Entry: 4
+      Data: 0
+    - Name: _time
+      Entry: 4
+      Data: 0
+    - Name: _speed
+      Entry: 4
+      Data: 30
+    - Name: _animationLoops
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 
