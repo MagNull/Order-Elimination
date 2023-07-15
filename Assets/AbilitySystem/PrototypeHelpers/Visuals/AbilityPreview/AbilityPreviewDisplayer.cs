@@ -108,7 +108,9 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
                     var display = GetDisplayForCell(pos);
                     var accuracyValue = Mathf.Max(
                         0, modifiedAction.Accuracy.GetValue(actionContext) * 100);
-                    var damageValue = modifiedAction.DamageSize.GetValue(actionContext);
+                    var damage = modifiedAction.CalculateDamage(actionContext);
+                    var distributedDamage = IBattleLifeStats.DistributeDamage(target.BattleStats, damage);
+                    float damageValue = distributedDamage.TotalDamage;
                     if (_roundFloatNumbers)
                     {
                         damageValue = MathExtensions.Round(damageValue, _roundingMode);

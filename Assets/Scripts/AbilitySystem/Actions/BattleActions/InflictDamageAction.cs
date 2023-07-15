@@ -88,9 +88,7 @@ namespace OrderElimination.AbilitySystem
                 useContext.ActionTarget);
             if (hitResult == HitResult.Success)
             {
-                var damageSize = DamageSize.GetValue(useContext);
-                var damageDealer = useContext.ActionMaker;
-                var damageInfo = new DamageInfo(damageSize, ArmorMultiplier, HealthMultiplier, DamageType, DamagePriority, damageDealer);
+                var damageInfo = CalculateDamage(useContext);
                 useContext.ActionTarget.TakeDamage(damageInfo);
                 return new SimplePerformResult(this, useContext, true);
             }
@@ -117,6 +115,14 @@ namespace OrderElimination.AbilitySystem
             clone.IgnoreEvasion = IgnoreEvasion;
             clone.ObjectsBetweenAffectAccuracy = ObjectsBetweenAffectAccuracy;
             return clone;
+        }
+
+        public DamageInfo CalculateDamage(ActionContext useContext)
+        {
+            var damageSize = DamageSize.GetValue(useContext);
+            var damageDealer = useContext.ActionMaker;
+            var damageInfo = new DamageInfo(damageSize, ArmorMultiplier, HealthMultiplier, DamageType, DamagePriority, damageDealer);
+            return damageInfo;
         }
     }
 }

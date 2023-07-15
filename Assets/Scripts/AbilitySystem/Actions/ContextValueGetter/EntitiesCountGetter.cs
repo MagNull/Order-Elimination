@@ -1,4 +1,5 @@
 ﻿using OrderElimination.Infrastructure;
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 using System.Linq;
@@ -8,14 +9,11 @@ namespace OrderElimination.AbilitySystem
     [Serializable]
     public struct EntitiesCountGetter : IContextValueGetter
     {
-        [OdinSerialize]
+        [ShowInInspector, OdinSerialize]
         public IEntityCondition[] EntityConditions { get; private set; }
 
-        [OdinSerialize]
-        public IPointRelativePattern PatternToCheck { get; private set; }
-
-        [OdinSerialize]
-        public ActionEntity RelativeTo { get; private set; }
+        [ShowInInspector, OdinSerialize]
+        public int CountInCellGroupId { get; private set; }
 
         public string DisplayedFormula => "EntitiesCount";
 
@@ -23,25 +21,21 @@ namespace OrderElimination.AbilitySystem
         {
             var clone = new EntitiesCountGetter();
             clone.EntityConditions = CloneableCollectionsExtensions.Clone(EntityConditions);
-            clone.PatternToCheck = PatternToCheck.Clone();
-            clone.RelativeTo = RelativeTo;
+            clone.CountInCellGroupId = CountInCellGroupId;
             return clone;
         }
 
         public float GetValue(ActionContext useContext)
         {
+            var cellGroups = useContext.TargetCellGroups;
+            if (!cellGroups.ContainsGroup(CountInCellGroupId))
+                return 0;
+            var cellsToCheck = cellGroups.GetGroup(CountInCellGroupId);
             var entitiesCount = 0;
             var conditions = EntityConditions;
             var battleContext = useContext.BattleContext;
             var map = battleContext.BattleMap;
-            var target = RelativeTo switch
-            {
-                ActionEntity.Caster => useContext.ActionMaker,
-                ActionEntity.Target => useContext.ActionTarget,
-                _ => throw new NotImplementedException(),
-            };
-            var points = PatternToCheck.GetAbsolutePositions(target.Position);
-            foreach (var pos in points.Where(p => map.CellRangeBorders.Contains(p)))
+            foreach (var pos in cellsToCheck)
             {
                 entitiesCount += map.GetContainedEntities(pos)
                     .Where(e => IsEntityAllowed(e)).Count();
