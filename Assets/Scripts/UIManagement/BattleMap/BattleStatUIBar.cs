@@ -12,7 +12,10 @@ namespace UIManagement.Elements
 {
     public class BattleStatUIBar : MonoBehaviour
     {
+        private Tween _currentNumberTween;
         private Tween _currentFillTween;
+        private float _currentValue = 0;
+        private float _targetValue = float.NaN;
 
         [Header("Components")]
         [SerializeField] private Image _iconImage;
@@ -49,15 +52,34 @@ namespace UIManagement.Elements
                 Logging.LogException(new InvalidOperationException("Value is NaN"));
             }
             //
-            SetNumber(currentValue);
+            SetValue(currentValue);
             SetFill(scaledEndValue);
         }
 
-        public void SetNumber(float value)
+        public void SetValue(float value)
         {
-            if (RoundNumbers)
-                value = MathExtensions.Round(value, RoundingMode);
-            _textValueComponent.text = value.ToString();
+            if (value == _targetValue)
+                return;
+            Debug.Log($"Set value to {value}" % Colorize.Red);
+            _targetValue = value;
+            var duration = TweenNumbers ? TweeningTime : 0;
+            if (_currentNumberTween != null)
+                _currentNumberTween.Complete(false);
+            _currentNumberTween = DOTween
+                .To(GetValue, SetValue, value, duration)
+                .SetEase(ValueChangeEase)
+                .OnComplete(() => _currentNumberTween = null);
+
+            float GetValue() => _currentValue;
+
+            void SetValue(float value)
+            {
+                _currentValue = value;
+                if (RoundNumbers)
+                    value = MathExtensions.Round(value, RoundingMode);
+                Debug.Log($"Set value to {value}" % Colorize.Red);
+                _textValueComponent.text = value.ToString();
+            }
         }
 
         public void SetFill(float fillAmount)
