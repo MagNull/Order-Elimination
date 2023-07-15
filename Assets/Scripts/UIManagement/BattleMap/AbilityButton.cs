@@ -1,10 +1,9 @@
-﻿using CharacterAbility;
-using Cysharp.Threading.Tasks;
-using Sirenix.OdinInspector;
+﻿using DG.Tweening;
+using OrderElimination.AbilitySystem;
 using System;
+using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace UIManagement.Elements
@@ -12,33 +11,26 @@ namespace UIManagement.Elements
     [RequireComponent(typeof(HoldableButton)), DisallowMultipleComponent]
     public class AbilityButton : MonoBehaviour
     {
-        public event Action AbilityButtonUsed;
-
-        private Sprite _noSelectedAbilityIcon;
-        public Sprite NoSelectedAbilityIcon
-        {
-            get => _noSelectedAbilityIcon;
-            set
-            {
-                _noSelectedAbilityIcon = value;
-                if (_abilityIcon.sprite != value)
-                    _abilityIcon.sprite = value;
-            }
-        }
-        public AbilityView AbilityView { get; private set; }
-        public event Action<AbilityButton> Clicked;
-        public event Action<AbilityButton> Holded;
+        [Header("Components")]
         [SerializeField]
         private Image _abilityIcon;
         [SerializeField]
         private TextMeshProUGUI _abilityName;
         [SerializeField]
         private HoldableButton _button;
+        [field: SerializeField]
+        public CooldownTimer CooldownTimer { get; private set; }
         public HoldableButton HoldableButton => _button;
+        [field: SerializeField]
+        private Sprite _noSelectedAbilityIcon;
+        public ActiveAbilityRunner AbilityRunner { get; private set; }
+
+        public event Action<AbilityButton> Clicked;
+        public event Action<AbilityButton> Holded;
 
         private void Awake()
         {
-            RemoveAbilityView();
+            RemoveAbility();
             _button.Clicked += OnClick;
             _button.Holded += OnHold;
         }
@@ -46,47 +38,36 @@ namespace UIManagement.Elements
         private void OnClick(HoldableButton button)
         {
             Clicked?.Invoke(this);
-            Select();
         }
 
         private void OnHold(HoldableButton button, float holdTime) => Holded?.Invoke(this);
 
-        private void OnAbilityCasted() => AbilityButtonUsed?.Invoke();
-
-        public void Select()
+        public void AssignAbiility(ActiveAbilityRunner abilityRunner)
         {
-            //TODO Логика зависит от UI
-            //if (AbilityView.CanCast)
-            AbilityView.Clicked();
-        }
-
-        public void AssignAbilityView(AbilityView abilityView)
-        {
-            RemoveAbilityView();
-            _abilityName.text = abilityView.Name;
-            _abilityIcon.sprite = abilityView.AbilityIcon;
-            AbilityView = abilityView;
-            AbilityView.Casted += OnAbilityCasted;
+            RemoveAbility();
+            AbilityRunner = abilityRunner;
+            _abilityName.text = AbilityRunner.AbilityData.View.Name;
+            _abilityIcon.sprite = AbilityRunner.AbilityData.View.Icon;
             _button.interactable = true;
-            UpdateAvailability();
+            CooldownTimer.DOComplete();
+            CooldownTimer.gameObject.SetActive(true);
         }
 
-        public void CancelAbilityCast() => AbilityView?.CancelCast();
-
-        public void RemoveAbilityView()
+        public void RemoveAbility()
         {
-            CancelAbilityCast();
-            _abilityIcon.sprite = NoSelectedAbilityIcon;
+            _abilityIcon.sprite = _noSelectedAbilityIcon;
+            HoldableButton.SetImageTint(Color.white);
             _abilityName.text = "";
-            if(AbilityView != null)
-                AbilityView.Casted -= OnAbilityCasted;
-            AbilityView = null;
+            AbilityRunner = null;
             _button.interactable = false;
+            CooldownTimer.SetValue(0);
+            CooldownTimer.DOComplete();
+            CooldownTimer.gameObject.SetActive(false);
         }
 
-        public void UpdateAvailability()
+        public void SetClickAvailability(bool isClickAvailable)
         {
-            _button.ClickAvailable = AbilityView.CanCast;
+            _button.ClickAvailable = isClickAvailable;
         }
     }
 }

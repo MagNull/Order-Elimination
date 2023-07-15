@@ -1,40 +1,81 @@
-using System.Collections;
+using OrderElimination.MacroGame;
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
-using UIManagement;
+using TMPro;
 using UIManagement.Elements;
-using UIManagement.trashToRemove_Mockups;
+using UIManagement;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using System.IO;
+using System.Linq;
+using GameInventory.Items;
+using Sirenix.Utilities;
+using OrderElimination;
+using UIManagement.Panels;
+using UnityEngine.Serialization;
 
 public class BattleVictoryPanel : UIPanel
 {
-    public override PanelType PanelType => PanelType.BattleVictory;
-    [SerializeField] private IconTextValueElement _primaryCurrency;
-    [SerializeField] private IconTextValueElement _specialCurrency;
-    [SerializeField] private Button _continueButton;
-    [Header("Повышение опыта")]
-    [SerializeField] private PageSwitcher _pageSwitcher;
-    [SerializeField] private CharacterList _characterExperienceList;
-    [Header("Получение усилений")]
-    [SerializeField] private Transform _powerupsScrollList;
-    [SerializeField] private PowerupElement _powerupPrefab;
+    [Title("Components")]
+    [SerializeField]
+    private PageSwitcher _pageSwitcher;
+    [SerializeField]
+    private Button _continueButton;
+    [SerializeField]
+    private RectTransform _charactersHolder;
+    [SerializeField]
+    private RectTransform _rewardHolder;
+    
+    [Title("Prefabs")]
+    [AssetsOnly]
+    [SerializeField]
+    private CharacterClickableAvatar _characterPrefab;
+    [SerializeField]
+    private RewardItem _rewardItemPrefab;
 
-    public void UpdateExplorationResult(BattleResult battleResult)
+    private readonly Dictionary<CharacterClickableAvatar, GameCharacter> _charactersByAvatars = new();
+    private Action _onAcceptCallback;
+    
+    public override PanelType PanelType => PanelType.BattleVictory;
+
+    public void UpdateBattleResult(
+        IEnumerable<GameCharacter> charactersToDisplay,
+        int currencyReward,
+        Item[] itemsReward,
+        Action onAcceptCallback)
     {
-        _primaryCurrency.Value = $"+{battleResult.PrimaryCurrencyRecieved}";
-        _specialCurrency.Value = $"+{battleResult.SpecialCurrencyRecieved}";
-        _characterExperienceList.HasExperienceRecieved = true;
-        _characterExperienceList.HasMaintenanceCost = false;
-        _characterExperienceList.HasParameters = false;
-        _characterExperienceList.Add(battleResult.SquadCharacters.ToArray());
-        foreach (var c in _characterExperienceList)
+        ClearCharacters();
+        _onAcceptCallback = onAcceptCallback;
+        foreach (var character in charactersToDisplay)
         {
-            c.ExperienceRecieved = $"+{battleResult.ExperienceAmount}";
-            c.IsDead = c.IsDead;
+            var avatar = Instantiate(_characterPrefab, _charactersHolder);
+            avatar.UpdateCharacterInfo(character.CharacterData.Name, character.CharacterData.BattleIcon);
+            avatar.IsClickable = true;
+            avatar.Clicked += OnAvatarClicked;
+            _charactersByAvatars.Add(avatar, character);
         }
-        foreach (var p in battleResult.PowerupsRecieved)
+        var currencyRewardItem = Instantiate(_rewardItemPrefab, _rewardHolder);
+        currencyRewardItem.UpdateItemInfo(null, currencyReward.ToString());
+        if (itemsReward != null)
         {
-            var powerup = Instantiate(_powerupPrefab, _powerupsScrollList);
+            foreach (var item in itemsReward)
+            {
+                var rewardItem = Instantiate(_rewardItemPrefab, _rewardHolder);
+                rewardItem.UpdateItemInfo(item.Data.View.Icon, item.Data.View.Name);
+            }
+        }
+
+        void ClearCharacters()
+        {
+            foreach (var avatar in _charactersByAvatars.Keys)
+            {
+                avatar.Clicked -= OnAvatarClicked;
+            }
+            var elementsToDestroy = _charactersByAvatars.Keys.ToArray();
+            _charactersByAvatars.Clear();
+            elementsToDestroy.ForEach(a => Destroy(a));
         }
     }
 
@@ -45,26 +86,22 @@ public class BattleVictoryPanel : UIPanel
         _continueButton.onClick.AddListener(OnContineButtonClick);
     }
 
+    private void OnAvatarClicked(CharacterClickableAvatar avatar)
+    {
+        Logging.Log("Clicked character");
+        var characterPanel = (CharacterDescriptionPanel)UIController.SceneInstance.OpenPanel(PanelType.CharacterDescription);
+        characterPanel.UpdateCharacterDescription(_charactersByAvatars[avatar]);
+    }
+
     private void OnContineButtonClick()
     {
         if (!_pageSwitcher.ShowNextAvailablePage(false))
-            OnContinueAfterLastPagePressed();
+            OnContinueAtLastPagePressed();
     }
 
-    private void OnContinueAfterLastPagePressed()
+    private void OnContinueAtLastPagePressed()
     {
-        Debug.Log("«Continue» button pressed on last page");
+        Logging.Log("«Continue» button pressed on last page", context: this);
+        _onAcceptCallback?.Invoke();
     }
-
-    #region ToRemove
-    public void Awake()
-    {
-        UpdateExplorationResult(new BattleResult());
-        foreach (var p in _powerupsScrollList.GetComponentsInChildren<PowerupElement>())
-        {
-            p.ImageComponent.color = Random.ColorHSV(0, 1, 0.8f, 1f, 0.8f, 1f);
-        }
-    }
-
-    #endregion ToRemove
 }

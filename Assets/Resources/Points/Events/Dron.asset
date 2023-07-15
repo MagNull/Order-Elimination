@@ -1,0 +1,221 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8888819597395860758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e66a698acc7471a99c99286de762602, type: 3}
+  m_Name: Exit
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 136, y: -152}
+  ports:
+    keys:
+    - entries
+    values:
+    - _fieldName: entries
+      _node: {fileID: -8888819597395860758}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 6827807112340292352}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  <IsHaveItems>k__BackingField: 0
+  <IsAddMember>k__BackingField: 0
+  _itemsData: []
+  _characters: []
+--- !u!114 &-6060827718317099756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0594005723bb4e538e8c9c4938d94fb4, type: 3}
+  m_Name: Start
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -568, y: -40}
+  ports:
+    keys:
+    - exits
+    values:
+    - _fieldName: exits
+      _node: {fileID: -6060827718317099756}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 6827807112340292352}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _text: "\u0412\u044B \u0432\u0438\u0434\u0438\u0442\u0435 \u043F\u043E\u0432\u0440\u0435\u0436\u0434\u0435\u043D\u043D\u043E\u0433\u043E
+    \u0434\u0440\u043E\u043D\u0430 \u0441\u043E\u044E\u0437\u043D\u0438\u043A\u0430
+    \u0441\u043A\u0430\u043D\u0438\u0440\u0443\u044E\u0449\u0435\u0433\u043E \u043C\u0435\u0441\u0442\u043D\u043E\u0441\u0442\u044C"
+  _sprite: {fileID: 21300000, guid: 42831ab3c8a2644489258bc5a91b6d14, type: 3}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32ee2938fdcf041cabe277e0ee3949d3, type: 3}
+  m_Name: Dron
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 6827807112340292352}
+  - {fileID: -8888819597395860758}
+  - {fileID: 1195340552515177551}
+  - {fileID: 7317311818778251706}
+  - {fileID: -6060827718317099756}
+  _startNode: {fileID: -6060827718317099756}
+  <IsContainsBattle>k__BackingField: 0
+--- !u!114 &1195340552515177551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: Event
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 136, y: 104}
+  ports:
+    keys:
+    - exits
+    - entries
+    values:
+    - _fieldName: exits
+      _node: {fileID: 1195340552515177551}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 7317311818778251706}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: entries
+      _node: {fileID: 1195340552515177551}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 6827807112340292352}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  text: "\u0414\u0440\u043E\u043D \u043F\u0438\u043B\u0438\u043A\u043D\u0443\u043B
+    \u0438 \u043F\u043E\u0434\u0435\u043B\u0438\u043B\u0438\u0441\u044F \u0440\u0430\u0437\u0432\u0435\u0434\u0434\u0430\u043D\u044B\u043C\u0438
+    \u0441\u043E\u0431\u0440\u0430\u043D\u043D\u044B\u043C\u0438 \u043D\u0430 \u044D\u0442\u0430\u0436\u0435"
+--- !u!114 &6827807112340292352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e28619e1d6b54f58b69948bb61f0c676, type: 3}
+  m_Name: Fork
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -216, y: -72}
+  ports:
+    keys:
+    - exits
+    - entries
+    values:
+    - _fieldName: exits
+      _node: {fileID: 6827807112340292352}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -8888819597395860758}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: 1195340552515177551}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: entries
+      _node: {fileID: 6827807112340292352}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -6060827718317099756}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  <IsRandom>k__BackingField: 0
+  _answers:
+  - "\u041E\u0431\u043E\u0439\u0442\u0438"
+  - "\u041F\u0440\u0438\u0431\u043B\u0438\u0437\u0438\u0442\u044C\u0441\u044F"
+--- !u!114 &7317311818778251706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e66a698acc7471a99c99286de762602, type: 3}
+  m_Name: Exit
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 504, y: 120}
+  ports:
+    keys:
+    - entries
+    values:
+    - _fieldName: entries
+      _node: {fileID: 7317311818778251706}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 1195340552515177551}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  <IsHaveItems>k__BackingField: 1
+  <IsAddMember>k__BackingField: 0
+  _itemsData:
+  - {fileID: 11400000, guid: 383e9d813ab9a884dad3f8567bfe8833, type: 2}
+  _characters: []

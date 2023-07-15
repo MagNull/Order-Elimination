@@ -1,13 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UIManagement.Debugging;
-using UIManagement.trashToRemove_Mockups;
 using UnityEngine;
 using UnityEngine.UI;
-using Sirenix.OdinInspector;
-using Sirenix.Serialization;
+using OrderElimination.Localization;
 
 namespace UIManagement
 {
@@ -42,7 +37,7 @@ namespace UIManagement
         }
         protected virtual void Initialize()
         {
-            _titleText.text = name = Title;
+            _titleText.text = Title;
             _closingButton.onClick.RemoveListener(Close);
             _closingButton.onClick.AddListener(Close);
             _isInitialized = true;

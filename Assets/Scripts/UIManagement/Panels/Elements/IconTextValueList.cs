@@ -1,15 +1,12 @@
-﻿using CharacterAbility;
+﻿using OrderElimination.Localization;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UIManagement.Elements;
-using UIManagement.trashToRemove_Mockups;
+using OrderElimination;
 using UnityEngine;
 using UnityEngine.UI;
+using OrderElimination.Infrastructure;
 
 namespace UIManagement.Elements
 {
@@ -80,7 +77,7 @@ namespace UIManagement.Elements
         public void Add(Sprite icon = null, string text = "New Text", string value = "0", ValueUnits valueUnits = ValueUnits.None)
         {
             if (_elementPrefab == null)
-                throw new Exception("No prefab given for instancing.");
+                Logging.LogException( new Exception("No prefab given for instancing."));
             _attachedElements.Add(
                 CreateIconTextValueElement(transform, icon, text, $"{value}{Localization.Current.GetUnits(valueUnits)}"));
             OnListUpdated();

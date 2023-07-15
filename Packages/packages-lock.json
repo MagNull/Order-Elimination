@@ -1,11 +1,11 @@
 {
   "dependencies": {
-    "com.coffee.unmask": {
-      "version": "https://github.com/mob-sakai/UnmaskForUGUI.git",
+    "com.github.siccity.xnode": {
+      "version": "https://github.com/siccity/xNode.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "0a70db88bfd11f8599d7b787e8e7f52d907befe2"
+      "hash": "5967cef2770475cd75c1058cb4b118bbe60f3ee9"
     },
     "com.unity.2d.animation": {
       "version": "7.0.7",
@@ -150,7 +150,7 @@
       }
     },
     "com.unity.ide.rider": {
-      "version": "3.0.17",
+      "version": "3.0.18",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -361,6 +361,13 @@
         "com.unity.modules.xr": "1.0.0"
       },
       "url": "https://packages.unity.com"
+    },
+    "io.sentry.unity": {
+      "version": "https://github.com/getsentry/unity.git#1.4.1",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "ebcb1446e8742888994686fd2fd51fd49c7f9b66"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

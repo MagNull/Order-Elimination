@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using RoguelikeMap;
 using UIManagement.Debugging;
 using UIManagement.Elements;
 using UnityEngine;
@@ -45,6 +46,20 @@ namespace UIManagement
             panelTransform.DOScale(1, _windowOpeningTime).SetEase(_windowOpeningEase);
             return panelToOpen;
         }
+
+        // private void PlayOpenAnimation(Transform panelTransform)
+        // {
+        //     switch (format)
+        //     {
+        //         case WindowFormat.Small:
+        //         case WindowFormat.Half:
+        //             panelTransform.DOMoveX(EndPositionHalfWindow, 1f);
+        //             break;
+        //         case WindowFormat.FullScreen:
+        //             panelTransform.DOMoveX(EndPositionFullScreenWindow, 1f);
+        //             break;
+        //     }
+        // }
 
         public void ClosePanel(PanelType panel)
         {

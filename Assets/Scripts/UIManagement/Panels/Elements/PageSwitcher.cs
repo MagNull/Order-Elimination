@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using OrderElimination;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +16,11 @@ namespace UIManagement.Elements
         [SerializeField] private RectTransform _pageButtonHolder;
         [SerializeField] private RectTransform _pageHolder;
         [SerializeField] private bool _attachOnLoad = true;
-        [SerializeField] private Color _unselectedColor = Color.white;
+        [Header("Page Buttons Text")]
+        [SerializeField] private Color _selectedTextColor = Color.white;
+        [SerializeField] private Color _deselectedTextColor = Color.HSVToRGB(0, 0, 0.5f);
+        [Header("Page Buttons Background")]
+        [SerializeField] private Color _deselectedColor = Color.white;
         [SerializeField] private Color _selectedColor = Color.yellow;
         [SerializeField] private Color _disabledColor = Color.gray;
         private readonly Dictionary<PageButton, GameObject> _pages = new Dictionary<PageButton, GameObject>();
@@ -52,7 +57,7 @@ namespace UIManagement.Elements
             _pages.Add(pageButton, page);
             _buttonList.Add(pageButton);
             _cashedImages.Add(pageButton, pageButton.GetComponent<Image>());
-            _cashedImages[pageButton].color = _unselectedColor;
+            _cashedImages[pageButton].color = _deselectedColor;
             pageButton.Clicked += ShowPage;
             pageButton.Destroyed += OnElementDestroyed;
             page.SetActive(false);
@@ -65,9 +70,9 @@ namespace UIManagement.Elements
             if (pageButton == null)
                 return;
             if (!_buttonList.Contains(pageButton))
-                throw new ArgumentException();
+                Logging.LogException( new ArgumentException());
             if (!pageButton.Button.interactable)
-                throw new InvalidOperationException("Page disabled");
+                Logging.LogException( new InvalidOperationException("Page disabled"));
             var page = _pages[pageButton];
             foreach (var e in _pages)
             {
@@ -85,7 +90,7 @@ namespace UIManagement.Elements
             var availablePages = AvailablePages.ToList();
             var currentPageIndex = availablePages.IndexOf(_selectedPageButton);
             if (currentPageIndex == -1)
-                throw new InvalidOperationException();
+                Logging.LogException( new InvalidOperationException());
             var nextPageIndex = currentPageIndex + 1;
             if (nextPageIndex >= availablePages.Count)
             {
@@ -105,7 +110,7 @@ namespace UIManagement.Elements
             var availablePages = AvailablePages.ToList();
             var currentPageIndex = availablePages.IndexOf(_selectedPageButton);
             if (currentPageIndex == -1)
-                throw new InvalidOperationException();
+                Logging.LogException( new InvalidOperationException());
             var previousPageIndex = currentPageIndex - 1;
             if (previousPageIndex < 0)
             {
@@ -124,7 +129,16 @@ namespace UIManagement.Elements
         {
             foreach (var pageButton in _buttonList)
             {
-                _cashedImages[pageButton].color = pageButton == _selectedPageButton ? _selectedColor : _unselectedColor;
+                if (pageButton == _selectedPageButton)
+                {
+                    _cashedImages[pageButton].color = _selectedColor;
+                    pageButton.TextComponent.color = _selectedTextColor;
+                }
+                else
+                {
+                    _cashedImages[pageButton].color = _deselectedColor;
+                    pageButton.TextComponent.color = _deselectedTextColor;
+                }
                 if (!pageButton.Button.interactable)
                     _cashedImages[pageButton].color = _disabledColor;
             }
@@ -143,7 +157,7 @@ namespace UIManagement.Elements
         public void EnablePage(PageButton pageButton)
         {
             pageButton.Button.interactable = true;
-            _cashedImages[pageButton].color = pageButton == _selectedPageButton ? _selectedColor : _unselectedColor;
+            _cashedImages[pageButton].color = pageButton == _selectedPageButton ? _selectedColor : _deselectedColor;
         }
 
         public void EnablePage(int index) => EnablePage(_buttonList[index]);
@@ -151,7 +165,7 @@ namespace UIManagement.Elements
         public void RemoveAt(int index)
         {
             if (index >= PageCount || index < 0)
-                throw new IndexOutOfRangeException();
+                Logging.LogException( new IndexOutOfRangeException());
             var pageButton = _buttonList[index];
             var page = _pages[pageButton];
             _buttonList.RemoveAt(index);

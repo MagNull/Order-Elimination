@@ -1,7 +1,5 @@
-using CharacterAbility;
+using OrderElimination.AbilitySystem;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +8,10 @@ namespace UIManagement.Elements
     [RequireComponent(typeof(HoldableButton))]
     public class SmallAbilityButton : MonoBehaviour
     {
+        private IActiveAbilityData _activeAbilityData;
+        private IPassiveAbilityData _passiveAbilityData;
+        private PassiveAbilityRunner _passiveAbilityRunner;
+
         [SerializeField] Image _iconComponent;
         [SerializeField] HoldableButton _button;
 
@@ -25,7 +27,7 @@ namespace UIManagement.Elements
                     _iconComponent.sprite = value;
             }
         }
-        public AbilityView AbilityView { get; private set; }
+
         public event Action<SmallAbilityButton> Clicked;
 
         private void Awake()
@@ -38,18 +40,35 @@ namespace UIManagement.Elements
 
         private void OnClick(HoldableButton button) => Clicked?.Invoke(this);
 
-        public void AssignAbilityView(AbilityView abilityView)
+        public void AssignActiveAbilityData(IActiveAbilityData abilityData)
         {
-            AbilityView = abilityView;
-            _iconComponent.sprite = AbilityView.AbilityIcon;
+            RemoveAbilityView();
+            _activeAbilityData = abilityData;
+            _iconComponent.sprite = abilityData.View.Icon;
             _button.interactable = true;
+        }
+
+        public void AssignPassiveAbilityData(IPassiveAbilityData abilityData)
+        {
+            RemoveAbilityView();
+            _passiveAbilityData = abilityData;
+            _iconComponent.sprite = abilityData.View.Icon;
+            _button.interactable = true;
+        }
+
+        public void AssignPassiveAbilityRunner(PassiveAbilityRunner runner)
+        {
+            AssignPassiveAbilityData(runner.AbilityData);
+            _passiveAbilityRunner = runner;
         }
 
         public void RemoveAbilityView()
         {
-            AbilityView = null;
             _iconComponent.sprite = NoIconAvailableSprite;
             _button.interactable = false;
+            _activeAbilityData = null;
+            _passiveAbilityData = null;
+            _passiveAbilityRunner = null;
         }
     } 
 }

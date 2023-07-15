@@ -1,71 +1,105 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using OrderElimination;
+using OrderElimination.MacroGame;
+using Sirenix.OdinInspector;
+using Sirenix.Utilities;
+using TMPro;
 using UIManagement;
 using UIManagement.Elements;
-using UIManagement.trashToRemove_Mockups;
+using UIManagement.Panels;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class BattleDefeatPanel : UIPanel
 {
-    public override PanelType PanelType => PanelType.BattleDefeat;
-    [SerializeField] private IconTextValueElement _primaryCurrency;
-    [SerializeField] private IconTextValueElement _specialCurrency;
-    [SerializeField] private Button _continueButton;
-    [Header("Повышение опыта")]
-    [SerializeField] private PageSwitcher _pageSwitcher;
-    [SerializeField] private CharacterList _characterExperienceList;
-    [Header("Получение усилений")]
-    [SerializeField] private Transform _powerupsScrollList;
-    [SerializeField] private PowerupElement _powerupPrefab;
+    [Title("Components")]
+    [SerializeField] 
+    private PageSwitcher _pageSwitcher;
+    [SerializeField] 
+    private Button _retryButton;
+    [SerializeField]
+    private Button _surrenderButton;
+    [SerializeField]
+    private RectTransform _charactersHolder;
+    [SerializeField]
+    private RectTransform _rewardHolder;
+    
+    [Title("Prefabs")]
+    [AssetsOnly]
+    [SerializeField]
+    private CharacterClickableAvatar _characterPrefab;
+    [SerializeField]
+    private RewardItem _rewardItemPrefab;
 
-    public void UpdateExplorationResult(BattleResult battleResult)
+    private readonly Dictionary<CharacterClickableAvatar, GameCharacter> _charactersByAvatars = new();
+    private Action _onRetryCallback;
+    private Action _onSurrenderCallback;
+
+    public override PanelType PanelType => PanelType.BattleDefeat;
+
+    public void UpdateBattleResult(
+        IEnumerable<GameCharacter> charactersToDisplay,
+        int currencyReward,
+        Action onRetryCallback,
+        Action onSurrenderCallback)
     {
-        _primaryCurrency.Value = $"+{battleResult.PrimaryCurrencyRecieved}";
-        _specialCurrency.Value = $"+{battleResult.SpecialCurrencyRecieved}";
-        _characterExperienceList.HasExperienceRecieved = true;
-        _characterExperienceList.HasMaintenanceCost = false;
-        _characterExperienceList.HasParameters = false;
-        _characterExperienceList.Add(battleResult.SquadCharacters.ToArray());
-        foreach (var c in _characterExperienceList)
+        ClearCharacters();
+        _onRetryCallback = onRetryCallback;
+        _onSurrenderCallback = onSurrenderCallback;
+        if (charactersToDisplay != null)
         {
-            c.ExperienceRecieved = $"+{battleResult.ExperienceAmount}";
-            c.IsDead = c.IsDead;
+            foreach (var character in charactersToDisplay)
+            {
+                var avatar = Instantiate(_characterPrefab, _charactersHolder);
+                avatar.UpdateCharacterInfo(character.CharacterData.Name, character.CharacterData.BattleIcon);
+                avatar.IsClickable = true;
+                avatar.Clicked += OnAvatarClicked;
+                _charactersByAvatars.Add(avatar, character);
+            }
         }
-        foreach (var p in battleResult.PowerupsRecieved)
+        var currencyRewardItem = Instantiate(_rewardItemPrefab, _rewardHolder);
+        currencyRewardItem.UpdateItemInfo(null, currencyReward.ToString());
+        _pageSwitcher.DisablePage(1);
+
+        void ClearCharacters()
         {
-            var powerup = Instantiate(_powerupPrefab, _powerupsScrollList);
+            foreach (var avatar in _charactersByAvatars.Keys)
+            {
+                avatar.Clicked -= OnAvatarClicked;
+            }
+            var elementsToDestroy = _charactersByAvatars.Keys.ToArray();
+            _charactersByAvatars.Clear();
+            elementsToDestroy.ForEach(a => Destroy(a));
         }
     }
 
     protected override void Initialize()
     {
         base.Initialize();
-        _continueButton.onClick.RemoveListener(OnContineButtonClick);
-        _continueButton.onClick.AddListener(OnContineButtonClick);
+        _retryButton.onClick.RemoveListener(OnRetry);
+        _retryButton.onClick.AddListener(OnRetry);
+        _surrenderButton.onClick.RemoveListener(OnSurrender);
+        _surrenderButton.onClick.AddListener(OnSurrender);
     }
 
-    private void OnContineButtonClick()
+    private void OnAvatarClicked(CharacterClickableAvatar avatar)
     {
-        print("clicked");
-        if (!_pageSwitcher.ShowNextAvailablePage(false))
-            OnContinueAfterLastPagePressed();
+        var characterPanel = (CharacterDescriptionPanel)UIController.SceneInstance.OpenPanel(PanelType.CharacterDescription);
+        characterPanel.UpdateCharacterDescription(_charactersByAvatars[avatar]);
     }
 
-    private void OnContinueAfterLastPagePressed()
+    private void OnRetry()
     {
-        Debug.Log("«Continue» button pressed on last page");
+        _onRetryCallback?.Invoke();
     }
 
-    #region ToRemove
-    public void Awake()
+    private void OnSurrender()
     {
-        UpdateExplorationResult(new BattleResult());
-        foreach (var p in _powerupsScrollList.GetComponentsInChildren<PowerupElement>())
-        {
-            p.ImageComponent.color = Random.ColorHSV(0, 1, 0.8f, 1f, 0.8f, 1f);
-        }
+        _onSurrenderCallback?.Invoke();
     }
-
-    #endregion ToRemove
 }
