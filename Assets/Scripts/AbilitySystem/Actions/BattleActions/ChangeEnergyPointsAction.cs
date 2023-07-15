@@ -3,10 +3,6 @@ using OrderElimination.AbilitySystem;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -17,15 +13,17 @@ namespace OrderElimination.AbilitySystem
             Add,
             Remove,
             Set,
+            SetToPerRoundValue
             //Clear
         }
 
         [ShowInInspector, OdinSerialize]
-        public EnergyPoint EnergyPoint { get; private set; }
+        public EnergyPoint EnergyPointType { get; private set; }
 
         [ShowInInspector, OdinSerialize]
         public ModificationType Modification { get; private set; }
 
+        [ShowIf("@" + nameof(EnergyPointType) + "!=" + nameof(ModificationType) + "." + nameof(ModificationType.SetToPerRoundValue))]
         [ShowInInspector, OdinSerialize]
         public int Value { get; private set; }
 
@@ -36,13 +34,18 @@ namespace OrderElimination.AbilitySystem
             switch (Modification)
             {
                 case ModificationType.Add:
-                    useContext.ActionTarget.AddEnergyPoints(EnergyPoint, Value);
+                    useContext.ActionTarget.AddEnergyPoints(EnergyPointType, Value);
                     break;
                 case ModificationType.Remove:
-                    useContext.ActionTarget.RemoveEnergyPoints(EnergyPoint, Value);
+                    useContext.ActionTarget.RemoveEnergyPoints(EnergyPointType, Value);
                     break;
                 case ModificationType.Set:
-                    useContext.ActionTarget.SetEnergyPoints(EnergyPoint, Value);
+                    useContext.ActionTarget.SetEnergyPoints(EnergyPointType, Value);
+                    break;
+                case ModificationType.SetToPerRoundValue:
+                    useContext.ActionTarget.SetEnergyPoints(
+                        EnergyPointType,
+                        useContext.BattleContext.GetEnergyPointsPerRound(EnergyPointType));
                     break;
                 //case ModificationType.Clear:
                 //    useContext.ActionTarget.ClearActionPoints(ActionPoint);
@@ -56,7 +59,7 @@ namespace OrderElimination.AbilitySystem
         public override IBattleAction Clone()
         {
             var clone = new ChangeEnergyPointsAction();
-            clone.EnergyPoint = EnergyPoint;
+            clone.EnergyPointType = EnergyPointType;
             clone.Modification = Modification;
             clone.Value = Value;
             return clone;
