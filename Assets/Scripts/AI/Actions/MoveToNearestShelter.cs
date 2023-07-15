@@ -23,6 +23,8 @@ namespace AI.Actions
                 .OrderByDescending(st =>
                     st.PassiveAbilities.Count(abi => _needPassiveEffects.Contains(abi.AbilityData.BasedBuilder)));
             var movementAbility = AbilityAIPresentation.GetMoveAbility(caster);
+            if (movementAbility == null)
+                return false;
             if (movementAbility.AbilityData.TargetingSystem
                 is not IRequireSelectionTargetingSystem manualTargeting)
                 throw new System.NotSupportedException();

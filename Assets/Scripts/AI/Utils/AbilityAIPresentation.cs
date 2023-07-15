@@ -50,6 +50,6 @@ namespace AI.Utils
         }
 
         public static ActiveAbilityRunner GetMoveAbility(AbilitySystemActor caster) => caster.ActiveAbilities
-            .First(a => a.AbilityData.View.Name == "Перемещение");
+            .FirstOrDefault(a => a.AbilityData.View.Name == "Перемещение");
     }
 }

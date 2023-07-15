@@ -31,6 +31,8 @@ namespace AI.Actions
             }
 
             var movementAbility = AbilityAIPresentation.GetMoveAbility(caster);
+            if (movementAbility == null)
+                return false;
             movementAbility.InitiateCast(context, caster);
             if (movementAbility.AbilityData.TargetingSystem
                 is not IRequireSelectionTargetingSystem manualTargeting)

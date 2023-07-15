@@ -44,6 +44,8 @@ namespace AI.Actions
             AbilitySystemActor target)
         {
             var movementAbility = AbilityAIPresentation.GetMoveAbility(caster);
+            if (movementAbility == null)
+                return false;
             if (movementAbility.AbilityData.TargetingSystem
                 is not IRequireSelectionTargetingSystem manualTargeting)
                 throw new NotSupportedException();
