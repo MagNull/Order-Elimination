@@ -23,8 +23,6 @@ namespace OrderElimination.AbilitySystem
             BattleContext = battleContext;
             DeployedBattleMap = BattleContext.BattleMap;
             _battleStats = battleStats;
-            battleStats.HealthDepleted -= OnHealthDepleted;
-            battleStats.HealthDepleted += OnHealthDepleted;
             EntityType = type;
             BattleSide = side;
             foreach (var p in EnumExtensions.GetValues<EnergyPoint>())
@@ -33,11 +31,6 @@ namespace OrderElimination.AbilitySystem
             }
             _actionProcessor = new Lazy<EntityActionProcessor>(() => EntityActionProcessor.Create(this));
             _obstacle = new Lazy<BattleObstacle>(() => new BattleObstacle(obstacleSetup, this));
-
-            void OnHealthDepleted(IBattleLifeStats lifeStats)
-            {
-                //IsAlive = false;
-            }
         }
 
         public EntityType EntityType { get; }
@@ -51,13 +44,22 @@ namespace OrderElimination.AbilitySystem
         public bool IsAlive => BattleStats.Health > 0;
         public event Action<DealtDamageInfo> Damaged;
         public event Action<DealtRecoveryInfo> Healed;
+        public event Action<DealtDamageInfo> OnLethalDamage;
         public event Action<AbilitySystemActor> Died;
 
         public DealtDamageInfo TakeDamage(DamageInfo incomingDamage)
         {
+            if (StatusHolder.HasStatus(BattleStatus.Invulnerable))
+            {
+                return new DealtDamageInfo(incomingDamage, 0, 0);
+            }
             var dealtDamage = IBattleLifeStats.DistributeDamage(BattleStats, incomingDamage);
             BattleStats.TotalArmor -= dealtDamage.TotalArmorDamage;
             BattleStats.Health -= dealtDamage.TotalHealthDamage;
+            if (dealtDamage.TotalHealthDamage >= BattleStats.Health)
+            {
+                OnLethalDamage?.Invoke(dealtDamage);
+            }
             Damaged?.Invoke(dealtDamage);
             if (!IsAlive) OnDeath();
             return dealtDamage;

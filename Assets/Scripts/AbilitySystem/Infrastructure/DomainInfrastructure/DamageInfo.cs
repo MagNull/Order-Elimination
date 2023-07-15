@@ -38,9 +38,9 @@ namespace OrderElimination.AbilitySystem
 
         public float TotalDamage => TotalHealthDamage + TotalArmorDamage;
 
-        public DealtDamageInfo(DamageInfo damageType, float totalArmorDamage, float totalHealthDamage)
+        public DealtDamageInfo(DamageInfo initialDamage, float totalArmorDamage, float totalHealthDamage)
         {
-            DamageInfo = damageType;
+            DamageInfo = initialDamage;
             TotalHealthDamage = totalHealthDamage;
             TotalArmorDamage = totalArmorDamage;
         }

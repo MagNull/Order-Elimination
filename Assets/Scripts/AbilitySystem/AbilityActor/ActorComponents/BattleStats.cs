@@ -29,7 +29,7 @@ namespace OrderElimination.AbilitySystem
                 else
                 {
                     _health = 0;
-                    HealthDepleted?.Invoke(this);
+                    //HealthDepleted?.Invoke(this);
                 }
                 LifeStatsChanged?.Invoke(this);
             }
@@ -119,7 +119,6 @@ namespace OrderElimination.AbilitySystem
         }
 
         public event Action<BattleStat> StatsChanged;
-        public event Action<IBattleLifeStats> HealthDepleted;
         public event Action<IBattleLifeStats> LifeStatsChanged;
 
         public BattleStats(

@@ -14,7 +14,7 @@ namespace OrderElimination.AbilitySystem
         public void AddTemporaryArmor(TemporaryArmor armor);
         public void RemoveTemporaryArmor(TemporaryArmor armor);
 
-        public event Action<IBattleLifeStats> HealthDepleted;
+        //public event Action<IBattleLifeStats> HealthDepleted;
         public event Action<IBattleLifeStats> LifeStatsChanged;
 
         public static DealtDamageInfo DistributeDamage(

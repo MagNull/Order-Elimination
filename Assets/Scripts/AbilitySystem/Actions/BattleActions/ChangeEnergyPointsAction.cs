@@ -23,7 +23,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public ModificationType Modification { get; private set; }
 
-        [ShowIf("@" + nameof(EnergyPointType) + "!=" + nameof(ModificationType) + "." + nameof(ModificationType.SetToPerRoundValue))]
+        [ShowIf("@" + nameof(Modification) + "!=" + nameof(ModificationType) + "." + nameof(ModificationType.SetToPerRoundValue))]
         [ShowInInspector, OdinSerialize]
         public int Value { get; private set; }
 
