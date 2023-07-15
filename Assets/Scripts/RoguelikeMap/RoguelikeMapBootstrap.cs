@@ -68,7 +68,8 @@ namespace RoguelikeMap
                 mediator.InitTest();
             }
             LoadLocalData(mediator, builder);
-            builder.Register<Wallet>(Lifetime.Singleton).WithParameter(_startMoney);
+            builder.Register<Wallet>(Lifetime.Singleton).WithParameter(
+                PlayerPrefs.GetInt("Wallet") == 0 ? _startMoney : PlayerPrefs.GetInt("Wallet"));
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_squad);
             builder.RegisterComponent(_pathPrefab);
@@ -109,6 +110,7 @@ namespace RoguelikeMap
             Inventory inventory,
             StrategyStats upgradeStats)
         {
+            PlayerPrefs.SetInt("Wallet", Container.Resolve<Wallet>().Money);
             InventorySerializer.Save(inventory);
             if (!_saveLocalData) return;
             LocalDataManager.SaveLocalData(
@@ -119,7 +121,7 @@ namespace RoguelikeMap
         {
             var inventory = InventorySerializer.Load();
             containerBuilder.RegisterComponent(inventory);
-
+            
             if (!_loadLocalData) return;
             if (LocalDataManager.IsLocalDataExists)
             {
