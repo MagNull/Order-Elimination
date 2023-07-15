@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: acb2e992d7d6fa849b36b6f05febfd6b, type: 3}
-  m_Name: "[E] \u0421\u0438\u0441\u0442\u0435\u043C\u0430 \u043D\u0430\u0432\u0435\u0434\u0435\u043D\u0438\u044F"
+  m_Name: "[E] \u0418\u0441\u043F\u0435\u043F\u0435\u043B\u0435\u043D\u0438\u0435"
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 4efd7f8a9a25b9b4193d9538adb22a2f, type: 2}
-    - {fileID: 21300000, guid: af386f5d96836c34ca4088b0b38a2241, type: 3}
+    - {fileID: 11400000, guid: ecc63ab2f2245de40b4e4f584fed62ef, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -96,10 +95,10 @@ MonoBehaviour:
       Data: 
     - Name: EffectRequirement
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: IsAppliedByAskingEntity
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -198,13 +197,40 @@ MonoBehaviour:
       Data: 2
     - Name: _damageValue
       Entry: 7
-      Data: 9|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
-    - Name: Value
-      Entry: 4
-      Data: 1.4
+      Data: 9|OrderElimination.AbilitySystem.EffectCountValueGetter, Assembly-CSharp
+    - Name: Effect
+      Entry: 10
+      Data: 0
+    - Name: CountOn
+      Entry: 3
+      Data: 1
+    - Name: IsAppliedByCaster
+      Entry: 5
+      Data: true
     - Name: 
       Entry: 8
       Data: 
+    - Name: _changeDamagePriority
+      Entry: 5
+      Data: false
+    - Name: _damagePriority
+      Entry: 3
+      Data: 0
+    - Name: _changeDamageType
+      Entry: 5
+      Data: false
+    - Name: _damageType
+      Entry: 3
+      Data: 0
+    - Name: _armorMultiplier
+      Entry: 4
+      Data: 1
+    - Name: _healthMultiplier
+      Entry: 4
+      Data: 1
+    - Name: _ignoreEvasion
+      Entry: 5
+      Data: false
     - Name: _accuracyOperation
       Entry: 3
       Data: 2
@@ -227,14 +253,14 @@ MonoBehaviour:
       Entry: 7
       Data: 11|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
     - Name: Name
-      Entry: 1
-      Data: "\u0421\u0438\u0441\u0442\u0435\u043C\u0430 \u043D\u0430\u0432\u0435\u0434\u0435\u043D\u0438\u044F"
+      Entry: 6
+      Data: 
     - Name: Icon
-      Entry: 10
-      Data: 1
+      Entry: 6
+      Data: 
     - Name: IsHidden
       Entry: 5
-      Data: false
+      Data: true
     - Name: AnimationOnActivation
       Entry: 6
       Data: 
