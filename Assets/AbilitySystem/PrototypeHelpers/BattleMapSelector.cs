@@ -242,10 +242,7 @@ public class BattleMapSelector : MonoBehaviour
             _ => _othersHighlightColor,
         };
         view.Highlight(highlightColor);
-        Object so = entity.EntityType == EntityType.Character
-            ? (Object)_battleContext.EntitiesBank.GetBasedCharacter(entity).CharacterData
-            : (Object)_battleContext.EntitiesBank.GetBasedStructureTemplate(entity);
-        EditorUtility.IsPersistent(so);
+        
         Debug.Log(
             $"{entity.EntityType} {view.Name} selected." % Colorize.ByColor(new Color(1, 0.5f, 0.5f))
             + $"\nActionPoints: {string.Join(", ", entity.EnergyPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
