@@ -141,5 +141,10 @@ namespace RoguelikeMap
                 }
             }
         }
+
+        private void OnApplicationQuit()
+        {
+            InventorySerializer.Delete();
+        }
     }
 }

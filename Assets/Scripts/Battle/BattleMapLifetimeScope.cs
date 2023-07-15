@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Design;
 using Assets.AbilitySystem.PrototypeHelpers;
 using DefaultNamespace;
+using GameInventory;
 using OrderElimination.AbilitySystem;
 using OrderElimination.AbilitySystem.Animations;
 using UnityEngine;
@@ -57,6 +58,11 @@ namespace OrderElimination
             builder.Register<AnimationSceneContext>(Lifetime.Singleton);
             builder.Register<BattleContext>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<EntitySpawner>(Lifetime.Singleton);
+        }
+        
+        private void OnApplicationQuit()
+        {
+            InventorySerializer.Delete();
         }
     }
 }

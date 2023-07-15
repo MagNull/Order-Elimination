@@ -349,6 +349,9 @@ MonoBehaviour:
         node: {fileID: 6976081827300166015}
         reroutePoints: []
       - fieldName: InputPort
+        node: {fileID: 8633443353256331756}
+        reroutePoints: []
+      - fieldName: InputPort
         node: {fileID: 1177190778180439369}
         reroutePoints: []
       _direction: 1
@@ -613,6 +616,36 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
+--- !u!114 &-1171374185300876416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 874ac58eaceb4490b3922a869aec3df3, type: 3}
+  m_Name: Damage Target
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -120, y: 1176}
+  ports:
+    keys:
+    - InputPort
+    values:
+    - _fieldName: InputPort
+      _node: {fileID: -1171374185300876416}
+      _typeQualifiedName: AI.Compositions.TaskPort, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: ChildrenPort
+        node: {fileID: 8633443353256331756}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
 --- !u!114 &-312315709034079980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -717,6 +750,10 @@ MonoBehaviour:
   - {fileID: 1226972518160413299}
   - {fileID: -3460323269171088293}
   - {fileID: 8326828343757816647}
+  - {fileID: 8633443353256331756}
+  - {fileID: 4183155154993680568}
+  - {fileID: 6156103581271163667}
+  - {fileID: -1171374185300876416}
   _avoidObject:
   - {fileID: 11400000, guid: 249876582c664ea49885b2c46bd89b76, type: 2}
   BehaviorTreeRoot: {fileID: -4101895195620314421}
@@ -782,7 +819,7 @@ MonoBehaviour:
   m_Name: Sequence
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -632, y: 760}
+  position: {x: -632, y: 1448}
   ports:
     keys:
     - ChildrenPort
@@ -970,6 +1007,37 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
+--- !u!114 &4183155154993680568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76e40f3f0e4f427695c5583cf9ce66af, type: 3}
+  m_Name: Move To Nearest Shelter
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -104, y: 712}
+  ports:
+    keys:
+    - InputPort
+    values:
+    - _fieldName: InputPort
+      _node: {fileID: 4183155154993680568}
+      _typeQualifiedName: AI.Compositions.TaskPort, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: ChildrenPort
+        node: {fileID: 8633443353256331756}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _needPassiveEffects: []
 --- !u!114 &4249013912228701507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1065,7 +1133,7 @@ MonoBehaviour:
   m_Name: Keep Distance From Melee
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -152, y: 712}
+  position: {x: -152, y: 1400}
   ports:
     keys:
     - InputPort
@@ -1083,6 +1151,45 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   _distance: 2
+--- !u!114 &6156103581271163667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4b8e80a9bb04d9db0d2633447a17966, type: 3}
+  m_Name: Has Targets In Radius
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -104, y: 840}
+  ports:
+    keys:
+    - InputPort
+    values:
+    - _fieldName: InputPort
+      _node: {fileID: 6156103581271163667}
+      _typeQualifiedName: AI.Compositions.TaskPort, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: ChildrenPort
+        node: {fileID: 8633443353256331756}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _sortBy: 1
+  _targetConditions: []
+  _relationship: 1
+  _radius: 10
+  _count: 0
+  _relation: 1
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &6976081827300166015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1145,7 +1252,7 @@ MonoBehaviour:
   m_Name: Heal Target
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -168, y: 1144}
+  position: {x: -168, y: 1832}
   ports:
     keys:
     - InputPort
@@ -1192,6 +1299,55 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
+--- !u!114 &8633443353256331756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7300ccb42028426b85f2b55f00e93234, type: 3}
+  m_Name: Sequence
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -600, y: 824}
+  ports:
+    keys:
+    - ChildrenPort
+    - InputPort
+    values:
+    - _fieldName: ChildrenPort
+      _node: {fileID: 8633443353256331756}
+      _typeQualifiedName: AI.Compositions.TaskPort, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: InputPort
+        node: {fileID: 4183155154993680568}
+        reroutePoints: []
+      - fieldName: InputPort
+        node: {fileID: 6156103581271163667}
+        reroutePoints: []
+      - fieldName: InputPort
+        node: {fileID: -1171374185300876416}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: InputPort
+      _node: {fileID: 8633443353256331756}
+      _typeQualifiedName: AI.Compositions.TaskPort, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: ChildrenPort
+        node: {fileID: -4101895195620314421}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
 --- !u!114 &8895501440964651557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1205,7 +1361,7 @@ MonoBehaviour:
   m_Name: Has Targets In Radius
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -152, y: 840}
+  position: {x: -152, y: 1528}
   ports:
     keys:
     - InputPort

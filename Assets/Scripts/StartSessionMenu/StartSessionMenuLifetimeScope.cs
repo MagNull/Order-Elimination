@@ -1,3 +1,4 @@
+using GameInventory;
 using ItemsLibrary;
 using OrderElimination;
 using RoguelikeMap.UI.Characters;
@@ -26,6 +27,11 @@ namespace StartSessionMenu
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(sceneTransition);
             builder.RegisterComponent(_characterInfoPanel);
+        }
+        
+        private void OnApplicationQuit()
+        {
+            InventorySerializer.Delete();
         }
     }
 }
