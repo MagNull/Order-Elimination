@@ -20,7 +20,7 @@ namespace OrderElimination.AbilitySystem
             var cellSelectorContext = new CellSelectorContext(
                 battleContext, askingEntity, selectedPositions.ToArray());
             var distributedCells = new Dictionary<int, Vector2Int[]>();
-            foreach (var group in _groupSelectors.Keys)
+            foreach (var group in _groupSelectors.Keys.OrderBy(x => x))
             {
                 distributedCells.Add(
                     group, _groupSelectors[group].GetCellPositions(cellSelectorContext));

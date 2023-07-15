@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd6e3705eee4bf84ab30324927d514de, type: 3}
-  m_Name: "\u041D\u0430\u0431\u043B\u044E\u0434\u0430\u0442\u0435\u043B\u044C"
+  m_Name: "\u041A\u0440\u0430\u0431"
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,22 +21,20 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _name: "\u041D\u0430\u0431\u043B\u044E\u0434\u0430\u0442\u0435\u043B\u044C"
-  _viewIcon: {fileID: 21300000, guid: 0688d49df80e6a04f857c6e4b64b8767, type: 3}
-  _viewAvatar: {fileID: 21300000, guid: b7784b2b2e710004b8a7a9a045bf58e2, type: 3}
-  _maxHealth: 75
-  _maxArmor: 65
-  _attackDamage: 12
-  _accuracy: 0.85
-  _evasion: 0.15
-  _maxMovementDistance: 4
+  _name: "\u041A\u0440\u0430\u0431"
+  _viewIcon: {fileID: 21300000, guid: 5e4474a3875dabe479b1bb99f5cec3bc, type: 3}
+  _viewAvatar: {fileID: 21300000, guid: 5e4474a3875dabe479b1bb99f5cec3bc, type: 3}
+  _maxHealth: 60
+  _maxArmor: 200
+  _attackDamage: 30
+  _accuracy: 0.8
+  _evasion: 0
+  _maxMovementDistance: 2
   _activeAbilitiesData:
   - {fileID: 11400000, guid: 0c8d919ede3c8804383af4fd13473e05, type: 2}
-  - {fileID: 11400000, guid: 13a1f8ddeb5db8445920457683513085, type: 2}
-  - {fileID: 11400000, guid: b4773bc9479942845951974fc0b18247, type: 2}
-  - {fileID: 11400000, guid: d73b93ac427ab3c4aa8353d3ed0d1de4, type: 2}
-  - {fileID: 11400000, guid: d00053c3bf275a94297bc5d4f64cb6c3, type: 2}
+  - {fileID: 11400000, guid: e01a95ea2c6fda74b96299c641b69125, type: 2}
+  - {fileID: 11400000, guid: a5a2e60c650dd7448a856b42d4dda6b9, type: 2}
   _passiveAbilitiesData: []
-  <Price>k__BackingField: 400
+  <Price>k__BackingField: 0
   <Reward>k__BackingField: 100
-  <Role>k__BackingField: 0
+  <Role>k__BackingField: 2
