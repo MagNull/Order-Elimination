@@ -6,15 +6,15 @@ using System.Linq;
 using System;
 using OrderElimination.AbilitySystem;
 using Sirenix.OdinInspector;
-using OrderElimination.Infrastructure;
+using Sirenix.Serialization;
 
 namespace UIManagement.Elements
 {
-    public class EffectsList : MonoBehaviour
+    public class EffectsList : SerializedMonoBehaviour
     {
         [SerializeField]
         private ClickableEffectButton _effectButtonPrefab;
-        [ShowInInspector, SerializeField]
+        [ShowInInspector, OdinSerialize]
         private Dictionary<EffectCharacter, RectTransform> _effectsHolderLines = new();
         public float effectAppearTime;
         public Ease effectAppearEase = Ease.Flash;
