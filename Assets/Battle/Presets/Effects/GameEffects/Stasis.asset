@@ -85,10 +85,31 @@ MonoBehaviour:
       Data: 5|OrderElimination.AbilitySystem.HealAction, Assembly-CSharp
     - Name: HealSize
       Entry: 7
-      Data: 6|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+      Data: 6|OrderElimination.AbilitySystem.MathValueGetter, Assembly-CSharp
+    - Name: Left
+      Entry: 7
+      Data: 7|OrderElimination.AbilitySystem.CasterStatGetter, Assembly-CSharp
+    - Name: CasterStat
+      Entry: 3
+      Data: 0
+    - Name: UseUnmodifiedValue
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Operation
+      Entry: 3
+      Data: 2
+    - Name: Right
+      Entry: 7
+      Data: 8|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
-      Data: 1
+      Data: 0.3
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -130,7 +151,7 @@ MonoBehaviour:
       Data: 
     - Name: TemporaryEffectFunctionaity
       Entry: 7
-      Data: 7|OrderElimination.AbilitySystem.TemporaryEffectFunctionaity, Assembly-CSharp
+      Data: 9|OrderElimination.AbilitySystem.TemporaryEffectFunctionaity, Assembly-CSharp
     - Name: _applyingDuration
       Entry: 3
       Data: 1
@@ -154,7 +175,7 @@ MonoBehaviour:
       Data: 
     - Name: _view
       Entry: 7
-      Data: 8|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
+      Data: 10|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
     - Name: Name
       Entry: 1
       Data: "\u0421\u0442\u0430\u0437\u0438\u0441"
@@ -175,7 +196,7 @@ MonoBehaviour:
       Data: 
     - Name: _removeTriggers
       Entry: 7
-      Data: 9|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+      Data: 11|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
         Assembly-CSharp]], System.Core
     - Name: 
       Entry: 12
@@ -188,12 +209,12 @@ MonoBehaviour:
       Data: 
     - Name: _triggerInstructions
       Entry: 7
-      Data: 10|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+      Data: 12|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
         Assembly-CSharp],[OrderElimination.AbilitySystem.IEffectInstruction, Assembly-CSharp]],
         mscorlib
     - Name: comparer
       Entry: 7
-      Data: 11|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+      Data: 13|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 8
