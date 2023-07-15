@@ -19,7 +19,7 @@ namespace UIManagement.Elements
             _effectIcon.sprite = view.Icon;
             _parameters.Clear();
             if (effect.LeftDuration.HasValue)
-                _parameters.Add(null, "????????????:", effect.LeftDuration.Value.ToString());
+                _parameters.Add(null, "Длительность:", effect.LeftDuration.Value.ToString());
         }
     }
 }
