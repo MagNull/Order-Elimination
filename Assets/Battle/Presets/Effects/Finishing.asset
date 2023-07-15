@@ -17,13 +17,15 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: ea63359f50d309b4482bf9db18d882a9, type: 2}
-    - {fileID: 11400000, guid: 91b5c3e50779ba841ad08dc989f06da0, type: 2}
     - {fileID: 21300000, guid: 001e620613c6ff743a1d13f838f65be5, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
+    - Name: EffectCharacter
+      Entry: 3
+      Data: 0
     - Name: StackingPolicy
       Entry: 3
       Data: 2
@@ -31,9 +33,6 @@ MonoBehaviour:
       Entry: 5
       Data: false
     - Name: UseHolderProcessing
-      Entry: 5
-      Data: false
-    - Name: CanBeForceRemoved
       Entry: 5
       Data: false
     - Name: IsTemporary
@@ -93,8 +92,8 @@ MonoBehaviour:
       Entry: 10
       Data: 0
     - Name: 
-      Entry: 10
-      Data: 1
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -104,6 +103,9 @@ MonoBehaviour:
     - Name: EffectRequirement
       Entry: 3
       Data: 1
+    - Name: IsAppliedByAskingEntity
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -209,6 +211,27 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: _changeDamagePriority
+      Entry: 5
+      Data: false
+    - Name: _damagePriority
+      Entry: 3
+      Data: 0
+    - Name: _changeDamageType
+      Entry: 5
+      Data: false
+    - Name: _damageType
+      Entry: 3
+      Data: 0
+    - Name: _armorMultiplier
+      Entry: 4
+      Data: 0
+    - Name: _healthMultiplier
+      Entry: 4
+      Data: 0
+    - Name: _ignoreEvasion
+      Entry: 5
+      Data: false
     - Name: _accuracyOperation
       Entry: 3
       Data: 0
@@ -235,10 +258,10 @@ MonoBehaviour:
       Data: "\u0414\u043E\u0431\u0438\u0432\u0430\u043D\u0438\u0435"
     - Name: Icon
       Entry: 10
-      Data: 2
+      Data: 1
     - Name: IsHidden
       Entry: 5
-      Data: false
+      Data: true
     - Name: AnimationOnActivation
       Entry: 6
       Data: 
