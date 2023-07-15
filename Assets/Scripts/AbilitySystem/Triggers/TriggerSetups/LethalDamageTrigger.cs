@@ -5,26 +5,13 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class EntityDamagedTrigger : IEntityTriggerSetup
+    public class LethalDamageTrigger : IEntityTriggerSetup
     {
-        [HideInInspector, OdinSerialize]
-        private float _minDamageThreshold = 0;
-
         [ShowInInspector, OdinSerialize]
         public EnumMask<DamageType> TriggeringDamageTypes { get; private set; } = EnumMask<DamageType>.Full;
 
-        [ShowInInspector]
-        public float MinDamageThreshold
-        {
-            get => _minDamageThreshold;
-            private set
-            {
-                if (value < 0) value = 0;
-                _minDamageThreshold = value;
-            }
-        }
-
-        public IBattleTrigger GetTrigger(IBattleContext battleContext, AbilitySystemActor trackingEntity)
+        public IBattleTrigger GetTrigger(
+            IBattleContext battleContext, AbilitySystemActor trackingEntity)
         {
             var instance = new ITriggerSetup.BattleTrigger(this, battleContext);
             instance.ActivationRequested += OnActivation;
@@ -34,20 +21,19 @@ namespace OrderElimination.AbilitySystem
             {
                 instance.ActivationRequested -= OnActivation;
                 instance.DeactivationRequested += OnDeactivation;
-                trackingEntity.Damaged += OnDamaged;
+                trackingEntity.OnLethalDamage += OnLethalDamage;
 
             }
 
             void OnDeactivation(ITriggerSetup.BattleTrigger trigger)
             {
                 instance.DeactivationRequested -= OnDeactivation;
-                trackingEntity.Damaged -= OnDamaged;
+                trackingEntity.OnLethalDamage -= OnLethalDamage;
             }
 
-            void OnDamaged(DealtDamageInfo damageInfo)
+            void OnLethalDamage(DealtDamageInfo damageInfo)
             {
-                if (TriggeringDamageTypes[damageInfo.DamageInfo.DamageType]
-                    && damageInfo.TotalDamage >= MinDamageThreshold)
+                if (TriggeringDamageTypes[damageInfo.DamageInfo.DamageType])
                 {
                     instance.FireTrigger(new EntityDamagedTriggerFireInfo(instance, damageInfo));
                 }
