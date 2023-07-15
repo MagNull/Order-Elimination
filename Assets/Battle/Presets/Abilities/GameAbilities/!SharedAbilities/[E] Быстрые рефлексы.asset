@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: acb2e992d7d6fa849b36b6f05febfd6b, type: 3}
-  m_Name: Stasis
+  m_Name: "[E] \u0411\u044B\u0441\u0442\u0440\u044B\u0435 \u0440\u0435\u0444\u043B\u0435\u043A\u0441\u044B"
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 21300000, guid: 808b9e9c9a44ade409cd0fcbeea823d1, type: 3}
+    - {fileID: 21300000, guid: 3c47ae58aa5401a4495790856aebe4cf, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -36,62 +36,25 @@ MonoBehaviour:
       Data: true
     - Name: InstructionOnActivation
       Entry: 7
-      Data: 0|OrderElimination.AbilitySystem.CompoundEffectInstruction, Assembly-CSharp
-    - Name: _instructions
-      Entry: 7
-      Data: 1|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEffectInstruction,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 2|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
+      Data: 0|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
     - Name: _target
       Entry: 3
       Data: 0
     - Name: _battleAction
       Entry: 7
-      Data: 3|OrderElimination.AbilitySystem.ChangeStatusAction, Assembly-CSharp
-    - Name: Status
+      Data: 1|OrderElimination.AbilitySystem.ModifyStatsAction, Assembly-CSharp
+    - Name: TargetBattleStat
       Entry: 3
       Data: 4
-    - Name: Operation
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: UndoOnDeactivation
-      Entry: 5
-      Data: true
-    - Name: _animationBeforeAction
-      Entry: 6
-      Data: 
-    - Name: _animationAfterAction
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
+    - Name: ValueModifier
       Entry: 7
-      Data: 4|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
-    - Name: _target
-      Entry: 3
-      Data: 0
-    - Name: _battleAction
-      Entry: 7
-      Data: 5|OrderElimination.AbilitySystem.HealAction, Assembly-CSharp
-    - Name: HealSize
-      Entry: 7
-      Data: 6|OrderElimination.AbilitySystem.MathValueGetter, Assembly-CSharp
+      Data: 2|OrderElimination.AbilitySystem.MathValueGetter, Assembly-CSharp
     - Name: Left
       Entry: 7
-      Data: 7|OrderElimination.AbilitySystem.CasterStatGetter, Assembly-CSharp
+      Data: 3|OrderElimination.AbilitySystem.CasterStatGetter, Assembly-CSharp
     - Name: CasterStat
       Entry: 3
-      Data: 0
+      Data: 4
     - Name: UseUnmodifiedValue
       Entry: 5
       Data: false
@@ -100,28 +63,19 @@ MonoBehaviour:
       Data: 
     - Name: Operation
       Entry: 3
-      Data: 2
+      Data: 0
     - Name: Right
       Entry: 7
-      Data: 8|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+      Data: 4|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
-      Data: 0.3
+      Data: 0.2
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: HealPriority
-      Entry: 3
-      Data: 3
-    - Name: ArmorMultiplier
-      Entry: 4
-      Data: 1
-    - Name: HealthMultiplier
-      Entry: 4
-      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -133,15 +87,6 @@ MonoBehaviour:
       Data: 
     - Name: _animationAfterAction
       Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
       Data: 
     - Name: 
       Entry: 8
@@ -151,7 +96,7 @@ MonoBehaviour:
       Data: 
     - Name: TemporaryEffectFunctionaity
       Entry: 7
-      Data: 9|OrderElimination.AbilitySystem.TemporaryEffectFunctionaity, Assembly-CSharp
+      Data: 5|OrderElimination.AbilitySystem.TemporaryEffectFunctionaity, Assembly-CSharp
     - Name: _applyingDuration
       Entry: 3
       Data: 1
@@ -175,10 +120,10 @@ MonoBehaviour:
       Data: 
     - Name: _view
       Entry: 7
-      Data: 10|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
+      Data: 6|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
     - Name: Name
       Entry: 1
-      Data: "\u0421\u0442\u0430\u0437\u0438\u0441"
+      Data: "\u0411\u044B\u0441\u0442\u0440\u044B\u0435 \u0440\u0435\u0444\u043B\u0435\u043A\u0441\u044B"
     - Name: Icon
       Entry: 10
       Data: 0
@@ -186,7 +131,55 @@ MonoBehaviour:
       Entry: 5
       Data: false
     - Name: AnimationOnActivation
-      Entry: 6
+      Entry: 7
+      Data: 7|OrderElimination.AbilitySystem.Animations.SpawnParticleAnimation, Assembly-CSharp
+    - Name: ParticleType
+      Entry: 3
+      Data: 11
+    - Name: SpawnAt
+      Entry: 3
+      Data: 0
+    - Name: SpawnGroup
+      Entry: 3
+      Data: 0
+    - Name: Follow
+      Entry: 3
+      Data: 0
+    - Name: FaceDirection
+      Entry: 5
+      Data: false
+    - Name: FromParticlePosition
+      Entry: 5
+      Data: true
+    - Name: FacingFrom
+      Entry: 3
+      Data: 0
+    - Name: FacingFromGroup
+      Entry: 3
+      Data: 0
+    - Name: FacingFromCell
+      Entry: 3
+      Data: 0
+    - Name: FacingTo
+      Entry: 3
+      Data: 0
+    - Name: FacingToGroup
+      Entry: 3
+      Data: 0
+    - Name: FacingToCell
+      Entry: 3
+      Data: 0
+    - Name: RemapAnimationTime
+      Entry: 5
+      Data: false
+    - Name: RemappedTime
+      Entry: 4
+      Data: 0
+    - Name: _animationLoops
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
       Data: 
     - Name: AnimationOnDeactivation
       Entry: 6
@@ -196,7 +189,7 @@ MonoBehaviour:
       Data: 
     - Name: _removeTriggers
       Entry: 7
-      Data: 11|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+      Data: 8|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
         Assembly-CSharp]], System.Core
     - Name: 
       Entry: 12
@@ -209,12 +202,12 @@ MonoBehaviour:
       Data: 
     - Name: _triggerInstructions
       Entry: 7
-      Data: 12|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+      Data: 9|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
         Assembly-CSharp],[OrderElimination.AbilitySystem.IEffectInstruction, Assembly-CSharp]],
         mscorlib
     - Name: comparer
       Entry: 7
-      Data: 13|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+      Data: 10|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 8

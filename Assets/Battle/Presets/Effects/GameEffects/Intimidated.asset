@@ -315,6 +315,9 @@ MonoBehaviour:
     - Name: _healthMultiplier
       Entry: 4
       Data: 1
+    - Name: _ignoreEvasion
+      Entry: 5
+      Data: false
     - Name: _accuracyOperation
       Entry: 3
       Data: 1
@@ -444,6 +447,9 @@ MonoBehaviour:
     - Name: _healthMultiplier
       Entry: 4
       Data: 1
+    - Name: _ignoreEvasion
+      Entry: 5
+      Data: false
     - Name: _accuracyOperation
       Entry: 3
       Data: 2
@@ -473,7 +479,7 @@ MonoBehaviour:
       Data: 27|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
     - Name: Name
       Entry: 1
-      Data: "\u041D\u0430\u043F\u0443\u0433\u0430\u043D"
+      Data: "\u0421\u0442\u0440\u0430\u0445"
     - Name: Icon
       Entry: 10
       Data: 0

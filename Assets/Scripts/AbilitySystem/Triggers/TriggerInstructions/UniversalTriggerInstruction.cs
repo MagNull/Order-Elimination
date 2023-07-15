@@ -1,6 +1,7 @@
 ﻿using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
@@ -15,6 +16,9 @@ namespace OrderElimination.AbilitySystem
 
         [ShowInInspector, OdinSerialize]
         public ICellGroupsDistributor GroupDistributor { get; private set; }
+
+        [ShowInInspector, OdinSerialize]
+        public ICommonCondition[] CommonConditions { get; private set; }
 
         [ShowInInspector, OdinSerialize]
         public AbilityInstruction[] Instructions { get; private set; }
@@ -41,6 +45,9 @@ namespace OrderElimination.AbilitySystem
 
             async void OnTriggered(ITriggerFireInfo fireInfo)
             {
+                if (CommonConditions != null
+                    && !CommonConditions.All(c => c.IsConditionMet(battleContext, caster)))
+                    return;
                 var borders = battleContext.BattleMap.CellRangeBorders;
                 var cellGroups = GroupDistributor.DistributeSelection(
                     battleContext, caster, new Vector2Int[0]);

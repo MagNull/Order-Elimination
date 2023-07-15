@@ -17,7 +17,7 @@ namespace OrderElimination.AbilitySystem.Conditions
         }
 
         [ShowInInspector, OdinSerialize]
-        public IEffectData[] RequiredEffects { get; private set; }
+        public IEffectData[] RequiredEffects { get; private set; } = new IEffectData[0];
 
         [ShowInInspector, OdinSerialize]
         public RequireType EffectRequirement { get; private set; }
