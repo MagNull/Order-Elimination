@@ -21,6 +21,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 3c0b70d5ed826bf41b0483fa970ce94c, type: 2}
     - {fileID: 11400000, guid: 2079a0cdc5de4044e929c8319593b546, type: 2}
     - {fileID: 11400000, guid: 249876582c664ea49885b2c46bd89b76, type: 2}
+    - {fileID: 11400000, guid: 8effdc832b65f4744a8bad02d31428dd, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -28,7 +29,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: _entitiesSpawns
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[UnityEngine.Vector2Int, UnityEngine.CoreModule],[OrderElimination.MetaGame.BattleScenario+SpawnType,
+      Data: 0|System.Collections.Generic.Dictionary`2[[UnityEngine.Vector2Int, UnityEngine.CoreModule],[OrderElimination.MacroGame.BattleScenario+SpawnType,
         Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 7
@@ -216,14 +217,14 @@ MonoBehaviour:
       Data: 
     - Name: _structureSpawns
       Entry: 7
-      Data: 2|System.Collections.Generic.Dictionary`2[[UnityEngine.Vector2Int, UnityEngine.CoreModule],[OrderElimination.BM.EnvironmentInfo,
+      Data: 2|System.Collections.Generic.Dictionary`2[[UnityEngine.Vector2Int, UnityEngine.CoreModule],[OrderElimination.StructureTemplate,
         Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 9
       Data: 1
     - Name: 
       Entry: 12
-      Data: 12
+      Data: 13
     - Name: 
       Entry: 7
       Data: 
@@ -473,6 +474,27 @@ MonoBehaviour:
     - Name: $v
       Entry: 10
       Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 10
+      Data: 5
     - Name: 
       Entry: 8
       Data: 
