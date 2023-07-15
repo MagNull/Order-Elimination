@@ -98,9 +98,9 @@ namespace OrderElimination.AbilitySystem
             //clone.EffectsCloning = EffectsCloning;
             //clone.InventoryCloning = InventoryCloning;
             clone.OverridedStats = new GameCharacterStats(OverridedStats);
-            if (clone.OverridedActiveAbilities != null)
+            if (OverridedActiveAbilities != null)
                 clone.OverridedActiveAbilities = OverridedActiveAbilities.ToArray();
-            if (clone.OverridedPassiveAbilities != null)
+            if (OverridedPassiveAbilities != null)
                 clone.OverridedPassiveAbilities = OverridedPassiveAbilities.ToArray();
             clone.SideType = SideType;
             clone.AbsoluteSide = AbsoluteSide;

@@ -34,7 +34,7 @@ MonoBehaviour:
         \u0437\u0430 \u0445\u043E\u0434"
     - Name: HideInCharacterDiscription
       Entry: 5
-      Data: false
+      Data: true
     - Name: CooldownTime
       Entry: 3
       Data: 0
@@ -131,6 +131,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: CommonConditions
+      Entry: 6
+      Data: 
     - Name: Instructions
       Entry: 7
       Data: 9|OrderElimination.AbilitySystem.AbilityInstruction[], Assembly-CSharp
@@ -143,7 +146,7 @@ MonoBehaviour:
     - Name: Action
       Entry: 7
       Data: 11|OrderElimination.AbilitySystem.ChangeEnergyPointsAction, Assembly-CSharp
-    - Name: EnergyPoint
+    - Name: EnergyPointType
       Entry: 3
       Data: 0
     - Name: Modification

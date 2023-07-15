@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd6e3705eee4bf84ab30324927d514de, type: 3}
-  m_Name: "\u041D\u0430\u0431\u043B\u044E\u0434\u0430\u0442\u0435\u043B\u044C"
+  m_Name: "\u041E\u0442\u0433\u043E\u043B\u043E\u0441\u043E\u043A \u041D\u0430\u0431\u043B\u044E\u0434\u0430\u0442\u0435\u043B\u044F"
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -21,12 +21,12 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _name: "\u041D\u0430\u0431\u043B\u044E\u0434\u0430\u0442\u0435\u043B\u044C"
+  _name: "\u041E\u0442\u0433\u043E\u043B\u043E\u0441\u043E\u043A \u041D\u0430\u0431\u043B\u044E\u0434\u0430\u0442\u0435\u043B\u044F"
   _viewIcon: {fileID: 21300000, guid: 1dcb6f325a999ce4d9dc667c6e27c63f, type: 3}
   _viewAvatar: {fileID: 21300000, guid: a9b00ce4ed4fcd04dab9ce4afe0e5726, type: 3}
-  _maxHealth: 75
-  _maxArmor: 65
-  _attackDamage: 12
+  _maxHealth: 60
+  _maxArmor: 52
+  _attackDamage: 9.6
   _accuracy: 0.85
   _evasion: 0.15
   _maxMovementDistance: 4
@@ -41,4 +41,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5e27cc4f89a9d69409d5ac71872d7fbf, type: 2}
   <Price>k__BackingField: 400
   <Reward>k__BackingField: 100
-  <Role>k__BackingField: 0
+  <Role>k__BackingField: 3

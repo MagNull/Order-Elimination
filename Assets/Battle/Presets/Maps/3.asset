@@ -28,7 +28,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: _entitiesSpawns
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[UnityEngine.Vector2Int, UnityEngine.CoreModule],[OrderElimination.MetaGame.BattleScenario+SpawnType,
+      Data: 0|System.Collections.Generic.Dictionary`2[[UnityEngine.Vector2Int, UnityEngine.CoreModule],[OrderElimination.MacroGame.BattleScenario+SpawnType,
         Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 7
@@ -39,7 +39,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 8
+      Data: 9
     - Name: 
       Entry: 7
       Data: 
@@ -157,6 +157,27 @@ MonoBehaviour:
     - Name: 
       Entry: 3
       Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: $v
+      Entry: 3
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 7
+      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 6
+    - Name: 
+      Entry: 3
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -216,7 +237,7 @@ MonoBehaviour:
       Data: 
     - Name: _structureSpawns
       Entry: 7
-      Data: 2|System.Collections.Generic.Dictionary`2[[UnityEngine.Vector2Int, UnityEngine.CoreModule],[OrderElimination.BM.EnvironmentInfo,
+      Data: 2|System.Collections.Generic.Dictionary`2[[UnityEngine.Vector2Int, UnityEngine.CoreModule],[OrderElimination.StructureTemplate,
         Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 9
