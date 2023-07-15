@@ -155,8 +155,9 @@ namespace UIManagement.Elements
             var curArmor = stats.TotalArmor;
             var maxArmor = stats.MaxArmor.ModifiedValue;
 
-            _healthBar.SetValue(curHealth, 0, maxHealth);
-            _armorBar.SetValue(curArmor, 0, maxArmor);
+
+            _healthBar.SetFill(curHealth, 0, maxHealth);
+            _armorBar.SetFill(curArmor, 0, maxArmor);
         }
         private void OnEffectsUpdated(BattleEffect effect) => UpdateEffects();
         private void UpdateEffects() => _effectsList.UpdateEffects(_currentEntityView.BattleEntity.Effects);

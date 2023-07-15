@@ -367,7 +367,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: RoundingMode
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: TweenNumbers
@@ -376,6 +376,22 @@ PrefabInstance:
     - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: ValueChangeEase
       value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: <DefaultTextColor>k__BackingField.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: <DefaultTextColor>k__BackingField.b
+      value: 0.9137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: <DefaultTextColor>k__BackingField.g
+      value: 0.7647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: <DefaultTextColor>k__BackingField.r
+      value: 0.29803923
       objectReference: {fileID: 0}
     - target: {fileID: 4096773940695260067, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: m_text
@@ -525,7 +541,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4096773942194196769, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 86.97649
+      value: 86.9765
       objectReference: {fileID: 0}
     - target: {fileID: 4096773942194196769, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -563,6 +579,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -46.4
       objectReference: {fileID: 0}
+    - target: {fileID: 4096773942731477312, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -2.661499
+      objectReference: {fileID: 0}
     - target: {fileID: 7711714048559228005, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -599,6 +619,18 @@ PrefabInstance:
     - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: ValueChangeEase
       value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: <DefaultTextColor>k__BackingField.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: <DefaultTextColor>k__BackingField.g
+      value: 0.9098039
+      objectReference: {fileID: 0}
+    - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: <DefaultTextColor>k__BackingField.r
+      value: 0.34509805
       objectReference: {fileID: 0}
     - target: {fileID: 4096773942194196769, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: m_Pivot.x
@@ -666,7 +698,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4096773942194196769, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 86.97649
+      value: 86.9765
       objectReference: {fileID: 0}
     - target: {fileID: 4096773942194196769, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -687,6 +719,10 @@ PrefabInstance:
     - target: {fileID: 4096773942194196770, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: m_Name
       value: Health Stat
+      objectReference: {fileID: 0}
+    - target: {fileID: 4096773942731477312, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -2.661499
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
