@@ -130,9 +130,9 @@ public class BattleEndHandler : MonoBehaviour
     private async void OnPlayerVictory()
     {
         await OnBattleEnded();
+        var battleResult = CalculateBattleResult(BattleOutcome.Win);
         var playerCharacters = _scenesMediator.Get<IEnumerable<GameCharacter>>("player characters").ToArray();
         var panel = (BattleVictoryPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleVictory);
-        var battleResult = CalculateBattleResult(BattleOutcome.Win);
         panel.UpdateBattleResult(
             playerCharacters, 
             battleResult.MoneyReward, 
@@ -147,13 +147,15 @@ public class BattleEndHandler : MonoBehaviour
     private async void OnPlayerLose()
     {
         await OnBattleEnded();
-        var panel = (BattleDefeatPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleDefeat);
         var battleResult = CalculateBattleResult(BattleOutcome.Lose);
+        var playerCharacters = _scenesMediator.Get<IEnumerable<GameCharacter>>("player characters").ToArray();
+        var panel = (BattleDefeatPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleDefeat);
         panel.UpdateBattleResult(
             _scenesMediator.Get<IEnumerable<GameCharacter>>("player characters"), 
             battleResult.MoneyReward, 
             () => TryLoadScene(OnRetrySceneId),
             () => TryLoadScene(OnExitSceneId));
+        _scenesMediator.Register("player characters", BattleUnloader.UnloadCharacters(_battleContext, playerCharacters));
         _scenesMediator.Register("battle results", battleResult);
     }
 
