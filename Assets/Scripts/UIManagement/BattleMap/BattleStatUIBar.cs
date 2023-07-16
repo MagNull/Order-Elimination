@@ -6,40 +6,104 @@ using DG.Tweening;
 using OrderElimination;
 using System;
 using OrderElimination.Infrastructure;
+using Sirenix.Serialization;
 using static UnityEngine.Rendering.DebugUI;
 
 namespace UIManagement.Elements
 {
-    public class BattleStatUIBar : MonoBehaviour
+    public class BattleStatUIBar : SerializedMonoBehaviour
     {
         private Tween _currentNumberTween;
         private Tween _currentFillTween;
-        private float _currentValue = 0;
-        private float _targetValue = float.NaN;
+        private float _currentNumber = float.NaN;
+        private float _targetNumber = float.NaN;
+        private float _targetFillAmount = float.NaN;
 
-        [Header("Components")]
-        [SerializeField] private Image _iconImage;
-        [SerializeField] private Image _barImage;
-        [SerializeField] private TextMeshProUGUI _textValueComponent;
-        [SerializeField, ShowInInspector, OnValueChanged(nameof(OnColorChange))]
-        public Color BarColor = Color.red;
-        [field: SerializeField]
-        public Color DefaultTextColor { get; set; }
-        [SerializeField, ShowInInspector, OnValueChanged(nameof(OnIconChange))] 
-        public Sprite Icon;
+        #region Components
+        [TitleGroup("Components")]
+        [SerializeField, PropertyOrder(-10)] 
+        private Image _iconImage;
+        [SerializeField, PropertyOrder(-9)]
+        private Image _barImage;
+        [SerializeField, PropertyOrder(-8)]
+        private TextMeshProUGUI _textValueComponent;
+        #endregion Components
 
-        [Header("Parameters")]
-        [SerializeField] public float TweeningTime = 0.4f;
-        [SerializeField] public Ease ValueChangeEase = Ease.OutBounce;
-        [SerializeField] public bool TweenNumbers;
-        [SerializeField] public bool RoundNumbers = true;
+        #region Visuals
+        [BoxGroup("Properties/Visuals")]
+        [PropertyOrder(-3)]
+        [ShowInInspector, PreviewField(Alignment = ObjectFieldAlignment.Left)]
+        public Sprite Icon
+        {
+            get => _iconImage.sprite;
+            set => _iconImage.sprite = value;
+        }
+
+        [BoxGroup("Properties/Visuals")]
+        [ShowInInspector]
+        public Color BarColor
+        {
+            get => _barImage.color;
+            set => _barImage.color = value;
+        }
+
+        [BoxGroup("Properties/Visuals")]
+        [BoxGroup("Properties/Visuals/Components Visibility", ShowLabel = false)]
+        [ShowInInspector]
+        public bool IsIconVisible
+        {
+            get => _iconImage != null ? _iconImage.gameObject.activeSelf : false;
+            set => _iconImage.gameObject.SetActive(value);
+        }
+
+        [BoxGroup("Properties/Visuals")]
+        [BoxGroup("Properties/Visuals/Components Visibility")]
+        [ShowInInspector]
+        public bool IsValueVisible
+        {
+            get => _textValueComponent != null ? _textValueComponent.gameObject.activeSelf : false;
+            set => _textValueComponent.gameObject.SetActive(value);
+        }
+
+        [BoxGroup("Properties/Visuals")]
+        [BoxGroup("Properties/Visuals/Components Visibility")]
+        [ShowInInspector]
+        public bool IsFillBarVisible
+        {
+            get => _barImage != null ? _barImage.gameObject.activeSelf : false;
+            set => _barImage.gameObject.SetActive(value);
+        }
+
+        [BoxGroup("Properties/Visuals")]
+        [BoxGroup("Properties/Visuals/Tweening", ShowLabel = false)]
+        [OdinSerialize]
+        public bool TweenValues { get; set; }
+
+        [BoxGroup("Properties/Visuals")]
+        [BoxGroup("Properties/Visuals/Tweening")]
+        [ShowIf(nameof(TweenValues))]
+        [OdinSerialize]
+        public float TweeningTime { get; set; } = 0.4f;
+
+        [BoxGroup("Properties/Visuals")]
+        [BoxGroup("Properties/Visuals/Tweening")]
+        [ShowIf(nameof(TweenValues))]
+        [OdinSerialize]
+        public Ease ValueChangeEase { get; set; } = Ease.OutBounce;
+
+        [TitleGroup("Properties")]
+        [BoxGroup("Properties/Rounding"), PropertyOrder(-2)]
+        [OdinSerialize]
+        public bool RoundNumbers { get; set; } = true;
+
+        [BoxGroup("Properties/Rounding")]
         [ShowIf(nameof(RoundNumbers))]
-        [SerializeField] public RoundingOption RoundingMode = RoundingOption.Math;
-        public float ActualFillAmount => _barImage.fillAmount;
-        public float TargetFillAmount { get; private set; }
+        [OdinSerialize]
+        public RoundingOption RoundingMode { get; set; } = RoundingOption.Math;
+        #endregion
 
         [Button]
-        public void SetFill(float currentValue, float minValue, float maxValue)
+        public void SetFillAndNumber(float currentValue, float minValue, float maxValue)
         {
             var scaledEndValue = (currentValue - minValue);
             if (scaledEndValue != 0)
@@ -52,28 +116,36 @@ namespace UIManagement.Elements
                 Logging.LogException(new InvalidOperationException("Value is NaN"));
             }
             //
-            SetValue(currentValue);
+            SetNumber(currentValue);
             SetFill(scaledEndValue);
         }
 
-        public void SetValue(float value)
+        public void SetNumber(float value)
         {
-            if (value == _targetValue)
+            if (float.IsNaN(value) || !float.IsFinite(value))
+                throw new ArgumentException();
+            if (value == _targetNumber)
                 return;
-            _targetValue = value;
-            var duration = TweenNumbers ? TweeningTime : 0;
+            _targetNumber = value;
+            if (float.IsNaN(_currentNumber))
+                _currentNumber = value;
             if (_currentNumberTween != null)
                 _currentNumberTween.Complete(false);
-            _currentNumberTween = DOTween
-                .To(GetValue, SetValue, value, duration)
-                .SetEase(ValueChangeEase)
-                .OnComplete(() => _currentNumberTween = null);
+            if (TweenValues)
+            {
+                _currentNumberTween = DOTween
+                    .To(GetValue, SetValue, value, TweeningTime)
+                    .SetEase(ValueChangeEase)
+                    .OnComplete(() => _currentNumberTween = null);
+            }
+            else
+                SetValue(value);
 
-            float GetValue() => _currentValue;
+            float GetValue() => _currentNumber;
 
             void SetValue(float value)
             {
-                _currentValue = value;
+                _currentNumber = value;
                 if (RoundNumbers)
                     value = MathExtensions.Round(value, RoundingMode);
                 _textValueComponent.text = value.ToString();
@@ -82,37 +154,50 @@ namespace UIManagement.Elements
 
         public void SetFill(float fillAmount)
         {
-            if (fillAmount == TargetFillAmount)
+            if (float.IsNaN(fillAmount) || !float.IsFinite(fillAmount))
+                throw new ArgumentException();
+            if (fillAmount == _targetFillAmount)
                 return;
-            var initialFill = ActualFillAmount;
+            var initialFill = _barImage.fillAmount;
             var endFill = Mathf.Clamp01(fillAmount);
-            TargetFillAmount = endFill;
-            var duration = TweenNumbers ? TweeningTime : 0;
+            _targetFillAmount = endFill;
             if (_currentFillTween != null)
                 _currentFillTween.Complete();
-            _currentFillTween = DOTween
-                .To(GetFillAmount, SetFillAmount, endFill, duration)
-                .SetEase(ValueChangeEase)
-                .OnComplete(() => _currentFillTween = null);
+            if (TweenValues)
+            {
+                _currentFillTween = DOTween
+                    .To(GetFillAmount, SetFillAmount, endFill, TweeningTime)
+                    .SetEase(ValueChangeEase)
+                    .OnComplete(() => _currentFillTween = null);
+            }
+            else
+                SetFillAmount(endFill);
 
-            float GetFillAmount() => ActualFillAmount;
+            float GetFillAmount() => _barImage.fillAmount;
 
             void SetFillAmount(float normalizedValue) => _barImage.fillAmount = normalizedValue;
         }
 
-        [Button]
-        public void SetTextColor(Color color)
+        public void SetNumberInstant(float value)
         {
-            _textValueComponent.color = color;
+            if (float.IsNaN(value) || !float.IsFinite(value))
+                throw new ArgumentException();
+            _currentNumberTween.Complete(false);
+            _currentNumber = value;
+            _targetNumber = value;
+            if (RoundNumbers)
+                value = MathExtensions.Round(value, RoundingMode);
+            _textValueComponent.text = value.ToString();
         }
 
-        public void ResetTextColor()
+        public void SetFillInstant(float fillAmount)
         {
-            _textValueComponent.color = DefaultTextColor;
+            if (float.IsNaN(fillAmount) || !float.IsFinite(fillAmount))
+                throw new ArgumentException();
+            if (_currentFillTween != null)
+                _currentFillTween.Complete();
+            _targetFillAmount = fillAmount;
+            _barImage.fillAmount = fillAmount;
         }
-
-        private void OnColorChange(Color newBarColor) => _barImage.color = newBarColor;
-
-        private void OnIconChange(Sprite newIcon) => _iconImage.sprite = newIcon;
     } 
 }

@@ -44,6 +44,7 @@ namespace OrderElimination.AbilitySystem
         public int TotalTargetsLeft => NecessaryTargets + OptionalTargets - _selectedCells.Count;
         public IEnumerable<Vector2Int> CurrentAvailableCells => _availableCells;
         public IEnumerable<Vector2Int> SelectedCells => _selectedCells;
+        public IReadOnlyList<ICellCondition> CellConditions => _cellConditions;
 
         public ICellGroupsDistributor CellGroupsDistributor { get; private set; }
 

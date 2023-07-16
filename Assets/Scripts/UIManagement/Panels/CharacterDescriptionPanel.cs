@@ -7,12 +7,10 @@ using System.Linq;
 using GameInventory;
 using OrderElimination.AbilitySystem;
 using OrderElimination;
-using UnityEngine.Serialization;
 using OrderElimination.MacroGame;
 using OrderElimination.Localization;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
-using UnityEngine.TextCore.Text;
 
 namespace UIManagement
 {
@@ -28,9 +26,6 @@ namespace UIManagement
         };
 
         public override PanelType PanelType => PanelType.CharacterDescription;
-        [PreviewField(Alignment = ObjectFieldAlignment.Left)]
-        [SerializeField]
-        private Sprite _noAbilityIcon;
         [Header("Components")]
         [SerializeField]
         private TextMeshProUGUI _characterName;
@@ -44,7 +39,15 @@ namespace UIManagement
         private List<Button> _passiveAbilityButtons;
         [SerializeField]
         private InventoryPresenter _characterInventoryPresenter;
-        
+        [Header("Parameters")]
+        [PreviewField(Alignment = ObjectFieldAlignment.Left)]
+        [SerializeField]
+        private Sprite _noAbilityIcon;
+        [SerializeField]
+        private bool _roundBattleStats;
+        [ShowIf(nameof(_roundBattleStats))]
+        [SerializeField]
+        private RoundingOption _roundingMode = RoundingOption.Math;
 
         public void UpdateCharacterDescription(GameCharacter character)
         {
@@ -97,37 +100,36 @@ namespace UIManagement
         private void UpdateBattleStats(IReadOnlyGameCharacterStats stats)
         {
             if (_characterStats.Count != 5)
-                Logging.LogException( new System.InvalidOperationException());
-            foreach (var stat in EnumExtensions.GetValues<BattleStat>())
-            {
-                if (_statsElementsIdMapping.ContainsKey(stat))
-                {
-                    var item = _characterStats[_statsElementsIdMapping[stat]];
-                    item.Text = Localization.Current.GetBattleStatName(stat);
-                    if (stat == BattleStat.Accuracy || stat == BattleStat.Evasion)
-                        item.Value = $"{stats[stat] * 100}%";
-                    else
-                        item.Value = stats[stat].ToString();
-                }
-            }
+                Logging.LogException(new System.InvalidOperationException());
+            EnumExtensions
+                .GetValues<BattleStat>()
+                .Where(stat => _statsElementsIdMapping.ContainsKey(stat))
+                .ForEach(stat => UpdateStat(stat, stats[stat]));
         }
 
         private void UpdateBattleStats(IBattleStats stats)
         {
             if (_characterStats.Count != 5)
                 Logging.LogException(new System.InvalidOperationException());
-            foreach (var stat in EnumExtensions.GetValues<BattleStat>())
-            {
-                if (_statsElementsIdMapping.ContainsKey(stat))
-                {
-                    var item = _characterStats[_statsElementsIdMapping[stat]];
-                    item.Text = Localization.Current.GetBattleStatName(stat);
-                    if (stat == BattleStat.Accuracy || stat == BattleStat.Evasion)
-                        item.Value = $"{stats[stat].ModifiedValue * 100}%";
-                    else
-                        item.Value = stats[stat].ModifiedValue.ToString();
-                }
-            }
+            EnumExtensions
+                .GetValues<BattleStat>()
+                .Where(stat => _statsElementsIdMapping.ContainsKey(stat))
+                .ForEach(stat => UpdateStat(stat, stats[stat].ModifiedValue));
+        }
+
+        private void UpdateStat(BattleStat stat, float value)
+        {
+            var displayedStat = value;
+            if (stat == BattleStat.Accuracy || stat == BattleStat.Evasion)
+                displayedStat *= 100;
+            if (_roundBattleStats)
+                displayedStat = MathExtensions.Round(displayedStat, _roundingMode);
+            var item = _characterStats[_statsElementsIdMapping[stat]];
+            item.Text = Localization.Current.GetBattleStatName(stat);
+            if (stat == BattleStat.Accuracy || stat == BattleStat.Evasion)
+                item.Value = $"{displayedStat}%";
+            else
+                item.Value = $"{displayedStat}";
         }
 
         private void UpdateAbilityButtons(

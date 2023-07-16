@@ -20,13 +20,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 249876582c664ea49885b2c46bd89b76, type: 2}
     - {fileID: 11400000, guid: 2079a0cdc5de4044e929c8319593b546, type: 2}
     - {fileID: 11400000, guid: b759035308d61ca49826abbcd62e1a4d, type: 2}
-    - {fileID: 8300000, guid: 419336aa8912ae0468e104596863a0a1, type: 3}
-    - {fileID: 8300000, guid: 64baa1f44691afc42a584e482cd9a27d, type: 3}
-    - {fileID: 8300000, guid: fa16bd6cbe8bcba40ad0f5c9644c9607, type: 3}
-    - {fileID: 8300000, guid: 8b3f676fe7b41044495a2964396b8ba3, type: 3}
-    - {fileID: 8300000, guid: fd706038486fee041947a774223dc22e, type: 3}
-    - {fileID: 8300000, guid: c1f8c36ebdb20024ea8a59ec457d582c, type: 3}
-    - {fileID: 8300000, guid: d4aee29185389894b9cc0d8873904a49, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -143,40 +136,13 @@ MonoBehaviour:
       Data: 2
     - Name: 
       Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 0
-    - Name: $v
-      Entry: 7
-      Data: UnityEngine.Color, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
       Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
     - Name: $v
       Entry: 7
       Data: UnityEngine.Color, UnityEngine.CoreModule
@@ -453,7 +419,7 @@ MonoBehaviour:
       Data: 28|OrderElimination.AbilitySystem.EntityFilter, Assembly-CSharp
     - Name: AllowSelf
       Entry: 5
-      Data: true
+      Data: false
     - Name: CharactersSpecification
       Entry: 3
       Data: 0
@@ -504,7 +470,7 @@ MonoBehaviour:
       Data: 1
     - Name: $v
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -549,7 +515,7 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -638,7 +604,7 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 3
-      Data: 1
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -832,103 +798,23 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 1
     - Name: 
       Entry: 7
-      Data: 51|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
-    - Name: PlaySequentially
-      Entry: 5
-      Data: true
-    - Name: WaitForCompletion
-      Entry: 5
-      Data: false
-    - Name: Animations
-      Entry: 7
-      Data: 52|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 53|OrderElimination.AbilitySystem.Animations.AnimationDelay, Assembly-CSharp
-    - Name: _delayTime
-      Entry: 4
-      Data: 0.4
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 54|OrderElimination.AbilitySystem.Animations.AnimationRepeat, Assembly-CSharp
-    - Name: Animation
-      Entry: 7
-      Data: 55|Assets.Scripts.AbilitySystem.Animations.AbilityAnimations.Special.AnimationSound,
-        Assembly-CSharp
-    - Name: Sounds
-      Entry: 7
-      Data: 56|UnityEngine.AudioClip[], UnityEngine.AudioModule
-    - Name: 
-      Entry: 12
-      Data: 3
-    - Name: 
-      Entry: 10
-      Data: 4
-    - Name: 
-      Entry: 10
-      Data: 5
-    - Name: 
-      Entry: 10
-      Data: 6
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: WaitForCompletion
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: PlaySequentially
-      Entry: 5
-      Data: true
-    - Name: WaitForCompletion
-      Entry: 5
-      Data: false
-    - Name: _repeatAmount
-      Entry: 3
-      Data: 2
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 57|OrderElimination.AbilitySystem.Animations.ShootParticleAnimation,
+      Data: 51|OrderElimination.AbilitySystem.Animations.ShootParticleAnimation,
         Assembly-CSharp
     - Name: BulletParticle
       Entry: 3
-      Data: 9
+      Data: 14
     - Name: MoveBy
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: MovementEase
       Entry: 3
-      Data: 30
+      Data: 34
     - Name: FaceDirection
       Entry: 5
-      Data: false
+      Data: true
     - Name: Inverse
       Entry: 5
       Data: false
@@ -946,121 +832,10 @@ MonoBehaviour:
       Data: 1
     - Name: _speed
       Entry: 4
-      Data: 0
+      Data: 12
     - Name: _animationLoops
       Entry: 3
       Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 58|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
-    - Name: PlaySequentially
-      Entry: 5
-      Data: false
-    - Name: WaitForCompletion
-      Entry: 5
-      Data: false
-    - Name: Animations
-      Entry: 7
-      Data: 59|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 60|OrderElimination.AbilitySystem.Animations.SpawnParticleAnimation,
-        Assembly-CSharp
-    - Name: ParticleType
-      Entry: 3
-      Data: 2
-    - Name: SpawnAt
-      Entry: 3
-      Data: 2
-    - Name: SpawnGroup
-      Entry: 3
-      Data: 0
-    - Name: Follow
-      Entry: 3
-      Data: 0
-    - Name: FaceDirection
-      Entry: 5
-      Data: false
-    - Name: FromParticlePosition
-      Entry: 5
-      Data: false
-    - Name: FacingFrom
-      Entry: 3
-      Data: 0
-    - Name: FacingFromGroup
-      Entry: 3
-      Data: 0
-    - Name: FacingFromCell
-      Entry: 3
-      Data: 0
-    - Name: FacingTo
-      Entry: 3
-      Data: 0
-    - Name: FacingToGroup
-      Entry: 3
-      Data: 0
-    - Name: FacingToCell
-      Entry: 3
-      Data: 0
-    - Name: RemapAnimationTime
-      Entry: 5
-      Data: false
-    - Name: RemappedTime
-      Entry: 4
-      Data: 0.7
-    - Name: _animationLoops
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 61|Assets.Scripts.AbilitySystem.Animations.AbilityAnimations.Special.AnimationSound,
-        Assembly-CSharp
-    - Name: Sounds
-      Entry: 7
-      Data: 62|UnityEngine.AudioClip[], UnityEngine.AudioModule
-    - Name: 
-      Entry: 12
-      Data: 4
-    - Name: 
-      Entry: 10
-      Data: 7
-    - Name: 
-      Entry: 10
-      Data: 8
-    - Name: 
-      Entry: 10
-      Data: 9
-    - Name: 
-      Entry: 10
-      Data: 10
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: WaitForCompletion
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: 
       Entry: 8
       Data: 

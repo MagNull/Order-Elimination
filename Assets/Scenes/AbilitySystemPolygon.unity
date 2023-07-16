@@ -169,6 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioSource: {fileID: 69947344}
+  _sameClipCooldownMs: 100
 --- !u!82 &69947344
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2763,12 +2764,10 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
-    - {fileID: 11400000, guid: e076fd51038a5ef4f9e567f9e64000e5, type: 2}
-    - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
     - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
     - {fileID: 11400000, guid: 8cf61d33b5cc8a442bce0e22ce05a8fc, type: 2}
     - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
-    - {fileID: 11400000, guid: 9fc7f7043f1dea246b974161f8f25bed, type: 2}
+    - {fileID: 11400000, guid: 0fda38ed8146b474f8fd06a0f6ff1811, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -2779,19 +2778,13 @@ MonoBehaviour:
       Data: 0|OrderElimination.IGameCharacterTemplate[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 2
     - Name: 
       Entry: 10
       Data: 0
     - Name: 
       Entry: 10
       Data: 1
-    - Name: 
-      Entry: 10
-      Data: 2
-    - Name: 
-      Entry: 10
-      Data: 3
     - Name: 
       Entry: 13
       Data: 
@@ -2806,13 +2799,13 @@ MonoBehaviour:
       Data: 3
     - Name: 
       Entry: 10
-      Data: 4
+      Data: 2
     - Name: 
       Entry: 10
-      Data: 5
+      Data: 3
     - Name: 
       Entry: 10
-      Data: 5
+      Data: 3
     - Name: 
       Entry: 13
       Data: 
@@ -2821,7 +2814,7 @@ MonoBehaviour:
       Data: 
     - Name: _testScenario
       Entry: 10
-      Data: 6
+      Data: 4
   _test: 1
 --- !u!4 &1908500043
 Transform:
@@ -3415,6 +3408,10 @@ PrefabInstance:
       propertyPath: m_ReverseArrangement
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1960963787419427009, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 1960963787419427009, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
     - target: {fileID: 2005745093246702765, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -3631,6 +3628,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5227360971814180079, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 5227360971814180079, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
     - target: {fileID: 5694923534747838023, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3667,6 +3668,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6080838843515904540, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 6080838843515904540, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
     - target: {fileID: 6490568351587744241, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3679,5 +3684,9 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8177896367836595110, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 8177896367836595110, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
