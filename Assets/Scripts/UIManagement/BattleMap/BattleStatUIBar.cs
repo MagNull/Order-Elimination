@@ -7,6 +7,7 @@ using OrderElimination;
 using System;
 using OrderElimination.Infrastructure;
 using Sirenix.Serialization;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace UIManagement.Elements
 {
@@ -14,8 +15,9 @@ namespace UIManagement.Elements
     {
         private Tween _currentNumberTween;
         private Tween _currentFillTween;
-        private float _currentValue = 0;
-        private float _targetValue = float.NaN;
+        private float _currentNumber = float.NaN;
+        private float _targetNumber = float.NaN;
+        private float _targetFillAmount = float.NaN;
 
         #region Components
         [TitleGroup("Components")]
@@ -100,11 +102,8 @@ namespace UIManagement.Elements
         public RoundingOption RoundingMode { get; set; } = RoundingOption.Math;
         #endregion
 
-        public float ActualFillAmount => _barImage.fillAmount;
-        public float TargetFillAmount { get; private set; }
-
         [Button]
-        public void SetFill(float currentValue, float minValue, float maxValue)
+        public void SetFillAndNumber(float currentValue, float minValue, float maxValue)
         {
             var scaledEndValue = (currentValue - minValue);
             if (scaledEndValue != 0)
@@ -117,28 +116,36 @@ namespace UIManagement.Elements
                 Logging.LogException(new InvalidOperationException("Value is NaN"));
             }
             //
-            SetValue(currentValue);
+            SetNumber(currentValue);
             SetFill(scaledEndValue);
         }
 
-        public void SetValue(float value)
+        public void SetNumber(float value)
         {
-            if (value == _targetValue)
+            if (float.IsNaN(value) || !float.IsFinite(value))
+                throw new ArgumentException();
+            if (value == _targetNumber)
                 return;
-            _targetValue = value;
-            var duration = TweenValues ? TweeningTime : 0;
+            _targetNumber = value;
+            if (float.IsNaN(_currentNumber))
+                _currentNumber = value;
             if (_currentNumberTween != null)
                 _currentNumberTween.Complete(false);
-            _currentNumberTween = DOTween
-                .To(GetValue, SetValue, value, duration)
-                .SetEase(ValueChangeEase)
-                .OnComplete(() => _currentNumberTween = null);
+            if (TweenValues)
+            {
+                _currentNumberTween = DOTween
+                    .To(GetValue, SetValue, value, TweeningTime)
+                    .SetEase(ValueChangeEase)
+                    .OnComplete(() => _currentNumberTween = null);
+            }
+            else
+                SetValue(value);
 
-            float GetValue() => _currentValue;
+            float GetValue() => _currentNumber;
 
             void SetValue(float value)
             {
-                _currentValue = value;
+                _currentNumber = value;
                 if (RoundNumbers)
                     value = MathExtensions.Round(value, RoundingMode);
                 _textValueComponent.text = value.ToString();
@@ -147,22 +154,50 @@ namespace UIManagement.Elements
 
         public void SetFill(float fillAmount)
         {
-            if (fillAmount == TargetFillAmount)
+            if (float.IsNaN(fillAmount) || !float.IsFinite(fillAmount))
+                throw new ArgumentException();
+            if (fillAmount == _targetFillAmount)
                 return;
-            var initialFill = ActualFillAmount;
+            var initialFill = _barImage.fillAmount;
             var endFill = Mathf.Clamp01(fillAmount);
-            TargetFillAmount = endFill;
-            var duration = TweenValues ? TweeningTime : 0;
+            _targetFillAmount = endFill;
             if (_currentFillTween != null)
                 _currentFillTween.Complete();
-            _currentFillTween = DOTween
-                .To(GetFillAmount, SetFillAmount, endFill, duration)
-                .SetEase(ValueChangeEase)
-                .OnComplete(() => _currentFillTween = null);
+            if (TweenValues)
+            {
+                _currentFillTween = DOTween
+                    .To(GetFillAmount, SetFillAmount, endFill, TweeningTime)
+                    .SetEase(ValueChangeEase)
+                    .OnComplete(() => _currentFillTween = null);
+            }
+            else
+                SetFillAmount(endFill);
 
-            float GetFillAmount() => ActualFillAmount;
+            float GetFillAmount() => _barImage.fillAmount;
 
             void SetFillAmount(float normalizedValue) => _barImage.fillAmount = normalizedValue;
+        }
+
+        public void SetNumberInstant(float value)
+        {
+            if (float.IsNaN(value) || !float.IsFinite(value))
+                throw new ArgumentException();
+            _currentNumberTween.Complete(false);
+            _currentNumber = value;
+            _targetNumber = value;
+            if (RoundNumbers)
+                value = MathExtensions.Round(value, RoundingMode);
+            _textValueComponent.text = value.ToString();
+        }
+
+        public void SetFillInstant(float fillAmount)
+        {
+            if (float.IsNaN(fillAmount) || !float.IsFinite(fillAmount))
+                throw new ArgumentException();
+            if (_currentFillTween != null)
+                _currentFillTween.Complete();
+            _targetFillAmount = fillAmount;
+            _barImage.fillAmount = fillAmount;
         }
     } 
 }

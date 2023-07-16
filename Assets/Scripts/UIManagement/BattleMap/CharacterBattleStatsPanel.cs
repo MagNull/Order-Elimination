@@ -18,6 +18,8 @@ namespace UIManagement.Elements
         [SerializeField]
         private BattleStatUIBar _armorBar;
         [SerializeField]
+        private BattleStatUIBar _tempArmorBar;
+        [SerializeField]
         private HoldableButton _avatarButton;
         [SerializeField]
         private EffectsList _effectsList;
@@ -69,7 +71,7 @@ namespace UIManagement.Elements
             Subscribe(_currentEntityView.BattleEntity);
             _avatar.sprite = _currentEntityView.BattleIcon;
             IsClickingAvatarAvailable = true;
-            UpdateStats(_currentEntityView);
+            UpdateStats(_currentEntityView, true);
             UpdateEffects();
             ShowInfo();
         }
@@ -88,26 +90,38 @@ namespace UIManagement.Elements
 
         public void HideInfo()
         {
+            var bars = new[] { _healthBar, _armorBar, _tempArmorBar };
+            foreach (var bar in bars)
+            {
+                bar.SetNumberInstant(0);
+                bar.SetFillInstant(0);
+                bar.gameObject.SetActive(false);
+            }
+
             _avatar.gameObject.SetActive(false);
-            _healthBar.gameObject.SetActive(false);
-            _armorBar.gameObject.SetActive(false);
             _avatarButton.gameObject.SetActive(false);
-            _effectsList.gameObject.SetActive(false);
             IsClickingAvatarAvailable = false;
             _avatarButton.Clicked -= OnAvatarButtonPressed;
             _avatarButton.Holded -= OnAvatarButtonHolded;
+
+            _effectsList.gameObject.SetActive(false);
         }
 
         public void ShowInfo()
         {
+            var bars = new[] { _healthBar, _armorBar, _tempArmorBar };
+            foreach (var bar in bars)
+            {
+                bar.gameObject.SetActive(true);
+            }
+
             _avatar.gameObject.SetActive(true);
-            _healthBar.gameObject.SetActive(true);
-            _armorBar.gameObject.SetActive(true);
             _avatarButton.gameObject.SetActive(true);
-            _effectsList.gameObject.SetActive(true);
             IsClickingAvatarAvailable = true;
             _avatarButton.Clicked += OnAvatarButtonPressed;
             _avatarButton.Holded += OnAvatarButtonHolded;
+
+            _effectsList.gameObject.SetActive(true);
         }
 
         private void OnAvatarButtonHolded(HoldableButton avatarButton, float holdingTime)
@@ -143,21 +157,51 @@ namespace UIManagement.Elements
         }
 
         #region EntityEventHandlers
-        private void OnStatsChanged(BattleStat stat) => UpdateStats(_currentEntityView);
-        private void OnDamaged(DealtDamageInfo damage) => UpdateStats(_currentEntityView);
-        private void OnHealed(DealtRecoveryInfo heal) => UpdateStats(_currentEntityView);
-        private void OnLifeStatsChanged(IBattleLifeStats stats) => UpdateStats(_currentEntityView);
-        private void UpdateStats(BattleEntityView entityView)
+        private void OnStatsChanged(BattleStat stat) => UpdateStats(_currentEntityView, false);
+        private void OnLifeStatsChanged(IBattleLifeStats stats) => UpdateStats(_currentEntityView, false);
+        private void UpdateStats(BattleEntityView entityView, bool isInstant)
         {
             var stats = entityView.BattleEntity.BattleStats;
             var curHealth = stats.Health;
             var maxHealth = stats.MaxHealth.ModifiedValue;
-            var curArmor = stats.TotalArmor;
+            var pureArmor = stats.PureArmor;
+            var totalArmor = stats.TotalArmor;
+            var tempArmor = stats.TemporaryArmor;
             var maxArmor = stats.MaxArmor.ModifiedValue;
 
+            SetBarNumber(_healthBar, curHealth, isInstant);
+            SetBarFill(_healthBar, curHealth, maxHealth, isInstant);
+            SetBarFill(_armorBar, pureArmor, maxArmor, isInstant);
+            SetBarFill(_tempArmorBar, tempArmor, maxArmor, isInstant);
+            if (tempArmor > 0)
+            {
+                _tempArmorBar.IsValueVisible = true;
+                _armorBar.IsValueVisible = false;
+                SetBarNumber(_tempArmorBar, totalArmor, isInstant);
+            }
+            else
+            {
+                _tempArmorBar.IsValueVisible = false;
+                _armorBar.IsValueVisible = true;
+                SetBarNumber(_armorBar, totalArmor, isInstant);
+            }
 
-            _healthBar.SetFill(curHealth, 0, maxHealth);
-            _armorBar.SetFill(curArmor, 0, maxArmor);
+            static void SetBarNumber(BattleStatUIBar bar, float number, bool instant)
+            {
+                if (instant)
+                    bar.SetNumberInstant(number);
+                else
+                    bar.SetNumber(number);
+            }
+
+            static void SetBarFill(BattleStatUIBar bar, float value, float maxValue, bool instant)
+            {
+                var notNanValue = value == 0 ? value : value / maxValue;
+                if (instant)
+                    bar.SetFillInstant(notNanValue);
+                else
+                    bar.SetFill(notNanValue);
+            }
         }
         private void OnEffectsUpdated(BattleEffect effect) => UpdateEffects();
         private void UpdateEffects() => _effectsList.UpdateEffects(_currentEntityView.BattleEntity.Effects);
