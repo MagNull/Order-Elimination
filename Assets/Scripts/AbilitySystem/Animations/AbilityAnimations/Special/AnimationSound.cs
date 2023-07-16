@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using OrderElimination;
 using OrderElimination.AbilitySystem.Animations;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
@@ -21,7 +22,7 @@ namespace Assets.Scripts.AbilitySystem.Animations.AbilityAnimations.Special
             AnimationPlayContext context, CancellationToken cancellationToken)
         {
             if (Sounds.Length == 0)
-                throw new InvalidOperationException("No audioclips to play.");
+                Logging.Log(new InvalidOperationException("No audioclips to play."));
             if (WaitForCompletion)
                 await PlaySound(context.SceneContext.SoundEffectsPlayer, cancellationToken);
             else
