@@ -15,10 +15,6 @@ namespace OrderElimination.AbilitySystem
                 builderData.HideInCharacterDescription,
                 builderData.ShowCrosshairWhenTargeting,
                 builderData.ShowTrajectoryWhenTargeting);
-            var gameRepresentation = new AbilityGameRepresentation
-            {
-                CooldownTime = builderData.CooldownTime
-            };
             var rules = new AbilityRules(builderData.AvailabilityConditions, builderData.UsageCost);
             IAbilityTargetingSystem targetingSystem;
             if (builderData.TargetingSystem == TargetingSystemType.NoTarget)
@@ -41,11 +37,12 @@ namespace OrderElimination.AbilitySystem
             }
             else
             {
-                Logging.LogException(new NotImplementedException());
                 throw new NotImplementedException();
             }
             var execution = new ActiveAbilityExecution(builderData.AbilityInstructions.ToArray());
 
+            var gameRepresentation = AbilityGameRepresentation.FromActiveAbility(
+                rules, builderData.CooldownTime, targetingSystem, execution);
             var abilityData = new ActiveAbilityData
             {
                 BasedBuilder = builderData,
@@ -65,12 +62,9 @@ namespace OrderElimination.AbilitySystem
                 builderData.Icon,
                 builderData.Description,
                 builderData.HideInCharacterDiscription);
-            var gameRepresentation = new AbilityGameRepresentation
-            {
-                CooldownTime = builderData.CooldownTime
-            };
             var execution = new PassiveAbilityExecution(builderData.TriggerInstructions.ToArray());
-
+            var gameRepresentation = AbilityGameRepresentation.FromPassiveAbility(
+                builderData.CooldownTime, execution);
             var abilityData = new PassiveAbilityData
             {
                 View = view,

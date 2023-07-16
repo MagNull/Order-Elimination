@@ -74,6 +74,7 @@ namespace UIManagement.Elements
             _effectsByData.Remove(effect);
 
             effectButton.DOComplete();
+            effectButton.transform.SetParent(null);
             var disappearTime = effectButton.transform.localScale.magnitude * effectAppearTime / 2;
             effectButton.transform
                 .DOScale(0.1f, disappearTime)

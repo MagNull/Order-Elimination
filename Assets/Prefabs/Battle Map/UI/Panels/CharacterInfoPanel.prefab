@@ -5387,7 +5387,6 @@ MonoBehaviour:
   _titleText: {fileID: 5123693256095912653}
   _closingButton: {fileID: 5816167571672758952}
   _isClosingByClickingOutside: 1
-  _noAbilityIcon: {fileID: 21300000, guid: 2fbbcad906f72494788876cc1447bca5, type: 3}
   _characterName: {fileID: 5123693256095912653}
   _characterAvatar: {fileID: 4999901987149549032}
   _characterStats:
@@ -5404,8 +5403,10 @@ MonoBehaviour:
   _passiveAbilityButtons:
   - {fileID: 3629998720221775672}
   - {fileID: 8608144540012418546}
-  _playerInventoryPresenter: {fileID: 0}
   _characterInventoryPresenter: {fileID: 797079766910207561}
+  _noAbilityIcon: {fileID: 21300000, guid: 2fbbcad906f72494788876cc1447bca5, type: 3}
+  _roundBattleStats: 1
+  _roundingMode: 0
 --- !u!1 &7823986930169058953
 GameObject:
   m_ObjectHideFlags: 0

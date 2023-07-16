@@ -22,6 +22,9 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
+    - Name: EffectCharacter
+      Entry: 3
+      Data: 0
     - Name: StackingPolicy
       Entry: 3
       Data: 2
@@ -162,55 +165,7 @@ MonoBehaviour:
       Entry: 5
       Data: true
     - Name: _animationBeforeAction
-      Entry: 7
-      Data: 9|OrderElimination.AbilitySystem.Animations.SpawnParticleAnimation, Assembly-CSharp
-    - Name: ParticleType
-      Entry: 3
-      Data: 10
-    - Name: SpawnAt
-      Entry: 3
-      Data: 0
-    - Name: SpawnGroup
-      Entry: 3
-      Data: 0
-    - Name: Follow
-      Entry: 3
-      Data: 0
-    - Name: FaceDirection
-      Entry: 5
-      Data: false
-    - Name: FromParticlePosition
-      Entry: 5
-      Data: true
-    - Name: FacingFrom
-      Entry: 3
-      Data: 0
-    - Name: FacingFromGroup
-      Entry: 3
-      Data: 0
-    - Name: FacingFromCell
-      Entry: 3
-      Data: 0
-    - Name: FacingTo
-      Entry: 3
-      Data: 0
-    - Name: FacingToGroup
-      Entry: 3
-      Data: 0
-    - Name: FacingToCell
-      Entry: 3
-      Data: 0
-    - Name: RemapAnimationTime
-      Entry: 5
-      Data: false
-    - Name: RemappedTime
-      Entry: 4
-      Data: 0
-    - Name: _animationLoops
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 8
+      Entry: 6
       Data: 
     - Name: _animationAfterAction
       Entry: 6
