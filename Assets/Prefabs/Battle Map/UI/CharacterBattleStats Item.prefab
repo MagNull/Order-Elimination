@@ -763,6 +763,10 @@ PrefabInstance:
       value: 34
       objectReference: {fileID: 0}
     - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+    - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: <DefaultTextColor>k__BackingField.a
       value: 1
       objectReference: {fileID: 0}
@@ -777,6 +781,18 @@ PrefabInstance:
     - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: <DefaultTextColor>k__BackingField.r
       value: 0.29803923
+      objectReference: {fileID: 0}
+    - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[0]
+      value: '"path":"TweenValues","value":{"$id":0,"$type":"System.Boolean, mscorlib",true}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4096773940695260067, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: m_text
@@ -998,24 +1014,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 7360740130122911544}
     m_Modifications:
     - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
-      propertyPath: TweenNumbers
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+    - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.data[0]
+      value: '"path":"TweenValues","value":{"$id":0,"$type":"System.Boolean, mscorlib",true}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: serializationData.SerializationNodes.Array.data[0].Data
+      value: true
+      objectReference: {fileID: 0}
+    - target: {fileID: 4096773940695260069, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
-      propertyPath: ValueChangeEase
-      value: 34
-      objectReference: {fileID: 0}
-    - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
-      propertyPath: <DefaultTextColor>k__BackingField.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
-      propertyPath: <DefaultTextColor>k__BackingField.g
-      value: 0.9098039
-      objectReference: {fileID: 0}
-    - target: {fileID: 965917883363050167, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
-      propertyPath: <DefaultTextColor>k__BackingField.r
-      value: 0.34509805
       objectReference: {fileID: 0}
     - target: {fileID: 4096773942194196769, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
       propertyPath: m_Pivot.x
@@ -1105,9 +1121,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Health Stat
       objectReference: {fileID: 0}
-    - target: {fileID: 4096773942731477312, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -2.661499
+    - target: {fileID: 4096773942317826010, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8576343514515531231, guid: 54efeba173304594c9ff91a6800ee209, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54efeba173304594c9ff91a6800ee209, type: 3}

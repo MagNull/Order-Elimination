@@ -12,6 +12,8 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         private Dictionary<int, ICellSelector> _groupSelectors = new();
 
+        public IReadOnlyDictionary<int, ICellSelector> GroupSelectors => _groupSelectors;
+
         public CellGroupsContainer DistributeSelection(
             IBattleContext battleContext, 
             AbilitySystemActor askingEntity, 

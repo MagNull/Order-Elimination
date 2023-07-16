@@ -22,8 +22,9 @@ namespace OrderElimination.AbilitySystem
         public bool IsConfirmAvailable => _selectedCell != null && _selectedCell.HasValue;
         public IEnumerable<Vector2Int> CurrentAvailableCells => _availableCells;
         public IEnumerable<Vector2Int> SelectedCells 
-            => Enumerable.Repeat(_selectedCell, 1).Where(c => c.HasValue).Select(c => c.Value);
+            => new Vector2Int?[] { _selectedCell }.Where(c => c.HasValue).Select(c => c.Value);
         public int NecessaryTargetsLeft => _selectedCell == null ? 1 : 0;
+        public IReadOnlyList<ICellCondition> CellConditions => _cellConditions;
 
         public ICellGroupsDistributor CellGroupsDistributor { get; private set; }
 

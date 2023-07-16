@@ -6,35 +6,100 @@ using DG.Tweening;
 using OrderElimination;
 using System;
 using OrderElimination.Infrastructure;
-using static UnityEngine.Rendering.DebugUI;
+using Sirenix.Serialization;
 
 namespace UIManagement.Elements
 {
-    public class BattleStatUIBar : MonoBehaviour
+    public class BattleStatUIBar : SerializedMonoBehaviour
     {
         private Tween _currentNumberTween;
         private Tween _currentFillTween;
         private float _currentValue = 0;
         private float _targetValue = float.NaN;
 
-        [Header("Components")]
-        [SerializeField] private Image _iconImage;
-        [SerializeField] private Image _barImage;
-        [SerializeField] private TextMeshProUGUI _textValueComponent;
-        [SerializeField, ShowInInspector, OnValueChanged(nameof(OnColorChange))]
-        public Color BarColor = Color.red;
-        [field: SerializeField]
-        public Color DefaultTextColor { get; set; }
-        [SerializeField, ShowInInspector, OnValueChanged(nameof(OnIconChange))] 
-        public Sprite Icon;
+        #region Components
+        [TitleGroup("Components")]
+        [SerializeField, PropertyOrder(-10)] 
+        private Image _iconImage;
+        [SerializeField, PropertyOrder(-9)]
+        private Image _barImage;
+        [SerializeField, PropertyOrder(-8)]
+        private TextMeshProUGUI _textValueComponent;
+        #endregion Components
 
-        [Header("Parameters")]
-        [SerializeField] public float TweeningTime = 0.4f;
-        [SerializeField] public Ease ValueChangeEase = Ease.OutBounce;
-        [SerializeField] public bool TweenNumbers;
-        [SerializeField] public bool RoundNumbers = true;
+        #region Visuals
+        [BoxGroup("Properties/Visuals")]
+        [PropertyOrder(-3)]
+        [ShowInInspector, PreviewField(Alignment = ObjectFieldAlignment.Left)]
+        public Sprite Icon
+        {
+            get => _iconImage.sprite;
+            set => _iconImage.sprite = value;
+        }
+
+        [BoxGroup("Properties/Visuals")]
+        [ShowInInspector]
+        public Color BarColor
+        {
+            get => _barImage.color;
+            set => _barImage.color = value;
+        }
+
+        [BoxGroup("Properties/Visuals")]
+        [BoxGroup("Properties/Visuals/Components Visibility", ShowLabel = false)]
+        [ShowInInspector]
+        public bool IsIconVisible
+        {
+            get => _iconImage != null ? _iconImage.gameObject.activeSelf : false;
+            set => _iconImage.gameObject.SetActive(value);
+        }
+
+        [BoxGroup("Properties/Visuals")]
+        [BoxGroup("Properties/Visuals/Components Visibility")]
+        [ShowInInspector]
+        public bool IsValueVisible
+        {
+            get => _textValueComponent != null ? _textValueComponent.gameObject.activeSelf : false;
+            set => _textValueComponent.gameObject.SetActive(value);
+        }
+
+        [BoxGroup("Properties/Visuals")]
+        [BoxGroup("Properties/Visuals/Components Visibility")]
+        [ShowInInspector]
+        public bool IsFillBarVisible
+        {
+            get => _barImage != null ? _barImage.gameObject.activeSelf : false;
+            set => _barImage.gameObject.SetActive(value);
+        }
+
+        [BoxGroup("Properties/Visuals")]
+        [BoxGroup("Properties/Visuals/Tweening", ShowLabel = false)]
+        [OdinSerialize]
+        public bool TweenValues { get; set; }
+
+        [BoxGroup("Properties/Visuals")]
+        [BoxGroup("Properties/Visuals/Tweening")]
+        [ShowIf(nameof(TweenValues))]
+        [OdinSerialize]
+        public float TweeningTime { get; set; } = 0.4f;
+
+        [BoxGroup("Properties/Visuals")]
+        [BoxGroup("Properties/Visuals/Tweening")]
+        [ShowIf(nameof(TweenValues))]
+        [OdinSerialize]
+        public Ease ValueChangeEase { get; set; } = Ease.OutBounce;
+
+        [TitleGroup("Properties")]
+        [BoxGroup("Properties/Rounding"), PropertyOrder(-2)]
+        [OdinSerialize]
+        public bool RoundNumbers { get; set; } = true;
+
+        [BoxGroup("Properties/Rounding")]
         [ShowIf(nameof(RoundNumbers))]
-        [SerializeField] public RoundingOption RoundingMode = RoundingOption.Math;
+        [OdinSerialize]
+        public RoundingOption RoundingMode { get; set; } = RoundingOption.Math;
+        #endregion
+
         public float ActualFillAmount => _barImage.fillAmount;
         public float TargetFillAmount { get; private set; }
 
@@ -61,7 +126,7 @@ namespace UIManagement.Elements
             if (value == _targetValue)
                 return;
             _targetValue = value;
-            var duration = TweenNumbers ? TweeningTime : 0;
+            var duration = TweenValues ? TweeningTime : 0;
             if (_currentNumberTween != null)
                 _currentNumberTween.Complete(false);
             _currentNumberTween = DOTween
@@ -87,7 +152,7 @@ namespace UIManagement.Elements
             var initialFill = ActualFillAmount;
             var endFill = Mathf.Clamp01(fillAmount);
             TargetFillAmount = endFill;
-            var duration = TweenNumbers ? TweeningTime : 0;
+            var duration = TweenValues ? TweeningTime : 0;
             if (_currentFillTween != null)
                 _currentFillTween.Complete();
             _currentFillTween = DOTween
@@ -99,20 +164,5 @@ namespace UIManagement.Elements
 
             void SetFillAmount(float normalizedValue) => _barImage.fillAmount = normalizedValue;
         }
-
-        [Button]
-        public void SetTextColor(Color color)
-        {
-            _textValueComponent.color = color;
-        }
-
-        public void ResetTextColor()
-        {
-            _textValueComponent.color = DefaultTextColor;
-        }
-
-        private void OnColorChange(Color newBarColor) => _barImage.color = newBarColor;
-
-        private void OnIconChange(Sprite newIcon) => _iconImage.sprite = newIcon;
     } 
 }

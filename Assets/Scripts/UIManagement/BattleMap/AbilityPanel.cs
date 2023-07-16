@@ -146,15 +146,8 @@ namespace UIManagement
                 TryDeselectButton(otherButton);
             }
 
-            if (TryDeselectButton(abilityButton))
-            {
-            }
-            else if (TrySelectButton(abilityButton))
-            {
-            }
-            else
-            {
-            }
+            if (!TryDeselectButton(abilityButton))
+                TrySelectButton(abilityButton);
         }
 
         private int CalculateCooldown(ActiveAbilityRunner abilityRunner, IBattleContext battleContext)
@@ -179,15 +172,14 @@ namespace UIManagement
 
         private void OnActiveAbilityButtonHolded(AbilityButton abilityButton)
         {
-            //var panel = (AbilityDescriptionPanel) _panelController.OpenPanel(PanelType.AbilityDescription);
-            //panel.UpdateAbilityDescription(abilityButton.AbilityView);
+            var panel = (AbilityDescriptionPanel)_panelController.OpenPanel(PanelType.AbilityDescription);
+            panel.UpdateAbilityData(abilityButton.AbilityRunner.AbilityData);
         }
 
         private void OnPassiveAbilityButtonClicked(SmallAbilityButton skillButton)
         {
-            var panel =
-                _panelController.OpenPanel(PanelType.PassiveAbilityDescription) as PassiveAbilityDescriptionPanel;
-            //panel.AssignPassiveSkillsDescription(_currentPassiveSkills.Select(v => v.AbilityInfo).ToArray());
+            //var panel = (PassiveAbilityDescriptionPanel)_panelController.OpenPanel(PanelType.PassiveAbilityDescription);
+            //panel.UpdateAbilitiesDescription(_currentPassiveSkills.Select(v => v.AbilityInfo).ToArray());
         }
     }
 }
