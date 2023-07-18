@@ -141,7 +141,7 @@ namespace UIManagement
 
         private void OnAbilityButtonClicked(AbilityButton abilityButton)
         {
-            foreach (var otherButton in _activeAbilityButtons.Where(b => b != abilityButton).Append(_itemAbilityButton))
+            foreach (var otherButton in _activeAbilityButtons.Append(_itemAbilityButton).Where(b => b != abilityButton))
             {
                 TryDeselectButton(otherButton);
             }
