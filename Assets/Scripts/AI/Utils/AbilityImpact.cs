@@ -91,7 +91,7 @@ namespace AI.Utils
         {
             var actionContext = new ActionContext(_battleContext,
                 _data.TargetingSystem.ExtractCastTargetGroups(),
-                _caster, null, Vector2Int.zero);
+                _caster, null);
 
             //Calculate value based on context
             switch (instruction.Action)
@@ -124,7 +124,7 @@ namespace AI.Utils
                 //Form action context
                 var actionContext = new ActionContext(_battleContext,
                     _data.TargetingSystem.ExtractCastTargetGroups(),
-                    _caster, target, cell);
+                    _caster, target); //removed argument: cell
 
                 //Calculate value based on context
                 switch (instruction.Action)

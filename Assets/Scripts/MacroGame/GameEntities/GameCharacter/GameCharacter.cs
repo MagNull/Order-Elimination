@@ -29,6 +29,7 @@ namespace OrderElimination.MacroGame
                 StatsChanged?.Invoke(this);
             }
         }
+        //public bool CanBeEvacuated { get; private set; }
         public Inventory Inventory { get; private set; } = new(2);
 
         public event Action<GameCharacter> StatsChanged;
