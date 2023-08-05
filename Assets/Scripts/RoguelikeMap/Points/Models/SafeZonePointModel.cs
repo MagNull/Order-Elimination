@@ -11,6 +11,9 @@ namespace RoguelikeMap.Points.Models
     [Serializable]
     public class SafeZonePointModel : PointModel
     {
+        [Input] public PointModel entries;
+        [Output] public PointModel exits;
+        
         [SerializeField] 
         private Sprite _sprite;
         [SerializeField] 
@@ -19,8 +22,6 @@ namespace RoguelikeMap.Points.Models
         private int _amountHeal;
         [SerializeField] 
         private List<ItemData> _items;
-
-        public Sprite Sprite => _sprite;
         public string Text => _text;
         public int AmountHeal => _amountHeal;
         public IReadOnlyList<ItemData> Items => _items;

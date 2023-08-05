@@ -10,6 +10,9 @@ namespace RoguelikeMap.Points.Models
     [Serializable]
     public class EventPointModel : PointModel
     {
+        [Input] public PointModel entries;
+        [Output] public PointModel exits;
+        
         [SerializeReference]
         private EventPointGraph _eventGraph;
         [SerializeField]

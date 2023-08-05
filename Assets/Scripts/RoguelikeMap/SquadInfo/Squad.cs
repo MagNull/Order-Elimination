@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using OrderElimination;
 using OrderElimination.MacroGame;
-using RoguelikeMap.Points;
+using RoguelikeMap.Points.Models;
 using RoguelikeMap.UI.Characters;
 using Sirenix.OdinInspector;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
@@ -35,7 +35,6 @@ namespace RoguelikeMap.SquadInfo
         public IReadOnlyList<GameCharacter> ActiveMembers => _model.ActiveMembers;
         
         public PointModel Point => _model.Point;
-        public event Action<Squad> OnSelected;
         public event Action<IReadOnlyList<GameCharacter>> OnUpdateMembers;
         
         [Inject]
@@ -98,16 +97,16 @@ namespace RoguelikeMap.SquadInfo
             GenerateCharactersCard();
         }
 
-        public void Visit(PointModel point)
+        public void Visit(PointModel pointModel)
         {
-            UpdatePoint(point);
-            MoveAnimation(point.Position);
+            UpdatePoint(pointModel);
+            //MoveAnimation(point.Position);
         }
         
-        private void UpdatePoint(PointModel point)
+        private void UpdatePoint(PointModel pointModel)
         {
-            _commander.SetPoint(point);
-            _model.SetPoint(point);
+            _commander.SetPoint(pointModel);
+            _model.SetPoint(pointModel);
         }
         
         private void MoveAnimation(Vector3 position)
@@ -119,13 +118,5 @@ namespace RoguelikeMap.SquadInfo
         }
         
         private void SetActiveSquadMembers(bool isActive) => _model.SetActivePanel(isActive);
-        
-        private void OnMouseDown() => Select();
-        
-        private void Select()
-        {
-            Logging.Log("Squad selected");
-            OnSelected?.Invoke(this);
-        }
     }
 }

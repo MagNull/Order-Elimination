@@ -14,6 +14,9 @@ namespace RoguelikeMap.Points.Models
     [Serializable]
     public class ShopPointModel : PointModel
     {
+        [Input] public PointModel entries;
+        [Output] public PointModel exits;
+        
         [TabGroup("Items")]
         [SerializeField]
         private int _count;

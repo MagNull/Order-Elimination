@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using System.Linq;
 using RoguelikeMap.Points;
+using RoguelikeMap.Points.Models;
 using UnityEngine;
-using Utils;
 using VContainer;
 using VContainer.Unity;
 
@@ -28,22 +27,30 @@ namespace RoguelikeMap.Map
 
         public List<Point> GenerateMap()
         {
-            var path = "Points\\" + NumberOfMap;
-            var pointsInfo = Resources.LoadAll<PointInfo>(path);
-            var points = GeneratePoints(pointsInfo);
-            GeneratePaths(points);
+            var path = "Points\\Maps";
+            var maps = Resources.LoadAll<PointGraph>(path);
+            var mapIndex = Random.Range(0, maps.Length);
+            var points = GeneratePoints(maps[mapIndex]);
+            //GeneratePaths(points);
             return points;
         }
 
-        private List<Point> GeneratePoints(IEnumerable<PointInfo> pointsInfo)
+        private List<Point> GeneratePoints(PointGraph map)
         {
-            return pointsInfo.Select(CreatePoint).ToList();
+            var points = new List<Point>();
+
+            foreach (var pointModel in map.GetPoints())
+            {
+                var newPoint = CreatePoint(pointModel);
+                points.Add(newPoint);
+            }
+            return points;
         }
 
-        private Point CreatePoint(PointInfo info)
+        private Point CreatePoint(PointModel pointModel)
         {
-            var point = _resolver.Instantiate(_pointPrefab, info.Model.Position, Quaternion.identity, _parent);
-            point.Initialize(info);
+            var point = _resolver.Instantiate(_pointPrefab, pointModel.position, Quaternion.identity, _parent);
+            point.Initialize(pointModel);
             return point;
         }
 
