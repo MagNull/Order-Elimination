@@ -31,7 +31,8 @@ namespace RoguelikeMap.Points.Models
 
         public IEnumerable<PointModel> GetNextPoints()
         {
-            return GetPort("exits").GetConnections().Select(connection => connection.node as PointModel);
+            return !HasPort("exits") ? new List<PointModel>() 
+                : GetPort("exits").GetConnections().Select(connection => connection.node as PointModel);
         }
 
         public void SetActive(bool isActive) => OnChangeActivity?.Invoke(isActive);

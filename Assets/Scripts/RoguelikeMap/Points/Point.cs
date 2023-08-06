@@ -25,6 +25,7 @@ namespace RoguelikeMap.Points
         private bool _isActive;
         
         public PointModel Model { get; private set; }
+        public int Index { get; private set; }
 
         [Inject]
         private void Construct(PanelManager panelManager, TransferPanel transferPanel)
@@ -33,7 +34,7 @@ namespace RoguelikeMap.Points
             _transferPanel = transferPanel;
         }
 
-        public void Initialize(PointModel model)
+        public void Initialize(PointModel model, int index)
         {
             if (model is null)
                 throw new ArgumentException("PointModel is null");
@@ -42,6 +43,7 @@ namespace RoguelikeMap.Points
             _icon.sprite = model.Sprite;
             Model.SetPanel(_panelManager);
             _pathView = Instantiate(_pathPrefab, transform);
+            Index = index;
         }
 
         public async Task Visit(Squad squad) => await Model.Visit(squad);

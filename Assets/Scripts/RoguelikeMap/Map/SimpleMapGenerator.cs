@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using RoguelikeMap.Points;
 using RoguelikeMap.Points.Models;
 using UnityEngine;
@@ -15,6 +14,7 @@ namespace RoguelikeMap.Map
         private readonly Point _pointPrefab;
         private readonly IObjectResolver _resolver;
         private readonly List<Point> _points;
+        private int _lastIndex = 0;
 
         [Inject]
         public SimpleMapGenerator(Point pointPrefab, Transform pointsParent,
@@ -42,7 +42,7 @@ namespace RoguelikeMap.Map
         private Point CreatePoint(PointModel pointModel)
         {
             var point = _resolver.Instantiate(_pointPrefab, pointModel.position, Quaternion.identity, _parent);
-            point.Initialize(pointModel);
+            point.Initialize(pointModel, _lastIndex++);
             return point;
         }
     }

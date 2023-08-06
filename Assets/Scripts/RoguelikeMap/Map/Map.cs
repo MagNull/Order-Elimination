@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using OrderElimination;
+using OrderElimination.Battle;
 using RoguelikeMap.Points;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI;
@@ -20,15 +21,19 @@ namespace RoguelikeMap.Map
         private List<Point> _points;
         private Point _currentPoint;
         private TransferPanel _transferPanel;
+        private ScenesMediator _mediator;
         private IObjectResolver _objectResolver;
+        private BattleOutcome _battleOutcome;
 
         [Inject]
         private void Construct(IMapGenerator mapGenerator, Squad squad,
-            TransferPanel transferPanel, IObjectResolver objectResolver)
+            ScenesMediator scenesMediator, TransferPanel transferPanel,
+            IObjectResolver objectResolver)
         {
             _mapGenerator = mapGenerator;
             _squad = squad;
             _transferPanel = transferPanel;
+            _mediator = scenesMediator;
             _objectResolver = objectResolver;
         }
 
@@ -36,17 +41,15 @@ namespace RoguelikeMap.Map
         {
             _points = _mapGenerator.GenerateMap();
             _transferPanel.OnAcceptClick += MoveToPoint; 
-            ReloadMap();
+            if(_mediator.Contains<int>("point index"))
+                MoveToPoint(_points.First(x => x.Index == _mediator.Get<int>("point index")));
+            else
+                ReloadMap();
         }
         
         public void ReloadMap()
         {
-            if(_currentPoint is not null)
-                _currentPoint.HidePaths();
-            _currentPoint = FindStartPoint();
-            _squad.MoveWithoutAnimation(_currentPoint.Model.position);
-            UpdatePointsIcon();
-            _currentPoint.ShowPaths();
+            SetSquadPosition(FindStartPoint(), false);
         }
 
         private Point FindStartPoint()
@@ -59,14 +62,24 @@ namespace RoguelikeMap.Map
             await SetSquadPosition(point);
         }
 
-        private async Task SetSquadPosition(Point point)
+        private async Task SetSquadPosition(Point point, bool isAnimation = true)
         {
             if(_currentPoint is not null)
                 _currentPoint.HidePaths();
             _currentPoint = point;
-            await point.Visit(_squad);
+            if (!isAnimation)
+                _squad.MoveWithoutAnimation(point.Model.position);
+            else if (_mediator.Contains<BattleResults>("battle results")
+                     && _mediator.Get<BattleResults>("battle results").BattleOutcome is BattleOutcome.Win)
+            {
+                _squad.MoveWithoutAnimation(point.Model.position);
+                _mediator.Unregister("battle results");
+            }
+            else
+                await point.Visit(_squad);
             UpdatePointsIcon();
             _currentPoint.ShowPaths();
+            _mediator.Register("point index", _currentPoint.Index);
         }
 
         public void LoadStartScene()
