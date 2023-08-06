@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using JetBrains.Annotations;
 using RoguelikeMap.Points;
 using RoguelikeMap.Points.Models;
 using UnityEngine;
@@ -9,19 +11,17 @@ namespace RoguelikeMap.Map
 {
     public class SimpleMapGenerator : IMapGenerator
     {
-        private const int NumberOfMap = 0;
         private readonly Transform _parent;
         private readonly Point _pointPrefab;
-        private readonly LineRenderer _pathPrefab;
         private readonly IObjectResolver _resolver;
+        private readonly List<Point> _points;
 
         [Inject]
         public SimpleMapGenerator(Point pointPrefab, Transform pointsParent,
-            LineRenderer pathPrefab, IObjectResolver resolver)
+            IObjectResolver resolver)
         {
             _pointPrefab = pointPrefab;
             _parent = pointsParent;
-            _pathPrefab = pathPrefab;
             _resolver = resolver;
         }
 
@@ -31,20 +31,12 @@ namespace RoguelikeMap.Map
             var maps = Resources.LoadAll<PointGraph>(path);
             var mapIndex = Random.Range(0, maps.Length);
             var points = GeneratePoints(maps[mapIndex]);
-            //GeneratePaths(points);
             return points;
         }
 
         private List<Point> GeneratePoints(PointGraph map)
         {
-            var points = new List<Point>();
-
-            foreach (var pointModel in map.GetPoints())
-            {
-                var newPoint = CreatePoint(pointModel);
-                points.Add(newPoint);
-            }
-            return points;
+            return map.GetPoints().Select(CreatePoint).ToList();
         }
 
         private Point CreatePoint(PointModel pointModel)
@@ -52,11 +44,6 @@ namespace RoguelikeMap.Map
             var point = _resolver.Instantiate(_pointPrefab, pointModel.position, Quaternion.identity, _parent);
             point.Initialize(pointModel);
             return point;
-        }
-
-        private PathView GeneratePaths(List<Point> points)
-        {
-            return new PathView(_parent, _pathPrefab, points);
         }
     }
 }

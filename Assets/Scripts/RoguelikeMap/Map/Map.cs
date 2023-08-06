@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using OrderElimination;
-using OrderElimination.Battle;
 using RoguelikeMap.Points;
-using RoguelikeMap.Points.Models;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI;
-using StartSessionMenu;
 using UnityEngine;
 using VContainer;
 
@@ -16,44 +14,59 @@ namespace RoguelikeMap.Map
     {
         [SerializeField]
         private Panel _victoryPanel;
-        
-        private List<Point> _points;
+        [SerializeField]
+        private LineRenderer _pathPrefab;
+
         private IMapGenerator _mapGenerator;
         private Squad _squad;
-        private bool _isSquadSelected;
-        private ScenesMediator _mediator;
-        private Wallet _wallet;
+        private List<Point> _points;
+        private Point _currentPoint;
+        private PathView _pathView;
+        private TransferPanel _transferPanel;
         private IObjectResolver _objectResolver;
 
-        public static string SquadPositionKey = "SquadPosition";
-
         [Inject]
-        private void Construct(IMapGenerator mapGenerator, ScenesMediator mediator,
-            Wallet wallet, Squad squad, IObjectResolver objectResolver)
+        private void Construct(IMapGenerator mapGenerator, Squad squad,
+            TransferPanel transferPanel, IObjectResolver objectResolver)
         {
             _mapGenerator = mapGenerator;
             _squad = squad;
-            _mediator = mediator;
-            _wallet = wallet;
+            _transferPanel = transferPanel;
             _objectResolver = objectResolver;
         }
 
         private void Start()
         {
             _points = _mapGenerator.GenerateMap();
-            SetSquadPosition();
+            _pathView = new PathView(transform, _pathPrefab);
+            _transferPanel.OnAcceptClick += MoveToPoint; 
+            ReloadMap();
         }
-
-        private void SetSquadPosition()
-        {
-            var point = _points[0];
-            _squad.Visit(point.Model);
-        }
-
+        
         public void ReloadMap()
         {
-            PlayerPrefs.DeleteKey(SquadPositionKey);
-            SetSquadPosition();
+            _currentPoint = FindStartPoint();
+            _squad.MoveWithoutAnimation(_currentPoint.Model.position);
+            UpdatePointsIcon();
+            UpdatePaths();
+        }
+
+        private Point FindStartPoint()
+        {
+            return _points.First(point => point.Model is StartPointModel);
+        }
+
+        private async void MoveToPoint(Point point)
+        {
+            await SetSquadPosition(point);
+        }
+
+        private async Task SetSquadPosition(Point point)
+        {
+            _currentPoint = point;
+            await point.Visit(_squad);
+            UpdatePointsIcon();
+            UpdatePaths();
         }
 
         public void LoadStartScene()
@@ -62,11 +75,27 @@ namespace RoguelikeMap.Map
             sceneTransition.LoadStartSessionMenu();
         }
 
-        private void GameEnd()
+        private void UpdatePointsIcon()
         {
-            _victoryPanel.Open();
-            PlayerPrefs.SetInt("MoneyAfterGameEnd", _wallet.Money + 1000);
-            Destroy(_mediator.gameObject);
+            foreach(var point in _points)
+                point.Model.SetActive(false);
+            
+            _currentPoint.Model.SetActive(true);
+            var nextPoints = _currentPoint.Model.GetNextPoints();
+            if (nextPoints is null)
+                return;
+            foreach(var point in nextPoints)
+                point.SetActive(true);
+        }
+
+        private void UpdatePaths()
+        {
+            _pathView.UpdatePaths(_currentPoint);
+        }
+
+        public void OnDestroy()
+        {
+            _transferPanel.OnAcceptClick -= MoveToPoint;
         }
     }
 }

@@ -57,7 +57,6 @@ public class MenuWindow : MonoBehaviour
         _startGameButton.onClick.AddListener(() =>
         {
             _metaShopPanel.SaveStats();
-            PlayerPrefs.DeleteKey(Map.SquadPositionKey);
             if(_choosingCharacterPanel.SaveCharacters())
                 _sceneTransition.LoadRoguelikeMap();
         });

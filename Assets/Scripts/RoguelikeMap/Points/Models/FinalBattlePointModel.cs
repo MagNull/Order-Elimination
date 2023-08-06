@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using OrderElimination;
 using OrderElimination.MacroGame;
 using RoguelikeMap.SquadInfo;
@@ -30,19 +31,14 @@ namespace RoguelikeMap.Points.Models
 
         public int ItemsCount => _itemsCount;
 
-        public override void Visit(Squad squad)
+        public override async Task Visit(Squad squad)
         {
             squad.OnUpdateMembers -= Panel.UpdateAlliesOnMap;
             squad.OnUpdateMembers += Panel.UpdateAlliesOnMap;
-            base.Visit(squad);
+            await base.Visit(squad);
             _enemiesGameCharacter = GameCharactersFactory.CreateGameCharacters(Enemies).ToList();
             Panel.Initialize(_battleScenario, _enemiesGameCharacter, squad.Members); //TODO: Store GameCharacters
             Panel.Open();
-        }
-
-        public override IEnumerable<PointModel> GetNextPoints()
-        {
-            return null;
         }
     }
 }

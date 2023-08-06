@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Events;
 using OrderElimination.MacroGame;
 using RoguelikeMap.SquadInfo;
@@ -23,9 +24,9 @@ namespace RoguelikeMap.Points.Models
         public override PointType Type => PointType.Event;
         public BattleScenario Scenario => _battleScenario;
         
-        public override void Visit(Squad squad)
+        public override async Task Visit(Squad squad)
         {
-            base.Visit(squad);
+            await base.Visit(squad);
             Panel.Open(_eventGraph.IsContainsBattle);
             _eventGraph.Process(Panel);
         }

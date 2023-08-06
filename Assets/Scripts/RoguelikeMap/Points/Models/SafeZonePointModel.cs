@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using GameInventory.Items;
 using RoguelikeMap.Panels;
 using RoguelikeMap.SquadInfo;
@@ -28,9 +29,9 @@ namespace RoguelikeMap.Points.Models
         public override PointType Type => PointType.SafeZone;
         public SafeZonePanel Panel => _panel as SafeZonePanel;
         
-        public override void Visit(Squad squad)
+        public override async Task Visit(Squad squad)
         {
-            base.Visit(squad);
+            await base.Visit(squad);
             Panel.SetInfo(_amountHeal, _items, _sprite, _text);
             Panel.Open();
         }

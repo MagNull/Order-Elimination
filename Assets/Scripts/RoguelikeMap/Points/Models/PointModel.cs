@@ -1,7 +1,7 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Events;
+using System.Threading.Tasks;
 using RoguelikeMap.Panels;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI;
@@ -14,27 +14,26 @@ namespace RoguelikeMap.Points.Models
     {
         [field: SerializeField]
         public Sprite Sprite { get; private set; }
+        [field: SerializeField]
+        public string TransferText { get; private set; }
 
         protected Panel _panel;
         public virtual PointType Type => PointType.None;
+
+        public event Action<bool> OnChangeActivity;
         
-        public virtual void Visit(Squad squad)
+        public virtual async Task Visit(Squad squad)
         {
-            squad.Visit(this);
+            await squad.Visit(this);
         }
 
         public void SetPanel(PanelManager panelManager) => _panel = panelManager.GetPanelByPointInfo(Type);
 
-        public void ShowPanel()
-        {
-            if (_panel is null)
-                return;
-            _panel.Open();
-        }
-
-        public virtual IEnumerable<PointModel> GetNextPoints()
+        public IEnumerable<PointModel> GetNextPoints()
         {
             return GetPort("exits").GetConnections().Select(connection => connection.node as PointModel);
         }
+
+        public void SetActive(bool isActive) => OnChangeActivity?.Invoke(isActive);
     }
 }
