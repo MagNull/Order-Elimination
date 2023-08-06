@@ -14,14 +14,11 @@ namespace RoguelikeMap.Map
     {
         [SerializeField]
         private Panel _victoryPanel;
-        [SerializeField]
-        private LineRenderer _pathPrefab;
 
         private IMapGenerator _mapGenerator;
         private Squad _squad;
         private List<Point> _points;
         private Point _currentPoint;
-        private PathView _pathView;
         private TransferPanel _transferPanel;
         private IObjectResolver _objectResolver;
 
@@ -38,17 +35,18 @@ namespace RoguelikeMap.Map
         private void Start()
         {
             _points = _mapGenerator.GenerateMap();
-            _pathView = new PathView(transform, _pathPrefab);
             _transferPanel.OnAcceptClick += MoveToPoint; 
             ReloadMap();
         }
         
         public void ReloadMap()
         {
+            if(_currentPoint is not null)
+                _currentPoint.HidePaths();
             _currentPoint = FindStartPoint();
             _squad.MoveWithoutAnimation(_currentPoint.Model.position);
             UpdatePointsIcon();
-            UpdatePaths();
+            _currentPoint.ShowPaths();
         }
 
         private Point FindStartPoint()
@@ -63,10 +61,12 @@ namespace RoguelikeMap.Map
 
         private async Task SetSquadPosition(Point point)
         {
+            if(_currentPoint is not null)
+                _currentPoint.HidePaths();
             _currentPoint = point;
             await point.Visit(_squad);
             UpdatePointsIcon();
-            UpdatePaths();
+            _currentPoint.ShowPaths();
         }
 
         public void LoadStartScene()
@@ -86,11 +86,6 @@ namespace RoguelikeMap.Map
                 return;
             foreach(var point in nextPoints)
                 point.SetActive(true);
-        }
-
-        private void UpdatePaths()
-        {
-            _pathView.UpdatePaths(_currentPoint);
         }
 
         public void OnDestroy()

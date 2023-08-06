@@ -16,6 +16,10 @@ namespace RoguelikeMap.Points
         private SpriteRenderer _background;
         [SerializeField]
         private SpriteRenderer _icon;
+        [SerializeField]
+        private PathView _pathPrefab;
+
+        private PathView _pathView;
         private TransferPanel _transferPanel;
         private PanelManager _panelManager;
         private bool _isActive;
@@ -37,6 +41,7 @@ namespace RoguelikeMap.Points
             Model.OnChangeActivity += SetActive;
             _icon.sprite = model.Sprite;
             Model.SetPanel(_panelManager);
+            _pathView = Instantiate(_pathPrefab, transform);
         }
 
         public async Task Visit(Squad squad) => await Model.Visit(squad);
@@ -45,11 +50,15 @@ namespace RoguelikeMap.Points
         {
             _isActive = isActive;
             var color = isActive ? Color.white : Color.gray;
-             _background.color = color;
+            _background.color = color;
             if (_icon is not null)
                 _icon.color = color;
         }
 
+        public void ShowPaths() => _pathView.UpdatePaths(this);
+
+        public void HidePaths() => _pathView.ClearPaths();
+        
         private void OnMouseDown()
         {
             if (!EventSystem.current.IsPointerOverGameObject() && _isActive && Model is not StartPointModel)

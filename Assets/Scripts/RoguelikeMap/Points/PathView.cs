@@ -1,43 +1,59 @@
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using RoguelikeMap.Points.Models;
 using UnityEngine;
-using Color = UnityEngine.Color;
 
 namespace RoguelikeMap.Points
 {
-    public class PathView
+    public class PathView : MonoBehaviour
     {
-        private readonly LineRenderer _paths;
-        private int _lastIndex;
-
-        public PathView(Transform transform, LineRenderer pathPrefab)
-        {
-            _paths = Object.Instantiate(pathPrefab, transform);
-            _paths.SetWidth(7, 7);
-            _paths.material = new Material(Shader.Find("Sprites/Default"));
-        }
+        [SerializeField]
+        private LineRenderer _pathPrefab;
+        private readonly List<LineRenderer> _paths = new ();
+        private const int _duration = 2;
 
         public void UpdatePaths(Point point)
         {
-            ClearLines();
-            _lastIndex = 0;
+            if (_paths.Count != 0)
+                ClearPaths();
             var nextPoints = point.Model.GetNextPoints();
-            _paths.positionCount = nextPoints.Count() * 2;
-            foreach(var nextPoint in nextPoints)
+            foreach (var model in nextPoints)
             {
-                SetPosition(point.transform.position);
-                SetPosition(nextPoint.position);
+                var lineRenderer = Instantiate(_pathPrefab, transform);
+                lineRenderer.SetPosition(0, point.Model.position);
+                lineRenderer.SetPosition(1, model.position);
+                StartCoroutine(AnimateLine(lineRenderer));
+                _paths.Add(lineRenderer);
             }
         }
-        
-        private void SetPosition(Vector3 path)
+
+        private IEnumerator AnimateLine(LineRenderer lineRenderer)
         {
-            _paths.SetPosition(_lastIndex++, path);
+            var pointsCount = lineRenderer.positionCount;
+            float segmentDuration = _duration / pointsCount;
+            for (var i = 0; i < pointsCount - 1; i++)
+            {
+                var startTime = Time.time;
+                var startPosition = lineRenderer.GetPosition(i);
+                var endPosition = lineRenderer.GetPosition(i + 1);
+
+                var currentPosition = startPosition;
+                while (currentPosition != endPosition)
+                {
+                    var t = (Time.time - startTime) / segmentDuration;
+                    currentPosition = Vector3.Lerp(startPosition, endPosition, t);
+                    for(var j = i + 1; j < pointsCount; j++)
+                        lineRenderer.SetPosition(j, currentPosition);
+
+                    yield return null;
+                }
+            }
         }
 
-        private void ClearLines()
+        public void ClearPaths()
         {
-            _paths.positionCount = 0;
+            foreach (var path in _paths)
+                Destroy(path.gameObject);
         }
     }
 }
