@@ -6,14 +6,17 @@
             InflictDamageAction damageAction, int localRepetitions, int totalRepetitions)
         {
             DamageAction = damageAction;
-            Repetitions = localRepetitions;
+            LocalRepetitions = localRepetitions;
             TotalRepetitions = totalRepetitions;
         }
 
-        public InflictDamageAction DamageAction { get; }
-        public int Repetitions { get; }
+        public InflictDamageAction DamageAction { get; } //safe copy or readonly
+        public int LocalRepetitions { get; }
         public int TotalRepetitions { get; } //Considers higher instruction repetitions
         //DamageTarget/TargetGroup
+        public EntityFilter TargetFilter { get; } = new();
+        //Affected cells/cellGroups?
+        //GetProcessedDamage(ActionContext)
     }
 
     public class AbilityInstructionDamageRepresentation : DamageRepresentation

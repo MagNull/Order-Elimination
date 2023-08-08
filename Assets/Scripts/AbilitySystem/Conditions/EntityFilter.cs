@@ -8,7 +8,7 @@ using System.Linq;
 namespace OrderElimination.AbilitySystem
 {
     [GUIColor(0.95f, 0.35f, 0.75f)]
-    public class EntityFilter : ICloneable<EntityFilter>
+    public class EntityFilter : ICloneable<EntityFilter> //TODO: replace fields with properties
     {
         #region OdinVisuals
         private bool _allowsCharacters => AllowedEntityTypes[EntityType.Character] == true;
