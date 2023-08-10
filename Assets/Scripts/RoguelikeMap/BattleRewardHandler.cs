@@ -25,7 +25,6 @@ namespace RoguelikeMap
             if (!_scenesMediator.Contains<BattleResults>("battle results"))
                 return;
             var results = _scenesMediator.Get<BattleResults>("battle results");
-            _scenesMediator.Unregister("battle results");
             
             _wallet.AddMoney(results.MoneyReward);
             foreach (var item in results.ItemsReward)

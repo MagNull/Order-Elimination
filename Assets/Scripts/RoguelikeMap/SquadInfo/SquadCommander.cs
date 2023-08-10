@@ -19,7 +19,6 @@ namespace RoguelikeMap.SquadInfo
         private PointModel _target;
         private Squad _squad;
         private SquadMembersPanel _squadMembersPanel;
-        private ScenesMediator _mediator;
 
         public BattleOutcome? BattleOutcome { get; private set; } = null;
         public PointModel Target => _target;
@@ -28,21 +27,13 @@ namespace RoguelikeMap.SquadInfo
         public event Action<int> OnHealAccept;
 
         [Inject]
-        public SquadCommander(IObjectResolver objectResolver, ScenesMediator mediator,
-            PanelManager panelManager, SquadMembersPanel squadMembersPanel)
+        public SquadCommander(IObjectResolver objectResolver, PanelManager panelManager,
+            SquadMembersPanel squadMembersPanel)
         {
             _objectResolver = objectResolver;
             SubscribeToEvents(panelManager);
             _squadMembersPanel = squadMembersPanel;
-            _mediator = mediator;
             squadMembersPanel.OnSelected += WereSelectedMembers;
-        }
-
-        public void Start()
-        {
-            if (!_mediator.Contains<BattleResults>("battle results"))
-                return;
-            BattleOutcome = _mediator.Get<BattleResults>("battle results").BattleOutcome;
         }
 
         public void SetSquad(Squad squad)
@@ -69,7 +60,7 @@ namespace RoguelikeMap.SquadInfo
 
         private void StartAttackByBattlePoint()
         {
-            if (_target is not BattlePointModel battlePointModel)
+            if (_target is not FinalBattlePointModel battlePointModel)
             {
                 Logging.LogException( new ArgumentException("Is not valid point to attack"));
                 throw new ArgumentException("Is not valid point to attack");
