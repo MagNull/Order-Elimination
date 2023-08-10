@@ -1,16 +1,17 @@
-﻿using OrderElimination.Infrastructure;
-
-namespace OrderElimination.AbilitySystem
+﻿namespace OrderElimination.AbilitySystem
 {
     public class DamageRepresentation
     {
         public DamageRepresentation(
-            InflictDamageAction damageAction, int localRepetitions, int totalRepetitions)
+            EntityFilter affectedEntities,
+            InflictDamageAction damageAction, 
+            int localRepetitions, 
+            int totalRepetitions)
         {
             DamageAction = damageAction;
             LocalRepetitions = localRepetitions;
             TotalRepetitions = totalRepetitions;
-            TargetFilter = EntityFilter.AllowAllFilter;
+            TargetFilter = affectedEntities.Clone();
         }
 
         public InflictDamageAction DamageAction { get; } //safe copy or readonly
@@ -36,24 +37,4 @@ namespace OrderElimination.AbilitySystem
 
         //}
     }
-
-    public class AbilityInstructionDamageRepresentation : DamageRepresentation
-    {
-        public AbilityInstructionDamageRepresentation(
-            InflictDamageAction damageAction, 
-            int localRepetitions, 
-            int totalRepetitions,
-            AbilityInstruction damageInstruction) 
-            : base(damageAction, localRepetitions, totalRepetitions)
-        {
-            if (damageInstruction.Action is not InflictDamageAction)
-                throw new System.ArgumentException("Instruction doesn't represent damage action.");
-            DamageInstruction = damageInstruction;
-        }
-
-        public AbilityInstruction DamageInstruction { get; }
-    }
-
-    //TriggerInstructionDamageRepresentation
-    //EffectInstruction ...
 }
