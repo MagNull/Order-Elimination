@@ -1,4 +1,6 @@
-﻿namespace OrderElimination.AbilitySystem
+﻿using OrderElimination.Infrastructure;
+
+namespace OrderElimination.AbilitySystem
 {
     public class DamageRepresentation
     {
@@ -8,6 +10,7 @@
             DamageAction = damageAction;
             LocalRepetitions = localRepetitions;
             TotalRepetitions = totalRepetitions;
+            TargetFilter = EntityFilter.AllowAllFilter;
         }
 
         public InflictDamageAction DamageAction { get; } //safe copy or readonly
@@ -17,6 +20,21 @@
         public EntityFilter TargetFilter { get; } = new();
         //Affected cells/cellGroups?
         //GetProcessedDamage(ActionContext)
+        //DamageSize
+        //Accuracy
+        public InflictDamageAction GetContextDamage(
+            ActionContext actionContext, out DamageInfo damage, out float accuracy)
+        {
+            var processedAction = DamageAction.GetModifiedAction(actionContext);
+            damage = processedAction.CalculateDamage(actionContext);
+            accuracy = processedAction.CalculateAccuracy(actionContext);
+            return processedAction;
+        }
+
+        //public bool GetContextIndependentDamage(out DamageInfo damage, out float accuracy)
+        //{
+
+        //}
     }
 
     public class AbilityInstructionDamageRepresentation : DamageRepresentation

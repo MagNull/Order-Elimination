@@ -3,22 +3,22 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class PassiveAbilityView
+    public class PassiveAbilityView : IAbilityView
     {
         public string Name { get; }
         public Sprite Icon { get; }
         public string Description { get; }
         //public VideoClip PreviewVideo { get; }
-        public bool HideInCharacterDiscription { get; }
+        public bool HideInCharacterDescription { get; }
 
         public PassiveAbilityView(
             string name, Sprite icon, string description,
-            bool hideInCharacterDiscription)
+            bool hideInCharacterDescription)
         {
-            Name = name;
+            Name = name ?? "";
             Icon = icon;
             Description = description ?? "";
-            HideInCharacterDiscription = hideInCharacterDiscription;
+            HideInCharacterDescription = hideInCharacterDescription;
         }
     }
 }

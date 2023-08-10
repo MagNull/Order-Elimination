@@ -22,6 +22,9 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
+    - Name: EffectCharacter
+      Entry: 3
+      Data: 0
     - Name: StackingPolicy
       Entry: 3
       Data: 2
@@ -45,7 +48,7 @@ MonoBehaviour:
       Data: 1|OrderElimination.AbilitySystem.ChangeStatusAction, Assembly-CSharp
     - Name: Status
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: Operation
       Entry: 3
       Data: 0
@@ -180,12 +183,6 @@ MonoBehaviour:
     - Name: AllowSelf
       Entry: 5
       Data: false
-    - Name: CharactersSpecification
-      Entry: 3
-      Data: 0
-    - Name: StructuresSpecification
-      Entry: 3
-      Data: 0
     - Name: AllowedEntityTypes
       Entry: 7
       Data: 13|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.EntityType,
@@ -300,10 +297,16 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: CharactersSpecification
+      Entry: 3
+      Data: 0
+    - Name: StructuresSpecification
+      Entry: 3
+      Data: 0
     - Name: _specifiedCharacters
       Entry: 7
-      Data: 19|System.Collections.Generic.List`1[[IBattleCharacterData, Assembly-CSharp]],
-        mscorlib
+      Data: 19|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
+        Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -315,8 +318,8 @@ MonoBehaviour:
       Data: 
     - Name: _specifiedStructures
       Entry: 7
-      Data: 20|System.Collections.Generic.List`1[[IBattleStructureData, Assembly-CSharp]],
-        mscorlib
+      Data: 20|System.Collections.Generic.List`1[[OrderElimination.IBattleStructureTemplate,
+        Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -438,12 +441,6 @@ MonoBehaviour:
     - Name: AllowSelf
       Entry: 5
       Data: false
-    - Name: CharactersSpecification
-      Entry: 3
-      Data: 0
-    - Name: StructuresSpecification
-      Entry: 3
-      Data: 0
     - Name: AllowedEntityTypes
       Entry: 7
       Data: 30|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.EntityType,
@@ -558,10 +555,16 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: CharactersSpecification
+      Entry: 3
+      Data: 0
+    - Name: StructuresSpecification
+      Entry: 3
+      Data: 0
     - Name: _specifiedCharacters
       Entry: 7
-      Data: 36|System.Collections.Generic.List`1[[IBattleCharacterData, Assembly-CSharp]],
-        mscorlib
+      Data: 36|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
+        Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -573,8 +576,8 @@ MonoBehaviour:
       Data: 
     - Name: _specifiedStructures
       Entry: 7
-      Data: 37|System.Collections.Generic.List`1[[IBattleStructureData, Assembly-CSharp]],
-        mscorlib
+      Data: 37|System.Collections.Generic.List`1[[OrderElimination.IBattleStructureTemplate,
+        Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 0

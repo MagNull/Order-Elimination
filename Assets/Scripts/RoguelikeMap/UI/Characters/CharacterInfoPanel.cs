@@ -96,7 +96,7 @@ namespace RoguelikeMap.UI.Characters
                 .Where(a => !a.View.HideInCharacterDescription)
                 .ToArray();
             var displayedPassiveAbilities = passiveAbilities
-                .Where(a => !a.View.HideInCharacterDiscription)
+                .Where(a => !a.View.HideInCharacterDescription)
                 .ToArray();
             if (displayedActiveAbilities.Length > _activeAbilityButtons.Count
                 || displayedPassiveAbilities.Length > _passiveAbilityButtons.Count)

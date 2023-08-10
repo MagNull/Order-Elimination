@@ -63,7 +63,7 @@ namespace UIManagement
                 .ToArray();
             var passiveAbilities = character
                 .PassiveAbilities
-                .Where(a => !a.View.HideInCharacterDiscription)
+                .Where(a => !a.View.HideInCharacterDescription)
                 .ToArray();
             UpdateAbilityButtons(activeAbilities, passiveAbilities);
             UpdateInventory(character.Inventory);
@@ -86,7 +86,7 @@ namespace UIManagement
             var passiveAbilities = entity
                 .PassiveAbilities
                 .Select(runner => runner.AbilityData)
-                .Where(a => !a.View.HideInCharacterDiscription)
+                .Where(a => !a.View.HideInCharacterDescription)
                 .ToArray();
             UpdateAbilityButtons(activeAbilities, passiveAbilities);
             _characterInventoryPresenter.enabled = false;
@@ -145,7 +145,7 @@ namespace UIManagement
                 .Where(a => !a.View.HideInCharacterDescription)
                 .ToArray();
             var displayedPassiveAbilities = passiveAbilities
-                .Where(a => !a.View.HideInCharacterDiscription)
+                .Where(a => !a.View.HideInCharacterDescription)
                 .ToArray();
             if (displayedActiveAbilities.Length > _activeAbilityButtons.Count
                 || displayedPassiveAbilities.Length > _passiveAbilityButtons.Count)

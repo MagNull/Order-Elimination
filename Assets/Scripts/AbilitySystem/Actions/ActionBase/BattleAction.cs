@@ -1,11 +1,10 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
-using System.Diagnostics;
 
 namespace OrderElimination.AbilitySystem
 {
     public abstract class BattleAction<TAction> : IBattleAction 
-        where TAction : BattleAction<TAction>
+        where TAction : BattleAction<TAction> //TODO: reconsider necessity of this
     {
         public abstract ActionRequires ActionRequires { get; }
 

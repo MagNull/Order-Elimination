@@ -118,5 +118,8 @@ namespace OrderElimination.AbilitySystem
             var damageInfo = new DamageInfo(damageSize, ArmorMultiplier, HealthMultiplier, DamageType, DamagePriority, damageDealer);
             return damageInfo;
         }
+
+        public float CalculateAccuracy(ActionContext useContext)
+            => Accuracy.GetValue(useContext);
     }
 }
