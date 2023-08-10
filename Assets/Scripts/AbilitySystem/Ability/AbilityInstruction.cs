@@ -77,7 +77,7 @@ namespace OrderElimination.AbilitySystem
 
         [TabGroup("Execution")]
         [ShowInInspector, OdinSerialize]
-        public int RepeatNumber
+        public int RepeatNumber //TODO: Rename to Repetitions, place serialization on field
         {
             get => _repeatNumber;
             set
@@ -223,17 +223,17 @@ namespace OrderElimination.AbilitySystem
             {
                 executionContext = new AbilityExecutionContext(
                     executionContext, 
-                    target);
-                var entityActionUseContext = new ActionContext(
-                    executionContext.BattleContext, 
-                    executionContext.TargetedCellGroups, 
-                    caster, 
-                    target, 
-                    targetPositionOverride);
+                    target); 
                 if (targetPositionOverride == null && target != null)
                 {
                     targetPositionOverride = target.Position;
                 }
+                var entityActionUseContext = new ActionContext(
+                    executionContext.BattleContext, 
+                    executionContext.TargetedCellGroups, 
+                    caster, 
+                    target);//removed argument: targetPositionOverride
+
                 var animationContext = new AnimationPlayContext(
                     executionContext.AnimationSceneContext,
                     executionContext.TargetedCellGroups,

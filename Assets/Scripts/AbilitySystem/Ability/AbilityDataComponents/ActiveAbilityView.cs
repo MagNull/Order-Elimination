@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class ActiveAbilityView
+    public class ActiveAbilityView : IAbilityView
     {
         public string Name { get; }
         public Sprite Icon { get; }
@@ -17,6 +17,8 @@ namespace OrderElimination.AbilitySystem
         //CrosshairTargetGroups
         public bool ShowTrajectoryWhenTargeting { get; }
 
+        //public IReadOnlyList<string> Parameters { get; } //Range, etc. for manual display
+
         public ActiveAbilityView(
             IReadOnlyDictionary<int, Color> groupColors, 
             string name, Sprite icon, string description, 
@@ -24,7 +26,7 @@ namespace OrderElimination.AbilitySystem
             bool showCrosshair,
             bool showTrajectory) 
         {
-            Name = name;
+            Name = name ?? "";
             Icon = icon;
             Description = description ?? "";
             TargetGroupsHighlightColors = groupColors;

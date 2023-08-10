@@ -14,9 +14,7 @@ namespace OrderElimination.AbilitySystem
         public readonly CellGroupsContainer TargetCellGroups;
         public readonly AbilitySystemActor ActionMaker;
         public readonly AbilitySystemActor ActionTarget;
-        //AbilityUseContext (+ initial caster position, inital target position)
-
-        public readonly Vector2Int? ActionTargetInitialPosition;
+        //AbilityUseContext (+ initial caster position, initial target position)
 
         public readonly AnimationSceneContext AnimationSceneContext;
         //CalledAbility - способность, инициирующая действия
@@ -26,16 +24,14 @@ namespace OrderElimination.AbilitySystem
             IBattleContext battleContext,
             CellGroupsContainer targetCellGroups,
             AbilitySystemActor actionMaker,
-            AbilitySystemActor target,
-            Vector2Int? targetPosition = null)
+            AbilitySystemActor target)
         {
             BattleContext = battleContext;
             TargetCellGroups = targetCellGroups;
             ActionMaker = actionMaker;
             ActionTarget = target;
-            if (targetPosition == null && target != null && battleContext.BattleMap.ContainsEntity(target))
-                targetPosition = target.Position;
-            ActionTargetInitialPosition = targetPosition;
+            //if (targetPosition == null && target != null && battleContext.BattleMap.ContainsEntity(target))
+            //    targetPosition = target.Position;
             AnimationSceneContext = battleContext.AnimationSceneContext;
         }
     }

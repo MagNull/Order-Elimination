@@ -1,4 +1,6 @@
-﻿namespace OrderElimination.AbilitySystem
+﻿using System.Collections.Generic;
+
+namespace OrderElimination.AbilitySystem
 {
     public class AbilityGameRepresentation : IAbilityGameRepresentation
     {
@@ -6,8 +8,8 @@
         public int CooldownTime { get; private set; }
 
         public TargetingSystemRepresentation TargetingSystem { get; private set; }
-        public float? Range { get; private set; }
-        public DamageRepresentation DamageRepresentation { get; private set; }
+        public float? MaxRange { get; private set; }
+        public IReadOnlyList<DamageRepresentation> DamageRepresentations { get; private set; }
 
         //AbilityTags[] Tags; //Melee, Range, Damage, ...
         //ActivationType: Manual, Automatic, Combined
@@ -24,22 +26,58 @@
             IAbilityTargetingSystem targetingSystem,
             ActiveAbilityExecution activeFunctional)
         {
-            var representation = new AbilityGameRepresentation();
             var targetingRepresentation = new TargetingSystemRepresentation(targetingSystem);
-            representation.AbilityType = AbilityType.Active;
-            representation.CooldownTime = cooldown;
+            var damageRepresentations = new List<DamageRepresentation>();
+            foreach (var instruction in activeFunctional.ActionInstructions)
+            {
+                DescribeInstruction(instruction, 1);
+            }
+
+            var representation = new AbilityGameRepresentation
+            {
+                AbilityType = AbilityType.Active,
+                CooldownTime = cooldown,
+                DamageRepresentations = damageRepresentations
+            };
             //...
             return representation;
+
+            void DescribeInstruction(AbilityInstruction instruction, int parentTotalRepetitions)
+            {
+                var localRepetitions = instruction.RepeatNumber;
+                var totalRepetitions = localRepetitions * parentTotalRepetitions;
+
+                if (instruction.Action is InflictDamageAction damageAction)
+                {
+                    damageRepresentations.Add(new(damageAction, localRepetitions, totalRepetitions));
+                }
+
+                foreach (var sucInstruction in instruction.InstructionsOnActionSuccess)
+                {
+                    DescribeInstruction(sucInstruction, totalRepetitions);
+                }
+                foreach (var failInstruction in instruction.InstructionsOnActionFail)
+                {
+                    DescribeInstruction(failInstruction, totalRepetitions);
+                }
+                foreach (var followInstruction in instruction.FollowingInstructions)
+                {
+                    DescribeInstruction(followInstruction, totalRepetitions);
+                }
+            }
         }
 
         public static AbilityGameRepresentation FromPassiveAbility(
             int cooldown,
             PassiveAbilityExecution passiveFunctional)
         {
-            var representation = new AbilityGameRepresentation();
-            representation.AbilityType = AbilityType.Passive;
-            representation.CooldownTime = cooldown;
-            //...
+            //Describe functionality
+            var representation = new AbilityGameRepresentation
+            {
+                AbilityType = AbilityType.Passive,
+                CooldownTime = cooldown
+                //...
+            };
             return representation;
         }
     }

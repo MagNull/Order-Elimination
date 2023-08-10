@@ -1,10 +1,4 @@
-using OrderElimination.AbilitySystem;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using OrderElimination.Infrastructure;
-using Unity.Burst.CompilerServices;
-using System.Linq;
 using Sirenix.OdinInspector;
 using Cysharp.Threading.Tasks;
 using OrderElimination.AbilitySystem.Animations;
@@ -124,5 +118,8 @@ namespace OrderElimination.AbilitySystem
             var damageInfo = new DamageInfo(damageSize, ArmorMultiplier, HealthMultiplier, DamageType, DamagePriority, damageDealer);
             return damageInfo;
         }
+
+        public float CalculateAccuracy(ActionContext useContext)
+            => Accuracy.GetValue(useContext);
     }
 }

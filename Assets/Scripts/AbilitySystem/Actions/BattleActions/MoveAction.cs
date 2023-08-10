@@ -68,19 +68,22 @@ namespace OrderElimination.AbilitySystem
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
+            var target = useContext.ActionTarget;
             var failResult = new SimplePerformResult(this, useContext, false);
             var cellGroups = useContext.TargetCellGroups;
             if (!cellGroups.ContainsGroup(DestinationCellGroup)
                 || cellGroups.GetGroup(DestinationCellGroup).Length == 0)
                 return failResult;
-            if (!useContext.ActionTarget.CanMove && !ForceMove)
+            if (!target.CanMove && !ForceMove)
                 return failResult;
             var battleContext = useContext.BattleContext;
             var casterPos = useContext.ActionMaker.Position;
-            var targetPos = useContext.ActionTargetInitialPosition;
+            Vector2Int? targetPos = null;
+            if (target != null)
+                targetPos = target.Position;
             var destination = CellPriority.GetPositionByPriority(
                 cellGroups.GetGroup(DestinationCellGroup), casterPos, targetPos);//destination conditions?
-            var movingEntity = useContext.ActionTarget;
+            var movingEntity = target;
 
             //var moveAnimation = _overrideDefaultAnimations
             //    ? MoveAnimation
@@ -134,7 +137,7 @@ namespace OrderElimination.AbilitySystem
                     useContext.TargetCellGroups,
                     useContext.ActionMaker,
                     useContext.ActionTarget,
-                    useContext.ActionTargetInitialPosition);
+                    targetPos);
                 if (MoveAnimation != null)
                     await MoveAnimation.Play(animationContext);
                 var moved = movingEntity.Move(destination, ForceMove);

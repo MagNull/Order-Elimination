@@ -54,7 +54,7 @@ namespace OrderElimination.AbilitySystem
 
         [ShowIf(nameof(_hasUndoableEnterActions))]
         [ValidateInput(
-            "@" + nameof(TriggerSetup) + "." + nameof(EntityRelativeZoneTrigger.TriggerOnExit),
+            "@" + nameof(_undoOnLeave) + "&&" + nameof(TriggerSetup) + "." + nameof(EntityRelativeZoneTrigger.TriggerOnExit),
             "Enable " + nameof(EntityRelativeZoneTrigger.TriggerOnExit) + " in trigger setup for undo to work!")]
         [ShowInInspector, OdinSerialize]
         private bool _undoOnLeave { get; set; }
@@ -64,7 +64,7 @@ namespace OrderElimination.AbilitySystem
 
         [ShowIf(nameof(_hasUndoableExitActions))]
         [ValidateInput(
-            "@" + nameof(TriggerSetup) + "." + nameof(EntityRelativeZoneTrigger.TriggerOnEnter),
+            "@" + nameof(_undoOnEnter) + "&&" + nameof(TriggerSetup) + "." + nameof(EntityRelativeZoneTrigger.TriggerOnEnter),
             "Enable " + nameof(EntityRelativeZoneTrigger.TriggerOnEnter) + " in trigger setup for undo to work!")]
         [ShowInInspector, OdinSerialize]
         private bool _undoOnEnter { get; set; }

@@ -88,6 +88,7 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
 
     private void DisplayInstruction(AbilityInstruction instruction, AbilitySystemActor caster, CellGroupsContainer targetedGroups)
     {
+        //prev target affection?
         var battleContext = caster.BattleContext;
         var casterPos = caster.Position;
         var repSuffix = instruction.RepeatNumber > 1 ? $" x {instruction.RepeatNumber}" : "";
@@ -183,6 +184,7 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
                 }
             }
         }
+        //Next instructions
         foreach (var sucInstruction in instruction.InstructionsOnActionSuccess)
         {
             DisplayInstruction(sucInstruction, caster, targetedGroups);
