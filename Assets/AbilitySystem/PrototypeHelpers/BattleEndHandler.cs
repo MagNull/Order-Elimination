@@ -127,6 +127,12 @@ public class BattleEndHandler : MonoBehaviour
         //_textEmitter.Emit($"������� �Esc� ��� ������.", Color.white, new Vector3(0, -1, -1), Vector3.zero, 1.2f, 100, fontSize: 0.75f);
     }
 
+    [Button]
+    private void TestWin()
+    {
+        OnPlayerVictory();
+    }
+
     private async void OnPlayerVictory()
     {
         await OnBattleEnded();

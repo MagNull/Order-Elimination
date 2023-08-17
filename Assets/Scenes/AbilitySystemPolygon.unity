@@ -376,22 +376,6 @@ MonoBehaviour:
   _accuracyAffectionAsFormulas: 0
   _roundFloatNumbers: 1
   _roundingMode: 0
---- !u!1 &97603398 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 274391217118058624, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
-  m_PrefabInstance: {fileID: 1580248453}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &97603399 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 274391217118058627, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
-  m_PrefabInstance: {fileID: 1580248453}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 97603398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96f6c99ad92b4ca2a1583bf4bcbd608d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &131492486
 GameObject:
   m_ObjectHideFlags: 0
@@ -1609,7 +1593,7 @@ MonoBehaviour:
   PlayerSelector: {fileID: 78333931}
   _endTurnButton: {fileID: 1265434198}
   _roundCounter: {fileID: 963284766}
-  _nonPlayerController: {fileID: 97603399}
+  _nonPlayerController: {fileID: 274391218161431814}
   _dontTouchPlayerSelector: 1
   _lockTurnButtonOnAITurn: 1
 --- !u!1 &806930971
@@ -2209,7 +2193,7 @@ MonoBehaviour:
   - {fileID: 1031238777}
   - {fileID: 78333929}
   - {fileID: 779262440}
-  - {fileID: 97603398}
+  - {fileID: 274391218161431813}
   - {fileID: 1503250385}
   - {fileID: 0}
   - {fileID: 1455286359}
@@ -2404,67 +2388,6 @@ MonoBehaviour:
   _onPlayerVictorySceneId: 1
   _onPlayerLoseSceneId: 2
   <BattleResultsDisplayDelay>k__BackingField: 1
---- !u!1001 &1580248453
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 274391217118058624, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
-      propertyPath: m_Name
-      value: Enemy AI
-      objectReference: {fileID: 0}
-    - target: {fileID: 274391217118058626, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 274391217118058626, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.013068637
-      objectReference: {fileID: 0}
-    - target: {fileID: 274391217118058626, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.43344316
-      objectReference: {fileID: 0}
-    - target: {fileID: 274391217118058626, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.009202534
-      objectReference: {fileID: 0}
-    - target: {fileID: 274391217118058626, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 274391217118058626, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 274391217118058626, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 274391217118058626, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 274391217118058626, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 274391217118058626, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 274391217118058626, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 274391217118058627, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
-      propertyPath: serializationData.Prefab
-      value: 
-      objectReference: {fileID: 274391217118058627, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b22349dcbfc07194c9b58af511f4b13a, type: 3}
 --- !u!1 &1600433759
 GameObject:
   m_ObjectHideFlags: 0
@@ -2719,10 +2642,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
-    - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
-    - {fileID: 11400000, guid: a039ece631fb87445a6862637b55b573, type: 2}
-    - {fileID: 11400000, guid: 933b6206675ce6746a6d1d3e377dbe2d, type: 2}
+    - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
     - {fileID: 11400000, guid: 8cf61d33b5cc8a442bce0e22ce05a8fc, type: 2}
     - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
     - {fileID: 11400000, guid: d24f2b2100a6fc2428efadf5566307cf, type: 2}
@@ -2736,19 +2656,10 @@ MonoBehaviour:
       Data: 0|OrderElimination.IGameCharacterTemplate[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 4
-    - Name: 
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 10
       Data: 1
     - Name: 
       Entry: 10
-      Data: 2
-    - Name: 
-      Entry: 10
-      Data: 3
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
@@ -2760,16 +2671,13 @@ MonoBehaviour:
       Data: 1|OrderElimination.IGameCharacterTemplate[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 10
-      Data: 4
+      Data: 1
     - Name: 
       Entry: 10
-      Data: 5
-    - Name: 
-      Entry: 10
-      Data: 5
+      Data: 2
     - Name: 
       Entry: 13
       Data: 
@@ -2778,7 +2686,7 @@ MonoBehaviour:
       Data: 
     - Name: _testScenario
       Entry: 10
-      Data: 6
+      Data: 3
   _test: 1
 --- !u!4 &1908500043
 Transform:
@@ -3236,6 +3144,94 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &274391218161431813
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 274391218161431815}
+  - component: {fileID: 274391218161431814}
+  m_Layer: 0
+  m_Name: Enemy AI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &274391218161431814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274391218161431813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96f6c99ad92b4ca2a1583bf4bcbd608d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+    - {fileID: 11400000, guid: b083b76e86441de4d9e3c499a85eea01, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _characterToBehaviors
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[OrderElimination.IGameCharacterTemplate,
+        Assembly-CSharp],[AI.EditorGraph.CharacterBehavior, Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.IGameCharacterTemplate,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 10
+      Data: 0
+    - Name: $v
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  _generalBehavior: {fileID: 11400000, guid: 6e441ed784fab2448874f4b00b95bd7c, type: 2}
+--- !u!4 &274391218161431815
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274391218161431813}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.013068637, y: 0.43344316, z: -0.009202534}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2005745093244662048
 PrefabInstance:

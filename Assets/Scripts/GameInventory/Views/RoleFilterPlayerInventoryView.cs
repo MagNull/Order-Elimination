@@ -10,12 +10,12 @@ namespace GameInventory.Views
         
         public void FilterWithRole()
         {
-            foreach (var cell in _cells)
+            foreach (var cell in _cellViews)
             {
-                if (cell.Key.Item == null)
+                if (cell.Model.Item == null)
                     continue;
-                if (!cell.Key.Item.Data.RoleFilter[_currentCharacterRole])
-                    cell.Value.Disable();
+                if (!cell.Model.Item.Data.RoleFilter[_currentCharacterRole])
+                    cell.Disable();
             }
         }
     }

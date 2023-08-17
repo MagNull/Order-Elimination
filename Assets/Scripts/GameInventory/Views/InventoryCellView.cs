@@ -17,12 +17,14 @@ namespace GameInventory.Views
         private float _clickDistanceFault = 1f;
         private Vector2 _downPosition;
         
-        private IReadOnlyCell _cell;
+        private IReadOnlyCell _model;
+
+        public IReadOnlyCell Model => _model;
 
         public virtual void Init(IReadOnlyCell newCell)
         {
-            _cell = newCell;
-            _iconRenderer.sprite = _cell.Item.Data.View.Icon;
+            _model = newCell;
+            _iconRenderer.sprite = _model.Item.Data.View.Icon;
         }
 
         public void Enable()
@@ -46,7 +48,7 @@ namespace GameInventory.Views
                 return;
             
             Logging.Log("Click");
-            Clicked?.Invoke(_cell);
+            Clicked?.Invoke(_model);
             _downPosition = Vector2.zero;
         }
     }
