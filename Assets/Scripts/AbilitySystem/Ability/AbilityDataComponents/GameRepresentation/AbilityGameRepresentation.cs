@@ -16,6 +16,7 @@ namespace OrderElimination.AbilitySystem
         //AbilityTags[] Tags; //Melee, Range, Damage, ...
         //ActivationType: Manual, Automatic, Combined
         //Cell groups mapping (0 - MainTarget, 1, 3 - Area, ...)
+        //Descriptions for cell groups? (0 - target:enemies, distance:2; ...)
 
         // Hard to calculate damage:
         // - each hit damage can depend on current changing context (20% tarHealth damage per hit)

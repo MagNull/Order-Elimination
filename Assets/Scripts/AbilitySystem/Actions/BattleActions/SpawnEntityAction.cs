@@ -113,14 +113,14 @@ namespace OrderElimination.AbilitySystem
                     _ => throw new NotImplementedException(),
                 };
                 currentPerformEntities.Add(entity);
-                if (RemoveByTrigger)//TODO: Add support for entity triggers
-                {
-                    var trigger = RemoveTrigger.GetTrigger(battleContext);
-                    _activeTriggers.Add(performId, trigger);
-                    _perforIdsByTriggers.Add(trigger, performId);
-                    trigger.Triggered += OnTriggerFired;
-                    trigger.Activate();
-                }
+            }
+            if (RemoveByTrigger)//TODO: Add support for entity triggers
+            {
+                var trigger = RemoveTrigger.GetTrigger(battleContext);
+                _activeTriggers.Add(performId, trigger);
+                _perforIdsByTriggers.Add(trigger, performId);
+                trigger.Triggered += OnTriggerFired;
+                trigger.Activate();
             }
             return new SimpleUndoablePerformResult(this, useContext, true, performId);
         }

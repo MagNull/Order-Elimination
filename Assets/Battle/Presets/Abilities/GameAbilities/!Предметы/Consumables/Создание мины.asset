@@ -174,11 +174,11 @@ MonoBehaviour:
       Data: 
     - Name: _usageCost
       Entry: 7
-      Data: 8|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.ActionPoint,
+      Data: 8|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EnergyPoint,
         Assembly-CSharp],[System.Int32, mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 9|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.ActionPoint,
+      Data: 9|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.EnergyPoint,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -270,12 +270,6 @@ MonoBehaviour:
     - Name: AllowSelf
       Entry: 5
       Data: false
-    - Name: CharactersSpecification
-      Entry: 3
-      Data: 0
-    - Name: StructuresSpecification
-      Entry: 3
-      Data: 0
     - Name: AllowedEntityTypes
       Entry: 7
       Data: 17|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.EntityType,
@@ -402,6 +396,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: CharactersSpecification
+      Entry: 3
+      Data: 0
+    - Name: StructuresSpecification
+      Entry: 3
+      Data: 0
     - Name: _specifiedCharacters
       Entry: 7
       Data: 23|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
@@ -476,6 +476,9 @@ MonoBehaviour:
     - Name: AbsoluteSide
       Entry: 3
       Data: 0
+    - Name: SpawnAtCellGroup
+      Entry: 3
+      Data: 0
     - Name: RemoveByTrigger
       Entry: 5
       Data: false
@@ -504,12 +507,6 @@ MonoBehaviour:
     - Name: AllowSelf
       Entry: 5
       Data: false
-    - Name: CharactersSpecification
-      Entry: 3
-      Data: 0
-    - Name: StructuresSpecification
-      Entry: 3
-      Data: 0
     - Name: AllowedEntityTypes
       Entry: 7
       Data: 31|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.EntityType,
@@ -636,6 +633,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: CharactersSpecification
+      Entry: 3
+      Data: 0
+    - Name: StructuresSpecification
+      Entry: 3
+      Data: 0
     - Name: _specifiedCharacters
       Entry: 7
       Data: 37|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
