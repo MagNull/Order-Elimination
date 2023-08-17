@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GameInventory.Items;
 using OrderElimination;
 using OrderElimination.MacroGame;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI.PointPanels;
+using Sirenix.Serialization;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace RoguelikeMap.Points.Models
 {
@@ -19,7 +22,7 @@ namespace RoguelikeMap.Points.Models
         private BattleScenario _battleScenario;
 
         [SerializeField]
-        private int _itemsCount;
+        private SerializedDictionary<ItemData, float> _itemsDropProbability;
 
         private List<GameCharacter> _enemiesGameCharacter;
 
@@ -29,7 +32,7 @@ namespace RoguelikeMap.Points.Models
         public IReadOnlyList<IGameCharacterTemplate> Enemies => _enemies;
         public BattleScenario Scenario => _battleScenario;
 
-        public int ItemsCount => _itemsCount;
+        public Dictionary<ItemData, float> ItemsDropProbability => _itemsDropProbability;
 
         public override async Task Visit(Squad squad)
         {

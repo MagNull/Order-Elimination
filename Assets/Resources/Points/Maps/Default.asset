@@ -49,7 +49,9 @@ MonoBehaviour:
   _enemies:
   - {fileID: 11400000, guid: 85c060ecda844cb43bd4fe84c712bdd5, type: 2}
   _battleScenario: {fileID: 11400000, guid: 645568020c6734a33b31a508f38bbbe3, type: 2}
-  _itemsCount: 1
+  _itemsDropProbability:
+    m_Keys: []
+    m_Values: []
   exits: {fileID: 0}
 --- !u!114 &-3607521732556223896
 MonoBehaviour:
@@ -91,7 +93,9 @@ MonoBehaviour:
   _enemies:
   - {fileID: 11400000, guid: 85c060ecda844cb43bd4fe84c712bdd5, type: 2}
   _battleScenario: {fileID: 11400000, guid: ba893c36688264d48ac1eb8e05b864c4, type: 2}
-  _itemsCount: 0
+  _itemsDropProbability:
+    m_Keys: []
+    m_Values: []
 --- !u!114 &-883900420392352776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,7 +217,9 @@ MonoBehaviour:
   _enemies:
   - {fileID: 11400000, guid: 85c060ecda844cb43bd4fe84c712bdd5, type: 2}
   _battleScenario: {fileID: 11400000, guid: 4123c1a00591c4987b26c6e2ee49d7d2, type: 2}
-  _itemsCount: 0
+  _itemsDropProbability:
+    m_Keys: []
+    m_Values: []
   exits: {fileID: 0}
 --- !u!114 &4410611699548734048
 MonoBehaviour:
@@ -352,7 +358,9 @@ MonoBehaviour:
   _enemies:
   - {fileID: 11400000, guid: 85c060ecda844cb43bd4fe84c712bdd5, type: 2}
   _battleScenario: {fileID: 11400000, guid: 645568020c6734a33b31a508f38bbbe3, type: 2}
-  _itemsCount: 1
+  _itemsDropProbability:
+    m_Keys: []
+    m_Values: []
   exits: {fileID: 0}
 --- !u!114 &6584293399872262759
 MonoBehaviour:
@@ -403,7 +411,15 @@ MonoBehaviour:
   _enemies:
   - {fileID: 11400000, guid: 85c060ecda844cb43bd4fe84c712bdd5, type: 2}
   _battleScenario: {fileID: 11400000, guid: 645568020c6734a33b31a508f38bbbe3, type: 2}
-  _itemsCount: 1
+  _itemsDropProbability:
+    m_Keys:
+    - {fileID: 11400000, guid: ebb7cc05ab8f4fb45ba8aca48a344ee8, type: 2}
+    - {fileID: 11400000, guid: 63b39f66984483c4086841dff676d0c3, type: 2}
+    - {fileID: 11400000, guid: 1599a607de22cf74190de9909e181d7e, type: 2}
+    m_Values:
+    - 0
+    - 123
+    - 31
   exits: {fileID: 0}
 --- !u!114 &8946382383763177925
 MonoBehaviour:
@@ -452,9 +468,7 @@ MonoBehaviour:
   <TransferText>k__BackingField: "\u041C\u0430\u0433\u0430\u0437\u0438\u043D"
   entries: {fileID: 0}
   exits: {fileID: 0}
-  _count: 0
-  _itemsPool: {fileID: 11400000, guid: 93c01c736e486634fa627c0d29c0603c, type: 2}
-  _maxItemsCost: 0
+  _shopItems: []
 --- !u!114 &8951012714100875131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -508,4 +522,5 @@ MonoBehaviour:
   _sprite: {fileID: 0}
   _text: 
   _amountHeal: 0
-  _items: []
+  _items:
+  - {fileID: 0}

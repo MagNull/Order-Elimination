@@ -180,14 +180,16 @@ public class BattleEndHandler : MonoBehaviour
         if (battleOutcome == BattleOutcome.Lose)
             return battleResult;
 
-        var itemsCount = _scenesMediator.Get<int>("items count");
-        var items = new Item[itemsCount];
-        for (var i = 0; i < itemsCount; i++)
+        var allItems = _scenesMediator.Get<Dictionary<Item, float>>("items");
+        var resultItems = new List<Item>();
+        foreach (var itemProb in allItems)
         {
-            items[i] = _itemsPool.GetRandomItem();
+            var roll = Random.Range(1, 100);
+            if(roll <= itemProb.Value)
+                resultItems.Add(itemProb.Key);
         }
 
-        battleResult.ItemsReward = items;
+        battleResult.ItemsReward = resultItems.ToArray();
         return battleResult;
     }
 

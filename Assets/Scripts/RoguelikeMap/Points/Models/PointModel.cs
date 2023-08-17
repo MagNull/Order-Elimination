@@ -10,6 +10,7 @@ using XNode;
 
 namespace RoguelikeMap.Points.Models
 {
+    [NodeWidth(300)]
     public abstract class PointModel : Node
     {
         [field: SerializeField]

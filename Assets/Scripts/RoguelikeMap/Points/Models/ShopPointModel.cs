@@ -8,50 +8,40 @@ using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI.PointPanels;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace RoguelikeMap.Points.Models
 {
     [Serializable]
+    public struct ShopItemData
+    {
+        public ItemData Data;
+        public int Cost;
+        public int DropProbability;
+    }
+    
+    [Serializable]
     public class ShopPointModel : PointModel
     {
         [Input] public PointModel entries;
         [Output] public PointModel exits;
-        
-        [TabGroup("Items")]
+
         [SerializeField]
-        private int _count;
-        [SerializeField]
-        private ItemsPool _itemsPool;
-        [TabGroup("Costs")]
-        [SerializeField] 
-        private int _maxItemsCost;
-        
+        private List<ShopItemData> _shopItems;
+
         public override PointType Type => PointType.Shop;
-        public IReadOnlyDictionary<ItemData, int> ItemsData => GetItems().Zip(GetCosts(), ((data, cost) => new {data, cost} ))
-            .ToDictionary(x => x.data, x => x.cost);
         public ShopPanel Panel => _panel as ShopPanel;
 
-        private List<ItemData> GetItems()
+        private List<ShopItemData> RollItems()
         {
-            var result = new List<ItemData>();
-            for (var i = 0; i < _count; i++)
+            var result = new List<ShopItemData>();
+            for (var i = 0; i < _shopItems.Count; i++)
             {
-                var item = _itemsPool.GetRandomItem().Data;
-                while(result.Contains(item))
-                    item = _itemsPool.GetRandomItem().Data;
-                result.Add(item);
-            }
-
-            return result;
-        }
-
-        private IReadOnlyList<int> GetCosts()
-        {
-            var result = new List<int>();
-            for (var i = 0; i < _count; i++)
-            {
-                result.Add(Random.Range(100, _maxItemsCost + 1));
+                var roll = Random.Range(1, 100);
+                if(roll <= _shopItems[i].DropProbability)
+                    result.Add(_shopItems[i]);
             }
 
             return result;
@@ -60,7 +50,7 @@ namespace RoguelikeMap.Points.Models
         public override async Task Visit(Squad squad)
         {
             await base.Visit(squad);
-            Panel.InitializeItems(ItemsData);
+            Panel.InitializeItems(RollItems());
             Panel.Open();
         }
     }

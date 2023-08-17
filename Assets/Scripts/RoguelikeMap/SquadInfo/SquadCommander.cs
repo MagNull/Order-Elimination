@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Events;
+using GameInventory.Items;
 using OrderElimination;
 using OrderElimination.Battle;
 using OrderElimination.MacroGame;
@@ -62,25 +64,26 @@ namespace RoguelikeMap.SquadInfo
         {
             if (_target is not FinalBattlePointModel battlePointModel)
             {
-                Logging.LogException( new ArgumentException("Is not valid point to attack"));
+                Logging.LogException(new ArgumentException("Is not valid point to attack"));
                 throw new ArgumentException("Is not valid point to attack");
             }
-            StartAttack(battlePointModel.Enemies, battlePointModel.Scenario, battlePointModel.ItemsCount);
+
+            StartAttack(battlePointModel.Enemies, battlePointModel.Scenario, battlePointModel.ItemsDropProbability);
         }
-        
+
         private void StartAttackByEventPoint(BattleNode battleNode)
         {
             if (_target is not EventPointModel eventPointModel)
             {
-                Logging.LogException( new ArgumentException("Is not valid point to attack"));
+                Logging.LogException(new ArgumentException("Is not valid point to attack"));
                 throw new ArgumentException("Is not valid point to attack");
-
             }
-            StartAttack(battleNode.Enemies, eventPointModel.Scenario, battleNode.CountItems);
+
+            StartAttack(battleNode.Enemies, eventPointModel.Scenario, battleNode.ItemsDropProbability);
         }
-        
+
         private void StartAttack(
-            IEnumerable<IGameCharacterTemplate> enemies, BattleScenario scenario, int itemsCount)
+            IEnumerable<IGameCharacterTemplate> enemies, BattleScenario scenario, Dictionary<ItemData, float> items)
         {
             _squadMembersPanel.OnSelected -= WereSelectedMembers;
             var enemyCharacters = GameCharactersFactory.CreateGameCharacters(enemies);
@@ -88,7 +91,10 @@ namespace RoguelikeMap.SquadInfo
             charactersMediator.Register("player characters", _squad.Members);
             charactersMediator.Register("enemy characters", enemyCharacters);
             charactersMediator.Register("scenario", scenario);
-            charactersMediator.Register("items count", itemsCount);
+            var winItems =
+                items.Select(it => new KeyValuePair<Item, float>(ItemFactory.Create(it.Key), it.Value))
+                    .ToDictionary(x => x.Key, x => x.Value);
+            charactersMediator.Register("items", winItems);
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using GameInventory;
 using GameInventory.Items;
 using OrderElimination;
+using RoguelikeMap.Points.Models;
 using RoguelikeMap.Shop;
 using StartSessionMenu;
 using UnityEngine;
@@ -36,14 +37,14 @@ namespace RoguelikeMap.UI.PointPanels
             _counter.Initialize(_wallet);
         }
         
-        public void InitializeItems(IReadOnlyDictionary<ItemData, int> itemsData)
+        public void InitializeItems(IReadOnlyList<ShopItemData> items)
         {
-            foreach (var data in itemsData)
+            foreach (var item in items)
             {
-                var item = Instantiate(_itemPrefab, _itemsParent);
-                item.Initialize(data.Key, data.Value);
-                item.OnBuy += Buy;
-                _items.Add(item);
+                var itemObject = Instantiate(_itemPrefab, _itemsParent);
+                itemObject.Initialize(item.Data, item.Cost);
+                itemObject.OnBuy += Buy;
+                _items.Add(itemObject);
             }
         }
 
