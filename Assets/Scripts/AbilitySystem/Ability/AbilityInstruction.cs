@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using OrderElimination.AbilitySystem.Animations;
+using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
@@ -9,9 +10,12 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
+    /// <summary>
+    /// Class which describes an instruction for active ability.
+    /// </summary>
     [OnInspectorInit("@$value._instructionName = $value._getInstructionName()")]
     [LabelText("@$value." + nameof(_instructionName))]
-    public class AbilityInstruction
+    public class AbilityInstruction : ICloneable<AbilityInstruction>
     {
         #region OdinVisuals
         private string _instructionName;
@@ -43,6 +47,9 @@ namespace OrderElimination.AbilitySystem
         }
         #endregion
 
+        private bool _isSafeCopy;
+
+        #region Properties
         private int _repeatNumber = 1;
 
         [TabGroup("Execution")]
@@ -57,7 +64,9 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public bool AffectPreviousTarget { get; private set; } = false;
 
+        #region Conditions
         private List<ICommonCondition> _commonConditions { get; set; } = new();
+        //cell conditions are useless if cell groups are already filtered by conditions
         private List<ICellCondition> _cellConditions { get; set; } = new();
 
         [TabGroup("Targeting")]
@@ -65,6 +74,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         private List<IEntityCondition> _targetConditions { get; set; } = new();
         public IReadOnlyList<IEntityCondition> TargetConditions => _targetConditions;
+        #endregion
 
         [TabGroup("Targeting")]
         [ShowIf("@" + nameof(_instructionRequireCellGroups))]
@@ -92,6 +102,7 @@ namespace OrderElimination.AbilitySystem
         //TODO: Single instructions list for following instructions
         //with identifier when to use them (always, on attempt, on success, on fail)
 
+        #region NextInstructions
         [GUIColor(0.5f, 1f, 0.5f)]
         [TabGroup("Execution")]
         [ShowInInspector, OdinSerialize]
@@ -124,6 +135,7 @@ namespace OrderElimination.AbilitySystem
         [TabGroup("Execution")]
         [ShowInInspector, OdinSerialize]
         public bool FollowInstructionsEveryRepeat { get; private set; } = true;
+        #endregion
 
         [TabGroup("Animations")]
         [GUIColor(0, 1, 1)]
@@ -132,6 +144,7 @@ namespace OrderElimination.AbilitySystem
         //AnimationAfterAction
         //AnimationBeforExecution
         //AnimationAfterExecution
+        #endregion
 
         public async UniTask ExecuteRecursive(AbilityExecutionContext executionContext)
         {
@@ -209,7 +222,8 @@ namespace OrderElimination.AbilitySystem
                     executionEntity = executionContext.PreviousInstructionTarget;
                 if (executionEntity != null && !executionEntity.IsAlive)
                     return;
-                if (_targetConditions != null
+                if (executionEntity != null
+                    && _targetConditions != null
                     && !_targetConditions.All(c => c.IsConditionMet(battleContext, caster, executionEntity)))
                     return;
                 var result = await ExecuteCurrentInstruction(executionContext, caster, executionEntity, targetPositionOverride);
@@ -290,6 +304,85 @@ namespace OrderElimination.AbilitySystem
             }
         }
 
+        public AbilityInstruction Clone()
+        {
+            var clone = new AbilityInstruction();
+            clone.CopySettingsFrom(this);
+            clone._isSafeCopy = true;
+            return clone;
+        }
+
+        public bool AddRecursiveInstructionAfter(
+            Predicate<AbilityInstruction> parentSelector, 
+            AbilityInstruction followInstruction,
+            bool copyAffectedGroupsFromParent,
+            InstructionFollowType followType)
+        {
+            if (!_isSafeCopy)
+            {
+                Logging.Log(new InvalidOperationException("Attempt to modify instruction in template."));
+                return false;
+            }
+            var parent = this;
+            if (parentSelector(parent))
+            {
+                var newInstruction = followInstruction.Clone();
+                if (copyAffectedGroupsFromParent)
+                    newInstruction._affectedCellGroups = parent._affectedCellGroups.ToHashSet();
+                switch (followType)
+                {
+                    case InstructionFollowType.OnSuccess:
+                        parent._instructionsOnActionSuccess.Add(newInstruction);
+                        break;
+                    case InstructionFollowType.OnFailure:
+                        parent._instructionsOnActionFail.Add(newInstruction);
+                        break;
+                    case InstructionFollowType.Always:
+                        parent._followingInstructions.Add(newInstruction);
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            return true;
+        }
+
+        public bool ModifyInstruction(
+            Predicate<AbilityInstruction> selector,
+            Func<AbilityInstruction, AbilityInstruction> modifier)
+        {
+            if (!_isSafeCopy)
+            {
+                Logging.Log(new InvalidOperationException("Attempt to modify instruction in template."));
+                return false;
+            }
+            if (selector(this))
+            {
+                CopySettingsFrom(modifier(this));
+            }
+            return true;
+        }
+
+        private void CopySettingsFrom(AbilityInstruction instruction)
+        {
+            RepeatNumber = instruction.RepeatNumber;
+            Action = instruction.Action.Clone();
+
+            _commonConditions = instruction._commonConditions.Clone();
+            _cellConditions = instruction._cellConditions.Clone();
+            _targetConditions = instruction._targetConditions.Clone();
+            _affectedCellGroups = instruction._affectedCellGroups.ToHashSet();
+            AffectPreviousTarget = instruction.AffectPreviousTarget;
+
+            _instructionsOnActionSuccess = instruction._instructionsOnActionSuccess.Clone();
+            _instructionsOnActionFail = instruction._instructionsOnActionFail.Clone();
+            _followingInstructions = instruction._followingInstructions.Clone();
+            SuccessInstructionsEveryRepeat = instruction.SuccessInstructionsEveryRepeat;
+            FailInstructionsEveryRepeat = instruction.FailInstructionsEveryRepeat;
+            FollowInstructionsEveryRepeat = instruction.FollowInstructionsEveryRepeat;
+
+            AnimationBeforeAction = instruction.AnimationBeforeAction;//Not safe for changes (shared)
+        }
 
         //public void AddInstructionsAfterRecursive<TAction>(ActionInstruction instructionToAdd, bool copyParentTargetGroups) where TAction : BattleAction<TAction>
         //{

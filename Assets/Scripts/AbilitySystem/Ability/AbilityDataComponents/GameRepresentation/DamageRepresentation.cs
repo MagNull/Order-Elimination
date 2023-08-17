@@ -11,14 +11,14 @@
             DamageAction = damageAction;
             LocalRepetitions = localRepetitions;
             TotalRepetitions = totalRepetitions;
-            TargetFilter = affectedEntities.Clone();
+            AffectedEntities = affectedEntities.Clone();
         }
 
         public InflictDamageAction DamageAction { get; } //safe copy or readonly
         public int LocalRepetitions { get; }
         public int TotalRepetitions { get; } //Considers higher instruction repetitions
         //DamageTarget/TargetGroup
-        public EntityFilter TargetFilter { get; } = new();
+        public EntityFilter AffectedEntities { get; } = new();
         //Affected cells/cellGroups?
         //GetProcessedDamage(ActionContext)
         //DamageSize
