@@ -52,7 +52,8 @@ namespace AI.Conditions
                 .Where(e =>
                 e.IsAlive && context.BattleMap.GetGameDistanceBetween(e.Position, caster.Position) <= _radius)
                 .Where(enemy => _targetConditions.All(co => co.Check(enemy)));
-
+            blackboard.Register("targets", targets);
+            
             if (!targets.Any())
                 return false;
 
@@ -72,7 +73,6 @@ namespace AI.Conditions
                     break;
             }
             
-            blackboard.Register("targets", targets);
             return true;
         }
     }
