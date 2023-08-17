@@ -34,7 +34,7 @@ namespace OrderElimination.Infrastructure
         public static HashSet<T> Clone<T>(HashSet<T> hashSet) where T : ICloneable
         {
             if (hashSet == null) return null;
-            return hashSet.AsEnumerable().Select(e => (T)e.Clone()).ToHashSet();
+            return hashSet.Select(e => (T)e.Clone()).ToHashSet();
         }
 
         public static Dictionary<T1, T2> Clone<T1, T2>(this Dictionary<T1, T2> dict) 
