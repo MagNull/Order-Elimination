@@ -63,7 +63,6 @@ namespace UIManagement.Elements
             targetGraphic.color = DefaultTint;
             if (!ClickAvailable)
                 targetGraphic.color = ClickUnavalableTint;
-            var i = (Image)targetGraphic;
         }
 
         public void SetImageTint(Color tintColor)
