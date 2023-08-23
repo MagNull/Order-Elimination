@@ -89,6 +89,8 @@ public class BattleMapSelector : MonoBehaviour
     private AbilitySystemActor _currentSelectedEntity;
     private ActiveAbilityRunner _selectedAbility;
 
+    public AbilitySystemActor CurrentSelectedEntity => _currentSelectedEntity;
+
     [Inject]
     private void Construct(
         IBattleContext battleContext, BattleMapView mapView, TextEmitter textEmitter)

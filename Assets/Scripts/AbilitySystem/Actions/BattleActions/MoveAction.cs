@@ -57,7 +57,7 @@ namespace OrderElimination.AbilitySystem
             clone.DestinationCellGroup = DestinationCellGroup;
             clone.CellPriority = CellPriority;
             clone.UsePath = UsePath;
-            clone.PathConditions = PathConditions.Clone();
+            clone.PathConditions = PathConditions.DeepClone();
             clone.ForceMove = ForceMove;
             clone.MoveAnimation = MoveAnimation;
             clone.MoveFailedAnimation = MoveFailedAnimation;

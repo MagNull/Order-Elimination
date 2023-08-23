@@ -16,28 +16,28 @@ namespace OrderElimination.Infrastructure
 
     public static class CloneableCollectionsExtensions
     {
-        public static IEnumerable<T> Clone<T>(this IEnumerable<T> source) where T : ICloneable
+        public static IEnumerable<T> DeepClone<T>(this IEnumerable<T> source) where T : ICloneable
             => source.Select(e => (T)e.Clone());
 
-        public static List<T> Clone<T>(this List<T> list) where T : ICloneable
+        public static List<T> DeepClone<T>(this List<T> list) where T : ICloneable
         {
             if (list == null) return null;
             return list.Select(e => (T)e.Clone()).ToList();
         }
 
-        public static T[] Clone<T>(this T[] array) where T : ICloneable
+        public static T[] DeepClone<T>(this T[] array) where T : ICloneable
         {
             if (array == null) return null;
             return array.Select(e => (T)e.Clone()).ToArray();
         }
 
-        public static HashSet<T> Clone<T>(HashSet<T> hashSet) where T : ICloneable
+        public static HashSet<T> DeepClone<T>(HashSet<T> hashSet) where T : ICloneable
         {
             if (hashSet == null) return null;
             return hashSet.Select(e => (T)e.Clone()).ToHashSet();
         }
 
-        public static Dictionary<T1, T2> Clone<T1, T2>(this Dictionary<T1, T2> dict) 
+        public static Dictionary<T1, T2> DeepClone<T1, T2>(this Dictionary<T1, T2> dict) 
             where T1 : ICloneable
             where T2 : ICloneable
         {
@@ -45,7 +45,7 @@ namespace OrderElimination.Infrastructure
             return dict.ToDictionary(kv => (T1)kv.Key.Clone(), kv => (T2)kv.Value.Clone());
         }
 
-        public static Dictionary<T1, T2> CloneForStructValue<T1, T2>(this Dictionary<T1, T2> dict)
+        public static Dictionary<T1, T2> DeepCloneForStructValue<T1, T2>(this Dictionary<T1, T2> dict)
             where T1 : ICloneable
             where T2 : struct
         {
@@ -53,7 +53,7 @@ namespace OrderElimination.Infrastructure
             return dict.ToDictionary(kv => (T1)kv.Key.Clone(), kv => kv.Value);
         }
 
-        public static Dictionary<T1, T2> CloneForStructKey<T1, T2>(this Dictionary<T1, T2> dict)
+        public static Dictionary<T1, T2> DeepCloneForStructKey<T1, T2>(this Dictionary<T1, T2> dict)
             where T1 : struct
             where T2 : ICloneable
         {

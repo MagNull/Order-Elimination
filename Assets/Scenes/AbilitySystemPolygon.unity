@@ -2698,6 +2698,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1893120104}
   - component: {fileID: 1893120105}
+  - component: {fileID: 1893120106}
   m_Layer: 0
   m_Name: Debugging
   m_TagString: Untagged
@@ -2732,6 +2733,175 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78bb222200f03dd42a886e82d5c2a528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1893120106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1893120103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00cfe59b62625f449ae68126fb80ea01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _parentAction
+      Entry: 7
+      Data: 0|OrderElimination.AbilitySystem.InflictDamageAction, Assembly-CSharp
+    - Name: DamageSize
+      Entry: 7
+      Data: 1|OrderElimination.AbilitySystem.CasterStatGetter, Assembly-CSharp
+    - Name: CasterStat
+      Entry: 3
+      Data: 2
+    - Name: UseUnmodifiedValue
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmorMultiplier
+      Entry: 4
+      Data: 1
+    - Name: HealthMultiplier
+      Entry: 4
+      Data: 1
+    - Name: DamageType
+      Entry: 3
+      Data: 0
+    - Name: DamagePriority
+      Entry: 3
+      Data: 0
+    - Name: Accuracy
+      Entry: 7
+      Data: 2|OrderElimination.AbilitySystem.CasterStatGetter, Assembly-CSharp
+    - Name: CasterStat
+      Entry: 3
+      Data: 3
+    - Name: UseUnmodifiedValue
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: IgnoreEvasion
+      Entry: 5
+      Data: false
+    - Name: ObjectsBetweenAffectAccuracy
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _instructionToAdd
+      Entry: 7
+      Data: 3|OrderElimination.AbilitySystem.AbilityInstruction, Assembly-CSharp
+    - Name: Action
+      Entry: 7
+      Data: 4|OrderElimination.AbilitySystem.DisposeEntityAction, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AffectPreviousTarget
+      Entry: 5
+      Data: true
+    - Name: _targetConditions
+      Entry: 7
+      Data: 5|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _affectedCellGroups
+      Entry: 7
+      Data: 6|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: RepeatNumber
+      Entry: 3
+      Data: 1
+    - Name: _instructionsOnActionSuccess
+      Entry: 7
+      Data: 7|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SuccessInstructionsEveryRepeat
+      Entry: 5
+      Data: true
+    - Name: _instructionsOnActionFail
+      Entry: 7
+      Data: 8|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: FailInstructionsEveryRepeat
+      Entry: 5
+      Data: true
+    - Name: _followingInstructions
+      Entry: 7
+      Data: 9|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: FollowInstructionsEveryRepeat
+      Entry: 5
+      Data: true
+    - Name: AnimationBeforeAction
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _followType
+      Entry: 3
+      Data: 0
+    - Name: _copyParentTargetGroups
+      Entry: 5
+      Data: false
 --- !u!1 &1908500041
 GameObject:
   m_ObjectHideFlags: 0

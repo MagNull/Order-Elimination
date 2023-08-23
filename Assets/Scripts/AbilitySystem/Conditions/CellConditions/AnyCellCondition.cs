@@ -18,7 +18,7 @@ namespace OrderElimination.AbilitySystem
         public ICellCondition Clone()
         {
             var clone = new AnyCellCondition();
-            clone.CellConditions = CloneableCollectionsExtensions.Clone(CellConditions);
+            clone.CellConditions = CloneableCollectionsExtensions.DeepClone(CellConditions);
             return clone;
         }
 

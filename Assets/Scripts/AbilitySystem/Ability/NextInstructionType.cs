@@ -4,6 +4,6 @@
     {
         OnSuccess,
         OnFailure,
-        Always
+        AlwaysFollow
     }
 }
