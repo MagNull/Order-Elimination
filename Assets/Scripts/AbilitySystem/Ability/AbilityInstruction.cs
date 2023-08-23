@@ -315,6 +315,7 @@ namespace OrderElimination.AbilitySystem
 
         //**Doesn't consider settings where next instructions run every repeat or not
         //Inconvenient instruction addition
+        //Can return list of appended instructions (considering children)
         public bool AppendInstructionRecursively(
             Predicate<AbilityInstruction> parentSelector, 
             AbilityInstruction newInstruction,
@@ -336,19 +337,19 @@ namespace OrderElimination.AbilitySystem
             var parent = this;
             if (parentSelector(parent))
             {
-                var newInstruction = newInstruction.Clone();
+                var createdInstruction = newInstruction.Clone();
                 if (copyParentTargetGroups)
-                    newInstruction._affectedCellGroups = parent._affectedCellGroups.ToHashSet();
+                    createdInstruction._affectedCellGroups = parent._affectedCellGroups.ToHashSet();
                 switch (followType)
                 {
                     case InstructionFollowType.OnSuccess:
-                        parent._instructionsOnActionSuccess.Add((AbilityInstruction)newInstruction);
+                        parent._instructionsOnActionSuccess.Add(createdInstruction);
                         break;
                     case InstructionFollowType.OnFailure:
-                        parent._instructionsOnActionFail.Add((AbilityInstruction)newInstruction);
+                        parent._instructionsOnActionFail.Add(createdInstruction);
                         break;
                     case InstructionFollowType.AlwaysFollow:
-                        parent._followingInstructions.Add((AbilityInstruction)newInstruction);
+                        parent._followingInstructions.Add(createdInstruction);
                         break;
                     default:
                         throw new NotImplementedException();
