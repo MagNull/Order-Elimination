@@ -153,7 +153,7 @@ namespace OrderElimination.AbilitySystem
             if (_energyPoints.ContainsKey(energyPoint))
                 _energyPoints[energyPoint] = 0;
         }
-        //event ActionPoint ActionPointsChanged
+        //event EnergyPoint EnergyPointsChanged
 
         private readonly List<ActiveAbilityRunner> _activeAbilities = new();
         private readonly List<PassiveAbilityRunner> _passiveAbilities = new();

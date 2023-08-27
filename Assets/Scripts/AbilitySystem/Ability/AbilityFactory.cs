@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrderElimination.Infrastructure;
+using System;
 using System.Linq;
 
 namespace OrderElimination.AbilitySystem
@@ -39,7 +40,8 @@ namespace OrderElimination.AbilitySystem
             {
                 throw new NotImplementedException();
             }
-            var execution = new ActiveAbilityExecution(builderData.AbilityInstructions.ToArray());
+            var instructions = builderData.AbilityInstructions.DeepClone();
+            var execution = new ActiveAbilityExecution(instructions);
 
             var gameRepresentation = AbilityGameRepresentation.FromActiveAbility(
                 rules, builderData.CooldownTime, targetingSystem, execution);

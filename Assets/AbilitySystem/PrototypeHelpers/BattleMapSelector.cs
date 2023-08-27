@@ -7,7 +7,6 @@ using Sirenix.OdinInspector;
 using UIManagement;
 using UIManagement.Elements;
 using UnityEngine;
-using UnityEngine.UI;
 using VContainer;
 using OrderElimination;
 using UnityEditor;
@@ -90,38 +89,19 @@ public class BattleMapSelector : MonoBehaviour
     private AbilitySystemActor _currentSelectedEntity;
     private ActiveAbilityRunner _selectedAbility;
 
-    private bool _isEnabled = true;
+    public AbilitySystemActor CurrentSelectedEntity => _currentSelectedEntity;
 
     [Inject]
-    private void Construct(IObjectResolver objectResolver)
+    private void Construct(
+        IBattleContext battleContext, BattleMapView mapView, TextEmitter textEmitter)
     {
-        _battleContext = objectResolver.Resolve<IBattleContext>();
-        _battleMapView = objectResolver.Resolve<BattleMapView>();
-        _textEmitter = objectResolver.Resolve<TextEmitter>();
-        _battleMapView.CellClicked += OnCellClicked;
-        _battleContext.NewTurnStarted -= OnNewTurnStarted;
-        _battleContext.NewTurnStarted += OnNewTurnStarted;
-
-        void OnNewTurnStarted(IBattleContext battleContext)
-        {
-            DeselectEntity();
-        }
-    }
-
-    public void Enable()
-    {
-        _isEnabled = true;
-    }
-
-    public void Disable()
-    {
-        DeselectEntity();
-        _isEnabled = false;
+        _battleContext = battleContext;
+        _battleMapView = mapView;
+        _textEmitter = textEmitter;
     }
 
     private void OnCellClicked(CellView cellView)
     {
-        if (!_isEnabled) return;
         if (_lockCharacterWhileCasting
             && _currentSelectedEntity != null
             && _currentSelectedEntity.ActiveAbilities.Any(r => r.IsRunning))
@@ -218,7 +198,7 @@ public class BattleMapSelector : MonoBehaviour
     {
         DeselectEntity();
         entity.DisposedFromBattle += OnSelectedEntityDisposed;
-        entity.AbilitiesChanged += e => _abilityPanel.AssignAbilities(e, entity.ActiveAbilities.ToArray());
+        entity.AbilitiesChanged += OnAbilitiesListChanged;
         _currentSelectedEntity = entity;
         var view = _battleContext.EntitiesBank.GetViewByEntity(entity);
         _abilityPanel.AssignAbilities(entity, entity.ActiveAbilities.ToArray());
@@ -226,10 +206,10 @@ public class BattleMapSelector : MonoBehaviour
         _abilityPanel.AbilityDeselected += OnAbilityDeselect;
         foreach (var ability in entity.ActiveAbilities)
         {
-            ability.AbilityExecutionStarted -= OnAbilityUpdated;
-            ability.AbilityExecutionStarted += OnAbilityUpdated;
-            ability.AbilityExecutionCompleted -= OnAbilityUpdated;
-            ability.AbilityExecutionCompleted += OnAbilityUpdated;
+            ability.AbilityExecutionStarted -= OnAbilityConditionUpdated;
+            ability.AbilityExecutionStarted += OnAbilityConditionUpdated;
+            ability.AbilityExecutionCompleted -= OnAbilityConditionUpdated;
+            ability.AbilityExecutionCompleted += OnAbilityConditionUpdated;
         }
         _characterBattleStatsPanel.UpdateEntityInfo(view);
         _characterBattleStatsPanel.ShowInfo();
@@ -242,37 +222,94 @@ public class BattleMapSelector : MonoBehaviour
             _ => _othersHighlightColor,
         };
         view.Highlight(highlightColor);
-        
+
+        var inventoryInfo = "\nInventory not awailable";
+        if (entity.EntityType == EntityType.Character)
+        {
+            var basedCharacter = entity.BattleContext.EntitiesBank.GetBasedCharacter(entity);
+            var inventoryItems = basedCharacter.Inventory.GetItems();
+            var itemsDescriptions = string.Join(
+                ", ", 
+                inventoryItems.Select(e => $"[{e.Data.View.Name}({e.Data.UseTimes})]"));
+            inventoryInfo = $"\nInventory({inventoryItems.Count}): {itemsDescriptions}";
+        }
+
         Debug.Log(
             $"{entity.EntityType} {view.Name} selected." % Colorize.ByColor(new Color(1, 0.5f, 0.5f))
-            + $"\nActionPoints: {string.Join(", ", entity.EnergyPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
             + $"\nHealth: {entity.BattleStats.Health}; MaxHealth: {entity.BattleStats.MaxHealth.ModifiedValue}" 
-            + $"\nTotalArmor: {entity.BattleStats.TotalArmor}; MaxArmor: {entity.BattleStats.MaxArmor.ModifiedValue}" 
+            + $"\nTotalArmor: {entity.BattleStats.TotalArmor}; MaxArmor: {entity.BattleStats.MaxArmor.ModifiedValue}; TemporaryArmor: {entity.BattleStats.TemporaryArmor}" 
             + $"\nDamage: {entity.BattleStats[BattleStat.AttackDamage].ModifiedValue};" 
             + $"\nAccuracy: {entity.BattleStats[BattleStat.Accuracy].ModifiedValue};" 
             + $"\nEvasion: {entity.BattleStats[BattleStat.Evasion].ModifiedValue};" 
             + $"\n{entity.StatusHolder}"
-            + $"\nEffects({entity.Effects.Count()}): {string.Join(", ", entity.Effects.Select(e => $"[{e.EffectData.View.Name}]"))}");
+            + $"\nEffects({entity.Effects.Count()}): {string.Join(", ", entity.Effects.Select(e => $"[{e.EffectData.View.Name}]"))}"
+            + inventoryInfo
+            + $"\nEnergyPoints: {string.Join(", ", entity.EnergyPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
+            + $"\nActiveAbilities({entity.ActiveAbilities.Count}): {string.Join(", ", entity.ActiveAbilities.Select(a => $"[{a.AbilityData.View.Name}]"))}"
+            + $"\n");
     }
-
     private void DeselectEntity()
     {
         _abilityPanel.ResetAbilityButtons();
         _abilityPanel.AbilitySelected -= OnAbilitySelect;
-        _abilityPanel.AbilityDeselected -= OnAbilityDeselect; 
+        _abilityPanel.AbilityDeselected -= OnAbilityDeselect;
         if (_currentSelectedEntity != null)
         {
             _currentSelectedEntity.DisposedFromBattle -= OnSelectedEntityDisposed;
+            _currentSelectedEntity.AbilitiesChanged -= OnAbilitiesListChanged;
             foreach (var ability in _currentSelectedEntity.ActiveAbilities)
             {
-                ability.AbilityExecutionStarted -= OnAbilityUpdated;
-                ability.AbilityExecutionCompleted -= OnAbilityUpdated;
+                ability.AbilityExecutionStarted -= OnAbilityConditionUpdated;
+                ability.AbilityExecutionCompleted -= OnAbilityConditionUpdated;
             }
         }
         _characterBattleStatsPanel.HideInfo();
         _currentSelectedEntity = null;
     }
+    private void HighlightCells()
+    {
+        var targetedCells = _selectedAbility.AbilityData.TargetingSystem.ExtractCastTargetGroups();
+        _battleMapView.DelightCells();
+        if (_selectedAbility.AbilityData.TargetingSystem is IRequireSelectionTargetingSystem)
+        {
+            foreach (var pos in _battleMap.CellRangeBorders.EnumerateCellPositions())
+            {
+                _battleMapView.HighlightCell(pos.x, pos.y, _forbidenCellsTint);
+            }
+            foreach (var pos in _availableCellsForTargeting)
+            {
+                _battleMapView.HighlightCell(pos.x, pos.y, _availableCellsTint);
+            }
+        }
+        var colors = _selectedAbility.AbilityData.View.TargetGroupsHighlightColors;
+        foreach (var group in targetedCells.ContainedCellGroups)
+        {
+            foreach (var pos in targetedCells.GetGroup(group))
+            {
+                var currentColor = _battleMapView.GetCell(pos.x, pos.y).CurrentColor;
+                var newColor = Color.Lerp(currentColor, colors[group], colors[group].a);
+                _battleMapView.HighlightCell(pos.x, pos.y, newColor);
+            }
+        }
+    }
+    private void CastCurrentAbility()
+    {
+        if (_selectedAbility != null && _selectedAbility.AbilityData.TargetingSystem.IsConfirmAvailable)
+        {
+            var abilityName = _selectedAbility.AbilityData.View.Name;
+            //Debug.Log($"Ability �{abilityName}� has been used." % Colorize.Cyan);
+            _selectedAbility.AbilityData.TargetingSystem.ConfirmTargeting();
+        }
+    }
 
+    private void OnNewTurnStarted(IBattleContext battleContext)
+    {
+        DeselectEntity();
+    }
+    private void OnAbilitiesListChanged(AbilitySystemActor entity)
+    {
+        _abilityPanel.AssignAbilities(entity, entity.ActiveAbilities.ToArray());
+    }
     private void OnAbilitySelect(ActiveAbilityRunner abilityRunner)
     {
         if (_selectedAbility != null)
@@ -304,7 +341,6 @@ public class BattleMapSelector : MonoBehaviour
                 _currentSelectedEntity,
                 _selectedAbility.AbilityData.TargetingSystem.ExtractCastTargetGroups());
     }
-
     private void OnAbilityDeselect(ActiveAbilityRunner abilityRunner)
     {
         if (_selectedAbility == null)
@@ -323,12 +359,10 @@ public class BattleMapSelector : MonoBehaviour
         _selectedAbility.AbilityData.TargetingSystem.CancelTargeting();
         _selectedAbility = null;
     }
-
-    private void OnAbilityUpdated(ActiveAbilityRunner abilityRunner)
+    private void OnAbilityConditionUpdated(ActiveAbilityRunner abilityRunner)
     {
         _abilityPanel.UpdateAbilityButtonsAvailability();
     }
-
     private void OnSelectionUpdated(IRequireSelectionTargetingSystem targetingSystem)
     {
         HighlightCells();
@@ -348,41 +382,12 @@ public class BattleMapSelector : MonoBehaviour
             _battleMapView.HighlightCell(pos.x, pos.y, cellView.CurrentColor * 0.8f);
         }
     }
-
     private void OnSelectedEntityDisposed(IBattleDisposable entity)
     {
         if (entity != _currentSelectedEntity)
             throw new System.Exception("Should be unsubscribed from not selected entities.");
         DeselectEntity();
     }
-
-    private void HighlightCells()
-    {
-        var targetedCells = _selectedAbility.AbilityData.TargetingSystem.ExtractCastTargetGroups();
-        _battleMapView.DelightCells();
-        if (_selectedAbility.AbilityData.TargetingSystem is IRequireSelectionTargetingSystem)
-        {
-            foreach (var pos in _battleMap.CellRangeBorders.EnumerateCellPositions())
-            {
-                _battleMapView.HighlightCell(pos.x, pos.y, _forbidenCellsTint);
-            }
-            foreach (var pos in _availableCellsForTargeting)
-            {
-                _battleMapView.HighlightCell(pos.x, pos.y, _availableCellsTint);
-            }
-        }
-        var colors = _selectedAbility.AbilityData.View.TargetGroupsHighlightColors;
-        foreach (var group in targetedCells.ContainedCellGroups)
-        {
-            foreach (var pos in targetedCells.GetGroup(group))
-            {
-                var currentColor = _battleMapView.GetCell(pos.x, pos.y).CurrentColor;
-                var newColor = Color.Lerp(currentColor, colors[group], colors[group].a);
-                _battleMapView.HighlightCell(pos.x, pos.y, newColor);
-            }
-        }
-    }
-
     private void OnConfirmationUnlocked(IRequireSelectionTargetingSystem multiTargetSystem)
     {
         Debug.Log("Ability use ready.");
@@ -390,14 +395,30 @@ public class BattleMapSelector : MonoBehaviour
     private void OnConfirmationLocked(IRequireSelectionTargetingSystem multiTargetSystem)
         => Debug.Log("Ability use locked.");
 
-    private void CastCurrentAbility()
+    private void OnEnable()
     {
-        if (_selectedAbility != null && _selectedAbility.AbilityData.TargetingSystem.IsConfirmAvailable)
+        if (_battleMapView != null)
+            _battleMapView.CellClicked += OnCellClicked;
+        if (_battleContext != null)
+            _battleContext.NewTurnStarted += OnNewTurnStarted;
+        if (_currentSelectedEntity != null)
         {
-            var abilityName = _selectedAbility.AbilityData.View.Name;
-            //Debug.Log($"Ability �{abilityName}� has been used." % Colorize.Cyan);
-            _selectedAbility.AbilityData.TargetingSystem.ConfirmTargeting();
+            _currentSelectedEntity.DisposedFromBattle += OnSelectedEntityDisposed;
+            _currentSelectedEntity.AbilitiesChanged += OnAbilitiesListChanged;
         }
+    }
+    private void OnDisable()
+    {
+        if (_battleMapView != null)
+            _battleMapView.CellClicked -= OnCellClicked;
+        if (_battleContext != null)
+            _battleContext.NewTurnStarted -= OnNewTurnStarted;
+        if (_currentSelectedEntity != null)
+        {
+            _currentSelectedEntity.DisposedFromBattle -= OnSelectedEntityDisposed;
+            _currentSelectedEntity.AbilitiesChanged -= OnAbilitiesListChanged;
+        }
+        DeselectEntity();
     }
     #region ToRemove
     private void Update()

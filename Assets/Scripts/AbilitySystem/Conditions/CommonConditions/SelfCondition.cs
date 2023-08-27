@@ -17,7 +17,7 @@ namespace OrderElimination.AbilitySystem
         public ICommonCondition Clone()
         {
             var clone = new SelfCondition();
-            clone.CasterConditions = CasterConditions.Clone();
+            clone.CasterConditions = CasterConditions.DeepClone();
             return clone;
         }
 

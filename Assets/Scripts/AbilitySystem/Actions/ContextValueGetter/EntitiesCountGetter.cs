@@ -20,7 +20,7 @@ namespace OrderElimination.AbilitySystem
         public IContextValueGetter Clone()
         {
             var clone = new EntitiesCountGetter();
-            clone.EntityConditions = CloneableCollectionsExtensions.Clone(EntityConditions);
+            clone.EntityConditions = CloneableCollectionsExtensions.DeepClone(EntityConditions);
             clone.CountInCellGroupId = CountInCellGroupId;
             return clone;
         }

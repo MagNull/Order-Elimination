@@ -3,6 +3,7 @@ using OrderElimination.AbilitySystem.Animations;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using Sirenix.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -312,10 +313,13 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public bool AddRecursiveInstructionAfter(
+        //**Doesn't consider settings where next instructions run every repeat or not
+        //Inconvenient instruction addition
+        //Can return list of appended instructions (considering children)
+        public bool AppendInstructionRecursively(
             Predicate<AbilityInstruction> parentSelector, 
-            AbilityInstruction followInstruction,
-            bool copyAffectedGroupsFromParent,
+            AbilityInstruction newInstruction,
+            bool copyParentTargetGroups,
             InstructionFollowType followType)
         {
             if (!_isSafeCopy)
@@ -323,22 +327,29 @@ namespace OrderElimination.AbilitySystem
                 Logging.Log(new InvalidOperationException("Attempt to modify instruction in template."));
                 return false;
             }
+            foreach (var child in InstructionsOnActionSuccess
+                .Concat(InstructionsOnActionFail)
+                .Concat(FollowingInstructions))
+            {
+                child.AppendInstructionRecursively(
+                    parentSelector, newInstruction, copyParentTargetGroups, followType);
+            }
             var parent = this;
             if (parentSelector(parent))
             {
-                var newInstruction = followInstruction.Clone();
-                if (copyAffectedGroupsFromParent)
-                    newInstruction._affectedCellGroups = parent._affectedCellGroups.ToHashSet();
+                var createdInstruction = newInstruction.Clone();
+                if (copyParentTargetGroups)
+                    createdInstruction._affectedCellGroups = parent._affectedCellGroups.ToHashSet();
                 switch (followType)
                 {
                     case InstructionFollowType.OnSuccess:
-                        parent._instructionsOnActionSuccess.Add(newInstruction);
+                        parent._instructionsOnActionSuccess.Add(createdInstruction);
                         break;
                     case InstructionFollowType.OnFailure:
-                        parent._instructionsOnActionFail.Add(newInstruction);
+                        parent._instructionsOnActionFail.Add(createdInstruction);
                         break;
-                    case InstructionFollowType.Always:
-                        parent._followingInstructions.Add(newInstruction);
+                    case InstructionFollowType.AlwaysFollow:
+                        parent._followingInstructions.Add(createdInstruction);
                         break;
                     default:
                         throw new NotImplementedException();
@@ -347,7 +358,7 @@ namespace OrderElimination.AbilitySystem
             return true;
         }
 
-        public bool ModifyInstruction(
+        public bool ModifyInstructionRecursively(
             Predicate<AbilityInstruction> selector,
             Func<AbilityInstruction, AbilityInstruction> modifier)
         {
@@ -355,6 +366,12 @@ namespace OrderElimination.AbilitySystem
             {
                 Logging.Log(new InvalidOperationException("Attempt to modify instruction in template."));
                 return false;
+            }
+            foreach (var child in InstructionsOnActionSuccess
+                .Concat(InstructionsOnActionFail)
+                .Concat(FollowingInstructions))
+            {
+                child.ModifyInstructionRecursively(selector, modifier);
             }
             if (selector(this))
             {
@@ -368,45 +385,20 @@ namespace OrderElimination.AbilitySystem
             RepeatNumber = instruction.RepeatNumber;
             Action = instruction.Action.Clone();
 
-            _commonConditions = instruction._commonConditions.Clone();
-            _cellConditions = instruction._cellConditions.Clone();
-            _targetConditions = instruction._targetConditions.Clone();
+            _commonConditions = instruction._commonConditions.DeepClone();
+            _cellConditions = instruction._cellConditions.DeepClone();
+            _targetConditions = instruction._targetConditions.DeepClone();
             _affectedCellGroups = instruction._affectedCellGroups.ToHashSet();
             AffectPreviousTarget = instruction.AffectPreviousTarget;
 
-            _instructionsOnActionSuccess = instruction._instructionsOnActionSuccess.Clone();
-            _instructionsOnActionFail = instruction._instructionsOnActionFail.Clone();
-            _followingInstructions = instruction._followingInstructions.Clone();
+            _instructionsOnActionSuccess = instruction._instructionsOnActionSuccess.DeepClone();
+            _instructionsOnActionFail = instruction._instructionsOnActionFail.DeepClone();
+            _followingInstructions = instruction._followingInstructions.DeepClone();
             SuccessInstructionsEveryRepeat = instruction.SuccessInstructionsEveryRepeat;
             FailInstructionsEveryRepeat = instruction.FailInstructionsEveryRepeat;
             FollowInstructionsEveryRepeat = instruction.FollowInstructionsEveryRepeat;
 
             AnimationBeforeAction = instruction.AnimationBeforeAction;//Not safe for changes (shared)
         }
-
-        //public void AddInstructionsAfterRecursive<TAction>(ActionInstruction instructionToAdd, bool copyParentTargetGroups) where TAction : BattleAction<TAction>
-        //{
-        //    if (Action is TAction)
-        //        InstructionsOnActionSuccess.Add(instructionToAdd);
-
-        //    //TODO фильтры должны меняться у каждой добавленной инструкции при копировании родительской (copyParentTargetGroups = true)
-        //    //Должна оставаться возможность выборочно удалить добавленные инструкции
-        //    //Клонировать инструкции?
-        //    //На крайний случай, можно добавлять все новые инструкции в отдельный список, после чего удалять конкретно их по ссылкам
-
-        //    //if (copyParentTargetGroups) instructionToAdd.TargetGroupsFilter = TargetGroupsFilter; 
-        //    foreach (var nextInstruction in InstructionsOnActionSuccess)
-        //        nextInstruction.AddInstructionsAfterRecursive<TAction>(instructionToAdd, copyParentTargetGroups);
-        //}
-
-        //public void RemoveInstructionsRecursive(ActionInstruction instructionToRemove)
-        //{
-        //    InstructionsOnActionSuccess.Remove(instructionToRemove);
-        //    foreach (var nextInstruction in InstructionsOnActionSuccess)
-        //        nextInstruction.RemoveInstructionsRecursive(instructionToRemove);
-        //}
-
-        //Возможный вариант получения всех действий для предпросмотра
-        //public Dictionary<IAbilitySystemActor, List<IBattleAction>> GetAllPossibleActions(IAbilityUseContext abilityUseContext)
     }
 }
