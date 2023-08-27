@@ -7,6 +7,7 @@ using XNode;
 
 namespace AI
 {
+    [NodeWidth(300)]
     public abstract class BehaviorTreeTask : Node
     {
         [Input]
