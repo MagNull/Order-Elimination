@@ -74,24 +74,29 @@ namespace OrderElimination.AbilitySystem
         }
 
         [PropertyOrder(-10)]
+        [GUIColor(0.8f, 1, 0)]
         [ShowInInspector, OdinSerialize]
         public bool AllowsToStay { get; private set; }
 
         [PropertyOrder(-9)]
+        [GUIColor(1, 0.8f, 0)]
         [ShowInInspector, OdinSerialize]
         public bool AllowsToWalkOn { get; private set; }
-
+        
         [PropertyOrder(-8)]
+        [GUIColor(0.8f, 1, 0)]
         [ShowIf(nameof(AllowsToStay))]
         [ShowInInspector, OdinSerialize]
         private List<IEntityCondition> _entityStayConditions = new();
 
         [PropertyOrder(-7)]
+        [GUIColor(1, 0.8f, 0), PropertySpace(5)]
         [ShowIf(nameof(AllowsToWalkOn))]
         [ShowInInspector, OdinSerialize]
         private List<IEntityCondition> _entityWalkConditions = new();
 
         [PropertyOrder(-6)]
+        [GUIColor(0.5f, 1, 1), PropertySpace(15)]
         [ShowInInspector, OdinSerialize]
         private List<AccuracyAffectionRule> _accuracyAffectors = new();
 

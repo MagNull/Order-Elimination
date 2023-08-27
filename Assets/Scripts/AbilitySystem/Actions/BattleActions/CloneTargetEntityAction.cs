@@ -29,7 +29,7 @@ namespace OrderElimination.AbilitySystem
         [ValidateInput(
             "@false",
             "Following features are not supported or not fully implemented yet:\n"
-            + "- BattleStats copying\n"
+            + "- Modified BattleStats copying\n"
             + "- Abilities copying\n"
             + "- Effects and Inventory cloning\n"
             + "- Abilities cloning for structures\n")]
@@ -162,7 +162,8 @@ namespace OrderElimination.AbilitySystem
             {
                 BattleSideReference.Same => caster.BattleSide,
                 BattleSideReference.Absolute => AbsoluteSide,
-                //SpawningEntityBattleSide.Opposite => GetOppositeSide(useContext.ActionMaker.BattleSide),
+                //BattleSideReference.Opposite => GetOppositeSide(useContext.ActionMaker.BattleSide),
+                //BattleSideReference.Conditional => //take from mapping
                 _ => throw new NotImplementedException(),
             };
             var performId = _spawnedEntities.Count;
@@ -210,18 +211,23 @@ namespace OrderElimination.AbilitySystem
             {
                 var structureTemplate = battleContext.EntitiesBank.GetBasedStructureTemplate(target);
                 clonedEntity = battleContext.EntitySpawner.SpawnStructure(structureTemplate, side, pos);
-                if (statsCloning)
+                switch (StatsCloning)
                 {
-                    clonedEntity.BattleStats.Health = target.BattleStats.Health;
-                    clonedEntity.BattleStats.PureArmor = target.BattleStats.PureArmor;
-                    //...
-                }
-                else if (statsOverride)
-                {
-                    foreach (var stat in statsValues)
-                    {
-                        clonedEntity.BattleStats[stat].UnmodifiedValue = OverridedStats[stat];
-                    }
+                    case CloningType.UseDefault:
+                        break;
+                    case CloningType.Copy:
+                        clonedEntity.BattleStats.Health = target.BattleStats.Health;
+                        clonedEntity.BattleStats.PureArmor = target.BattleStats.PureArmor;
+                        //...
+                        break;
+                    case CloningType.Override:
+                        foreach (var stat in statsValues)
+                        {
+                            clonedEntity.BattleStats[stat].UnmodifiedValue = OverridedStats[stat];
+                        }
+                        break;
+                    default:
+                        throw new NotImplementedException();
                 }
             }
             else if (target.EntityType == EntityType.Character)

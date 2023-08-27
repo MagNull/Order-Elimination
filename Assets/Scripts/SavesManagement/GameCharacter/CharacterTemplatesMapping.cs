@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace OrderElimination.SavesManagement
 {
-    [CreateAssetMenu(fileName = "new Character Templates mapping", menuName = "OrderElimination/Project/CharacterTemplatesMapping")]
+    //[CreateAssetMenu(fileName = "new Character Templates mapping", menuName = "OrderElimination/Project/CharacterTemplatesMapping")]
     public class CharacterTemplatesMapping : 
         SerializedScriptableObject, 
         IDataMapping<int, IGameCharacterTemplate>
