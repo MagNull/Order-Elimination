@@ -147,12 +147,12 @@ public class BattleEntityView : MonoBehaviour
     {
         if (_damageCash > 0)//waiting
         {
-            _damageCash += damageInfo.TotalDamage;
+            _damageCash += damageInfo.TotalDealtDamage;
             return;
         }
         else//no cash -> start cashing
         {
-            _damageCash += damageInfo.TotalDamage;
+            _damageCash += damageInfo.TotalDealtDamage;
             await UniTask.Delay(Mathf.RoundToInt(TimeGapToSumValues * 1000), true);
         }
         var damageValue = _damageCash;

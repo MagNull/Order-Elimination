@@ -43,13 +43,13 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public float GetValue(ActionContext useContext)
+        public float GetValue(ValueCalculationContext context)
         {
-            var askingEntity = useContext.ActionMaker;
+            var askingEntity = context.ActionMaker;
             var entity = CountOn switch
             {
-                ActionEntity.Caster => useContext.ActionMaker,
-                ActionEntity.Target => useContext.ActionTarget,
+                ActionEntity.Caster => context.ActionMaker,
+                ActionEntity.Target => context.ActionTarget,
                 _ => throw new NotImplementedException(),
             };
             var effects = entity.GetEffects(Effect);

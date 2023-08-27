@@ -97,7 +97,8 @@ namespace OrderElimination.AbilitySystem
                 return originalAction;
             if (_allowedDamageTypes != null && !_allowedDamageTypes[damageAction.DamageType])
                 return originalAction;
-            damageAction.DamageSize = ChangeValueGetter(damageAction.DamageSize, _damageOperation, _damageValue);
+            var newDamage = ChangeValueGetter(damageAction.DamageSize, _damageOperation, _damageValue);
+            damageAction.DamageSize = newDamage;
             if (_changeDamagePriority)
                 damageAction.DamagePriority = _damagePriority;
             if (_changeDamageType)
@@ -110,13 +111,13 @@ namespace OrderElimination.AbilitySystem
             return originalAction;
         }
 
-        private MathValueGetter ChangeValueGetter(
-            IContextValueGetter initial, MathOperation operation, IContextValueGetter value)
+        private IContextValueGetter ChangeValueGetter(
+            IContextValueGetter initial, MathOperation operation, IContextValueGetter newValue)
         {
             var newFormula = new MathValueGetter();
             newFormula.Left = initial;
             newFormula.Operation = operation;
-            newFormula.Right = value;
+            newFormula.Right = newValue;
             return newFormula;
         }
     }

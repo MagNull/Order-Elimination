@@ -52,6 +52,14 @@ namespace OrderElimination.AbilitySystem
         //public CloningType InventoryCloning { get; set; }
 
         [ShowInInspector, OdinSerialize]
+        public CloningType EnergyPointsCloning { get; set; }
+
+        [ShowIf("@" + nameof(EnergyPointsCloning) + "==" + nameof(CloningType) + "." + nameof(CloningType.Override))]
+        [ShowInInspector, OdinSerialize]
+        private Dictionary<EnergyPoint, int> _overridedEnergyPoints { get; set; } 
+            = EnumExtensions.GetValues<EnergyPoint>().ToDictionary(p => p, p => 0);
+
+        [ShowInInspector, OdinSerialize]
         public CloningType ActiveAbilitiesCloning { get; set; }
 
         [ShowIf("@" + nameof(ActiveAbilitiesCloning) + "==" + nameof(CloningType) + "." + nameof(CloningType.Override))]
@@ -77,7 +85,7 @@ namespace OrderElimination.AbilitySystem
         public BattleSide AbsoluteSide { get; private set; }
         #endregion
 
-        #region Remove
+        #region RemoveBy
         [ShowInInspector, OdinSerialize]
         public bool RemoveByTrigger { get; private set; }
 
@@ -93,11 +101,17 @@ namespace OrderElimination.AbilitySystem
             var clone = new CloneTargetEntityAction();
             clone.SpawnAtCellGroup = SpawnAtCellGroup;
             clone.StatsCloning = StatsCloning;
+            clone.EnergyPointsCloning = EnergyPointsCloning;
             clone.ActiveAbilitiesCloning = ActiveAbilitiesCloning;
             clone.PassiveAbilitiesCloning = PassiveAbilitiesCloning;
             //clone.EffectsCloning = EffectsCloning;
             //clone.InventoryCloning = InventoryCloning;
             clone.OverridedStats = new GameCharacterStats(OverridedStats);
+            if (_overridedEnergyPoints != null)
+            {
+                clone._overridedEnergyPoints = _overridedEnergyPoints
+                    .ToDictionary(kv => kv.Key, kv => kv.Value);
+            }
             if (OverridedActiveAbilities != null)
                 clone.OverridedActiveAbilities = OverridedActiveAbilities.ToArray();
             if (OverridedPassiveAbilities != null)
@@ -154,7 +168,7 @@ namespace OrderElimination.AbilitySystem
             var performId = _spawnedEntities.Count;
             Logging.Log($"Clone perform Id: {performId}", Colorize.Purple);
             var spawnedInActionEntities = new List<AbilitySystemActor>();
-            foreach (var pos in useContext.TargetCellGroups.GetGroup(SpawnAtCellGroup))
+            foreach (var pos in useContext.CellTargetGroups.GetGroup(SpawnAtCellGroup))
             {
                 var clone = MakeClone(target, battleContext, side, pos);
                 spawnedInActionEntities.Add(clone);
@@ -257,6 +271,31 @@ namespace OrderElimination.AbilitySystem
                 }
             }
             else throw new NotImplementedException();
+            var energyPointTypes = EnumExtensions.GetValues<EnergyPoint>();
+            switch (EnergyPointsCloning)
+            {
+                case CloningType.UseDefault:
+                    foreach (var p in energyPointTypes)
+                    {
+                        clonedEntity.SetEnergyPoints(p, battleContext.GetEnergyPointsPerRound(p));
+                    }
+                    break;
+                case CloningType.Copy:
+                    foreach (var p in energyPointTypes)
+                    {
+                        clonedEntity.SetEnergyPoints(p, target.EnergyPoints[p]);
+                    }
+                    break;
+                case CloningType.Override:
+                    foreach (var p in energyPointTypes)
+                    {
+                        if (_overridedEnergyPoints.ContainsKey(p))
+                            clonedEntity.SetEnergyPoints(p, _overridedEnergyPoints[p]);
+                    }
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
             return clonedEntity;
         }
     }

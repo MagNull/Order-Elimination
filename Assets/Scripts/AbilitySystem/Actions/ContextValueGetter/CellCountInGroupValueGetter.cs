@@ -17,9 +17,9 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public float GetValue(ActionContext useContext)
+        public float GetValue(ValueCalculationContext context)
         {
-            var cellGroups = useContext.TargetCellGroups;
+            var cellGroups = context.CellTargetGroups;
             if (!cellGroups.ContainsGroup(CellGroupId))
                 return 0;
             return cellGroups.GetGroup(CellGroupId).Length;

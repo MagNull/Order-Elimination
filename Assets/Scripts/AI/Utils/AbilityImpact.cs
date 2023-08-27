@@ -92,15 +92,16 @@ namespace AI.Utils
             var actionContext = new ActionContext(_battleContext,
                 _data.TargetingSystem.ExtractCastTargetGroups(),
                 _caster, null);
+            var calculationContext = ValueCalculationContext.FromActionContext(actionContext);
 
             //Calculate value based on context
             switch (instruction.Action)
             {
                 case InflictDamageAction inflictDamageAction:
-                    RawDamage += inflictDamageAction.DamageSize.GetValue(actionContext) * instruction.RepeatNumber;
+                    RawDamage += inflictDamageAction.DamageSize.GetValue(calculationContext) * instruction.RepeatNumber;
                     break;
                 case HealAction healAction:
-                    RawHeal += healAction.HealSize.GetValue(actionContext) * instruction.RepeatNumber;
+                    RawHeal += healAction.HealSize.GetValue(calculationContext) * instruction.RepeatNumber;
                     break;
             }
         }
@@ -124,18 +125,19 @@ namespace AI.Utils
                 //Form action context
                 var actionContext = new ActionContext(_battleContext,
                     _data.TargetingSystem.ExtractCastTargetGroups(),
-                    _caster, target); //removed argument: cell
+                    _caster, target);
+                var calculationContext = ValueCalculationContext.FromActionContext(actionContext);
 
                 //Calculate value based on context
                 switch (instruction.Action)
                 {
                     case InflictDamageAction inflictDamageAction:
-                        CurrentDamage += inflictDamageAction.DamageSize.GetValue(actionContext) *
+                        CurrentDamage += inflictDamageAction.DamageSize.GetValue(calculationContext) *
                                          instruction.RepeatNumber;
                         RawDamage = CurrentDamage;
                         break;
                     case HealAction healAction:
-                        CurrentHeal += healAction.HealSize.GetValue(actionContext) * instruction.RepeatNumber;
+                        CurrentHeal += healAction.HealSize.GetValue(calculationContext) * instruction.RepeatNumber;
                         RawDamage = CurrentDamage;
                         break;
                 }
