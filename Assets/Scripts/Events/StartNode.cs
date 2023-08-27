@@ -1,5 +1,6 @@
 using OrderElimination.Events;
 using RoguelikeMap.UI.PointPanels;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using XNode;
 
@@ -9,7 +10,7 @@ namespace Events
     {
         [Output] public Empty exits;
         
-        [SerializeField]
+        [SerializeField, MultiLineProperty, TextArea(10, 100)]
         private string _text;
         
         [SerializeField]
