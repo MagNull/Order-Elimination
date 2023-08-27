@@ -13,7 +13,7 @@ namespace Events
         [SerializeField, MultiLineProperty, TextArea(10, 100)]
         private string _text;
         
-        [SerializeField]
+        [SerializeField, PreviewField(150)]
         private Sprite _sprite;
 
         public void Process(EventPanel panel, int index = 0)
