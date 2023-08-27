@@ -6,9 +6,9 @@ namespace OrderElimination.Infrastructure
 {
     public static class EnumExtensions
     {
-        public static IEnumerable<T> GetValues<T>() where T : Enum //To optimize - make Lazy
+        public static T[] GetValues<T>() where T : Enum //To optimize - make Lazy
         {
-            return Enum.GetValues(typeof(T)).Cast<T>();
+            return Enum.GetValues(typeof(T)).Cast<T>().ToArray();
         }
     }
 }

@@ -67,6 +67,7 @@ namespace OrderElimination.AbilitySystem
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
+            var calculationContext = ValueCalculationContext.FromActionContext(useContext);
             var statParameter = useContext.ActionTarget.BattleStats[TargetBattleStat];
             statParameter.AddProcessor(ProcessValue);
             var performId = _processorsByPerformId.Count;
@@ -75,7 +76,7 @@ namespace OrderElimination.AbilitySystem
             _resultsByPerformId.Add(result);
             return result;
 
-            float ProcessValue(float v) => ValueModifier.GetValue(useContext);
+            float ProcessValue(float v) => ValueModifier.GetValue(calculationContext);
         }
     }
 }

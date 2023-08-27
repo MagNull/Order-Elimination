@@ -57,7 +57,8 @@ namespace OrderElimination.AbilitySystem
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
-            var temporaryArmor = new TemporaryArmor(TemporaryArmorAmount.GetValue(useContext));
+            var calculationContext = ValueCalculationContext.FromActionContext(useContext);
+            var temporaryArmor = new TemporaryArmor(TemporaryArmorAmount.GetValue(calculationContext));
             var currentId = _appliedTempArmors.Count;
             useContext.ActionTarget.BattleStats.AddTemporaryArmor(temporaryArmor);
             var actionResult = new SimpleUndoablePerformResult(this, useContext, true, currentId);

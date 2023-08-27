@@ -54,9 +54,9 @@ namespace OrderElimination.AbilitySystem
                 return new DealtDamageInfo(incomingDamage, 0, 0);
             }
             var dealtDamage = IBattleLifeStats.DistributeDamage(BattleStats, incomingDamage);
-            BattleStats.TotalArmor -= dealtDamage.TotalArmorDamage;
-            BattleStats.Health -= dealtDamage.TotalHealthDamage;
-            if (dealtDamage.TotalHealthDamage >= BattleStats.Health)
+            BattleStats.TotalArmor -= dealtDamage.DealtDamageToArmor;
+            BattleStats.Health -= dealtDamage.DealtDamageToHealth;
+            if (dealtDamage.DealtDamageToHealth >= BattleStats.Health)
             {
                 OnLethalDamage?.Invoke(dealtDamage);
             }

@@ -60,8 +60,6 @@ namespace OrderElimination.AbilitySystem
         }
         #endregion
 
-
-
         public event Action<IBattleContext> BattleStarted;
         public event Action<IBattleContext> NewTurnUpdatesRequested;
         public event Action<IBattleContext> NewTurnStarted;

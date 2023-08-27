@@ -1,4 +1,6 @@
 ﻿using OrderElimination.Infrastructure;
+using Sirenix.Serialization;
+using System;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -11,6 +13,6 @@ namespace OrderElimination.AbilitySystem
 
         public string DisplayedFormula { get; }
 
-        float GetValue(ActionContext useContext);
+        public float GetValue(ValueCalculationContext context);
     }
 }

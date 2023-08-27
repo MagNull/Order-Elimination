@@ -103,15 +103,16 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
                 .Where(e => instruction.TargetConditions.All(c => c.IsConditionMet(battleContext, caster, e))))
             {
                 var actionContext = new ActionContext(battleContext, targetedGroups, caster, target);
+                var valueContext = ValueCalculationContext.FromActionContext(actionContext);
                 if (instruction.Action is InflictDamageAction damageAction)
                 {
                     var modifiedAction = damageAction.GetModifiedAction(actionContext);
                     var display = GetDisplayForCell(pos);
                     var accuracyValue = Mathf.Max(
-                        0, modifiedAction.Accuracy.GetValue(actionContext) * 100);
+                        0, modifiedAction.Accuracy.GetValue(valueContext) * 100);
                     var damage = modifiedAction.CalculateDamage(actionContext);
                     var distributedDamage = IBattleLifeStats.DistributeDamage(target.BattleStats, damage);
-                    float damageValue = distributedDamage.TotalDamage;
+                    float damageValue = distributedDamage.TotalDealtDamage;
                     if (_roundFloatNumbers)
                     {
                         damageValue = MathExtensions.Round(damageValue, _roundingMode);
@@ -124,7 +125,7 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
                     {
                         var intersections = CellMath.GetIntersectionBetween(casterPos, pos);
                         var modifiedAccuracy = damageAction.Accuracy.Clone();
-                        var previousCellValue = modifiedAccuracy.GetValue(actionContext);
+                        var previousCellValue = modifiedAccuracy.GetValue(valueContext);
                         foreach (var intersection in intersections)
                         {
                             var intPos = intersection.CellPosition;
@@ -151,7 +152,7 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
                             {
                                 var accuracyDisplay = GetDisplayForCell(intPos);
                                 //var initialValue = damageAction.Accuracy.GetValue(actionContext);
-                                var modifiedValue = modifiedAccuracy.GetValue(actionContext);
+                                var modifiedValue = modifiedAccuracy.GetValue(valueContext);
                                 var affection = (modifiedValue - previousCellValue) * 100;
                                 if (_roundFloatNumbers)
                                     affection = MathExtensions.Round(affection, _roundingMode);
@@ -160,7 +161,7 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
                                     displayedAffection = modifiedAccuracy.DisplayedFormula;
                                 accuracyDisplay.AddParameter(_accuracyIcon, Color.red, displayedAffection);
                             }
-                            previousCellValue = modifiedAccuracy.GetValue(actionContext);
+                            previousCellValue = modifiedAccuracy.GetValue(valueContext);
                         }
                     }
                 }
@@ -169,7 +170,7 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
                     healAction = healAction.GetModifiedAction(actionContext);
                     var display = GetDisplayForCell(pos);
                     var healInfo = new RecoveryInfo(
-                        healAction.HealSize.GetValue(actionContext),
+                        healAction.HealSize.GetValue(valueContext),
                         healAction.ArmorMultiplier,
                         healAction.HealthMultiplier,
                         healAction.HealPriority,

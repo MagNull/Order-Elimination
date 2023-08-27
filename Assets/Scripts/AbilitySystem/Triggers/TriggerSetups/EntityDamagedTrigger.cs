@@ -46,8 +46,8 @@ namespace OrderElimination.AbilitySystem
 
             void OnDamaged(DealtDamageInfo damageInfo)
             {
-                if (TriggeringDamageTypes[damageInfo.DamageInfo.DamageType]
-                    && damageInfo.TotalDamage >= MinDamageThreshold)
+                if (TriggeringDamageTypes[damageInfo.IncomingDamage.DamageType]
+                    && damageInfo.TotalDealtDamage >= MinDamageThreshold)
                 {
                     instance.FireTrigger(new EntityDamagedTriggerFireInfo(instance, damageInfo));
                 }

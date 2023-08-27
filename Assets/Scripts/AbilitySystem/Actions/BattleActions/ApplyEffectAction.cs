@@ -56,7 +56,8 @@ namespace OrderElimination.AbilitySystem
         protected async override UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
             var isSuccessfull = false;
-            var probability = ApplyChance.GetValue(useContext);
+            var calculationContext = ValueCalculationContext.FromActionContext(useContext);
+            var probability = ApplyChance.GetValue(calculationContext);
             BattleEffect appliedEffect = null;
             if (RandomExtensions.RollChance(probability))
             {

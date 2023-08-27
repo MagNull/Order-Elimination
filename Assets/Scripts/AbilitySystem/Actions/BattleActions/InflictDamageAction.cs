@@ -70,14 +70,15 @@ namespace OrderElimination.AbilitySystem
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
-            var accuracy = Accuracy.GetValue(useContext);
+            var calculationContext = ValueCalculationContext.FromActionContext(useContext);
+            var accuracy = Accuracy.GetValue(calculationContext);
             var evasion = IgnoreEvasion || !useContext.ActionTarget.BattleStats.HasParameter(BattleStat.Evasion)
                 ? 0
                 : useContext.ActionTarget.BattleStats[BattleStat.Evasion].ModifiedValue;
             var hitResult = useContext.BattleContext.HitCalculation.CalculateHitResult(accuracy, evasion);
             var animationContext = new AnimationPlayContext(
                 useContext.AnimationSceneContext,
-                useContext.TargetCellGroups,
+                useContext.CellTargetGroups,
                 useContext.ActionMaker,
                 useContext.ActionTarget);
             if (hitResult == HitResult.Success)
@@ -113,13 +114,17 @@ namespace OrderElimination.AbilitySystem
 
         public DamageInfo CalculateDamage(ActionContext useContext)
         {
-            var damageSize = DamageSize.GetValue(useContext);
+            var calculationContext = ValueCalculationContext.FromActionContext(useContext);
+            var damageSize = DamageSize.GetValue(calculationContext);
             var damageDealer = useContext.ActionMaker;
             var damageInfo = new DamageInfo(damageSize, ArmorMultiplier, HealthMultiplier, DamageType, DamagePriority, damageDealer);
             return damageInfo;
         }
 
         public float CalculateAccuracy(ActionContext useContext)
-            => Accuracy.GetValue(useContext);
+        {
+            var calculationContext = ValueCalculationContext.FromActionContext(useContext);
+            return Accuracy.GetValue(calculationContext);
+        }
     }
 }

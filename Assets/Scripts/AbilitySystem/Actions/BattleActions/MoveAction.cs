@@ -70,7 +70,7 @@ namespace OrderElimination.AbilitySystem
         {
             var target = useContext.ActionTarget;
             var failResult = new SimplePerformResult(this, useContext, false);
-            var cellGroups = useContext.TargetCellGroups;
+            var cellGroups = useContext.CellTargetGroups;
             if (!cellGroups.ContainsGroup(DestinationCellGroup)
                 || cellGroups.GetGroup(DestinationCellGroup).Length == 0)
                 return failResult;
@@ -134,7 +134,7 @@ namespace OrderElimination.AbilitySystem
             {
                 var animationContext = new AnimationPlayContext(
                     useContext.AnimationSceneContext,
-                    useContext.TargetCellGroups,
+                    useContext.CellTargetGroups,
                     useContext.ActionMaker,
                     useContext.ActionTarget,
                     targetPos);

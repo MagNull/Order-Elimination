@@ -40,9 +40,9 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public float GetValue(ActionContext useContext)
+        public float GetValue(ValueCalculationContext context)
         {
-            var rand = Random.Range(RangeStart.GetValue(useContext), RangeEnd.GetValue(useContext));
+            var rand = Random.Range(RangeStart.GetValue(context), RangeEnd.GetValue(context));
             return RoundToInt ? Mathf.RoundToInt(rand) : rand;
         }
     }

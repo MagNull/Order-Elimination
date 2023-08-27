@@ -25,15 +25,15 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public float GetValue(ActionContext useContext)
+        public float GetValue(ValueCalculationContext context)
         {
-            var cellGroups = useContext.TargetCellGroups;
+            var cellGroups = context.CellTargetGroups;
             if (!cellGroups.ContainsGroup(CountInCellGroupId))
                 return 0;
             var cellsToCheck = cellGroups.GetGroup(CountInCellGroupId);
             var entitiesCount = 0;
             var conditions = EntityConditions;
-            var battleContext = useContext.BattleContext;
+            var battleContext = context.BattleContext;
             var map = battleContext.BattleMap;
             foreach (var pos in cellsToCheck)
             {
@@ -43,7 +43,7 @@ namespace OrderElimination.AbilitySystem
             return entitiesCount;
 
             bool IsEntityAllowed(AbilitySystemActor entity)
-                => conditions.All(c => c.IsConditionMet(battleContext, useContext.ActionMaker, entity));
+                => conditions.All(c => c.IsConditionMet(battleContext, context.ActionMaker, entity));
         }
     }
 }

@@ -28,15 +28,15 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public float GetValue(ActionContext useContext)
+        public float GetValue(ValueCalculationContext context)
         {
-            if (useContext.ActionMaker == null
-                || !useContext.ActionMaker.BattleStats.HasParameter(CasterStat))
+            if (context.ActionMaker == null
+                || !context.ActionMaker.BattleStats.HasParameter(CasterStat))
                 return 0;
             if (!UseUnmodifiedValue)
-                return useContext.ActionMaker.BattleStats[CasterStat].ModifiedValue;
+                return context.ActionMaker.BattleStats[CasterStat].ModifiedValue;
             else
-                return useContext.ActionMaker.BattleStats[CasterStat].UnmodifiedValue;
+                return context.ActionMaker.BattleStats[CasterStat].UnmodifiedValue;
         }
     }
 }

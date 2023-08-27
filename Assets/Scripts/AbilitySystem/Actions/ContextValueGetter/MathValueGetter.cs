@@ -40,10 +40,10 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public float GetValue(ActionContext useContext)
+        public float GetValue(ValueCalculationContext context)
         {
-            var leftValue = Left != null ? Left.GetValue(useContext) : 0;
-            var rightValue = Right != null ? Right.GetValue(useContext) : 0;
+            var leftValue = Left != null ? Left.GetValue(context) : 0;
+            var rightValue = Right != null ? Right.GetValue(context) : 0;
             var result = Operation switch
             {
                 MathOperation.Add => leftValue + rightValue,

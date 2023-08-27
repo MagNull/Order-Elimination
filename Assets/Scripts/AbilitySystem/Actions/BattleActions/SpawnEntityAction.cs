@@ -104,7 +104,7 @@ namespace OrderElimination.AbilitySystem
             Logging.Log($"Spawn perform Id: {performId}", Colorize.Purple);
             _spawnedEntities.Add(new());
             var currentPerformEntities = _spawnedEntities[_spawnedEntities.Count - 1];
-            foreach (var pos in useContext.TargetCellGroups.GetGroup(SpawnAtCellGroup))
+            foreach (var pos in useContext.CellTargetGroups.GetGroup(SpawnAtCellGroup))
             {
                 var entity = Entity switch
                 {
