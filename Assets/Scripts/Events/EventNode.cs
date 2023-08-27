@@ -10,12 +10,13 @@ namespace Events
     [Serializable]
     public class Empty { }
     
+    [NodeWidth(300)]
     public class EventNode : Node, IEventNode
     {
         [Input] public Empty entries;
         [Output] public Empty exits;
 
-        [SerializeField, MultiLineProperty]
+        [SerializeField, MultiLineProperty, TextArea(10, 100)]
         protected string text;
         
         public override object GetValue(NodePort port)
