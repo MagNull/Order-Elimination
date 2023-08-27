@@ -13,6 +13,9 @@ namespace RoguelikeMap.Points.Models
     [NodeWidth(300)]
     public abstract class PointModel : Node
     {
+        [SerializeField]
+        private string _name;
+        
         [field: SerializeField]
         public Sprite Sprite { get; private set; }
         [field: SerializeField]
@@ -37,5 +40,7 @@ namespace RoguelikeMap.Points.Models
         }
 
         public void SetActive(bool isActive) => OnChangeActivity?.Invoke(isActive);
+
+        private void OnValidate() => name = _name == "" ? GetType().Name : _name;
     }
 }
