@@ -10,14 +10,11 @@ namespace OrderElimination.AbilitySystem
         [GUIColor(0.5f, 1, 0.5f)]
         public IContextValueGetter HealSize { get; set; }
 
-
         [ShowInInspector, OdinSerialize]
         public LifeStatPriority HealPriority { get; set; } = LifeStatPriority.HealthFirst;
 
-
         [ShowInInspector, OdinSerialize]
         public float ArmorMultiplier { get; set; } = 1f;
-
 
         [ShowInInspector, OdinSerialize]
         public float HealthMultiplier { get; set; } = 1f;
