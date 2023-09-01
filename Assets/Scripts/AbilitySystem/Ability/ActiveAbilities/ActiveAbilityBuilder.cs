@@ -54,6 +54,7 @@ namespace OrderElimination.AbilitySystem
         public IReadOnlyDictionary<EnergyPoint, int> UsageCost => _usageCost;
 
         [TabGroup("Game Rules"), PropertyOrder(1)]
+        [PropertySpace(SpaceBefore = 10, SpaceAfter = 10)]
         [ShowInInspector, OdinSerialize]
         public int CooldownTime
         {
@@ -70,10 +71,12 @@ namespace OrderElimination.AbilitySystem
         public ICommonCondition[] AvailabilityConditions = new ICommonCondition[0];
 
         [TabGroup("Targeting System", Order = 2), PropertyOrder(-97)]
+        [PropertySpace(5)]
         [ShowInInspector, OdinSerialize]
         public TargetingSystemType TargetingSystem { get; private set; }
 
         [TabGroup("Targeting System"), PropertyOrder(5)]
+        [PropertySpace(5)]
         [ShowInInspector, OdinSerialize]
         [ShowIf("@TargetingSystem == TargetingSystemType.MultiTarget || TargetingSystem == TargetingSystemType.SingleTarget")]
         public ICellCondition[] TargetCellConditions = new ICellCondition[0];
@@ -105,6 +108,7 @@ namespace OrderElimination.AbilitySystem
         }
  
         [TabGroup("Targeting System"), PropertyOrder(8)]
+        [PropertySpace(5)]
         [ShowInInspector, OdinSerialize]
         public ICellGroupsDistributor CellGroupsDistributor { get; private set; }
 
