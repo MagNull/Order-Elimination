@@ -76,12 +76,6 @@ namespace OrderElimination.AbilitySystem
         public TargetingSystemType TargetingSystem { get; private set; }
 
         [TabGroup("Targeting System"), PropertyOrder(5)]
-        [PropertySpace(5)]
-        [ShowInInspector, OdinSerialize]
-        [ShowIf("@TargetingSystem == TargetingSystemType.MultiTarget || TargetingSystem == TargetingSystemType.SingleTarget")]
-        public ICellCondition[] TargetCellConditions = new ICellCondition[0];
-
-        [TabGroup("Targeting System"), PropertyOrder(6)]
         [ShowInInspector, OdinSerialize]
         [ShowIf("@TargetingSystem == TargetingSystemType.MultiTarget")]
         public int NecessaryTargets
@@ -94,7 +88,7 @@ namespace OrderElimination.AbilitySystem
             }
         }
 
-        [TabGroup("Targeting System"), PropertyOrder(7)]
+        [TabGroup("Targeting System"), PropertyOrder(6)]
         [ShowInInspector, OdinSerialize]
         [ShowIf("@TargetingSystem == TargetingSystemType.MultiTarget")]
         public int OptionalTargets
@@ -106,7 +100,13 @@ namespace OrderElimination.AbilitySystem
                 _optionalTargets = value;
             }
         }
- 
+
+        [TabGroup("Targeting System"), PropertyOrder(7)]
+        [PropertySpace(5)]
+        [ShowInInspector, OdinSerialize]
+        [ShowIf("@TargetingSystem == TargetingSystemType.MultiTarget || TargetingSystem == TargetingSystemType.SingleTarget")]
+        public ICellCondition[] TargetCellConditions = new ICellCondition[0];
+
         [TabGroup("Targeting System"), PropertyOrder(8)]
         [PropertySpace(5)]
         [ShowInInspector, OdinSerialize]
