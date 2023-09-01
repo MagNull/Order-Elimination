@@ -7,22 +7,12 @@ namespace OrderElimination.AbilitySystem
 {
     public class EntityDamagedTrigger : IEntityTriggerSetup
     {
-        [HideInInspector, OdinSerialize]
-        private float _minDamageThreshold = 0;
-
         [ShowInInspector, OdinSerialize]
         public EnumMask<DamageType> TriggeringDamageTypes { get; private set; } = EnumMask<DamageType>.Full;
 
-        [ShowInInspector]
-        public float MinDamageThreshold
-        {
-            get => _minDamageThreshold;
-            private set
-            {
-                if (value < 0) value = 0;
-                _minDamageThreshold = value;
-            }
-        }
+        [ValidateInput("@false", "*Only Target entity (Tracking entity) is available.")]
+        [ShowInInspector, OdinSerialize]
+        public IContextValueGetter MinDamageThreshold { get; private set; } = new ConstValueGetter(0);
 
         public IBattleTrigger GetTrigger(IBattleContext battleContext, AbilitySystemActor trackingEntity)
         {
@@ -46,8 +36,13 @@ namespace OrderElimination.AbilitySystem
 
             void OnDamaged(DealtDamageInfo damageInfo)
             {
+                var calculationContext = new ValueCalculationContext(
+                    battleContext,
+                    CellGroupsContainer.Empty,
+                    null,//Require trigger activator-entity?
+                    trackingEntity);
                 if (TriggeringDamageTypes[damageInfo.IncomingDamage.DamageType]
-                    && damageInfo.TotalDealtDamage >= MinDamageThreshold)
+                    && damageInfo.TotalDealtDamage >= MinDamageThreshold.GetValue(calculationContext))
                 {
                     instance.FireTrigger(new EntityDamagedTriggerFireInfo(instance, damageInfo));
                 }
