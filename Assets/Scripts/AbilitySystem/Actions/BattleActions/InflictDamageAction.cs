@@ -7,12 +7,8 @@ namespace OrderElimination.AbilitySystem
 {
     public class InflictDamageAction : BattleAction<InflictDamageAction>
     {
-        private string _damageFormula => DamageSize.DisplayedFormula;
-        private string _accuracyFormula => Accuracy.DisplayedFormula;
-
-
         [ShowInInspector, SerializeField]
-        [PropertyTooltip("@" + nameof(_damageFormula)), GUIColor(1, 0.5f, 0.5f)]
+        [GUIColor(1, 0.5f, 0.5f)]
         public IContextValueGetter DamageSize { get; set; } = new CasterStatGetter(BattleStat.AttackDamage);
 
         [ShowInInspector, SerializeField]
@@ -28,7 +24,7 @@ namespace OrderElimination.AbilitySystem
         public LifeStatPriority DamagePriority { get; set; }
 
         [ShowInInspector, SerializeField]
-        [PropertyTooltip("@" + nameof(_accuracyFormula)), GUIColor(0.5f, 0.8f, 1f)]
+        [GUIColor(0.5f, 0.8f, 1f)]
         public IContextValueGetter Accuracy { get; set; } = new CasterStatGetter(BattleStat.Accuracy);
 
         [ShowInInspector, SerializeField]
@@ -75,7 +71,7 @@ namespace OrderElimination.AbilitySystem
             var evasion = IgnoreEvasion || !useContext.ActionTarget.BattleStats.HasParameter(BattleStat.Evasion)
                 ? 0
                 : useContext.ActionTarget.BattleStats[BattleStat.Evasion].ModifiedValue;
-            var hitResult = useContext.BattleContext.HitCalculation.CalculateHitResult(accuracy, evasion);
+            var hitResult = useContext.BattleContext.BattleRules.HitCalculation.CalculateHitResult(accuracy, evasion);
             var animationContext = new AnimationPlayContext(
                 useContext.AnimationSceneContext,
                 useContext.CellTargetGroups,

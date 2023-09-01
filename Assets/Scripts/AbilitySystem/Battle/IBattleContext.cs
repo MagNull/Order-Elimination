@@ -1,4 +1,5 @@
 using OrderElimination.AbilitySystem.Animations;
+using OrderElimination.Battle;
 using OrderElimination.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -18,16 +19,7 @@ namespace OrderElimination.AbilitySystem
         #region Data
         public int CurrentRound { get; }
         public BattleSide ActiveSide { get; }
-        #endregion
-
-        #region Rules
-        public ITurnPriority TurnPriority { get; }
-        public IHitCalculation HitCalculation { get; }
-        //public int MovementPointsPerRound { get; }
-        //public int AttackPointsPerRound { get; }
-        //public int ConsumablesPointsPerRound { get; }
-        public int GetEnergyPointsPerRound(EnergyPoint pointType);
-        public void SetEnergyPointsPerRound(EnergyPoint pointType, int valuePerRound);
+        public IBattleRules BattleRules { get; }
         #endregion
 
         public BattleRelationship GetRelationship(BattleSide askingSide, BattleSide relationSide);

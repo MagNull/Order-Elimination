@@ -1,4 +1,5 @@
 ﻿using OrderElimination.AbilitySystem.Animations;
+using OrderElimination.Battle;
 using OrderElimination.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,7 @@ namespace OrderElimination.AbilitySystem
     public class BattleContext : IBattleContext
     {
         private BattleLoopManager _battleLoopManager;
-        private IHitCalculation _hitCalculation = new StandartHitCalculation();
-        private int _movementPointsPerRound = 1;
-        private int _attackPointsPerRound = 1;
-        private int _consumablesPointsPerRound = 1;
+        private Lazy<IBattleRules> _battleRules;
 
         #region Components
         public AnimationSceneContext AnimationSceneContext { get; private set; }
@@ -26,38 +24,7 @@ namespace OrderElimination.AbilitySystem
         #region Data
         public int CurrentRound => _battleLoopManager.CurrentRound;
         public BattleSide ActiveSide => _battleLoopManager.ActiveSide;
-        #endregion
-
-        #region Rules
-        public ITurnPriority TurnPriority { get; } = new PlayerFirstTurnPriority();
-        public IHitCalculation HitCalculation => _hitCalculation;
-        public int GetEnergyPointsPerRound(EnergyPoint pointType)
-        {
-            return pointType switch
-            {
-                EnergyPoint.MovementPoint => _movementPointsPerRound,
-                EnergyPoint.AttackPoint => _attackPointsPerRound,
-                EnergyPoint.ConsumablesPoint => _consumablesPointsPerRound,
-                _ => throw new NotImplementedException(),
-            };
-        }
-        public void SetEnergyPointsPerRound(EnergyPoint pointType, int valuePerRound)
-        {
-            switch (pointType)
-            {
-                case EnergyPoint.MovementPoint:
-                    _movementPointsPerRound = valuePerRound;
-                    break;
-                case EnergyPoint.AttackPoint:
-                    _attackPointsPerRound = valuePerRound;
-                    break;
-                case EnergyPoint.ConsumablesPoint:
-                    _consumablesPointsPerRound = valuePerRound;
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-        }
+        public IBattleRules BattleRules => _battleRules.Value;
         #endregion
 
         public event Action<IBattleContext> BattleStarted;
@@ -66,13 +33,20 @@ namespace OrderElimination.AbilitySystem
         public event Action<IBattleContext> NewRoundBegan;
 
         [Inject]
-        private void Construct(IObjectResolver objectResolver)
+        private void Construct(
+            BattleLoopManager battleLoopManager,
+            IBattleMap map,
+            ScenesMediator mediator,
+            IReadOnlyEntitiesBank entitiesBank,
+            EntitySpawner entitySpawner,
+            AnimationSceneContext animationContext)
         {
-            BattleMap = objectResolver.Resolve<IBattleMap>();
-            EntitiesBank = objectResolver.Resolve<IReadOnlyEntitiesBank>();
-            _battleLoopManager = objectResolver.Resolve<BattleLoopManager>();
-            AnimationSceneContext = objectResolver.Resolve<AnimationSceneContext>();
-            EntitySpawner = objectResolver.Resolve<EntitySpawner>();
+            BattleMap = map;
+            EntitiesBank = entitiesBank;
+            _battleLoopManager = battleLoopManager;
+            _battleRules = new(() => mediator.Get<IBattleRules>("rules"));
+            AnimationSceneContext = animationContext;
+            EntitySpawner = entitySpawner;
             _battleLoopManager.NewTurnStarted += OnNewTurn;
             _battleLoopManager.NewRoundBegan += OnNewRound;
             _battleLoopManager.BattleStarted += OnBattleStarted;
