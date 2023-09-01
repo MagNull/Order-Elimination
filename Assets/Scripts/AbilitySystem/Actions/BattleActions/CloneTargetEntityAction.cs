@@ -283,7 +283,7 @@ namespace OrderElimination.AbilitySystem
                 case CloningType.UseDefault:
                     foreach (var p in energyPointTypes)
                     {
-                        clonedEntity.SetEnergyPoints(p, battleContext.GetEnergyPointsPerRound(p));
+                        clonedEntity.SetEnergyPoints(p, battleContext.BattleRules.GetEnergyPointsPerRound(p));
                     }
                     break;
                 case CloningType.Copy:

@@ -71,7 +71,7 @@ namespace OrderElimination.AbilitySystem
             var evasion = IgnoreEvasion || !useContext.ActionTarget.BattleStats.HasParameter(BattleStat.Evasion)
                 ? 0
                 : useContext.ActionTarget.BattleStats[BattleStat.Evasion].ModifiedValue;
-            var hitResult = useContext.BattleContext.HitCalculation.CalculateHitResult(accuracy, evasion);
+            var hitResult = useContext.BattleContext.BattleRules.HitCalculation.CalculateHitResult(accuracy, evasion);
             var animationContext = new AnimationPlayContext(
                 useContext.AnimationSceneContext,
                 useContext.CellTargetGroups,

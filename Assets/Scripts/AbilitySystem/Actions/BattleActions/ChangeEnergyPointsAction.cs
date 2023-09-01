@@ -45,7 +45,7 @@ namespace OrderElimination.AbilitySystem
                 case ModificationType.SetToPerRoundValue:
                     useContext.ActionTarget.SetEnergyPoints(
                         EnergyPointType,
-                        useContext.BattleContext.GetEnergyPointsPerRound(EnergyPointType));
+                        useContext.BattleContext.BattleRules.GetEnergyPointsPerRound(EnergyPointType));
                     break;
                 //case ModificationType.Clear:
                 //    useContext.ActionTarget.ClearActionPoints(ActionPoint);
