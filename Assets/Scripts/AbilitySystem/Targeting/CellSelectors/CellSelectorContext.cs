@@ -13,7 +13,7 @@ namespace OrderElimination.AbilitySystem
         public CellSelectorContext(
             IBattleContext battleContext,
             AbilitySystemActor askingEntity, 
-            Vector2Int[] selectedCellPositions)
+            params Vector2Int[] selectedCellPositions)
         {
             AskingEntity = askingEntity;
             SelectedCellPositions = selectedCellPositions;

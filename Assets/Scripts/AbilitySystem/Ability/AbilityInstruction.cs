@@ -53,7 +53,7 @@ namespace OrderElimination.AbilitySystem
         #region Properties
         private int _repeatNumber = 1;
 
-        [TabGroup("Execution")]
+        [TabGroup("MainSection", "Execution")]
         [GUIColor(1f, 1, 0.2f)]
         [ValidateInput(
             "@!(Action is " + nameof(IUndoableBattleAction) + ")", 
@@ -61,32 +61,8 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public IBattleAction Action { get; private set; }
 
-        [TabGroup("Targeting")]
-        [ShowInInspector, OdinSerialize]
-        public bool AffectPreviousTarget { get; private set; } = false;
-
-        #region Conditions
-        private List<ICommonCondition> _commonConditions { get; set; } = new();
-        //cell conditions are useless if cell groups are already filtered by conditions
-        private List<ICellCondition> _cellConditions { get; set; } = new();
-
-        [TabGroup("Targeting")]
-        [ShowIf("@" + nameof(_instructionRequireCellGroups))]
-        [ShowInInspector, OdinSerialize]
-        private List<IEntityCondition> _targetConditions { get; set; } = new();
-        public IReadOnlyList<IEntityCondition> TargetConditions => _targetConditions;
-        #endregion
-
-        [TabGroup("Targeting")]
-        [ShowIf("@" + nameof(_instructionRequireCellGroups))]
-        [ValidateInput(
-            "@" + nameof(_hasAnyTargetGroups) + " || " + nameof(AffectPreviousTarget), 
-            "Instruction has no affected cell groups.")]
-        [ShowInInspector, OdinSerialize]
-        private HashSet<int> _affectedCellGroups { get; set; } = new();
-        public IEnumerable<int> AffectedCellGroups => _affectedCellGroups;
-
-        [TabGroup("Execution")]
+        [TabGroup("MainSection", "Execution")]
+        [PropertySpace(SpaceBefore = 0, SpaceAfter = 5)]
         [ShowInInspector, OdinSerialize]
         public int RepeatNumber //TODO: Rename to Repetitions, place serialization on field
         {
@@ -98,6 +74,34 @@ namespace OrderElimination.AbilitySystem
             }
         }
 
+        #region Conditions
+        [TabGroup("MainSection", "Targeting")]
+        [TitleGroup("MainSection/Targeting/Conditions")]
+        [ShowInInspector, OdinSerialize]
+        private List<ICommonCondition> _commonConditions { get; set; } = new();
+        //cell conditions are useless if cell groups are already filtered by conditions
+        private List<ICellCondition> _cellConditions { get; set; } = new();
+
+        [TitleGroup("MainSection/Targeting/Conditions")]
+        [ShowIf("@" + nameof(_instructionRequireCellGroups))]
+        [ShowInInspector, OdinSerialize]
+        private List<IEntityCondition> _targetConditions { get; set; } = new();
+        public IReadOnlyList<IEntityCondition> TargetConditions => _targetConditions;
+        #endregion
+
+        [TitleGroup("MainSection/Targeting/Target")]
+        [ShowInInspector, OdinSerialize]
+        public bool AffectPreviousTarget { get; private set; } = false;
+
+        [TitleGroup("MainSection/Targeting/Target")]
+        [ShowIf("@" + nameof(_instructionRequireCellGroups))]
+        [ValidateInput(
+            "@" + nameof(_hasAnyTargetGroups) + " || " + nameof(AffectPreviousTarget), 
+            "Instruction has no affected cell groups.")]
+        [ShowInInspector, OdinSerialize]
+        private HashSet<int> _affectedCellGroups { get; set; } = new();
+        public IEnumerable<int> AffectedCellGroups => _affectedCellGroups;
+
         //public bool StopRepeatAfterFirstFail { get; set; }
 
         //TODO: Single instructions list for following instructions
@@ -105,40 +109,40 @@ namespace OrderElimination.AbilitySystem
 
         #region NextInstructions
         [GUIColor(0.5f, 1f, 0.5f)]
-        [TabGroup("Execution")]
+        [TabGroup("MainSection", "Execution")]
         [ShowInInspector, OdinSerialize]
         private List<AbilityInstruction> _instructionsOnActionSuccess { get; set; } = new();
         public IReadOnlyList<AbilityInstruction> InstructionsOnActionSuccess => _instructionsOnActionSuccess;
 
         [GUIColor(0.7f, 1f, 0.7f)]
-        [TabGroup("Execution")]
+        [TabGroup("MainSection", "Execution")]
         [ShowInInspector, OdinSerialize]
         public bool SuccessInstructionsEveryRepeat { get; private set; } = true;
 
         [GUIColor(1f, 0.5f, 0.5f)]
-        [TabGroup("Execution")]
+        [TabGroup("MainSection", "Execution")]
         [ShowInInspector, OdinSerialize]
         private List<AbilityInstruction> _instructionsOnActionFail { get; set; } = new();
         public IReadOnlyList<AbilityInstruction> InstructionsOnActionFail => _instructionsOnActionFail;
 
         [GUIColor(1f, 0.7f, 0.7f)]
-        [TabGroup("Execution")]
+        [TabGroup("MainSection", "Execution")]
         [ShowInInspector, OdinSerialize]
         public bool FailInstructionsEveryRepeat { get; private set; } = true;
 
         [GUIColor(0.6f, 0.6f, 1f)]
-        [TabGroup("Execution")]
+        [TabGroup("MainSection", "Execution")]
         [ShowInInspector, OdinSerialize]
         private List<AbilityInstruction> _followingInstructions { get; set; } = new();
         public IReadOnlyList<AbilityInstruction> FollowingInstructions => _followingInstructions;
 
         [GUIColor(0.75f, 0.75f, 1f)]
-        [TabGroup("Execution")]
+        [TabGroup("MainSection", "Execution")]
         [ShowInInspector, OdinSerialize]
         public bool FollowInstructionsEveryRepeat { get; private set; } = true;
         #endregion
 
-        [TabGroup("Animations")]
+        [TabGroup("MainSection", "Animations")]
         [GUIColor(0, 1, 1)]
         [ShowInInspector, OdinSerialize]
         public IAbilityAnimation AnimationBeforeAction { get; private set; }
