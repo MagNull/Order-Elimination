@@ -114,9 +114,9 @@ namespace OrderElimination.AbilitySystem
         private IContextValueGetter ChangeValueGetter(
             IContextValueGetter initial, MathOperation operation, IContextValueGetter newValue)
         {
-            var newFormula = new MathValueGetter();
+            var newFormula = new BinaryMathValueGetter();
             newFormula.Left = initial;
-            newFormula.Operation = operation;
+            newFormula.Operation = operation.ToBinaryOperation();
             newFormula.Right = newValue;
             return newFormula;
         }

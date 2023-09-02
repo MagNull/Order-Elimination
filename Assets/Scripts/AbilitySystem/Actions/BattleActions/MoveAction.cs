@@ -3,12 +3,8 @@ using OrderElimination.AbilitySystem.Animations;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
@@ -49,7 +45,7 @@ namespace OrderElimination.AbilitySystem
 
         public override ActionRequires ActionRequires => ActionRequires.Target;
 
-        public IEnumerable<int> UtilizingCellGroups => new[] { DestinationCellGroup };
+        public int[] UtilizedCellGroups => new[] { DestinationCellGroup };
 
         public override IBattleAction Clone()
         {
@@ -63,8 +59,6 @@ namespace OrderElimination.AbilitySystem
             clone.MoveFailedAnimation = MoveFailedAnimation;
             return clone;
         }
-
-        public int GetUtilizedCellsAmount(int group) => group == DestinationCellGroup ? 1 : 0;
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {

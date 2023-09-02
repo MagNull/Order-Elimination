@@ -117,7 +117,8 @@ namespace OrderElimination.AbilitySystem
         [TitleGroup("Functionality")]
         [TabGroup("Functionality/Tabs", "Basic")]
         [GUIColor("@Color.cyan")]
-        [ShowIf("@" + nameof(IsTemporary))]
+        [EnableIf("@" + nameof(IsTemporary))]
+        [OnInspectorInit("@$property.State.Expanded = true")]
         [ShowInInspector, OdinSerialize]
         public TemporaryEffectFunctionaity TemporaryEffectFunctionaity { get; protected set; }
 

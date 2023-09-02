@@ -76,11 +76,13 @@ namespace OrderElimination.AbilitySystem
         public ICommonCondition[] AvailabilityConditions = new ICommonCondition[0];
 
         [TabGroup("MainTabs", "Targeting System", Order = 2), PropertyOrder(-97)]
+        [BoxGroup("MainTabs/Targeting System/System Settings", ShowLabel = false)]
         [PropertySpace(5)]
         [ShowInInspector, OdinSerialize]
         public TargetingSystemType TargetingSystem { get; private set; }
 
         [TabGroup("MainTabs", "Targeting System"), PropertyOrder(5)]
+        [BoxGroup("MainTabs/Targeting System/System Settings", ShowLabel = false)]
         [ShowInInspector, OdinSerialize]
         [ShowIf("@TargetingSystem == TargetingSystemType.MultiTarget")]
         public int NecessaryTargets
@@ -94,6 +96,7 @@ namespace OrderElimination.AbilitySystem
         }
 
         [TabGroup("MainTabs", "Targeting System"), PropertyOrder(6)]
+        [BoxGroup("MainTabs/Targeting System/System Settings", ShowLabel = false)]
         [ShowInInspector, OdinSerialize]
         [ShowIf("@TargetingSystem == TargetingSystemType.MultiTarget")]
         public int OptionalTargets
@@ -113,11 +116,15 @@ namespace OrderElimination.AbilitySystem
         public ICellCondition[] TargetCellConditions = new ICellCondition[0];
 
         [TabGroup("MainTabs", "Targeting System"), PropertyOrder(8)]
+        [BoxGroup("MainTabs/Targeting System/Distributor", ShowLabel = false)]
+        [OnInspectorInit("@$property.State.Expanded = true")]
+        [ValidateInput("@" + nameof(CellGroupsDistributor) + " != null", "Distributor is not assigned!")]
         [PropertySpace(5)]
         [ShowInInspector, OdinSerialize]
         public ICellGroupsDistributor CellGroupsDistributor { get; private set; }
 
         [TabGroup("MainTabs", "Functionality", Order = 4), PropertyOrder(-96)]
+        [OnInspectorInit("@$property.State.Expanded = true")]
         [ShowInInspector, OdinSerialize]
         public AbilityInstruction[] AbilityInstructions;
     }

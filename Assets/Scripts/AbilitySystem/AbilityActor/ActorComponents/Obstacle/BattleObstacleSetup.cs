@@ -63,10 +63,10 @@ namespace OrderElimination.AbilitySystem
                     && minIntersectionSquare <= _maxAffectedSquare;
                 if (!isSquareInAffectedRange)
                     return new(false, initialAccuracy);
-                var modifiedAccuracy = new MathValueGetter
+                var modifiedAccuracy = new BinaryMathValueGetter
                 {
                     Left = initialAccuracy,
-                    Operation = AccuracyOperation,
+                    Operation = AccuracyOperation.ToBinaryOperation(),
                     Right = ValueOperand
                 };
                 return new(true, modifiedAccuracy);

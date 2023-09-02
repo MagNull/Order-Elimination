@@ -1,8 +1,10 @@
 ﻿using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using System;
 
 namespace OrderElimination.AbilitySystem
 {
+    [Serializable]
     public class CellCountInGroupValueGetter : IContextValueGetter
     {
         [ShowInInspector, OdinSerialize]

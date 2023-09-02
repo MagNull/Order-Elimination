@@ -1,18 +1,23 @@
 ﻿using OrderElimination.Infrastructure;
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 
 namespace OrderElimination.AbilitySystem
 {
     [Serializable]
+    [Obsolete("Use " + nameof(BinaryMathValueGetter) + " instead.")]
     public struct MathValueGetter : IContextValueGetter
     {
+        [BoxGroup("Operation", ShowLabel = false)]
         [OdinSerialize]
         public IContextValueGetter Left { get; set; }
 
+        [BoxGroup("Operation", ShowLabel = false)]
         [OdinSerialize]
         public MathOperation Operation { get; set; }
 
+        [BoxGroup("Operation", ShowLabel = false)]
         [OdinSerialize]
         public IContextValueGetter Right { get; set; }
 

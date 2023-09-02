@@ -21,7 +21,7 @@ namespace OrderElimination.AbilitySystem
         private MathOperation _healOperation = MathOperation.Multiply;
 
         [ShowInInspector, OdinSerialize]
-        private IContextValueGetter _healValue = new ConstValueGetter() { Value = 1 };
+        private IContextValueGetter _healValue = new ConstValueGetter(1);
 
         public TAction ProcessAction<TAction>(TAction originalAction, ActionContext performContext)
             where TAction : BattleAction<TAction>
@@ -32,13 +32,13 @@ namespace OrderElimination.AbilitySystem
             return originalAction;
         }
 
-        private MathValueGetter ChangeValueGetter(
+        private IContextValueGetter ChangeValueGetter(
             IContextValueGetter initial, MathOperation operation, IContextValueGetter value)
         {
-            var newFormula = new MathValueGetter
+            var newFormula = new BinaryMathValueGetter
             {
                 Left = initial,
-                Operation = operation,
+                Operation = operation.ToBinaryOperation(),
                 Right = value
             };
             return newFormula;

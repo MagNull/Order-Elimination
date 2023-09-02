@@ -1,7 +1,5 @@
-﻿using OrderElimination.AbilitySystem;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -9,6 +7,9 @@ namespace OrderElimination.AbilitySystem
 {
     public class ConditionalCellSelector : ICellSelector
     {
+        [ShowInInspector, OdinSerialize]
+        public ICommonCondition[] CommonConditions { get; private set; } = new ICommonCondition[0];
+
         [ShowInInspector, OdinSerialize]
         public ICellCondition[] CellConditions { get; private set; } = new ICellCondition[0];
 
@@ -19,6 +20,12 @@ namespace OrderElimination.AbilitySystem
         {
             var battleContext = context.BattleContext;
             var askingEntity = context.AskingEntity;
+            if (CommonConditions != null)
+            {
+                var conditionsMet = CommonConditions.All(c => c.IsConditionMet(battleContext, askingEntity));
+                if (!conditionsMet)
+                    return new Vector2Int[0];
+            }
             return Source
                 .GetCellPositions(context)
                 .Where(p => context.BattleContext.BattleMap.ContainsPosition(p))
