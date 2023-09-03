@@ -33,7 +33,7 @@ MonoBehaviour:
       Entry: 1
       Data: "\"-40% \u0423\u0440\u043E\u043D\u0430\n\u0418\u0433\u043D\u043E\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435
         \u0431\u0440\u043E\u043D\u0438\""
-    - Name: HideInCharacterDiscription
+    - Name: HideInCharacterDescription
       Entry: 5
       Data: true
     - Name: CooldownTime
@@ -162,9 +162,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: AffectPreviousTarget
-      Entry: 5
-      Data: false
+    - Name: RepeatNumber
+      Entry: 3
+      Data: 1
+    - Name: _commonConditions
+      Entry: 6
+      Data: 
     - Name: _targetConditions
       Entry: 7
       Data: 13|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
@@ -178,6 +181,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: AffectPreviousTarget
+      Entry: 5
+      Data: false
     - Name: _affectedCellGroups
       Entry: 7
       Data: 14|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
@@ -193,9 +199,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: RepeatNumber
-      Entry: 3
-      Data: 1
     - Name: _instructionsOnActionSuccess
       Entry: 7
       Data: 15|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
