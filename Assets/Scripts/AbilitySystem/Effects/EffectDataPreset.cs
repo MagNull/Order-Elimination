@@ -77,25 +77,85 @@ namespace OrderElimination.AbilitySystem
         public EffectCharacter EffectCharacter { get; protected set; }
 
         [TitleGroup("Rules")]
+        [BoxGroup("Rules/Stacking", ShowLabel = false)]
+        [HorizontalGroup("Rules/Stacking/Horizontal", 0.7f)]
+        [HideLabel, Title("Stacking Policy", Bold = false, HorizontalLine = false)]
+        [PropertySpace(SpaceBefore = 0, SpaceAfter = 5)]
         [ShowInInspector, OdinSerialize]
         public EffectStackingPolicy StackingPolicy { get; protected set; }
 
         [TitleGroup("Rules")]
+        [BoxGroup("Rules/Stacking", ShowLabel = false)]
+        [HorizontalGroup("Rules/Stacking/Horizontal")]
+        [ShowIf("@" + nameof(StackingPolicy) + " == " + nameof(EffectStackingPolicy) + "." + nameof(EffectStackingPolicy.LimitedStacking))]
+        [MinValue(1)]
+        [HideLabel, Title("Max Stack Size", Bold = false, HorizontalLine = false)]
+        [ShowInInspector, OdinSerialize]
+        private int _maxStackSize { get; set; } = 1;
+
+        [TitleGroup("Rules")]
+        [BoxGroup("Rules/Stacking", ShowLabel = false)]
+        [HorizontalGroup("Rules/Stacking/Horizontal")]
+        [ShowIf("@" + nameof(StackingPolicy) + " != " + nameof(EffectStackingPolicy) + "." + nameof(EffectStackingPolicy.LimitedStacking))]
+        [HideLabel, Title("Max Stack Size", Bold = false, HorizontalLine = false)]
+        [ShowInInspector]
+        public int MaxStackSize
+        {
+            get
+            {
+                if (StackingPolicy == EffectStackingPolicy.OverrideOld
+                    || StackingPolicy == EffectStackingPolicy.IgnoreNew)
+                    return 1;
+                if (StackingPolicy == EffectStackingPolicy.LimitedStacking)
+                    return Mathf.Max(_maxStackSize, 1);
+                return int.MaxValue;
+            }
+        }
+
+        [TitleGroup("Rules")]
+        [BoxGroup("Rules/Processing", ShowLabel = false)]
         [ShowInInspector, OdinSerialize]
         public bool UseApplierProcessing { get; protected set; }
 
         [TitleGroup("Rules")]
+        [BoxGroup("Rules/Processing", ShowLabel = false)]
         [ShowInInspector, OdinSerialize]
         public bool UseHolderProcessing { get; protected set; }
 
         [TitleGroup("Rules")]
+        [BoxGroup("Rules/Removal", ShowLabel = false)]
         [OnValueChanged("@" + nameof(_validateFunctionality) + "()")]
         [ShowInInspector, OdinSerialize]
         public bool IsTemporary { get; protected set; }
 
         [TitleGroup("Rules")]
+        [BoxGroup("Rules/Removal", ShowLabel = false)]
+        [EnableIf("@" + nameof(IsTemporary))]
+        [ShowInInspector]
+        private int Duration
+        {
+            get
+            {
+                if (TemporaryEffectFunctionaity != null)
+                    return TemporaryEffectFunctionaity.ApplyingDuration;
+                return -1;
+            }
+            set
+            {
+                if (!IsTemporary)
+                    return;
+                if (value < 1)
+                    value = 1;
+                if (TemporaryEffectFunctionaity == null)
+                    TemporaryEffectFunctionaity = new();
+                TemporaryEffectFunctionaity.ApplyingDuration = value;
+            }
+        }
+
+        [TitleGroup("Rules")]
+        [BoxGroup("Rules/Removal", ShowLabel = false)]
         [ShowInInspector, OdinSerialize]
-        private HashSet<EffectTriggerAcceptor> _removeTriggers = new();
+        private HashSet<EffectTriggerAcceptor> _removeTriggers { get; set; } = new();
 
         public IEnumerable<EffectTriggerAcceptor> RemoveTriggers => _removeTriggers;
         #endregion
@@ -118,8 +178,21 @@ namespace OrderElimination.AbilitySystem
         [TabGroup("Functionality/Tabs", "Basic")]
         [GUIColor("@Color.cyan")]
         [EnableIf("@" + nameof(IsTemporary))]
-        [OnInspectorInit("@$property.State.Expanded = true")]
-        [ShowInInspector, OdinSerialize]
+        [ShowInInspector]
+        private IEffectInstruction InstructionOnTimeout
+        {
+            get => TemporaryEffectFunctionaity != null ? TemporaryEffectFunctionaity.OnTimeOutInstruction : null;
+            set
+            {
+                if (!IsTemporary)
+                    return;
+                if (TemporaryEffectFunctionaity == null)
+                    TemporaryEffectFunctionaity = new();
+                TemporaryEffectFunctionaity.OnTimeOutInstruction = value;
+            }
+        }
+
+        [HideInInspector, OdinSerialize]
         public TemporaryEffectFunctionaity TemporaryEffectFunctionaity { get; protected set; }
 
         [TitleGroup("Functionality")]
