@@ -14,7 +14,8 @@ namespace OrderElimination.AbilitySystem.Animations
         [HideInInspector, OdinSerialize]
         private int _animationLoops = 1;
 
-        [ShowInInspector, OdinSerialize] public ParticleType ParticleType { get; private set; }
+        [ShowInInspector, OdinSerialize] 
+        public ParticleType ParticleType { get; private set; }
 
         [TabGroup("Location")]
         [ShowInInspector, OdinSerialize]

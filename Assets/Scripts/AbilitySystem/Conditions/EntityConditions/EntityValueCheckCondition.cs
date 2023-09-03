@@ -38,16 +38,7 @@ namespace OrderElimination.AbilitySystem
                 entityToCheck);
             var left = Left.GetValue(calculationContext);
             var right = Right.GetValue(calculationContext);
-            return ComparisonOperation switch
-            {
-                BinaryComparisonOperation.Equals => left == right,
-                BinaryComparisonOperation.NotEquals => left != right,
-                BinaryComparisonOperation.GreaterThan => left > right,
-                BinaryComparisonOperation.LessThan => left < right,
-                BinaryComparisonOperation.GreaterOrEquals => left >= right,
-                BinaryComparisonOperation.LessOrEquals => left <= right,
-                _ => throw new NotImplementedException(),
-            };
+            return MathExtensions.CompareValues(left, right, ComparisonOperation);
         }
     }
 }

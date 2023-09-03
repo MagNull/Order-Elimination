@@ -40,6 +40,20 @@ namespace OrderElimination.Infrastructure
             };
         }
 
+        public static bool CompareValues(float left, float right, BinaryComparisonOperation operation)
+        {
+            return operation switch
+            {
+                BinaryComparisonOperation.Equals => left == right,
+                BinaryComparisonOperation.NotEquals => left != right,
+                BinaryComparisonOperation.GreaterThan => left > right,
+                BinaryComparisonOperation.LessThan => left < right,
+                BinaryComparisonOperation.GreaterOrEquals => left >= right,
+                BinaryComparisonOperation.LessOrEquals => left <= right,
+                _ => throw new NotImplementedException(),
+            };
+        }
+
         //TODO: Remove after replacing all MathOperation with BinaryMathOperation in Processors & Obstacles
         public static BinaryMathOperation ToBinaryOperation(this MathOperation mathOperation)
             => (BinaryMathOperation)(mathOperation + 1);

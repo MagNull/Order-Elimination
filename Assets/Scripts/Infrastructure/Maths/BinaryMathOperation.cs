@@ -2,7 +2,7 @@
 {
     public enum BinaryMathOperation
     {
-        Replace = 0,
+        Replace = 0,//Assign
         Add = 1,
         Subtract = 2,
         Multiply = 3,
