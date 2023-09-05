@@ -8,15 +8,30 @@ namespace OrderElimination.AbilitySystem
 {
     public class EffectActionInstruction : IEffectInstruction
     {
+        #region OdinVisuals
+        private bool ActionIsUndoable => _battleAction is IUndoableBattleAction;
+
+        [OnInspectorInit]
+        private void ActionUndoableValidate()
+        {
+            if (!ActionIsUndoable)
+            {
+                UndoOnDeactivation = false;
+            }
+        }
+        #endregion
+
         [ShowInInspector, OdinSerialize]
         private EffectEntity _target { get; set; } = EffectEntity.EffectHolder;
 
+        [OnValueChanged("@" + nameof(ActionUndoableValidate) + "()")]
         [GUIColor(1f, 1, 0.2f)]
         [ShowInInspector, OdinSerialize]
         private IBattleAction _battleAction { get; set; }
 
-        [ShowIf("@" + nameof(_battleAction) + " is " + nameof(IUndoableBattleAction))]
-        [ValidateInput("@" + nameof(UndoOnDeactivation), "Action will never be undone! Are you sure this is right?")]
+        [EnableIf("@" + nameof(ActionIsUndoable))]
+        [PropertyTooltip("@(" + nameof(ActionIsUndoable) + " ? \"\" : \"Action is not Undoable\")")]
+        [ValidateInput("@" + nameof(UndoOnDeactivation) + " || !" + nameof(ActionIsUndoable), "Action will never be undone! Are you sure this is right?")]
         [ShowInInspector, OdinSerialize]
         private bool UndoOnDeactivation { get; set; } = true;
 
