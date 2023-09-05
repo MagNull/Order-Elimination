@@ -15,9 +15,6 @@ namespace UIManagement
         private AbilityButton[] _activeAbilityButtons;
 
         [SerializeField]
-        private AbilityButton _itemAbilityButton;
-
-        [SerializeField]
         private UIController _panelController;
 
         [SerializeField]

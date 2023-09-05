@@ -10,25 +10,35 @@ namespace OrderElimination.AbilitySystem
     {
         private int _cooldownTime = 0;
 
-        [TitleGroup("Visuals", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 0), PropertyOrder(0)]
+        [TitleGroup("Visuals", Alignment = TitleAlignments.Centered, Order = 0), PropertyOrder(0)]
+        [HorizontalGroup("Visuals/NameIconDescr", Width = 0.3f)]
+        [VerticalGroup("Visuals/NameIconDescr/Left")]
+        [HideLabel, Title("Name", HorizontalLine = false)]
         [ShowInInspector, OdinSerialize]
         public string Name { get; private set; }
 
         [TitleGroup("Visuals"), PropertyOrder(1)]
-        [PreviewField(Alignment = ObjectFieldAlignment.Left)]
+        [HorizontalGroup("Visuals/NameIconDescr")]
+        [VerticalGroup("Visuals/NameIconDescr/Left")]
+        [PreviewField(70, Alignment = ObjectFieldAlignment.Left)]
+        [HideLabel]
         [ShowInInspector, OdinSerialize]
         public Sprite Icon { get; private set; }
 
         [TitleGroup("Visuals"), PropertyOrder(2)]
-        [ShowInInspector, OdinSerialize, MultiLineProperty]
+        [HorizontalGroup("Visuals/NameIconDescr")]
+        [VerticalGroup("Visuals/NameIconDescr/Right")]
+        [HideLabel, Title("Description", HorizontalLine = false)]
+        [PropertySpace(SpaceBefore = 0, SpaceAfter = 5), MultiLineProperty(5)]
+        [ShowInInspector, OdinSerialize]
         public string Description { get; private set; }
 
         [TitleGroup("Visuals"), PropertyOrder(4)]
         [ShowInInspector, OdinSerialize]
-        public bool HideInCharacterDiscription { get; private set; }
+        public bool HideInCharacterDescription { get; private set; }
 
         [ValidateInput("@CooldownTime == 0", "Warining! Only first first-fired trigger's instruction will be executed.")]
-        [TitleGroup("Game Rules"), PropertyOrder(1)]
+        [TitleGroup("Game Rules", Alignment = TitleAlignments.Centered), PropertyOrder(1)]
         [ShowInInspector, OdinSerialize]
         public int CooldownTime
         {
@@ -40,7 +50,8 @@ namespace OrderElimination.AbilitySystem
             }
         }
 
-        [TitleGroup("Functionality", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 4), PropertyOrder(0)]
+        [TitleGroup("Functionality", Alignment = TitleAlignments.Centered, Order = 4), PropertyOrder(0)]
+        [OnInspectorInit("@$property.State.Expanded = true")]
         [ShowInInspector, OdinSerialize]
         public ITriggerInstruction[] TriggerInstructions { get; private set; }
     }

@@ -10,6 +10,9 @@ namespace OrderElimination.AbilitySystem
         [HideInInspector, OdinSerialize]
         private int _applyingDuration = 1;
 
+        [HideInInspector, OdinSerialize]
+        private IEffectInstruction _onTimeOutInstruction;
+
         [PropertyOrder(-1), SuffixLabel("rounds", overlay: true)]
         [ShowInInspector]
         public int ApplyingDuration
@@ -23,8 +26,13 @@ namespace OrderElimination.AbilitySystem
         }
 
         [PropertyOrder(1)]
-        [ShowInInspector, OdinSerialize]
-        private IEffectInstruction _onTimeOutInstruction;
+        [ShowInInspector]
+        public IEffectInstruction OnTimeOutInstruction
+        {
+            get => _onTimeOutInstruction;
+            set => _onTimeOutInstruction = value;
+        }
+
 
         public virtual void OnTimeOut(BattleEffect effect)
         {

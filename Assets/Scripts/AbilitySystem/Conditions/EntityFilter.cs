@@ -65,22 +65,22 @@ namespace OrderElimination.AbilitySystem
         public EnumMask<BattleRelationship> AllowedRelationships { get; set; } = new();
 
         [TitleGroup("Allowed Characters")]
-        [ShowIf("@" + nameof(_allowsCharacters))]
+        [EnableIf("@" + nameof(_allowsCharacters))]
         [ShowInInspector, OdinSerialize]
         public SpicificationType CharactersSpecification { get; set; } = SpicificationType.ByIgnored;
 
         [TitleGroup("Allowed Characters")]
-        [ShowIf("@" + nameof(_allowsCharacters))]
+        [EnableIf("@" + nameof(_allowsCharacters))]
         [ShowInInspector, OdinSerialize]
         private List<IGameCharacterTemplate> _specifiedCharacters = new();
 
         [TitleGroup("Allowed Structures")]
-        [ShowIf("@" + nameof(_allowsStructures))]
+        [EnableIf("@" + nameof(_allowsStructures))]
         [ShowInInspector, OdinSerialize]
         public SpicificationType StructuresSpecification { get; set; } = SpicificationType.ByIgnored;
 
         [TitleGroup("Allowed Structures")]
-        [ShowIf("@" + nameof(_allowsStructures))]
+        [EnableIf("@" + nameof(_allowsStructures))]
         [ShowInInspector, OdinSerialize]
         private List<IBattleStructureTemplate> _specifiedStructures = new();
 

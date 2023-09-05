@@ -47,6 +47,13 @@ namespace OrderElimination.Infrastructure
             || obj is decimal;
         }
 
+        public static bool IsAbilitySystemAsset(this object obj)
+        {
+            return obj is ActiveAbilityBuilder
+                || obj is PassiveAbilityBuilder
+                || obj is EffectDataPreset;
+        }
+
         //Resource-heavy
         public static Type[] GetAllInterfaceImplementationTypes<T>()
         {
@@ -58,5 +65,18 @@ namespace OrderElimination.Infrastructure
                 .GetTypes()
                 .Where(t => t.GetInterfaces().Contains(type)).ToArray();
         }
+
+        public static bool IsImplementingAllInterfaces(this Type type, params string[] names)
+        {
+            return names.All(n => type.GetInterface(n) != null);
+        }
+
+        public static bool IsImplementingAnyInterface(this Type type, params string[] names)
+        {
+            return names.Any(n => type.GetInterface(n) != null);
+        }
+
+        public static string GetExceptionName(this Exception exception)
+            => exception.GetType().Name;
     }
 }

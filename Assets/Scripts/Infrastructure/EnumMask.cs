@@ -136,11 +136,20 @@ namespace OrderElimination.Infrastructure
         private void ValidateDictionaryContainsAllValues()
         {
             _valueFlags ??= new Dictionary<T, bool>();
-            foreach (var entityType in EnumExtensions.GetValues<T>())
+            var enumValues = EnumExtensions.GetValues<T>();
+            var valuesHashset = enumValues.ToHashSet();
+            foreach (var enumType in _valueFlags.Keys)//Check existing values
             {
-                if (!_valueFlags.ContainsKey(entityType))
+                if (!valuesHashset.Contains(enumType))
                 {
-                    _valueFlags.Add(entityType, false);
+                    _valueFlags.Remove(enumType);
+                }
+            }
+            foreach (var enumType in enumValues)//Check for missing values
+            {
+                if (!_valueFlags.ContainsKey(enumType))
+                {
+                    _valueFlags.Add(enumType, false);
                 }
             }
         }

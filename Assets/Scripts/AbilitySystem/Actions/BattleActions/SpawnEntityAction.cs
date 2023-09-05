@@ -7,7 +7,9 @@ using System.Collections.Generic;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class SpawnEntityAction : BattleAction<SpawnEntityAction>, IUndoableBattleAction
+    public class SpawnEntityAction : BattleAction<SpawnEntityAction>, 
+        IUndoableBattleAction,
+        IUtilizeCellGroupsAction
     {
         private static readonly List<List<AbilitySystemActor>> _spawnedEntities = new();
         private static readonly Dictionary<int, IBattleTrigger> _activeTriggers = new();
@@ -44,6 +46,8 @@ namespace OrderElimination.AbilitySystem
         public IContextTriggerSetup RemoveTrigger { get; private set; }
 
         public override ActionRequires ActionRequires => ActionRequires.Maker;
+
+        public int[] UtilizedCellGroups => new[] { SpawnAtCellGroup };
 
         public override IBattleAction Clone()
         {

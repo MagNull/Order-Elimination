@@ -3,7 +3,6 @@ using OrderElimination.AbilitySystem.Animations;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using Sirenix.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,22 +13,24 @@ namespace OrderElimination.AbilitySystem
     /// <summary>
     /// Class which describes an instruction for active ability.
     /// </summary>
-    [OnInspectorInit("@$value._instructionName = $value._getInstructionName()")]
-    [LabelText("@$value." + nameof(_instructionName))]
+    [OnInspectorInit("@$property.State.Expanded = true")]
+    [LabelText("@$value." + nameof(InstructionName))]
     public class AbilityInstruction : ICloneable<AbilityInstruction>
     {
         #region OdinVisuals
-        private string _instructionName;
-        private string _getInstructionName()
+        private string InstructionName
         {
-            var actionName = "...";
-            if (Action != null)
-                actionName = Action.GetType().Name;
-            return $"Instruction <{actionName}>";
+            get
+            {
+                var actionName = "...";
+                if (Action != null)
+                    actionName = Action.GetType().Name;
+                return $"Instruction <{actionName}>";
+            }
         }
         private bool _hasAnyTargetGroups => _affectedCellGroups != null && _affectedCellGroups.Count > 0;
-        private bool _actionUtilizesCellGroups => Action is IUtilizeCellGroupsAction;
-        private bool _instructionRequireCellGroups
+        private bool IsEntityAction => Action != null ? Action.ActionRequires == ActionRequires.Target : false;
+        private bool CellGroupsRequired
         {
             get
             {
@@ -39,11 +40,10 @@ namespace OrderElimination.AbilitySystem
                 {
                     ActionRequires.Target => true,
                     ActionRequires.Cell => true,
-                    //ActionExecutes.OncePerGroup => true,
                     ActionRequires.Maker => false,
                     _ => throw new NotImplementedException(),
                 };
-                return actionRequireCellGroups;// && !AffectPreviousTarget;
+                return actionRequireCellGroups;
             }
         }
         #endregion
@@ -53,40 +53,18 @@ namespace OrderElimination.AbilitySystem
         #region Properties
         private int _repeatNumber = 1;
 
-        [TabGroup("Execution")]
+        [TabGroup("MainSection", "Execution")]
+        [BoxGroup("MainSection/Execution/Action", CenterLabel = true)]
         [GUIColor(1f, 1, 0.2f)]
         [ValidateInput(
             "@!(Action is " + nameof(IUndoableBattleAction) + ")", 
-            nameof(AbilityInstruction) + " does not support Undoable actions! Use with caution or utilize effects!")]
+            "Action is Undoable but can't be undone with " + nameof(AbilityInstruction) + ". Use with caution or utilize effects!")]
         [ShowInInspector, OdinSerialize]
         public IBattleAction Action { get; private set; }
 
-        [TabGroup("Targeting")]
-        [ShowInInspector, OdinSerialize]
-        public bool AffectPreviousTarget { get; private set; } = false;
-
-        #region Conditions
-        private List<ICommonCondition> _commonConditions { get; set; } = new();
-        //cell conditions are useless if cell groups are already filtered by conditions
-        private List<ICellCondition> _cellConditions { get; set; } = new();
-
-        [TabGroup("Targeting")]
-        [ShowIf("@" + nameof(_instructionRequireCellGroups))]
-        [ShowInInspector, OdinSerialize]
-        private List<IEntityCondition> _targetConditions { get; set; } = new();
-        public IReadOnlyList<IEntityCondition> TargetConditions => _targetConditions;
-        #endregion
-
-        [TabGroup("Targeting")]
-        [ShowIf("@" + nameof(_instructionRequireCellGroups))]
-        [ValidateInput(
-            "@" + nameof(_hasAnyTargetGroups) + " || " + nameof(AffectPreviousTarget), 
-            "Instruction has no affected cell groups.")]
-        [ShowInInspector, OdinSerialize]
-        private HashSet<int> _affectedCellGroups { get; set; } = new();
-        public IEnumerable<int> AffectedCellGroups => _affectedCellGroups;
-
-        [TabGroup("Execution")]
+        [TabGroup("MainSection", "Execution")]
+        [BoxGroup("MainSection/Execution/Action", CenterLabel = true)]
+        [PropertySpace(SpaceBefore = 0, SpaceAfter = 5)]
         [ShowInInspector, OdinSerialize]
         public int RepeatNumber //TODO: Rename to Repetitions, place serialization on field
         {
@@ -98,6 +76,40 @@ namespace OrderElimination.AbilitySystem
             }
         }
 
+        #region Conditions
+        [TabGroup("MainSection", "Targeting")]
+        [BoxGroup("MainSection/Targeting/Conditions", CenterLabel = true)]
+        [ShowInInspector, OdinSerialize]
+        private List<ICommonCondition> _commonConditions { get; set; } = new();
+        //cell conditions are useless if cell groups are already filtered by conditions
+        private List<ICellCondition> _cellConditions { get; set; } = new();
+
+        [BoxGroup("MainSection/Targeting/Conditions", CenterLabel = true)]
+        [EnableIf("@" + nameof(IsEntityAction))]
+        [ShowInInspector, OdinSerialize]
+        private List<IEntityCondition> _targetConditions { get; set; } = new();
+        public IReadOnlyList<IEntityCondition> TargetConditions => _targetConditions;
+        #endregion
+
+        [BoxGroup("MainSection/Targeting/Target", CenterLabel = true)]
+        [EnableIf(
+            "@" + nameof(IsEntityAction) + " && "
+            + "$property.ParentValueProperty.ParentValueProperty != null && "//is in list
+            + "$property.ParentValueProperty.ParentValueProperty.ParentValueProperty != null && "//list parent
+            + "$property.ParentValueProperty.ParentValueProperty.ParentValueProperty.ValueEntry.WeakSmartValue is " + nameof(AbilityInstruction) + " && "
+            + "((" + nameof(AbilityInstruction) + ")$property.ParentValueProperty.ParentValueProperty.ParentValueProperty.ValueEntry.WeakSmartValue)." + nameof(IsEntityAction))]
+        [ShowInInspector, OdinSerialize]
+        public bool AffectPreviousTarget { get; private set; } = false;
+
+        [BoxGroup("MainSection/Targeting/Target", CenterLabel = true)]
+        [EnableIf("@" + nameof(CellGroupsRequired))]
+        [ValidateInput(
+            "@" + nameof(_hasAnyTargetGroups) + " || " + nameof(AffectPreviousTarget), 
+            "Instruction has no affected cell groups.")]
+        [ShowInInspector, OdinSerialize]
+        private HashSet<int> _affectedCellGroups { get; set; } = new();
+        public IEnumerable<int> AffectedCellGroups => _affectedCellGroups;
+
         //public bool StopRepeatAfterFirstFail { get; set; }
 
         //TODO: Single instructions list for following instructions
@@ -105,40 +117,46 @@ namespace OrderElimination.AbilitySystem
 
         #region NextInstructions
         [GUIColor(0.5f, 1f, 0.5f)]
-        [TabGroup("Execution")]
+        [TabGroup("MainSection", "Execution")]
+        [BoxGroup("MainSection/Execution/Next Instructions", CenterLabel = true)]
         [ShowInInspector, OdinSerialize]
         private List<AbilityInstruction> _instructionsOnActionSuccess { get; set; } = new();
         public IReadOnlyList<AbilityInstruction> InstructionsOnActionSuccess => _instructionsOnActionSuccess;
 
         [GUIColor(0.7f, 1f, 0.7f)]
-        [TabGroup("Execution")]
+        [TabGroup("MainSection", "Execution")]
+        [BoxGroup("MainSection/Execution/Next Instructions", CenterLabel = true)]
         [ShowInInspector, OdinSerialize]
         public bool SuccessInstructionsEveryRepeat { get; private set; } = true;
 
         [GUIColor(1f, 0.5f, 0.5f)]
-        [TabGroup("Execution")]
+        [TabGroup("MainSection", "Execution")]
+        [BoxGroup("MainSection/Execution/Next Instructions", CenterLabel = true)]
         [ShowInInspector, OdinSerialize]
         private List<AbilityInstruction> _instructionsOnActionFail { get; set; } = new();
         public IReadOnlyList<AbilityInstruction> InstructionsOnActionFail => _instructionsOnActionFail;
 
         [GUIColor(1f, 0.7f, 0.7f)]
-        [TabGroup("Execution")]
+        [TabGroup("MainSection", "Execution")]
+        [BoxGroup("MainSection/Execution/Next Instructions", CenterLabel = true)]
         [ShowInInspector, OdinSerialize]
         public bool FailInstructionsEveryRepeat { get; private set; } = true;
 
         [GUIColor(0.6f, 0.6f, 1f)]
-        [TabGroup("Execution")]
+        [TabGroup("MainSection", "Execution")]
+        [BoxGroup("MainSection/Execution/Next Instructions", CenterLabel = true)]
         [ShowInInspector, OdinSerialize]
         private List<AbilityInstruction> _followingInstructions { get; set; } = new();
         public IReadOnlyList<AbilityInstruction> FollowingInstructions => _followingInstructions;
 
         [GUIColor(0.75f, 0.75f, 1f)]
-        [TabGroup("Execution")]
+        [TabGroup("MainSection", "Execution")]
+        [BoxGroup("MainSection/Execution/Next Instructions", CenterLabel = true)]
         [ShowInInspector, OdinSerialize]
         public bool FollowInstructionsEveryRepeat { get; private set; } = true;
         #endregion
 
-        [TabGroup("Animations")]
+        [TabGroup("MainSection", "Animations")]
         [GUIColor(0, 1, 1)]
         [ShowInInspector, OdinSerialize]
         public IAbilityAnimation AnimationBeforeAction { get; private set; }
@@ -158,10 +176,8 @@ namespace OrderElimination.AbilitySystem
             if (Action.ActionRequires == ActionRequires.Maker)
             {
                 if (Action is IUtilizeCellGroupsAction groupAction
-                    && !groupAction.UtilizingCellGroups
-                    .Where(g => groupAction.GetUtilizedCellsAmount(g) > 0)
-                    .All(requiredG => groups.ContainsGroup(requiredG) 
-                    && groups.GetGroup(requiredG).Length >= groupAction.GetUtilizedCellsAmount(requiredG)))
+                    && !groupAction.UtilizedCellGroups
+                    .All(requiredG => groups.ContainsGroup(requiredG)))
                 {
                     return;
                 }

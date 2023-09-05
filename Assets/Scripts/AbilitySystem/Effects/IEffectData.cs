@@ -7,6 +7,7 @@ namespace OrderElimination.AbilitySystem
         public IReadOnlyEffectView View { get; }
         public EffectCharacter EffectCharacter { get; }
         public EffectStackingPolicy StackingPolicy { get; }
+        public int MaxStackSize { get; }
         public bool UseApplierProcessing { get; }
         public bool UseHolderProcessing { get; }
         //RemoveTriggers
@@ -19,7 +20,18 @@ namespace OrderElimination.AbilitySystem
         public IActionProcessor OutcomingActionProcessor { get; }
 
         public bool CanBeAppliedOn(IEffectHolder effectHolder)
-            => !effectHolder.HasEffect(this) || StackingPolicy != EffectStackingPolicy.IgnoreNew;
+        {
+            if (!effectHolder.HasEffect(this))
+                return true;
+            return StackingPolicy switch
+            {
+                EffectStackingPolicy.UnlimitedStacking => true,
+                EffectStackingPolicy.OverrideOld => true,
+                EffectStackingPolicy.IgnoreNew => false,
+                EffectStackingPolicy.LimitedStacking => effectHolder.GetEffects(this).Length < MaxStackSize,
+                _ => throw new System.NotImplementedException(),
+            };
+        }
 
         public void OnActivation(BattleEffect effect); //For extending functionality without EffectInstructions (not used)
         public void OnDeactivation(BattleEffect effect); //For extending functionality without EffectInstructions (not used)

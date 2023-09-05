@@ -10,7 +10,9 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class CloneTargetEntityAction : BattleAction<CloneTargetEntityAction>, IUndoableBattleAction
+    public class CloneTargetEntityAction : BattleAction<CloneTargetEntityAction>, 
+        IUndoableBattleAction,
+        IUtilizeCellGroupsAction
     {
         public enum CloningType
         {
@@ -95,6 +97,8 @@ namespace OrderElimination.AbilitySystem
         #endregion
 
         public override ActionRequires ActionRequires => ActionRequires.Target;
+
+        public int[] UtilizedCellGroups => new[] { SpawnAtCellGroup };
 
         public override IBattleAction Clone()
         {

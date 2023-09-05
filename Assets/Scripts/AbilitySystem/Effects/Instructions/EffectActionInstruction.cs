@@ -3,26 +3,35 @@ using OrderElimination.AbilitySystem.Animations;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
-using System.Collections.Generic;
 
 namespace OrderElimination.AbilitySystem
 {
-    public interface IEffectInstruction
-    {
-        public UniTask Execute(BattleEffect effect);
-    }
-
     public class EffectActionInstruction : IEffectInstruction
     {
+        #region OdinVisuals
+        private bool ActionIsUndoable => _battleAction is IUndoableBattleAction;
+
+        [OnInspectorInit]
+        private void ActionUndoableValidate()
+        {
+            if (!ActionIsUndoable)
+            {
+                UndoOnDeactivation = false;
+            }
+        }
+        #endregion
+
         [ShowInInspector, OdinSerialize]
         private EffectEntity _target { get; set; } = EffectEntity.EffectHolder;
 
+        [OnValueChanged("@" + nameof(ActionUndoableValidate) + "()")]
         [GUIColor(1f, 1, 0.2f)]
         [ShowInInspector, OdinSerialize]
         private IBattleAction _battleAction { get; set; }
 
-        [ShowIf("@" + nameof(_battleAction) + " is " + nameof(IUndoableBattleAction))]
-        [ValidateInput("@" + nameof(UndoOnDeactivation), "Action will never be undone! Are you sure this is right?")]
+        [EnableIf("@" + nameof(ActionIsUndoable))]
+        [PropertyTooltip("@(" + nameof(ActionIsUndoable) + " ? \"\" : \"Action is not Undoable\")")]
+        [ValidateInput("@" + nameof(UndoOnDeactivation) + " || !" + nameof(ActionIsUndoable), "Action will never be undone! Are you sure this is right?")]
         [ShowInInspector, OdinSerialize]
         private bool UndoOnDeactivation { get; set; } = true;
 
@@ -67,20 +76,6 @@ namespace OrderElimination.AbilitySystem
                     var undoableActionResult = (IUndoableActionPerformResult)result;
                     undoableAction.Undo(undoableActionResult.PerformId);
                 }
-            }
-        }
-    }
-
-    public class CompoundEffectInstruction : IEffectInstruction
-    {
-        [ShowInInspector, OdinSerialize]
-        private List<IEffectInstruction> _instructions = new();
-
-        public async UniTask Execute(BattleEffect effect)
-        {
-            foreach (var instruction in _instructions)
-            {
-                await instruction.Execute(effect);
             }
         }
     }

@@ -26,6 +26,8 @@ namespace OrderElimination.AbilitySystem
         private bool _hasUndoableExitActions => _actionsOnExit.Any(a => a is IUndoableBattleAction);
         #endregion
 
+        [VerticalGroup("TriggerSection", PaddingTop = 5, PaddingBottom = 5)]
+        [BoxGroup("TriggerSection/Trigger", ShowLabel = false)]
         [ShowInInspector, OdinSerialize]
         public EntityRelativeZoneTrigger TriggerSetup { get; private set; } = new();
 
@@ -39,35 +41,47 @@ namespace OrderElimination.AbilitySystem
         //public AbilityInstruction InstructionForLeavedEntities { get; private set; }
         #endregion
 
-        [ShowIf("@" + nameof(_hasUndoableEnterActions) + " || " + nameof(_hasUndoableExitActions))]
-        [ShowInInspector, OdinSerialize]
-        private bool _undoOnTriggerDeactivation { get; set; }
-
-        [ShowInInspector, OdinSerialize]
-        private ActionsTarget _actionTarget { get; set; }
-
         //[ShowInInspector, OdinSerialize]
         //private List<ITargetCondition> _targetConditions { get; set; } = new ();
 
+        [VerticalGroup("EnterSection", PaddingBottom = 5)]
+        [BoxGroup("EnterSection/EnterActions", ShowLabel = false)]
         [ShowInInspector, OdinSerialize]
         private List<IBattleAction> _actionsOnEnter { get; set; } = new();
 
-        [ShowIf(nameof(_hasUndoableEnterActions))]
+        [VerticalGroup("EnterSection")]
+        [BoxGroup("EnterSection/EnterActions", ShowLabel = false)]
+        [EnableIf(nameof(_hasUndoableEnterActions))]
         [ValidateInput(
-            "@" + nameof(_undoOnLeave) + "&&" + nameof(TriggerSetup) + "." + nameof(EntityRelativeZoneTrigger.TriggerOnExit),
+            "@!" + nameof(_undoOnLeave) + "||" + nameof(TriggerSetup) + "." + nameof(EntityRelativeZoneTrigger.TriggerOnExit),
             "Enable " + nameof(EntityRelativeZoneTrigger.TriggerOnExit) + " in trigger setup for undo to work!")]
         [ShowInInspector, OdinSerialize]
         private bool _undoOnLeave { get; set; }
 
+        [VerticalGroup("ExitSection", PaddingBottom = 5)]
+        [BoxGroup("ExitSection/ExitActions", ShowLabel = false)]
         [ShowInInspector, OdinSerialize]
         private List<IBattleAction> _actionsOnExit { get; set; } = new();
 
-        [ShowIf(nameof(_hasUndoableExitActions))]
+        [VerticalGroup("ExitSection")]
+        [BoxGroup("ExitSection/ExitActions", ShowLabel = false)]
+        [EnableIf(nameof(_hasUndoableExitActions))]
         [ValidateInput(
-            "@" + nameof(_undoOnEnter) + "&&" + nameof(TriggerSetup) + "." + nameof(EntityRelativeZoneTrigger.TriggerOnEnter),
+            "@!" + nameof(_undoOnEnter) + "||" + nameof(TriggerSetup) + "." + nameof(EntityRelativeZoneTrigger.TriggerOnEnter),
             "Enable " + nameof(EntityRelativeZoneTrigger.TriggerOnEnter) + " in trigger setup for undo to work!")]
         [ShowInInspector, OdinSerialize]
         private bool _undoOnEnter { get; set; }
+
+        [VerticalGroup("ActionSection", PaddingBottom = 5)]
+        [BoxGroup("ActionSection/Options", ShowLabel = false)]
+        [ShowInInspector, OdinSerialize]
+        private ActionsTarget _actionTarget { get; set; }
+
+        [VerticalGroup("ActionSection")]
+        [BoxGroup("ActionSection/Options", ShowLabel = false)]
+        [EnableIf("@" + nameof(_hasUndoableEnterActions) + " || " + nameof(_hasUndoableExitActions))]
+        [ShowInInspector, OdinSerialize]
+        private bool _undoOnTriggerDeactivation { get; set; }
 
         public IBattleTrigger GetActivationTrigger(IBattleContext battleContext, AbilitySystemActor caster)
         {

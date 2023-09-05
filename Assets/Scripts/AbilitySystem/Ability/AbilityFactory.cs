@@ -63,7 +63,7 @@ namespace OrderElimination.AbilitySystem
                 builderData.Name,
                 builderData.Icon,
                 builderData.Description,
-                builderData.HideInCharacterDiscription);
+                builderData.HideInCharacterDescription);
             var execution = new PassiveAbilityExecution(builderData.TriggerInstructions.ToArray());
             var gameRepresentation = AbilityGameRepresentation.FromPassiveAbility(
                 builderData.CooldownTime, execution);
