@@ -131,6 +131,7 @@ namespace OrderElimination.AbilitySystem
         [TitleGroup("Rules")]
         [BoxGroup("Rules/Removal", ShowLabel = false)]
         [EnableIf("@" + nameof(IsTemporary))]
+        [SuffixLabel("rounds")]
         [ShowInInspector]
         private int Duration
         {
