@@ -31,7 +31,7 @@ namespace OrderElimination.AbilitySystem
         {
             var clone = new CellContainingCondition();
             clone.MustBeEmpty = MustBeEmpty;
-            clone.EntityConditions = EntityConditions.DeepClone();
+            clone.EntityConditions = EntityConditions != null ? EntityConditions.DeepClone() : null;
             clone.VisibleEntitiesOnly = VisibleEntitiesOnly;
             clone.AllowEmptyCells = AllowEmptyCells;
             clone.AllEntitiesMustMeetRequirements = AllEntitiesMustMeetRequirements;
