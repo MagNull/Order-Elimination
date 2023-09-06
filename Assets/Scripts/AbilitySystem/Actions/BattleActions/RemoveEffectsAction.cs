@@ -72,7 +72,7 @@ namespace OrderElimination.AbilitySystem
                 };
                 targetedEffects = targetedEffects.Where(e => e.EffectApplier == targetedApplier);
             }
-            foreach (var effect in targetedEffects)
+            foreach (var effect in targetedEffects.ToArray())
                 target.RemoveEffect(effect);
             return new SimplePerformResult(this, useContext, true);
         }
