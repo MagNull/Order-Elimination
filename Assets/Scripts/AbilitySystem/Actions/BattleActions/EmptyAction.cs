@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
@@ -15,8 +16,17 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public ActionRequires ExecutesOn { get; set; } = ActionRequires.Cell;
 
+        [DisableIf("@" + nameof(HasRandomSuccessChance))]
         [ShowInInspector, OdinSerialize]
         public bool IsSuccessful { get; set; } = true;
+
+        [ShowInInspector, OdinSerialize]
+        public bool HasRandomSuccessChance { get; set; } = false;
+
+        [ShowIf("@" + nameof(HasRandomSuccessChance))]
+        [ShowInInspector, OdinSerialize]
+        public IContextValueGetter SuccessChance { get; set; } = new ConstValueGetter(0.5f);
+
 
         public override ActionRequires ActionRequires => ExecutesOn;
 
@@ -24,13 +34,21 @@ namespace OrderElimination.AbilitySystem
         {
             var clone = new EmptyAction();
             clone.ExecutesOn = ExecutesOn;
+            clone.HasRandomSuccessChance = HasRandomSuccessChance;
+            clone.SuccessChance = SuccessChance != null ? SuccessChance.Clone() : null;
             clone.IsSuccessful = IsSuccessful;
             return clone;
         }
 
         protected async override UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
-            return new SimplePerformResult(this, useContext, IsSuccessful);
+            var success = IsSuccessful; 
+            if (HasRandomSuccessChance)
+            {
+                var chance = SuccessChance.GetValue(ValueCalculationContext.FromActionContext(useContext));
+                success = RandomExtensions.RollChance(chance);
+            }
+            return new SimplePerformResult(this, useContext, success);
         }
     }
 }

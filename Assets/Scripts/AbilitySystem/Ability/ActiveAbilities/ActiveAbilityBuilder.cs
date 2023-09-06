@@ -12,7 +12,7 @@ namespace OrderElimination.AbilitySystem
         private int _necessaryTargets;
         private int _optionalTargets;
 
-        [TabGroup("MainTabs", "Visuals", Order = 0), PropertyOrder(-99)]
+        [TabGroup("MainTabs", "Visuals", Order = -1), PropertyOrder(-99)]
         [HorizontalGroup("MainTabs/Visuals/NameIconDescr", Width = 0.3f)]
         [VerticalGroup("MainTabs/Visuals/NameIconDescr/Left")]
         [HideLabel, Title("Name", HorizontalLine = false)]
