@@ -31,30 +31,35 @@ namespace OrderElimination.AbilitySystem
         {
             var clone = new CellContainingCondition();
             clone.MustBeEmpty = MustBeEmpty;
-            clone.EntityConditions = EntityConditions != null ? EntityConditions.DeepClone() : null;
+            clone.EntityConditions = EntityConditions?.DeepClone();
             clone.VisibleEntitiesOnly = VisibleEntitiesOnly;
             clone.AllowEmptyCells = AllowEmptyCells;
             clone.AllEntitiesMustMeetRequirements = AllEntitiesMustMeetRequirements;
             return clone;
         }
 
-        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int ositionToCheck)
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int positionToCheck)
         {
             AbilitySystemActor[] cellEntities;
             if (VisibleEntitiesOnly)
-                cellEntities = battleContext.GetVisibleEntitiesAt(ositionToCheck, askingEntity.BattleSide).ToArray();
+                cellEntities = battleContext.GetVisibleEntitiesAt(positionToCheck, askingEntity.BattleSide).ToArray();
             else
-                cellEntities = battleContext.BattleMap.GetContainedEntities(ositionToCheck).ToArray();
-            var cellIsEmpty = cellEntities.Length == 0;
-            if (MustBeEmpty) return cellIsEmpty;
+                cellEntities = battleContext.BattleMap.GetContainedEntities(positionToCheck).ToArray();
+            var isCellEmpty = cellEntities.Length == 0;
+            if (MustBeEmpty) return isCellEmpty;
             if (AllEntitiesMustMeetRequirements)
             {
-                return AllowEmptyCells && cellIsEmpty
+                return AllowEmptyCells && isCellEmpty
                     || cellEntities.All(e => EntityConditions.All(c => c.IsConditionMet(battleContext, askingEntity, e)));
             }
             else
             {
-                return AllowEmptyCells && cellIsEmpty
+                if (cellEntities == null)
+                    Debug.LogError(nameof(cellEntities));
+                var view = battleContext.EntitiesBank.GetViewByEntity(askingEntity);
+                if (EntityConditions == null)
+                    Debug.LogError($"{nameof(EntityConditions)} on {view.Name}");
+                return AllowEmptyCells && isCellEmpty
                     || cellEntities.Any(e => EntityConditions.All(c => c.IsConditionMet(battleContext, askingEntity, e)));
             }
         }
