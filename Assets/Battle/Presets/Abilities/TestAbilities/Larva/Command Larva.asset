@@ -18,6 +18,7 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 21300000, guid: 7dbccef125000574eba3e565413cbb17, type: 3}
     - {fileID: 11400000, guid: 593e2b9953dedfc419baa419ff7c0488, type: 2}
+    - {fileID: 11400000, guid: 08029420e08db8048bfdfb2057df3c7a, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -286,101 +287,67 @@ MonoBehaviour:
       Data: 16|OrderElimination.AbilitySystem.AbilityInstruction, Assembly-CSharp
     - Name: Action
       Entry: 7
-      Data: 17|OrderElimination.AbilitySystem.RemoveEffectsAction, Assembly-CSharp
-    - Name: SpecifyEffectBy
-      Entry: 3
-      Data: 1
-    - Name: EffectCharacter
+      Data: 17|OrderElimination.AbilitySystem.InflictDamageAction, Assembly-CSharp
+    - Name: DamageSize
       Entry: 7
-      Data: 18|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.EffectCharacter,
-        Assembly-CSharp]], Assembly-CSharp
-    - Name: _valueFlags
+      Data: 18|OrderElimination.AbilitySystem.BinaryMathValueGetter, Assembly-CSharp
+    - Name: Left
       Entry: 7
-      Data: 19|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EffectCharacter,
-        Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 20|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.EffectCharacter,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 3
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 0
-    - Name: $v
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 1
-    - Name: $v
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 2
-    - Name: $v
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: EffectsData
-      Entry: 7
-      Data: 21|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.IEffectData,
-        Assembly-CSharp]], System.Core
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
+      Data: 19|OrderElimination.AbilitySystem.EffectCountValueGetter, Assembly-CSharp
+    - Name: Effect
       Entry: 10
+      Data: 2
+    - Name: CountOn
+      Entry: 3
       Data: 1
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: RestrictByApplier
+    - Name: IsAppliedByCaster
       Entry: 5
       Data: true
-    - Name: AppliedBy
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Operation
+      Entry: 3
+      Data: 3
+    - Name: Right
+      Entry: 7
+      Data: 20|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+    - Name: Value
+      Entry: 4
+      Data: 40
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: ArmorMultiplier
+      Entry: 4
+      Data: 1
+    - Name: HealthMultiplier
+      Entry: 4
+      Data: 1
+    - Name: DamageType
       Entry: 3
       Data: 0
+    - Name: DamagePriority
+      Entry: 3
+      Data: 0
+    - Name: Accuracy
+      Entry: 7
+      Data: 21|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+    - Name: Value
+      Entry: 4
+      Data: 100
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: IgnoreEvasion
+      Entry: 5
+      Data: true
+    - Name: ObjectsBetweenAffectAccuracy
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -496,7 +463,238 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 30|OrderElimination.AbilitySystem.AbilityInstruction, Assembly-CSharp
+    - Name: Action
+      Entry: 7
+      Data: 31|OrderElimination.AbilitySystem.RemoveEffectsAction, Assembly-CSharp
+    - Name: SpecifyEffectBy
+      Entry: 3
+      Data: 1
+    - Name: EffectCharacter
+      Entry: 7
+      Data: 32|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.EffectCharacter,
+        Assembly-CSharp]], Assembly-CSharp
+    - Name: _valueFlags
+      Entry: 7
+      Data: 33|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EffectCharacter,
+        Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 34|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.EffectCharacter,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
       Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: EffectsData
+      Entry: 7
+      Data: 35|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.IEffectData,
+        Assembly-CSharp]], System.Core
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: RestrictByApplier
+      Entry: 5
+      Data: true
+    - Name: AppliedBy
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: RepeatNumber
+      Entry: 3
+      Data: 1
+    - Name: _commonConditions
+      Entry: 7
+      Data: 36|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.ICommonCondition,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _targetConditions
+      Entry: 7
+      Data: 37|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 38|OrderElimination.AbilitySystem.Conditions.HasEffectCondition, Assembly-CSharp
+    - Name: RequiredEffects
+      Entry: 7
+      Data: 39|OrderElimination.AbilitySystem.IEffectData[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: EffectRequirement
+      Entry: 3
+      Data: 0
+    - Name: IsAppliedByAskingEntity
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: AffectPreviousTarget
+      Entry: 5
+      Data: false
+    - Name: _affectedCellGroups
+      Entry: 7
+      Data: 40|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _instructionsOnActionSuccess
+      Entry: 7
+      Data: 41|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: SuccessInstructionsEveryRepeat
+      Entry: 5
+      Data: true
+    - Name: _instructionsOnActionFail
+      Entry: 7
+      Data: 42|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: FailInstructionsEveryRepeat
+      Entry: 5
+      Data: true
+    - Name: _followingInstructions
+      Entry: 7
+      Data: 43|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: FollowInstructionsEveryRepeat
+      Entry: 5
+      Data: true
+    - Name: AnimationBeforeAction
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
