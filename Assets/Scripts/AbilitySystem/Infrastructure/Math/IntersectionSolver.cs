@@ -85,7 +85,10 @@ namespace OrderElimination.Infrastructure
                 var cellX = MathF.Floor((previousPoint.x + currentPoint.x) / 2);
                 var cellY = MathF.Floor((previousPoint.y + currentPoint.y) / 2);
                 var cellPosition = new Vector2(cellX, cellY);
-                resultDict.Add(cellPosition, new Tuple<Vector2, Vector2>(previousPoint, currentPoint));
+                if (!resultDict.ContainsKey(cellPosition))
+                    resultDict.Add(cellPosition, new Tuple<Vector2, Vector2>(previousPoint, currentPoint));
+                else
+                    Logging.LogError("Attempt to add same cell position twice. Error in algorithm.");
                 previousPoint = currentPoint;
             }
 
