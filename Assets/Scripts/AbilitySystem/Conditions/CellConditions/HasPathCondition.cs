@@ -19,7 +19,7 @@ namespace OrderElimination.AbilitySystem
         {
             var clone = new HasPathCondition();
             clone.LimitByCasterMovement = LimitByCasterMovement;
-            clone.PathConditions = PathConditions != null ? PathConditions.DeepClone() : null;
+            clone.PathConditions = PathConditions?.DeepClone();
             return clone;
         }
 
