@@ -208,12 +208,6 @@ MonoBehaviour:
     - Name: AllowSelf
       Entry: 5
       Data: false
-    - Name: CharactersSpecification
-      Entry: 3
-      Data: 0
-    - Name: StructuresSpecification
-      Entry: 3
-      Data: 0
     - Name: AllowedEntityTypes
       Entry: 7
       Data: 14|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.EntityType,
@@ -340,6 +334,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: CharactersSpecification
+      Entry: 3
+      Data: 0
+    - Name: StructuresSpecification
+      Entry: 3
+      Data: 0
     - Name: _specifiedCharacters
       Entry: 7
       Data: 20|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
@@ -557,9 +557,9 @@ MonoBehaviour:
     - Name: BattleStatus
       Entry: 3
       Data: 2
-    - Name: HasStatus
-      Entry: 5
-      Data: false
+    - Name: RequireType
+      Entry: 3
+      Data: 1
     - Name: 
       Entry: 8
       Data: 
@@ -614,12 +614,6 @@ MonoBehaviour:
     - Name: AllowSelf
       Entry: 5
       Data: false
-    - Name: CharactersSpecification
-      Entry: 3
-      Data: 0
-    - Name: StructuresSpecification
-      Entry: 3
-      Data: 0
     - Name: AllowedEntityTypes
       Entry: 7
       Data: 35|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.EntityType,
@@ -746,6 +740,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: CharactersSpecification
+      Entry: 3
+      Data: 0
+    - Name: StructuresSpecification
+      Entry: 3
+      Data: 0
     - Name: _specifiedCharacters
       Entry: 7
       Data: 41|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
@@ -799,12 +799,6 @@ MonoBehaviour:
     - Name: AllowSelf
       Entry: 5
       Data: false
-    - Name: CharactersSpecification
-      Entry: 3
-      Data: 0
-    - Name: StructuresSpecification
-      Entry: 3
-      Data: 0
     - Name: AllowedEntityTypes
       Entry: 7
       Data: 47|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.EntityType,
@@ -911,6 +905,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: CharactersSpecification
+      Entry: 3
+      Data: 0
+    - Name: StructuresSpecification
+      Entry: 3
+      Data: 0
     - Name: _specifiedCharacters
       Entry: 7
       Data: 51|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
@@ -995,12 +995,6 @@ MonoBehaviour:
     - Name: AllowSelf
       Entry: 5
       Data: false
-    - Name: CharactersSpecification
-      Entry: 3
-      Data: 0
-    - Name: StructuresSpecification
-      Entry: 3
-      Data: 0
     - Name: AllowedEntityTypes
       Entry: 7
       Data: 59|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.EntityType,
@@ -1127,6 +1121,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: CharactersSpecification
+      Entry: 3
+      Data: 0
+    - Name: StructuresSpecification
+      Entry: 3
+      Data: 0
     - Name: _specifiedCharacters
       Entry: 7
       Data: 65|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
@@ -1287,9 +1287,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: AffectPreviousTarget
-      Entry: 5
-      Data: false
+    - Name: RepeatNumber
+      Entry: 3
+      Data: 1
+    - Name: _commonConditions
+      Entry: 6
+      Data: 
     - Name: _targetConditions
       Entry: 7
       Data: 72|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
@@ -1306,12 +1309,6 @@ MonoBehaviour:
     - Name: AllowSelf
       Entry: 5
       Data: true
-    - Name: CharactersSpecification
-      Entry: 3
-      Data: 0
-    - Name: StructuresSpecification
-      Entry: 3
-      Data: 0
     - Name: AllowedEntityTypes
       Entry: 7
       Data: 75|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.EntityType,
@@ -1438,6 +1435,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: CharactersSpecification
+      Entry: 3
+      Data: 0
+    - Name: StructuresSpecification
+      Entry: 3
+      Data: 0
     - Name: _specifiedCharacters
       Entry: 7
       Data: 81|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
@@ -1476,6 +1479,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: AffectPreviousTarget
+      Entry: 5
+      Data: false
     - Name: _affectedCellGroups
       Entry: 7
       Data: 83|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
@@ -1491,9 +1497,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: RepeatNumber
-      Entry: 3
-      Data: 1
     - Name: _instructionsOnActionSuccess
       Entry: 7
       Data: 84|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,

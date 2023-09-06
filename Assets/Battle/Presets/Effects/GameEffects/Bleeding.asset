@@ -115,7 +115,7 @@ MonoBehaviour:
       Data: 
     - Name: UndoOnDeactivation
       Entry: 5
-      Data: true
+      Data: false
     - Name: _animationBeforeAction
       Entry: 6
       Data: 
@@ -128,15 +128,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: IsProcessingIncomingAction
-      Entry: 5
-      Data: false
     - Name: IncomingActionProcessor
       Entry: 6
       Data: 
-    - Name: IsProcessingOutcomingAction
-      Entry: 5
-      Data: false
     - Name: OutcomingActionProcessor
       Entry: 6
       Data: 
@@ -298,7 +292,7 @@ MonoBehaviour:
       Data: 
     - Name: UndoOnDeactivation
       Entry: 5
-      Data: true
+      Data: false
     - Name: _animationBeforeAction
       Entry: 6
       Data: 

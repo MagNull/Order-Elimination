@@ -3,9 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 
 namespace OrderElimination.Infrastructure
 {
@@ -51,7 +48,9 @@ namespace OrderElimination.Infrastructure
         {
             return obj is ActiveAbilityBuilder
                 || obj is PassiveAbilityBuilder
-                || obj is EffectDataPreset;
+                || obj is EffectDataPreset
+                || obj is CharacterTemplate
+                || obj is StructureTemplate;
         }
 
         //Resource-heavy
