@@ -6,7 +6,7 @@ namespace OrderElimination.AbilitySystem
     public class EntityFilterCondition : IEntityCondition
     {
         [ShowInInspector, OdinSerialize]
-        public EntityFilter EntityFilter { get; private set; } = new EntityFilter();
+        public EntityFilter EntityFilter { get; set; } = new EntityFilter();
 
         public IEntityCondition Clone()
         {

@@ -15,10 +15,6 @@ namespace OrderElimination.AbilitySystem
                 TemporaryEffectFunctionaity = null;
             else if (TemporaryEffectFunctionaity == null)
                 TemporaryEffectFunctionaity = new();
-            if (!IsProcessingIncomingAction)
-                IncomingActionProcessor = null;
-            if (!IsProcessingOutcomingAction)
-                OutcomingActionProcessor = null;
         }
 
         #region Visuals
@@ -199,29 +195,12 @@ namespace OrderElimination.AbilitySystem
         [TitleGroup("Functionality")]
         [TabGroup("Functionality/Tabs", "Processing")]
         [GUIColor(0.35f, 0.98f, 0.88f)]
-        [OnValueChanged("@" + nameof(_validateFunctionality) + "()")]
-        [PropertyOrder(0f)]
-        [ShowInInspector, OdinSerialize]
-        public bool IsProcessingIncomingAction { get; protected set; }
-
-        [TitleGroup("Functionality")]
-        [TabGroup("Functionality/Tabs", "Processing")]
-        [ShowIf("@" + nameof(IsProcessingIncomingAction))]
-        [GUIColor(0.35f, 0.98f, 0.88f)]
         [ShowInInspector, OdinSerialize]
         public IActionProcessor IncomingActionProcessor { get; protected set; }
 
         [TitleGroup("Functionality")]
         [TabGroup("Functionality/Tabs", "Processing")]
         [GUIColor(0.88f, 0.35f, 0.98f)]
-        [OnValueChanged("@" + nameof(_validateFunctionality) + "()")]
-        [ShowInInspector, OdinSerialize]
-        public bool IsProcessingOutcomingAction { get; protected set; }
-
-        [TitleGroup("Functionality")]
-        [TabGroup("Functionality/Tabs", "Processing")]
-        [GUIColor(0.88f, 0.35f, 0.98f)]
-        [ShowIf("@" + nameof(IsProcessingOutcomingAction))]
         [ShowInInspector, OdinSerialize]
         public IActionProcessor OutcomingActionProcessor { get; protected set; }
 
