@@ -22,7 +22,8 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public bool UsePath { get; private set; }
 
-        [ShowInInspector, OdinSerialize, ShowIf("@" + nameof(UsePath))]
+        [EnableIf("@" + nameof(UsePath))]
+        [ShowInInspector, OdinSerialize]
         public List<ICellCondition> PathConditions { get; private set; } = new();
         //LimitedByCasterMovementDistance?
 
