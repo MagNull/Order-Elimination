@@ -35,6 +35,18 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         private ActiveAbilityBuilder[] _projectActiveAbilities;
         private PassiveAbilityBuilder[] _projectPassiveAbilities;
         private EffectDataPreset[] _projectEffects;
+        private CharacterTemplate[] _projectCharacters;
+        private StructureTemplate[] _projectStructures;
+
+        [TitleGroup("Statistics")]
+        [GUIColor("@Color.yellow")]
+        [ShowInInspector]
+        public int TotalAbilitySystemAssets 
+            => TotalActiveAbilities 
+            + TotalPassiveAbilities 
+            + TotalEffects 
+            + TotalCharacters 
+            + TotalStructures;
 
         [TitleGroup("Statistics")]
         [ShowInInspector]
@@ -47,6 +59,14 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         [TitleGroup("Statistics")]
         [ShowInInspector]
         public int TotalEffects => _projectEffects.Length;
+
+        [TitleGroup("Statistics")]
+        [ShowInInspector]
+        public int TotalCharacters => _projectCharacters.Length;
+
+        [TitleGroup("Statistics")]
+        [ShowInInspector]
+        public int TotalStructures => _projectStructures.Length;
 
         [TitleGroup("Dependencies Search")]
         [VerticalGroup("Dependencies Search/Parameters")]
@@ -65,6 +85,12 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         [ShowIf("@SearchBy == SearchByOption.DirectTypeReference")]
         [ShowInInspector]
         public Type SearchObjectType { get; set; }
+
+        [VerticalGroup("Dependencies Search/Results")]
+        [ShowIf("@" + nameof(SearchResult) + " != null")]
+        [HideLabel, Title("Auto Select Asset")]
+        [ShowInInspector]
+        public bool AutoSelectAsset { get; set; } = false;
 
         [VerticalGroup("Dependencies Search/Results")]
         [ShowIf("@" + nameof(SearchResult) + " != null")]
@@ -92,13 +118,25 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
                 .Select(path => AssetDatabase.LoadAssetAtPath(path, typeof(EffectDataPreset)) as EffectDataPreset)
                 .Where(e => e != null)
                 .ToArray();
+            _projectCharacters = AssetDatabase
+                .FindAssets($"t: {nameof(CharacterTemplate)}")
+                .Select(id => AssetDatabase.GUIDToAssetPath(id))
+                .Select(path => AssetDatabase.LoadAssetAtPath(path, typeof(CharacterTemplate)) as CharacterTemplate)
+                .Where(e => e != null)
+                .ToArray();
+            _projectStructures = AssetDatabase
+                .FindAssets($"t: {nameof(StructureTemplate)}")
+                .Select(id => AssetDatabase.GUIDToAssetPath(id))
+                .Select(path => AssetDatabase.LoadAssetAtPath(path, typeof(StructureTemplate)) as StructureTemplate)
+                .Where(e => e != null)
+                .ToArray();
         }
 
         [VerticalGroup("Dependencies Search/Parameters")]
         [PropertyTooltip(
             "Cascading search for serialized fields and properties with assigned value of a seeking type.")]
         [Button, GUIColor("@Color.cyan")]
-        public void FindAssignableDependencies()
+        public void FindAssignedDependencies()
         {
             var seekingType = SearchBy switch
             {
@@ -115,6 +153,8 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
                 .AsEnumerable<ScriptableObject>()
                 .Concat(_projectPassiveAbilities)
                 .Concat(_projectEffects)
+                .Concat(_projectCharacters)
+                .Concat(_projectStructures)
                 .ToArray();
             var assetsWithSeekingTypeValues = new List<ScriptableObject>();
             var assetsWithExceptions = new Dictionary<ScriptableObject, Exception>();
@@ -137,9 +177,13 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
                     assetsWithExceptions.Add(asset, exception);
             }
             if (SearchResult != null)
+            {
                 SearchResult.Selection.SelectionConfirmed -= OnSelectionConfirmed;
+                SearchResult.Selection.SelectionChanged -= OnSelectionChanged;
+            }
             SearchResult = new OdinMenuTree(false);
             SearchResult.Selection.SelectionConfirmed += OnSelectionConfirmed;
+            SearchResult.Selection.SelectionChanged += OnSelectionChanged;
             AddToSearchResultDisplay($"Found Assets ({assetsWithSeekingTypeValues.Count})", assetsWithSeekingTypeValues);
             AddToSearchResultDisplay($"Assets with Exceptions ({assetsWithExceptions.Count})", assetsWithExceptions.Keys);
             if (assetsWithExceptions.Count > 0)
@@ -186,7 +230,9 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
                     | BindingFlags.SetProperty;
                 Func<MemberInfo, bool> HasRequiredAttributes = m => 
                 Attribute.IsDefined(m, typeof(OdinSerializeAttribute))
-                || Attribute.IsDefined(m, typeof(SerializableAttribute));
+                || Attribute.IsDefined(m, typeof(SerializableAttribute))
+                || Attribute.IsDefined(m, typeof(SerializeField))
+                || Attribute.IsDefined(m, typeof(SerializeReference));
 
                 var fields = instanceType.GetFields(bindingFlags).Where(HasRequiredAttributes).ToArray();
                 var properties = instanceType.GetProperties(bindingFlags).Where(HasRequiredAttributes).ToArray();
@@ -235,6 +281,14 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
                 {
                     SearchResult.Add($"{categoryName}/Effects/{foundAsset.name}", foundAsset, effect.View.Icon);
                 }
+                else if (foundAsset is CharacterTemplate character)
+                {
+                    SearchResult.Add($"{categoryName}/Characters/{foundAsset.name}", foundAsset, character.BattleIcon);
+                }
+                else if (foundAsset is StructureTemplate structure)
+                {
+                    SearchResult.Add($"{categoryName}/Structures/{foundAsset.name}", foundAsset, structure.BattleIcon);
+                }
                 else
                 {
                     SearchResult.Add($"{categoryName}/Unknown/{foundAsset.name}", foundAsset);
@@ -244,7 +298,17 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
             if (menuItem != null)
                 menuItem.MenuTree.SortMenuItemsByName();
         }
-        
+
+        private void OnSelectionChanged(SelectionChangedType changeType)
+        {
+            if (changeType == SelectionChangedType.ItemAdded && AutoSelectAsset)
+            {
+                if (SearchResult.Selection.SelectedValue != null
+                    && SearchResult.Selection.SelectedValue is UnityEngine.Object unityObject)
+                    Selection.activeObject = unityObject;
+            }
+        }
+
         private void OnSelectionConfirmed(OdinMenuTreeSelection selection)
         {
             if (selection.SelectedValue != null
@@ -252,14 +316,41 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
                 Selection.activeObject = unityObject;
         }
     }
+
+    private class PresetsExplorerDisplayParameters
+    {
+        public readonly AbilitySystemAnalyzer Analyzer;
+
+        public PresetsExplorerDisplayParameters(AbilitySystemAnalyzer analyzer)
+        {
+            Analyzer = analyzer;
+        }
+
+        [TitleGroup("Presets Display Parameters")]
+        [OnValueChanged("@" + nameof(OnDisplayFlatChanged) + "()")]
+        [HideLabel, Title("Flatten Hierarchy", HorizontalLine = false)]
+        [ShowInInspector, OdinSerialize]
+        public bool FlattenHierarchy { get; set; }
+
+        private void OnDisplayFlatChanged()
+        {
+            if (Analyzer == null)
+                return;
+            Analyzer.ForceMenuTreeRebuild();
+        }
+    }
     #endregion
 
     private const string PresetsPath = @"Assets/Battle/Presets";
+
+    [OdinSerialize]
+    private PresetsExplorerDisplayParameters ExplorerParameters;
 
     [MenuItem("Tools/Order Elimination/Ability System Analyzer")]
     public static void OpenWindow()
     {
         var window = GetWindow<AbilitySystemAnalyzer>();
+        window.ExplorerParameters = new(window);
         window.Show();
     }
 
@@ -271,12 +362,15 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         var structuresPath = $"{PresetsPath}/Structures";
 
         DrawMenuSearchBar = true;
-        var isFlat = true;
+        var isFlat = ExplorerParameters.FlattenHierarchy;
+        if (MenuTree != null)
+        {
+            MenuTree.Selection.SelectionConfirmed -= OnSelectionConfirmed;
+        }
 
         var tree = new OdinMenuTree(false);
-
         tree.Add("Analyzer", new AbilitySystemAnalyzerInfo(), EditorIcons.SettingsCog);
-        tree.Add("Presets", null, EditorIcons.FileCabinet);
+        tree.Add("Presets", ExplorerParameters, EditorIcons.FileCabinet);
         tree.Add("Presets/Active Abilities", null, EditorIcons.Crosshair);
         tree.Add("Presets/Passive Abilities", null, EditorIcons.Clouds);
         tree.Add("Presets/Effects", null, EditorIcons.StarPointer);
@@ -292,10 +386,10 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         tree.AddAllAssetsAtPath("Presets/Effects", effectsPath, typeof(EffectDataPreset), true, isFlat)
             .SortMenuItemsByName()
             .AddIcons<EffectDataPreset>(b => b.View.Icon);
-        tree.AddAllAssetsAtPath("Presets/Characters", charactersPath, typeof(CharacterTemplate), true, true)
+        tree.AddAllAssetsAtPath("Presets/Characters", charactersPath, typeof(CharacterTemplate), true, isFlat)
             .SortMenuItemsByName()
             .AddIcons<CharacterTemplate>(b => b.BattleIcon);
-        tree.AddAllAssetsAtPath("Presets/Structures", structuresPath, typeof(StructureTemplate), true, true)
+        tree.AddAllAssetsAtPath("Presets/Structures", structuresPath, typeof(StructureTemplate), true, isFlat)
             .SortMenuItemsByName()
             .AddIcons<StructureTemplate>(b => b.BattleIcon);
 
@@ -309,6 +403,11 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         if (selection.SelectedValue != null
             && selection.SelectedValue is UnityEngine.Object unityObject)
             Selection.activeObject = unityObject;
+    }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
     }
 
     protected override void OnDestroy()

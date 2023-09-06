@@ -2810,9 +2810,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: AffectPreviousTarget
-      Entry: 5
-      Data: true
+    - Name: RepeatNumber
+      Entry: 3
+      Data: 1
+    - Name: _commonConditions
+      Entry: 6
+      Data: 
     - Name: _targetConditions
       Entry: 7
       Data: 5|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
@@ -2826,6 +2829,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: AffectPreviousTarget
+      Entry: 5
+      Data: true
     - Name: _affectedCellGroups
       Entry: 7
       Data: 6|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
@@ -2838,9 +2844,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: RepeatNumber
-      Entry: 3
-      Data: 1
     - Name: _instructionsOnActionSuccess
       Entry: 7
       Data: 7|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
@@ -2936,12 +2939,11 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
     - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
-    - {fileID: 11400000, guid: a039ece631fb87445a6862637b55b573, type: 2}
+    - {fileID: 11400000, guid: 57a8f17e1a66029478c8f69b521e76f4, type: 2}
     - {fileID: 11400000, guid: 933b6206675ce6746a6d1d3e377dbe2d, type: 2}
-    - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
     - {fileID: 11400000, guid: 8cf61d33b5cc8a442bce0e22ce05a8fc, type: 2}
     - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
-    - {fileID: 11400000, guid: 1eabdb922a0879c49bf77e5bbadf9776, type: 2}
+    - {fileID: 11400000, guid: 51f15a7a4052dfd448b6e20d53610712, type: 2}
     - {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -2953,7 +2955,7 @@ MonoBehaviour:
       Data: 0|OrderElimination.IGameCharacterTemplate[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 5
+      Data: 4
     - Name: 
       Entry: 10
       Data: 0
@@ -2966,9 +2968,6 @@ MonoBehaviour:
     - Name: 
       Entry: 10
       Data: 3
-    - Name: 
-      Entry: 10
-      Data: 4
     - Name: 
       Entry: 13
       Data: 
@@ -2983,13 +2982,13 @@ MonoBehaviour:
       Data: 3
     - Name: 
       Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 10
       Data: 5
     - Name: 
       Entry: 10
-      Data: 6
-    - Name: 
-      Entry: 10
-      Data: 6
+      Data: 5
     - Name: 
       Entry: 13
       Data: 
@@ -2998,10 +2997,10 @@ MonoBehaviour:
       Data: 
     - Name: _testScenario
       Entry: 10
-      Data: 7
+      Data: 6
     - Name: _testRules
       Entry: 10
-      Data: 8
+      Data: 7
   _test: 1
 --- !u!4 &1908500043
 Transform:
