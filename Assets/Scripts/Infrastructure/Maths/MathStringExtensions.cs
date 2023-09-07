@@ -4,18 +4,6 @@ namespace OrderElimination.Infrastructure
 {
     public static class MathStringExtensions
     {
-        public static string AsString(this MathOperation operation)
-        {
-            return operation switch
-            {
-                MathOperation.Add => "+",
-                MathOperation.Subtract => "-",
-                MathOperation.Multiply => "*",
-                MathOperation.Divide => "/",
-                _ => throw new NotImplementedException(),
-            };
-        }
-
         public static string AsString(this BinaryComparisonOperation operation)
         {
             return operation switch
@@ -34,7 +22,6 @@ namespace OrderElimination.Infrastructure
         {
             return operation switch
             {
-                //BinaryMathOperation.Replace => "->",
                 BinaryMathOperation.Add => "+",
                 BinaryMathOperation.Subtract => "-",
                 BinaryMathOperation.Multiply => "*",

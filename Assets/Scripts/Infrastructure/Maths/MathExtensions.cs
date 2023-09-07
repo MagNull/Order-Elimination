@@ -28,7 +28,6 @@ namespace OrderElimination.Infrastructure
         {
             return operation switch
             {
-                //BinaryMathOperation.Replace => right,
                 BinaryMathOperation.Add => left + right,
                 BinaryMathOperation.Subtract => left - right,
                 BinaryMathOperation.Multiply => left * right,
@@ -53,9 +52,5 @@ namespace OrderElimination.Infrastructure
                 _ => throw new NotImplementedException(),
             };
         }
-
-        //TODO: Remove after replacing all MathOperation with BinaryMathOperation in Processors & Obstacles
-        public static BinaryMathOperation ToBinaryOperation(this MathOperation mathOperation)
-            => (BinaryMathOperation)(mathOperation + 1);
     }
 }

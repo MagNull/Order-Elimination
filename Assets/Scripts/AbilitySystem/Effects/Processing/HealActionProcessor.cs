@@ -35,7 +35,7 @@ namespace OrderElimination.AbilitySystem
         private IContextValueGetter ChangeValueGetter(
             IContextValueGetter initial, BinaryMathOperation operation, IContextValueGetter value)
         {
-            var newFormula = new BinaryMathValueGetter
+            var newFormula = new MathValueGetter
             {
                 Left = initial,
                 Operation = operation,

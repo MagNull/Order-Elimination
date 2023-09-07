@@ -48,7 +48,7 @@ namespace OrderElimination.AbilitySystem
             //public float MaxAffectedAngle { get; set; }
             
             [ShowInInspector, OdinSerialize]
-            public MathOperation AccuracyOperation { get; private set; }
+            public BinaryMathOperation AccuracyOperation { get; private set; }
 
             [ShowInInspector, OdinSerialize]
             public IContextValueGetter ValueOperand { get; private set; }
@@ -63,10 +63,10 @@ namespace OrderElimination.AbilitySystem
                     && minIntersectionSquare <= _maxAffectedSquare;
                 if (!isSquareInAffectedRange)
                     return new(false, initialAccuracy);
-                var modifiedAccuracy = new BinaryMathValueGetter
+                var modifiedAccuracy = new MathValueGetter
                 {
                     Left = initialAccuracy,
-                    Operation = AccuracyOperation.ToBinaryOperation(),
+                    Operation = AccuracyOperation,
                     Right = ValueOperand
                 };
                 return new(true, modifiedAccuracy);

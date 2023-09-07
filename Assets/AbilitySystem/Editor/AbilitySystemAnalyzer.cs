@@ -88,12 +88,12 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
 
         [VerticalGroup("Dependencies Search/Results")]
         [ShowIf("@" + nameof(SearchResult) + " != null")]
-        [HideLabel, Title("Auto Select Asset")]
+        //[HideLabel, Title("Auto Select Asset")]
         [ShowInInspector]
         public bool AutoSelectAsset { get; set; } = false;
 
         [VerticalGroup("Dependencies Search/Results")]
-        [ShowIf("@" + nameof(SearchResult) + " != null")]
+        [ShowIf("@" + nameof(SearchResult) + " != null && " + nameof(SearchResult) + ".MenuItems.Count > 0")]
         [HideLabel, OnInspectorInit("@$property.State.Expanded = true")]
         [ShowInInspector]
         private OdinMenuTree SearchResult { get; set; }

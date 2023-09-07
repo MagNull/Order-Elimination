@@ -26,7 +26,7 @@ namespace OrderElimination.AbilitySystem
         [FoldoutGroup("DamageChanger")]
         [BoxGroup("DamageChanger/DamageSize")]
         [ShowInInspector, OdinSerialize]
-        private MathOperation _damageOperation = MathOperation.Multiply;
+        private BinaryMathOperation _damageOperation = BinaryMathOperation.Multiply;
 
         [FoldoutGroup("DamageChanger")]
         [BoxGroup("DamageChanger/DamageSize")]
@@ -92,7 +92,7 @@ namespace OrderElimination.AbilitySystem
 
         [FoldoutGroup("AccuracyChanger")]
         [ShowInInspector, OdinSerialize]
-        private MathOperation _accuracyOperation = MathOperation.Multiply;
+        private BinaryMathOperation _accuracyOperation = BinaryMathOperation.Multiply;
 
         [FoldoutGroup("AccuracyChanger")]
         [ShowInInspector, OdinSerialize]
@@ -133,11 +133,11 @@ namespace OrderElimination.AbilitySystem
         }
 
         private IContextValueGetter ChangeValueGetter(
-            IContextValueGetter initial, MathOperation operation, IContextValueGetter newValue)
+            IContextValueGetter initial, BinaryMathOperation operation, IContextValueGetter newValue)
         {
-            var newFormula = new BinaryMathValueGetter();
+            var newFormula = new MathValueGetter();
             newFormula.Left = initial;
-            newFormula.Operation = operation.ToBinaryOperation();
+            newFormula.Operation = operation;
             newFormula.Right = newValue;
             return newFormula;
         }
