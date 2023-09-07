@@ -24,7 +24,7 @@ namespace OrderElimination.Infrastructure
             {
                 BinaryMathOperation.Add => "+",
                 BinaryMathOperation.Subtract => "-",
-                BinaryMathOperation.Multiply => "*",
+                BinaryMathOperation.Multiply => "x",
                 BinaryMathOperation.Divide => "/",
                 BinaryMathOperation.IntegerDivide => "//",
                 BinaryMathOperation.Modulo => "%",

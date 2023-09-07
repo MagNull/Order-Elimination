@@ -28,6 +28,9 @@ MonoBehaviour:
     - Name: StackingPolicy
       Entry: 3
       Data: 1
+    - Name: _maxStackSize
+      Entry: 3
+      Data: 1
     - Name: UseApplierProcessing
       Entry: 5
       Data: false
@@ -37,6 +40,19 @@ MonoBehaviour:
     - Name: IsTemporary
       Entry: 5
       Data: true
+    - Name: _removeTriggers
+      Entry: 7
+      Data: 0|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+        Assembly-CSharp]], System.Core
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: InstructionOnActivation
       Entry: 6
       Data: 
@@ -45,7 +61,7 @@ MonoBehaviour:
       Data: 
     - Name: TemporaryEffectFunctionaity
       Entry: 7
-      Data: 0|OrderElimination.AbilitySystem.TemporaryEffectFunctionaity, Assembly-CSharp
+      Data: 1|OrderElimination.AbilitySystem.TemporaryEffectFunctionaity, Assembly-CSharp
     - Name: _applyingDuration
       Entry: 3
       Data: 1
@@ -55,23 +71,20 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: IsProcessingIncomingAction
-      Entry: 5
-      Data: true
     - Name: IncomingActionProcessor
       Entry: 7
-      Data: 1|OrderElimination.AbilitySystem.DamageActionProcessor, Assembly-CSharp
+      Data: 2|OrderElimination.AbilitySystem.DamageActionProcessor, Assembly-CSharp
     - Name: _allowedDamageTypes
       Entry: 7
-      Data: 2|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.DamageType,
+      Data: 3|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.DamageType,
         Assembly-CSharp]], Assembly-CSharp
     - Name: _valueFlags
       Entry: 7
-      Data: 3|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.DamageType,
+      Data: 4|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.DamageType,
         Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 4|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.DamageType,
+      Data: 5|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.DamageType,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -117,7 +130,7 @@ MonoBehaviour:
       Data: 2
     - Name: $v
       Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 
@@ -147,7 +160,7 @@ MonoBehaviour:
       Data: 2
     - Name: _damageValue
       Entry: 7
-      Data: 5|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+      Data: 6|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
       Data: 1
@@ -180,7 +193,7 @@ MonoBehaviour:
       Data: 1
     - Name: _accuracyValue
       Entry: 7
-      Data: 6|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+      Data: 7|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
       Data: 0.2
@@ -190,23 +203,20 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: IsProcessingOutcomingAction
-      Entry: 5
-      Data: true
     - Name: OutcomingActionProcessor
       Entry: 7
-      Data: 7|OrderElimination.AbilitySystem.DamageActionProcessor, Assembly-CSharp
+      Data: 8|OrderElimination.AbilitySystem.DamageActionProcessor, Assembly-CSharp
     - Name: _allowedDamageTypes
       Entry: 7
-      Data: 8|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.DamageType,
+      Data: 9|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.DamageType,
         Assembly-CSharp]], Assembly-CSharp
     - Name: _valueFlags
       Entry: 7
-      Data: 9|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.DamageType,
+      Data: 10|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.DamageType,
         Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
     - Name: comparer
       Entry: 9
-      Data: 4
+      Data: 5
     - Name: 
       Entry: 12
       Data: 4
@@ -272,7 +282,7 @@ MonoBehaviour:
       Data: 2
     - Name: _damageValue
       Entry: 7
-      Data: 10|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+      Data: 11|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
       Data: 1.15
@@ -305,7 +315,7 @@ MonoBehaviour:
       Data: 2
     - Name: _accuracyValue
       Entry: 7
-      Data: 11|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+      Data: 12|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
       Data: 1
@@ -317,7 +327,7 @@ MonoBehaviour:
       Data: 
     - Name: _view
       Entry: 7
-      Data: 12|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
+      Data: 13|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
     - Name: Name
       Entry: 1
       Data: "\u041B\u0435\u0433\u043A\u0438\u0439 \u0448\u0430\u0433"
@@ -332,19 +342,6 @@ MonoBehaviour:
       Data: 
     - Name: AnimationOnDeactivation
       Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _removeTriggers
-      Entry: 7
-      Data: 13|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
-        Assembly-CSharp]], System.Core
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
       Data: 
     - Name: 
       Entry: 8

@@ -13,7 +13,7 @@ namespace UIManagement.Elements
         private RectTransform _effectsHolder;
         [SerializeField]
         private RectTransform _scalableWindowBase;
-        private List<EffectDescriptionWindow> _effects = new List<EffectDescriptionWindow>();
+        private List<EffectDescriptionWindow> _effects = new();
 
         public void UpdateEffectsList(IEnumerable<BattleEffect> effects)
         {

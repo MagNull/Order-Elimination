@@ -28,19 +28,22 @@ namespace OrderElimination.Localization
             {PanelType.Event, "Событие"},
             {PanelType.SquadMembers, "Выбор бойцов отряда"},
         };
-        private Dictionary<ValueUnits, string> _unitNames = new()
-        {
-            { ValueUnits.None, "" },
-            { ValueUnits.Percents, "%" },
-            { ValueUnits.Cells, "" },
-            { ValueUnits.Rounds, " раунд" },
-            { ValueUnits.Turns, " ход" },
-            //{ ValueUnits.Enemies, " враг" },
-        };
 
         public string GetWindowTitleName(PanelType windowType) => _panelTitleNames[windowType];
         //public string GetEffectParameterName( windowType) => _panelTitleNames[windowType];
-        public string GetUnits(ValueUnits unitType) => _unitNames[unitType];
+        public string GetUnits(ValueUnits unitType)
+        {
+            return unitType switch
+            {
+                ValueUnits.None => "",
+                ValueUnits.Percents => "%",
+                ValueUnits.Multiplier => "x",
+                ValueUnits.Cells => "",
+                ValueUnits.Rounds => " раунд",
+                ValueUnits.Turns => " ход",
+                _ => throw new NotImplementedException(),
+            };
+        }
         public string GetBattleStatName(BattleStat battleStat)
         {
             return battleStat switch

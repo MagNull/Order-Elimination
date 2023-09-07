@@ -23,6 +23,22 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         private IContextValueGetter _healValue = new ConstValueGetter(1);
 
+        #region Public Properties
+        private bool SimpleSameValueCheck(BinaryMathOperation operation, IContextValueGetter operand)
+        {
+            if (operand is not ConstValueGetter constOperand)
+                return false;//hard to answer
+            return constOperand.Value == 1
+                && (operation == BinaryMathOperation.Multiply || operation == BinaryMathOperation.Divide)
+                || constOperand.Value == 0
+                && (operation == BinaryMathOperation.Add || operation == BinaryMathOperation.Subtract);
+        }
+
+        public bool IsChangingHeal => !SimpleSameValueCheck(_healOperation, _healValue);
+        public BinaryMathOperation HealOperation => _healOperation;
+        public IContextValueGetter HealOperand => _healValue;
+        #endregion
+
         public TAction ProcessAction<TAction>(TAction originalAction, ActionContext performContext)
             where TAction : BattleAction<TAction>
         {

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using OrderElimination.AbilitySystem;
+using OrderElimination.AbilitySystem.UI;
 
 namespace UIManagement.Elements
 {
@@ -18,8 +19,13 @@ namespace UIManagement.Elements
             _effectName.text = view.Name;
             _effectIcon.sprite = view.Icon;
             _parameters.Clear();
+            var humanRepresentation = EffectHumanRepresentation.FromEffect(effect.EffectData);
+            foreach (var parameter in humanRepresentation.Parameters)
+            {
+                _parameters.Add(null, parameter.ParameterName, parameter.Value, parameter.ValueUnits);
+            }
             if (effect.LeftDuration.HasValue)
-                _parameters.Add(null, "Длительность:", effect.LeftDuration.Value.ToString());
+                _parameters.Add(null, "Длительность:", effect.LeftDuration.Value);
         }
     }
 }

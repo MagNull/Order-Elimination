@@ -73,13 +73,20 @@ namespace UIManagement.Elements
             }
         }
 
+        public void Add(Sprite icon = null, string text = "New Text", float value = 0, ValueUnits valueUnits = ValueUnits.None)
+        {
+            Add(icon, text, value.ToString(), valueUnits);
+        }
+
         [Button]
-        public void Add(Sprite icon = null, string text = "New Text", string value = "0", ValueUnits valueUnits = ValueUnits.None)
+        public void Add(Sprite icon = null, string text = "New Text", string value = "", ValueUnits valueUnits = ValueUnits.None)
         {
             if (_elementPrefab == null)
-                Logging.LogException( new Exception("No prefab given for instancing."));
-            _attachedElements.Add(
-                CreateIconTextValueElement(transform, icon, text, $"{value}{Localization.Current.GetUnits(valueUnits)}"));
+                Logging.LogException(new Exception("No prefab given for instancing."));
+            var units = Localization.Current.GetUnits(valueUnits);
+            var valueStr = valueUnits == ValueUnits.Multiplier ? $"{units}{value}" : $"{value}{units}";
+            var element = CreateIconTextValueElement(transform, icon, text, valueStr);
+            _attachedElements.Add(element);
             OnListUpdated();
         }
 

@@ -5,13 +5,20 @@ namespace OrderElimination.AbilitySystem.UI
     public readonly struct HumanValue
     {
         public readonly string ParameterName;
-        public readonly float Value;
+        public readonly string Value;
         public readonly ValueUnits ValueUnits;
 
-        public HumanValue(string parameterName, float value, ValueUnits valueUnits)
+        public HumanValue(string parameterName, string value = "", ValueUnits valueUnits = ValueUnits.None)
         {
             ParameterName = parameterName;
             Value = value;
+            ValueUnits = valueUnits;
+        }
+
+        public HumanValue(string parameterName, float value, ValueUnits valueUnits = ValueUnits.None)
+        {
+            ParameterName = parameterName;
+            Value = value.ToString();
             ValueUnits = valueUnits;
         }
 

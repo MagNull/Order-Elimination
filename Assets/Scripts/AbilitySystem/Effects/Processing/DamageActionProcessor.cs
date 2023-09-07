@@ -99,7 +99,23 @@ namespace OrderElimination.AbilitySystem
         private IContextValueGetter _accuracyValue = new ConstValueGetter() { Value = 1 };
 
         #region Public Properties
+        private bool SimpleSameValueCheck(BinaryMathOperation operation, IContextValueGetter operand)
+        {
+            if (operand is not ConstValueGetter constOperand)
+                return false;//hard to answer
+            return constOperand.Value == 1
+                && (operation == BinaryMathOperation.Multiply || operation == BinaryMathOperation.Divide)
+                || constOperand.Value == 0
+                && (operation == BinaryMathOperation.Add || operation == BinaryMathOperation.Subtract);
+        }
+
         public EnumMask<DamageType> AllowedDamageTypes => _allowedDamageTypes;
+        public bool IsChangingDamage => !SimpleSameValueCheck(DamageOperation, DamageOperand);
+        public BinaryMathOperation DamageOperation => _damageOperation;
+        public IContextValueGetter DamageOperand => _damageValue;
+        public bool IsChangingAccuracy => !SimpleSameValueCheck(AccuracyOperation, AccuracyOperand);
+        public BinaryMathOperation AccuracyOperation => _accuracyOperation;
+        public IContextValueGetter AccuracyOperand => _accuracyValue;
         //DamageChange
         //AccuracyChange
         public bool ChangeDamagePriority => _changeDamagePriority;
