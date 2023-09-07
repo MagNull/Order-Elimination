@@ -15,7 +15,6 @@ namespace UIManagement.Elements
         private RectTransform _scalableWindowBase;
         private List<EffectDescriptionWindow> _effects = new List<EffectDescriptionWindow>();
 
-
         public void UpdateEffectsList(IEnumerable<BattleEffect> effects)
         {
             RemoveEffects();

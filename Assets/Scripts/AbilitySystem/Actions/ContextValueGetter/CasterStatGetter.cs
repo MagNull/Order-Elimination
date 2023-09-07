@@ -30,13 +30,13 @@ namespace OrderElimination.AbilitySystem
 
         public float GetValue(ValueCalculationContext context)
         {
-            if (context.ActionMaker == null
-                || !context.ActionMaker.BattleStats.HasParameter(CasterStat))
+            if (context.Caster == null
+                || !context.Caster.BattleStats.HasParameter(CasterStat))
                 return 0;
             if (!UseUnmodifiedValue)
-                return context.ActionMaker.BattleStats[CasterStat].ModifiedValue;
+                return context.Caster.BattleStats[CasterStat].ModifiedValue;
             else
-                return context.ActionMaker.BattleStats[CasterStat].UnmodifiedValue;
+                return context.Caster.BattleStats[CasterStat].UnmodifiedValue;
         }
     }
 }

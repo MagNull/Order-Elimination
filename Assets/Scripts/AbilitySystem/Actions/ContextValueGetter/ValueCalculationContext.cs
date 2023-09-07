@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OrderElimination.AbilitySystem
+﻿namespace OrderElimination.AbilitySystem
 {
     public class ValueCalculationContext
     {
@@ -12,8 +6,8 @@ namespace OrderElimination.AbilitySystem
 
         public readonly IBattleContext BattleContext;
         public readonly CellGroupsContainer CellTargetGroups;
-        public readonly AbilitySystemActor ActionMaker;
-        public readonly AbilitySystemActor ActionTarget;
+        public readonly AbilitySystemActor Caster;
+        public readonly AbilitySystemActor Target;
 
         public ValueCalculationContext(
             IBattleContext battleContext, 
@@ -23,8 +17,8 @@ namespace OrderElimination.AbilitySystem
         {
             BattleContext = battleContext;
             CellTargetGroups = cellTargetGroups;
-            ActionMaker = actionMaker;
-            ActionTarget = actionTarget;
+            Caster = actionMaker;
+            Target = actionTarget;
         }
 
         public static ValueCalculationContext FromActionContext(ActionContext actionContext)

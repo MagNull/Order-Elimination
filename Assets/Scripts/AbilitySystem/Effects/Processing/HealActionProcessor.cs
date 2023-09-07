@@ -18,7 +18,7 @@ namespace OrderElimination.AbilitySystem
         }
 
         [ShowInInspector, OdinSerialize]
-        private MathOperation _healOperation = MathOperation.Multiply;
+        private BinaryMathOperation _healOperation = BinaryMathOperation.Multiply;
 
         [ShowInInspector, OdinSerialize]
         private IContextValueGetter _healValue = new ConstValueGetter(1);
@@ -33,12 +33,12 @@ namespace OrderElimination.AbilitySystem
         }
 
         private IContextValueGetter ChangeValueGetter(
-            IContextValueGetter initial, MathOperation operation, IContextValueGetter value)
+            IContextValueGetter initial, BinaryMathOperation operation, IContextValueGetter value)
         {
             var newFormula = new BinaryMathValueGetter
             {
                 Left = initial,
-                Operation = operation.ToBinaryOperation(),
+                Operation = operation,
                 Right = value
             };
             return newFormula;

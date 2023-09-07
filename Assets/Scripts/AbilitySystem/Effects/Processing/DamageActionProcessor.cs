@@ -35,23 +35,31 @@ namespace OrderElimination.AbilitySystem
 
         [FoldoutGroup("DamageChanger")]
         [BoxGroup("DamageChanger/DamageProperties")]
+        [HorizontalGroup("DamageChanger/DamageProperties/Priority")]
+        [ToggleLeft]
         [ShowInInspector, OdinSerialize]
         private bool _changeDamagePriority;
 
         [FoldoutGroup("DamageChanger")]
         [BoxGroup("DamageChanger/DamageProperties")]
-        [ShowIf(nameof(_changeDamagePriority))]
+        [HorizontalGroup("DamageChanger/DamageProperties/Priority")]
+        [HideLabel]
+        [EnableIf(nameof(_changeDamagePriority))]
         [ShowInInspector, OdinSerialize]
         private LifeStatPriority _damagePriority;
 
         [FoldoutGroup("DamageChanger")]
         [BoxGroup("DamageChanger/DamageProperties")]
+        [HorizontalGroup("DamageChanger/DamageProperties/Type")]
+        [ToggleLeft]
         [ShowInInspector, OdinSerialize]
         private bool _changeDamageType;
 
         [FoldoutGroup("DamageChanger")]
         [BoxGroup("DamageChanger/DamageProperties")]
-        [ShowIf(nameof(_changeDamageType))]
+        [HorizontalGroup("DamageChanger/DamageProperties/Type")]
+        [HideLabel]
+        [EnableIf(nameof(_changeDamageType))]
         [ShowInInspector, OdinSerialize]
         private DamageType _damageType;
 
@@ -89,6 +97,19 @@ namespace OrderElimination.AbilitySystem
         [FoldoutGroup("AccuracyChanger")]
         [ShowInInspector, OdinSerialize]
         private IContextValueGetter _accuracyValue = new ConstValueGetter() { Value = 1 };
+
+        #region Public Properties
+        public EnumMask<DamageType> AllowedDamageTypes => _allowedDamageTypes;
+        //DamageChange
+        //AccuracyChange
+        public bool ChangeDamagePriority => _changeDamagePriority;
+        public LifeStatPriority OverriddenDamagePriority => _damagePriority;
+        public bool ChangeDamageType => _changeDamageType;
+        public DamageType OverriddenDamageType => _damageType;
+        public float ArmorMultiplier => _armorMultiplier;
+        public float HealthMultiplier => _healthMultiplier;
+        public bool IgnoreEvasion => _ignoreEvasion;
+        #endregion
 
         public TAction ProcessAction<TAction>(TAction originalAction, ActionContext performContext)
             where TAction : BattleAction<TAction>

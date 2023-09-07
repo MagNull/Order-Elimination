@@ -34,7 +34,7 @@ namespace OrderElimination.Infrastructure
         {
             return operation switch
             {
-                BinaryMathOperation.Replace => "->",
+                //BinaryMathOperation.Replace => "->",
                 BinaryMathOperation.Add => "+",
                 BinaryMathOperation.Subtract => "-",
                 BinaryMathOperation.Multiply => "*",

@@ -2,14 +2,14 @@
 {
     public enum BinaryMathOperation
     {
-        Replace = 0,//Assign
-        Add = 1,
-        Subtract = 2,
-        Multiply = 3,
-        Divide = 4,
-        IntegerDivide = 5,
-        Modulo = 6,
-        Power = 7,
+        //Replace = 0,//Assign
+        Add = 0,
+        Subtract = 1,
+        Multiply = 2,
+        Divide = 3,
+        IntegerDivide = 4,
+        Modulo = 5,
+        Power = 6,
         //Min
         //Max
     }

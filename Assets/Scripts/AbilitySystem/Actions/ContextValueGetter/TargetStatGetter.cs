@@ -24,13 +24,13 @@ namespace OrderElimination.AbilitySystem
 
         public float GetValue(ValueCalculationContext context)
         {
-            if (context.ActionTarget == null
-                || !context.ActionTarget.BattleStats.HasParameter(TargetStat))
+            if (context.Target == null
+                || !context.Target.BattleStats.HasParameter(TargetStat))
                 return 0;
             if (!UseUnmodifiedValue)
-                return context.ActionTarget.BattleStats[TargetStat].ModifiedValue;
+                return context.Target.BattleStats[TargetStat].ModifiedValue;
             else
-                return context.ActionTarget.BattleStats[TargetStat].UnmodifiedValue;
+                return context.Target.BattleStats[TargetStat].UnmodifiedValue;
         }
     }
 }

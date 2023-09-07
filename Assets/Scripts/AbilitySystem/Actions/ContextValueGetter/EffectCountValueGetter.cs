@@ -45,11 +45,11 @@ namespace OrderElimination.AbilitySystem
 
         public float GetValue(ValueCalculationContext context)
         {
-            var askingEntity = context.ActionMaker;
+            var askingEntity = context.Caster;
             var entity = CountOn switch
             {
-                ActionEntity.Caster => context.ActionMaker,
-                ActionEntity.Target => context.ActionTarget,
+                ActionEntity.Caster => context.Caster,
+                ActionEntity.Target => context.Target,
                 _ => throw new NotImplementedException(),
             };
             var effects = entity.GetEffects(Effect);
