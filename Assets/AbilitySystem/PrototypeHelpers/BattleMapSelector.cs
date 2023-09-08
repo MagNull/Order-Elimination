@@ -243,6 +243,7 @@ public class BattleMapSelector : MonoBehaviour
             + $"\nEvasion: {entity.BattleStats[BattleStat.Evasion].ModifiedValue};" 
             + $"\n{entity.StatusHolder}"
             + $"\nEffects({entity.Effects.Count()}): {string.Join(", ", entity.Effects.Select(e => $"[{e.EffectData.View.Name}]"))}"
+            + $"\nEffect Immunities({entity.EffectImmunities.Count()}): {string.Join(", ", entity.EffectImmunities.Select(e => $"[{e.View.Name}]"))}"
             + inventoryInfo
             + $"\nEnergyPoints: {string.Join(", ", entity.EnergyPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
             + $"\nActiveAbilities({entity.ActiveAbilities.Count}): {string.Join(", ", entity.ActiveAbilities.Select(a => $"[{a.AbilityData.View.Name}]"))}"

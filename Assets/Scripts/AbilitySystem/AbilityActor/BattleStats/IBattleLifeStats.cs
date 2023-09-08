@@ -16,6 +16,7 @@ namespace OrderElimination.AbilitySystem
 
         //public event Action<IBattleLifeStats> HealthDepleted;
         public event Action<IBattleLifeStats> LifeStatsChanged;
+        public event Action<TemporaryArmor> TemporaryArmorLayerRemoved;
 
         public static DealtDamageInfo DistributeDamage(
             IBattleLifeStats targetStats, DamageInfo incomingDamage)
