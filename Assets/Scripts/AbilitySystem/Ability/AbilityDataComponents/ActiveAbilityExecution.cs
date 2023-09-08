@@ -6,7 +6,7 @@ namespace OrderElimination.AbilitySystem
 {
     public class ActiveAbilityExecution
     {
-        public AbilityInstruction[] ActionInstructions; 
+        public AbilityInstruction[] ActionInstructions { get; } 
 
         public ActiveAbilityExecution(AbilityInstruction[] actionInstructions)
         {

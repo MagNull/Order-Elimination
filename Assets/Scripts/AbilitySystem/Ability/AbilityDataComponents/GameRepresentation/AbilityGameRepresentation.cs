@@ -5,13 +5,19 @@ namespace OrderElimination.AbilitySystem
 {
     public class AbilityGameRepresentation : IAbilityGameRepresentation
     {
+        private List<DamageRepresentation> _damageRepresentations = new();
+        private List<AbilityEffectRepresentation> _effectRepresentations = new();
+
         public AbilityType AbilityType { get; private set; }
         public int CooldownTime { get; private set; }
 
         public TargetingSystemRepresentation TargetingSystem { get; private set; }
         public float? MaxRange { get; private set; }
         public int? Duration { get; private set; }
-        public IReadOnlyList<DamageRepresentation> DamageRepresentations { get; private set; }
+        public IReadOnlyList<DamageRepresentation> DamageRepresentations
+            => _damageRepresentations;
+        public IReadOnlyList<AbilityEffectRepresentation> EffectRepresentations
+            => _effectRepresentations;
 
         //AbilityTags[] Tags; //Melee, Range, Damage, ...
         //ActivationType: Manual, Automatic, Combined
@@ -24,11 +30,55 @@ namespace OrderElimination.AbilitySystem
         // - values can not always be pre-calculated
         //GetTotalEstimatedDamage()//
 
-        private AbilityGameRepresentation()
+        private void DescribeInstruction(
+                AbilityInstruction instruction,
+                int parentTotalRepetitions)
         {
+            var localRepetitions = instruction.RepeatNumber;
+            var totalRepetitions = localRepetitions * parentTotalRepetitions;
+            //Target identification
+            var affectedEntities = EntityFilter.AllowAllFilter;
+            var filterConditions = instruction.TargetConditions
+                .Select(c => c as EntityFilterCondition)
+                .Where(c => c != null)
+                .ToArray();
+            if (filterConditions.Length > 1) //TODO: implement intersection (*) operation
+                throw new System.NotSupportedException("Multiple filters should be multiplied");
+            if (filterConditions.Length > 0)
+                affectedEntities = filterConditions.First().EntityFilter;
+            if (instruction.AffectPreviousTarget)
+            {
+                //take parent instruction filter recursively
+                //intesect with parent filters
+            }
+            //Target identification
+            #region BattleActions
+            if (instruction.Action is InflictDamageAction damageAction)
+            {
+                _damageRepresentations.Add(
+                    new(affectedEntities, damageAction, localRepetitions, totalRepetitions));
+            }
+            if (instruction.Action is ApplyEffectAction effectAction)
+            {
+                _effectRepresentations.Add(new(effectAction.Effect, effectAction.ApplyChance));
+            }
+            #endregion
 
+            #region Next Instructions
+            foreach (var sucInstruction in instruction.InstructionsOnActionSuccess)
+            {
+                DescribeInstruction(sucInstruction, totalRepetitions);
+            }
+            foreach (var failInstruction in instruction.InstructionsOnActionFail)
+            {
+                DescribeInstruction(failInstruction, totalRepetitions);
+            }
+            foreach (var followInstruction in instruction.FollowingInstructions)
+            {
+                DescribeInstruction(followInstruction, totalRepetitions);
+            }
+            #endregion
         }
-
         public static AbilityGameRepresentation FromActiveAbility(
             AbilityRules rules,
             int cooldown,
@@ -37,67 +87,24 @@ namespace OrderElimination.AbilitySystem
         {
             var targetingRepresentation = new TargetingSystemRepresentation(targetingSystem);
             var damageRepresentations = new List<DamageRepresentation>();
-            foreach (var instruction in activeFunctional.ActionInstructions)
-            {
-                DescribeInstruction(instruction, 1);
-            }
 
-            var representation = new AbilityGameRepresentation
+            var representation = new AbilityGameRepresentation()
             {
                 AbilityType = AbilityType.Active,
                 CooldownTime = cooldown,
-                DamageRepresentations = damageRepresentations
+                _damageRepresentations = damageRepresentations
             };
+            foreach (var instruction in activeFunctional.ActionInstructions)
+            {
+                representation.DescribeInstruction(instruction, 1);
+            }
             //...
             return representation;
-
-            void DescribeInstruction(
-                AbilityInstruction instruction, 
-                int parentTotalRepetitions)
-            {
-                var localRepetitions = instruction.RepeatNumber;
-                var totalRepetitions = localRepetitions * parentTotalRepetitions;
-                //Target identification
-                var affectedEntities = EntityFilter.AllowAllFilter;
-                var filterConditions = instruction.TargetConditions
-                    .Select(c => c as EntityFilterCondition)
-                    .Where(c => c != null)
-                    .ToArray();
-                if (filterConditions.Length > 1) //TODO: implement intersection (*) operation
-                    throw new System.NotSupportedException("Multiple filters should be multiplied");
-                if (filterConditions.Length > 0)
-                    affectedEntities = filterConditions.First().EntityFilter;
-                if (instruction.AffectPreviousTarget)
-                {
-                    //take parent instruction filter recursively
-                    //intesect with parent filters
-                }
-                //Target identification
-
-                if (instruction.Action is InflictDamageAction damageAction)
-                {
-                    damageRepresentations.Add(
-                        new(affectedEntities, damageAction, localRepetitions, totalRepetitions));
-                }
-
-                foreach (var sucInstruction in instruction.InstructionsOnActionSuccess)
-                {
-                    DescribeInstruction(sucInstruction, totalRepetitions);
-                }
-                foreach (var failInstruction in instruction.InstructionsOnActionFail)
-                {
-                    DescribeInstruction(failInstruction, totalRepetitions);
-                }
-                foreach (var followInstruction in instruction.FollowingInstructions)
-                {
-                    DescribeInstruction(followInstruction, totalRepetitions);
-                }
-            }
         }
 
         public static AbilityGameRepresentation FromPassiveAbility(
-            int cooldown,
-            PassiveAbilityExecution passiveFunctional)
+        int cooldown,
+        PassiveAbilityExecution passiveFunctional)
         {
             //Describe functionality
             var representation = new AbilityGameRepresentation
