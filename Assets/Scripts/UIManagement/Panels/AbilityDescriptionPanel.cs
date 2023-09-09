@@ -31,7 +31,8 @@ namespace UIManagement
             base.Initialize();
         }
 
-        public void UpdateAbilityData(IActiveAbilityData abilityData)
+        public void UpdateAbilityData(
+            IActiveAbilityData abilityData, ValueCalculationContext calculationContext)
         {
             _abilityParameters.Clear();
             var view = abilityData.View;
@@ -44,11 +45,11 @@ namespace UIManagement
                 .Where(e => !e.EffectData.View.IsHidden))
             {
                 var newEffectWindow = Instantiate(_effectDescriptionPrefab, _effectsHolder);
-                newEffectWindow.UpdateEffectDescription(e.EffectData);
-                if (e.ApplyChance is ConstValueGetter simpleValue)
-                    newEffectWindow.AddProbability(simpleValue.Value);
+                newEffectWindow.UpdateEffectDescription(e.EffectData, calculationContext);
+                if (e.ApplyChance.CanBePrecalculatedWith(calculationContext))
+                    newEffectWindow.AddProbability(e.ApplyChance.GetValue(calculationContext));
                 else
-                    newEffectWindow.AddProbability(e.ApplyChance.DisplayedFormula);
+                    newEffectWindow.AddProbability(e.ApplyChance.GetSimplifiedFormula(calculationContext));
                 _effects.Add(newEffectWindow);
             }
         }

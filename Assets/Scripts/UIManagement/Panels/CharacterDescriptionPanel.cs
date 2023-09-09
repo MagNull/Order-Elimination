@@ -16,7 +16,7 @@ namespace UIManagement
 {
     public class CharacterDescriptionPanel : UIPanel
     {
-        private static Dictionary<BattleStat, int> _statsElementsIdMapping = new()
+        private static readonly Dictionary<BattleStat, int> _statsElementsIdMapping = new()
         {
             { BattleStat.MaxHealth, 0 },
             { BattleStat.AttackDamage, 1 },
@@ -26,32 +26,39 @@ namespace UIManagement
         };
 
         public override PanelType PanelType => PanelType.CharacterDescription;
+
         [Header("Components")]
         [SerializeField]
         private TextMeshProUGUI _characterName;
+
         [SerializeField]
         private Image _characterAvatar;
+
         [SerializeField]
         private List<IconTextValueElement> _characterStats;
+
         [SerializeReference]
         private List<Button> _activeAbilityButtons;
+
         [SerializeReference]
         private List<Button> _passiveAbilityButtons;
         [SerializeField]
         private InventoryPresenter _characterInventoryPresenter;
+
         [Header("Parameters")]
         [PreviewField(Alignment = ObjectFieldAlignment.Left)]
         [SerializeField]
         private Sprite _noAbilityIcon;
+
         [SerializeField]
         private bool _roundBattleStats;
+
         [ShowIf(nameof(_roundBattleStats))]
         [SerializeField]
         private RoundingOption _roundingMode = RoundingOption.Math;
 
         public void UpdateCharacterDescription(GameCharacter character)
         {
-            Debug.Log("HUEBOBA");
             if (character == null)
                 Logging.LogException( new System.ArgumentNullException());
             _characterName.text = character.CharacterData.Name;
@@ -65,7 +72,8 @@ namespace UIManagement
                 .PassiveAbilities
                 .Where(a => !a.View.HideInCharacterDescription)
                 .ToArray();
-            UpdateAbilityButtons(activeAbilities, passiveAbilities);
+            UpdateAbilityButtons(
+                activeAbilities, passiveAbilities, ValueCalculationContext.ForMetaCaster(character));
             UpdateInventory(character.Inventory);
         }
 
@@ -88,7 +96,8 @@ namespace UIManagement
                 .Select(runner => runner.AbilityData)
                 .Where(a => !a.View.HideInCharacterDescription)
                 .ToArray();
-            UpdateAbilityButtons(activeAbilities, passiveAbilities);
+            UpdateAbilityButtons(
+                activeAbilities, passiveAbilities, ValueCalculationContext.ForBattleCaster(entity.BattleContext, entity));
             _characterInventoryPresenter.enabled = false;
             if (entity.EntityType == EntityType.Character)
             {
@@ -134,7 +143,8 @@ namespace UIManagement
 
         private void UpdateAbilityButtons(
             IActiveAbilityData[] activeAbilities, 
-            IPassiveAbilityData[] passiveAbilities)
+            IPassiveAbilityData[] passiveAbilities,
+            ValueCalculationContext calculationContext)
         {
             foreach (var button in _activeAbilityButtons.Concat(_passiveAbilityButtons))
             {
@@ -161,7 +171,7 @@ namespace UIManagement
                 {
                     var panel = (AbilityDescriptionPanel)
                     UIController.SceneInstance.OpenPanel(PanelType.AbilityDescription);
-                    panel.UpdateAbilityData(ability);
+                    panel.UpdateAbilityData(ability, calculationContext);
                     panel.Open();
                 }
             }

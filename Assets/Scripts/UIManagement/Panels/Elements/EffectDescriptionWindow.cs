@@ -15,18 +15,24 @@ namespace UIManagement.Elements
 
         public void UpdateEffectDescription(BattleEffect effect)
         {
-            UpdateEffectDescription(effect.EffectData);
+            var calculationContext = ValueCalculationContext.Full(
+                effect.BattleContext,
+                null,
+                effect.EffectApplier,
+                effect.EffectHolder);
+            UpdateEffectDescription(effect.EffectData, calculationContext);
             if (effect.LeftDuration.HasValue)
                 _parameters.Add(null, "Длительность", effect.LeftDuration.Value);
         }
 
-        public void UpdateEffectDescription(IEffectData effectData)
+        public void UpdateEffectDescription(IEffectData effectData, 
+            ValueCalculationContext calculationContext)
         {
             var view = effectData.View;
             _effectName.text = view.Name;
             _effectIcon.sprite = view.Icon;
             _parameters.Clear();
-            var humanRepresentation = EffectHumanRepresentation.FromEffect(effectData);
+            var humanRepresentation = EffectHumanRepresentation.FromEffect(effectData, calculationContext);
             foreach (var parameter in humanRepresentation.Parameters)
             {
                 _parameters.Add(null, parameter.ParameterName, parameter.Value, parameter.ValueUnits);

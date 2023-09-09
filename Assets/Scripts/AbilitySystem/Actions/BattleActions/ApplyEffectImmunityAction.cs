@@ -61,7 +61,10 @@ namespace OrderElimination.AbilitySystem
         public bool Undo(int performId)
         {
             if (IsUndone(performId))
+            {
                 Logging.LogException(ActionUndoFailedException.AlreadyUndoneException);
+                return false;
+            }
             var target = _targets[performId];
             target.EffectBlockedByImmunity -= OnEffectBlocked;
             var immunities = _effectImmunities[performId];

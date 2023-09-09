@@ -1,17 +1,13 @@
-﻿using Sirenix.Utilities;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public readonly struct CellGroupsContainer
+    public class CellGroupsContainer
     {
-        public static CellGroupsContainer Empty { get; }
+        public static CellGroupsContainer Empty { get; } 
 
         static CellGroupsContainer()
         {
@@ -41,6 +37,39 @@ namespace OrderElimination.AbilitySystem
                     GetGroup(cellGroup).Where(g => posPredicate(g)).ToArray());
             }
             return new CellGroupsContainer(filteredGroups);
+        }
+
+        public override bool Equals(object obj) => Equals(obj as CellGroupsContainer);
+
+        public bool Equals(CellGroupsContainer other)
+        {
+            if (other == null) return false;
+            if (ReferenceEquals(this, other)) return true;
+            //if (GetType() != other.GetType()) return false;
+            if (_cellGroups.Count != other._cellGroups.Count) return false;
+            foreach (var id in _cellGroups.Keys)
+            {
+                if (!other._cellGroups.ContainsKey(id)) return true;
+                //Unoptimized. Sort on creation?
+                if (_cellGroups[id].Length != _cellGroups[id].Length) return false;
+                var currentCells = _cellGroups[id].OrderBy(e => e.x).ThenBy(e => e.y).ToArray();
+                var otherCells = other._cellGroups[id].OrderBy(e => e.x).ThenBy(e => e.y).ToArray();
+                for (var i = 0; i < currentCells.Length; i++)
+                {
+                    if (currentCells[id] != otherCells[i]) return false;
+                }
+            }
+            return true;
+        }
+
+        public static bool operator==(CellGroupsContainer cellGroupsA, CellGroupsContainer cellGroupsB)
+        {
+            return cellGroupsA.Equals(cellGroupsB);
+        }
+
+        public static bool operator !=(CellGroupsContainer cellGroupsA, CellGroupsContainer cellGroupsB)
+        {
+            return !cellGroupsA.Equals(cellGroupsB);
         }
 
         //TODO учитывать CellGroupDistributionPolicy

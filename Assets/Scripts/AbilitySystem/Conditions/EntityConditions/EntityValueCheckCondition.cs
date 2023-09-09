@@ -31,7 +31,7 @@ namespace OrderElimination.AbilitySystem
 
         public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, AbilitySystemActor entityToCheck)
         {
-            var calculationContext = new ValueCalculationContext(
+            var calculationContext = ValueCalculationContext.Full(
                 battleContext,
                 CellGroupsContainer.Empty,
                 askingEntity,

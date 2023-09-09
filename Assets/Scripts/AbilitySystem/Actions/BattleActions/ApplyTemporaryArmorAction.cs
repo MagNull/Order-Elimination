@@ -46,7 +46,10 @@ namespace OrderElimination.AbilitySystem
         public bool Undo(int performId)
         {
             if (_undoneOperations.Contains(performId))
+            {
+                Logging.LogException(ActionUndoFailedException.AlreadyUndoneException);
                 return false;
+            }
             var result = _actionResults[performId];
             if (!result.IsSuccessful) 
                 return false;
@@ -58,7 +61,7 @@ namespace OrderElimination.AbilitySystem
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
-            var calculationContext = ValueCalculationContext.FromActionContext(useContext);
+            var calculationContext = ValueCalculationContext.Full(useContext);
             var temporaryArmor = new TemporaryArmor(TemporaryArmorAmount.GetValue(calculationContext));
             var currentId = _appliedTempArmors.Count;
             useContext.ActionTarget.BattleStats.TemporaryArmorLayerRemoved += OnTemporaryArmorRemoved;

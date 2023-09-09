@@ -92,7 +92,7 @@ namespace AI.Utils
             var actionContext = new ActionContext(_battleContext,
                 _data.TargetingSystem.ExtractCastTargetGroups(),
                 _caster, null);
-            var calculationContext = ValueCalculationContext.FromActionContext(actionContext);
+            var calculationContext = ValueCalculationContext.Full(actionContext);
 
             //Calculate value based on context
             switch (instruction.Action)
@@ -126,7 +126,7 @@ namespace AI.Utils
                 var actionContext = new ActionContext(_battleContext,
                     _data.TargetingSystem.ExtractCastTargetGroups(),
                     _caster, target);
-                var calculationContext = ValueCalculationContext.FromActionContext(actionContext);
+                var calculationContext = ValueCalculationContext.Full(actionContext);
 
                 //Calculate value based on context
                 switch (instruction.Action)

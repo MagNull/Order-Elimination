@@ -37,5 +37,13 @@ namespace OrderElimination.AbilitySystem.UI
             var units = Localization.Localization.Current.GetUnits(ValueUnits);
             return $"{ParameterName}: {Value}{units}";
         }
+
+        public override int GetHashCode()
+        {
+            var hash = ParameterName.GetHashCode();
+            hash = (hash ^ Value.GetHashCode()) * 137;
+            hash = (hash ^ ValueUnits.GetHashCode()) * 137;
+            return hash;
+        }
     }
 }

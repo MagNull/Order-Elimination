@@ -44,6 +44,7 @@ namespace OrderElimination.Localization
                 _ => throw new NotImplementedException(),
             };
         }
+
         public string GetBattleStatName(BattleStat battleStat)
         {
             return battleStat switch
@@ -54,7 +55,21 @@ namespace OrderElimination.Localization
                 BattleStat.Accuracy => "Точность",
                 BattleStat.Evasion => "Уклонение",
                 BattleStat.MaxMovementDistance => "Перемещение",
-                _ => throw new System.NotImplementedException(),
+                _ => throw new NotImplementedException(),
+            };
+        }
+
+        public string GetBattleStatFullName(BattleStat battleStat)
+        {
+            return battleStat switch
+            {
+                BattleStat.MaxHealth => "Макс. здоровье",
+                BattleStat.MaxArmor => "Макс. броня",
+                BattleStat.AttackDamage => "Урон",
+                BattleStat.Accuracy => "Точность",
+                BattleStat.Evasion => "Уклонение",
+                BattleStat.MaxMovementDistance => "Перемещение",
+                _ => throw new NotImplementedException(),
             };
         }
     }

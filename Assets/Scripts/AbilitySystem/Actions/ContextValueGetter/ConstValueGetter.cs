@@ -20,6 +20,8 @@ namespace OrderElimination.AbilitySystem
 
         public float GetValue(ValueCalculationContext context) => Value;
 
+        public bool CanBePrecalculatedWith(ValueCalculationContext context) => true;
+
         public ConstValueGetter(float value) => Value = value;
     }
 }

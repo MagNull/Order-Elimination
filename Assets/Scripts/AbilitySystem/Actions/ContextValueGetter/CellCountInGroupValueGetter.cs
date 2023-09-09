@@ -5,12 +5,17 @@ using System;
 namespace OrderElimination.AbilitySystem
 {
     [Serializable]
-    public class CellCountInGroupValueGetter : IContextValueGetter
+    public struct CellCountInGroupValueGetter : IContextValueGetter
     {
         [ShowInInspector, OdinSerialize]
         public int CellGroupId { get; set; }
 
         public string DisplayedFormula => $"CellsCount[{CellGroupId}]";
+
+        public bool CanBePrecalculatedWith(ValueCalculationContext context)
+        {
+            return context.CellTargetGroups != null;
+        }
 
         public IContextValueGetter Clone()
         {

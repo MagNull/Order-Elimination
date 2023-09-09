@@ -623,10 +623,13 @@ MonoBehaviour:
       Data: 44|OrderElimination.AbilitySystem.InflictDamageAction, Assembly-CSharp
     - Name: DamageSize
       Entry: 7
-      Data: 45|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
-    - Name: Value
-      Entry: 4
-      Data: 5
+      Data: 45|OrderElimination.AbilitySystem.DynamicStatGetter, Assembly-CSharp
+    - Name: Entity
+      Entry: 3
+      Data: 0
+    - Name: DynamicStat
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 

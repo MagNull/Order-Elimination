@@ -45,7 +45,7 @@ namespace OrderElimination.AbilitySystem
             var success = IsSuccessful; 
             if (HasRandomSuccessChance)
             {
-                var chance = SuccessChance.GetValue(ValueCalculationContext.FromActionContext(useContext));
+                var chance = SuccessChance.GetValue(ValueCalculationContext.Full(useContext));
                 success = RandomExtensions.RollChance(chance);
             }
             return new SimplePerformResult(this, useContext, success);

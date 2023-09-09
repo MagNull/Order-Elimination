@@ -31,6 +31,12 @@ namespace OrderElimination.AbilitySystem
             }
         }
 
+        public bool CanBePrecalculatedWith(ValueCalculationContext context)
+        {
+            return false;//for precalculation
+            return true;//for calculation
+        }
+
         public IContextValueGetter Clone()
         {
             var clone = new RandomValueGetter();

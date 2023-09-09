@@ -66,7 +66,7 @@ namespace OrderElimination.AbilitySystem
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
-            var calculationContext = ValueCalculationContext.FromActionContext(useContext);
+            var calculationContext = ValueCalculationContext.Full(useContext);
             var accuracy = Accuracy.GetValue(calculationContext);
             var evasion = IgnoreEvasion || !useContext.ActionTarget.BattleStats.HasParameter(BattleStat.Evasion)
                 ? 0
@@ -110,7 +110,7 @@ namespace OrderElimination.AbilitySystem
 
         public DamageInfo CalculateDamage(ActionContext useContext)
         {
-            var calculationContext = ValueCalculationContext.FromActionContext(useContext);
+            var calculationContext = ValueCalculationContext.Full(useContext);
             var damageSize = DamageSize.GetValue(calculationContext);
             var damageDealer = useContext.ActionMaker;
             var damageInfo = new DamageInfo(damageSize, ArmorMultiplier, HealthMultiplier, DamageType, DamagePriority, damageDealer);
@@ -119,7 +119,7 @@ namespace OrderElimination.AbilitySystem
 
         public float CalculateAccuracy(ActionContext useContext)
         {
-            var calculationContext = ValueCalculationContext.FromActionContext(useContext);
+            var calculationContext = ValueCalculationContext.Full(useContext);
             return Accuracy.GetValue(calculationContext);
         }
     }

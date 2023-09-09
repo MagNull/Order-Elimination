@@ -74,6 +74,14 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         private IAbilityAnimation _animationAfterAction { get; set; }
 
+        #region Public Properties
+        public IBattleAction BattleAction => _battleAction;
+        public IEffectInstruction InstructionOnCallback => _instructionOnCallback;
+        public IEffectInstruction InstructionOnSuccess => _instructionOnSuccess;
+        public IEffectInstruction InstructionOnFail => _instructionOnFail;
+        public IEffectInstruction FollowingInstruction => _followingInstruction;
+        #endregion
+
         public async UniTask Execute(BattleEffect effect)
         {
             var cellGroups = CellGroupsContainer.Empty;

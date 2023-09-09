@@ -36,6 +36,11 @@ namespace OrderElimination.AbilitySystem
             }
         }
 
+        public bool CanBePrecalculatedWith(ValueCalculationContext context)
+        {
+            return Left.CanBePrecalculatedWith(context) && Right.CanBePrecalculatedWith(context);
+        }
+
         public IContextValueGetter Clone()
         {
             var clone = new MathValueGetter();
