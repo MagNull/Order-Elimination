@@ -10,6 +10,8 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         private List<IEffectInstruction> _instructions = new();
 
+        public IReadOnlyList<IEffectInstruction> Instructions => _instructions;
+
         public async UniTask Execute(BattleEffect effect)
         {
             foreach (var instruction in _instructions)

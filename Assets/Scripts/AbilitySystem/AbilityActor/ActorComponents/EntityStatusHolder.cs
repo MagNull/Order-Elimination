@@ -42,7 +42,11 @@ namespace OrderElimination.AbilitySystem
 
         public bool DecreaseStatus(BattleStatus status)
         {
-            if (!_statusEffects.ContainsKey(status)) return false;
+            if (!_statusEffects.ContainsKey(status))
+            {
+                Logging.LogError("Attempt to decrease non-existing status");
+                return false;
+            }
             _statusEffects[status]--;
             Logging.Log($"{status}-", Colorize.Cyan);
             if (_statusEffects[status] == 0)

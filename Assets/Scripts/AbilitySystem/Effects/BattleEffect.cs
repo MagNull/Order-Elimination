@@ -32,7 +32,7 @@ namespace OrderElimination.AbilitySystem
 
         public bool Apply(AbilitySystemActor onEffectHolder, AbilitySystemActor byEffectApplier)
         {
-            if (!EffectData.CanBeAppliedOn(onEffectHolder))
+            if (EffectData.CanBeAppliedOn(onEffectHolder) != EffectApplyResult.Success)
                 return false;
             EffectHolder = onEffectHolder;
             EffectApplier = byEffectApplier;

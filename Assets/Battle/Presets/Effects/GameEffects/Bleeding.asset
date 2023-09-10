@@ -68,9 +68,6 @@ MonoBehaviour:
     - Name: _onTimeOutInstruction
       Entry: 7
       Data: 2|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
-    - Name: _target
-      Entry: 3
-      Data: 0
     - Name: _battleAction
       Entry: 7
       Data: 3|OrderElimination.AbilitySystem.InflictDamageAction, Assembly-CSharp
@@ -113,9 +110,24 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: _target
+      Entry: 3
+      Data: 0
     - Name: UndoOnDeactivation
       Entry: 5
       Data: false
+    - Name: _instructionOnCallback
+      Entry: 6
+      Data: 
+    - Name: _instructionOnSuccess
+      Entry: 6
+      Data: 
+    - Name: _instructionOnFail
+      Entry: 6
+      Data: 
+    - Name: _followingInstruction
+      Entry: 6
+      Data: 
     - Name: _animationBeforeAction
       Entry: 6
       Data: 
@@ -245,9 +257,6 @@ MonoBehaviour:
     - Name: $v
       Entry: 7
       Data: 12|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
-    - Name: _target
-      Entry: 3
-      Data: 0
     - Name: _battleAction
       Entry: 7
       Data: 13|OrderElimination.AbilitySystem.InflictDamageAction, Assembly-CSharp
@@ -290,9 +299,24 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: _target
+      Entry: 3
+      Data: 0
     - Name: UndoOnDeactivation
       Entry: 5
       Data: false
+    - Name: _instructionOnCallback
+      Entry: 6
+      Data: 
+    - Name: _instructionOnSuccess
+      Entry: 6
+      Data: 
+    - Name: _instructionOnFail
+      Entry: 6
+      Data: 
+    - Name: _followingInstruction
+      Entry: 6
+      Data: 
     - Name: _animationBeforeAction
       Entry: 6
       Data: 

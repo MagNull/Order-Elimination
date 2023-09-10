@@ -1,15 +1,15 @@
-﻿using OrderElimination.AbilitySystem;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace OrderElimination.AbilitySystem
 {
     public class RoundValueGetter : IContextValueGetter
     {
         public string DisplayedFormula => "Round";
+
+        public bool CanBePrecalculatedWith(ValueCalculationContext context)
+        {
+            return context.BattleContext != null;
+        }
 
         public IContextValueGetter Clone()
         {

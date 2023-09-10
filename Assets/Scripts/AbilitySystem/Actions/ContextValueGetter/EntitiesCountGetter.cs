@@ -7,7 +7,7 @@ using System.Linq;
 namespace OrderElimination.AbilitySystem
 {
     [Serializable]
-    public struct EntitiesCountGetter : IContextValueGetter
+    public class EntitiesCountGetter : IContextValueGetter
     {
         [ShowInInspector, OdinSerialize]
         public IEntityCondition[] EntityConditions { get; private set; }
@@ -15,12 +15,17 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public int CountInCellGroupId { get; private set; }
 
-        public string DisplayedFormula => "EntitiesCount";
+        public string DisplayedFormula => $"(EntitiesCount in {CountInCellGroupId})";
+
+        public bool CanBePrecalculatedWith(ValueCalculationContext context)
+        {
+            return context.CellTargetGroups != null;
+        }
 
         public IContextValueGetter Clone()
         {
             var clone = new EntitiesCountGetter();
-            clone.EntityConditions = CloneableCollectionsExtensions.DeepClone(EntityConditions);
+            clone.EntityConditions = EntityConditions.DeepClone();
             clone.CountInCellGroupId = CountInCellGroupId;
             return clone;
         }
@@ -43,7 +48,7 @@ namespace OrderElimination.AbilitySystem
             return entitiesCount;
 
             bool IsEntityAllowed(AbilitySystemActor entity)
-                => conditions.All(c => c.IsConditionMet(battleContext, context.ActionMaker, entity));
+                => conditions.All(c => c.IsConditionMet(battleContext, context.BattleCaster, entity));
         }
     }
 }

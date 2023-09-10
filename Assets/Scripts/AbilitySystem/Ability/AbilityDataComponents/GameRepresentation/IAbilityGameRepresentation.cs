@@ -9,5 +9,6 @@ namespace OrderElimination.AbilitySystem
         public TargetingSystemRepresentation TargetingSystem { get; }
         public float? MaxRange { get; }
         public IReadOnlyList<DamageRepresentation> DamageRepresentations { get; }
+        public IReadOnlyList<AbilityEffectRepresentation> EffectRepresentations { get; }
     }
 }

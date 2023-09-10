@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -19,16 +20,19 @@ namespace OrderElimination.AbilitySystem
         public IActionProcessor IncomingActionProcessor { get; } //CompoundProcessor
         public IActionProcessor OutcomingActionProcessor { get; }
 
-        public bool CanBeAppliedOn(IEffectHolder effectHolder)
+        public EffectApplyResult CanBeAppliedOn(IEffectHolder effectHolder)
         {
+            if (effectHolder.EffectImmunities.Contains(this))
+                return EffectApplyResult.BlockedByImmunity;
             if (!effectHolder.HasEffect(this))
-                return true;
+                return EffectApplyResult.Success;
             return StackingPolicy switch
             {
-                EffectStackingPolicy.UnlimitedStacking => true,
-                EffectStackingPolicy.OverrideOld => true,
-                EffectStackingPolicy.IgnoreNew => false,
-                EffectStackingPolicy.LimitedStacking => effectHolder.GetEffects(this).Length < MaxStackSize,
+                EffectStackingPolicy.UnlimitedStacking => EffectApplyResult.Success,
+                EffectStackingPolicy.OverrideOld => EffectApplyResult.Success,
+                EffectStackingPolicy.IgnoreNew => EffectApplyResult.BlockedByStackingRules,
+                EffectStackingPolicy.LimitedStacking => effectHolder.GetEffects(this).Length < MaxStackSize
+                ? EffectApplyResult.Success : EffectApplyResult.BlockedByStackingLimit,
                 _ => throw new System.NotImplementedException(),
             };
         }

@@ -12,7 +12,7 @@ namespace OrderElimination.AbilitySystem
         private int _necessaryTargets;
         private int _optionalTargets;
 
-        [TabGroup("MainTabs", "Visuals", Order = -1), PropertyOrder(-99)]
+        [TabGroup("MainTabs", "Visuals", Order = -2), PropertyOrder(-100)]
         [HorizontalGroup("MainTabs/Visuals/NameIconDescr", Width = 0.3f)]
         [VerticalGroup("MainTabs/Visuals/NameIconDescr/Left")]
         [HideLabel, Title("Name", HorizontalLine = false)]
@@ -35,7 +35,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public string Description { get; private set; } = "";
 
-        [TabGroup("MainTabs", "Visuals"), PropertyOrder(3)]
+        [TabGroup("MainTabs", "Visuals"), PropertyOrder(-99)]
         [ShowInInspector, OdinSerialize, DictionaryDrawerSettings(KeyLabel = "Group", ValueLabel = "Highlight color")]
         private Dictionary<int, Color> _cellGroupsHighlightColors = new();
         public IReadOnlyDictionary<int, Color> CellGroupsHighlightColors => _cellGroupsHighlightColors;

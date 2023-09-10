@@ -103,7 +103,7 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
                 .Where(e => instruction.TargetConditions.All(c => c.IsConditionMet(battleContext, caster, e))))
             {
                 var actionContext = new ActionContext(battleContext, targetedGroups, caster, target);
-                var valueContext = ValueCalculationContext.FromActionContext(actionContext);
+                var valueContext = ValueCalculationContext.Full(actionContext);
                 if (instruction.Action is InflictDamageAction damageAction)
                 {
                     var modifiedAction = damageAction.GetModifiedAction(actionContext);

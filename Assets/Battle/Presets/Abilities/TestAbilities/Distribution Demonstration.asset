@@ -548,7 +548,7 @@ MonoBehaviour:
       Data: true
     - Name: HasRandomSuccessChance
       Entry: 5
-      Data: true
+      Data: false
     - Name: SuccessChance
       Entry: 7
       Data: 38|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
@@ -623,13 +623,13 @@ MonoBehaviour:
       Data: 44|OrderElimination.AbilitySystem.InflictDamageAction, Assembly-CSharp
     - Name: DamageSize
       Entry: 7
-      Data: 45|OrderElimination.AbilitySystem.TargetStatGetter, Assembly-CSharp
-    - Name: TargetStat
+      Data: 45|OrderElimination.AbilitySystem.DynamicStatGetter, Assembly-CSharp
+    - Name: Entity
       Entry: 3
       Data: 0
-    - Name: UseUnmodifiedValue
-      Entry: 5
-      Data: false
+    - Name: DynamicStat
+      Entry: 3
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -644,7 +644,7 @@ MonoBehaviour:
       Data: 3
     - Name: DamagePriority
       Entry: 3
-      Data: 3
+      Data: 0
     - Name: Accuracy
       Entry: 7
       Data: 46|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp

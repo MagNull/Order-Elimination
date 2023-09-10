@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using OrderElimination.AbilitySystem;
+using OrderElimination.AbilitySystem.UI;
+using OrderElimination.Infrastructure;
 
 namespace UIManagement.Elements
 {
@@ -13,13 +15,38 @@ namespace UIManagement.Elements
 
         public void UpdateEffectDescription(BattleEffect effect)
         {
-            var data = effect.EffectData;
-            var view = data.View;
+            var calculationContext = ValueCalculationContext.Full(
+                effect.BattleContext,
+                null,
+                effect.EffectApplier,
+                effect.EffectHolder);
+            UpdateEffectDescription(effect.EffectData, calculationContext);
+            if (effect.LeftDuration.HasValue)
+                _parameters.Add(null, "Длительность", effect.LeftDuration.Value);
+        }
+
+        public void UpdateEffectDescription(IEffectData effectData, 
+            ValueCalculationContext calculationContext)
+        {
+            var view = effectData.View;
             _effectName.text = view.Name;
             _effectIcon.sprite = view.Icon;
             _parameters.Clear();
-            if (effect.LeftDuration.HasValue)
-                _parameters.Add(null, "Длительность:", effect.LeftDuration.Value.ToString());
+            var humanRepresentation = EffectHumanRepresentation.FromEffect(effectData, calculationContext);
+            foreach (var parameter in humanRepresentation.Parameters)
+            {
+                _parameters.Add(null, parameter.ParameterName, parameter.Value, parameter.ValueUnits);
+            }
+        }
+
+        public void AddProbability(float probability)
+        {
+            _parameters.Add(null, "Шанс", probability * 100, ValueUnits.Percents);
+        }
+
+        public void AddProbability(string probability)
+        {
+            _parameters.Add(null, "Шанс", probability);
         }
     }
 }

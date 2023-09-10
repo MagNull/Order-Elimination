@@ -23,7 +23,7 @@ namespace OrderElimination.AbilitySystem
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
-            var calculationContext = ValueCalculationContext.FromActionContext(useContext);
+            var calculationContext = ValueCalculationContext.Full(useContext);
             var value = HealSize.GetValue(calculationContext);
             var healer = useContext.ActionMaker;
             var healInfo = new RecoveryInfo(value, ArmorMultiplier, HealthMultiplier, HealPriority, healer);

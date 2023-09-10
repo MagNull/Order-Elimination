@@ -63,7 +63,7 @@ namespace OrderElimination.AbilitySystem
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
-            var calculationContext = ValueCalculationContext.FromActionContext(useContext);
+            var calculationContext = ValueCalculationContext.Full(useContext);
             var statParameter = useContext.ActionTarget.BattleStats[TargetBattleStat];
             statParameter.AddProcessor(ProcessValue);
             var performId = _processorsByPerformId.Count;
