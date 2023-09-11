@@ -1,6 +1,7 @@
 ﻿using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -46,7 +47,8 @@ namespace OrderElimination.AbilitySystem
             else
                 cellEntities = battleContext.BattleMap.GetContainedEntities(positionToCheck).ToArray();
             var isCellEmpty = cellEntities.Length == 0;
-            if (MustBeEmpty) return isCellEmpty;
+            if (MustBeEmpty) 
+                return isCellEmpty;
             if (AllEntitiesMustMeetRequirements)
             {
                 return AllowEmptyCells && isCellEmpty
@@ -55,7 +57,7 @@ namespace OrderElimination.AbilitySystem
             else
             {
                 if (cellEntities == null)
-                    Debug.LogError(nameof(cellEntities));
+                    throw new InvalidProgramException();
                 var view = battleContext.EntitiesBank.GetViewByEntity(askingEntity);
                 if (EntityConditions == null)
                     Debug.LogError($"{nameof(EntityConditions)} on {view.Name}");

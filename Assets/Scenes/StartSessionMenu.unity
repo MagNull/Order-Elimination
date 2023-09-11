@@ -2018,6 +2018,9 @@ MonoBehaviour:
   _windowOpeningEase: 32
   _isHaveMask: 0
   _mask: {fileID: 0}
+  _openingType: 2
+  _startShiftPosition: 0
+  _endShiftPosition: 0
   _uiCounter: {fileID: 2070371899}
   _progressCategories:
   - {fileID: 620782494}
@@ -2078,6 +2081,9 @@ MonoBehaviour:
   _windowOpeningEase: 32
   _isHaveMask: 0
   _mask: {fileID: 0}
+  _openingType: 2
+  _startShiftPosition: 0
+  _endShiftPosition: 0
 --- !u!1 &399939306
 GameObject:
   m_ObjectHideFlags: 0
@@ -2923,10 +2929,10 @@ RectTransform:
   m_Father: {fileID: 1704901500}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000061035, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &582196759
 MonoBehaviour:
@@ -2942,7 +2948,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.64705884}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -5713,6 +5719,9 @@ MonoBehaviour:
   _windowOpeningEase: 32
   _isHaveMask: 0
   _mask: {fileID: 0}
+  _openingType: 2
+  _startShiftPosition: 0
+  _endShiftPosition: 0
   _selectedDropZone: {fileID: 0}
   _unselectedDropZone: {fileID: 1811430912}
   _characterButtonPref: {fileID: 82469547036186783, guid: 46af61c7af418f1468beb2ca38630730, type: 3}

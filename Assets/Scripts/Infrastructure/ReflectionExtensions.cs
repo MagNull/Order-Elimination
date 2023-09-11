@@ -55,8 +55,8 @@ namespace OrderElimination.Infrastructure
                 || obj is PassiveAbilityBuilder
                 || obj is EffectDataPreset
                 || obj is CharacterTemplate
-                || obj is StructureTemplate
-                || obj is AnimationPreset;
+                || obj is StructureTemplate;
+                //|| obj is AnimationPreset
         }
 
         //Resource-heavy

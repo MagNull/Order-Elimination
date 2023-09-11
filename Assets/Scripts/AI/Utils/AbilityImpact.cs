@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using UnityEngine;
@@ -21,8 +22,8 @@ namespace AI.Utils
         private readonly AbilitySystemActor _caster;
         private readonly Vector2Int _targetPos;
 
-        public AbilityImpact(IActiveAbilityData data, IBattleContext battleContext, AbilitySystemActor caster,
-            Vector2Int targetPos)
+        public AbilityImpact(
+            IActiveAbilityData data, IBattleContext battleContext, AbilitySystemActor caster, Vector2Int targetPos)
         {
             _data = data;
             _battleContext = battleContext;
@@ -39,74 +40,88 @@ namespace AI.Utils
 
         private void StartProcess()
         {
-            PrepareTargetingToProcess();
+            if (!TryGetTargetGroups(out var targetGroups))
+            {
+                Logging.LogError($"Failed to peek Target Groups for {_data.View.Name}");
+            }
             var instructions = _data.Execution.ActionInstructions;
             foreach (var abilityInstruction in instructions)
             {
-                ProcessInstruction(abilityInstruction);
+                ProcessInstruction(abilityInstruction, targetGroups);
             }
             //Debug.Log(_data.View.Name + ": " + AffectedEnemies);
             _data.TargetingSystem.CancelTargeting();
         }
 
-        private void PrepareTargetingToProcess()
+        private bool TryGetTargetGroups(out CellGroupsContainer targetGroups)
         {
-            _data.TargetingSystem.StartTargeting(_battleContext, _caster);
             switch (_data.TargetingSystem)
             {
-                case SingleTargetTargetingSystem singleTargeting:
-                {
-                    singleTargeting.Select(_targetPos);
-                    break;
-                }
+                case IRequireSelectionTargetingSystem manualTargetingSystem:
+                    if (!manualTargetingSystem.TryPeekDistribution(out targetGroups, _battleContext, _caster, _targetPos))
+                    {
+                        //Fails when tries to use Movement on enemy entity (which is obviously wouldn't work)
+                        targetGroups = CellGroupsContainer.Empty;
+                        return false;
+                    }
+                    return true;
+                case NoTargetTargetingSystem noTargetSystem:
+                    targetGroups = noTargetSystem.PeekDistribution(_battleContext, _caster);
+                    return true;
+                default:
+                    Logging.LogError("Not supported targeting system");
+                    targetGroups = CellGroupsContainer.Empty;
+                    return false;
             }
         }
 
-        private void ProcessInstruction(AbilityInstruction instruction)
+        private void ProcessInstruction(AbilityInstruction instruction, CellGroupsContainer targetGroups)
         {
-            var executionContext = new AbilityExecutionContext(_battleContext, _caster,
-                _data.TargetingSystem.ExtractCastTargetGroups());
             foreach (var cellGroupNumber in instruction.AffectedCellGroups)
             {
-                if (!executionContext.TargetedCellGroups.ContainsGroup(cellGroupNumber))
+                if (!targetGroups.ContainsGroup(cellGroupNumber))
                 {
-                    CalculateRawDamage(instruction);
+                    CalculateRawDamage(instruction, targetGroups);
                     continue;
                 }
 
-                foreach (var cell in executionContext.TargetedCellGroups.GetGroup(cellGroupNumber))
-                    CalculateCurrentImpactFromCell(instruction, cell);
+                foreach (var cell in targetGroups.GetGroup(cellGroupNumber))
+                    CalculateCurrentImpactFromCell(instruction, cell, targetGroups);
             }
 
             var onSuccess = instruction.InstructionsOnActionSuccess;
             foreach (var abilityInstruction in onSuccess)
-                ProcessInstruction(abilityInstruction);
+                ProcessInstruction(abilityInstruction, targetGroups);
 
             var following = instruction.FollowingInstructions;
             foreach (var abilityInstruction in following)
-                ProcessInstruction(abilityInstruction);
+                ProcessInstruction(abilityInstruction, targetGroups);
         }
 
-        private void CalculateRawDamage(AbilityInstruction instruction)
+        private void CalculateRawDamage(AbilityInstruction instruction, CellGroupsContainer targetGroups)
         {
-            var actionContext = new ActionContext(_battleContext,
-                _data.TargetingSystem.ExtractCastTargetGroups(),
-                _caster, null);
+            //Can throw an exception if value depends on target.
+            var actionContext = new ActionContext(_battleContext, targetGroups, _caster, null);
             var calculationContext = ValueCalculationContext.Full(actionContext);
 
             //Calculate value based on context
             switch (instruction.Action)
             {
                 case InflictDamageAction inflictDamageAction:
+                    if (!inflictDamageAction.DamageSize.CanBePrecalculatedWith(calculationContext))
+                        Logging.LogException(new NotEnoughDataArgumentException());
                     RawDamage += inflictDamageAction.DamageSize.GetValue(calculationContext) * instruction.RepeatNumber;
                     break;
                 case HealAction healAction:
+                    if (!healAction.HealSize.CanBePrecalculatedWith(calculationContext))
+                        Logging.LogException(new NotEnoughDataArgumentException());
                     RawHeal += healAction.HealSize.GetValue(calculationContext) * instruction.RepeatNumber;
                     break;
             }
         }
 
-        private void CalculateCurrentImpactFromCell(AbilityInstruction instruction, Vector2Int cell)
+        private void CalculateCurrentImpactFromCell(
+            AbilityInstruction instruction, Vector2Int cell, CellGroupsContainer cellGroups)
         {
             //Determine target type
             AbilitySystemActor[] targets = instruction.Action.ActionRequires switch
@@ -123,9 +138,7 @@ namespace AI.Utils
             foreach (var target in targets)
             {
                 //Form action context
-                var actionContext = new ActionContext(_battleContext,
-                    _data.TargetingSystem.ExtractCastTargetGroups(),
-                    _caster, target);
+                var actionContext = new ActionContext(_battleContext, cellGroups, _caster, target);
                 var calculationContext = ValueCalculationContext.Full(actionContext);
 
                 //Calculate value based on context

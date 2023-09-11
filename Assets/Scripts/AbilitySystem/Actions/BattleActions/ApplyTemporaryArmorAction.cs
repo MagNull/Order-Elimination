@@ -21,6 +21,8 @@ namespace OrderElimination.AbilitySystem
 
         public override ActionRequires ActionRequires => ActionRequires.Target;
 
+        public string CallbackDescription => "Callback happens when temporary armor is depleted.";
+
         protected event Action<IBattleActionCallback> Callbacks;
 
         public void ClearUndoCache()

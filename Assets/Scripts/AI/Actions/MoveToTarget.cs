@@ -58,9 +58,9 @@ namespace AI.Actions
             foreach (var damageAbility in targetAbilities)
             {
                 var cellsFromTarget = GetCellsForCastingAbility(
-                    battleContext, damageAbility.ability.AbilityData, target);
-                var intersect = manualTargeting.PeekAvailableCells(battleContext, caster)
-                    .Intersect(cellsFromTarget);
+                    battleContext, damageAbility.AbilityRunner.AbilityData, caster);
+                var intersect = cellsFromTarget
+                    .Where(c => manualTargeting.CanSelectPeek(battleContext, caster, c));
                 if (!intersect.Any())
                     continue;
                 
@@ -76,11 +76,11 @@ namespace AI.Actions
         }
 
         private Vector2Int[] GetCellsForCastingAbility(
-            IBattleContext battleContext, IActiveAbilityData abilityData, AbilitySystemActor target)
+            IBattleContext battleContext, IActiveAbilityData abilityData, AbilitySystemActor caster)
         {
             if (abilityData.TargetingSystem is not IRequireSelectionTargetingSystem manualTargeting)
                 throw new NotSupportedException();
-            return manualTargeting.PeekAvailableCells(battleContext, target);
+            return manualTargeting.PeekAvailableCells(battleContext, caster);
         }
     }
 }
