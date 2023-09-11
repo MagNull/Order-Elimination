@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 namespace OrderElimination.AbilitySystem
 {
     [Serializable]
-    public struct RandomValueGetter : IContextValueGetter
+    public class RandomValueGetter : IContextValueGetter
     {
         [OdinSerialize]
         public IContextValueGetter RangeStart { get; private set; }
@@ -27,7 +27,7 @@ namespace OrderElimination.AbilitySystem
                 var end = RangeEnd != null 
                     ? RangeEnd.DisplayedFormula 
                     : IContextValueGetter.EmptyValueReplacement;
-                return $"[{start};{end}]";
+                return $"[{start} – {end}]";
             }
         }
 

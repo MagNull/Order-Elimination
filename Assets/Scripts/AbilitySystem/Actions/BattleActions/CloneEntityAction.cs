@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class CloneTargetEntityAction : BattleAction<CloneTargetEntityAction>, 
+    public class CloneEntityAction : BattleAction<CloneEntityAction>, 
         IUndoableBattleAction,
         IUtilizeCellGroupsAction
     {
@@ -102,7 +102,7 @@ namespace OrderElimination.AbilitySystem
 
         public override IBattleAction Clone()
         {
-            var clone = new CloneTargetEntityAction();
+            var clone = new CloneEntityAction();
             clone.SpawnAtCellGroup = SpawnAtCellGroup;
             clone.StatsCloning = StatsCloning;
             clone.EnergyPointsCloning = EnergyPointsCloning;

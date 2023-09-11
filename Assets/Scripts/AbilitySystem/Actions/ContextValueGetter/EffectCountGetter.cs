@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class EffectCountValueGetter : IContextValueGetter
+    public class EffectCountGetter : IContextValueGetter
     {
         [ShowInInspector, OdinSerialize]
         public IEffectData Effect { get; private set; }
@@ -46,7 +46,7 @@ namespace OrderElimination.AbilitySystem
 
         public IContextValueGetter Clone()
         {
-            var clone = new EffectCountValueGetter();
+            var clone = new EffectCountGetter();
             clone.Effect = Effect;
             clone.CountOn = CountOn;
             clone.IsAppliedByCaster = IsAppliedByCaster;

@@ -30,6 +30,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, SerializeField]
         public bool IgnoreEvasion { get; set; }
 
+        [LabelText("Obstacles Affect Accuracy")]
         [ShowInInspector, SerializeField]
         public bool ObjectsBetweenAffectAccuracy { get; set; } //TODO Extract to Accuracy ValueGetter
 

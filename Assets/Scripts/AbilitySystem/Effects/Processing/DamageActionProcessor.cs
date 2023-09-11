@@ -65,11 +65,31 @@ namespace OrderElimination.AbilitySystem
 
         [FoldoutGroup("DamageChanger")]
         [BoxGroup("DamageChanger/DamageProperties")]
+        [HorizontalGroup("DamageChanger/DamageProperties/ArmorMult")]
+        [ToggleLeft]
+        [ShowInInspector, OdinSerialize]
+        private bool _changeArmorMultiplier;
+
+        [FoldoutGroup("DamageChanger")]
+        [BoxGroup("DamageChanger/DamageProperties")]
+        [HorizontalGroup("DamageChanger/DamageProperties/ArmorMult")]
+        [HideLabel]
+        [EnableIf(nameof(_changeArmorMultiplier))]
         [ShowInInspector, OdinSerialize]
         private float _armorMultiplier = 1;
 
         [FoldoutGroup("DamageChanger")]
         [BoxGroup("DamageChanger/DamageProperties")]
+        [HorizontalGroup("DamageChanger/DamageProperties/HealthMult")]
+        [ToggleLeft]
+        [ShowInInspector, OdinSerialize]
+        private bool _changeHealthMultiplier;
+
+        [FoldoutGroup("DamageChanger")]
+        [BoxGroup("DamageChanger/DamageProperties")]
+        [HorizontalGroup("DamageChanger/DamageProperties/HealthMult")]
+        [HideLabel]
+        [EnableIf(nameof(_changeHealthMultiplier))]
         [ShowInInspector, OdinSerialize]
         private float _healthMultiplier = 1;
 
@@ -141,8 +161,10 @@ namespace OrderElimination.AbilitySystem
                 damageAction.DamagePriority = _damagePriority;
             if (_changeDamageType)
                 damageAction.DamageType = _damageType;
-            damageAction.ArmorMultiplier *= _armorMultiplier;
-            damageAction.HealthMultiplier *= _healthMultiplier;
+            if (_changeArmorMultiplier)
+                damageAction.ArmorMultiplier *= _armorMultiplier;
+            if (_changeHealthMultiplier)
+                damageAction.HealthMultiplier *= _healthMultiplier;
             if (_ignoreEvasion)
                 damageAction.IgnoreEvasion = true;
             damageAction.Accuracy = ChangeValueGetter(damageAction.Accuracy, _accuracyOperation, _accuracyValue);
