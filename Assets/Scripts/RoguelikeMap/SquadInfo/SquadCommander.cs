@@ -79,7 +79,7 @@ namespace RoguelikeMap.SquadInfo
                 throw new ArgumentException("Is not valid point to attack");
             }
 
-            StartAttack(battleNode.Enemies, eventPointModel.Scenario, battleNode.ItemsDropProbability);
+            StartAttack(battleNode.Enemies, battleNode.Scenario, battleNode.ItemsDropProbability);
         }
 
         private void StartAttack(

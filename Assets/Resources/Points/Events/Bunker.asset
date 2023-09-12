@@ -171,6 +171,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  <Scenario>k__BackingField: {fileID: 11400000, guid: 645568020c6734a33b31a508f38bbbe3, type: 2}
   <ItemsDropProbability>k__BackingField:
     m_Keys: []
     m_Values: []
@@ -232,7 +233,7 @@ MonoBehaviour:
   m_Name: Event
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 1704, y: -616}
+  position: {x: 1784, y: -632}
   ports:
     keys:
     - entries
@@ -372,7 +373,7 @@ MonoBehaviour:
   m_Name: Fork
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 824, y: -536}
+  position: {x: 872, y: -552}
   ports:
     keys:
     - entries
@@ -877,7 +878,7 @@ MonoBehaviour:
   m_Name: Battle
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 2056, y: -632}
+  position: {x: 2152, y: -632}
   ports:
     keys:
     - entries
@@ -898,6 +899,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
   - {fileID: 11400000, guid: b1b0169abeb78e6428fb783d88fab5f5, type: 2}
   - {fileID: 11400000, guid: 85c060ecda844cb43bd4fe84c712bdd5, type: 2}
+  <Scenario>k__BackingField: {fileID: 11400000, guid: 645568020c6734a33b31a508f38bbbe3, type: 2}
   <ItemsDropProbability>k__BackingField:
     m_Keys: []
     m_Values: []
@@ -1076,6 +1078,7 @@ MonoBehaviour:
       _dynamic: 0
   _enemies:
   - {fileID: 11400000, guid: 04588733ccd1f2a4bb0aad35a508b4de, type: 2}
+  <Scenario>k__BackingField: {fileID: 11400000, guid: 645568020c6734a33b31a508f38bbbe3, type: 2}
   <ItemsDropProbability>k__BackingField:
     m_Keys: []
     m_Values: []
@@ -1132,7 +1135,7 @@ MonoBehaviour:
   m_Name: Fork With Condition
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 808, y: 248}
+  position: {x: 840, y: 248}
   ports:
     keys:
     - entries

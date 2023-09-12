@@ -45,8 +45,10 @@ namespace OrderElimination.AbilitySystem
                 ? battleContext.GetVisibleEntitiesAt(positionToCheck, askingEntity.BattleSide).ToArray()
                 : battleContext.BattleMap.GetContainedEntities(positionToCheck).ToArray();
             var isCellEmpty = cellEntities.Length == 0;
-            if (isCellEmpty) 
-                return MustBeEmpty || AllowEmptyCells;
+            if (MustBeEmpty)
+                return isCellEmpty;
+            if (AllowEmptyCells && isCellEmpty) 
+                return true;
             if (AllEntitiesMustMeetRequirements)
             {
                 return cellEntities.All(e => EntityConditions.All(c => c.IsConditionMet(battleContext, askingEntity, e)));
