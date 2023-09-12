@@ -98,6 +98,13 @@ namespace OrderElimination.AbilitySystem
             return true;
         }
 
+        public bool CanSelectPeek(
+            IBattleContext battleContext, AbilitySystemActor caster, Vector2Int cellPosition)
+        {
+            return battleContext.BattleMap.ContainsPosition(cellPosition)
+                && _cellConditions.All(c => c.IsConditionMet(battleContext, caster, cellPosition));
+        }
+
         public bool Select(Vector2Int cellPosition)
         {
             if (!IsTargeting || IsConfirmed || TotalTargetsLeft == 0)
@@ -147,6 +154,19 @@ namespace OrderElimination.AbilitySystem
             _targetingContext = null;
             _availableCells = null;
             TargetingCanceled?.Invoke(this);
+            return true;
+        }
+
+        public bool TryPeekDistribution(out CellGroupsContainer cellGroups, IBattleContext battleContext, AbilitySystemActor caster, params Vector2Int[] selectedPositions)
+        {
+            if (selectedPositions.Length < NecessaryTargets
+                || selectedPositions.Length > NecessaryTargets + OptionalTargets
+                || selectedPositions.Any(p => !CanSelectPeek(battleContext, caster, p)))
+            {
+                cellGroups = CellGroupsContainer.Empty;
+                return false;
+            }
+            cellGroups = CellGroupsDistributor.DistributeSelection(battleContext, caster, selectedPositions);
             return true;
         }
 

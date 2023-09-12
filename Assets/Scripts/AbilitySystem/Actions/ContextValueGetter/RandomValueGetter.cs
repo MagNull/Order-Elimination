@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 namespace OrderElimination.AbilitySystem
 {
     [Serializable]
-    public struct RandomValueGetter : IContextValueGetter
+    public class RandomValueGetter : IContextValueGetter
     {
         [OdinSerialize]
         public IContextValueGetter RangeStart { get; private set; }
@@ -27,8 +27,14 @@ namespace OrderElimination.AbilitySystem
                 var end = RangeEnd != null 
                     ? RangeEnd.DisplayedFormula 
                     : IContextValueGetter.EmptyValueReplacement;
-                return $"[{start};{end}]";
+                return $"[{start} – {end}]";
             }
+        }
+
+        public bool CanBePrecalculatedWith(ValueCalculationContext context)
+        {
+            return false;//for precalculation
+            return true;//for calculation
         }
 
         public IContextValueGetter Clone()
@@ -40,9 +46,9 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public float GetValue(ActionContext useContext)
+        public float GetValue(ValueCalculationContext context)
         {
-            var rand = Random.Range(RangeStart.GetValue(useContext), RangeEnd.GetValue(useContext));
+            var rand = Random.Range(RangeStart.GetValue(context), RangeEnd.GetValue(context));
             return RoundToInt ? Mathf.RoundToInt(rand) : rand;
         }
     }

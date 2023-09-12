@@ -1,10 +1,7 @@
 ﻿using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrderElimination.AbilitySystem.Conditions
 {
@@ -36,22 +33,27 @@ namespace OrderElimination.AbilitySystem.Conditions
 
         public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, AbilitySystemActor entityToCheck)
         {
-            if (RequiredEffects == null) Logging.LogException(new InvalidOperationException());
-            if (entityToCheck == null) Logging.LogException(new ArgumentNullException());
+            if (RequiredEffects == null) 
+                Logging.LogException(new InvalidOperationException());
+            if (entityToCheck == null) 
+                Logging.LogException(new ArgumentNullException());
             return EffectRequirement switch
             {
-                RequireType.All => RequiredEffects.All(effect => HasRequiredEffect(entityToCheck, effect)),
-                RequireType.Any => RequiredEffects.Any(effect => HasRequiredEffect(entityToCheck, effect)),
+                RequireType.All => RequiredEffects.All(effect => HasRequiredEffect(effect)),
+                RequireType.Any => RequiredEffects.Any(effect => HasRequiredEffect(effect)),
                 _ => throw new NotImplementedException(),
             };
 
-            bool HasRequiredEffect(AbilitySystemActor entity, IEffectData effectData)
+            bool HasRequiredEffect(IEffectData effectData)
             {
                 if (IsAppliedByAskingEntity)
                 {
-                    return entity.GetEffects(effectData).Any(e => e.EffectApplier == entity);
+                    var requiredEffects = entityToCheck.GetEffects(effectData);
+                    if (requiredEffects.Length == 0)
+                        return false;
+                    return requiredEffects.Any(e => e.EffectApplier == askingEntity);
                 }
-                return entity.HasEffect(effectData);
+                return entityToCheck.HasEffect(effectData);
             }
         }
     }

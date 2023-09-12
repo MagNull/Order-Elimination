@@ -33,7 +33,7 @@ namespace OrderElimination.AbilitySystem
 
             void OnLethalDamage(DealtDamageInfo damageInfo)
             {
-                if (TriggeringDamageTypes[damageInfo.DamageInfo.DamageType])
+                if (TriggeringDamageTypes[damageInfo.IncomingDamage.DamageType])
                 {
                     instance.FireTrigger(new EntityDamagedTriggerFireInfo(instance, damageInfo));
                 }

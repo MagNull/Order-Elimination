@@ -26,7 +26,7 @@ namespace OrderElimination.AbilitySystem
         [FoldoutGroup("DamageChanger")]
         [BoxGroup("DamageChanger/DamageSize")]
         [ShowInInspector, OdinSerialize]
-        private MathOperation _damageOperation = MathOperation.Multiply;
+        private BinaryMathOperation _damageOperation = BinaryMathOperation.Multiply;
 
         [FoldoutGroup("DamageChanger")]
         [BoxGroup("DamageChanger/DamageSize")]
@@ -35,33 +35,61 @@ namespace OrderElimination.AbilitySystem
 
         [FoldoutGroup("DamageChanger")]
         [BoxGroup("DamageChanger/DamageProperties")]
+        [HorizontalGroup("DamageChanger/DamageProperties/Priority")]
+        [ToggleLeft]
         [ShowInInspector, OdinSerialize]
         private bool _changeDamagePriority;
 
         [FoldoutGroup("DamageChanger")]
         [BoxGroup("DamageChanger/DamageProperties")]
-        [ShowIf(nameof(_changeDamagePriority))]
+        [HorizontalGroup("DamageChanger/DamageProperties/Priority")]
+        [HideLabel]
+        [EnableIf(nameof(_changeDamagePriority))]
         [ShowInInspector, OdinSerialize]
         private LifeStatPriority _damagePriority;
 
         [FoldoutGroup("DamageChanger")]
         [BoxGroup("DamageChanger/DamageProperties")]
+        [HorizontalGroup("DamageChanger/DamageProperties/Type")]
+        [ToggleLeft]
         [ShowInInspector, OdinSerialize]
         private bool _changeDamageType;
 
         [FoldoutGroup("DamageChanger")]
         [BoxGroup("DamageChanger/DamageProperties")]
-        [ShowIf(nameof(_changeDamageType))]
+        [HorizontalGroup("DamageChanger/DamageProperties/Type")]
+        [HideLabel]
+        [EnableIf(nameof(_changeDamageType))]
         [ShowInInspector, OdinSerialize]
         private DamageType _damageType;
 
         [FoldoutGroup("DamageChanger")]
         [BoxGroup("DamageChanger/DamageProperties")]
+        [HorizontalGroup("DamageChanger/DamageProperties/ArmorMult")]
+        [ToggleLeft]
+        [ShowInInspector, OdinSerialize]
+        private bool _changeArmorMultiplier;
+
+        [FoldoutGroup("DamageChanger")]
+        [BoxGroup("DamageChanger/DamageProperties")]
+        [HorizontalGroup("DamageChanger/DamageProperties/ArmorMult")]
+        [HideLabel]
+        [EnableIf(nameof(_changeArmorMultiplier))]
         [ShowInInspector, OdinSerialize]
         private float _armorMultiplier = 1;
 
         [FoldoutGroup("DamageChanger")]
         [BoxGroup("DamageChanger/DamageProperties")]
+        [HorizontalGroup("DamageChanger/DamageProperties/HealthMult")]
+        [ToggleLeft]
+        [ShowInInspector, OdinSerialize]
+        private bool _changeHealthMultiplier;
+
+        [FoldoutGroup("DamageChanger")]
+        [BoxGroup("DamageChanger/DamageProperties")]
+        [HorizontalGroup("DamageChanger/DamageProperties/HealthMult")]
+        [HideLabel]
+        [EnableIf(nameof(_changeHealthMultiplier))]
         [ShowInInspector, OdinSerialize]
         private float _healthMultiplier = 1;
 
@@ -84,11 +112,41 @@ namespace OrderElimination.AbilitySystem
 
         [FoldoutGroup("AccuracyChanger")]
         [ShowInInspector, OdinSerialize]
-        private MathOperation _accuracyOperation = MathOperation.Multiply;
+        private BinaryMathOperation _accuracyOperation = BinaryMathOperation.Multiply;
 
         [FoldoutGroup("AccuracyChanger")]
         [ShowInInspector, OdinSerialize]
         private IContextValueGetter _accuracyValue = new ConstValueGetter() { Value = 1 };
+
+        #region Public Properties
+        private bool IsReturnsToSameValue(BinaryMathOperation operation, IContextValueGetter operand)
+        {
+            if (!operand.CanBePrecalculatedWith(ValueCalculationContext.Empty))
+                return false;//hard to answer
+            var value = operand.GetValue(ValueCalculationContext.Empty);
+            return value == 1
+                && (operation == BinaryMathOperation.Multiply || operation == BinaryMathOperation.Divide)
+                || value == 0
+                && (operation == BinaryMathOperation.Add || operation == BinaryMathOperation.Subtract);
+        }
+
+        public EnumMask<DamageType> AllowedDamageTypes => _allowedDamageTypes;
+        public bool IsChangingDamage => !IsReturnsToSameValue(DamageOperation, DamageOperand);
+        public BinaryMathOperation DamageOperation => _damageOperation;
+        public IContextValueGetter DamageOperand => _damageValue;
+        public bool IsChangingAccuracy => !IsReturnsToSameValue(AccuracyOperation, AccuracyOperand);
+        public BinaryMathOperation AccuracyOperation => _accuracyOperation;
+        public IContextValueGetter AccuracyOperand => _accuracyValue;
+        //DamageChange
+        //AccuracyChange
+        public bool ChangeDamagePriority => _changeDamagePriority;
+        public LifeStatPriority OverriddenDamagePriority => _damagePriority;
+        public bool ChangeDamageType => _changeDamageType;
+        public DamageType OverriddenDamageType => _damageType;
+        public float ArmorMultiplier => _armorMultiplier;
+        public float HealthMultiplier => _healthMultiplier;
+        public bool IgnoreEvasion => _ignoreEvasion;
+        #endregion
 
         public TAction ProcessAction<TAction>(TAction originalAction, ActionContext performContext)
             where TAction : BattleAction<TAction>
@@ -97,26 +155,29 @@ namespace OrderElimination.AbilitySystem
                 return originalAction;
             if (_allowedDamageTypes != null && !_allowedDamageTypes[damageAction.DamageType])
                 return originalAction;
-            damageAction.DamageSize = ChangeValueGetter(damageAction.DamageSize, _damageOperation, _damageValue);
+            var newDamage = ChangeValueGetter(damageAction.DamageSize, _damageOperation, _damageValue);
+            damageAction.DamageSize = newDamage;
             if (_changeDamagePriority)
                 damageAction.DamagePriority = _damagePriority;
             if (_changeDamageType)
                 damageAction.DamageType = _damageType;
-            damageAction.ArmorMultiplier *= _armorMultiplier;
-            damageAction.HealthMultiplier *= _healthMultiplier;
+            if (_changeArmorMultiplier)
+                damageAction.ArmorMultiplier *= _armorMultiplier;
+            if (_changeHealthMultiplier)
+                damageAction.HealthMultiplier *= _healthMultiplier;
             if (_ignoreEvasion)
                 damageAction.IgnoreEvasion = true;
             damageAction.Accuracy = ChangeValueGetter(damageAction.Accuracy, _accuracyOperation, _accuracyValue);
             return originalAction;
         }
 
-        private MathValueGetter ChangeValueGetter(
-            IContextValueGetter initial, MathOperation operation, IContextValueGetter value)
+        private IContextValueGetter ChangeValueGetter(
+            IContextValueGetter initial, BinaryMathOperation operation, IContextValueGetter newValue)
         {
             var newFormula = new MathValueGetter();
             newFormula.Left = initial;
             newFormula.Operation = operation;
-            newFormula.Right = value;
+            newFormula.Right = newValue;
             return newFormula;
         }
     }

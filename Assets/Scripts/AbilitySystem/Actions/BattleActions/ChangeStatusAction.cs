@@ -63,7 +63,7 @@ namespace OrderElimination.AbilitySystem
         public bool Undo(int performId)
         {
             if (IsUndone(performId))
-                Logging.LogException( ActionUndoFailedException.AlreadyUndoneException);
+                Logging.LogException(ActionUndoFailedException.AlreadyUndoneException);
             var operation = _operations[performId];
             if (!operation.IsSuccessful) return false;
             switch (operation.StatusOperation)

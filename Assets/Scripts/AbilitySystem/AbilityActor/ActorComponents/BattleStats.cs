@@ -44,15 +44,19 @@ namespace OrderElimination.AbilitySystem
                 var offset = TotalArmor - value;
                 if (value < TotalArmor)//dmg
                 {
-                    //depletes TempArmor first, then Pure
+                    //depletes TempArmor first, then PureArmor
                     var remainder = offset;
                     while (remainder > 0 && _temporaryArmors.Count > 0)
                     {
-                        var removedPart = MathF.Min(_temporaryArmors[0].Value, remainder);
-                        _temporaryArmors[0].Value -= removedPart;
+                        var tempArmor = _temporaryArmors[0];
+                        var removedPart = MathF.Min(tempArmor.Value, remainder);
+                        tempArmor.Value -= removedPart;
                         remainder -= removedPart;
-                        if (_temporaryArmors[0].Value <= 0)
+                        if (tempArmor.Value <= 0)
+                        {
                             _temporaryArmors.RemoveAt(0);
+                            TemporaryArmorLayerRemoved?.Invoke(tempArmor);
+                        }
                     }
                     PureArmor -= MathF.Min(PureArmor, remainder);
                 }
@@ -84,7 +88,7 @@ namespace OrderElimination.AbilitySystem
         public void RemoveTemporaryArmor(TemporaryArmor armor)
         {
             _temporaryArmors.Remove(armor);
-
+            TemporaryArmorLayerRemoved?.Invoke(armor);
             LifeStatsChanged?.Invoke(this);
         }
 
@@ -120,6 +124,7 @@ namespace OrderElimination.AbilitySystem
 
         public event Action<BattleStat> StatsChanged;
         public event Action<IBattleLifeStats> LifeStatsChanged;
+        public event Action<TemporaryArmor> TemporaryArmorLayerRemoved;
 
         public BattleStats(
             float maxHealth,

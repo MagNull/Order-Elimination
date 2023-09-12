@@ -53,7 +53,6 @@ namespace OrderElimination
             builder.RegisterComponent(_itemsPool);
 
             builder.Register<SceneTransition>(Lifetime.Singleton);
-
             builder.Register<BattleInitializer>(Lifetime.Singleton);
             builder.Register<AnimationSceneContext>(Lifetime.Singleton);
             builder.Register<BattleContext>(Lifetime.Singleton).AsImplementedInterfaces();

@@ -34,7 +34,7 @@ namespace AI.Actions
                 return false;
 
             //Find first ability that kill target or deal maximum damage
-            var bestUseAbility = availableHealAbilities.Last().ability;
+            var bestUseAbility = availableHealAbilities.Last().AbilityRunner;
 
             switch (bestUseAbility.AbilityData.TargetingSystem)
             {

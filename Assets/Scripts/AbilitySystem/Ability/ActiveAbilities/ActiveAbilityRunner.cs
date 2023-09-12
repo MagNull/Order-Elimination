@@ -21,9 +21,15 @@ namespace OrderElimination.AbilitySystem
         public bool IsCastAvailable(IBattleContext battleContext, AbilitySystemActor caster)
         {
             if (caster.IsDisposedFromBattle)
-                Logging.LogException( new InvalidOperationException("Caster is disposed from battle."));
+            {
+                Logging.LogException(new InvalidOperationException("Caster is disposed from battle."));
+                return false;
+            }
             if (!caster.IsAlive)
-                Logging.LogException( new InvalidOperationException("Caster is dead."));
+            {
+                Logging.LogException(new InvalidOperationException("Caster is dead."));
+                return false;
+            }
             return !IsRunning // :(
                 && !caster.StatusHolder.HasStatus(BattleStatus.ActiveAbilitiesDisabled)
                 && !caster.IsPerformingAbility

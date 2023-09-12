@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OrderElimination.Battle;
 using OrderElimination.MacroGame;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using Sirenix.Utilities;
 using UnityEngine;
 
 namespace OrderElimination
@@ -19,6 +19,9 @@ namespace OrderElimination
 
         [OdinSerialize]
         private BattleScenario _testScenario;
+
+        [OdinSerialize]
+        private IBattleRules _testRules;
 
         [SerializeField]
         private bool _test;
@@ -57,15 +60,18 @@ namespace OrderElimination
             var playerChars = "player characters";
             var enemyChars = "enemy characters";
             var scenario = "scenario";
-            var stats = "stats";
+            var stats = "stats";//character meta-upgrades
+            var rules = "rules";
             if (!Contains<IEnumerable<GameCharacter>>(playerChars))
                 Register(playerChars, GameCharactersFactory.CreateGameCharacters(_testPlayerCharacters));
             if (!Contains<IEnumerable<GameCharacter>>(enemyChars))
                 Register(enemyChars, GameCharactersFactory.CreateGameCharacters(_testEnemyCharacters));
             if (!Contains<BattleScenario>(scenario))
                 Register(scenario, _testScenario);
+            if (!Contains<IBattleRules>(rules))
+                Register(rules, _testRules);
             if (!Contains<StrategyStats>(stats))
-                Register("stats", new StrategyStats());
+                Register(stats, new StrategyStats());
         }
 
         private void Awake()
@@ -76,8 +82,12 @@ namespace OrderElimination
                 s_instance = this;
             DontDestroyOnLoad(gameObject);
 
-            if(_test)
+            if (_test)
                 InitTest();
+
+            var rules = "rules";
+            if (!Contains<IBattleRules>(rules))
+                Register(rules, _testRules);
         }
     }
 }

@@ -1,10 +1,4 @@
-using OrderElimination.AbilitySystem;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using OrderElimination.Infrastructure;
-using Unity.Burst.CompilerServices;
-using System.Linq;
 using Sirenix.OdinInspector;
 using Cysharp.Threading.Tasks;
 using OrderElimination.AbilitySystem.Animations;
@@ -13,12 +7,8 @@ namespace OrderElimination.AbilitySystem
 {
     public class InflictDamageAction : BattleAction<InflictDamageAction>
     {
-        private string _damageFormula => DamageSize.DisplayedFormula;
-        private string _accuracyFormula => Accuracy.DisplayedFormula;
-
-
         [ShowInInspector, SerializeField]
-        [PropertyTooltip("@" + nameof(_damageFormula)), GUIColor(1, 0.5f, 0.5f)]
+        [GUIColor(1, 0.5f, 0.5f)]
         public IContextValueGetter DamageSize { get; set; } = new CasterStatGetter(BattleStat.AttackDamage);
 
         [ShowInInspector, SerializeField]
@@ -34,12 +24,13 @@ namespace OrderElimination.AbilitySystem
         public LifeStatPriority DamagePriority { get; set; }
 
         [ShowInInspector, SerializeField]
-        [PropertyTooltip("@" + nameof(_accuracyFormula)), GUIColor(0.5f, 0.8f, 1f)]
+        [GUIColor(0.5f, 0.8f, 1f)]
         public IContextValueGetter Accuracy { get; set; } = new CasterStatGetter(BattleStat.Accuracy);
 
         [ShowInInspector, SerializeField]
         public bool IgnoreEvasion { get; set; }
 
+        [LabelText("Obstacles Affect Accuracy")]
         [ShowInInspector, SerializeField]
         public bool ObjectsBetweenAffectAccuracy { get; set; } //TODO Extract to Accuracy ValueGetter
 
@@ -76,14 +67,15 @@ namespace OrderElimination.AbilitySystem
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
-            var accuracy = Accuracy.GetValue(useContext);
+            var calculationContext = ValueCalculationContext.Full(useContext);
+            var accuracy = Accuracy.GetValue(calculationContext);
             var evasion = IgnoreEvasion || !useContext.ActionTarget.BattleStats.HasParameter(BattleStat.Evasion)
                 ? 0
                 : useContext.ActionTarget.BattleStats[BattleStat.Evasion].ModifiedValue;
-            var hitResult = useContext.BattleContext.HitCalculation.CalculateHitResult(accuracy, evasion);
+            var hitResult = useContext.BattleContext.BattleRules.HitCalculation.CalculateHitResult(accuracy, evasion);
             var animationContext = new AnimationPlayContext(
                 useContext.AnimationSceneContext,
-                useContext.TargetCellGroups,
+                useContext.CellTargetGroups,
                 useContext.ActionMaker,
                 useContext.ActionTarget);
             if (hitResult == HitResult.Success)
@@ -119,10 +111,17 @@ namespace OrderElimination.AbilitySystem
 
         public DamageInfo CalculateDamage(ActionContext useContext)
         {
-            var damageSize = DamageSize.GetValue(useContext);
+            var calculationContext = ValueCalculationContext.Full(useContext);
+            var damageSize = DamageSize.GetValue(calculationContext);
             var damageDealer = useContext.ActionMaker;
             var damageInfo = new DamageInfo(damageSize, ArmorMultiplier, HealthMultiplier, DamageType, DamagePriority, damageDealer);
             return damageInfo;
+        }
+
+        public float CalculateAccuracy(ActionContext useContext)
+        {
+            var calculationContext = ValueCalculationContext.Full(useContext);
+            return Accuracy.GetValue(calculationContext);
         }
     }
 }

@@ -1,5 +1,9 @@
-﻿namespace OrderElimination.AbilitySystem
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
+
+namespace OrderElimination.AbilitySystem
 {
+    [EnumToggleButtons]
     public enum EffectCharacter
     {
         Neutral = 0,

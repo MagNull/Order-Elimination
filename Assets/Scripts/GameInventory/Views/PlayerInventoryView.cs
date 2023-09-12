@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GameInventory.Items;
+using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +12,8 @@ namespace GameInventory.Views
     {
         public override event Action<IReadOnlyCell> CellClicked;
 
-        [SerializeField]
-        protected Dictionary<IReadOnlyCell, InventoryCellView> _cells = new();
+        [OdinSerialize]
+        protected List<InventoryCellView> _cellViews = new();
 
         [SerializeField]
         private InventoryCellView _cellViewPrefab;
@@ -24,29 +25,38 @@ namespace GameInventory.Views
 
         public void ShowItemWithType(int itemType)
         {
-            foreach (var cell in _cells)
+            foreach (var cell in _cellViews)
             {
-                if (cell.Key.Item == null)
+                if (cell.Model.Item == null)
                     continue;
-                if (cell.Key.Item.Data.Type == (ItemType)itemType)
-                    cell.Value.Enable();
+                if (cell.Model.Item.Data.Type == (ItemType)itemType)
+                    cell.Enable();
                 else
-                    cell.Value.Disable();
+                    cell.Disable();
             }
         }
 
         public void ShowAllItems()
         {
-            foreach (var cell in _cells)
+            foreach (var cell in _cellViews)
             {
-                cell.Value.Enable();
+                cell.Enable();
             }
         }
 
         public override void UpdateCells(IReadOnlyList<IReadOnlyCell> cells)
         {
-            foreach (var cell in cells.Where(cell => !_cells.ContainsKey(cell)))
+            foreach (var cell in cells.Where(cell => _cellViews.All(c => c.Model != cell)))
                 OnCellAdded(cell);
+            
+            //Trash
+            var viewCopy = new InventoryCellView[_cellViews.Count];
+            _cellViews.CopyTo(viewCopy);
+            foreach (var view in viewCopy)
+            {
+                if (!cells.Contains(view.Model))
+                    OnCellRemoved(view.Model);
+            }
         }
 
         public override void OnCellAdded(IReadOnlyCell cell)
@@ -58,13 +68,13 @@ namespace GameInventory.Views
             cellView.Init(cell);
             cellView.Clicked += OnCellClicked;
             cellView.Enable();
-            _cells.Add(cell, cellView);
+            _cellViews.Add(cellView);
         }
 
         public override void OnCellRemoved(IReadOnlyCell cell)
         {
-            var cellView = _cells[cell];
-            _cells.Remove(cell);
+            var cellView = _cellViews.Find(c => c.Model == cell);
+            _cellViews.Remove(cellView);
             cellView.Disable();
             _unusedCellViews.Push(cellView);
             cellView.Clicked -= OnCellClicked;

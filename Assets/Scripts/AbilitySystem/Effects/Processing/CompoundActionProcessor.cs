@@ -9,6 +9,8 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         private List<IActionProcessor> _processors { get; set; } = new();
 
+        public IReadOnlyList<IActionProcessor> Processors => _processors;
+
         public TAction ProcessAction<TAction>(TAction originalAction, ActionContext performContext)
             where TAction : BattleAction<TAction>
         {

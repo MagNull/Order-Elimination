@@ -1,16 +1,13 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
-using System.Diagnostics;
+using static UnityEngine.Application;
 
 namespace OrderElimination.AbilitySystem
 {
     public abstract class BattleAction<TAction> : IBattleAction 
-        where TAction : BattleAction<TAction>
+        where TAction : BattleAction<TAction> //TODO: reconsider necessity of this
     {
         public abstract ActionRequires ActionRequires { get; }
-
-        public event Action<IActionPerformResult> SuccessfullyPerformed;
-        public event Action<IActionPerformResult> FailedToPerformed;
 
         public TAction GetModifiedAction(
             ActionContext useContext,
@@ -27,17 +24,16 @@ namespace OrderElimination.AbilitySystem
             bool targetProcessing = true)
         {
             //TODO: Refactor. "Entity disposed" case shouldn't be reached.
-            if (ActionRequires == ActionRequires.Target && useContext.ActionTarget.IsDisposedFromBattle)
+            if (ActionRequires == ActionRequires.Target)
             {
-                Logging.LogError("Attempt to perform action on entity that had been disposed.");
-                return new SimplePerformResult(this, useContext, false);
+                if (useContext.ActionTarget == null)
+                    throw new ArgumentNullException("Attempt to perform action on null entity.");
+                if (useContext.ActionTarget.IsDisposedFromBattle)
+                    throw new InvalidOperationException("Attempt to perform action on entity that had been disposed.");
             }
             var modifiedAction = GetModifiedAction(useContext, actionMakerProcessing, targetProcessing);
+            //modifiedAction.Callbacks += onCallback;
             var performResult = await modifiedAction.Perform(useContext);
-            if (performResult.IsSuccessful)
-                SuccessfullyPerformed?.Invoke(performResult);
-            else
-                FailedToPerformed?.Invoke(performResult);
             return performResult;
         }
 

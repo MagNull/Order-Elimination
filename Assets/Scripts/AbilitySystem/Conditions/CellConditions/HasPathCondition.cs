@@ -2,7 +2,6 @@
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -14,13 +13,13 @@ namespace OrderElimination.AbilitySystem
         public bool LimitByCasterMovement { get; private set; }
 
         [ShowInInspector, OdinSerialize]
-        public ICellCondition[] PathConditions { get; private set; }
+        public ICellCondition[] PathConditions { get; private set; } = new ICellCondition[0];
 
         public ICellCondition Clone()
         {
             var clone = new HasPathCondition();
             clone.LimitByCasterMovement = LimitByCasterMovement;
-            clone.PathConditions = PathConditions;
+            clone.PathConditions = PathConditions?.DeepClone();
             return clone;
         }
 

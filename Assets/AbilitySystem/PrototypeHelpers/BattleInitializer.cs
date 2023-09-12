@@ -16,12 +16,16 @@ namespace Assets.AbilitySystem.PrototypeHelpers
         private BattleEntitiesBank _entitiesBank;
 
         [Inject]
-        private void Construct(IObjectResolver objectResolver)
+        private void Construct(
+            BattleMapDirector mapDirector, 
+            ScenesMediator scenesMediator, 
+            BattleEntitiesFactory entitiesFactory,
+            BattleEntitiesBank entitiesBank)
         {
-            _battleMapDirector = objectResolver.Resolve<BattleMapDirector>();
-            _sceneMediator = objectResolver.Resolve<ScenesMediator>();
-            _entitiesFactory = objectResolver.Resolve<BattleEntitiesFactory>();
-            _entitiesBank = objectResolver.Resolve<BattleEntitiesBank>();
+            _battleMapDirector = mapDirector;
+            _sceneMediator = scenesMediator;
+            _entitiesFactory = entitiesFactory;
+            _entitiesBank = entitiesBank;
         }
 
         public void InitiateBattle()

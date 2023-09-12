@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -7,6 +8,7 @@ namespace OrderElimination.AbilitySystem
         public IReadOnlyEffectView View { get; }
         public EffectCharacter EffectCharacter { get; }
         public EffectStackingPolicy StackingPolicy { get; }
+        public int MaxStackSize { get; }
         public bool UseApplierProcessing { get; }
         public bool UseHolderProcessing { get; }
         //RemoveTriggers
@@ -18,8 +20,22 @@ namespace OrderElimination.AbilitySystem
         public IActionProcessor IncomingActionProcessor { get; } //CompoundProcessor
         public IActionProcessor OutcomingActionProcessor { get; }
 
-        public bool CanBeAppliedOn(IEffectHolder effectHolder)
-            => !effectHolder.HasEffect(this) || StackingPolicy != EffectStackingPolicy.IgnoreNew;
+        public EffectApplyResult CanBeAppliedOn(IEffectHolder effectHolder)
+        {
+            if (effectHolder.EffectImmunities.Contains(this))
+                return EffectApplyResult.BlockedByImmunity;
+            if (!effectHolder.HasEffect(this))
+                return EffectApplyResult.Success;
+            return StackingPolicy switch
+            {
+                EffectStackingPolicy.UnlimitedStacking => EffectApplyResult.Success,
+                EffectStackingPolicy.OverrideOld => EffectApplyResult.Success,
+                EffectStackingPolicy.IgnoreNew => EffectApplyResult.BlockedByStackingRules,
+                EffectStackingPolicy.LimitedStacking => effectHolder.GetEffects(this).Length < MaxStackSize
+                ? EffectApplyResult.Success : EffectApplyResult.BlockedByStackingLimit,
+                _ => throw new System.NotImplementedException(),
+            };
+        }
 
         public void OnActivation(BattleEffect effect); //For extending functionality without EffectInstructions (not used)
         public void OnDeactivation(BattleEffect effect); //For extending functionality without EffectInstructions (not used)

@@ -12,48 +12,54 @@ namespace OrderElimination.AbilitySystem
         private int _necessaryTargets;
         private int _optionalTargets;
 
-        [TabGroup("Visuals", Order = 0), PropertyOrder(-99)]
+        [TabGroup("MainTabs", "Visuals", Order = -2), PropertyOrder(-100)]
+        [HorizontalGroup("MainTabs/Visuals/NameIconDescr", Width = 0.3f)]
+        [VerticalGroup("MainTabs/Visuals/NameIconDescr/Left")]
+        [HideLabel, Title("Name", HorizontalLine = false)]
         [ShowInInspector, OdinSerialize]
         public string Name { get; private set; } = "";
 
-        [TabGroup("Visuals"), PropertyOrder(1)]
-        [PreviewField(Alignment = ObjectFieldAlignment.Left)]
+        [TabGroup("MainTabs", "Visuals"), PropertyOrder(1)]
+        [HorizontalGroup("MainTabs/Visuals/NameIconDescr")]
+        [VerticalGroup("MainTabs/Visuals/NameIconDescr/Left")]
+        [PreviewField(70, Alignment = ObjectFieldAlignment.Left)]
+        [HideLabel]
         [ShowInInspector, OdinSerialize]
         public Sprite Icon { get; private set; }
 
-        [TabGroup("Visuals"), PropertyOrder(2)]
-        [ShowInInspector, OdinSerialize, MultiLineProperty]
+        [TabGroup("MainTabs", "Visuals"), PropertyOrder(2)]
+        [HorizontalGroup("MainTabs/Visuals/NameIconDescr", PaddingLeft = 5)]
+        [VerticalGroup("MainTabs/Visuals/NameIconDescr/Right")]
+        [HideLabel, Title("Description", HorizontalLine = false)]
+        [PropertySpace(SpaceBefore = 0, SpaceAfter = 5), MultiLineProperty(5)]
+        [ShowInInspector, OdinSerialize]
         public string Description { get; private set; } = "";
 
-        //[TitleGroup("Visuals"), PropertyOrder(2.5f)]
-        //[PreviewField(Alignment = ObjectFieldAlignment.Left)]
-        //[ShowInInspector, OdinSerialize]
-        //public VideoClip PreviewVideo { get; private set; }
-
-        [TabGroup("Visuals"), PropertyOrder(3)]
+        [TabGroup("MainTabs", "Visuals"), PropertyOrder(-99)]
         [ShowInInspector, OdinSerialize, DictionaryDrawerSettings(KeyLabel = "Group", ValueLabel = "Highlight color")]
         private Dictionary<int, Color> _cellGroupsHighlightColors = new();
         public IReadOnlyDictionary<int, Color> CellGroupsHighlightColors => _cellGroupsHighlightColors;
 
-        [TabGroup("Visuals"), PropertyOrder(4)]
+        [TabGroup("MainTabs", "Visuals"), PropertyOrder(4)]
         [ShowInInspector, OdinSerialize]
         public bool ShowCrosshairWhenTargeting { get; private set; } = true;
 
-        [TabGroup("Visuals"), PropertyOrder(5)]
+        [TabGroup("MainTabs", "Visuals"), PropertyOrder(5)]
         [ShowInInspector, OdinSerialize]
         public bool ShowTrajectoryWhenTargeting { get; private set; } = false;
 
-        [TabGroup("Visuals"), PropertyOrder(10)]
+        [TabGroup("MainTabs", "Visuals"), PropertyOrder(10)]
         [ShowInInspector, OdinSerialize]
         public bool HideInCharacterDescription { get; private set; }
 
-        [TabGroup("Game Rules", Order = 1), PropertyOrder(-98)]
+        [TabGroup("MainTabs", "Game Rules", Order = 1), PropertyOrder(-98)]
         [DictionaryDrawerSettings(KeyLabel = "Energy Point", ValueLabel = "Amount")]
         [ShowInInspector, OdinSerialize]
         private Dictionary<EnergyPoint, int> _usageCost = new();
         public IReadOnlyDictionary<EnergyPoint, int> UsageCost => _usageCost;
 
-        [TabGroup("Game Rules"), PropertyOrder(1)]
+        [TabGroup("MainTabs", "Game Rules"), PropertyOrder(1)]
+        [PropertySpace(SpaceBefore = 10, SpaceAfter = 10)]
         [ShowInInspector, OdinSerialize]
         public int CooldownTime
         {
@@ -65,20 +71,18 @@ namespace OrderElimination.AbilitySystem
             }
         }
 
-        [TabGroup("Game Rules"), PropertyOrder(3)]
+        [TabGroup("MainTabs", "Game Rules"), PropertyOrder(3)]
         [ShowInInspector, OdinSerialize]
         public ICommonCondition[] AvailabilityConditions = new ICommonCondition[0];
 
-        [TabGroup("Targeting System", Order = 2), PropertyOrder(-97)]
+        [TabGroup("MainTabs", "Targeting System", Order = 2), PropertyOrder(-97)]
+        [BoxGroup("MainTabs/Targeting System/System Settings", ShowLabel = false)]
+        [PropertySpace(5)]
         [ShowInInspector, OdinSerialize]
         public TargetingSystemType TargetingSystem { get; private set; }
 
-        [TabGroup("Targeting System"), PropertyOrder(5)]
-        [ShowInInspector, OdinSerialize]
-        [ShowIf("@TargetingSystem == TargetingSystemType.MultiTarget || TargetingSystem == TargetingSystemType.SingleTarget")]
-        public ICellCondition[] TargetCellConditions = new ICellCondition[0];
-
-        [TabGroup("Targeting System"), PropertyOrder(6)]
+        [TabGroup("MainTabs", "Targeting System"), PropertyOrder(5)]
+        [BoxGroup("MainTabs/Targeting System/System Settings", ShowLabel = false)]
         [ShowInInspector, OdinSerialize]
         [ShowIf("@TargetingSystem == TargetingSystemType.MultiTarget")]
         public int NecessaryTargets
@@ -91,7 +95,8 @@ namespace OrderElimination.AbilitySystem
             }
         }
 
-        [TabGroup("Targeting System"), PropertyOrder(7)]
+        [TabGroup("MainTabs", "Targeting System"), PropertyOrder(6)]
+        [BoxGroup("MainTabs/Targeting System/System Settings", ShowLabel = false)]
         [ShowInInspector, OdinSerialize]
         [ShowIf("@TargetingSystem == TargetingSystemType.MultiTarget")]
         public int OptionalTargets
@@ -103,12 +108,23 @@ namespace OrderElimination.AbilitySystem
                 _optionalTargets = value;
             }
         }
- 
-        [TabGroup("Targeting System"), PropertyOrder(8)]
+
+        [TabGroup("MainTabs", "Targeting System"), PropertyOrder(7)]
+        [PropertySpace(5)]
+        [ShowInInspector, OdinSerialize]
+        [ShowIf("@TargetingSystem == TargetingSystemType.MultiTarget || TargetingSystem == TargetingSystemType.SingleTarget")]
+        public ICellCondition[] TargetCellConditions = new ICellCondition[0];
+
+        [TabGroup("MainTabs", "Targeting System"), PropertyOrder(8)]
+        [BoxGroup("MainTabs/Targeting System/Distributor", ShowLabel = false)]
+        [OnInspectorInit("@$property.State.Expanded = true")]
+        [ValidateInput("@" + nameof(CellGroupsDistributor) + " != null", "Distributor is not assigned!")]
+        [PropertySpace(5)]
         [ShowInInspector, OdinSerialize]
         public ICellGroupsDistributor CellGroupsDistributor { get; private set; }
 
-        [TabGroup("Functionality", Order = 4), PropertyOrder(-96)]
+        [TabGroup("MainTabs", "Functionality", Order = 4), PropertyOrder(-96)]
+        [OnInspectorInit("@$property.State.Expanded = true")]
         [ShowInInspector, OdinSerialize]
         public AbilityInstruction[] AbilityInstructions;
     }

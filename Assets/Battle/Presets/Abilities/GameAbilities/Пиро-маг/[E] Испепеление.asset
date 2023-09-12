@@ -17,14 +17,21 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: ecc63ab2f2245de40b4e4f584fed62ef, type: 2}
+    - {fileID: 11400000}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
+    - Name: EffectCharacter
+      Entry: 3
+      Data: 0
     - Name: StackingPolicy
       Entry: 3
       Data: 2
+    - Name: _maxStackSize
+      Entry: 3
+      Data: 1
     - Name: UseApplierProcessing
       Entry: 5
       Data: false
@@ -34,6 +41,19 @@ MonoBehaviour:
     - Name: IsTemporary
       Entry: 5
       Data: false
+    - Name: _removeTriggers
+      Entry: 7
+      Data: 0|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+        Assembly-CSharp]], System.Core
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: InstructionOnActivation
       Entry: 6
       Data: 
@@ -43,21 +63,15 @@ MonoBehaviour:
     - Name: TemporaryEffectFunctionaity
       Entry: 6
       Data: 
-    - Name: IsProcessingIncomingAction
-      Entry: 5
-      Data: false
     - Name: IncomingActionProcessor
       Entry: 6
       Data: 
-    - Name: IsProcessingOutcomingAction
-      Entry: 5
-      Data: true
     - Name: OutcomingActionProcessor
       Entry: 7
-      Data: 0|OrderElimination.AbilitySystem.ConditionalActionProcessor, Assembly-CSharp
-    - Name: _casterConditions
+      Data: 1|OrderElimination.AbilitySystem.ConditionalActionProcessor, Assembly-CSharp
+    - Name: _commonConditions
       Entry: 7
-      Data: 1|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
+      Data: 2|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.ICommonCondition,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -70,17 +84,17 @@ MonoBehaviour:
       Data: 
     - Name: _targetConditions
       Entry: 7
-      Data: 2|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
+      Data: 3|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 3|OrderElimination.AbilitySystem.Conditions.HasEffectCondition, Assembly-CSharp
+      Data: 4|OrderElimination.AbilitySystem.Conditions.HasEffectCondition, Assembly-CSharp
     - Name: RequiredEffects
       Entry: 7
-      Data: 4|OrderElimination.AbilitySystem.IEffectData[], Assembly-CSharp
+      Data: 5|OrderElimination.AbilitySystem.IEffectData[], Assembly-CSharp
     - Name: 
       Entry: 12
       Data: 1
@@ -110,18 +124,18 @@ MonoBehaviour:
       Data: 
     - Name: _actionProcessor
       Entry: 7
-      Data: 5|OrderElimination.AbilitySystem.DamageActionProcessor, Assembly-CSharp
+      Data: 6|OrderElimination.AbilitySystem.DamageActionProcessor, Assembly-CSharp
     - Name: _allowedDamageTypes
       Entry: 7
-      Data: 6|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.DamageType,
+      Data: 7|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.DamageType,
         Assembly-CSharp]], Assembly-CSharp
     - Name: _valueFlags
       Entry: 7
-      Data: 7|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.DamageType,
+      Data: 8|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.DamageType,
         Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 8|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.DamageType,
+      Data: 9|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.DamageType,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -197,10 +211,10 @@ MonoBehaviour:
       Data: 2
     - Name: _damageValue
       Entry: 7
-      Data: 9|OrderElimination.AbilitySystem.EffectCountValueGetter, Assembly-CSharp
+      Data: 10|OrderElimination.AbilitySystem.EffectCountGetter, Assembly-CSharp
     - Name: Effect
       Entry: 10
-      Data: 0
+      Data: 1
     - Name: CountOn
       Entry: 3
       Data: 1
@@ -222,9 +236,15 @@ MonoBehaviour:
     - Name: _damageType
       Entry: 3
       Data: 0
+    - Name: _changeArmorMultiplier
+      Entry: 5
+      Data: false
     - Name: _armorMultiplier
       Entry: 4
       Data: 1
+    - Name: _changeHealthMultiplier
+      Entry: 5
+      Data: false
     - Name: _healthMultiplier
       Entry: 4
       Data: 1
@@ -236,7 +256,7 @@ MonoBehaviour:
       Data: 2
     - Name: _accuracyValue
       Entry: 7
-      Data: 10|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+      Data: 11|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
       Data: 1
@@ -251,7 +271,7 @@ MonoBehaviour:
       Data: 
     - Name: _view
       Entry: 7
-      Data: 11|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
+      Data: 12|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
     - Name: Name
       Entry: 6
       Data: 
@@ -266,19 +286,6 @@ MonoBehaviour:
       Data: 
     - Name: AnimationOnDeactivation
       Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _removeTriggers
-      Entry: 7
-      Data: 12|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
-        Assembly-CSharp]], System.Core
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
       Data: 
     - Name: 
       Entry: 8

@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using AI.Compositions;
 using Cysharp.Threading.Tasks;
+using OrderElimination;
 using OrderElimination.AbilitySystem;
 using UnityEngine;
 using XNode;
 
 namespace AI
 {
+    [NodeWidth(300)]
     public abstract class BehaviorTreeTask : Node
     {
         [Input]
@@ -18,7 +20,8 @@ namespace AI
             var caster = blackboard.Get<AbilitySystemActor>("caster");
             if (!caster.IsAlive)
                 return false;
-
+            if (caster.BattleSide == OrderElimination.Infrastructure.BattleSide.Player)
+                Logging.LogError("AI tries to control Player characters!");
             return await Run(blackboard);
         }
 

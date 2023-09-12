@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace OrderElimination.Infrastructure
@@ -10,6 +11,14 @@ namespace OrderElimination.Infrastructure
             foreach (var item in collection)
             {
                 action(item);
+            }
+        }
+
+        public static IEnumerable<object> AsEnumerable(this ICollection collection)
+        {
+            foreach (var item in collection)
+            {
+                yield return item;
             }
         }
     }

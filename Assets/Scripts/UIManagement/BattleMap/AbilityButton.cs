@@ -31,14 +31,21 @@ namespace UIManagement.Elements
         private void Awake()
         {
             RemoveAbility();
+        }
+
+        private void OnEnable()
+        {
             _button.Clicked += OnClick;
             _button.Holded += OnHold;
         }
 
-        private void OnClick(HoldableButton button)
+        private void OnDisable()
         {
-            Clicked?.Invoke(this);
+            _button.Clicked -= OnClick;
+            _button.Holded -= OnHold;
         }
+
+        private void OnClick(HoldableButton button) => Clicked?.Invoke(this);
 
         private void OnHold(HoldableButton button, float holdTime) => Holded?.Invoke(this);
 

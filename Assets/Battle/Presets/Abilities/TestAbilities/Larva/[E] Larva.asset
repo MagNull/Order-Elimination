@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acb2e992d7d6fa849b36b6f05febfd6b, type: 3}
+  m_Name: '[E] Larva'
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 21300000, guid: b76747d3ccf0b6648970415bef07d13c, type: 3}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: EffectCharacter
+      Entry: 3
+      Data: 2
+    - Name: StackingPolicy
+      Entry: 3
+      Data: 0
+    - Name: _maxStackSize
+      Entry: 3
+      Data: 1
+    - Name: UseApplierProcessing
+      Entry: 5
+      Data: false
+    - Name: UseHolderProcessing
+      Entry: 5
+      Data: false
+    - Name: IsTemporary
+      Entry: 5
+      Data: false
+    - Name: _removeTriggers
+      Entry: 7
+      Data: 0|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+        Assembly-CSharp]], System.Core
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: InstructionOnActivation
+      Entry: 6
+      Data: 
+    - Name: InstructionOnDeactivation
+      Entry: 6
+      Data: 
+    - Name: TemporaryEffectFunctionaity
+      Entry: 6
+      Data: 
+    - Name: IncomingActionProcessor
+      Entry: 6
+      Data: 
+    - Name: OutcomingActionProcessor
+      Entry: 6
+      Data: 
+    - Name: _view
+      Entry: 7
+      Data: 1|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
+    - Name: Name
+      Entry: 1
+      Data: "\u041B\u0438\u0447\u0438\u043D\u043A\u0430"
+    - Name: Icon
+      Entry: 10
+      Data: 0
+    - Name: IsHidden
+      Entry: 5
+      Data: false
+    - Name: AnimationOnActivation
+      Entry: 6
+      Data: 
+    - Name: AnimationOnDeactivation
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _triggerInstructions
+      Entry: 7
+      Data: 2|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+        Assembly-CSharp],[OrderElimination.AbilitySystem.IEffectInstruction, Assembly-CSharp]],
+        mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 3|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
