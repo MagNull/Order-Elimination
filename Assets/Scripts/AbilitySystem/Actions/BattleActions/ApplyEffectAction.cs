@@ -1,30 +1,31 @@
 ﻿using Cysharp.Threading.Tasks;
-using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class ApplyEffectAction : BattleAction<ApplyEffectAction>, IUndoableBattleAction
+    public class ApplyEffectAction : BattleAction<ApplyEffectAction>, 
+        IUndoableBattleAction,
+        ICallbackingBattleAction
     {
         private static List<BattleEffect> _appliedEffects = new();
         private static List<IEffectHolder> _performTargets = new();
         private static HashSet<int> _undoneOperations = new();
 
+        protected event Action<IBattleActionCallback> Callbacks;
+
         [ShowInInspector, OdinSerialize]
         public IEffectData Effect { get; set; }
 
         [ShowInInspector, OdinSerialize]
-        public IContextValueGetter ApplyChance { get; set; }
+        public IContextValueGetter ApplyChance { get; set; } = new ConstValueGetter(1);
 
         public override ActionRequires ActionRequires => ActionRequires.Target;
+
+        public string CallbackDescription => "Callback happens when effect is deactivated.";
 
         public override IBattleAction Clone()
         {
@@ -56,16 +57,41 @@ namespace OrderElimination.AbilitySystem
         protected async override UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
             var isSuccessfull = false;
-            var calculationContext = ValueCalculationContext.FromActionContext(useContext);
+            var calculationContext = ValueCalculationContext.Full(useContext);
             var probability = ApplyChance.GetValue(calculationContext);
             BattleEffect appliedEffect = null;
             if (RandomExtensions.RollChance(probability))
             {
-                isSuccessfull = useContext.ActionTarget.ApplyEffect(Effect, useContext.ActionMaker, out appliedEffect);
+                if (useContext.ActionTarget.ApplyEffect(Effect, useContext.ActionMaker, out appliedEffect))
+                {
+                    isSuccessfull = true;
+                    appliedEffect.Deactivated += OnEffectRemoved;
+                }
             }
             _appliedEffects.Add(appliedEffect);
             _performTargets.Add(useContext.ActionTarget);
             return new SimpleUndoablePerformResult(this, useContext, isSuccessfull, _appliedEffects.Count - 1);
+
+            void OnEffectRemoved(BattleEffect effect)
+            {
+                effect.Deactivated -= OnEffectRemoved;
+                Callbacks?.Invoke(new ApplyEffectActionCallback(effect));
+            }
+        }
+
+        public async UniTask<IActionPerformResult> ModifiedPerformWithCallbacks(ActionContext useContext, Action<IBattleActionCallback> onCallback, bool actionMakerProcessing = true, bool targetProcessing = true)
+        {
+            if (ActionRequires == ActionRequires.Target)
+            {
+                if (useContext.ActionTarget == null)
+                    throw new ArgumentNullException("Attempt to perform action on null entity.");
+                if (useContext.ActionTarget.IsDisposedFromBattle)
+                    throw new InvalidOperationException("Attempt to perform action on entity that had been disposed.");
+            }
+            var modifiedAction = GetModifiedAction(useContext, actionMakerProcessing, targetProcessing);
+            modifiedAction.Callbacks += onCallback;
+            var performResult = await modifiedAction.Perform(useContext);
+            return performResult;
         }
     }
 }

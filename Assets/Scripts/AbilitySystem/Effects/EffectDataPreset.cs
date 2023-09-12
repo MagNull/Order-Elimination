@@ -178,7 +178,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector]
         private IEffectInstruction InstructionOnTimeout
         {
-            get => TemporaryEffectFunctionaity != null ? TemporaryEffectFunctionaity.OnTimeOutInstruction : null;
+            get => TemporaryEffectFunctionaity?.OnTimeOutInstruction;
             set
             {
                 if (!IsTemporary)

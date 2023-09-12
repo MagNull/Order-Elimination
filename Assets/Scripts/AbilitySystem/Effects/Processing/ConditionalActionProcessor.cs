@@ -8,7 +8,7 @@ namespace OrderElimination.AbilitySystem
     public class ConditionalActionProcessor : IActionProcessor
     {
         [ShowInInspector, OdinSerialize]
-        private List<IEntityCondition> _casterConditions { get; set; } = new();
+        private List<ICommonCondition> _commonConditions { get; set; } = new();
 
         [ShowInInspector, OdinSerialize]
         private List<IEntityCondition> _targetConditions { get; set; } = new();
@@ -22,15 +22,15 @@ namespace OrderElimination.AbilitySystem
             var battleContext = performContext.BattleContext;
             var caster = performContext.ActionMaker;
             var target = performContext.ActionTarget;
-            if (_casterConditions.Count > 0 && caster == null)
+            if (_commonConditions.Count > 0 && caster == null)
                 return originalAction;
             if (_targetConditions.Count > 0 && target == null)
                 return originalAction;
-            var casterConditions = _casterConditions.All(c => c.IsConditionMet(battleContext, caster, caster));
-            var targetConditions = _targetConditions.All(c => c.IsConditionMet(battleContext, caster, target));
-            if (casterConditions && targetConditions)
-                return _actionProcessor.ProcessAction(originalAction, performContext);
-            return originalAction;
+            if (!_commonConditions.All(c => c.IsConditionMet(battleContext, caster)))
+                return originalAction;
+            if (!_targetConditions.All(c => c.IsConditionMet(battleContext, caster, target)))
+                return originalAction;
+            return _actionProcessor.ProcessAction(originalAction, performContext);
         }
     }
 }

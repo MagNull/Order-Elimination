@@ -12,6 +12,7 @@ namespace OrderElimination.AbilitySystem
         #region OdinVisuals
         private bool ActionIsUndoable => _battleAction is IUndoableBattleAction;
         private bool IsEntityAction => _battleAction != null ? _battleAction.ActionRequires == ActionRequires.Target : false;
+        private bool IsCallbackingAction => _battleAction is ICallbackingBattleAction;
 
         [OnInspectorInit]
         private void ActionUndoableValidate()
@@ -42,6 +43,11 @@ namespace OrderElimination.AbilitySystem
         private bool UndoOnDeactivation { get; set; } = true;
 
         //UndoTriggers
+        [BoxGroup("Next Instruction", ShowLabel = false)]
+        [GUIColor(1f, 1f, 0.3f)]
+        [EnableIf("@" + nameof(IsCallbackingAction))]
+        [ShowInInspector, OdinSerialize]
+        private IEffectInstruction _instructionOnCallback { get; set; }
 
         [BoxGroup("Next Instruction", ShowLabel = false)]
         [GUIColor(0.7f, 1f, 0.7f)]
@@ -67,6 +73,14 @@ namespace OrderElimination.AbilitySystem
         [GUIColor(0, 1, 1)]
         [ShowInInspector, OdinSerialize]
         private IAbilityAnimation _animationAfterAction { get; set; }
+
+        #region Public Properties
+        public IBattleAction BattleAction => _battleAction;
+        public IEffectInstruction InstructionOnCallback => _instructionOnCallback;
+        public IEffectInstruction InstructionOnSuccess => _instructionOnSuccess;
+        public IEffectInstruction InstructionOnFail => _instructionOnFail;
+        public IEffectInstruction FollowingInstruction => _followingInstruction;
+        #endregion
 
         public async UniTask Execute(BattleEffect effect)
         {
@@ -94,9 +108,10 @@ namespace OrderElimination.AbilitySystem
                     $"Executing instruction with null action on effect {effect.EffectData.View.Name}\n"
                     + $"Holder: {entitiesBank.GetViewByEntity(effect.EffectHolder).Name}\n"
                     + $"Applier: {entitiesBank.GetViewByEntity(effect.EffectApplier).Name}\n");
-            }    
-
-            var result = await _battleAction.ModifiedPerform(actionContext, applierProcessing, holderProcessing);
+            }
+            var result = _battleAction is ICallbackingBattleAction callbackingAction
+                ? await callbackingAction.ModifiedPerformWithCallbacks(actionContext, OnCallback, applierProcessing, holderProcessing)
+                : await _battleAction.ModifiedPerform(actionContext, applierProcessing, holderProcessing);
             effect.Deactivated += OnDeactivation;
 
             if (result.IsSuccessful && _instructionOnSuccess != null)
@@ -122,6 +137,12 @@ namespace OrderElimination.AbilitySystem
                     var undoableActionResult = (IUndoableActionPerformResult)result;
                     undoableAction.Undo(undoableActionResult.PerformId);
                 }
+            }
+
+            void OnCallback(IBattleActionCallback callback)
+            {
+                if (_instructionOnCallback != null)
+                    _instructionOnCallback.Execute(effect);//no await?
             }
         }
     }

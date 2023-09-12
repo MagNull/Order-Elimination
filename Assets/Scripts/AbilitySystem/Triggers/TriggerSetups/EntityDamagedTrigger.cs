@@ -36,7 +36,7 @@ namespace OrderElimination.AbilitySystem
 
             void OnDamaged(DealtDamageInfo damageInfo)
             {
-                var calculationContext = new ValueCalculationContext(
+                var calculationContext = ValueCalculationContext.Full(
                     battleContext,
                     CellGroupsContainer.Empty,
                     null,//Require trigger activator-entity?

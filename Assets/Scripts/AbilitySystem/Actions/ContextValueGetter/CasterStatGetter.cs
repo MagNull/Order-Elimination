@@ -20,6 +20,14 @@ namespace OrderElimination.AbilitySystem
 
         public string DisplayedFormula => $"Caster.{CasterStat}({(UseUnmodifiedValue ? "orig" : "mod")})";
 
+        public bool CanBePrecalculatedWith(ValueCalculationContext context)
+        {
+            return context.BattleCaster != null && context.BattleCaster.BattleStats != null
+                || context.MetaCaster != null && context.MetaCaster.CharacterStats != null
+                || context.TemplateCharacterCaster != null
+                || context.TemplateStructureCaster != null;
+        }
+
         public IContextValueGetter Clone()
         {
             var clone = new CasterStatGetter();
@@ -30,13 +38,29 @@ namespace OrderElimination.AbilitySystem
 
         public float GetValue(ValueCalculationContext context)
         {
-            if (context.ActionMaker == null
-                || !context.ActionMaker.BattleStats.HasParameter(CasterStat))
-                return 0;
-            if (!UseUnmodifiedValue)
-                return context.ActionMaker.BattleStats[CasterStat].ModifiedValue;
-            else
-                return context.ActionMaker.BattleStats[CasterStat].UnmodifiedValue;
+            if (!CanBePrecalculatedWith(context))
+                throw new NotEnoughDataArgumentException();
+            if (context.BattleCaster != null)
+            {
+                return UseUnmodifiedValue
+                    ? context.BattleCaster.BattleStats[CasterStat].UnmodifiedValue
+                    : context.BattleCaster.BattleStats[CasterStat].ModifiedValue;
+            }
+            if (context.MetaCaster != null)
+            {
+                return context.MetaCaster.CharacterStats[CasterStat];
+            }
+            if (context.TemplateCharacterCaster != null)
+            {
+                return context.TemplateCharacterCaster.GetBaseBattleStats()[CasterStat];
+            }
+            if (context.TemplateStructureCaster != null)
+            {
+                return CasterStat == BattleStat.MaxHealth
+                    ? context.TemplateStructureCaster.MaxHealth
+                    : 0;
+            }
+            throw new InvalidProgramException();
         }
     }
 }

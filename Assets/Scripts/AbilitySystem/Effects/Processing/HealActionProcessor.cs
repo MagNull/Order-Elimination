@@ -18,10 +18,27 @@ namespace OrderElimination.AbilitySystem
         }
 
         [ShowInInspector, OdinSerialize]
-        private MathOperation _healOperation = MathOperation.Multiply;
+        private BinaryMathOperation _healOperation = BinaryMathOperation.Multiply;
 
         [ShowInInspector, OdinSerialize]
         private IContextValueGetter _healValue = new ConstValueGetter(1);
+
+        #region Public Properties
+        private bool IsReturnsToSameValue(BinaryMathOperation operation, IContextValueGetter operand)
+        {
+            if (!operand.CanBePrecalculatedWith(ValueCalculationContext.Empty))
+                return false;//hard to answer
+            var value = operand.GetValue(ValueCalculationContext.Empty);
+            return value == 1
+                && (operation == BinaryMathOperation.Multiply || operation == BinaryMathOperation.Divide)
+                || value == 0
+                && (operation == BinaryMathOperation.Add || operation == BinaryMathOperation.Subtract);
+        }
+
+        public bool IsChangingHeal => !IsReturnsToSameValue(_healOperation, _healValue);
+        public BinaryMathOperation HealOperation => _healOperation;
+        public IContextValueGetter HealOperand => _healValue;
+        #endregion
 
         public TAction ProcessAction<TAction>(TAction originalAction, ActionContext performContext)
             where TAction : BattleAction<TAction>
@@ -33,12 +50,12 @@ namespace OrderElimination.AbilitySystem
         }
 
         private IContextValueGetter ChangeValueGetter(
-            IContextValueGetter initial, MathOperation operation, IContextValueGetter value)
+            IContextValueGetter initial, BinaryMathOperation operation, IContextValueGetter value)
         {
-            var newFormula = new BinaryMathValueGetter
+            var newFormula = new MathValueGetter
             {
                 Left = initial,
-                Operation = operation.ToBinaryOperation(),
+                Operation = operation,
                 Right = value
             };
             return newFormula;

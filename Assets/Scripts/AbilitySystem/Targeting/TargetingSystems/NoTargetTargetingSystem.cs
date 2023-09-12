@@ -55,6 +55,12 @@ namespace OrderElimination.AbilitySystem
             return true;
         }
 
+        public CellGroupsContainer PeekDistribution(IBattleContext battleContext, AbilitySystemActor caster)
+        {
+            return CellGroupsDistributor.DistributeSelection(
+                battleContext, caster, new Vector2Int[0]);
+        }
+
         public CellGroupsContainer ExtractCastTargetGroups()
         {
             return CellGroupsDistributor.DistributeSelection(

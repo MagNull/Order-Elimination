@@ -1248,7 +1248,6 @@ MonoBehaviour:
   _abilityDescription: {fileID: 6124592665566857498}
   _effectDescriptionPrefab: {fileID: 6334464170612543423, guid: 44719a3772b60ec449a05d95656d472e, type: 3}
   _effectsHolder: {fileID: 2215600864195524508}
-  Effects: []
 --- !u!1 &8761738785175612070
 GameObject:
   m_ObjectHideFlags: 0
@@ -1343,7 +1342,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6924282429537972521
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1545,6 +1544,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EffectWindow
       objectReference: {fileID: 0}
+    - target: {fileID: 2812648054464597117, guid: 44719a3772b60ec449a05d95656d472e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3214901243051082567, guid: 44719a3772b60ec449a05d95656d472e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1595,7 +1598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3672742247813936579, guid: 44719a3772b60ec449a05d95656d472e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3672742247813936579, guid: 44719a3772b60ec449a05d95656d472e, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1603,15 +1606,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3672742247813936579, guid: 44719a3772b60ec449a05d95656d472e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3672742247813936579, guid: 44719a3772b60ec449a05d95656d472e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 505
       objectReference: {fileID: 0}
     - target: {fileID: 3672742247813936579, guid: 44719a3772b60ec449a05d95656d472e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 3672742247813936579, guid: 44719a3772b60ec449a05d95656d472e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2080,6 +2083,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EffectWindow (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2812648054464597117, guid: 44719a3772b60ec449a05d95656d472e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3214901243051082567, guid: 44719a3772b60ec449a05d95656d472e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2130,7 +2137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3672742247813936579, guid: 44719a3772b60ec449a05d95656d472e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3672742247813936579, guid: 44719a3772b60ec449a05d95656d472e, type: 3}
       propertyPath: m_AnchorMin.x
@@ -2138,15 +2145,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3672742247813936579, guid: 44719a3772b60ec449a05d95656d472e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3672742247813936579, guid: 44719a3772b60ec449a05d95656d472e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 505
       objectReference: {fileID: 0}
     - target: {fileID: 3672742247813936579, guid: 44719a3772b60ec449a05d95656d472e, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 3672742247813936579, guid: 44719a3772b60ec449a05d95656d472e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2182,7 +2189,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3672742247813936579, guid: 44719a3772b60ec449a05d95656d472e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -315
       objectReference: {fileID: 0}
     - target: {fileID: 3672742247813936579, guid: 44719a3772b60ec449a05d95656d472e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

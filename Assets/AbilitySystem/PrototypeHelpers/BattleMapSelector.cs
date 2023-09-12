@@ -243,6 +243,7 @@ public class BattleMapSelector : MonoBehaviour
             + $"\nEvasion: {entity.BattleStats[BattleStat.Evasion].ModifiedValue};" 
             + $"\n{entity.StatusHolder}"
             + $"\nEffects({entity.Effects.Count()}): {string.Join(", ", entity.Effects.Select(e => $"[{e.EffectData.View.Name}]"))}"
+            + $"\nEffect Immunities({entity.EffectImmunities.Count()}): {string.Join(", ", entity.EffectImmunities.Select(e => $"[{e.View.Name}]"))}"
             + inventoryInfo
             + $"\nEnergyPoints: {string.Join(", ", entity.EnergyPoints.Select(e => $"[{e.Key}:{e.Value}]"))}"
             + $"\nActiveAbilities({entity.ActiveAbilities.Count}): {string.Join(", ", entity.ActiveAbilities.Select(a => $"[{a.AbilityData.View.Name}]"))}"
@@ -284,12 +285,17 @@ public class BattleMapSelector : MonoBehaviour
         var colors = _selectedAbility.AbilityData.View.TargetGroupsHighlightColors;
         foreach (var group in targetedCells.ContainedCellGroups)
         {
-            foreach (var pos in targetedCells.GetGroup(group))
+            if (colors.ContainsKey(group))
             {
-                var currentColor = _battleMapView.GetCell(pos.x, pos.y).CurrentColor;
-                var newColor = Color.Lerp(currentColor, colors[group], colors[group].a);
-                _battleMapView.HighlightCell(pos.x, pos.y, newColor);
+                foreach (var pos in targetedCells.GetGroup(group))
+                {
+                    var currentColor = _battleMapView.GetCell(pos.x, pos.y).CurrentColor;
+                    var newColor = Color.Lerp(currentColor, colors[group], colors[group].a);
+                    _battleMapView.HighlightCell(pos.x, pos.y, newColor);
+                }
             }
+            else
+                Logging.LogError($"Cell Group color hasn't been assigned for \"{group}\" group.");
         }
     }
     private void CastCurrentAbility()

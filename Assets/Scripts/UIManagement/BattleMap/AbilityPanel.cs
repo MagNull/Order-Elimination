@@ -161,7 +161,8 @@ namespace UIManagement
         private void OnActiveAbilityButtonHolded(AbilityButton abilityButton)
         {
             var panel = (AbilityDescriptionPanel)_panelController.OpenPanel(PanelType.AbilityDescription);
-            panel.UpdateAbilityData(abilityButton.AbilityRunner.AbilityData);
+            var calculationContext = ValueCalculationContext.ForBattleCaster(_battleContext, _caster);
+            panel.UpdateAbilityData(abilityButton.AbilityRunner.AbilityData, calculationContext);
         }
 
         private void OnPassiveAbilityButtonClicked(SmallAbilityButton skillButton)

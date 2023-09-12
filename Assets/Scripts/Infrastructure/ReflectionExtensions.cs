@@ -1,8 +1,13 @@
 ﻿using OrderElimination.AbilitySystem;
+using OrderElimination.AbilitySystem.Animations;
+using Sirenix.Serialization;
+using Sirenix.Utilities;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using UnityEngine;
 
 namespace OrderElimination.Infrastructure
 {
@@ -51,6 +56,7 @@ namespace OrderElimination.Infrastructure
                 || obj is EffectDataPreset
                 || obj is CharacterTemplate
                 || obj is StructureTemplate;
+                //|| obj is AnimationPreset
         }
 
         //Resource-heavy
@@ -77,5 +83,57 @@ namespace OrderElimination.Infrastructure
 
         public static string GetExceptionName(this Exception exception)
             => exception.GetType().Name;
+
+        public static IEnumerable<object> GetSerializedMembers(object instance)
+        {
+            if (instance == null)
+                return Enumerable.Empty<object>();
+
+            var instanceType = instance.GetType();
+
+            if (instanceType.IsPrimitive)
+                return Enumerable.Empty<object>();
+
+            var bindingFlags =
+                BindingFlags.Instance
+                | BindingFlags.Public
+                | BindingFlags.NonPublic
+                | BindingFlags.SetField
+                | BindingFlags.SetProperty;
+            Func<MemberInfo, bool> HasRequiredAttributes = m =>
+            Attribute.IsDefined(m, typeof(OdinSerializeAttribute))
+            || Attribute.IsDefined(m, typeof(SerializableAttribute))
+            || Attribute.IsDefined(m, typeof(SerializeField))
+            || Attribute.IsDefined(m, typeof(SerializeReference));
+
+            var fields = instanceType.GetFields(bindingFlags).Where(HasRequiredAttributes).ToArray();
+            var properties = instanceType.GetProperties(bindingFlags).Where(HasRequiredAttributes).ToArray();
+
+            var nextValues = new List<object>();
+
+            foreach (var member in fields.Concat(properties))
+            {
+                var value = member.GetMemberValue(instance);
+                if (value == null) continue;
+                nextValues.Add(value);
+                if (value is ICollection collection)
+                {
+                    if (collection is IDictionary dictionary)
+                    {
+                        nextValues.AddRange(
+                            dictionary.Keys.AsEnumerable()
+                            .Concat(dictionary.Values.AsEnumerable())
+                            .Where(e => e != null));
+                    }
+                    else
+                    {
+                        nextValues.AddRange(
+                            collection.AsEnumerable()
+                            .Where(e => e != null));
+                    }
+                }
+            }
+            return nextValues;
+        }
     }
 }

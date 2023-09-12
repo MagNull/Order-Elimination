@@ -17,7 +17,7 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 21300000, guid: 48bfb8cd70c42354cae3ebab21704bc1, type: 3}
-    - {fileID: 11400000, guid: 88d0acbe100b9f443a1bc062c2c41dbb, type: 2}
+    - {fileID: 11400000, guid: cda6119a5b28d4242b50cdfd3e415815, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -249,9 +249,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: AffectPreviousTarget
-      Entry: 5
-      Data: false
+    - Name: RepeatNumber
+      Entry: 3
+      Data: 1
+    - Name: _commonConditions
+      Entry: 6
+      Data: 
     - Name: _targetConditions
       Entry: 7
       Data: 16|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
@@ -265,6 +268,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: AffectPreviousTarget
+      Entry: 5
+      Data: false
     - Name: _affectedCellGroups
       Entry: 7
       Data: 17|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
@@ -280,9 +286,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: RepeatNumber
-      Entry: 3
-      Data: 1
     - Name: _instructionsOnActionSuccess
       Entry: 7
       Data: 18|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,

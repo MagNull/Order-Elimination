@@ -29,6 +29,7 @@ public class MenuWindow : MonoBehaviour
     
     private SceneTransition _sceneTransition;
     private ScenesMediator _scenesMediator;
+    private Vector3 _startMenuPanelInitialPosition;
     
     [Inject]
     public void Construct(SceneTransition sceneTransition, ScenesMediator scenesMediator)
@@ -39,12 +40,13 @@ public class MenuWindow : MonoBehaviour
     
     private void Start()
     {
+        _startMenuPanelInitialPosition = _startMenuPanel.transform.position;
         _continueButton
             .DOInterectable(_scenesMediator.Contains<IEnumerable<GameCharacter>>("player characters"));
 
         _previousButton.onClick.AddListener(() =>
         {
-            _startMenuPanel.transform.DOMoveX(960, 1.5f);
+            _startMenuPanel.transform.DOMoveX(_startMenuPanelInitialPosition.x, 1.5f);
             _maskWallpaper.gameObject.SetActive(true);
             _maskWallpaper.DOFade(0.65f, 1.5f);
         });

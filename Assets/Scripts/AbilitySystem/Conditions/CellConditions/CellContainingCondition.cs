@@ -1,6 +1,7 @@
 ﻿using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -40,27 +41,22 @@ namespace OrderElimination.AbilitySystem
 
         public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int positionToCheck)
         {
-            AbilitySystemActor[] cellEntities;
-            if (VisibleEntitiesOnly)
-                cellEntities = battleContext.GetVisibleEntitiesAt(positionToCheck, askingEntity.BattleSide).ToArray();
-            else
-                cellEntities = battleContext.BattleMap.GetContainedEntities(positionToCheck).ToArray();
+            var cellEntities = VisibleEntitiesOnly
+                ? battleContext.GetVisibleEntitiesAt(positionToCheck, askingEntity.BattleSide).ToArray()
+                : battleContext.BattleMap.GetContainedEntities(positionToCheck).ToArray();
             var isCellEmpty = cellEntities.Length == 0;
-            if (MustBeEmpty) return isCellEmpty;
+            if (isCellEmpty) 
+                return MustBeEmpty || AllowEmptyCells;
             if (AllEntitiesMustMeetRequirements)
             {
-                return AllowEmptyCells && isCellEmpty
-                    || cellEntities.All(e => EntityConditions.All(c => c.IsConditionMet(battleContext, askingEntity, e)));
+                return cellEntities.All(e => EntityConditions.All(c => c.IsConditionMet(battleContext, askingEntity, e)));
             }
             else
             {
-                if (cellEntities == null)
-                    Debug.LogError(nameof(cellEntities));
                 var view = battleContext.EntitiesBank.GetViewByEntity(askingEntity);
                 if (EntityConditions == null)
-                    Debug.LogError($"{nameof(EntityConditions)} on {view.Name}");
-                return AllowEmptyCells && isCellEmpty
-                    || cellEntities.Any(e => EntityConditions.All(c => c.IsConditionMet(battleContext, askingEntity, e)));
+                    Debug.LogError($"{nameof(EntityConditions)} null on {view.Name}");
+                return cellEntities.Any(e => EntityConditions.All(c => c.IsConditionMet(battleContext, askingEntity, e)));
             }
         }
     }

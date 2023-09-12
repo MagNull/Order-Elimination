@@ -14,6 +14,11 @@ namespace OrderElimination.AbilitySystem
 
         public string DisplayedFormula => $"Target.{TargetStat}({(UseUnmodifiedValue ? "orig" : "mod")})";
 
+        public bool CanBePrecalculatedWith(ValueCalculationContext context)
+        {
+            return context.BattleTarget != null;
+        }
+
         public IContextValueGetter Clone()
         {
             var clone = new TargetStatGetter();
@@ -24,13 +29,12 @@ namespace OrderElimination.AbilitySystem
 
         public float GetValue(ValueCalculationContext context)
         {
-            if (context.ActionTarget == null
-                || !context.ActionTarget.BattleStats.HasParameter(TargetStat))
-                return 0;
+            if (!CanBePrecalculatedWith(context))
+                throw new NotEnoughDataArgumentException();
             if (!UseUnmodifiedValue)
-                return context.ActionTarget.BattleStats[TargetStat].ModifiedValue;
+                return context.BattleTarget.BattleStats[TargetStat].ModifiedValue;
             else
-                return context.ActionTarget.BattleStats[TargetStat].UnmodifiedValue;
+                return context.BattleTarget.BattleStats[TargetStat].UnmodifiedValue;
         }
     }
 }

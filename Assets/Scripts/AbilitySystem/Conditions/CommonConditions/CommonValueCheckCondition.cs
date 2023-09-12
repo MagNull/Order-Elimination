@@ -9,7 +9,7 @@ namespace OrderElimination.AbilitySystem
     {
         [ShowInInspector, DisplayAsString]
         private string _comparisonFormula 
-            => $"{Left.DisplayedFormula} {ComparisonOperation.AsString()} {Right.DisplayedFormula}";
+            => $"{Left?.DisplayedFormula ?? "???"} {ComparisonOperation.AsString()} {Right?.DisplayedFormula ?? "???"}";
 
         [ShowInInspector, OdinSerialize]
         public IContextValueGetter Left { get; private set; } = new ConstValueGetter(0);
@@ -31,7 +31,7 @@ namespace OrderElimination.AbilitySystem
 
         public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity)
         {
-            var calculationContext = new ValueCalculationContext(
+            var calculationContext = ValueCalculationContext.Full(
                 battleContext,
                 CellGroupsContainer.Empty,
                 askingEntity,
