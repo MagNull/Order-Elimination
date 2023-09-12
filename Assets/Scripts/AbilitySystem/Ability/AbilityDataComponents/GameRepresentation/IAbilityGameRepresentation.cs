@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using OrderElimination.Infrastructure;
+using System.Collections.Generic;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -9,6 +10,7 @@ namespace OrderElimination.AbilitySystem
         public TargetingSystemRepresentation TargetingSystem { get; }
         public float? MaxRange { get; }
         public IReadOnlyList<DamageRepresentation> DamageRepresentations { get; }
+        //public EnumMask<AbilityRole> Attack/Heal/Move/Other
         public IReadOnlyList<AbilityEffectRepresentation> EffectRepresentations { get; }
     }
 }

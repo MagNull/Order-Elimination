@@ -4,8 +4,6 @@ using System.Linq;
 using AI.Utils;
 using Cysharp.Threading.Tasks;
 using OrderElimination.AbilitySystem;
-using OrderElimination.Infrastructure;
-using Sirenix.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -21,14 +19,10 @@ namespace AI.Actions
             var context = blackboard.Get<IBattleContext>("context");
             var caster = blackboard.Get<AbilitySystemActor>("caster");
             
-            var notOptimalCells = new List<Vector2Int>();
             var enemies = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
-
-            foreach (var enemy in enemies)
-            {
-                var notOptimalFromEnemy = AIUtilities.GetCellsFromTarget(_distance, enemy.Position);
-                notOptimalCells.AddRange(notOptimalFromEnemy);
-            }
+            var notOptimalCells = enemies
+                .SelectMany(e => AIUtilities.GetCellsFromTarget(_distance, e.Position))
+                .ToHashSet();
 
             var movementAbility = AbilityAIPresentation.GetMoveAbility(caster);
             if (movementAbility == null)
@@ -38,7 +32,7 @@ namespace AI.Actions
                 is not IRequireSelectionTargetingSystem manualTargeting)
                 throw new NotSupportedException();
             var optimalCells = manualTargeting.PeekAvailableCells(context, caster)
-                .Except(notOptimalCells);
+                .Where(c => notOptimalCells.Contains(c));
             if (!optimalCells.Any())
             {
                 movementAbility.AbilityData.TargetingSystem.CancelTargeting();

@@ -64,12 +64,14 @@ namespace OrderElimination.AbilitySystem
 
         public static bool operator==(CellGroupsContainer cellGroupsA, CellGroupsContainer cellGroupsB)
         {
-            return cellGroupsA.Equals(cellGroupsB);
+            if (cellGroupsA is not null)
+                return cellGroupsA.Equals(cellGroupsB);
+            return cellGroupsB is null;
         }
 
         public static bool operator !=(CellGroupsContainer cellGroupsA, CellGroupsContainer cellGroupsB)
         {
-            return !cellGroupsA.Equals(cellGroupsB);
+            return !(cellGroupsA == cellGroupsB);
         }
 
         //TODO учитывать CellGroupDistributionPolicy

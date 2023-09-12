@@ -20,6 +20,8 @@ namespace OrderElimination.AbilitySystem
 
         public override ActionRequires ActionRequires => ActionRequires.Target;
 
+        public string CallbackDescription => "Callback happens when immunity blocked an attempt to apply effect.";
+
         protected event Action<IBattleActionCallback> Callbacks;
 
         public void ClearUndoCache()

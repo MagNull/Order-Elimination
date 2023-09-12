@@ -1,9 +1,5 @@
-﻿using OrderElimination.Infrastructure;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
@@ -46,6 +42,17 @@ namespace OrderElimination.AbilitySystem
         /// <param name="caster"></param>
         /// <returns></returns>
         public Vector2Int[] PeekAvailableCells(IBattleContext battleContext, AbilitySystemActor caster);
+        /// <summary>
+        /// Returns if position can be targeted by specified caster in current conditions. 
+        /// Does not require targeting system to be started first.
+        /// </summary>
+        /// <param name="battleContext"></param>
+        /// <param name="caster"></param>
+        /// <returns></returns>
+        public bool CanSelectPeek(IBattleContext battleContext, AbilitySystemActor caster, Vector2Int cellPosition);
+        public bool TryPeekDistribution(
+            out CellGroupsContainer cellGroups, 
+            IBattleContext battleContext, AbilitySystemActor caster, params Vector2Int[] selectedPositions);
         public bool Select(Vector2Int cellPosition);
         public bool Deselect(Vector2Int cellPosition);
     }

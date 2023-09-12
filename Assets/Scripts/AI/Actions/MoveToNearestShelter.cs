@@ -57,7 +57,7 @@ namespace AI.Actions
             IRequireSelectionTargetingSystem targeting, IBattleContext context)
         {
             return structure.Obstacle.IsAllowedToStay(caster) &&
-                   targeting.PeekAvailableCells(context, caster).Contains(structure.Position) &&
+                   targeting.CanSelectPeek(context, caster, structure.Position) &&
                    !CharacterBehavior.AvoidObject.Contains(context.EntitiesBank.GetBasedStructureTemplate(structure));
         }
     }

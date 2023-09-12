@@ -4,7 +4,7 @@ using UnityEngine;
 namespace OrderElimination.AbilitySystem
 {
     [Tooltip("Returns all cells within Battle Map")]
-    public class BattleMapCellSelector : ICellSelector
+    public class WholeBattleMapCellSelector : ICellSelector
     {
         public Vector2Int[] GetCellPositions(CellSelectorContext context)
         {

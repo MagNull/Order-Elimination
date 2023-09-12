@@ -5,7 +5,7 @@ using System;
 namespace OrderElimination.AbilitySystem
 {
     [Serializable]
-    public struct CellCountInGroupValueGetter : IContextValueGetter
+    public struct CellCountInGroupGetter : IContextValueGetter
     {
         [ShowInInspector, OdinSerialize]
         public int CellGroupId { get; set; }
@@ -19,7 +19,7 @@ namespace OrderElimination.AbilitySystem
 
         public IContextValueGetter Clone()
         {
-            var clone = new CellCountInGroupValueGetter();
+            var clone = new CellCountInGroupGetter();
             clone.CellGroupId = CellGroupId;
             return clone;
         }

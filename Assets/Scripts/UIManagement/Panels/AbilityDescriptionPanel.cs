@@ -47,7 +47,11 @@ namespace UIManagement
                 var newEffectWindow = Instantiate(_effectDescriptionPrefab, _effectsHolder);
                 newEffectWindow.UpdateEffectDescription(e.EffectData, calculationContext);
                 if (e.ApplyChance.CanBePrecalculatedWith(calculationContext))
-                    newEffectWindow.AddProbability(e.ApplyChance.GetValue(calculationContext));
+                {
+                    var chance = e.ApplyChance.GetValue(calculationContext);
+                    if (chance < 1)
+                        newEffectWindow.AddProbability(e.ApplyChance.GetValue(calculationContext));
+                }
                 else
                     newEffectWindow.AddProbability(e.ApplyChance.GetSimplifiedFormula(calculationContext));
                 _effects.Add(newEffectWindow);
