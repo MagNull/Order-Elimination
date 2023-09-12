@@ -63,7 +63,7 @@ MonoBehaviour:
       Data: 4
     - Name: ValueModifier
       Entry: 7
-      Data: 3|OrderElimination.AbilitySystem.BinaryMathValueGetter, Assembly-CSharp
+      Data: 3|OrderElimination.AbilitySystem.MathValueGetter, Assembly-CSharp
     - Name: Left
       Entry: 7
       Data: 4|OrderElimination.AbilitySystem.TargetStatGetter, Assembly-CSharp
@@ -78,7 +78,7 @@ MonoBehaviour:
       Data: 
     - Name: Operation
       Entry: 3
-      Data: 1
+      Data: 0
     - Name: Right
       Entry: 7
       Data: 5|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
@@ -100,6 +100,9 @@ MonoBehaviour:
     - Name: UndoOnDeactivation
       Entry: 5
       Data: true
+    - Name: _instructionOnCallback
+      Entry: 6
+      Data: 
     - Name: _instructionOnSuccess
       Entry: 6
       Data: 
