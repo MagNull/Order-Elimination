@@ -31,6 +31,31 @@ namespace OrderElimination.AbilitySystem
             }
             _actionProcessor = new Lazy<EntityActionProcessor>(() => EntityActionProcessor.Create(this));
             _obstacle = new Lazy<BattleObstacle>(() => new BattleObstacle(obstacleSetup, this));
+            StatusHolder = new EntityStatusHolder();
+            StatusHolder.StatusAppeared += OnStatusAppeared;
+            StatusHolder.StatusDisappeared += OnStatusDisappeared;
+
+            void OnStatusAppeared(BattleStatus status)
+            {
+                if (status == BattleStatus.PassiveAbilitiesDisabled)
+                {
+                    foreach (var passiveAbility in PassiveAbilities)
+                    {
+                        passiveAbility.Deactivate();
+                    }
+                }
+            }
+
+            void OnStatusDisappeared(BattleStatus status)
+            {
+                if (status == BattleStatus.PassiveAbilitiesDisabled)
+                {
+                    foreach (var passiveAbility in PassiveAbilities)
+                    {
+                        passiveAbility.Activate(BattleContext, this);
+                    }
+                }
+            }
         }
 
         public EntityType EntityType { get; }
@@ -274,7 +299,7 @@ namespace OrderElimination.AbilitySystem
         }
         #endregion
 
-        public EntityStatusHolder StatusHolder { get; } = new EntityStatusHolder();
+        public EntityStatusHolder StatusHolder { get; }
 
         public EntityActionProcessor ActionProcessor => _actionProcessor.Value;
 

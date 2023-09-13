@@ -9,17 +9,19 @@ namespace OrderElimination.AbilitySystem
         public interface IPassiveExecutionActivationInfo
         {
             public IBattleContext ActivationContext { get; }
-            public AbilitySystemActor Caster { get; }
+            public AbilitySystemActor Owner { get; }
 
             public event Action<IPassiveExecutionActivationInfo> Triggered;
         }
 
         protected class PassiveExecutionActivationInfo : IPassiveExecutionActivationInfo
         {
+            private readonly IBattleAction[] _activationActions;
             private readonly IBattleTrigger[] _activationTriggers;
+            private List<IUndoableActionPerformResult> _undoablePerforms = new();
 
             public IBattleContext ActivationContext { get; }
-            public AbilitySystemActor Caster { get; }
+            public AbilitySystemActor Owner { get; }
             public bool HasBeenActivated { get; private set; } = false;
             public bool HasBeenDeactivated { get; private set; } = false;
 
@@ -27,11 +29,13 @@ namespace OrderElimination.AbilitySystem
 
             public PassiveExecutionActivationInfo(
                 IBattleContext context,
-                AbilitySystemActor caster,
+                AbilitySystemActor owner,
+                IEnumerable<IBattleAction> activationActions,
                 IEnumerable<IBattleTrigger> activationTriggers)
             {
                 ActivationContext = context;
-                Caster = caster;
+                Owner = owner;
+                _activationActions = activationActions.ToArray();
                 _activationTriggers = activationTriggers.ToArray();
                 foreach (var trigger in _activationTriggers)
                 {
@@ -39,10 +43,21 @@ namespace OrderElimination.AbilitySystem
                 }
             }
 
-            public void Activate()
+            public async void Activate()
             {
                 if (HasBeenActivated)
                     Logging.LogException(new InvalidOperationException("Has already been activated."));
+                var actionContext = new ActionContext(ActivationContext, null, Owner, Owner);
+                foreach (var action in _activationActions)
+                {
+                    //CallbackAction check
+                    //UndoableAction check
+                    var result = await action.ModifiedPerform(actionContext, false, false);
+                    if (result is IUndoableActionPerformResult undoableActionResult)
+                    {
+                        _undoablePerforms.Add(undoableActionResult);
+                    }
+                }
                 foreach (var trigger in _activationTriggers)
                 {
                     trigger.Activate();
@@ -54,6 +69,11 @@ namespace OrderElimination.AbilitySystem
             {
                 if (HasBeenDeactivated)
                     Logging.LogException( new InvalidOperationException("Has already been deactivated."));
+                foreach (var undoableActionPerform in _undoablePerforms)
+                {
+                    undoableActionPerform.ModifiedAction.Undo(undoableActionPerform.PerformId);
+                }
+                _undoablePerforms.Clear();
                 foreach (var trigger in _activationTriggers)
                 {
                     trigger.Deactivate();
@@ -68,21 +88,26 @@ namespace OrderElimination.AbilitySystem
             }
         }
 
+        public IBattleAction[] ActionsOnActivation { get; private set; }//actions with owner
         public ITriggerInstruction[] TriggerInstructions { get; private set; }
 
         public event Action<IPassiveExecutionActivationInfo> ExecutionTriggered;
 
-        public PassiveAbilityExecution(ITriggerInstruction[] triggerInstructions)
+        public PassiveAbilityExecution(
+            IBattleAction[] actionsOnActivation, ITriggerInstruction[] triggerInstructions)
         {
-            TriggerInstructions = triggerInstructions;
+            ActionsOnActivation = actionsOnActivation.ToArray();
+            TriggerInstructions = triggerInstructions.ToArray();
         }
 
-        public IPassiveExecutionActivationInfo Activate(IBattleContext battleContext, AbilitySystemActor caster)
+        public IPassiveExecutionActivationInfo Activate(
+            IBattleContext battleContext, AbilitySystemActor owner)
         {
             var activationInfo = new PassiveExecutionActivationInfo(
                 battleContext,
-                caster,
-                TriggerInstructions.Select(i => i.GetActivationTrigger(battleContext, caster)));
+                owner,
+                ActionsOnActivation,
+                TriggerInstructions.Select(i => i.GetActivationTrigger(battleContext, owner)));
             activationInfo.Triggered += OnTriggered;
             activationInfo.Activate();
             return activationInfo;

@@ -64,7 +64,9 @@ namespace OrderElimination.AbilitySystem
                 builderData.Icon,
                 builderData.Description,
                 builderData.HideInCharacterDescription);
-            var execution = new PassiveAbilityExecution(builderData.TriggerInstructions.ToArray());
+            var execution = new PassiveAbilityExecution(
+                builderData.ActionsOnActivation ?? new IBattleAction[0], 
+                builderData.TriggerInstructions ?? new ITriggerInstruction[0]);
             var gameRepresentation = AbilityGameRepresentation.FromPassiveAbility(
                 builderData.CooldownTime, execution);
             var abilityData = new PassiveAbilityData
