@@ -126,7 +126,7 @@ namespace OrderElimination.AbilitySystem
         [TabGroup("MainTabs", "Functionality", Order = 4), PropertyOrder(-96)]
         [OnInspectorInit("@$property.State.Expanded = true")]
         [ShowInInspector, OdinSerialize]
-        public AbilityInstruction[] AbilityInstructions;
+        public AbilityInstruction[] AbilityInstructions = new AbilityInstruction[0];
     }
 
     public enum TargetingSystemType

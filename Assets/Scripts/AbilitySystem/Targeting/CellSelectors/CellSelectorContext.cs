@@ -6,9 +6,9 @@ namespace OrderElimination.AbilitySystem
 {
     public class CellSelectorContext
     {
+        public IBattleContext BattleContext { get; }
         public AbilitySystemActor AskingEntity { get; }
         public Vector2Int[] SelectedCellPositions { get; }
-        public IBattleContext BattleContext { get; }
 
         public CellSelectorContext(
             IBattleContext battleContext,
