@@ -52,6 +52,12 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public bool HideInCharacterDescription { get; private set; }
 
+        [TabGroup("MainTabs", "Visuals"), PropertyOrder(10)]
+        [DictionaryDrawerSettings(KeyLabel = "Parameter Name", ValueLabel = "Value")]
+        [ShowInInspector, OdinSerialize]
+        private Dictionary<string, IContextValueGetter> _customParameters = new();
+        public IReadOnlyDictionary<string, IContextValueGetter> CustomParameters => _customParameters;
+
         [TabGroup("MainTabs", "Game Rules", Order = 1), PropertyOrder(-98)]
         [DictionaryDrawerSettings(KeyLabel = "Energy Point", ValueLabel = "Amount")]
         [ShowInInspector, OdinSerialize]

@@ -1,5 +1,7 @@
-﻿using OrderElimination.Infrastructure;
+﻿using OrderElimination.AbilitySystem.GameRepresentation;
+using OrderElimination.Infrastructure;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OrderElimination.AbilitySystem
@@ -10,6 +12,7 @@ namespace OrderElimination.AbilitySystem
         {
             var view = new ActiveAbilityView(
                 builderData.CellGroupsHighlightColors,
+                builderData.CustomParameters ?? new Dictionary<string, IContextValueGetter>(),
                 builderData.Name,
                 builderData.Icon,
                 builderData.Description,
