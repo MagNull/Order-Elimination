@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using OrderElimination.AbilitySystem.GameRepresentation;
+using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {

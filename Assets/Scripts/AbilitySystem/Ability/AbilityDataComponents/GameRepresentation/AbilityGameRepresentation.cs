@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace OrderElimination.AbilitySystem
+namespace OrderElimination.AbilitySystem.GameRepresentation
 {
     public class AbilityGameRepresentation : IAbilityGameRepresentation
     {
         private List<DamageRepresentation> _damageRepresentations = new();
+        private List<HealRepresentation> _healRepresentations = new();
         private List<AbilityEffectRepresentation> _effectRepresentations = new();
 
         public AbilityType AbilityType { get; private set; }
@@ -16,6 +17,8 @@ namespace OrderElimination.AbilitySystem
         public int? Duration { get; private set; }
         public IReadOnlyList<DamageRepresentation> DamageRepresentations
             => _damageRepresentations;
+        public IReadOnlyList<HealRepresentation> HealRepresentations
+            => _healRepresentations;
         public IReadOnlyList<AbilityEffectRepresentation> EffectRepresentations
             => _effectRepresentations;
 
@@ -58,7 +61,12 @@ namespace OrderElimination.AbilitySystem
                 _damageRepresentations.Add(
                     new(affectedEntities, damageAction, localRepetitions, totalRepetitions));
             }
-            if (instruction.Action is ApplyEffectAction effectAction)
+            else if (instruction.Action is HealAction healAction)
+            {
+                _healRepresentations.Add(
+                    new(affectedEntities, healAction, localRepetitions, totalRepetitions));
+            }
+            else if (instruction.Action is ApplyEffectAction effectAction)
             {
                 _effectRepresentations.Add(new(effectAction.Effect, effectAction.ApplyChance));
             }
