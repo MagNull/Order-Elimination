@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using GameInventory.Items;
 using OrderElimination;
 using OrderElimination.Events;
+using OrderElimination.MacroGame;
 using RoguelikeMap.UI.PointPanels;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -18,6 +19,8 @@ namespace Events
         [SerializeField]
         private List<CharacterTemplate> _enemies;
 
+        [field: SerializeField] 
+        public BattleScenario Scenario { get; private set; }
         [field: SerializeField]
         public SerializedDictionary<ItemData, float> ItemsDropProbability { get; private set; }
 

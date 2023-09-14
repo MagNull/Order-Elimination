@@ -1,4 +1,6 @@
-﻿namespace OrderElimination.AbilitySystem
+﻿using OrderElimination.AbilitySystem.GameRepresentation;
+
+namespace OrderElimination.AbilitySystem
 {
     public class PassiveAbilityData : IPassiveAbilityData
     {

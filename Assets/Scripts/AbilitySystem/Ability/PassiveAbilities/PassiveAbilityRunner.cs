@@ -22,19 +22,19 @@ namespace OrderElimination.AbilitySystem
         //public event Action<ActiveAbilityRunner> AbilityCasted;
         //public event Action<ActiveAbilityRunner> AbilityCastCompleted;
 
-        public void Activate(IBattleContext battleContext, AbilitySystemActor caster)
+        public void Activate(IBattleContext battleContext, AbilitySystemActor owner)
         {
             if (IsActive)
-                Logging.LogException(
-                    new InvalidOperationException("Passive Ability Runner has already been activated."));
+                Logging.LogException(new InvalidOperationException("Passive Ability Runner has already been activated."));
             AbilityData.Execution.ExecutionTriggered += OnExecutionTriggered;
-            _currentActivationInfo = AbilityData.Execution.Activate(battleContext, caster);
+            _currentActivationInfo = AbilityData.Execution.Activate(battleContext, owner);
             IsActive = true;
         }
 
         public void Deactivate()
         {
-            if (!IsActive) Logging.LogException(new InvalidOperationException("Passive Ability Runner is not active."));
+            if (!IsActive) 
+                Logging.LogException(new InvalidOperationException("Passive Ability Runner is not active."));
             AbilityData.Execution.Dectivate(_currentActivationInfo);
             AbilityData.Execution.ExecutionTriggered -= OnExecutionTriggered;
             IsActive = false;
@@ -61,7 +61,7 @@ namespace OrderElimination.AbilitySystem
             {
                 Cooldown = 0;
                 battleContext.NewRoundBegan -= OnNewRound;
-                Activate(_currentActivationInfo.ActivationContext, _currentActivationInfo.Caster);
+                Activate(_currentActivationInfo.ActivationContext, _currentActivationInfo.Owner);
             }
         }
     }

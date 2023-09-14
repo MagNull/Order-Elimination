@@ -69,16 +69,15 @@ namespace OrderElimination.AbilitySystem
         {
             var calculationContext = ValueCalculationContext.Full(useContext);
             var accuracy = Accuracy.GetValue(calculationContext);
-            var evasion = IgnoreEvasion || !useContext.ActionTarget.BattleStats.HasParameter(BattleStat.Evasion)
-                ? 0
-                : useContext.ActionTarget.BattleStats[BattleStat.Evasion].ModifiedValue;
+            var evasion = useContext.ActionTarget.BattleStats[BattleStat.Evasion].ModifiedValue;
             var hitResult = useContext.BattleContext.BattleRules.HitCalculation.CalculateHitResult(accuracy, evasion);
             var animationContext = new AnimationPlayContext(
                 useContext.AnimationSceneContext,
                 useContext.CellTargetGroups,
                 useContext.ActionMaker,
                 useContext.ActionTarget);
-            if (hitResult == HitResult.Success)
+            if (hitResult == HitResult.Success
+                || hitResult == HitResult.Evasion && IgnoreEvasion)
             {
                 var damageInfo = CalculateDamage(useContext);
                 useContext.ActionTarget.TakeDamage(damageInfo);

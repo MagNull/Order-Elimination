@@ -1,7 +1,7 @@
 ﻿using OrderElimination.Infrastructure;
 using System.Collections.Generic;
 
-namespace OrderElimination.AbilitySystem
+namespace OrderElimination.AbilitySystem.GameRepresentation
 {
     public interface IAbilityGameRepresentation
     {
@@ -10,6 +10,7 @@ namespace OrderElimination.AbilitySystem
         public TargetingSystemRepresentation TargetingSystem { get; }
         public float? MaxRange { get; }
         public IReadOnlyList<DamageRepresentation> DamageRepresentations { get; }
+        public IReadOnlyList<HealRepresentation> HealRepresentations { get; }
         //public EnumMask<AbilityRole> Attack/Heal/Move/Other
         public IReadOnlyList<AbilityEffectRepresentation> EffectRepresentations { get; }
     }
