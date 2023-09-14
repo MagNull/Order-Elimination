@@ -64,7 +64,7 @@ namespace OrderElimination.AbilitySystem
 
         [TabGroup("MainSection", "Execution")]
         [BoxGroup("MainSection/Execution/Action", CenterLabel = true)]
-        [PropertySpace(SpaceBefore = 0, SpaceAfter = 5)]
+        [PropertySpace(SpaceBefore = 5, SpaceAfter = 5)]
         [ShowInInspector, OdinSerialize]
         public int RepeatNumber //TODO: Rename to Repetitions, place serialization on field
         {
