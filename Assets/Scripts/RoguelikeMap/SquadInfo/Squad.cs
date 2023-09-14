@@ -98,8 +98,8 @@ namespace RoguelikeMap.SquadInfo
 
         public async Task Visit(PointModel pointModel)
         {
-            UpdatePoint(pointModel);
             await MoveAnimation(pointModel.position);
+            UpdatePoint(pointModel);
         }
         
         private void UpdatePoint(PointModel pointModel)

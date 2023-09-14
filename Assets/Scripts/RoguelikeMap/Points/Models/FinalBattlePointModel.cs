@@ -25,6 +25,7 @@ namespace RoguelikeMap.Points.Models
         private SerializedDictionary<ItemData, float> _itemsDropProbability;
 
         private List<GameCharacter> _enemiesGameCharacter;
+        private Squad _squad;
 
         protected BattlePanel Panel => _panel as BattlePanel;
 
@@ -34,14 +35,21 @@ namespace RoguelikeMap.Points.Models
 
         public Dictionary<ItemData, float> ItemsDropProbability => _itemsDropProbability;
 
-        public override async Task Visit(Squad squad)
+        public override void ShowPreview(Squad squad)
         {
+            _squad = squad;
             squad.OnUpdateMembers -= Panel.UpdateAlliesOnMap;
             squad.OnUpdateMembers += Panel.UpdateAlliesOnMap;
-            await base.Visit(squad);
             _enemiesGameCharacter = GameCharactersFactory.CreateGameCharacters(Enemies).ToList();
+            Panel.OnAccepted += MoveToPoint;
             Panel.Initialize(_battleScenario, _enemiesGameCharacter, squad.Members); //TODO: Store GameCharacters
             Panel.Open();
+        }
+
+        private void MoveToPoint()
+        {
+            Panel.OnAccepted -= MoveToPoint;
+            _squad.Visit(this);
         }
     }
 }

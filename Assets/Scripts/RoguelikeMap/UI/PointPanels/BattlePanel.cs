@@ -20,7 +20,8 @@ namespace RoguelikeMap.UI.PointPanels
 
         private List<CharacterTemplate> _enemies;
         private CharacterInfoPanel _characterInfoPanel;
-        public event Action OnStartAttack;
+        
+        public event Action OnAccepted;
         
         [Inject]
         public void Construct(CharacterInfoPanel characterInfoPanel)
@@ -51,11 +52,10 @@ namespace RoguelikeMap.UI.PointPanels
             _scenarioVisualiser.SetActiveAlliesCells(false);
             _scenarioVisualiser.UpdateCharactersCells(allies);
         }
-            
 
         public void OnClickAttackButton()
         {
-            OnStartAttack?.Invoke();
+            OnAccepted?.Invoke();
             _scenarioVisualiser.SetActiveCells(false);
             base.Close();
         }
