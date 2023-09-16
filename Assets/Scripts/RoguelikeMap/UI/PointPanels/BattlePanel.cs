@@ -20,8 +20,9 @@ namespace RoguelikeMap.UI.PointPanels
 
         private List<CharacterTemplate> _enemies;
         private CharacterInfoPanel _characterInfoPanel;
+        private int _pointIndex;
         
-        public event Action OnAccepted;
+        public event Action<int> OnAccepted;
         
         [Inject]
         public void Construct(CharacterInfoPanel characterInfoPanel)
@@ -29,8 +30,8 @@ namespace RoguelikeMap.UI.PointPanels
             _characterInfoPanel = characterInfoPanel;
         }
         
-        public void Initialize(BattleScenario battleScenario, 
-            IReadOnlyList<GameCharacter> enemies, IReadOnlyList<GameCharacter> allies)
+        public void Initialize(BattleScenario battleScenario, IReadOnlyList<GameCharacter> enemies,
+            IReadOnlyList<GameCharacter> allies, int pointIndex)
         {
             foreach (var enemy in enemies)
             {
@@ -39,6 +40,7 @@ namespace RoguelikeMap.UI.PointPanels
                 characterCard.OnClicked += ShowCharacterInfo;
             }
             _scenarioVisualiser.Initialize(battleScenario, enemies, allies);
+            _pointIndex = pointIndex;
         }
 
         private void ShowCharacterInfo(CharacterCard card)
@@ -55,7 +57,7 @@ namespace RoguelikeMap.UI.PointPanels
 
         public void OnClickAttackButton()
         {
-            OnAccepted?.Invoke();
+            OnAccepted?.Invoke(_pointIndex);
             _scenarioVisualiser.SetActiveCells(false);
             base.Close();
         }

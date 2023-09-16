@@ -44,7 +44,7 @@ namespace RoguelikeMap.Points
             Model = model;
             Model.OnChangeActivity += SetActive;
             _icon.sprite = model.Sprite;
-            Model.SetPanel(_panelManager);
+            Model.SetPanel(_panelManager, _transferPanel);
             Model.SetIndex(index);
             _pathView = Instantiate(_pathPrefab, transform);
         }

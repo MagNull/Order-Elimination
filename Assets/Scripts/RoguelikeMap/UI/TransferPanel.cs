@@ -1,5 +1,5 @@
 ﻿using System;
-using RoguelikeMap.Points;
+using RoguelikeMap.Points.Models;
 using TMPro;
 using UnityEngine;
 
@@ -9,21 +9,22 @@ namespace RoguelikeMap.UI
     {
         [SerializeField]
         private TMP_Text _text;
-        private Point _point;
-        
-        public event Action<Point> OnAcceptClick;
 
-        public void Initialize(Point point)
+        private int _pointIndex;
+        
+        public event Action<int> OnAccept;
+
+        public void Initialize(PointModel pointModel)
         {
-            _point = point;
-            _text.text = point.Model.TransferText;
+            _text.text = pointModel.TransferText;
+            _pointIndex = pointModel.Index;
             Open();
         }
         
         public void AcceptClick()
         {
             Close();
-            OnAcceptClick?.Invoke(_point);
+            OnAccept?.Invoke(_pointIndex);
         }
     }
 }

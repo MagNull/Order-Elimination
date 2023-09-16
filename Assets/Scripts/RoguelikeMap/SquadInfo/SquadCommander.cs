@@ -11,6 +11,7 @@ using RoguelikeMap.Points;
 using RoguelikeMap.Points.Models;
 using RoguelikeMap.UI.Characters;
 using RoguelikeMap.UI.PointPanels;
+using UnityEngine;
 using VContainer;
 
 namespace RoguelikeMap.SquadInfo
@@ -84,6 +85,7 @@ namespace RoguelikeMap.SquadInfo
         private void StartAttack(
             IEnumerable<IGameCharacterTemplate> enemies, BattleScenario scenario, Dictionary<ItemData, float> items)
         {
+            Debug.Log("StartAttack");
             _squadMembersPanel.OnSelected -= WereSelectedMembers;
             var enemyCharacters = GameCharactersFactory.CreateGameCharacters(enemies);
             var mediator = _objectResolver.Resolve<ScenesMediator>();

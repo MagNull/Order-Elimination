@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using OrderElimination;
 using RoguelikeMap.Panels;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI;
@@ -22,15 +21,18 @@ namespace RoguelikeMap.Points.Models
         [field: SerializeField]
         public string TransferText { get; private set; }
         
-        protected Panel _panel;
+        protected Panel panel;
+        protected TransferPanel transferPanel;
+        
         public virtual PointType Type => PointType.None;
         public int Index { get; private set; }
         
         public event Action<bool> OnChangeActivity;
 
-        public virtual void ShowPreview(Squad squad) => 
-            Logging.LogException(
-                new NotImplementedException("ShowPreviewPoint is not implemented in PointModel"));
+        public virtual void ShowPreview(Squad squad)
+        {
+            transferPanel.Initialize(this);
+        }
         
         public virtual async Task Visit(Squad squad)
         {
@@ -38,8 +40,12 @@ namespace RoguelikeMap.Points.Models
         }
 
         public void SetIndex(int index) => Index = index;
-        
-        public void SetPanel(PanelManager panelManager) => _panel = panelManager.GetPanelByPointInfo(Type);
+
+        public void SetPanel(PanelManager panelManager, TransferPanel transferPanel)
+        {
+            panel = panelManager.GetPanelByPointInfo(Type);
+            this.transferPanel = transferPanel;
+        }
 
         public IEnumerable<PointModel> GetNextPoints()
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GameInventory.Items;
@@ -6,7 +7,6 @@ using OrderElimination;
 using OrderElimination.MacroGame;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI.PointPanels;
-using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -27,12 +27,13 @@ namespace RoguelikeMap.Points.Models
         private List<GameCharacter> _enemiesGameCharacter;
         private Squad _squad;
 
-        protected BattlePanel Panel => _panel as BattlePanel;
+        protected BattlePanel Panel => panel as BattlePanel;
 
         public override PointType Type => PointType.Battle;
         public IReadOnlyList<IGameCharacterTemplate> Enemies => _enemies;
         public BattleScenario Scenario => _battleScenario;
 
+        private Func<Task> _myTask;
         public Dictionary<ItemData, float> ItemsDropProbability => _itemsDropProbability;
 
         public override void ShowPreview(Squad squad)
@@ -41,15 +42,13 @@ namespace RoguelikeMap.Points.Models
             squad.OnUpdateMembers -= Panel.UpdateAlliesOnMap;
             squad.OnUpdateMembers += Panel.UpdateAlliesOnMap;
             _enemiesGameCharacter = GameCharactersFactory.CreateGameCharacters(Enemies).ToList();
-            Panel.OnAccepted += MoveToPoint;
-            Panel.Initialize(_battleScenario, _enemiesGameCharacter, squad.Members); //TODO: Store GameCharacters
+            Panel.Initialize(_battleScenario, _enemiesGameCharacter, squad.Members, Index); //TODO: Store GameCharacters
             Panel.Open();
         }
 
-        private void MoveToPoint()
+        public override async Task Visit(Squad squad)
         {
-            Panel.OnAccepted -= MoveToPoint;
-            _squad.Visit(this);
+            await squad.Visit(this);
         }
     }
 }

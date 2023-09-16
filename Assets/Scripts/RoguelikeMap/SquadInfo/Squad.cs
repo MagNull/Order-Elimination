@@ -5,6 +5,7 @@ using DG.Tweening;
 using OrderElimination;
 using OrderElimination.MacroGame;
 using RoguelikeMap.Points.Models;
+using RoguelikeMap.UI;
 using RoguelikeMap.UI.Characters;
 using Sirenix.OdinInspector;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
@@ -35,6 +36,7 @@ namespace RoguelikeMap.SquadInfo
         public IReadOnlyList<GameCharacter> Members => _model.Members;
         public IReadOnlyList<GameCharacter> ActiveMembers => _model.ActiveMembers;
         public event Action<IReadOnlyList<GameCharacter>> OnUpdateMembers;
+        public event Action<int> OnVisitPoint;
         
         [Inject]
         private void Construct(SquadCommander commander, 
@@ -100,6 +102,7 @@ namespace RoguelikeMap.SquadInfo
         {
             await MoveAnimation(pointModel.position);
             UpdatePoint(pointModel);
+            OnVisitPoint?.Invoke(pointModel.Index);
         }
         
         private void UpdatePoint(PointModel pointModel)
