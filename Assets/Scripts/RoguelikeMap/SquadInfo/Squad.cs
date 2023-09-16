@@ -89,6 +89,9 @@ namespace RoguelikeMap.SquadInfo
         private void SetSquadMembers(List<GameCharacter> squadMembers, int countActiveMembers)
         {
             _model.SetSquadMembers(squadMembers, countActiveMembers);
+            if(_mediator.Contains<GameCharacter[]>("player characters"))
+                _mediator.Unregister("player characters");
+            _mediator.Register("player characters", Members);
             OnUpdateMembers?.Invoke(ActiveMembers);
         }
 
