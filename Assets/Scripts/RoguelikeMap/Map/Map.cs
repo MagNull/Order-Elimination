@@ -82,15 +82,15 @@ namespace RoguelikeMap.Map
             if (!isAnimation)
                 _squad.MoveWithoutAnimation(point.Model.position);
             else if (_mediator.Contains<BattleResults>("battle results")
-                     && _mediator.Get<BattleResults>("battle results").BattleOutcome is BattleOutcome.Win)
+                     && _mediator.Get<BattleResults>("battle results").BattleOutcome is BattleOutcome.Win
+                     && point.Model is FinalBattlePointModel)
             {
-                if (point.Model is FinalBattlePointModel and not BattlePointModel)
+                if (point.Model is not BattlePointModel)
                 {
                     GameEnd();
                     return;
                 }
                 _squad.MoveWithoutAnimation(point.Model.position);
-                _mediator.Unregister("battle results");
             }
             else
                 await point.Visit(_squad);
