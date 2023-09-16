@@ -5,6 +5,7 @@ using OrderElimination;
 using OrderElimination.Battle;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
+using RoguelikeMap.Points.Models;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI;
 using RoguelikeMap.UI.PointPanels;
@@ -83,6 +84,11 @@ namespace RoguelikeMap.Map
             else if (_mediator.Contains<BattleResults>("battle results")
                      && _mediator.Get<BattleResults>("battle results").BattleOutcome is BattleOutcome.Win)
             {
+                if (point.Model is FinalBattlePointModel && point.Model is not BattlePointModel)
+                {
+                    GameEnd();
+                    return;
+                }
                 _squad.MoveWithoutAnimation(point.Model.position);
                 _mediator.Unregister("battle results");
             }
@@ -110,6 +116,12 @@ namespace RoguelikeMap.Map
                 return;
             foreach(var point in nextPoints)
                 point.SetActive(true);
+        }
+
+        public void GameEnd()
+        {
+            _victoryPanel.Open();
+            Destroy(_mediator.gameObject);
         }
 
         public void OnDestroy()
