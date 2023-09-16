@@ -18,7 +18,6 @@ namespace RoguelikeMap.UI
         {
             _text.text = pointModel.TransferText;
             _pointIndex = pointModel.Index;
-            Open();
         }
         
         public void AcceptClick()

@@ -84,7 +84,7 @@ namespace RoguelikeMap.Map
             else if (_mediator.Contains<BattleResults>("battle results")
                      && _mediator.Get<BattleResults>("battle results").BattleOutcome is BattleOutcome.Win)
             {
-                if (point.Model is FinalBattlePointModel && point.Model is not BattlePointModel)
+                if (point.Model is FinalBattlePointModel and not BattlePointModel)
                 {
                     GameEnd();
                     return;

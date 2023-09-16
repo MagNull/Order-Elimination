@@ -32,6 +32,8 @@ namespace RoguelikeMap.Points.Models
         public virtual void ShowPreview(Squad squad)
         {
             transferPanel.Initialize(this);
+            if(!transferPanel.IsOpen)
+                transferPanel.Open();
         }
         
         public virtual async Task Visit(Squad squad)

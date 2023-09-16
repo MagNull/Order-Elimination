@@ -19,6 +19,7 @@ namespace RoguelikeMap.UI.PointPanels
         private BattleScenarioVisualiser _scenarioVisualiser;
 
         private List<CharacterTemplate> _enemies;
+        private List<CharacterCard> _cards = new();
         private CharacterInfoPanel _characterInfoPanel;
         private int _pointIndex;
         
@@ -33,14 +34,24 @@ namespace RoguelikeMap.UI.PointPanels
         public void Initialize(BattleScenario battleScenario, IReadOnlyList<GameCharacter> enemies,
             IReadOnlyList<GameCharacter> allies, int pointIndex)
         {
+            if (_cards.Count != 0)
+                Clear();
             foreach (var enemy in enemies)
             {
                 var characterCard = Instantiate(_characterCardPrefab, _characterParent);
                 characterCard.InitializeCard(enemy, false);
                 characterCard.OnClicked += ShowCharacterInfo;
+                _cards.Add(characterCard);
             }
             _scenarioVisualiser.Initialize(battleScenario, enemies, allies);
             _pointIndex = pointIndex;
+        }
+
+        private void Clear()
+        {
+            foreach(var card in _cards)
+                Destroy(card.gameObject);
+            _cards.Clear();
         }
 
         private void ShowCharacterInfo(CharacterCard card)
