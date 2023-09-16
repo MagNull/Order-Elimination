@@ -1,6 +1,5 @@
-using System;
+using Cinemachine;
 using DG.Tweening;
-using RoguelikeMap.Points.Models;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,9 +20,17 @@ namespace RoguelikeMap.UI
         private PanelOpeningType _openingType = PanelOpeningType.None;
         private Vector3? _localScale;
         [SerializeField, ShowIf("_openingType", PanelOpeningType.Shift)]
-        private float _startShiftPosition = 0f;
+        private bool _isHaveCameraShift;
+        [SerializeField, ShowIf("_isHaveCameraShift")]
+        private CinemachineVirtualCamera _camera;
         [SerializeField, ShowIf("_openingType", PanelOpeningType.Shift)]
-        private float _endShiftPosition = 0f;
+        private CanvasScaler _canvasScaler;
+        [SerializeField, ShowIf("_openingType", PanelOpeningType.Shift)]
+        private float _shift;
+
+        private float _scaleRatio;
+        private CinemachineTransposer _transposer;
+        
         public bool IsOpen { get; private set; }
         
         public virtual void Open()
@@ -84,7 +91,23 @@ namespace RoguelikeMap.UI
 
         private void OpenWithShift()
         {
-            transform.DOMoveX(_endShiftPosition, _windowOpeningTime);
+            if(_scaleRatio is default(float))
+                InitializeCanvasSettings();
+
+            var a = Screen.width - _shift * _scaleRatio;
+            transform.DOMoveX(a, _windowOpeningTime);
+            if(_isHaveCameraShift)
+                DoCameraShift();
+        }
+
+        private void DoCameraShift()
+        {
+            _transposer ??= _camera.GetCinemachineComponent<CinemachineTransposer>();
+            
+            DOTween.To(() => _transposer.m_FollowOffset.x, 
+                    x => _transposer.m_FollowOffset.x = x, IsOpen ? 400 : 800,
+                    _windowOpeningTime)
+                .SetEase(_windowOpeningEase);
         }
 
         private void CloseWithScale()
@@ -97,7 +120,25 @@ namespace RoguelikeMap.UI
 
         private void CloseWithShift()
         {
-            transform.DOMoveX(_startShiftPosition, _windowOpeningTime);
+            if(_scaleRatio is default(float))
+                InitializeCanvasSettings();
+            
+            var a = Screen.width + _shift * _scaleRatio;
+            transform.DOMoveX(Screen.width + _shift * _scaleRatio, _windowOpeningTime);
+            if(_isHaveCameraShift)
+                DoCameraShift();
+        }
+        
+        private void InitializeCanvasSettings()
+        {
+            if (_openingType is not PanelOpeningType.Shift)
+                return;
+            float canvasWidth = _canvasScaler.referenceResolution.x;
+            float canvasHeight = _canvasScaler.referenceResolution.y;
+
+            _scaleRatio = _canvasScaler.matchWidthOrHeight > 0.5f 
+                ? Screen.width / canvasWidth 
+                : Screen.height / canvasHeight;
         }
 
         private void CloseWithoutAnimation()
