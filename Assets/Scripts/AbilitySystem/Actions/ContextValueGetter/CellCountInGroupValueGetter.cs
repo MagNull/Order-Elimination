@@ -1,14 +1,21 @@
 ﻿using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using System;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class CellCountInGroupValueGetter : IContextValueGetter
+    [Serializable]
+    public struct CellCountInGroupValueGetter : IContextValueGetter
     {
         [ShowInInspector, OdinSerialize]
         public int CellGroupId { get; set; }
 
         public string DisplayedFormula => $"CellsCount[{CellGroupId}]";
+
+        public bool CanBePrecalculatedWith(ValueCalculationContext context)
+        {
+            return context.CellTargetGroups != null;
+        }
 
         public IContextValueGetter Clone()
         {
@@ -17,9 +24,9 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public float GetValue(ActionContext useContext)
+        public float GetValue(ValueCalculationContext context)
         {
-            var cellGroups = useContext.TargetCellGroups;
+            var cellGroups = context.CellTargetGroups;
             if (!cellGroups.ContainsGroup(CellGroupId))
                 return 0;
             return cellGroups.GetGroup(CellGroupId).Length;

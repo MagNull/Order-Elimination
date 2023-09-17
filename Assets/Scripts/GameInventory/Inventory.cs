@@ -59,8 +59,9 @@ namespace GameInventory
                 return;
             }
 
-            OnCellRemoved?.Invoke(_cells[indexOfItem]);
+            var removedCell = _cells[indexOfItem];
             _cells.RemoveAt(indexOfItem);
+            OnCellRemoved?.Invoke(removedCell);
         }
 
         public List<Item> GetItems()

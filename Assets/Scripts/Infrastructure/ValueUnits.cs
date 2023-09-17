@@ -4,6 +4,7 @@
     {
         None,
         Percents,
+        Multiplier,
         Cells,
         Rounds,
         Turns,

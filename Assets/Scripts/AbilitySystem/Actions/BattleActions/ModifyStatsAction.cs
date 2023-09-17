@@ -3,10 +3,6 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEditor;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -67,6 +63,7 @@ namespace OrderElimination.AbilitySystem
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
+            var calculationContext = ValueCalculationContext.Full(useContext);
             var statParameter = useContext.ActionTarget.BattleStats[TargetBattleStat];
             statParameter.AddProcessor(ProcessValue);
             var performId = _processorsByPerformId.Count;
@@ -75,7 +72,7 @@ namespace OrderElimination.AbilitySystem
             _resultsByPerformId.Add(result);
             return result;
 
-            float ProcessValue(float v) => ValueModifier.GetValue(useContext);
+            float ProcessValue(float v) => ValueModifier.GetValue(calculationContext);
         }
     }
 }

@@ -15,9 +15,6 @@ namespace UIManagement
         private AbilityButton[] _activeAbilityButtons;
 
         [SerializeField]
-        private AbilityButton _itemAbilityButton;
-
-        [SerializeField]
         private UIController _panelController;
 
         [SerializeField]
@@ -32,7 +29,7 @@ namespace UIManagement
 
         private void OnEnable()
         {
-            foreach (var abilityButton in _activeAbilityButtons.Append(_itemAbilityButton))
+            foreach (var abilityButton in _activeAbilityButtons)
             {
                 abilityButton.Clicked += OnAbilityButtonClicked;
                 abilityButton.Holded += OnActiveAbilityButtonHolded;
@@ -41,7 +38,7 @@ namespace UIManagement
 
         private void OnDisable()
         {
-            foreach (var button in _activeAbilityButtons.Append(_itemAbilityButton))
+            foreach (var button in _activeAbilityButtons)
             {
                 button.Clicked -= OnAbilityButtonClicked;
                 button.Holded -= OnActiveAbilityButtonHolded;
@@ -52,34 +49,25 @@ namespace UIManagement
             AbilitySystemActor caster,
             ActiveAbilityRunner[] activeAbilities)
         {
-            if (activeAbilities.Length > _activeAbilityButtons.Append(_itemAbilityButton).Count())
-                Logging.LogException(new ArgumentException());
+            if (activeAbilities.Length > _activeAbilityButtons.Length)
+                Logging.LogException(new ArgumentException("Abilities count is greater than can be displayed."));
             ResetAbilityButtons();
             _caster = caster;
             _battleContext = caster.BattleContext;
             for (var i = 0; i < activeAbilities.Length; i++)
             {
                 var ability = activeAbilities[i];
-                if (activeAbilities[i].AbilityProvider == AbilityProvider.Equipment)
-                {
-                    _itemAbilityButton.AssignAbiility(ability);
-                    _itemAbilityButton.HoldableButton.ClickAvailable = true;
-                    _itemAbilityButton.HoldableButton.HoldAvailable = true;
-                }
-                else
-                {
-                    _activeAbilityButtons[i].AssignAbiility(ability);
-                    _activeAbilityButtons[i].HoldableButton.ClickAvailable = true;
-                    _activeAbilityButtons[i].HoldableButton.HoldAvailable = true;
-                    _activeAbilityButtons[i].CooldownTimer.SetValue(CalculateCooldown(ability, _battleContext), 0);
-                }
+                _activeAbilityButtons[i].AssignAbiility(ability);
+                _activeAbilityButtons[i].HoldableButton.ClickAvailable = true;
+                _activeAbilityButtons[i].HoldableButton.HoldAvailable = true;
+                _activeAbilityButtons[i].CooldownTimer.SetValue(CalculateCooldown(ability, _battleContext), 0);
             }
             UpdateAbilityButtonsAvailability();
         }
 
         public void ResetAbilityButtons()
         {
-            foreach (var abilityButton in _activeAbilityButtons.Append(_itemAbilityButton))
+            foreach (var abilityButton in _activeAbilityButtons)
             {
                 if (abilityButton.AbilityRunner != null)
                 {
@@ -94,7 +82,7 @@ namespace UIManagement
 
         public void UpdateAbilityButtonsAvailability()
         {
-            foreach (var button in _activeAbilityButtons.Append(_itemAbilityButton))
+            foreach (var button in _activeAbilityButtons)
             {
                 if (button.AbilityRunner == null)
                 {
@@ -111,7 +99,7 @@ namespace UIManagement
 
         private void OnAbilityUsed(ActiveAbilityRunner ability)
         {
-            foreach (var button in _activeAbilityButtons.Append(_itemAbilityButton))
+            foreach (var button in _activeAbilityButtons)
                 TryDeselectButton(button);
             UpdateAbilityButtonsAvailability();
         }
@@ -141,7 +129,7 @@ namespace UIManagement
 
         private void OnAbilityButtonClicked(AbilityButton abilityButton)
         {
-            foreach (var otherButton in _activeAbilityButtons.Append(_itemAbilityButton).Where(b => b != abilityButton))
+            foreach (var otherButton in _activeAbilityButtons.Where(b => b != abilityButton))
             {
                 TryDeselectButton(otherButton);
             }
@@ -173,7 +161,8 @@ namespace UIManagement
         private void OnActiveAbilityButtonHolded(AbilityButton abilityButton)
         {
             var panel = (AbilityDescriptionPanel)_panelController.OpenPanel(PanelType.AbilityDescription);
-            panel.UpdateAbilityData(abilityButton.AbilityRunner.AbilityData);
+            var calculationContext = ValueCalculationContext.ForBattleCaster(_battleContext, _caster);
+            panel.UpdateAbilityData(abilityButton.AbilityRunner.AbilityData, calculationContext);
         }
 
         private void OnPassiveAbilityButtonClicked(SmallAbilityButton skillButton)

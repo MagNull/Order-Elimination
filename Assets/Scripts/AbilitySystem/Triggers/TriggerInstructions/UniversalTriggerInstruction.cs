@@ -8,17 +8,22 @@ namespace OrderElimination.AbilitySystem
 {
     public class UniversalTriggerInstruction : ITriggerInstruction
     {
+        [VerticalGroup("TriggerSection", PaddingBottom = 10)]
+        [BoxGroup("TriggerSection/Trigger", ShowLabel = false)]
         [ValidateInput(
             "@!(" + nameof(TriggerSetup) + " is " + nameof(IEntityTriggerSetup) + ")", 
             "*Will track Caster's condition.")]
         [ShowInInspector, OdinSerialize]
         public ITriggerSetup TriggerSetup { get; private set; }
 
-        [ShowInInspector, OdinSerialize]
-        public ICellGroupsDistributor GroupDistributor { get; private set; }
-
+        [VerticalGroup("RulesSection", PaddingBottom = 10)]
         [ShowInInspector, OdinSerialize]
         public ICommonCondition[] CommonConditions { get; private set; }
+
+        [VerticalGroup("RulesSection")]
+        [BoxGroup("RulesSection/Distributor", ShowLabel = false)]
+        [ShowInInspector, OdinSerialize]
+        public ICellGroupsDistributor GroupDistributor { get; private set; }
 
         [ShowInInspector, OdinSerialize]
         public AbilityInstruction[] Instructions { get; private set; }

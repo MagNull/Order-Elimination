@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OrderElimination.AbilitySystem;
 using OrderElimination.MacroGame;
-using RoguelikeMap.Panels;
-using RoguelikeMap.Points;
+using RoguelikeMap.Points.Models;
 using RoguelikeMap.UI.Characters;
 using UnityEngine;
 

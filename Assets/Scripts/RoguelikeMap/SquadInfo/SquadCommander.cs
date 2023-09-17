@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Events;
+using GameInventory.Items;
 using OrderElimination;
 using OrderElimination.Battle;
 using OrderElimination.MacroGame;
@@ -19,7 +21,6 @@ namespace RoguelikeMap.SquadInfo
         private PointModel _target;
         private Squad _squad;
         private SquadMembersPanel _squadMembersPanel;
-        private ScenesMediator _mediator;
 
         public BattleOutcome? BattleOutcome { get; private set; } = null;
         public PointModel Target => _target;
@@ -28,21 +29,13 @@ namespace RoguelikeMap.SquadInfo
         public event Action<int> OnHealAccept;
 
         [Inject]
-        public SquadCommander(IObjectResolver objectResolver, ScenesMediator mediator,
-            PanelManager panelManager, SquadMembersPanel squadMembersPanel)
+        public SquadCommander(IObjectResolver objectResolver, PanelManager panelManager,
+            SquadMembersPanel squadMembersPanel)
         {
             _objectResolver = objectResolver;
             SubscribeToEvents(panelManager);
             _squadMembersPanel = squadMembersPanel;
-            _mediator = mediator;
             squadMembersPanel.OnSelected += WereSelectedMembers;
-        }
-
-        public void Start()
-        {
-            if (!_mediator.Contains<BattleResults>("battle results"))
-                return;
-            BattleOutcome = _mediator.Get<BattleResults>("battle results").BattleOutcome;
         }
 
         public void SetSquad(Squad squad)
@@ -69,27 +62,28 @@ namespace RoguelikeMap.SquadInfo
 
         private void StartAttackByBattlePoint()
         {
-            if (_target is not BattlePointModel battlePointModel)
+            if (_target is not FinalBattlePointModel battlePointModel)
             {
-                Logging.LogException( new ArgumentException("Is not valid point to attack"));
+                Logging.LogException(new ArgumentException("Is not valid point to attack"));
                 throw new ArgumentException("Is not valid point to attack");
             }
-            StartAttack(battlePointModel.Enemies, battlePointModel.Scenario, battlePointModel.ItemsCount);
+
+            StartAttack(battlePointModel.Enemies, battlePointModel.Scenario, battlePointModel.ItemsDropProbability);
         }
-        
+
         private void StartAttackByEventPoint(BattleNode battleNode)
         {
             if (_target is not EventPointModel eventPointModel)
             {
-                Logging.LogException( new ArgumentException("Is not valid point to attack"));
+                Logging.LogException(new ArgumentException("Is not valid point to attack"));
                 throw new ArgumentException("Is not valid point to attack");
-
             }
-            StartAttack(battleNode.Enemies, eventPointModel.Scenario, battleNode.CountItems);
+
+            StartAttack(battleNode.Enemies, eventPointModel.Scenario, battleNode.ItemsDropProbability);
         }
-        
+
         private void StartAttack(
-            IEnumerable<IGameCharacterTemplate> enemies, BattleScenario scenario, int itemsCount)
+            IEnumerable<IGameCharacterTemplate> enemies, BattleScenario scenario, Dictionary<ItemData, float> items)
         {
             _squadMembersPanel.OnSelected -= WereSelectedMembers;
             var enemyCharacters = GameCharactersFactory.CreateGameCharacters(enemies);
@@ -97,7 +91,10 @@ namespace RoguelikeMap.SquadInfo
             charactersMediator.Register("player characters", _squad.Members);
             charactersMediator.Register("enemy characters", enemyCharacters);
             charactersMediator.Register("scenario", scenario);
-            charactersMediator.Register("items count", itemsCount);
+            var winItems =
+                items.Select(it => new KeyValuePair<Item, float>(ItemFactory.Create(it.Key), it.Value))
+                    .ToDictionary(x => x.Key, x => x.Value);
+            charactersMediator.Register("items", winItems);
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();
         }

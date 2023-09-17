@@ -7,9 +7,11 @@ using System.Collections.Generic;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class SpawnEntityAction : BattleAction<SpawnEntityAction>, IUndoableBattleAction
+    public class SpawnEntityAction : BattleAction<SpawnEntityAction>, 
+        IUndoableBattleAction,
+        IUtilizeCellGroupsAction
     {
-        private static readonly List<AbilitySystemActor> _spawnedEntities = new();
+        private static readonly List<List<AbilitySystemActor>> _spawnedEntities = new();
         private static readonly Dictionary<int, IBattleTrigger> _activeTriggers = new();
         private static readonly Dictionary<IBattleTrigger, int> _perforIdsByTriggers = new();
         private static readonly HashSet<int> _undoneOperations = new();
@@ -33,13 +35,19 @@ namespace OrderElimination.AbilitySystem
         public BattleSide AbsoluteSide { get; private set; }
 
         [ShowInInspector, OdinSerialize]
+        public int SpawnAtCellGroup { get; private set; }
+
+        [ShowInInspector, OdinSerialize]
         public bool RemoveByTrigger { get; private set; }
 
+        //TODO: Add support for entity triggers
         [ShowIf(nameof(RemoveByTrigger))]
         [ShowInInspector, OdinSerialize]
         public IContextTriggerSetup RemoveTrigger { get; private set; }
 
-        public override ActionRequires ActionRequires => ActionRequires.Cell;
+        public override ActionRequires ActionRequires => ActionRequires.Maker;
+
+        public int[] UtilizedCellGroups => new[] { SpawnAtCellGroup };
 
         public override IBattleAction Clone()
         {
@@ -49,6 +57,7 @@ namespace OrderElimination.AbilitySystem
             clone.StructureData = StructureData;
             clone.SideType = SideType;
             clone.AbsoluteSide = AbsoluteSide;
+            clone.SpawnAtCellGroup = SpawnAtCellGroup;
             clone.RemoveByTrigger = RemoveByTrigger;
             clone.RemoveTrigger = RemoveTrigger;
             return clone;
@@ -59,10 +68,13 @@ namespace OrderElimination.AbilitySystem
         public bool Undo(int performId)
         {
             if (IsUndone(performId)) Logging.LogException(ActionUndoFailedException.AlreadyUndoneException);
-            var entity = _spawnedEntities[performId];
             var isSuccessful = true;
-            if (! entity.IsDisposedFromBattle && !entity.DisposeFromBattle())
-                isSuccessful = false;
+            foreach (var entity in _spawnedEntities[performId])
+            {
+                if (!entity.IsDisposedFromBattle && !entity.DisposeFromBattle())
+                    isSuccessful = false;
+            }
+            //TODO: Add support for entity triggers
             if (_activeTriggers.ContainsKey(performId))
                 _activeTriggers[performId].Deactivate();
             _undoneOperations.Add(performId);
@@ -94,15 +106,19 @@ namespace OrderElimination.AbilitySystem
             };
             var performId = _spawnedEntities.Count;
             Logging.Log($"Spawn perform Id: {performId}", Colorize.Purple);
-            var pos = useContext.ActionTargetInitialPosition.Value;
-            AbilitySystemActor entity = Entity switch
+            _spawnedEntities.Add(new());
+            var currentPerformEntities = _spawnedEntities[_spawnedEntities.Count - 1];
+            foreach (var pos in useContext.CellTargetGroups.GetGroup(SpawnAtCellGroup))
             {
-                EntityType.Character => battleContext.EntitySpawner.SpawnCharacter(CharacterData, side, pos),
-                EntityType.Structure => battleContext.EntitySpawner.SpawnStructure(StructureData, side, pos),
-                _ => throw new NotImplementedException(),
-            };
-            _spawnedEntities.Add(entity);
-            if (RemoveByTrigger)
+                var entity = Entity switch
+                {
+                    EntityType.Character => battleContext.EntitySpawner.SpawnCharacter(CharacterData, side, pos),
+                    EntityType.Structure => battleContext.EntitySpawner.SpawnStructure(StructureData, side, pos),
+                    _ => throw new NotImplementedException(),
+                };
+                currentPerformEntities.Add(entity);
+            }
+            if (RemoveByTrigger)//TODO: Add support for entity triggers
             {
                 var trigger = RemoveTrigger.GetTrigger(battleContext);
                 _activeTriggers.Add(performId, trigger);

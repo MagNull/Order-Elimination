@@ -1,12 +1,15 @@
 using System.Collections.Generic;
+using GameInventory.Items;
 using OrderElimination;
 using OrderElimination.Events;
 using RoguelikeMap.UI.PointPanels;
 using UnityEngine;
+using UnityEngine.Rendering;
 using XNode;
 
 namespace Events
 {
+    [NodeWidth(300)]
     public class BattleNode : Node, IEventNode
     {
         [Input]
@@ -16,7 +19,7 @@ namespace Events
         private List<CharacterTemplate> _enemies;
 
         [field: SerializeField]
-        public int CountItems { get; private set; }
+        public SerializedDictionary<ItemData, float> ItemsDropProbability { get; private set; }
 
         public IReadOnlyList<CharacterTemplate> Enemies => _enemies;
 

@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DG.Tweening;
 using OrderElimination;
 using OrderElimination.MacroGame;
-using RoguelikeMap.Points;
+using RoguelikeMap.Points.Models;
 using RoguelikeMap.UI.Characters;
 using Sirenix.OdinInspector;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
@@ -14,7 +15,7 @@ namespace RoguelikeMap.SquadInfo
 {
     public class Squad : SerializedMonoBehaviour
     {
-        private const float IconSize = 50f;
+        public float IconSize { get; private set; } = 50f;
         private const float Duration = 0.5f;
         
         //Заглушка, чтобы не запускаться из другой сцены
@@ -33,9 +34,6 @@ namespace RoguelikeMap.SquadInfo
         public int AmountOfCharacters => _model.AmountOfMembers;
         public IReadOnlyList<GameCharacter> Members => _model.Members;
         public IReadOnlyList<GameCharacter> ActiveMembers => _model.ActiveMembers;
-        
-        public PointModel Point => _model.Point;
-        public event Action<Squad> OnSelected;
         public event Action<IReadOnlyList<GameCharacter>> OnUpdateMembers;
         
         [Inject]
@@ -98,34 +96,34 @@ namespace RoguelikeMap.SquadInfo
             GenerateCharactersCard();
         }
 
-        public void Visit(PointModel point)
+        public async Task Visit(PointModel pointModel)
         {
-            UpdatePoint(point);
-            MoveAnimation(point.Position);
+            UpdatePoint(pointModel);
+            await MoveAnimation(pointModel.position);
         }
         
-        private void UpdatePoint(PointModel point)
+        private void UpdatePoint(PointModel pointModel)
         {
-            _commander.SetPoint(point);
-            _model.SetPoint(point);
+            _commander.SetPoint(pointModel);
+            _model.SetPoint(pointModel);
         }
         
-        private void MoveAnimation(Vector3 position)
+        private async Task MoveAnimation(Vector2 position)
         {
             var target = position +
-                         new Vector3(-IconSize,
+                         new Vector2(-IconSize,
                              IconSize + 10f);
-            transform.DOMove(target, Duration);
+            await transform.DOMove(target, Duration).AsyncWaitForCompletion();
+        }
+
+        public void MoveWithoutAnimation(Vector2 position)
+        {
+            var target = position +
+                         new Vector2(-IconSize,
+                             IconSize + 10f);
+            transform.position = target;
         }
         
         private void SetActiveSquadMembers(bool isActive) => _model.SetActivePanel(isActive);
-        
-        private void OnMouseDown() => Select();
-        
-        private void Select()
-        {
-            Logging.Log("Squad selected");
-            OnSelected?.Invoke(this);
-        }
     }
 }

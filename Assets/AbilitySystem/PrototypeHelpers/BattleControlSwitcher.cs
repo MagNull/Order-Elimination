@@ -33,7 +33,6 @@ public class BattleControlSwitcher : MonoBehaviour
     {
         _battleManager = battleManager;
         _battleContext = battleContext;
-        //_textEmitter = objectResolver.Resolve<TextEmitter>();
         _battleContext.NewTurnStarted -= OnNewTurn;
         _battleContext.NewTurnStarted += OnNewTurn;
         _endTurnButton.onClick.RemoveListener(OnEndTurnButtonPressed);
@@ -61,13 +60,13 @@ public class BattleControlSwitcher : MonoBehaviour
         if (battleContext.ActiveSide == BattleSide.Player)
         {
             if (!_dontTouchPlayerSelector)
-                PlayerSelector.Enable();
+                PlayerSelector.enabled = true;
             _endTurnButton.interactable = true;
         }
         else
         {
             if (!_dontTouchPlayerSelector)
-                PlayerSelector.Disable();
+                PlayerSelector.enabled = false;
             if (_lockTurnButtonOnAITurn)
                 _endTurnButton.interactable = false;
             if (battleContext.ActiveSide != BattleSide.NoSide)

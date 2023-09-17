@@ -18,7 +18,7 @@ namespace GameInventory
         {
             base.OnCellAdded(cell);
             if (cell.Item is not IUsable)
-                _cells[cell].Disable();
+                _cellViews.Find(c => c.Model == cell).Disable();
         }
 
         private void Update()

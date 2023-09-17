@@ -9,6 +9,7 @@ namespace OrderElimination.AbilitySystem
     public class BasicCellGroupsDistributor : ICellGroupsDistributor
     {
         [DictionaryDrawerSettings(KeyLabel = "Group", ValueLabel = "Cell Selector")]
+        [OnInspectorInit("@$property.State.Expanded = true")]
         [ShowInInspector, OdinSerialize]
         private Dictionary<int, ICellSelector> _groupSelectors = new();
 

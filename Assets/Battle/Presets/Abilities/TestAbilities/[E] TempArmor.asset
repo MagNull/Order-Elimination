@@ -1,0 +1,228 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acb2e992d7d6fa849b36b6f05febfd6b, type: 3}
+  m_Name: '[E] TempArmor'
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: b759035308d61ca49826abbcd62e1a4d, type: 2}
+    - {fileID: 21300000, guid: 716e3456370e8784891992127875c9ef, type: 3}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: EffectCharacter
+      Entry: 3
+      Data: 0
+    - Name: StackingPolicy
+      Entry: 3
+      Data: 0
+    - Name: _maxStackSize
+      Entry: 3
+      Data: 1
+    - Name: UseApplierProcessing
+      Entry: 5
+      Data: false
+    - Name: UseHolderProcessing
+      Entry: 5
+      Data: false
+    - Name: IsTemporary
+      Entry: 5
+      Data: false
+    - Name: _removeTriggers
+      Entry: 7
+      Data: 0|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+        Assembly-CSharp]], System.Core
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: InstructionOnActivation
+      Entry: 7
+      Data: 1|OrderElimination.AbilitySystem.CompoundEffectInstruction, Assembly-CSharp
+    - Name: _instructions
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEffectInstruction,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 3|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
+    - Name: _battleAction
+      Entry: 7
+      Data: 4|OrderElimination.AbilitySystem.ApplyTemporaryArmorAction, Assembly-CSharp
+    - Name: TemporaryArmorAmount
+      Entry: 7
+      Data: 5|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+    - Name: Value
+      Entry: 4
+      Data: 100
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _target
+      Entry: 3
+      Data: 0
+    - Name: UndoOnDeactivation
+      Entry: 5
+      Data: true
+    - Name: _instructionOnCallback
+      Entry: 7
+      Data: 6|OrderElimination.AbilitySystem.RemoveThisEffectInstruction, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _instructionOnSuccess
+      Entry: 6
+      Data: 
+    - Name: _instructionOnFail
+      Entry: 6
+      Data: 
+    - Name: _followingInstruction
+      Entry: 6
+      Data: 
+    - Name: _animationBeforeAction
+      Entry: 6
+      Data: 
+    - Name: _animationAfterAction
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 7|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
+    - Name: _battleAction
+      Entry: 7
+      Data: 8|OrderElimination.AbilitySystem.ApplyEffectImmunityAction, Assembly-CSharp
+    - Name: EffectImmunities
+      Entry: 7
+      Data: 9|OrderElimination.AbilitySystem.IEffectData[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _target
+      Entry: 3
+      Data: 0
+    - Name: UndoOnDeactivation
+      Entry: 5
+      Data: true
+    - Name: _instructionOnCallback
+      Entry: 6
+      Data: 
+    - Name: _instructionOnSuccess
+      Entry: 6
+      Data: 
+    - Name: _instructionOnFail
+      Entry: 6
+      Data: 
+    - Name: _followingInstruction
+      Entry: 6
+      Data: 
+    - Name: _animationBeforeAction
+      Entry: 6
+      Data: 
+    - Name: _animationAfterAction
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: InstructionOnDeactivation
+      Entry: 6
+      Data: 
+    - Name: TemporaryEffectFunctionaity
+      Entry: 6
+      Data: 
+    - Name: IncomingActionProcessor
+      Entry: 6
+      Data: 
+    - Name: OutcomingActionProcessor
+      Entry: 6
+      Data: 
+    - Name: _view
+      Entry: 7
+      Data: 10|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
+    - Name: Name
+      Entry: 1
+      Data: "\u0414\u043E\u043F. \u0431\u0440\u043E\u043D\u044F"
+    - Name: Icon
+      Entry: 10
+      Data: 1
+    - Name: IsHidden
+      Entry: 5
+      Data: false
+    - Name: AnimationOnActivation
+      Entry: 6
+      Data: 
+    - Name: AnimationOnDeactivation
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _triggerInstructions
+      Entry: 7
+      Data: 11|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+        Assembly-CSharp],[OrderElimination.AbilitySystem.IEffectInstruction, Assembly-CSharp]],
+        mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 12|System.Collections.Generic.ObjectEqualityComparer`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 

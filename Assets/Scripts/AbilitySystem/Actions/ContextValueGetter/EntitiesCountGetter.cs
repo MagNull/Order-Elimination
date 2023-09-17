@@ -7,7 +7,7 @@ using System.Linq;
 namespace OrderElimination.AbilitySystem
 {
     [Serializable]
-    public struct EntitiesCountGetter : IContextValueGetter
+    public class EntitiesCountGetter : IContextValueGetter
     {
         [ShowInInspector, OdinSerialize]
         public IEntityCondition[] EntityConditions { get; private set; }
@@ -15,25 +15,30 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public int CountInCellGroupId { get; private set; }
 
-        public string DisplayedFormula => "EntitiesCount";
+        public string DisplayedFormula => $"(EntitiesCount in {CountInCellGroupId})";
+
+        public bool CanBePrecalculatedWith(ValueCalculationContext context)
+        {
+            return context.CellTargetGroups != null;
+        }
 
         public IContextValueGetter Clone()
         {
             var clone = new EntitiesCountGetter();
-            clone.EntityConditions = CloneableCollectionsExtensions.Clone(EntityConditions);
+            clone.EntityConditions = EntityConditions.DeepClone();
             clone.CountInCellGroupId = CountInCellGroupId;
             return clone;
         }
 
-        public float GetValue(ActionContext useContext)
+        public float GetValue(ValueCalculationContext context)
         {
-            var cellGroups = useContext.TargetCellGroups;
+            var cellGroups = context.CellTargetGroups;
             if (!cellGroups.ContainsGroup(CountInCellGroupId))
                 return 0;
             var cellsToCheck = cellGroups.GetGroup(CountInCellGroupId);
             var entitiesCount = 0;
             var conditions = EntityConditions;
-            var battleContext = useContext.BattleContext;
+            var battleContext = context.BattleContext;
             var map = battleContext.BattleMap;
             foreach (var pos in cellsToCheck)
             {
@@ -43,7 +48,7 @@ namespace OrderElimination.AbilitySystem
             return entitiesCount;
 
             bool IsEntityAllowed(AbilitySystemActor entity)
-                => conditions.All(c => c.IsConditionMet(battleContext, useContext.ActionMaker, entity));
+                => conditions.All(c => c.IsConditionMet(battleContext, context.BattleCaster, entity));
         }
     }
 }

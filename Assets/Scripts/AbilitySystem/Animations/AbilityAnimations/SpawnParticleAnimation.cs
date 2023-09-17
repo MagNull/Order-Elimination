@@ -5,7 +5,6 @@ using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem.Animations
@@ -15,7 +14,8 @@ namespace OrderElimination.AbilitySystem.Animations
         [HideInInspector, OdinSerialize]
         private int _animationLoops = 1;
 
-        [ShowInInspector, OdinSerialize] public ParticleType ParticleType { get; private set; }
+        [ShowInInspector, OdinSerialize] 
+        public ParticleType ParticleType { get; private set; }
 
         [TabGroup("Location")]
         [ShowInInspector, OdinSerialize]

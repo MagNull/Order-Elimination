@@ -1,18 +1,14 @@
 ﻿using Cysharp.Threading.Tasks;
-using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class ApplyEffectAction : BattleAction<ApplyEffectAction>, IUndoableBattleAction
+    public class ApplyEffectAction : BattleAction<ApplyEffectAction>, 
+        IUndoableBattleAction
     {
         private static List<BattleEffect> _appliedEffects = new();
         private static List<IEffectHolder> _performTargets = new();
@@ -22,7 +18,7 @@ namespace OrderElimination.AbilitySystem
         public IEffectData Effect { get; set; }
 
         [ShowInInspector, OdinSerialize]
-        public IContextValueGetter ApplyChance { get; set; }
+        public IContextValueGetter ApplyChance { get; set; } = new ConstValueGetter(1);
 
         public override ActionRequires ActionRequires => ActionRequires.Target;
 
@@ -56,7 +52,8 @@ namespace OrderElimination.AbilitySystem
         protected async override UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
             var isSuccessfull = false;
-            var probability = ApplyChance.GetValue(useContext);
+            var calculationContext = ValueCalculationContext.Full(useContext);
+            var probability = ApplyChance.GetValue(calculationContext);
             BattleEffect appliedEffect = null;
             if (RandomExtensions.RollChance(probability))
             {

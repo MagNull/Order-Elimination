@@ -18,7 +18,9 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public float GetValue(ActionContext useContext) => Value;
+        public float GetValue(ValueCalculationContext context) => Value;
+
+        public bool CanBePrecalculatedWith(ValueCalculationContext context) => true;
 
         public ConstValueGetter(float value) => Value = value;
     }

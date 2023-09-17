@@ -33,6 +33,16 @@ namespace OrderElimination.AbilitySystem
             }
         }
 
+        public bool CanBePrecalculatedWith(ValueCalculationContext context)
+        {
+            if (Effect == null) return false;
+            return CountOn switch
+            {
+                ActionEntity.Caster => context.BattleCaster != null,
+                ActionEntity.Target => context.BattleTarget != null,
+                _ => throw new NotImplementedException(),
+            };
+        }
 
         public IContextValueGetter Clone()
         {
@@ -43,13 +53,15 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public float GetValue(ActionContext useContext)
+        public float GetValue(ValueCalculationContext context)
         {
-            var askingEntity = useContext.ActionMaker;
+            if (!CanBePrecalculatedWith(context))
+                throw new NotEnoughDataArgumentException();
+            var askingEntity = context.BattleCaster;
             var entity = CountOn switch
             {
-                ActionEntity.Caster => useContext.ActionMaker,
-                ActionEntity.Target => useContext.ActionTarget,
+                ActionEntity.Caster => context.BattleCaster,
+                ActionEntity.Target => context.BattleTarget,
                 _ => throw new NotImplementedException(),
             };
             var effects = entity.GetEffects(Effect);

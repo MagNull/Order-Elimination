@@ -1,49 +1,59 @@
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using RoguelikeMap.Points.Models;
 using UnityEngine;
-using Color = UnityEngine.Color;
 
 namespace RoguelikeMap.Points
 {
-    public class PathView
+    public class PathView : MonoBehaviour
     {
-        private readonly LineRenderer _paths;
-        private int _lastIndex;
+        [SerializeField]
+        private LineRenderer _pathPrefab;
+        private readonly List<LineRenderer> _paths = new ();
+        private const int _duration = 2;
 
-        public PathView(Transform transform, LineRenderer pathPrefab, List<Point> points)
+        public void UpdatePaths(Point point)
         {
-            if (!points.Any())
-                return;
-
-            _paths = Object.Instantiate(pathPrefab, transform);
-            _paths.SetWidth(7, 7);
-            _paths.material = new Material(Shader.Find("Sprites/Default"));
-            _lastIndex = 0;
-            _paths.positionCount = points.Count * points.Count;
-            
-            SetPaths(points, new []{0}, -1);
-        }
-
-        private void SetPaths(List<Point> points, IReadOnlyList<int> indexes, int prevIndex)
-        {
-            if (indexes is null || indexes.Count == 0)
-                return;
-            foreach (var index in indexes)
+            if (_paths.Count != 0)
+                ClearPaths();
+            var nextPoints = point.Model.GetNextPoints();
+            foreach (var model in nextPoints)
             {
-                var point = points[index];
-                var position = point.transform.position;
-                SetPosition(position);
-                SetPaths(points, point.NextPoints, index);
-                if(prevIndex < 0)
-                    continue;
-                var prevPosition = points[prevIndex].transform.position;
-                SetPosition(prevPosition);
+                var lineRenderer = Instantiate(_pathPrefab, transform);
+                lineRenderer.SetPosition(0, point.Model.position);
+                lineRenderer.SetPosition(1, model.position);
+                StartCoroutine(AnimateLine(lineRenderer));
+                _paths.Add(lineRenderer);
             }
         }
-        
-        private void SetPosition(Vector3 path)
+
+        private IEnumerator AnimateLine(LineRenderer lineRenderer)
         {
-            _paths.SetPosition(_lastIndex++, path);
+            var pointsCount = lineRenderer.positionCount;
+            float segmentDuration = _duration / pointsCount;
+            for (var i = 0; i < pointsCount - 1; i++)
+            {
+                var startTime = Time.time;
+                var startPosition = lineRenderer.GetPosition(i);
+                var endPosition = lineRenderer.GetPosition(i + 1);
+
+                var currentPosition = startPosition;
+                while (currentPosition != endPosition)
+                {
+                    var t = (Time.time - startTime) / segmentDuration;
+                    currentPosition = Vector3.Lerp(startPosition, endPosition, t);
+                    for(var j = i + 1; j < pointsCount; j++)
+                        lineRenderer.SetPosition(j, currentPosition);
+
+                    yield return null;
+                }
+            }
+        }
+
+        public void ClearPaths()
+        {
+            foreach (var path in _paths)
+                Destroy(path.gameObject);
         }
     }
 }

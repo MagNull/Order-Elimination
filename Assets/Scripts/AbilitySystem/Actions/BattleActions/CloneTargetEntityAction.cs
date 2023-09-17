@@ -10,7 +10,9 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
-    public class CloneTargetEntityAction : BattleAction<CloneTargetEntityAction>, IUndoableBattleAction
+    public class CloneTargetEntityAction : BattleAction<CloneTargetEntityAction>, 
+        IUndoableBattleAction,
+        IUtilizeCellGroupsAction
     {
         public enum CloningType
         {
@@ -29,7 +31,7 @@ namespace OrderElimination.AbilitySystem
         [ValidateInput(
             "@false",
             "Following features are not supported or not fully implemented yet:\n"
-            + "- BattleStats copying\n"
+            + "- Modified BattleStats copying\n"
             + "- Abilities copying\n"
             + "- Effects and Inventory cloning\n"
             + "- Abilities cloning for structures\n")]
@@ -50,6 +52,14 @@ namespace OrderElimination.AbilitySystem
         //[PropertyTooltip("Not implemented")]
         //[ShowInInspector, OdinSerialize]
         //public CloningType InventoryCloning { get; set; }
+
+        [ShowInInspector, OdinSerialize]
+        public CloningType EnergyPointsCloning { get; set; }
+
+        [ShowIf("@" + nameof(EnergyPointsCloning) + "==" + nameof(CloningType) + "." + nameof(CloningType.Override))]
+        [ShowInInspector, OdinSerialize]
+        private Dictionary<EnergyPoint, int> _overridedEnergyPoints { get; set; } 
+            = EnumExtensions.GetValues<EnergyPoint>().ToDictionary(p => p, p => 0);
 
         [ShowInInspector, OdinSerialize]
         public CloningType ActiveAbilitiesCloning { get; set; }
@@ -77,7 +87,7 @@ namespace OrderElimination.AbilitySystem
         public BattleSide AbsoluteSide { get; private set; }
         #endregion
 
-        #region Remove
+        #region RemoveBy
         [ShowInInspector, OdinSerialize]
         public bool RemoveByTrigger { get; private set; }
 
@@ -88,16 +98,24 @@ namespace OrderElimination.AbilitySystem
 
         public override ActionRequires ActionRequires => ActionRequires.Target;
 
+        public int[] UtilizedCellGroups => new[] { SpawnAtCellGroup };
+
         public override IBattleAction Clone()
         {
             var clone = new CloneTargetEntityAction();
             clone.SpawnAtCellGroup = SpawnAtCellGroup;
             clone.StatsCloning = StatsCloning;
+            clone.EnergyPointsCloning = EnergyPointsCloning;
             clone.ActiveAbilitiesCloning = ActiveAbilitiesCloning;
             clone.PassiveAbilitiesCloning = PassiveAbilitiesCloning;
             //clone.EffectsCloning = EffectsCloning;
             //clone.InventoryCloning = InventoryCloning;
             clone.OverridedStats = new GameCharacterStats(OverridedStats);
+            if (_overridedEnergyPoints != null)
+            {
+                clone._overridedEnergyPoints = _overridedEnergyPoints
+                    .ToDictionary(kv => kv.Key, kv => kv.Value);
+            }
             if (OverridedActiveAbilities != null)
                 clone.OverridedActiveAbilities = OverridedActiveAbilities.ToArray();
             if (OverridedPassiveAbilities != null)
@@ -148,13 +166,14 @@ namespace OrderElimination.AbilitySystem
             {
                 BattleSideReference.Same => caster.BattleSide,
                 BattleSideReference.Absolute => AbsoluteSide,
-                //SpawningEntityBattleSide.Opposite => GetOppositeSide(useContext.ActionMaker.BattleSide),
+                //BattleSideReference.Opposite => GetOppositeSide(useContext.ActionMaker.BattleSide),
+                //BattleSideReference.Conditional => //take from mapping
                 _ => throw new NotImplementedException(),
             };
             var performId = _spawnedEntities.Count;
             Logging.Log($"Clone perform Id: {performId}", Colorize.Purple);
             var spawnedInActionEntities = new List<AbilitySystemActor>();
-            foreach (var pos in useContext.TargetCellGroups.GetGroup(SpawnAtCellGroup))
+            foreach (var pos in useContext.CellTargetGroups.GetGroup(SpawnAtCellGroup))
             {
                 var clone = MakeClone(target, battleContext, side, pos);
                 spawnedInActionEntities.Add(clone);
@@ -196,18 +215,23 @@ namespace OrderElimination.AbilitySystem
             {
                 var structureTemplate = battleContext.EntitiesBank.GetBasedStructureTemplate(target);
                 clonedEntity = battleContext.EntitySpawner.SpawnStructure(structureTemplate, side, pos);
-                if (statsCloning)
+                switch (StatsCloning)
                 {
-                    clonedEntity.BattleStats.Health = target.BattleStats.Health;
-                    clonedEntity.BattleStats.PureArmor = target.BattleStats.PureArmor;
-                    //...
-                }
-                else if (statsOverride)
-                {
-                    foreach (var stat in statsValues)
-                    {
-                        clonedEntity.BattleStats[stat].UnmodifiedValue = OverridedStats[stat];
-                    }
+                    case CloningType.UseDefault:
+                        break;
+                    case CloningType.Copy:
+                        clonedEntity.BattleStats.Health = target.BattleStats.Health;
+                        clonedEntity.BattleStats.PureArmor = target.BattleStats.PureArmor;
+                        //...
+                        break;
+                    case CloningType.Override:
+                        foreach (var stat in statsValues)
+                        {
+                            clonedEntity.BattleStats[stat].UnmodifiedValue = OverridedStats[stat];
+                        }
+                        break;
+                    default:
+                        throw new NotImplementedException();
                 }
             }
             else if (target.EntityType == EntityType.Character)
@@ -257,6 +281,31 @@ namespace OrderElimination.AbilitySystem
                 }
             }
             else throw new NotImplementedException();
+            var energyPointTypes = EnumExtensions.GetValues<EnergyPoint>();
+            switch (EnergyPointsCloning)
+            {
+                case CloningType.UseDefault:
+                    foreach (var p in energyPointTypes)
+                    {
+                        clonedEntity.SetEnergyPoints(p, battleContext.BattleRules.GetEnergyPointsPerRound(p));
+                    }
+                    break;
+                case CloningType.Copy:
+                    foreach (var p in energyPointTypes)
+                    {
+                        clonedEntity.SetEnergyPoints(p, target.EnergyPoints[p]);
+                    }
+                    break;
+                case CloningType.Override:
+                    foreach (var p in energyPointTypes)
+                    {
+                        if (_overridedEnergyPoints.ContainsKey(p))
+                            clonedEntity.SetEnergyPoints(p, _overridedEnergyPoints[p]);
+                    }
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
             return clonedEntity;
         }
     }

@@ -54,9 +54,9 @@ namespace OrderElimination.AbilitySystem
                 return new DealtDamageInfo(incomingDamage, 0, 0);
             }
             var dealtDamage = IBattleLifeStats.DistributeDamage(BattleStats, incomingDamage);
-            BattleStats.TotalArmor -= dealtDamage.TotalArmorDamage;
-            BattleStats.Health -= dealtDamage.TotalHealthDamage;
-            if (dealtDamage.TotalHealthDamage >= BattleStats.Health)
+            BattleStats.TotalArmor -= dealtDamage.DealtDamageToArmor;
+            BattleStats.Health -= dealtDamage.DealtDamageToHealth;
+            if (dealtDamage.DealtDamageToHealth >= BattleStats.Health)
             {
                 OnLethalDamage?.Invoke(dealtDamage);
             }
@@ -153,7 +153,7 @@ namespace OrderElimination.AbilitySystem
             if (_energyPoints.ContainsKey(energyPoint))
                 _energyPoints[energyPoint] = 0;
         }
-        //event ActionPoint ActionPointsChanged
+        //event EnergyPoint EnergyPointsChanged
 
         private readonly List<ActiveAbilityRunner> _activeAbilities = new();
         private readonly List<PassiveAbilityRunner> _passiveAbilities = new();
@@ -188,26 +188,39 @@ namespace OrderElimination.AbilitySystem
         #endregion
 
         #region IEffectHolder
-        private readonly HashSet<BattleEffect> _effects = new HashSet<BattleEffect>();
+        private readonly HashSet<BattleEffect> _effects = new();
+        private readonly List<IEffectData> _effectImmunities = new();
 
         public IEnumerable<BattleEffect> Effects => _effects;
-        public bool HasEffect(IEffectData effect) => _effects.Any(e => e.EffectData == effect);
-        public BattleEffect[] GetEffects(IEffectData effectData)
-            => _effects.Where(e => e.EffectData == effectData).ToArray();
+        public IReadOnlyList<IEffectData> EffectImmunities => _effectImmunities;
+
         public event Action<BattleEffect> EffectAdded;
         public event Action<BattleEffect> EffectRemoved;
+        public event Action<IEffectData> EffectBlockedByImmunity;
+
+        public bool HasEffect(IEffectData effect) => _effects.Any(e => e.EffectData == effect);
+
+        public BattleEffect[] GetEffects(IEffectData effectData)
+            => _effects.Where(e => e.EffectData == effectData).ToArray();
 
         public bool ApplyEffect(IEffectData effectData, AbilitySystemActor applier, out BattleEffect appliedEffect)
         {
             var effect = new BattleEffect(effectData, BattleContext);
-            if (effectData.CanBeAppliedOn(this) && effect.Apply(this, applier))
+            var applyResult = effectData.CanBeAppliedOn(this);
+            if (applyResult == EffectApplyResult.Success)
             {
+                if (!effect.Apply(this, applier))
+                    Logging.LogError("Successful effect apply was promised but apply failed.");
                 _effects.Add(effect);
                 effect.Deactivated += OnEffectDeactivated;
                 EffectAdded?.Invoke(effect);
                 effect.Activate();
                 appliedEffect = effect;
                 return true;
+            }
+            if (applyResult == EffectApplyResult.BlockedByImmunity)
+            {
+                EffectBlockedByImmunity?.Invoke(effectData);
             }
             appliedEffect = null;
             return false;
@@ -216,6 +229,16 @@ namespace OrderElimination.AbilitySystem
         public bool RemoveEffect(BattleEffect effect)
         {
             return _effects.Contains(effect) && effect.TryDeactivate();
+        }
+
+        public void AddEffectImmunity(IEffectData effect)
+        {
+            _effectImmunities.Add(effect);
+        }
+
+        public bool RemoveEffectImmunity(IEffectData effect)
+        {
+            return _effectImmunities.Remove(effect);
         }
 
         private void OnEffectDeactivated(BattleEffect effect)

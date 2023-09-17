@@ -3,12 +3,8 @@ using OrderElimination.AbilitySystem.Animations;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
@@ -26,7 +22,8 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public bool UsePath { get; private set; }
 
-        [ShowInInspector, OdinSerialize, ShowIf("@" + nameof(UsePath))]
+        [EnableIf("@" + nameof(UsePath))]
+        [ShowInInspector, OdinSerialize]
         public List<ICellCondition> PathConditions { get; private set; } = new();
         //LimitedByCasterMovementDistance?
 
@@ -49,7 +46,7 @@ namespace OrderElimination.AbilitySystem
 
         public override ActionRequires ActionRequires => ActionRequires.Target;
 
-        public IEnumerable<int> UtilizingCellGroups => new[] { DestinationCellGroup };
+        public int[] UtilizedCellGroups => new[] { DestinationCellGroup };
 
         public override IBattleAction Clone()
         {
@@ -57,30 +54,31 @@ namespace OrderElimination.AbilitySystem
             clone.DestinationCellGroup = DestinationCellGroup;
             clone.CellPriority = CellPriority;
             clone.UsePath = UsePath;
-            clone.PathConditions = PathConditions.Clone();
+            clone.PathConditions = PathConditions.DeepClone();
             clone.ForceMove = ForceMove;
             clone.MoveAnimation = MoveAnimation;
             clone.MoveFailedAnimation = MoveFailedAnimation;
             return clone;
         }
 
-        public int GetUtilizedCellsAmount(int group) => group == DestinationCellGroup ? 1 : 0;
-
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
+            var target = useContext.ActionTarget;
             var failResult = new SimplePerformResult(this, useContext, false);
-            var cellGroups = useContext.TargetCellGroups;
+            var cellGroups = useContext.CellTargetGroups;
             if (!cellGroups.ContainsGroup(DestinationCellGroup)
                 || cellGroups.GetGroup(DestinationCellGroup).Length == 0)
                 return failResult;
-            if (!useContext.ActionTarget.CanMove && !ForceMove)
+            if (!target.CanMove && !ForceMove)
                 return failResult;
             var battleContext = useContext.BattleContext;
             var casterPos = useContext.ActionMaker.Position;
-            var targetPos = useContext.ActionTargetInitialPosition;
+            Vector2Int? targetPos = null;
+            if (target != null)
+                targetPos = target.Position;
             var destination = CellPriority.GetPositionByPriority(
                 cellGroups.GetGroup(DestinationCellGroup), casterPos, targetPos);//destination conditions?
-            var movingEntity = useContext.ActionTarget;
+            var movingEntity = target;
 
             //var moveAnimation = _overrideDefaultAnimations
             //    ? MoveAnimation
@@ -131,10 +129,10 @@ namespace OrderElimination.AbilitySystem
             {
                 var animationContext = new AnimationPlayContext(
                     useContext.AnimationSceneContext,
-                    useContext.TargetCellGroups,
+                    useContext.CellTargetGroups,
                     useContext.ActionMaker,
                     useContext.ActionTarget,
-                    useContext.ActionTargetInitialPosition);
+                    targetPos);
                 if (MoveAnimation != null)
                     await MoveAnimation.Play(animationContext);
                 var moved = movingEntity.Move(destination, ForceMove);

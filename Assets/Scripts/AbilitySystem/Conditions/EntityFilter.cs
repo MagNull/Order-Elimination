@@ -8,7 +8,7 @@ using System.Linq;
 namespace OrderElimination.AbilitySystem
 {
     [GUIColor(0.95f, 0.35f, 0.75f)]
-    public class EntityFilter : ICloneable<EntityFilter>
+    public class EntityFilter : ICloneable<EntityFilter> //TODO: replace fields with properties
     {
         #region OdinVisuals
         private bool _allowsCharacters => AllowedEntityTypes[EntityType.Character] == true;
@@ -28,37 +28,59 @@ namespace OrderElimination.AbilitySystem
             ByAllowed
         }
 
-        [PropertyOrder(-1)]
+        public static EntityFilter AllowAllFilter
+            => new()
+            {
+                AllowSelf = true,
+                AllowedEntityTypes = EnumMask<EntityType>.Full,
+                AllowedRelationships = EnumMask<BattleRelationship>.Full,
+                CharactersSpecification = SpicificationType.ByIgnored,
+                StructuresSpecification = SpicificationType.ByIgnored,
+            };
+
+        public static EntityFilter ForbidAllFilter
+            => new()
+            {
+                AllowSelf = false,
+                AllowedEntityTypes = EnumMask<EntityType>.Empty,
+                AllowedRelationships = EnumMask<BattleRelationship>.Empty,
+                CharactersSpecification = SpicificationType.ByIgnored,
+                StructuresSpecification = SpicificationType.ByIgnored,
+            };
+
+        [PropertyOrder(-3)]
         [ShowInInspector, OdinSerialize]
         public bool AllowSelf { get; set; }
 
+        [PropertyOrder(-2)]
         [TabGroup("Allowed Entity Types")]
         [OnInspectorInit("@$property.State.Expanded = true")]
         [ShowInInspector, OdinSerialize]
-        public EnumMask<EntityType> AllowedEntityTypes = new();
+        public EnumMask<EntityType> AllowedEntityTypes { get; set; } = new();
 
+        [PropertyOrder(-1)]
         [TabGroup("Allowed Relationships")]
         [OnInspectorInit("@$property.State.Expanded = true")]
         [ShowInInspector, OdinSerialize]
-        public EnumMask<BattleRelationship> AllowedRelationships = new();
+        public EnumMask<BattleRelationship> AllowedRelationships { get; set; } = new();
 
         [TitleGroup("Allowed Characters")]
-        [ShowIf("@" + nameof(_allowsCharacters))]
+        [EnableIf("@" + nameof(_allowsCharacters))]
         [ShowInInspector, OdinSerialize]
         public SpicificationType CharactersSpecification { get; set; } = SpicificationType.ByIgnored;
 
         [TitleGroup("Allowed Characters")]
-        [ShowIf("@" + nameof(_allowsCharacters))]
+        [EnableIf("@" + nameof(_allowsCharacters))]
         [ShowInInspector, OdinSerialize]
         private List<IGameCharacterTemplate> _specifiedCharacters = new();
 
         [TitleGroup("Allowed Structures")]
-        [ShowIf("@" + nameof(_allowsStructures))]
+        [EnableIf("@" + nameof(_allowsStructures))]
         [ShowInInspector, OdinSerialize]
         public SpicificationType StructuresSpecification { get; set; } = SpicificationType.ByIgnored;
 
         [TitleGroup("Allowed Structures")]
-        [ShowIf("@" + nameof(_allowsStructures))]
+        [EnableIf("@" + nameof(_allowsStructures))]
         [ShowInInspector, OdinSerialize]
         private List<IBattleStructureTemplate> _specifiedStructures = new();
 

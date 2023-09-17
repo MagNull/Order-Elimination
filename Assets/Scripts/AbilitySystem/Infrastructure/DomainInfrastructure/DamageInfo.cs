@@ -31,18 +31,18 @@ namespace OrderElimination.AbilitySystem
 
     public readonly struct DealtDamageInfo
     {
-        public DamageInfo DamageInfo { get; }
-        public float TotalHealthDamage { get; }
-        public float TotalArmorDamage { get; }
+        public DamageInfo IncomingDamage { get; }
+        public float DealtDamageToHealth { get; }
+        public float DealtDamageToArmor { get; }
         //Target?
 
-        public float TotalDamage => TotalHealthDamage + TotalArmorDamage;
+        public float TotalDealtDamage => DealtDamageToHealth + DealtDamageToArmor;
 
-        public DealtDamageInfo(DamageInfo initialDamage, float totalArmorDamage, float totalHealthDamage)
+        public DealtDamageInfo(DamageInfo incoming, float totalArmorDamage, float totalHealthDamage)
         {
-            DamageInfo = initialDamage;
-            TotalHealthDamage = totalHealthDamage;
-            TotalArmorDamage = totalArmorDamage;
+            IncomingDamage = incoming;
+            DealtDamageToHealth = totalHealthDamage;
+            DealtDamageToArmor = totalArmorDamage;
         }
     }
 }

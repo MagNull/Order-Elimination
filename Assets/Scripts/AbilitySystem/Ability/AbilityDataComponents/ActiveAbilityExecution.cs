@@ -1,15 +1,12 @@
 using Cysharp.Threading.Tasks;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using VContainer;
 
 namespace OrderElimination.AbilitySystem
 {
     public class ActiveAbilityExecution
     {
-        public AbilityInstruction[] ActionInstructions; 
+        public AbilityInstruction[] ActionInstructions { get; } 
 
         public ActiveAbilityExecution(AbilityInstruction[] actionInstructions)
         {
@@ -27,16 +24,31 @@ namespace OrderElimination.AbilitySystem
             }
         }
 
-        //public void AddInstructionsAfter<TAction>(ActionInstruction instructionToAdd, bool copyParentTargetGroups) where TAction : BattleAction<TAction>
-        //{
-        //    foreach (var instruction in ActionInstructions)
-        //        instruction.AddInstructionsAfterRecursive<TAction>(instructionToAdd, copyParentTargetGroups);
-        //}
+        public bool AppendInstructionRecursively(
+            Predicate<AbilityInstruction> parentSelector,
+            AbilityInstruction newInstruction,
+            bool copyParentTargetGroups,
+            InstructionFollowType followType)
+        {
+            foreach (var instruction in ActionInstructions)
+            {
+                if (!instruction.AppendInstructionRecursively(
+                    parentSelector, newInstruction, copyParentTargetGroups, followType))
+                    return false;
+            }
+            return true;
+        }
 
-        //public void RemoveInstructions(ActionInstruction instructionToRemove)
-        //{
-        //    foreach (var instruction in ActionInstructions)
-        //        instruction.RemoveInstructionsRecursive(instructionToRemove);
-        //}
+        public bool ModifyInstructionRecursively(
+            Predicate<AbilityInstruction> selector,
+            Func<AbilityInstruction, AbilityInstruction> modifier)
+        {
+            foreach (var instruction in ActionInstructions)
+            {
+                if (!instruction.ModifyInstructionRecursively(selector, modifier))
+                    return false;
+            }
+            return true;
+        }
     }
 }

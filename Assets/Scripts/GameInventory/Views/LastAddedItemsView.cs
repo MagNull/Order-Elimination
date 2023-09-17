@@ -34,16 +34,16 @@ namespace GameInventory.Views
             _inventory.OnCellRemoved -= UpdateLastItems;
         }
 
-        private void UpdateLastItems(IReadOnlyCell cell)
+        private void UpdateLastItems(IReadOnlyCell _)
         {
             var lastItems = _inventory.GetItems().TakeLast(_cellsSprites.Count).ToArray();
+            foreach (var cellsSprite in _cellsSprites)
+                cellsSprite.enabled = false;
             for (var i = 0; i < lastItems.Length; i++)
             {
+                _cellsSprites[i].enabled = true;
                 _cellsSprites[i].sprite = lastItems[i].Data.View.Icon;
             }
-
-            foreach (var cellsSprite in _cellsSprites) 
-                cellsSprite.enabled = cellsSprite.sprite != null;
         }
     }
 }

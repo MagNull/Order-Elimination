@@ -367,7 +367,7 @@ MonoBehaviour:
   - {fileID: 465473235267423749}
   - {fileID: 465473234566126493}
   - {fileID: 465473234291395402}
-  _itemAbilityButton: {fileID: 3205302136298068937}
+  - {fileID: 3205302136298068937}
   _panelController: {fileID: 2402479184621098514}
   _selectedAbilityTint: {r: 0, g: 1, b: 0.5594096, a: 1}
 --- !u!222 &2005745093920114427
@@ -1335,6 +1335,10 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 2030161779411422465, guid: 815b3c51ed3aea54385d980a8b11f453, type: 3}
+    - target: {fileID: 4161208857372547860, guid: 815b3c51ed3aea54385d980a8b11f453, type: 3}
+      propertyPath: m_CellSize.y
+      value: 220
+      objectReference: {fileID: 0}
     - target: {fileID: 4216078022978700380, guid: 815b3c51ed3aea54385d980a8b11f453, type: 3}
       propertyPath: m_Name
       value: UI Manager
@@ -1802,7 +1806,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2134820545029408842, guid: 3f57e9f7ecaf59446bfb09ee9f0277a5, type: 3}
       propertyPath: m_Name
-      value: Movement Button
+      value: Ability Button (0)
       objectReference: {fileID: 0}
     - target: {fileID: 2134820545029408843, guid: 3f57e9f7ecaf59446bfb09ee9f0277a5, type: 3}
       propertyPath: m_Pivot.x
@@ -2146,7 +2150,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2134820545029408842, guid: 3f57e9f7ecaf59446bfb09ee9f0277a5, type: 3}
       propertyPath: m_Name
-      value: Item Ability
+      value: Ability Button (5)
       objectReference: {fileID: 0}
     - target: {fileID: 2134820545029408843, guid: 3f57e9f7ecaf59446bfb09ee9f0277a5, type: 3}
       propertyPath: m_Pivot.x

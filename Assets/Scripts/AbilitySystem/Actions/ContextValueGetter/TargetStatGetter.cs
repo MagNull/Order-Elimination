@@ -12,7 +12,12 @@ namespace OrderElimination.AbilitySystem
         [OdinSerialize]
         public bool UseUnmodifiedValue { get; private set; }
 
-        public string DisplayedFormula => $"Caster.{TargetStat}({(UseUnmodifiedValue ? "orig" : "mod")})";
+        public string DisplayedFormula => $"Target.{TargetStat}({(UseUnmodifiedValue ? "orig" : "mod")})";
+
+        public bool CanBePrecalculatedWith(ValueCalculationContext context)
+        {
+            return context.BattleTarget != null;
+        }
 
         public IContextValueGetter Clone()
         {
@@ -22,15 +27,14 @@ namespace OrderElimination.AbilitySystem
             return clone;
         }
 
-        public float GetValue(ActionContext useContext)
+        public float GetValue(ValueCalculationContext context)
         {
-            if (useContext.ActionTarget == null
-                || !useContext.ActionTarget.BattleStats.HasParameter(TargetStat))
-                return 0;
+            if (!CanBePrecalculatedWith(context))
+                throw new NotEnoughDataArgumentException();
             if (!UseUnmodifiedValue)
-                return useContext.ActionTarget.BattleStats[TargetStat].ModifiedValue;
+                return context.BattleTarget.BattleStats[TargetStat].ModifiedValue;
             else
-                return useContext.ActionTarget.BattleStats[TargetStat].UnmodifiedValue;
+                return context.BattleTarget.BattleStats[TargetStat].UnmodifiedValue;
         }
     }
 }

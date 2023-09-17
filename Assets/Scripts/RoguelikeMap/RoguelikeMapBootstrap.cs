@@ -12,6 +12,7 @@ using StartSessionMenu.ChooseCharacter.CharacterCard;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using RoguelikeMap.UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 using VContainer;
@@ -44,6 +45,8 @@ namespace RoguelikeMap
         private SquadMembersPanel _squadMembersPanel;
         [SerializeField] 
         private CharacterInfoPanel _characterInfoPanel;
+        [SerializeField]
+        private TransferPanel _transferPanel;
         [SerializeField]
         private CharacterCardWithHealthBar _cardWithHealthBar;
         [SerializeField]
@@ -82,6 +85,7 @@ namespace RoguelikeMap
             builder.RegisterComponent(_cardWithCost);
             builder.RegisterComponent(_cardIcon);
             builder.RegisterComponent(_panelManager);
+            builder.RegisterComponent(_transferPanel);
 
             builder.Register<BattleRewardHandler>(Lifetime.Singleton);
             builder.Register<SquadCommander>(Lifetime.Singleton);
@@ -92,7 +96,6 @@ namespace RoguelikeMap
 
         public void Start()
         {
-            Container.Resolve<SquadCommander>().Start();
             Container.Resolve<BattleRewardHandler>().Start();
         }
 
