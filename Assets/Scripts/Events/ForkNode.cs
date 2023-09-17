@@ -4,11 +4,10 @@ using OrderElimination.Events;
 using RoguelikeMap.UI.PointPanels;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using XNode;
 
 namespace Events
 {
-    public class ForkNode : Node, IEventNode
+    public class ForkNode : IEventNode
     {
         [Input] public Empty entries;
         [Output] public Empty exits;
@@ -22,7 +21,7 @@ namespace Events
 
         private bool _isSelect = true;
         
-        public void Process(EventPanel panel, int index = 0)
+        public override void Process(EventPanel panel, int index = 0)
         {
             if (IsRandom)
                 index = Random.Range(0, Outputs.First().ConnectionCount);
@@ -33,7 +32,7 @@ namespace Events
             node.OnEnter(panel);
         }
 
-        public virtual void OnEnter(EventPanel panel)
+        public override void OnEnter(EventPanel panel)
         {
             var eventGraph = graph as EventPointGraph;
             eventGraph.currentNode = this;
