@@ -20,11 +20,14 @@ namespace RoguelikeMap.UI.PointPanels
         private ShopItem _itemPrefab;
         [SerializeField]
         private Transform _itemsParent;
+        [SerializeField]
+        private ItemInfoPanel _itemInfoPanel;
 
         private Inventory _inventory;
         
         private readonly List<ShopItem> _items = new ();
         private Wallet _wallet;
+        private ShopItem _currentItem;
 
         public event Action<IReadOnlyList<ItemData>> OnBuyItems;
         public event Action<bool> OnShopVisit;
@@ -39,23 +42,31 @@ namespace RoguelikeMap.UI.PointPanels
         
         public void InitializeItems(IReadOnlyList<ShopItemData> items)
         {
+            _itemInfoPanel.OnBuy += Buy;
             foreach (var item in items)
             {
                 var itemObject = Instantiate(_itemPrefab, _itemsParent);
                 itemObject.Initialize(item.Data, item.Cost);
-                itemObject.OnBuy += Buy;
+                itemObject.OnSelected += ShowItemInfo;
                 _items.Add(itemObject);
             }
         }
 
-        private void Buy(ShopItem shopItem)
+        private void Buy()
         {
-            if (shopItem.Cost >= _wallet.Money) 
+            if (_currentItem.Cost >= _wallet.Money) 
                 return;
-            _wallet.SubtractMoney(shopItem.Cost);
-            shopItem.Buy();
-            var item = ItemFactory.Create(shopItem.Data);
+            _wallet.SubtractMoney(_currentItem.Cost);
+            _currentItem.Buy();
+            var item = ItemFactory.Create(_currentItem.Data);
             _inventory.AddItem(item);
+        }
+
+        private void ShowItemInfo(ShopItem item)
+        {
+            _itemInfoPanel.Initialize(item.Data.View);
+            _itemInfoPanel.Open();
+            _currentItem = item;
         }
 
         public override void Open()
