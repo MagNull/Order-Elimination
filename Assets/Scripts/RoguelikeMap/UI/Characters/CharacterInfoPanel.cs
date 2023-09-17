@@ -8,6 +8,7 @@ using OrderElimination.MacroGame;
 using RoguelikeMap.UI.Abilities;
 using Sirenix.OdinInspector;
 using TMPro;
+using UIManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +17,7 @@ namespace RoguelikeMap.UI.Characters
     public class CharacterInfoPanel : Panel
     {
         [SerializeField]
-        private AbilityInfoPanel _abilityInfoPanel;
+        private AbilityDescriptionPanel _abilityDescriptionPanel;
         [SerializeField] 
         private PassiveAbilityInfoPanel _passiveAbilityInfoPanel;
         [SerializeField] 
@@ -66,7 +67,8 @@ namespace RoguelikeMap.UI.Characters
                 character.CharacterStats.Evasion);
             InitializeAbilityButtons(
                 character.ActiveAbilities, 
-                character.PassiveAbilities);
+                character.PassiveAbilities,
+                ValueCalculationContext.ForMetaCaster(character));
             if (_playerInventoryPresenter is not null)
                 _characterInventoryPresenter.InitInventoryModel(character.Inventory);
             _playerInventoryPresenter?.UpdateTargetInventory(character.Inventory);
@@ -85,7 +87,8 @@ namespace RoguelikeMap.UI.Characters
 
         private void InitializeAbilityButtons(
             IEnumerable<IActiveAbilityData> activeAbilities,
-            IEnumerable<IPassiveAbilityData> passiveAbilities)
+            IEnumerable<IPassiveAbilityData> passiveAbilities,
+            ValueCalculationContext calculationContext)
         {
             foreach (var button in _activeAbilityButtons.Concat(_passiveAbilityButtons))
             {
@@ -110,8 +113,8 @@ namespace RoguelikeMap.UI.Characters
 
                 void OnActiveAbilityClicked()
                 {
-                    _abilityInfoPanel.InitializeInfo(ability);
-                    _abilityInfoPanel.Open();
+                    _abilityDescriptionPanel.UpdateAbilityData(ability, calculationContext);
+                    _abilityDescriptionPanel.Open();
                 }
             }
             for (var i = 0; i < displayedPassiveAbilities.Length; i++)
