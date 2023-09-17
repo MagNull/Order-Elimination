@@ -20,18 +20,34 @@ namespace RoguelikeMap.Points.Models
         public Sprite Sprite { get; private set; }
         [field: SerializeField]
         public string TransferText { get; private set; }
-
-        protected Panel _panel;
+        
+        protected Panel panel;
+        protected TransferPanel transferPanel;
+        
         public virtual PointType Type => PointType.None;
-
+        public int Index { get; private set; }
+        
         public event Action<bool> OnChangeActivity;
+
+        public virtual void ShowPreview(Squad squad)
+        {
+            transferPanel.Initialize(this);
+            if(!transferPanel.IsOpen)
+                transferPanel.Open();
+        }
         
         public virtual async Task Visit(Squad squad)
         {
             await squad.Visit(this);
         }
 
-        public void SetPanel(PanelManager panelManager) => _panel = panelManager.GetPanelByPointInfo(Type);
+        public void SetIndex(int index) => Index = index;
+
+        public void SetPanel(PanelManager panelManager, TransferPanel transferPanel)
+        {
+            panel = panelManager.GetPanelByPointInfo(Type);
+            this.transferPanel = transferPanel;
+        }
 
         public IEnumerable<PointModel> GetNextPoints()
         {

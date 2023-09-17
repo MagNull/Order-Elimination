@@ -3,9 +3,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using OrderElimination;
 using OrderElimination.Battle;
+using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
+using RoguelikeMap.Points.Models;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI;
+using RoguelikeMap.UI.PointPanels;
 using UnityEngine;
 using VContainer;
 
@@ -20,27 +23,30 @@ namespace RoguelikeMap.Map
         private Squad _squad;
         private List<Point> _points;
         private Point _currentPoint;
-        private TransferPanel _transferPanel;
         private ScenesMediator _mediator;
         private IObjectResolver _objectResolver;
         private BattleOutcome _battleOutcome;
+        private TransferPanel _transferPanel;
+        private BattlePanel _battlePanel;
 
         [Inject]
         private void Construct(IMapGenerator mapGenerator, Squad squad,
             ScenesMediator scenesMediator, TransferPanel transferPanel,
-            IObjectResolver objectResolver)
+            PanelManager panelManager, IObjectResolver objectResolver)
         {
             _mapGenerator = mapGenerator;
             _squad = squad;
-            _transferPanel = transferPanel;
             _mediator = scenesMediator;
+            _transferPanel = transferPanel;
+            _battlePanel = panelManager.GetPanelByPointInfo(PointType.Battle) as BattlePanel;
             _objectResolver = objectResolver;
         }
 
         private void Start()
         {
             _points = _mapGenerator.GenerateMap();
-            _transferPanel.OnAcceptClick += MoveToPoint; 
+            _transferPanel.OnAccept += MoveToPoint;
+            _battlePanel.OnAccepted += MoveToPoint;
             if(_mediator.Contains<int>("point index"))
                 MoveToPoint(_points.First(x => x.Index == _mediator.Get<int>("point index")));
             else
@@ -57,6 +63,12 @@ namespace RoguelikeMap.Map
             return _points.First(point => point.Model is StartPointModel);
         }
 
+        private async void MoveToPoint(int pointIndex)
+        {
+            var point = _points.First(x => x.Index == pointIndex);
+            await SetSquadPosition(point);
+        }
+
         private async void MoveToPoint(Point point)
         {
             await SetSquadPosition(point);
@@ -70,10 +82,15 @@ namespace RoguelikeMap.Map
             if (!isAnimation)
                 _squad.MoveWithoutAnimation(point.Model.position);
             else if (_mediator.Contains<BattleResults>("battle results")
-                     && _mediator.Get<BattleResults>("battle results").BattleOutcome is BattleOutcome.Win)
+                     && _mediator.Get<BattleResults>("battle results").BattleOutcome is BattleOutcome.Win
+                     && point.Model is FinalBattlePointModel)
             {
+                if (point.Model is not BattlePointModel)
+                {
+                    GameEnd();
+                    return;
+                }
                 _squad.MoveWithoutAnimation(point.Model.position);
-                _mediator.Unregister("battle results");
             }
             else
                 await point.Visit(_squad);
@@ -101,9 +118,16 @@ namespace RoguelikeMap.Map
                 point.SetActive(true);
         }
 
+        public void GameEnd()
+        {
+            _victoryPanel.Open();
+            Destroy(_mediator.gameObject);
+        }
+
         public void OnDestroy()
         {
-            _transferPanel.OnAcceptClick -= MoveToPoint;
+            _squad.OnVisitPoint -= MoveToPoint;
+            _transferPanel.OnAccept -= MoveToPoint;
         }
     }
 }
