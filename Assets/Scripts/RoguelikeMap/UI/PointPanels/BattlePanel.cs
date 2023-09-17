@@ -52,6 +52,7 @@ namespace RoguelikeMap.UI.PointPanels
             foreach(var card in _cards)
                 Destroy(card.gameObject);
             _cards.Clear();
+            _scenarioVisualiser.SetActiveCells(false);
         }
 
         private void ShowCharacterInfo(CharacterCard card)
