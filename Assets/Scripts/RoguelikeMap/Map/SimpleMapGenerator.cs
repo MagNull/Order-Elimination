@@ -27,7 +27,7 @@ namespace RoguelikeMap.Map
 
         public List<Point> GenerateMap()
         {
-            var path = "Points\\Maps";
+            var path = "Points\\RoguelikeMaps";
             var maps = Resources.LoadAll<PointGraph>(path);
             var mapIndex = Random.Range(0, maps.Length);
             var points = GeneratePoints(maps[mapIndex]);
