@@ -97,6 +97,8 @@ namespace RoguelikeMap.Map
             UpdatePointsIcon();
             _currentPoint.ShowPaths();
             _mediator.Register("point index", _currentPoint.Index);
+            if(point.Model is not FinalBattlePointModel && _mediator.Contains<BattleResults>("battle results"))
+                _mediator.Unregister("battle results");
         }
 
         public void LoadStartScene()
