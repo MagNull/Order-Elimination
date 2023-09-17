@@ -10,7 +10,7 @@ namespace OrderElimination.AbilitySystem
     public class EntitiesCountGetter : IContextValueGetter
     {
         [ShowInInspector, OdinSerialize]
-        public IEntityCondition[] EntityConditions { get; private set; }
+        public IEntityCondition[] EntityConditions { get; private set; } = new IEntityCondition[0];
 
         [ShowInInspector, OdinSerialize]
         public int CountInCellGroupId { get; private set; }

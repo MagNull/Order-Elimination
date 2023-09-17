@@ -10,7 +10,7 @@ namespace OrderElimination.AbilitySystem
         Invisible = 1,
         CantMove = 2,
         Invulnerable = 4, // - Cant be damaged
-        Flying = 8, // - can move freely
+        FreeMovement = 8, // - can move freely
         ActiveAbilitiesDisabled = 16,
         PassiveAbilitiesDisabled = 32,
         //CantDie = 64, // - TakesDamage but health cant get lower than 1

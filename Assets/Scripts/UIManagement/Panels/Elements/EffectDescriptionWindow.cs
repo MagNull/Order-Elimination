@@ -13,6 +13,8 @@ namespace UIManagement.Elements
         [SerializeField] private TextMeshProUGUI _effectName;
         [SerializeField] private IconTextValueList _parameters;
 
+        private IEffectData _effectData;
+
         public void UpdateEffectDescription(BattleEffect effect)
         {
             var calculationContext = ValueCalculationContext.Full(
@@ -28,6 +30,7 @@ namespace UIManagement.Elements
         public void UpdateEffectDescription(IEffectData effectData, 
             ValueCalculationContext calculationContext)
         {
+            _effectData = effectData;
             var view = effectData.View;
             _effectName.text = view.Name;
             _effectIcon.sprite = view.Icon;
@@ -35,8 +38,21 @@ namespace UIManagement.Elements
             var humanRepresentation = EffectHumanRepresentation.FromEffect(effectData, calculationContext);
             foreach (var parameter in humanRepresentation.Parameters)
             {
-                _parameters.Add(null, parameter.ParameterName, parameter.Value, parameter.ValueUnits);
+                _parameters.Add(null, parameter.Name, parameter.Value, parameter.ValueUnits);
             }
+        }
+
+        public bool AddApplyingDuration()
+        {
+            if (_effectData == null)
+                throw new System.InvalidOperationException();
+            if (_effectData.TemporaryEffectFunctionaity != null)
+            {
+                var duration = _effectData.TemporaryEffectFunctionaity.ApplyingDuration;
+                _parameters.Add(null, "Длительность", duration, ValueUnits.None);
+                return true;
+            }
+            return false;
         }
 
         public void AddProbability(float probability)

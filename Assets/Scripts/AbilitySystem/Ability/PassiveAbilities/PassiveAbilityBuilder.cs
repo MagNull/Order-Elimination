@@ -51,6 +51,12 @@ namespace OrderElimination.AbilitySystem
         }
 
         [TitleGroup("Functionality", Alignment = TitleAlignments.Centered, Order = 4), PropertyOrder(0)]
+        [PropertyTooltip("Actions performed with Owner of Passive Ability on activation."
+            + "\nUndone on deactivation if possible.")]
+        [ShowInInspector, OdinSerialize]
+        public IUndoableBattleAction[] ActionsOnActivation { get; private set; }
+
+        [TitleGroup("Functionality", Alignment = TitleAlignments.Centered, Order = 4), PropertyOrder(0)]
         [OnInspectorInit("@$property.State.Expanded = true")]
         [ShowInInspector, OdinSerialize]
         public ITriggerInstruction[] TriggerInstructions { get; private set; }

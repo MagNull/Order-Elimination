@@ -371,13 +371,11 @@ public class BattleMapSelector : MonoBehaviour
     }
     private void OnAbilityExecutionStarted(ActiveAbilityRunner abilityRunner)
     {
-        abilityRunner.AbilityExecutionStarted -= OnAbilityExecutionStarted;
         AbilityExecutionStarted?.Invoke();
         OnAbilityConditionUpdated(abilityRunner);
     }
     private void OnAbilityExecutionCompleted(ActiveAbilityRunner abilityRunner)
     {
-        abilityRunner.AbilityExecutionCompleted -= OnAbilityExecutionCompleted;
         AbilityExecutionCompleted?.Invoke();
         OnAbilityConditionUpdated(abilityRunner);
     }

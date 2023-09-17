@@ -16,7 +16,7 @@ namespace RoguelikeMap.Points.Models
         [SerializeReference]
         private EventPointGraph _eventGraph;
         
-        protected EventPanel Panel => _panel as EventPanel;
+        protected EventPanel Panel => panel as EventPanel;
         
         public override PointType Type => PointType.Event;
         

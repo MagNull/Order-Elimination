@@ -199,7 +199,7 @@ namespace OrderElimination.AbilitySystem.UI
                             && targetStatGetter.TargetStat == stat))
                         {
                             var right = isPercentStat
-                                ? GetInPercentOrSimplify(mathValue.Right, calculationContext)
+                                ? mathValue.Right.GetInPercentOrSimplify(calculationContext)
                                 : mathValue.Right.GetSimplifiedFormula(calculationContext);
                             statValue = $"{mathValue.Operation.AsString()} {right}";
                         }
@@ -208,7 +208,7 @@ namespace OrderElimination.AbilitySystem.UI
                     {
                         //end-value binding
                         statValue = isPercentStat
-                            ? GetInPercentOrSimplify(modifyStatsAction.ValueModifier, calculationContext)
+                            ? modifyStatsAction.ValueModifier.GetInPercentOrSimplify(calculationContext)
                             : modifyStatsAction.ValueModifier.GetSimplifiedFormula(calculationContext);
                     }
                     parameters.Add(new(statName, statValue));
@@ -229,13 +229,6 @@ namespace OrderElimination.AbilitySystem.UI
                         actionInstruction.FollowingInstruction, calculationContext));
             }
             return parameters;
-        }
-
-        private string GetInPercentOrSimplify(IContextValueGetter value, ValueCalculationContext context)
-        {
-            if (value.CanBePrecalculatedWith(context))
-                return $"{value.GetValue(context) * 100}%";
-            return value.GetSimplifiedFormula(context);
         }
     }
 }

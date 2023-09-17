@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using GameInventory.Items;
-using OrderElimination;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI.PointPanels;
-using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace RoguelikeMap.Points.Models
@@ -32,7 +27,7 @@ namespace RoguelikeMap.Points.Models
         private List<ShopItemData> _shopItems;
 
         public override PointType Type => PointType.Shop;
-        public ShopPanel Panel => _panel as ShopPanel;
+        public ShopPanel Panel => panel as ShopPanel;
 
         private List<ShopItemData> RollItems()
         {

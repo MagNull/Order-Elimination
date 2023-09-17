@@ -36,7 +36,7 @@ namespace OrderElimination
             if (members.Count() == 0)
                 throw new ArgumentException($"Attempt to create {nameof(SquadModel)} with 0 members.");
             //First three members are active
-            SetSquadMembers(members, members.Count());
+            SetSquadMembers(members, _activeMembersCount);
 
             RestoreUpgrades();
             SetPanel(squadMembersPanel);
