@@ -3,6 +3,7 @@ using OrderElimination.Events;
 using RoguelikeMap.UI.PointPanels;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.UI;
 using XNode;
 
 namespace Events
@@ -15,6 +16,9 @@ namespace Events
     {
         [Input] public Empty entries;
         [Output] public Empty exits;
+
+        [SerializeField]
+        private Image _image;
 
         [SerializeField, MultiLineProperty, TextArea(10, 100)]
         protected string text;
@@ -42,6 +46,7 @@ namespace Events
             var eventGraph = graph as EventPointGraph;
             eventGraph.currentNode = this;
             panel.UpdateText(text);
+            panel.UpdateSprite(_image.sprite);
         }
     }
 }
