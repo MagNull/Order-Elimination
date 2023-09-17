@@ -59,6 +59,10 @@ public class MenuWindow : MonoBehaviour
         _startGameButton.onClick.AddListener(() =>
         {
             _metaShopPanel.SaveStats();
+            if(_scenesMediator.Contains<GameCharacter[]>("player characters"))
+                _scenesMediator.Unregister("player characters");
+            if(_scenesMediator.Contains<int>("point index"))
+                _scenesMediator.Unregister("point index");
             if(_choosingCharacterPanel.SaveCharacters())
                 _sceneTransition.LoadRoguelikeMap();
         });
