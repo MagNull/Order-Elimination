@@ -18,7 +18,7 @@ namespace Events
         [Output] public Empty exits;
 
         [SerializeField]
-        private Image _image;
+        private Sprite _image;
 
         [SerializeField, MultiLineProperty, TextArea(10, 100)]
         protected string text;
@@ -46,7 +46,7 @@ namespace Events
             var eventGraph = graph as EventPointGraph;
             eventGraph.currentNode = this;
             panel.UpdateText(text);
-            panel.UpdateSprite(_image.sprite);
+            panel.UpdateSprite(_image);
         }
     }
 }

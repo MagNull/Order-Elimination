@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e55984f4b8f1451d9f330bfc28c4a613, type: 3}
-  m_Name: BattlePointModel
+  m_Name: "\u0413\u043E\u0440\u044F\u0449\u0438\u0439 \u043B\u0435\u0441"
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -470, y: 380}
+  position: {x: -472, y: 376}
   ports:
     keys:
     - entries
@@ -43,16 +43,28 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  _name: 
+  _name: "\u0413\u043E\u0440\u044F\u0449\u0438\u0439 \u043B\u0435\u0441"
   <Sprite>k__BackingField: {fileID: 21300000, guid: aa3734ee59be40d41a2ff119c1f4190d, type: 3}
-  <TransferText>k__BackingField: "\u0411\u043E\u0439"
+  <TransferText>k__BackingField: "\u0413\u043E\u0440\u044F\u0449\u0438\u0439 \u043B\u0435\u0441"
   entries: {fileID: 0}
   _enemies:
+  - {fileID: 11400000, guid: b1b0169abeb78e6428fb783d88fab5f5, type: 2}
   - {fileID: 11400000, guid: 85c060ecda844cb43bd4fe84c712bdd5, type: 2}
-  _battleScenario: {fileID: 11400000, guid: 645568020c6734a33b31a508f38bbbe3, type: 2}
+  - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
+  - {fileID: 11400000, guid: 15236cc5304333d4b854e990389e5825, type: 2}
+  - {fileID: 11400000, guid: ec472f2644546894eb9e5b06302e43a6, type: 2}
+  _battleScenario: {fileID: 11400000, guid: 0fda38ed8146b474f8fd06a0f6ff1811, type: 2}
   _itemsDropProbability:
-    m_Keys: []
-    m_Values: []
+    m_Keys:
+    - {fileID: 11400000, guid: bda2ccd058bcb574ab0af4407f6695f4, type: 2}
+    - {fileID: 11400000, guid: 297c86b3b3bd4d54ab55eb3bb88058f0, type: 2}
+    - {fileID: 11400000, guid: 021d679a32ff2ba4d9c622e32da53be1, type: 2}
+    - {fileID: 11400000, guid: 59c1e2e91998f9848b8773cce80fd914, type: 2}
+    m_Values:
+    - 100
+    - 50
+    - 70
+    - 30
   exits: {fileID: 0}
 --- !u!114 &-3607521732556223896
 MonoBehaviour:
@@ -94,7 +106,14 @@ MonoBehaviour:
   entries: {fileID: 0}
   _enemies:
   - {fileID: 11400000, guid: 85c060ecda844cb43bd4fe84c712bdd5, type: 2}
-  _battleScenario: {fileID: 11400000, guid: ba893c36688264d48ac1eb8e05b864c4, type: 2}
+  - {fileID: 11400000, guid: 15236cc5304333d4b854e990389e5825, type: 2}
+  - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
+  - {fileID: 11400000, guid: 4d83702453d81274b89c1876bee2dabb, type: 2}
+  - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
+  - {fileID: 11400000, guid: ec472f2644546894eb9e5b06302e43a6, type: 2}
+  - {fileID: 11400000, guid: 15236cc5304333d4b854e990389e5825, type: 2}
+  - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
+  _battleScenario: {fileID: 11400000, guid: ad2d49922bd51924f90590674d97a53a, type: 2}
   _itemsDropProbability:
     m_Keys: []
     m_Values: []
@@ -108,7 +127,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d158c0606814ff882c3a9e402e740b1, type: 3}
-  m_Name: EventPointModel
+  m_Name: "\u0414\u0432\u0435\u0440\u044C \u0431\u0443\u043D\u043A\u0435\u0440\u0430"
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 0, y: 380}
@@ -141,7 +160,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  _name: 
+  _name: "\u0414\u0432\u0435\u0440\u044C \u0431\u0443\u043D\u043A\u0435\u0440\u0430"
   <Sprite>k__BackingField: {fileID: 21300000, guid: 8df998a83a728fd48a1b80f71c6407ad, type: 3}
   <TransferText>k__BackingField: "\u0421\u043E\u0431\u044B\u0442\u0438\u0435"
   entries: {fileID: 0}
@@ -180,7 +199,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e55984f4b8f1451d9f330bfc28c4a613, type: 3}
-  m_Name: BattlePointModel
+  m_Name: "\u0426\u0430\u0440\u044C \u0433\u043E\u0440\u044B"
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 0, y: -280}
@@ -213,16 +232,25 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  _name: 
+  _name: "\u0426\u0430\u0440\u044C \u0433\u043E\u0440\u044B"
   <Sprite>k__BackingField: {fileID: 21300000, guid: aa3734ee59be40d41a2ff119c1f4190d, type: 3}
-  <TransferText>k__BackingField: "\u0411\u043E\u0435\u0432\u0430\u044F \u0442\u043E\u0447\u043A\u0430"
+  <TransferText>k__BackingField: "\u0426\u0430\u0440\u044C \u0433\u043E\u0440\u044B"
   entries: {fileID: 0}
   _enemies:
   - {fileID: 11400000, guid: 85c060ecda844cb43bd4fe84c712bdd5, type: 2}
+  - {fileID: 11400000, guid: e076fd51038a5ef4f9e567f9e64000e5, type: 2}
+  - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
+  - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
   _battleScenario: {fileID: 11400000, guid: 4123c1a00591c4987b26c6e2ee49d7d2, type: 2}
   _itemsDropProbability:
-    m_Keys: []
-    m_Values: []
+    m_Keys:
+    - {fileID: 11400000, guid: 1599a607de22cf74190de9909e181d7e, type: 2}
+    - {fileID: 11400000, guid: 7a168eb7991a62c44962343ca7e820e5, type: 2}
+    - {fileID: 11400000, guid: 801d2f03441613446812b4f26f37e94b, type: 2}
+    m_Values:
+    - 80
+    - 49
+    - 80
   exits: {fileID: 0}
 --- !u!114 &4410611699548734048
 MonoBehaviour:
@@ -234,7 +262,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d158c0606814ff882c3a9e402e740b1, type: 3}
-  m_Name: EventPointModel
+  m_Name: "\u0421\u0438\u0433\u043D\u0430\u043B S.O.S."
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 470, y: 380}
@@ -270,7 +298,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  _name: 
+  _name: "\u0421\u0438\u0433\u043D\u0430\u043B S.O.S."
   <Sprite>k__BackingField: {fileID: 21300000, guid: 8df998a83a728fd48a1b80f71c6407ad, type: 3}
   <TransferText>k__BackingField: "\u0421\u043E\u0431\u044B\u0442\u0438\u0435"
   entries: {fileID: 0}
@@ -326,10 +354,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e55984f4b8f1451d9f330bfc28c4a613, type: 3}
-  m_Name: BattlePointModel
+  m_Name: "2 \u0431\u0430\u0448\u043D\u0438"
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -470, y: 50}
+  position: {x: -472, y: 50}
   ports:
     keys:
     - entries
@@ -359,16 +387,24 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  _name: 
+  _name: "2 \u0431\u0430\u0448\u043D\u0438"
   <Sprite>k__BackingField: {fileID: 21300000, guid: aa3734ee59be40d41a2ff119c1f4190d, type: 3}
-  <TransferText>k__BackingField: "\u0411\u043E\u0439"
+  <TransferText>k__BackingField: "2 \u0431\u0430\u0448\u043D\u0438"
   entries: {fileID: 0}
   _enemies:
-  - {fileID: 11400000, guid: 85c060ecda844cb43bd4fe84c712bdd5, type: 2}
-  _battleScenario: {fileID: 11400000, guid: 645568020c6734a33b31a508f38bbbe3, type: 2}
+  - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+  - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+  - {fileID: 11400000, guid: 8cf61d33b5cc8a442bce0e22ce05a8fc, type: 2}
+  - {fileID: 11400000, guid: e076fd51038a5ef4f9e567f9e64000e5, type: 2}
+  - {fileID: 11400000, guid: ec472f2644546894eb9e5b06302e43a6, type: 2}
+  _battleScenario: {fileID: 11400000, guid: ba893c36688264d48ac1eb8e05b864c4, type: 2}
   _itemsDropProbability:
-    m_Keys: []
-    m_Values: []
+    m_Keys:
+    - {fileID: 11400000, guid: e17e2f38046df2b4cbf2076ea46f5ff5, type: 2}
+    - {fileID: 11400000, guid: bda2ccd058bcb574ab0af4407f6695f4, type: 2}
+    m_Values:
+    - 80
+    - 55
   exits: {fileID: 0}
 --- !u!114 &6584293399872262759
 MonoBehaviour:
@@ -380,10 +416,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e55984f4b8f1451d9f330bfc28c4a613, type: 3}
-  m_Name: BattlePointModel
+  m_Name: "\u0411\u0440\u043E\u0448\u0435\u043D\u043D\u044B\u0439 \u0430\u0432\u0430\u043D\u043F\u043E\u0441\u0442"
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -470, y: -280}
+  position: {x: -472, y: -280}
   ports:
     keys:
     - entries
@@ -413,14 +449,17 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  _name: 
+  _name: "\u0411\u0440\u043E\u0448\u0435\u043D\u043D\u044B\u0439 \u0430\u0432\u0430\u043D\u043F\u043E\u0441\u0442"
   <Sprite>k__BackingField: {fileID: 21300000, guid: aa3734ee59be40d41a2ff119c1f4190d, type: 3}
-  <TransferText>k__BackingField: "\u0411\u043E\u0439"
+  <TransferText>k__BackingField: "\u0411\u0440\u043E\u0448\u0435\u043D\u043D\u044B\u0439
+    \u0430\u0432\u0430\u043D\u043F\u043E\u0441\u0442"
   entries: {fileID: 0}
   _enemies:
   - {fileID: 11400000, guid: 85c060ecda844cb43bd4fe84c712bdd5, type: 2}
-  - {fileID: 11400000, guid: 85c060ecda844cb43bd4fe84c712bdd5, type: 2}
-  - {fileID: 11400000, guid: 85c060ecda844cb43bd4fe84c712bdd5, type: 2}
+  - {fileID: 11400000, guid: ec472f2644546894eb9e5b06302e43a6, type: 2}
+  - {fileID: 11400000, guid: e076fd51038a5ef4f9e567f9e64000e5, type: 2}
+  - {fileID: 11400000, guid: 8cf61d33b5cc8a442bce0e22ce05a8fc, type: 2}
+  - {fileID: 11400000, guid: b1b0169abeb78e6428fb783d88fab5f5, type: 2}
   _battleScenario: {fileID: 11400000, guid: 645568020c6734a33b31a508f38bbbe3, type: 2}
   _itemsDropProbability:
     m_Keys:
@@ -428,7 +467,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 63b39f66984483c4086841dff676d0c3, type: 2}
     - {fileID: 11400000, guid: 1599a607de22cf74190de9909e181d7e, type: 2}
     m_Values:
-    - 0
+    - 10
     - 123
     - 31
   exits: {fileID: 0}
@@ -442,7 +481,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 493990a401df4d709d4b53f002703d9a, type: 3}
-  m_Name: ShopPointModel
+  m_Name: "\u0417\u0430\u0433\u0430\u0434\u043E\u0447\u043D\u0430\u044F \u043B\u0430\u0432\u043A\u0430"
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 0, y: 50}
@@ -478,12 +517,27 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  _name: 
+  _name: "\u0417\u0430\u0433\u0430\u0434\u043E\u0447\u043D\u0430\u044F \u043B\u0430\u0432\u043A\u0430"
   <Sprite>k__BackingField: {fileID: 21300000, guid: e72737a89ea91024e8bbb28afb18345d, type: 3}
   <TransferText>k__BackingField: "\u041C\u0430\u0433\u0430\u0437\u0438\u043D"
   entries: {fileID: 0}
   exits: {fileID: 0}
-  _shopItems: []
+  _shopItems:
+  - Data: {fileID: 11400000, guid: ebb7cc05ab8f4fb45ba8aca48a344ee8, type: 2}
+    Cost: 100
+    DropProbability: 100
+  - Data: {fileID: 11400000, guid: 54ea70d67b8f45943954bf13f51246c9, type: 2}
+    Cost: 150
+    DropProbability: 80
+  - Data: {fileID: 11400000, guid: 5134df50ce9e2734197d641a17870913, type: 2}
+    Cost: 50
+    DropProbability: 100
+  - Data: {fileID: 11400000, guid: 63b39f66984483c4086841dff676d0c3, type: 2}
+    Cost: 75
+    DropProbability: 95
+  - Data: {fileID: 11400000, guid: 3068a40ad22e37f4ca1df6d33a24cd6a, type: 2}
+    Cost: 200
+    DropProbability: 100
 --- !u!114 &8951012714100875131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,7 +548,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14acdc3765e44829b3fed4c94468ecc8, type: 3}
-  m_Name: SafeZonePointModel
+  m_Name: "\u0411\u0435\u0437\u043E\u043F\u0430\u0441\u043D\u0430\u044F \u0437\u043E\u043D\u0430"
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
   position: {x: 470, y: 50}
@@ -530,13 +584,15 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  _name: 
+  _name: "\u0411\u0435\u0437\u043E\u043F\u0430\u0441\u043D\u0430\u044F \u0437\u043E\u043D\u0430"
   <Sprite>k__BackingField: {fileID: 21300000, guid: 99f98c2f5780f4a4eae61f47e635951a, type: 3}
   <TransferText>k__BackingField: "\u0417\u043E\u043D\u0430 \u043E\u0442\u0434\u044B\u0445\u0430"
   entries: {fileID: 0}
   exits: {fileID: 0}
-  _sprite: {fileID: 0}
-  _text: 
-  _amountHeal: 0
+  _sprite: {fileID: 21300000, guid: 42831ab3c8a2644489258bc5a91b6d14, type: 3}
+  _text: "\u0412\u044B \u043D\u0430\u0448\u043B\u0438 \u043F\u043E\u0434\u0445\u043E\u0434\u044F\u0449\u0435\u0435
+    \u0434\u043B\u044F \u043E\u0442\u0434\u044B\u0445\u0430 \u0443\u043A\u0440\u044B\u0442\u0438\u0435."
+  _amountHeal: 100
   _items:
   - {fileID: 11400000, guid: 3068a40ad22e37f4ca1df6d33a24cd6a, type: 2}
+  - {fileID: 11400000, guid: e17e2f38046df2b4cbf2076ea46f5ff5, type: 2}
