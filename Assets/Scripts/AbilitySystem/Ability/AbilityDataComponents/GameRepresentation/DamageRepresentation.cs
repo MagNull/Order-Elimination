@@ -1,4 +1,4 @@
-﻿namespace OrderElimination.AbilitySystem
+﻿namespace OrderElimination.AbilitySystem.GameRepresentation
 {
     public class DamageRepresentation
     {
@@ -8,33 +8,27 @@
             int localRepetitions, 
             int totalRepetitions)
         {
-            DamageAction = damageAction;
+            UnprocessedDamageAction = damageAction;
             LocalRepetitions = localRepetitions;
             TotalRepetitions = totalRepetitions;
             AffectedEntities = affectedEntities.Clone();
         }
-
-        public InflictDamageAction DamageAction { get; } //safe copy or readonly
+        public IContextValueGetter UnprocessedDamageSize => UnprocessedDamageAction?.DamageSize;
+        public IContextValueGetter UnprocessedAccuracySize => UnprocessedDamageAction?.Accuracy;
+        public InflictDamageAction UnprocessedDamageAction { get; } //safe copy or readonly
         public int LocalRepetitions { get; }
-        public int TotalRepetitions { get; } //Considers higher instruction repetitions
+        public int TotalRepetitions { get; } //Considers parent instruction repetitions
         //DamageTarget/TargetGroup
         public EntityFilter AffectedEntities { get; } = new();
         //Affected cells/cellGroups?
-        //GetProcessedDamage(ActionContext)
-        //DamageSize
-        //Accuracy
-        public InflictDamageAction GetContextDamage(
+
+        public InflictDamageAction GetProcessedParameters(
             ActionContext actionContext, out DamageInfo damage, out float accuracy)
         {
-            var processedAction = DamageAction.GetModifiedAction(actionContext);
+            var processedAction = UnprocessedDamageAction.GetModifiedAction(actionContext);
             damage = processedAction.CalculateDamage(actionContext);
             accuracy = processedAction.CalculateAccuracy(actionContext);
             return processedAction;
         }
-
-        //public bool GetContextIndependentDamage(out DamageInfo damage, out float accuracy)
-        //{
-
-        //}
     }
 }

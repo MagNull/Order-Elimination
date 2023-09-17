@@ -17,10 +17,11 @@ namespace OrderElimination.AbilitySystem
         //CrosshairTargetGroups
         public bool ShowTrajectoryWhenTargeting { get; }
 
-        //public IReadOnlyList<string> Parameters { get; } //Range, etc. for manual display
+        public IReadOnlyDictionary<string, IContextValueGetter> CustomParameters { get; } //Range, etc. for manual display
 
         public ActiveAbilityView(
-            IReadOnlyDictionary<int, Color> groupColors, 
+            IReadOnlyDictionary<int, Color> groupColors,
+            IReadOnlyDictionary<string, IContextValueGetter> customParameters,
             string name, Sprite icon, string description, 
             bool hideInCharacterDescription,
             bool showCrosshair,
@@ -30,6 +31,7 @@ namespace OrderElimination.AbilitySystem
             Icon = icon;
             Description = description ?? "";
             TargetGroupsHighlightColors = groupColors;
+            CustomParameters = customParameters;
             HideInCharacterDescription = hideInCharacterDescription;
             ShowCrosshairWhenTargeting = showCrosshair;
             ShowTrajectoryWhenTargeting = showTrajectory;

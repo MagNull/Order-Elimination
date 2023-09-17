@@ -44,7 +44,10 @@ namespace OrderElimination.AbilitySystem
             BattleMap = map;
             EntitiesBank = entitiesBank;
             _battleLoopManager = battleLoopManager;
-            _battleRules = new(() => mediator.Get<IBattleRules>("rules"));
+            _battleRules = new(() => 
+            {
+                return mediator.Get<IBattleRules>("rules"); 
+            });
             AnimationSceneContext = animationContext;
             EntitySpawner = entitySpawner;
             _battleLoopManager.NewTurnStarted += OnNewTurn;

@@ -1,5 +1,6 @@
 using OrderElimination;
 using OrderElimination.AbilitySystem;
+using OrderElimination.AbilitySystem.Animations;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
@@ -90,6 +91,11 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         [VerticalGroup("Dependencies Search/Parameters")]
         [ShowInInspector]
         public bool DirectReferenceOnly { get; set; } = true;
+
+        [TitleGroup("Dependencies Search")]
+        [VerticalGroup("Dependencies Search/Parameters")]
+        [ShowInInspector]
+        public bool IncludeAnimations { get; set; } = true;
 
         [VerticalGroup("Dependencies Search/Results")]
         [ShowIf("@" + nameof(SearchResult) + " != null")]
@@ -236,7 +242,8 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
             if (instance.IsAbilitySystemAsset())
                 openedAssets.Add((ScriptableObject)instance);
             var members = ReflectionExtensions.GetSerializedMembers(instance)
-                .Where(e => !e.IsAbilitySystemAsset() || !DirectReferenceOnly && !openedAssets.Contains(e));
+                .Where(e => !e.IsAbilitySystemAsset() || !DirectReferenceOnly && !openedAssets.Contains(e))
+                .Where(e => e is not IAbilityAnimation || IncludeAnimations);
             foreach (var value in members)
             {
                 var valueType = value.GetType();
@@ -258,7 +265,8 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
             if (obj.IsAbilitySystemAsset())
                 openedAssets.Add((ScriptableObject)obj);
             var members = ReflectionExtensions.GetSerializedMembers(obj)
-                .Where(e => !e.IsAbilitySystemAsset() || !DirectReferenceOnly && !openedAssets.Contains(e));
+                .Where(e => !e.IsAbilitySystemAsset() || !DirectReferenceOnly && !openedAssets.Contains(e))
+                .Where(e => e is not IAbilityAnimation || IncludeAnimations);
             foreach (var value in members)
             {
                 if (value == seekingInstance)

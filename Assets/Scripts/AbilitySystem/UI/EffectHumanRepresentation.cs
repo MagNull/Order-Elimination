@@ -136,6 +136,12 @@ namespace OrderElimination.AbilitySystem.UI
             IEffectInstruction instruction, 
             ValueCalculationContext calculationContext)
         {
+            //next instructions display
+            var includeOnCallback = true;
+            var includeOnSuccess = true;
+            var includeOnFail = false;
+            var includeFollowing = true;
+
             if (instruction == null)
                 throw new ArgumentNullException();
             var parameters = new List<HumanValue>();
@@ -174,22 +180,53 @@ namespace OrderElimination.AbilitySystem.UI
                 else if (action is ModifyStatsAction modifyStatsAction)
                 {
                     var stat = modifyStatsAction.TargetBattleStat;
+                    var isPercentStat = stat == BattleStat.Accuracy || stat == BattleStat.Evasion;
                     var statName = Localization.Localization.Current.GetBattleStatFullName(stat);
-
-                    //!!! This works wrong as it can calculate based on already modified stat !!!
-                    //if (modifyStatsAction.ValueModifier.CanBePrecalculatedWith(calculationContext))
-                    //{
-
-                    //}
-                    //var statValue = modifyStatsAction.ValueModifier.CanBePrecalculatedWith(calculationContext)
-                    //    ? modifyStatsAction.ValueModifier.GetValue(calculationContext).ToString()
-                    //    : modifyStatsAction.ValueModifier.GetSimplifiedFormula(calculationContext);
-                    //statValue = stat == BattleStat.Accuracy
-                    //    ? "изменена"
-                    //    : stat == BattleStat.AttackDamage ? "изменен" : "изменено";
-                    parameters.Add(new(statName, "*"));
+                    var statValue = "*";
+                    if (modifyStatsAction.ValueModifier is MathValueGetter mathValue)
+                    {
+                        var rightValueContainsStatGetter =
+                            mathValue.Right is CasterStatGetter
+                            || mathValue.Right is TargetStatGetter
+                            || mathValue.Right.ContainsChildrenOfType<CasterStatGetter>()
+                            || mathValue.Right.ContainsChildrenOfType<TargetStatGetter>();
+                        //Works wrong if there is more than 1 instance of StatGetter used in a formula
+                        if (!rightValueContainsStatGetter
+                            && (mathValue.Left is CasterStatGetter casterStatGetter
+                            && casterStatGetter.CasterStat == stat
+                            && calculationContext.BattleCaster == calculationContext.BattleTarget
+                            || mathValue.Left is TargetStatGetter targetStatGetter
+                            && targetStatGetter.TargetStat == stat))
+                        {
+                            var right = isPercentStat
+                                ? mathValue.Right.GetInPercentOrSimplify(calculationContext)
+                                : mathValue.Right.GetSimplifiedFormula(calculationContext);
+                            statValue = $"{mathValue.Operation.AsString()} {right}";
+                        }
+                    }
+                    else
+                    {
+                        //end-value binding
+                        statValue = isPercentStat
+                            ? modifyStatsAction.ValueModifier.GetInPercentOrSimplify(calculationContext)
+                            : modifyStatsAction.ValueModifier.GetSimplifiedFormula(calculationContext);
+                    }
+                    parameters.Add(new(statName, statValue));
                 }
+
                 //next instructions
+                if (includeOnCallback && actionInstruction.InstructionOnCallback != null)
+                    parameters.AddRange(GetInstructionParameters(
+                        actionInstruction.InstructionOnCallback, calculationContext));
+                if (includeOnSuccess && actionInstruction.InstructionOnSuccess != null)
+                    parameters.AddRange(GetInstructionParameters(
+                        actionInstruction.InstructionOnSuccess, calculationContext));
+                if (includeOnFail && actionInstruction.InstructionOnFail != null)
+                    parameters.AddRange(GetInstructionParameters(
+                        actionInstruction.InstructionOnFail, calculationContext));
+                if (includeFollowing && actionInstruction.FollowingInstruction != null)
+                    parameters.AddRange(GetInstructionParameters(
+                        actionInstruction.FollowingInstruction, calculationContext));
             }
             return parameters;
         }

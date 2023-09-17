@@ -82,6 +82,26 @@ public class BattleControlSwitcher : MonoBehaviour
         _battleManager.StartNextTurn();
     }
 
+    private void OnAbilityStarted()
+    {
+        if (_battleContext.ActiveSide == BattleSide.Player)
+            _endTurnButton.interactable = false;
+    }
+
+    private void OnAbilityCompleted()
+    {
+        if (_battleContext.ActiveSide == BattleSide.Player)
+            _endTurnButton.interactable = true;
+    }
+
+    private void Awake()
+    {
+        PlayerSelector.AbilityExecutionStarted -= OnAbilityStarted;
+        PlayerSelector.AbilityExecutionCompleted -= OnAbilityCompleted;
+        PlayerSelector.AbilityExecutionStarted += OnAbilityStarted;
+        PlayerSelector.AbilityExecutionCompleted += OnAbilityCompleted;
+    }
+
     //ToRemove
     private void Update()
     {

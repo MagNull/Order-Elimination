@@ -10,6 +10,7 @@ using UnityEngine;
 using VContainer;
 using OrderElimination;
 using UnityEditor;
+using System;
 
 public enum SelectorMode
 {
@@ -90,6 +91,9 @@ public class BattleMapSelector : MonoBehaviour
     private ActiveAbilityRunner _selectedAbility;
 
     public AbilitySystemActor CurrentSelectedEntity => _currentSelectedEntity;
+
+    public event Action AbilityExecutionStarted;
+    public event Action AbilityExecutionCompleted;
 
     [Inject]
     private void Construct(
@@ -206,10 +210,10 @@ public class BattleMapSelector : MonoBehaviour
         _abilityPanel.AbilityDeselected += OnAbilityDeselect;
         foreach (var ability in entity.ActiveAbilities)
         {
-            ability.AbilityExecutionStarted -= OnAbilityConditionUpdated;
-            ability.AbilityExecutionStarted += OnAbilityConditionUpdated;
-            ability.AbilityExecutionCompleted -= OnAbilityConditionUpdated;
-            ability.AbilityExecutionCompleted += OnAbilityConditionUpdated;
+            ability.AbilityExecutionStarted -= OnAbilityExecutionStarted;
+            ability.AbilityExecutionStarted += OnAbilityExecutionStarted;
+            ability.AbilityExecutionCompleted -= OnAbilityExecutionCompleted;
+            ability.AbilityExecutionCompleted += OnAbilityExecutionCompleted;
         }
         _characterBattleStatsPanel.UpdateEntityInfo(view);
         _characterBattleStatsPanel.ShowInfo();
@@ -285,12 +289,17 @@ public class BattleMapSelector : MonoBehaviour
         var colors = _selectedAbility.AbilityData.View.TargetGroupsHighlightColors;
         foreach (var group in targetedCells.ContainedCellGroups)
         {
-            foreach (var pos in targetedCells.GetGroup(group))
+            if (colors.ContainsKey(group))
             {
-                var currentColor = _battleMapView.GetCell(pos.x, pos.y).CurrentColor;
-                var newColor = Color.Lerp(currentColor, colors[group], colors[group].a);
-                _battleMapView.HighlightCell(pos.x, pos.y, newColor);
+                foreach (var pos in targetedCells.GetGroup(group))
+                {
+                    var currentColor = _battleMapView.GetCell(pos.x, pos.y).CurrentColor;
+                    var newColor = Color.Lerp(currentColor, colors[group], colors[group].a);
+                    _battleMapView.HighlightCell(pos.x, pos.y, newColor);
+                }
             }
+            else
+                Logging.LogError($"Cell Group color hasn't been assigned for \"{group}\" group.");
         }
     }
     private void CastCurrentAbility()
@@ -359,6 +368,16 @@ public class BattleMapSelector : MonoBehaviour
         _mode = SelectorMode.SelectingUnit;
         _selectedAbility.AbilityData.TargetingSystem.CancelTargeting();
         _selectedAbility = null;
+    }
+    private void OnAbilityExecutionStarted(ActiveAbilityRunner abilityRunner)
+    {
+        AbilityExecutionStarted?.Invoke();
+        OnAbilityConditionUpdated(abilityRunner);
+    }
+    private void OnAbilityExecutionCompleted(ActiveAbilityRunner abilityRunner)
+    {
+        AbilityExecutionCompleted?.Invoke();
+        OnAbilityConditionUpdated(abilityRunner);
     }
     private void OnAbilityConditionUpdated(ActiveAbilityRunner abilityRunner)
     {

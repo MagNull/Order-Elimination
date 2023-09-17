@@ -6,7 +6,7 @@ using XNode;
 
 namespace Events
 {
-    public class StartNode : Node, IEventNode
+    public class StartNode : IEventNode
     {
         [Output] public Empty exits;
         
@@ -16,7 +16,7 @@ namespace Events
         [SerializeField, PreviewField(150)]
         private Sprite _sprite;
 
-        public void Process(EventPanel panel, int index = 0)
+        public override void Process(EventPanel panel, int index = 0)
         {
             NodePort exitPort = GetOutputPort("exits");
 
@@ -29,7 +29,7 @@ namespace Events
             node.OnEnter(panel);
         }
 
-        public void OnEnter(EventPanel panel)
+        public override void OnEnter(EventPanel panel)
         {
             panel.UpdateText(_text);
             panel.UpdateSprite(_sprite);

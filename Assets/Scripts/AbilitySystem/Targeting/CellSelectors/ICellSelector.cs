@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector;
+using Sirenix.Serialization;
+using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {

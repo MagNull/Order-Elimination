@@ -11,18 +11,16 @@ namespace OrderElimination.Infrastructure
     public interface IPointRelativePattern : ICloneable<IPointRelativePattern>
     {
         public Vector2Int[] GetAbsolutePositions(Vector2Int originPoint);
+
+        public bool ContainsPositionWithOrigin(Vector2Int position, Vector2Int originPoint);
     }
 
     public class PointRelativePattern : IPointRelativePattern
     {
-        public IEnumerable<Vector2Int> RelativePositions => _relativePositions;
         [ShowInInspector, OdinSerialize]
         private HashSet<Vector2Int> _relativePositions = new HashSet<Vector2Int>();
 
-        public Vector2Int[] GetAbsolutePositions(Vector2Int originPoint)
-        {
-            return _relativePositions.Select(v => originPoint + v).ToArray();
-        }
+        public IEnumerable<Vector2Int> RelativePositions => _relativePositions;
 
         public bool AddRelativePosition(Vector2Int offset) => _relativePositions.Add(offset);
 
@@ -34,6 +32,16 @@ namespace OrderElimination.Infrastructure
             clone._relativePositions = _relativePositions.ToHashSet();
             return clone;
         }
+
+        public bool ContainsPositionWithOrigin(Vector2Int position, Vector2Int originPoint)
+        {
+            return _relativePositions.Contains(position - originPoint);
+        }
+
+        public Vector2Int[] GetAbsolutePositions(Vector2Int originPoint)
+        {
+            return _relativePositions.Select(v => originPoint + v).ToArray();
+        }
     }
 
     public class DistanceFromPointPattern : IPointRelativePattern
@@ -42,6 +50,14 @@ namespace OrderElimination.Infrastructure
         private float _minDistanceFromOrigin;
         [HideInInspector, OdinSerialize]
         private float _maxDistanceFromOrigin;
+
+        public DistanceFromPointPattern(
+            float minDistanceFromOrigin, float maxDistanceFromOrigin, bool useSquareDistance)
+        {
+            _minDistanceFromOrigin = minDistanceFromOrigin;
+            _maxDistanceFromOrigin = maxDistanceFromOrigin;
+            UseSquareDistance = useSquareDistance;
+        }
 
         [ShowInInspector]
         public float MinDistanceFromOrigin
@@ -71,18 +87,31 @@ namespace OrderElimination.Infrastructure
 
         public IPointRelativePattern Clone()
         {
-            var clone = new DistanceFromPointPattern();
-            clone._minDistanceFromOrigin = _minDistanceFromOrigin;
-            clone._maxDistanceFromOrigin = _maxDistanceFromOrigin;
-            clone.UseSquareDistance = UseSquareDistance;
+            var clone = new DistanceFromPointPattern(
+                _minDistanceFromOrigin, _maxDistanceFromOrigin, UseSquareDistance);
             return clone;
+        }
+
+        public bool ContainsPositionWithOrigin(Vector2Int position, Vector2Int originPoint)
+        {
+            var pos = position - originPoint;
+            if (UseSquareDistance)
+            {
+                var minIntDistance = Mathf.CeilToInt(MinDistanceFromOrigin);
+                var maxIntDistance = Mathf.FloorToInt(MaxDistanceFromOrigin);
+                return CoordinateInSymmetricalSquare(pos.x, pos.y, minIntDistance, maxIntDistance);
+            }
+            var sqrMagnitude = pos.sqrMagnitude;
+            var minDistSqr = MinDistanceFromOrigin * MinDistanceFromOrigin;
+            var maxDistSqr = MaxDistanceFromOrigin * MaxDistanceFromOrigin;
+            return minDistSqr <= sqrMagnitude && sqrMagnitude <= maxDistSqr;
         }
 
         public Vector2Int[] GetAbsolutePositions(Vector2Int originPoint)
         {
             var filteredPoints = new List<Vector2Int>();
-            var maxIntDistance = Mathf.FloorToInt(MaxDistanceFromOrigin);
             var minIntDistance = Mathf.CeilToInt(MinDistanceFromOrigin);
+            var maxIntDistance = Mathf.FloorToInt(MaxDistanceFromOrigin);
             for (var x = -maxIntDistance; x <= maxIntDistance; x++)
             {
                 for (var y = -maxIntDistance; y <= maxIntDistance; y++)
@@ -90,7 +119,7 @@ namespace OrderElimination.Infrastructure
                     var pos = new Vector2Int(x, y);
                     if (UseSquareDistance)
                     {
-                        if (!CoordinateInSymmetricalRanges(x, y, minIntDistance, maxIntDistance))
+                        if (!CoordinateInSymmetricalSquare(x, y, minIntDistance, maxIntDistance))
                             continue;
                         filteredPoints.Add(pos);
                         continue;
@@ -98,25 +127,27 @@ namespace OrderElimination.Infrastructure
                     var sqrMagnitude = pos.sqrMagnitude;
                     var minDistSqr = MinDistanceFromOrigin * MinDistanceFromOrigin;
                     var maxDistSqr = MaxDistanceFromOrigin * MaxDistanceFromOrigin;
-                    if (sqrMagnitude >= minDistSqr && sqrMagnitude <= maxDistSqr)
+                    if (minDistSqr <= sqrMagnitude && sqrMagnitude <= maxDistSqr)
                         filteredPoints.Add(pos);
                 }
             }
             return filteredPoints.Select(p => p + originPoint).ToArray();
+        }
 
-            bool CoordinateInSymmetricalRanges(int x, int y, int minRange, int maxRange)
-            {
-                minRange = Mathf.Abs(minRange);
-                maxRange = Mathf.Abs(maxRange);
-                // -max -min 0 +min +max
-                var xOut = x > maxRange || x < -maxRange;
-                var yOut = y > maxRange || y < -maxRange;
-                var xIn = x < minRange && x > -minRange;
-                var yIn = y < minRange && y > -minRange;
-                if (xOut && yOut || xIn && yIn)
-                    return false;
-                return true;
-            }
+        private bool CoordinateInSymmetricalSquare(int x, int y, int minRange, int maxRange)
+        {
+            minRange = Mathf.Abs(minRange);
+            maxRange = Mathf.Abs(maxRange);
+            if (maxRange < minRange)
+                throw new InvalidProgramException();
+            // -max -min 0 +min +max
+            var xOut = x < -maxRange || maxRange < x;
+            var yOut = y < -maxRange || maxRange < y;
+            var xInExcludedRange = -minRange < x && x < minRange;
+            var yInExcludedRange = -minRange < y && y < minRange;
+            if (xOut || yOut || xInExcludedRange && yInExcludedRange)
+                return false;
+            return true;
         }
     }
 
@@ -138,6 +169,20 @@ namespace OrderElimination.Infrastructure
             clone.PatternB = PatternB.Clone();
             clone.BooleanOperation = BooleanOperation;
             return clone;
+        }
+
+        public bool ContainsPositionWithOrigin(Vector2Int position, Vector2Int originPoint)
+        {
+            var offset = position - originPoint;
+            var inPatternA = PatternA.ContainsPositionWithOrigin(position, offset);
+            var inPatternB = PatternB.ContainsPositionWithOrigin(position, offset);
+            return BooleanOperation switch
+            {
+                BooleanOperation.Union => inPatternA || inPatternB,
+                BooleanOperation.Intersect => inPatternA && inPatternB,
+                BooleanOperation.Except => inPatternA && !inPatternB,
+                _ => throw new NotImplementedException(),
+            };
         }
 
         public Vector2Int[] GetAbsolutePositions(Vector2Int originPoint)

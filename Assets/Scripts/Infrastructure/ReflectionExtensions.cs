@@ -1,4 +1,5 @@
 ﻿using OrderElimination.AbilitySystem;
+using OrderElimination.AbilitySystem.Animations;
 using Sirenix.Serialization;
 using Sirenix.Utilities;
 using System;
@@ -55,6 +56,7 @@ namespace OrderElimination.Infrastructure
                 || obj is EffectDataPreset
                 || obj is CharacterTemplate
                 || obj is StructureTemplate;
+                //|| obj is AnimationPreset
         }
 
         //Resource-heavy

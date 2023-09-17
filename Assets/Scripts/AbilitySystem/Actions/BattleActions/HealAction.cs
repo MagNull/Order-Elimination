@@ -1,6 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using Unity.VisualScripting.FullSerializer;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -23,10 +24,7 @@ namespace OrderElimination.AbilitySystem
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
-            var calculationContext = ValueCalculationContext.Full(useContext);
-            var value = HealSize.GetValue(calculationContext);
-            var healer = useContext.ActionMaker;
-            var healInfo = new RecoveryInfo(value, ArmorMultiplier, HealthMultiplier, HealPriority, healer);
+            var healInfo = CalculateRecovery(useContext);
             useContext.ActionTarget.TakeRecovery(healInfo);
             return new SimplePerformResult(this, useContext, true);
         }
@@ -39,6 +37,15 @@ namespace OrderElimination.AbilitySystem
             clone.ArmorMultiplier = ArmorMultiplier;
             clone.HealthMultiplier = HealthMultiplier;
             return clone;
+        }
+
+        public RecoveryInfo CalculateRecovery(ActionContext useContext)
+        {
+            var calculationContext = ValueCalculationContext.Full(useContext);
+            var value = HealSize.GetValue(calculationContext);
+            var healer = useContext.ActionMaker;
+            var healInfo = new RecoveryInfo(value, ArmorMultiplier, HealthMultiplier, HealPriority, healer);
+            return healInfo;
         }
     }
 }

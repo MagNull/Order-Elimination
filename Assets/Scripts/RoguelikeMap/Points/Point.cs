@@ -23,15 +23,18 @@ namespace RoguelikeMap.Points
         private TransferPanel _transferPanel;
         private PanelManager _panelManager;
         private bool _isActive;
+        private Squad _squad;
         
         public PointModel Model { get; private set; }
-        public int Index { get; private set; }
+        public int Index => Model.Index;
 
         [Inject]
-        private void Construct(PanelManager panelManager, TransferPanel transferPanel)
+        private void Construct(PanelManager panelManager, TransferPanel transferPanel,
+            Squad squad)
         {
             _panelManager = panelManager;
             _transferPanel = transferPanel;
+            _squad = squad;
         }
 
         public void Initialize(PointModel model, int index)
@@ -41,9 +44,9 @@ namespace RoguelikeMap.Points
             Model = model;
             Model.OnChangeActivity += SetActive;
             _icon.sprite = model.Sprite;
-            Model.SetPanel(_panelManager);
+            Model.SetPanel(_panelManager, _transferPanel);
+            Model.SetIndex(index);
             _pathView = Instantiate(_pathPrefab, transform);
-            Index = index;
         }
 
         public async Task Visit(Squad squad) => await Model.Visit(squad);
@@ -64,7 +67,7 @@ namespace RoguelikeMap.Points
         private void OnMouseDown()
         {
             if (!EventSystem.current.IsPointerOverGameObject() && _isActive && Model is not StartPointModel)
-                _transferPanel.Initialize(this);
+                Model.ShowPreview(_squad);
         }
 
         private void OnDestroy()

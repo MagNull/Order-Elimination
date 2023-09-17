@@ -82,8 +82,12 @@ namespace OrderElimination
                 s_instance = this;
             DontDestroyOnLoad(gameObject);
 
-            if(_test)
+            if (_test)
                 InitTest();
+
+            var rules = "rules";
+            if (!Contains<IBattleRules>(rules))
+                Register(rules, _testRules);
         }
     }
 }
