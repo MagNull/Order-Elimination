@@ -16,6 +16,7 @@ namespace OrderElimination.AbilitySystem
         //CrosshairType
         //CrosshairTargetGroups
         public bool ShowTrajectoryWhenTargeting { get; }
+        public bool ShowPatternRange { get; }
 
         public IReadOnlyDictionary<string, IContextValueGetter> CustomParameters { get; } //Range, etc. for manual display
 
@@ -25,7 +26,8 @@ namespace OrderElimination.AbilitySystem
             string name, Sprite icon, string description, 
             bool hideInCharacterDescription,
             bool showCrosshair,
-            bool showTrajectory) 
+            bool showTrajectory,
+            bool showRange) 
         {
             Name = name ?? "";
             Icon = icon;
@@ -35,6 +37,7 @@ namespace OrderElimination.AbilitySystem
             HideInCharacterDescription = hideInCharacterDescription;
             ShowCrosshairWhenTargeting = showCrosshair;
             ShowTrajectoryWhenTargeting = showTrajectory;
+            ShowPatternRange = showRange;
         }
     }
 }

@@ -42,7 +42,8 @@ namespace AI.Utils
         {
             if (!TryGetTargetGroups(out var targetGroups))
             {
-                Logging.LogError($"Failed to peek Target Groups for {_data.View.Name}");
+                //TODO: fix error
+                //Logging.LogError($"Failed to peek Target Groups for {_data.View.Name}");
             }
             var instructions = _data.Execution.ActionInstructions;
             foreach (var abilityInstruction in instructions)

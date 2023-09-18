@@ -24,7 +24,7 @@ namespace RoguelikeMap.Shop
         public ItemData Data { get; private set; }
         public int Cost => _cost;
         public bool IsBuy => _isBuy;
-        public event Action<ShopItem> OnBuy;
+        public event Action<ShopItem> OnSelected;
         
         public void Initialize(ItemData data, int cost)
         {
@@ -33,7 +33,7 @@ namespace RoguelikeMap.Shop
             _cost = cost;
             _image.sprite = data.View.Icon;
             GetComponentInChildren<TextMeshProUGUI>().text = _cost.ToString();
-            _button.onClick.AddListener(() => OnBuy?.Invoke(this));
+            _button.onClick.AddListener(() => OnSelected?.Invoke(this));
         }
 
         public void Buy()

@@ -83,7 +83,7 @@ namespace RoguelikeMap.Map
                 _squad.MoveWithoutAnimation(point.Model.position);
             else if (_mediator.Contains<BattleResults>("battle results")
                      && _mediator.Get<BattleResults>("battle results").BattleOutcome is BattleOutcome.Win
-                     && point.Model is FinalBattlePointModel)
+                     && point.Model is FinalBattlePointModel or EventPointModel)
             {
                 if (point.Model is not BattlePointModel)
                 {
@@ -97,6 +97,8 @@ namespace RoguelikeMap.Map
             UpdatePointsIcon();
             _currentPoint.ShowPaths();
             _mediator.Register("point index", _currentPoint.Index);
+            if(point.Model is not FinalBattlePointModel && _mediator.Contains<BattleResults>("battle results"))
+                _mediator.Unregister("battle results");
         }
 
         public void LoadStartScene()

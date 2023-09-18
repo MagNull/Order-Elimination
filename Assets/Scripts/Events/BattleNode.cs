@@ -6,12 +6,11 @@ using OrderElimination.MacroGame;
 using RoguelikeMap.UI.PointPanels;
 using UnityEngine;
 using UnityEngine.Rendering;
-using XNode;
 
 namespace Events
 {
     [NodeWidth(300)]
-    public class BattleNode : Node, IEventNode
+    public class BattleNode : IEventNode
     {
         [Input]
         public Empty entries;
@@ -26,12 +25,12 @@ namespace Events
 
         public IReadOnlyList<CharacterTemplate> Enemies => _enemies;
 
-        public void Process(EventPanel panel, int index = 0)
+        public override void Process(EventPanel panel, int index = 0)
         {
             Logging.LogError(new System.NotImplementedException());
         }
 
-        public void OnEnter(EventPanel panel)
+        public override void OnEnter(EventPanel panel)
         {
             panel.FinishEventWithBattle(this);
         }

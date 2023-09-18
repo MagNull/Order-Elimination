@@ -48,6 +48,10 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public bool ShowTrajectoryWhenTargeting { get; private set; } = false;
 
+        [TabGroup("MainTabs", "Visuals"), PropertyOrder(6)]
+        [ShowInInspector, OdinSerialize]
+        public bool ShowPatternRange { get; private set; } = true;
+
         [TabGroup("MainTabs", "Visuals"), PropertyOrder(10)]
         [ShowInInspector, OdinSerialize]
         public bool HideInCharacterDescription { get; private set; }
