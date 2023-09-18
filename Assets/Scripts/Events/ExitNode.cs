@@ -5,11 +5,10 @@ using OrderElimination.Events;
 using RoguelikeMap.UI.PointPanels;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using XNode;
 
 namespace Events
 {
-    public class ExitNode : Node, IEventNode
+    public class ExitNode : IEventNode
     {
         [Input]
         public Empty entries;
@@ -26,12 +25,12 @@ namespace Events
         [SerializeField, ShowIf("IsAddMember")]
         private List<CharacterTemplate> _characters;
 
-        public void Process(EventPanel panel, int index = 0)
+        public override void Process(EventPanel panel, int index = 0)
         {
             Logging.LogError(new System.NotImplementedException());
         }
 
-        public void OnEnter(EventPanel panel)
+        public override void OnEnter(EventPanel panel)
         {
             panel.FinishEvent(_itemsData, _characters);
         }

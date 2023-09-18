@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using Sentry;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -35,7 +34,7 @@ namespace OrderElimination
         }
 
         private static void ConfigureScope(Object context, string className, int lineNumber)
-        {
+        {/*
             SentrySdk.ConfigureScope(scope =>
             {
                 scope.Contexts["description"] = new Error
@@ -45,7 +44,7 @@ namespace OrderElimination
                     LineNumber = lineNumber
                 };
             });
-        }
+        */}
     }
 
     public class Error

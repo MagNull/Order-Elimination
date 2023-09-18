@@ -1,11 +1,18 @@
 using RoguelikeMap.UI.PointPanels;
+using UnityEngine;
+using XNode;
 
 namespace OrderElimination.Events
 {
-    public interface IEventNode
+    public abstract class IEventNode : Node
     {
-        public void Process(EventPanel panel, int index = 0);
+        [SerializeField]
+        protected string _name;
         
-        public void OnEnter(EventPanel panel);
+        public abstract void Process(EventPanel panel, int index = 0);
+        
+        public abstract void OnEnter(EventPanel panel);
+        
+        private void OnValidate() => name = _name == "" ? GetType().Name : _name;
     }
 }
