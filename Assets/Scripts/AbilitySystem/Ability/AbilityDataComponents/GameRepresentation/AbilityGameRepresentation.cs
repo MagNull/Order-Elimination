@@ -13,7 +13,7 @@ namespace OrderElimination.AbilitySystem.GameRepresentation
         public int CooldownTime { get; private set; }
 
         public TargetingSystemRepresentation TargetingSystem { get; private set; }
-        public float? MaxRange { get; private set; }
+        //public float? MaxRange { get; private set; }
         public int? Duration { get; private set; }
         public IReadOnlyList<DamageRepresentation> DamageRepresentations
             => _damageRepresentations;
@@ -32,6 +32,27 @@ namespace OrderElimination.AbilitySystem.GameRepresentation
         // - damage can depend on previous instruction fail/success
         // - values can not always be pre-calculated
         //GetTotalEstimatedDamage()//
+
+        
+        public static AbilityGameRepresentation FromActiveAbility(
+            AbilityRules rules,
+            int cooldown,
+            IAbilityTargetingSystem targetingSystem,
+            ActiveAbilityExecution activeFunctional)
+        {
+            var representation = new AbilityGameRepresentation()
+            {
+                AbilityType = AbilityType.Active,
+                CooldownTime = cooldown,
+                TargetingSystem = new TargetingSystemRepresentation(targetingSystem),
+            };
+            foreach (var instruction in activeFunctional.ActionInstructions)
+            {
+                representation.DescribeInstruction(instruction, 1);
+            }
+            //...
+            return representation;
+        }
 
         private void DescribeInstruction(
                 AbilityInstruction instruction,
@@ -86,28 +107,6 @@ namespace OrderElimination.AbilitySystem.GameRepresentation
                 DescribeInstruction(followInstruction, totalRepetitions);
             }
             #endregion
-        }
-        public static AbilityGameRepresentation FromActiveAbility(
-            AbilityRules rules,
-            int cooldown,
-            IAbilityTargetingSystem targetingSystem,
-            ActiveAbilityExecution activeFunctional)
-        {
-            var targetingRepresentation = new TargetingSystemRepresentation(targetingSystem);
-            var damageRepresentations = new List<DamageRepresentation>();
-
-            var representation = new AbilityGameRepresentation()
-            {
-                AbilityType = AbilityType.Active,
-                CooldownTime = cooldown,
-                _damageRepresentations = damageRepresentations
-            };
-            foreach (var instruction in activeFunctional.ActionInstructions)
-            {
-                representation.DescribeInstruction(instruction, 1);
-            }
-            //...
-            return representation;
         }
 
         public static AbilityGameRepresentation FromPassiveAbility(

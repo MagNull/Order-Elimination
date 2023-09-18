@@ -7,49 +7,19 @@ using UnityEngine;
 
 namespace OrderElimination.Infrastructure
 {
-    [GUIColor(0.6f, 1, 0.6f)]
-    public interface IPointRelativePattern : ICloneable<IPointRelativePattern>
-    {
-        public Vector2Int[] GetAbsolutePositions(Vector2Int originPoint);
-
-        public bool ContainsPositionWithOrigin(Vector2Int position, Vector2Int originPoint);
-    }
-
-    public class PointRelativePattern : IPointRelativePattern
-    {
-        [ShowInInspector, OdinSerialize]
-        private HashSet<Vector2Int> _relativePositions = new HashSet<Vector2Int>();
-
-        public IEnumerable<Vector2Int> RelativePositions => _relativePositions;
-
-        public bool AddRelativePosition(Vector2Int offset) => _relativePositions.Add(offset);
-
-        public bool RemoveRelativePosition(Vector2Int offset) => _relativePositions.Remove(offset);
-
-        public IPointRelativePattern Clone()
-        {
-            var clone = new PointRelativePattern();
-            clone._relativePositions = _relativePositions.ToHashSet();
-            return clone;
-        }
-
-        public bool ContainsPositionWithOrigin(Vector2Int position, Vector2Int originPoint)
-        {
-            return _relativePositions.Contains(position - originPoint);
-        }
-
-        public Vector2Int[] GetAbsolutePositions(Vector2Int originPoint)
-        {
-            return _relativePositions.Select(v => originPoint + v).ToArray();
-        }
-    }
-
     public class DistanceFromPointPattern : IPointRelativePattern
     {
         [HideInInspector, OdinSerialize]
         private float _minDistanceFromOrigin;
         [HideInInspector, OdinSerialize]
         private float _maxDistanceFromOrigin;
+
+        public DistanceFromPointPattern()
+        {
+            _minDistanceFromOrigin = 0;
+            _maxDistanceFromOrigin = 0;
+            UseSquareDistance = true;
+        }
 
         public DistanceFromPointPattern(
             float minDistanceFromOrigin, float maxDistanceFromOrigin, bool useSquareDistance)
@@ -148,55 +118,6 @@ namespace OrderElimination.Infrastructure
             if (xOut || yOut || xInExcludedRange && yInExcludedRange)
                 return false;
             return true;
-        }
-    }
-
-    public class CompoundPointPattern : IPointRelativePattern
-    {
-        [ShowInInspector, OdinSerialize]
-        public IPointRelativePattern PatternA { get; set; }
-
-        [ShowInInspector, OdinSerialize]
-        public BooleanOperation BooleanOperation { get; set; }
-
-        [ShowInInspector, OdinSerialize]
-        public IPointRelativePattern PatternB { get; set; }
-
-        public IPointRelativePattern Clone()
-        {
-            var clone = new CompoundPointPattern();
-            clone.PatternA = PatternA.Clone();
-            clone.PatternB = PatternB.Clone();
-            clone.BooleanOperation = BooleanOperation;
-            return clone;
-        }
-
-        public bool ContainsPositionWithOrigin(Vector2Int position, Vector2Int originPoint)
-        {
-            var offset = position - originPoint;
-            var inPatternA = PatternA.ContainsPositionWithOrigin(position, offset);
-            var inPatternB = PatternB.ContainsPositionWithOrigin(position, offset);
-            return BooleanOperation switch
-            {
-                BooleanOperation.Union => inPatternA || inPatternB,
-                BooleanOperation.Intersect => inPatternA && inPatternB,
-                BooleanOperation.Except => inPatternA && !inPatternB,
-                _ => throw new NotImplementedException(),
-            };
-        }
-
-        public Vector2Int[] GetAbsolutePositions(Vector2Int originPoint)
-        {
-            var patternAPositions = PatternA.GetAbsolutePositions(originPoint);
-            var patternBPositions = PatternB.GetAbsolutePositions(originPoint);
-            var result = BooleanOperation switch
-            {
-                BooleanOperation.Union => patternAPositions.Union(patternBPositions),
-                BooleanOperation.Intersect => patternAPositions.Intersect(patternBPositions),
-                BooleanOperation.Except => patternAPositions.Except(patternBPositions),
-                _ => throw new NotImplementedException(),
-            };
-            return result.ToArray();
         }
     }
 }

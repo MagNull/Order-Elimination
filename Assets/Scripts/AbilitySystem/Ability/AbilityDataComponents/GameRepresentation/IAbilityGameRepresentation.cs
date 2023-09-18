@@ -8,7 +8,7 @@ namespace OrderElimination.AbilitySystem.GameRepresentation
         public AbilityType AbilityType { get; }
         public int CooldownTime { get; }
         public TargetingSystemRepresentation TargetingSystem { get; }
-        public float? MaxRange { get; }
+        //public float? MaxRange { get; }
         public IReadOnlyList<DamageRepresentation> DamageRepresentations { get; }
         public IReadOnlyList<HealRepresentation> HealRepresentations { get; }
         //public EnumMask<AbilityRole> Attack/Heal/Move/Other

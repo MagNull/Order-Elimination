@@ -36,8 +36,6 @@ public class BattleMapSelector : MonoBehaviour
     [SerializeField]
     private AbilityPreviewDisplayer _abilityPreviewDisplayer;
 
-    private TextEmitter _textEmitter;
-
     [TitleGroup("Cell Visuals")]
     [SerializeField]
     private Color _availableCellsTint;
@@ -45,6 +43,15 @@ public class BattleMapSelector : MonoBehaviour
     [TitleGroup("Cell Visuals")]
     [SerializeField]
     private Color _forbidenCellsTint;
+
+    [TitleGroup("Cell Visuals")]
+    [SerializeField]
+    private Color _inRangeCellsTint;
+
+    [TitleGroup("Cell Visuals")]
+    [Multiline]
+    [SerializeField]
+    private string _wrongTargrgetText = "Wrong\ntarget";
 
     [TitleGroup("Entity Visuals")]
     [SerializeField]
@@ -78,6 +85,7 @@ public class BattleMapSelector : MonoBehaviour
     [SerializeField]
     private bool _confirmTargetingBySecondClick;
 
+    private TextEmitter _textEmitter;
     private BattleMapView _battleMapView;
     private IBattleMap _battleMap => _battleContext.BattleMap;
     private IBattleContext _battleContext;
@@ -180,7 +188,12 @@ public class BattleMapSelector : MonoBehaviour
                         //_targetingSystemDisplay.ShowCrosshair(cellPosition);
                     }
                     else
+                    {
                         Logging.Log($"Wrong target at {cellPosition}");
+                        var scenePos = _battleMapView.GameToWorldPosition(cellPosition);
+                        var textPosition = new Vector3(scenePos.x, scenePos.y, 0);
+                        _textEmitter.Emit(_wrongTargrgetText, Color.red, textPosition, duration:0.5f, fontSize:0.5f);
+                    }
                 }
             }
             else if (_selectedAbility.AbilityData.TargetingSystem is NoTargetTargetingSystem noTargetSystem)
@@ -273,9 +286,10 @@ public class BattleMapSelector : MonoBehaviour
     }
     private void HighlightCells()
     {
-        var targetedCells = _selectedAbility.AbilityData.TargetingSystem.ExtractCastTargetGroups();
+        var abilityData = _selectedAbility.AbilityData;
+        var targetedCells = abilityData.TargetingSystem.ExtractCastTargetGroups();
         _battleMapView.DelightCells();
-        if (_selectedAbility.AbilityData.TargetingSystem is IRequireSelectionTargetingSystem)
+        if (abilityData.TargetingSystem is IRequireSelectionTargetingSystem)
         {
             foreach (var pos in _battleMap.CellRangeBorders.EnumerateCellPositions())
             {
@@ -284,6 +298,17 @@ public class BattleMapSelector : MonoBehaviour
             foreach (var pos in _availableCellsForTargeting)
             {
                 _battleMapView.HighlightCell(pos.x, pos.y, _availableCellsTint);
+            }
+            var gameRepresentation = abilityData.GameRepresentation;
+            if (abilityData.View.ShowPatternRange 
+                && gameRepresentation.TargetingSystem.TargetingPattern != null)//need to display range
+            {
+                var rangePattern = gameRepresentation.TargetingSystem.TargetingPattern;
+                foreach (var pos in rangePattern.GetAbsolutePositions(_currentSelectedEntity.Position)
+                    .Where(pos => _battleMap.ContainsPosition(pos)))
+                {
+                    _battleMapView.HighlightCell(pos.x, pos.y, _inRangeCellsTint);
+                }
             }
         }
         var colors = _selectedAbility.AbilityData.View.TargetGroupsHighlightColors;
