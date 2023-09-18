@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Design;
+﻿using System;
+using System.ComponentModel.Design;
 using Assets.AbilitySystem.PrototypeHelpers;
 using DefaultNamespace;
 using GameInventory;
@@ -54,7 +55,8 @@ namespace OrderElimination
 
             builder.Register<SceneTransition>(Lifetime.Singleton);
             builder.Register<BattleInitializer>(Lifetime.Singleton);
-            builder.Register<AnimationSceneContext>(Lifetime.Singleton);
+            builder.Register<AnimationSceneContext>(Lifetime.Singleton)
+                .WithParameter<Lazy<IBattleContext>>(new(() => Container.Resolve<IBattleContext>()));
             builder.Register<BattleContext>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<EntitySpawner>(Lifetime.Singleton);
         }

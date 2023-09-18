@@ -58,7 +58,7 @@ public class BattleEntityView : MonoBehaviour
     public Sprite BattleIcon
     {
         get => _renderer.sprite;
-        private set
+        set
         {
             _renderer.sprite = value;
             if (value != null)
@@ -69,7 +69,7 @@ public class BattleEntityView : MonoBehaviour
             }
         }
     }
-    public GameObject CustomModel { get; private set; }
+    public GameObject CustomModel { get; set; }
 
     [Inject]
     public void Construct(BattleMapView battleMapView, IParticlesPool particlesPool, TextEmitter textEmitter)

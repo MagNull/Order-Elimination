@@ -13,6 +13,9 @@ namespace OrderElimination.AbilitySystem.Animations
 {
     public class AnimationSceneContext
     {
+        private Lazy<IBattleContext> _battleContextGetter;
+
+        public IBattleContext BattleContext => _battleContextGetter.Value;
         public BattleMapView BattleMapView { get; private set; }
         public IParticlesPool ParticlesPool { get; private set; }
         public DefaultAnimationsPool DefaultAnimations { get; private set; }
@@ -25,6 +28,7 @@ namespace OrderElimination.AbilitySystem.Animations
 
         [Inject]
         private AnimationSceneContext(
+            Lazy<IBattleContext> battleContext,
             BattleMapView battleMapView,
             IParticlesPool particlesPool,
             TextEmitter textEmitter,
@@ -32,6 +36,7 @@ namespace OrderElimination.AbilitySystem.Animations
             DefaultAnimationsPool defaultAnimationsPool,
             SoundEffectsPlayer soundPlayer)
         {
+            _battleContextGetter = battleContext;
             BattleMapView = battleMapView;
             ParticlesPool = particlesPool;
             TextEmitter = textEmitter;

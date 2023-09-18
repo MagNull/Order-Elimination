@@ -317,12 +317,15 @@ MonoBehaviour:
   _availableCellsTint: {r: 0.573966, g: 1, b: 0.4575472, a: 1}
   _forbidenCellsTint: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 1}
   _inRangeCellsTint: {r: 0.65335155, g: 0.8679245, b: 0.53631186, a: 1}
+  _wrongTargrgetText: 'Wrong
+
+    target'
   _playerHighlightColor: {r: 0.49361822, g: 1, b: 0.41037738, a: 1}
   _alliesHighlightColor: {r: 0.0047169924, g: 0.9905467, b: 1, a: 1}
   _enemiesHighlightColor: {r: 1, g: 0.3820755, b: 0.3820755, a: 1}
   _othersHighlightColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
-  _allowOnlyCurrentSideEntities: 1
-  _allowOnlyPlayerEntities: 1
+  _allowOnlyCurrentSideEntities: 0
+  _allowOnlyPlayerEntities: 0
   _lockCharacterWhileCasting: 1
   _confirmTargetingBySecondClick: 1
 --- !u!1 &84768578
@@ -2869,7 +2872,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
     - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
     - {fileID: 11400000, guid: 4d83702453d81274b89c1876bee2dabb, type: 2}
-    - {fileID: 11400000, guid: 9fc7f7043f1dea246b974161f8f25bed, type: 2}
+    - {fileID: 11400000, guid: 375cdc3a6bbcb1e4480ffb04423fa49c, type: 2}
     - {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
