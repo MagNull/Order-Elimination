@@ -20,6 +20,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public EffectEntity EntityToCheck { get; private set; }
 
+        [PropertySpace(SpaceBefore = 10, SpaceAfter = 0)]
         [ShowInInspector, OdinSerialize]
         public IEffectInstruction Instruction { get; private set; }
 

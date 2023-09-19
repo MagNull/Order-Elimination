@@ -42,6 +42,16 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         private bool UndoOnDeactivation { get; set; } = true;
 
+        [BoxGroup("Animations", ShowLabel = false)]
+        [GUIColor(0, 1, 1)]
+        [ShowInInspector, OdinSerialize]
+        private IAbilityAnimation _animationBeforeAction { get; set; }
+
+        [BoxGroup("Animations", ShowLabel = false)]
+        [GUIColor(0, 1, 1)]
+        [ShowInInspector, OdinSerialize]
+        private IAbilityAnimation _animationAfterAction { get; set; }
+
         //UndoTriggers
         [BoxGroup("Next Instruction", ShowLabel = false)]
         [GUIColor(1f, 1f, 0.3f)]
@@ -63,16 +73,6 @@ namespace OrderElimination.AbilitySystem
         [GUIColor(0.75f, 0.75f, 1f)]
         [ShowInInspector, OdinSerialize]
         private IEffectInstruction _followingInstruction { get; set; }
-
-        [BoxGroup("Animations", ShowLabel = false)]
-        [GUIColor(0, 1, 1)]
-        [ShowInInspector, OdinSerialize]
-        private IAbilityAnimation _animationBeforeAction { get; set; }
-
-        [BoxGroup("Animations", ShowLabel = false)]
-        [GUIColor(0, 1, 1)]
-        [ShowInInspector, OdinSerialize]
-        private IAbilityAnimation _animationAfterAction { get; set; }
 
         #region Public Properties
         public IBattleAction BattleAction => _battleAction;

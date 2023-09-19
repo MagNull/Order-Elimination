@@ -22,7 +22,10 @@ namespace Assets.Scripts.AbilitySystem.Animations.AbilityAnimations.Special
             AnimationPlayContext context, CancellationToken cancellationToken)
         {
             if (Sounds.Length == 0)
-                Logging.Log(new InvalidOperationException("No audioclips to play."));
+            {
+                Logging.LogError(new InvalidOperationException("No audioclips to play."));
+                return;
+            }
             if (WaitForCompletion)
                 await PlaySound(context.SceneContext.SoundEffectsPlayer, cancellationToken);
             else
@@ -31,7 +34,7 @@ namespace Assets.Scripts.AbilitySystem.Animations.AbilityAnimations.Special
 
         private async UniTask PlaySound(SoundEffectsPlayer player, CancellationToken cancellationToken)
         {
-            var clip = Sounds[Random.Range(0, Sounds.Length)];
+            var clip = Sounds[Random.Range(0, Sounds.Length)];//max is exclusive!
             var playingDuration = clip.length;
             var duration = Mathf.RoundToInt(playingDuration * 1000);
             player.PlaySound(clip);

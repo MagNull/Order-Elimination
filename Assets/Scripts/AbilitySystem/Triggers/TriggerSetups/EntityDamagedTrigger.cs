@@ -10,7 +10,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public EnumMask<DamageType> TriggeringDamageTypes { get; private set; } = EnumMask<DamageType>.Full;
 
-        [ValidateInput("@false", "*Only Target entity (Tracking entity) is available.")]
+        [ValidateInput("@false", "*Only Target entity is available in Context Values.")]
         [ShowInInspector, OdinSerialize]
         public IContextValueGetter MinDamageThreshold { get; private set; } = new ConstValueGetter(0);
 
