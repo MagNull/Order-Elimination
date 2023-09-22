@@ -23,9 +23,15 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
+    - Name: EffectCharacter
+      Entry: 3
+      Data: 0
     - Name: StackingPolicy
       Entry: 3
       Data: 2
+    - Name: _maxStackSize
+      Entry: 3
+      Data: 1
     - Name: UseApplierProcessing
       Entry: 5
       Data: false
@@ -35,61 +41,19 @@ MonoBehaviour:
     - Name: IsTemporary
       Entry: 5
       Data: false
-    - Name: InstructionOnActivation
-      Entry: 6
-      Data: 
-    - Name: InstructionOnDeactivation
-      Entry: 6
-      Data: 
-    - Name: TemporaryEffectFunctionaity
-      Entry: 6
-      Data: 
-    - Name: IsProcessingIncomingAction
-      Entry: 5
-      Data: false
-    - Name: IncomingActionProcessor
-      Entry: 6
-      Data: 
-    - Name: IsProcessingOutcomingAction
-      Entry: 5
-      Data: false
-    - Name: OutcomingActionProcessor
-      Entry: 6
-      Data: 
-    - Name: _view
-      Entry: 7
-      Data: 0|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
-    - Name: Name
-      Entry: 6
-      Data: 
-    - Name: Icon
-      Entry: 6
-      Data: 
-    - Name: IsHidden
-      Entry: 5
-      Data: true
-    - Name: AnimationOnActivation
-      Entry: 6
-      Data: 
-    - Name: AnimationOnDeactivation
-      Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: _removeTriggers
       Entry: 7
-      Data: 1|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+      Data: 0|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
         Assembly-CSharp]], System.Core
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 2|OrderElimination.AbilitySystem.EffectTriggerAcceptor, Assembly-CSharp
+      Data: 1|OrderElimination.AbilitySystem.EffectTriggerAcceptor, Assembly-CSharp
     - Name: TriggerSetup
       Entry: 7
-      Data: 3|OrderElimination.AbilitySystem.TimerTrigger, Assembly-CSharp
+      Data: 2|OrderElimination.AbilitySystem.TimerTrigger, Assembly-CSharp
     - Name: TriggerOnStart
       Entry: 5
       Data: false
@@ -107,6 +71,42 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: InstructionOnActivation
+      Entry: 6
+      Data: 
+    - Name: InstructionOnDeactivation
+      Entry: 6
+      Data: 
+    - Name: TemporaryEffectFunctionaity
+      Entry: 6
+      Data: 
+    - Name: IncomingActionProcessor
+      Entry: 6
+      Data: 
+    - Name: OutcomingActionProcessor
+      Entry: 6
+      Data: 
+    - Name: _view
+      Entry: 7
+      Data: 3|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
+    - Name: Name
+      Entry: 6
+      Data: 
+    - Name: Icon
+      Entry: 6
+      Data: 
+    - Name: IsHidden
+      Entry: 5
+      Data: true
+    - Name: AnimationOnActivation
+      Entry: 6
+      Data: 
+    - Name: AnimationOnDeactivation
+      Entry: 6
       Data: 
     - Name: 
       Entry: 8
@@ -134,7 +134,7 @@ MonoBehaviour:
       Data: 6|OrderElimination.AbilitySystem.EffectTriggerAcceptor, Assembly-CSharp
     - Name: TriggerSetup
       Entry: 7
-      Data: 7|OrderElimination.AbilitySystem.LethalDamageTrigger, Assembly-CSharp
+      Data: 7|OrderElimination.AbilitySystem.LethalDamageReceivedTrigger, Assembly-CSharp
     - Name: TriggeringDamageTypes
       Entry: 7
       Data: 8|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.DamageType,
@@ -238,9 +238,6 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 13|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
-    - Name: _target
-      Entry: 3
-      Data: 0
     - Name: _battleAction
       Entry: 7
       Data: 14|OrderElimination.AbilitySystem.HealAction, Assembly-CSharp
@@ -286,6 +283,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: _target
+      Entry: 3
+      Data: 0
     - Name: UndoOnDeactivation
       Entry: 5
       Data: true
@@ -295,15 +295,24 @@ MonoBehaviour:
     - Name: _animationAfterAction
       Entry: 6
       Data: 
+    - Name: _instructionOnCallback
+      Entry: 6
+      Data: 
+    - Name: _instructionOnSuccess
+      Entry: 6
+      Data: 
+    - Name: _instructionOnFail
+      Entry: 6
+      Data: 
+    - Name: _followingInstruction
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
       Data: 18|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
-    - Name: _target
-      Entry: 3
-      Data: 0
     - Name: _battleAction
       Entry: 7
       Data: 19|OrderElimination.AbilitySystem.ApplyEffectAction, Assembly-CSharp
@@ -322,6 +331,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: _target
+      Entry: 3
+      Data: 0
     - Name: UndoOnDeactivation
       Entry: 5
       Data: false
@@ -329,6 +341,18 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: _animationAfterAction
+      Entry: 6
+      Data: 
+    - Name: _instructionOnCallback
+      Entry: 6
+      Data: 
+    - Name: _instructionOnSuccess
+      Entry: 6
+      Data: 
+    - Name: _instructionOnFail
+      Entry: 6
+      Data: 
+    - Name: _followingInstruction
       Entry: 6
       Data: 
     - Name: 

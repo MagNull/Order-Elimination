@@ -96,6 +96,11 @@ namespace OrderElimination.AbilitySystem
         [FoldoutGroup("DamageChanger")]
         [BoxGroup("DamageChanger/DamageProperties")]
         [ShowInInspector, OdinSerialize]
+        private bool _ignoreObstacles;
+
+        [FoldoutGroup("DamageChanger")]
+        [BoxGroup("DamageChanger/DamageProperties")]
+        [ShowInInspector, OdinSerialize]
         private bool _ignoreEvasion;
 
         [ShowInInspector, DisplayAsString, PropertyOrder(-1)]
@@ -145,6 +150,7 @@ namespace OrderElimination.AbilitySystem
         public DamageType OverriddenDamageType => _damageType;
         public float ArmorMultiplier => _armorMultiplier;
         public float HealthMultiplier => _healthMultiplier;
+        public bool IgnoreObstacles => _ignoreObstacles;
         public bool IgnoreEvasion => _ignoreEvasion;
         #endregion
 
@@ -165,6 +171,8 @@ namespace OrderElimination.AbilitySystem
                 damageAction.ArmorMultiplier *= _armorMultiplier;
             if (_changeHealthMultiplier)
                 damageAction.HealthMultiplier *= _healthMultiplier;
+            if (_ignoreObstacles)
+                damageAction.ObjectsBetweenAffectAccuracy = true;
             if (_ignoreEvasion)
                 damageAction.IgnoreEvasion = true;
             damageAction.Accuracy = ChangeValueGetter(damageAction.Accuracy, _accuracyOperation, _accuracyValue);

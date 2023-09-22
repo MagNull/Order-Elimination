@@ -26,9 +26,9 @@ namespace OrderElimination.AbilitySystem
                 return originalAction;
             if (_targetConditions.Count > 0 && target == null)
                 return originalAction;
-            if (!_commonConditions.All(c => c.IsConditionMet(battleContext, caster)))
+            if (!_commonConditions.AllMet(battleContext, caster))
                 return originalAction;
-            if (!_targetConditions.All(c => c.IsConditionMet(battleContext, caster, target)))
+            if (!_targetConditions.AllMet(battleContext, caster, target))
                 return originalAction;
             return _actionProcessor.ProcessAction(originalAction, performContext);
         }

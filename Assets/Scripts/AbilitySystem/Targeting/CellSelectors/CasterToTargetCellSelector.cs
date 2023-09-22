@@ -79,7 +79,7 @@ namespace OrderElimination.AbilitySystem
                         askingEntity.Position,
                         targetPos,
                         battleContext.BattleMap.CellRangeBorders,
-                        p => PathConditions.All(c => c.IsConditionMet(battleContext, askingEntity, p)),
+                        p => PathConditions.AllMet(battleContext, askingEntity, p),
                         out var path))
                         result.AddRange(path);
                 }

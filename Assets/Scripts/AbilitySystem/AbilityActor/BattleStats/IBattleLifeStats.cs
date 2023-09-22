@@ -18,7 +18,7 @@ namespace OrderElimination.AbilitySystem
         public event Action<IBattleLifeStats> LifeStatsChanged;
         public event Action<TemporaryArmor> TemporaryArmorLayerRemoved;
 
-        public static DealtDamageInfo DistributeDamage(
+        public static DistributedDamage DistributeDamage(
             IBattleLifeStats targetStats, DamageInfo incomingDamage)
         {
             var damageRemainder = incomingDamage.DamageValue;
@@ -47,7 +47,7 @@ namespace OrderElimination.AbilitySystem
             }
             var totalArmorDamage = armorDamagePart * incomingDamage.ArmorMultiplier;
             var totalHealthDamage = healthDamagePart * incomingDamage.HealthMultiplier;
-            return new DealtDamageInfo(incomingDamage, totalArmorDamage, totalHealthDamage);
+            return new(incomingDamage, totalArmorDamage, totalHealthDamage);
         }
 
         public static DealtRecoveryInfo DistributeRecovery(

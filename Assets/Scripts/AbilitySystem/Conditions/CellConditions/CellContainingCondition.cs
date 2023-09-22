@@ -51,14 +51,14 @@ namespace OrderElimination.AbilitySystem
                 return true;
             if (AllEntitiesMustMeetRequirements)
             {
-                return cellEntities.All(e => EntityConditions.All(c => c.IsConditionMet(battleContext, askingEntity, e)));
+                return cellEntities.All(e => EntityConditions.AllMet(battleContext, askingEntity, e));
             }
             else
             {
                 var view = battleContext.EntitiesBank.GetViewByEntity(askingEntity);
                 if (EntityConditions == null)
                     Debug.LogError($"{nameof(EntityConditions)} null on {view.Name}");
-                return cellEntities.Any(e => EntityConditions.All(c => c.IsConditionMet(battleContext, askingEntity, e)));
+                return cellEntities.Any(e => EntityConditions.AllMet(battleContext, askingEntity, e));
             }
         }
     }

@@ -48,7 +48,7 @@ namespace OrderElimination.AbilitySystem
             return entitiesCount;
 
             bool IsEntityAllowed(AbilitySystemActor entity)
-                => conditions.All(c => c.IsConditionMet(battleContext, context.BattleCaster, entity));
+                => conditions.AllMet(battleContext, context.BattleCaster, entity);
         }
     }
 }

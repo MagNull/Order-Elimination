@@ -25,7 +25,7 @@ namespace OrderElimination.AbilitySystem
         {
             if (!IsCostAffordableByCaster(caster))
                 return false;
-            return AvailabilityConditions.All(c => c.IsConditionMet(battleContext, caster));
+            return AvailabilityConditions.AllMet(battleContext, caster);
         }
 
         private bool IsCostAffordableByCaster(AbilitySystemActor caster)

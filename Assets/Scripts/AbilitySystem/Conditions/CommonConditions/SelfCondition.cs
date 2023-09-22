@@ -23,7 +23,7 @@ namespace OrderElimination.AbilitySystem
 
         public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity)
         {
-            return CasterConditions.All(c => c.IsConditionMet(battleContext, askingEntity, askingEntity));
+            return CasterConditions.AllMet(battleContext, askingEntity, askingEntity);
         }
     }
 }

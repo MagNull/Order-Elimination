@@ -115,6 +115,8 @@ namespace OrderElimination.AbilitySystem.UI
                     parameters.Add(new($"{prefix}{processorPrefix} урон броне", damageProcessor.ArmorMultiplier, ValueUnits.Multiplier));
                 if (damageProcessor.HealthMultiplier != 1)
                     parameters.Add(new($"{prefix}{processorPrefix} урон здоровью", damageProcessor.HealthMultiplier, ValueUnits.Multiplier));
+                if (damageProcessor.IgnoreObstacles)
+                    parameters.Add(new($"{prefix}{processorPrefix} игнор. препятствий"));
                 if (damageProcessor.IgnoreEvasion)
                     parameters.Add(new($"{prefix}{processorPrefix} игнор. уклонения"));
                 //... damageType, damagePriority changes

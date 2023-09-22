@@ -86,7 +86,7 @@ namespace OrderElimination.AbilitySystem
 
     public interface IEntityTriggerSetup : ITriggerSetup
     {
-        public abstract IBattleTrigger GetTrigger(
-            IBattleContext battleContext, AbilitySystemActor trackingEntity);//AbilitySystemActor caster, AbilitySystemActor target);
+        public IBattleTrigger GetTrigger(
+            IBattleContext battleContext, AbilitySystemActor trackingEntity);
     }
 }

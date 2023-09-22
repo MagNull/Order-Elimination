@@ -39,8 +39,8 @@ namespace OrderElimination.AbilitySystem
                 EffectEntity.EffectApplier => effect.EffectApplier,
                 _ => throw new System.NotImplementedException(),
             };
-            if (CommonConditions.All(c => c.IsConditionMet(battleContext, askingEntity))
-                && EntityConditions.All(c => c.IsConditionMet(battleContext, askingEntity, entityToCheck)))
+            if (CommonConditions.AllMet(battleContext, askingEntity)
+                && EntityConditions.AllMet(battleContext, askingEntity, entityToCheck))
             {
                 await Instruction.Execute(effect);
             }
