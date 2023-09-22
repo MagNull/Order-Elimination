@@ -1,10 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -91,7 +86,7 @@ namespace OrderElimination.AbilitySystem
 
     public interface IEntityTriggerSetup : ITriggerSetup
     {
-        public abstract IBattleTrigger GetTrigger(
-            IBattleContext battleContext, AbilitySystemActor trackingEntity);//AbilitySystemActor caster, AbilitySystemActor target);
+        public IBattleTrigger GetTrigger(
+            IBattleContext battleContext, AbilitySystemActor trackingEntity);
     }
 }

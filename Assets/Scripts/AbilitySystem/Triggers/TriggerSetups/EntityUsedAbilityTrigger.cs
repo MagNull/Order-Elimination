@@ -2,10 +2,6 @@
 using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace OrderElimination.AbilitySystem
 {
     public class EntityUsedAbilityTrigger : IEntityTriggerSetup
@@ -46,7 +42,6 @@ namespace OrderElimination.AbilitySystem
                             throw new NotImplementedException();
                     }
                 }
-                //trigger.Trigger(new EntityUsedAbilityFireInfo(trigger, ))
             }
 
             void OnDeactivation(ITriggerSetup.BattleTrigger trigger)
@@ -57,7 +52,6 @@ namespace OrderElimination.AbilitySystem
                     runner.AbilityExecutionStarted -= OnAbilityUsed;
                     runner.AbilityExecutionCompleted -= OnAbilityUsed;
                 }
-                //trigger.Trigger(new EntityUsedAbilityFireInfo(trigger, ))
             }
 
             void OnAbilityUsed(ActiveAbilityRunner runner)

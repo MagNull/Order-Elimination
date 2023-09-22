@@ -27,6 +27,7 @@ namespace OrderElimination.AbilitySystem
         private static readonly Dictionary<IBattleTrigger, int> _perforIdsByTriggers = new();
         private static readonly HashSet<int> _undoneOperations = new();
 
+        [PropertySpace(SpaceBefore = 0, SpaceAfter = 5)]
         [ShowInInspector, OdinSerialize]
         [ValidateInput(
             "@false",
@@ -38,9 +39,11 @@ namespace OrderElimination.AbilitySystem
         public int SpawnAtCellGroup { get; private set; }
 
         #region CloningParameters
+        [BoxGroup("CloningParameters", ShowLabel = false)]
         [ShowInInspector, OdinSerialize]
         public CloningType StatsCloning { get; set; }
 
+        [BoxGroup("CloningParameters")]
         [ShowIf("@" + nameof(StatsCloning) + "==" + nameof(CloningType) + "." + nameof(CloningType.Override))]
         [ShowInInspector, OdinSerialize]
         public GameCharacterStats OverridedStats { get; private set; }
@@ -53,24 +56,30 @@ namespace OrderElimination.AbilitySystem
         //[ShowInInspector, OdinSerialize]
         //public CloningType InventoryCloning { get; set; }
 
+        [BoxGroup("CloningParameters")]
         [ShowInInspector, OdinSerialize]
         public CloningType EnergyPointsCloning { get; set; }
 
+        [BoxGroup("CloningParameters")]
         [ShowIf("@" + nameof(EnergyPointsCloning) + "==" + nameof(CloningType) + "." + nameof(CloningType.Override))]
         [ShowInInspector, OdinSerialize]
         private Dictionary<EnergyPoint, int> _overridedEnergyPoints { get; set; } 
             = EnumExtensions.GetValues<EnergyPoint>().ToDictionary(p => p, p => 0);
 
+        [BoxGroup("CloningParameters")]
         [ShowInInspector, OdinSerialize]
         public CloningType ActiveAbilitiesCloning { get; set; }
 
+        [BoxGroup("CloningParameters")]
         [ShowIf("@" + nameof(ActiveAbilitiesCloning) + "==" + nameof(CloningType) + "." + nameof(CloningType.Override))]
         [ShowInInspector, OdinSerialize]
         public ActiveAbilityBuilder[] OverridedActiveAbilities { get; set; } = new ActiveAbilityBuilder[0];
 
+        [BoxGroup("CloningParameters")]
         [ShowInInspector, OdinSerialize]
         public CloningType PassiveAbilitiesCloning { get; set; }
 
+        [BoxGroup("CloningParameters")]
         [ShowIf("@" + nameof(PassiveAbilitiesCloning) + "==" + nameof(CloningType) + "." + nameof(CloningType.Override))]
         [ShowInInspector, OdinSerialize]
         public PassiveAbilityBuilder[] OverridedPassiveAbilities { get; set; } = new PassiveAbilityBuilder[0];
@@ -79,6 +88,7 @@ namespace OrderElimination.AbilitySystem
         #endregion
 
         #region Side
+        [PropertySpace(SpaceBefore = 5, SpaceAfter = 0)]
         [ShowInInspector, OdinSerialize]
         public BattleSideReference SideType { get; private set; }
 
@@ -91,7 +101,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public bool RemoveByTrigger { get; private set; }
 
-        [ShowIf(nameof(RemoveByTrigger))]
+        [EnableIf(nameof(RemoveByTrigger))]
         [ShowInInspector, OdinSerialize]
         public IContextTriggerSetup RemoveTrigger { get; private set; }
         #endregion

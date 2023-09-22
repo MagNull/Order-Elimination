@@ -27,11 +27,6 @@ namespace DefaultNamespace
             _standardFontSize = _textPrefab.fontSize;
         }
 
-        public async UniTask Emit(string text, Color color, float fontSize = -1)
-        {
-            await Emit(text, color, transform.position, _speed * _duration, fontSize);
-        }
-
         public async UniTask Emit(string text, Color color, Vector3 position, float fontSize = -1)
         {
             await Emit(text, color, position, _speed * _duration, fontSize);

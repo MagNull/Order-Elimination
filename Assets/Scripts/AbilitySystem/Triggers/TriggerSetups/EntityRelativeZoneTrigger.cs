@@ -70,7 +70,7 @@ namespace OrderElimination.AbilitySystem
 
                 currentEntities = zonePositions
                     .SelectMany(pos => map.GetContainedEntities(pos))
-                    .Where(entity => TriggeringEntityConditions.All(c => c.IsConditionMet(context, trackingEntity, entity)))
+                    .Where(entity => TriggeringEntityConditions.AllMet(context, trackingEntity, entity))
                     .ToArray();
             }
             var disappearedEntities = entitiesInZone.Except(currentEntities).ToArray();

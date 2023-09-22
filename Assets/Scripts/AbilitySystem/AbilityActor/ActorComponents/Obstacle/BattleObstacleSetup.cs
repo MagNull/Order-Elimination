@@ -104,16 +104,14 @@ namespace OrderElimination.AbilitySystem
         {
             if (!AllowsToStay) return false;
             var obstacleEntity = obstacle.ObstacleEntity;
-            return _entityStayConditions.All(c => c.IsConditionMet(
-                obstacleEntity.BattleContext, obstacleEntity, entityToCheck));
+            return _entityStayConditions.AllMet(obstacleEntity.BattleContext, obstacleEntity, entityToCheck);
         }
 
         public bool IsAllowedToWalk(BattleObstacle obstacle, AbilitySystemActor entityToCheck)
         {
             if (!AllowsToWalkOn) return false;
             var obstacleEntity = obstacle.ObstacleEntity;
-            return _entityWalkConditions.All(c => c.IsConditionMet(
-                obstacleEntity.BattleContext, obstacleEntity, entityToCheck));
+            return _entityWalkConditions.AllMet(obstacleEntity.BattleContext, obstacleEntity, entityToCheck);
         }
 
         public ContextValueModificationResult ModifyAccuracy(

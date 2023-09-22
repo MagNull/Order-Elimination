@@ -8,6 +8,7 @@ namespace OrderElimination.AbilitySystem
 {
     public class BattleEffect // IDisposable
     {
+        //EffectApplyActionPerformId
         public IEffectData EffectData { get; }
         public IBattleContext BattleContext { get; }
         public bool IsActive { get; private set; }

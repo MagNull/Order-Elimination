@@ -170,7 +170,7 @@ namespace OrderElimination.AbilitySystem
             var battleContext = executionContext.BattleContext;
             var battleMap = battleContext.BattleMap;
             var caster = executionContext.AbilityCaster;
-            if (_commonConditions != null && !_commonConditions.All(c => c.IsConditionMet(battleContext, caster)))
+            if (_commonConditions != null && !_commonConditions.AllMet(battleContext, caster))
                 return;
             var groups = executionContext.TargetedCellGroups;
             if (Action.ActionRequires == ActionRequires.Maker)
@@ -194,7 +194,7 @@ namespace OrderElimination.AbilitySystem
                 .SelectMany(g => executionContext.TargetedCellGroups.GetGroup(g)))
                 {
                     var cellConditionsMet = _cellConditions == null
-                        || _cellConditions.All(c => c.IsConditionMet(battleContext, caster, pos));
+                        || _cellConditions.AllMet(battleContext, caster, pos);
                     if (Action.ActionRequires == ActionRequires.Cell)
                     {
                         await ExecuteNextInstructions(cellConditionsMet, null, pos);
@@ -205,7 +205,7 @@ namespace OrderElimination.AbilitySystem
                         foreach (var entity in entitiesInCell)
                         {
                             var entityConditionsMet = _targetConditions == null
-                                || _targetConditions.All(c => c.IsConditionMet(battleContext, caster, entity));
+                                || _targetConditions.AllMet(battleContext, caster, entity);
                             await ExecuteNextInstructions(cellConditionsMet && entityConditionsMet, entity, pos);
                         }
                     }
@@ -241,7 +241,7 @@ namespace OrderElimination.AbilitySystem
                     return;
                 if (executionEntity != null
                     && _targetConditions != null
-                    && !_targetConditions.All(c => c.IsConditionMet(battleContext, caster, executionEntity)))
+                    && !_targetConditions.AllMet(battleContext, caster, executionEntity))
                     return;
                 var result = await ExecuteCurrentInstruction(executionContext, caster, executionEntity, targetPositionOverride);
             }

@@ -63,8 +63,8 @@ MonoBehaviour:
       Data: 2|OrderElimination.AbilitySystem.ApplyEffectImmunityAction, Assembly-CSharp
     - Name: EffectImmunities
       Entry: 7
-      Data: 3|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.IEffectData,
-        Assembly-CSharp]], System.Core
+      Data: 3|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEffectData,
+        Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
@@ -86,6 +86,12 @@ MonoBehaviour:
     - Name: UndoOnDeactivation
       Entry: 5
       Data: true
+    - Name: _animationBeforeAction
+      Entry: 6
+      Data: 
+    - Name: _animationAfterAction
+      Entry: 6
+      Data: 
     - Name: _instructionOnCallback
       Entry: 7
       Data: 4|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
@@ -113,6 +119,12 @@ MonoBehaviour:
     - Name: UndoOnDeactivation
       Entry: 5
       Data: true
+    - Name: _animationBeforeAction
+      Entry: 6
+      Data: 
+    - Name: _animationAfterAction
+      Entry: 6
+      Data: 
     - Name: _instructionOnCallback
       Entry: 6
       Data: 
@@ -125,12 +137,6 @@ MonoBehaviour:
     - Name: _followingInstruction
       Entry: 6
       Data: 
-    - Name: _animationBeforeAction
-      Entry: 6
-      Data: 
-    - Name: _animationAfterAction
-      Entry: 6
-      Data: 
     - Name: 
       Entry: 8
       Data: 
@@ -141,12 +147,6 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: _followingInstruction
-      Entry: 6
-      Data: 
-    - Name: _animationBeforeAction
-      Entry: 6
-      Data: 
-    - Name: _animationAfterAction
       Entry: 6
       Data: 
     - Name: 
@@ -343,26 +343,14 @@ MonoBehaviour:
       Entry: 7
       Data: 21|OrderElimination.AbilitySystem.EntityValueCheckCondition, Assembly-CSharp
     - Name: Left
-      Entry: 7
-      Data: 22|OrderElimination.AbilitySystem.EffectCountValueGetter, Assembly-CSharp
-    - Name: Effect
-      Entry: 10
-      Data: 1
-    - Name: CountOn
-      Entry: 3
-      Data: 1
-    - Name: IsAppliedByCaster
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
+      Entry: 6
       Data: 
     - Name: ComparisonOperation
       Entry: 3
       Data: 4
     - Name: Right
       Entry: 7
-      Data: 23|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+      Data: 22|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
       Data: 3
@@ -386,7 +374,7 @@ MonoBehaviour:
       Data: 0
     - Name: Instruction
       Entry: 7
-      Data: 24|OrderElimination.AbilitySystem.RemoveThisEffectInstruction, Assembly-CSharp
+      Data: 23|OrderElimination.AbilitySystem.RemoveThisEffectInstruction, Assembly-CSharp
     - Name: 
       Entry: 8
       Data: 

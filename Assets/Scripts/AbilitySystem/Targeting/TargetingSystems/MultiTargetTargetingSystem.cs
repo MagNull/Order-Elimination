@@ -78,7 +78,7 @@ namespace OrderElimination.AbilitySystem
                 return CurrentAvailableCells.ToArray();
             return battleContext.BattleMap.CellRangeBorders
                 .EnumerateCellPositions()
-                .Where(pos => _cellConditions.All(c => c.IsConditionMet(battleContext, caster, pos)))
+                .Where(pos => _cellConditions.AllMet(battleContext, caster, pos))
                 .ToArray();
         }
 
@@ -102,7 +102,7 @@ namespace OrderElimination.AbilitySystem
             IBattleContext battleContext, AbilitySystemActor caster, Vector2Int cellPosition)
         {
             return battleContext.BattleMap.ContainsPosition(cellPosition)
-                && _cellConditions.All(c => c.IsConditionMet(battleContext, caster, cellPosition));
+                && _cellConditions.AllMet(battleContext, caster, cellPosition);
         }
 
         public bool Select(Vector2Int cellPosition)

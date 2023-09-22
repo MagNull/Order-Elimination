@@ -18,22 +18,23 @@ namespace OrderElimination.AbilitySystem
         }
 
         [ShowInInspector, OdinSerialize]
-        public EffectSpecificationOption SpecifyEffectBy { get; set; }
+        public EffectSpecificationOption SpecifyBy { get; set; }
 
-        [ShowIf("@" + nameof(SpecifyEffectBy) + " == " + nameof(EffectSpecificationOption) + "." + nameof(EffectSpecificationOption.ByCharacter))]
+        [ShowIf("@" + nameof(SpecifyBy) + " == " + nameof(EffectSpecificationOption) + "." + nameof(EffectSpecificationOption.ByCharacter))]
         [ShowInInspector, OdinSerialize]
         public EnumMask<EffectCharacter> EffectCharacter { get; set; } = EnumMask<EffectCharacter>.Empty;
 
-        [ShowIf("@" + nameof(SpecifyEffectBy) + " == " + nameof(EffectSpecificationOption) + "." + nameof(EffectSpecificationOption.ByEffectData))]
+        [ShowIf("@" + nameof(SpecifyBy) + " == " + nameof(EffectSpecificationOption) + "." + nameof(EffectSpecificationOption.ByEffectData))]
         [ShowInInspector, OdinSerialize]
         public HashSet<IEffectData> EffectsData { get; set; } = new();
 
         [HorizontalGroup("RestrictByApplier")]
+        [ToggleLeft]
         [ShowInInspector, OdinSerialize]
         public bool RestrictByApplier { get; set; }
 
         [HorizontalGroup("RestrictByApplier")]
-        [ShowIf("@" + nameof(RestrictByApplier))]
+        [EnableIf("@" + nameof(RestrictByApplier))]
         [ShowInInspector, OdinSerialize]
         public ActionEntity AppliedBy { get; set; }
 
@@ -42,7 +43,7 @@ namespace OrderElimination.AbilitySystem
         public override IBattleAction Clone()
         {
             var clone = new RemoveEffectsAction();
-            clone.SpecifyEffectBy = SpecifyEffectBy;
+            clone.SpecifyBy = SpecifyBy;
             clone.EffectCharacter = EffectCharacter.Clone();
             clone.EffectsData = EffectsData.ToHashSet();
             clone.RestrictByApplier = RestrictByApplier;
@@ -53,7 +54,7 @@ namespace OrderElimination.AbilitySystem
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
             var target = useContext.ActionTarget;
-            var targetedEffects = SpecifyEffectBy switch
+            var targetedEffects = SpecifyBy switch
             {
                 EffectSpecificationOption.ByCharacter 
                 => target.Effects.Where(e => EffectCharacter[e.EffectData.EffectCharacter]),

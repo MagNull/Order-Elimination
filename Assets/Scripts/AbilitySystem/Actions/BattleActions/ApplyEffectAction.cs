@@ -11,6 +11,7 @@ namespace OrderElimination.AbilitySystem
         IUndoableBattleAction,
         ICallbackingBattleAction
     {
+        private static Dictionary<BattleEffect, int> _effectsApplyIds = new();
         private static List<BattleEffect> _appliedEffects = new();
         private static List<IEffectHolder> _performTargets = new();
         private static HashSet<int> _undoneOperations = new();
@@ -49,6 +50,7 @@ namespace OrderElimination.AbilitySystem
 
         public void ClearUndoCache()
         {
+            _effectsApplyIds.Clear();
             _appliedEffects.Clear();
             _performTargets.Clear();
             _undoneOperations.Clear();
@@ -56,6 +58,7 @@ namespace OrderElimination.AbilitySystem
 
         protected async override UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
+            var performId = _appliedEffects.Count;
             var isSuccessfull = false;
             var calculationContext = ValueCalculationContext.Full(useContext);
             var probability = ApplyChance.GetValue(calculationContext);
@@ -68,9 +71,11 @@ namespace OrderElimination.AbilitySystem
                     appliedEffect.Deactivated += OnEffectRemoved;
                 }
             }
+            if (appliedEffect != null)
+                _effectsApplyIds.Add(appliedEffect, performId);
             _appliedEffects.Add(appliedEffect);
             _performTargets.Add(useContext.ActionTarget);
-            return new SimpleUndoablePerformResult(this, useContext, isSuccessfull, _appliedEffects.Count - 1);
+            return new SimpleUndoablePerformResult(this, useContext, isSuccessfull, performId);
 
             void OnEffectRemoved(BattleEffect effect)
             {
@@ -92,6 +97,13 @@ namespace OrderElimination.AbilitySystem
             modifiedAction.Callbacks += onCallback;
             var performResult = await modifiedAction.Perform(useContext);
             return performResult;
+        }
+
+        public static int GetEffectApplyId(BattleEffect effect)
+        {
+            if (effect == null)
+                throw new ArgumentNullException();
+            return _effectsApplyIds[effect];
         }
     }
 }

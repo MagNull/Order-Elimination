@@ -32,15 +32,19 @@ namespace OrderElimination.AbilitySystem
     public readonly struct DealtDamageInfo
     {
         public DamageInfo IncomingDamage { get; }
+        public AbilitySystemActor DamageDealer => IncomingDamage.DamageDealer;
+        public AbilitySystemActor DamageTarget { get; }
         public float DealtDamageToHealth { get; }
         public float DealtDamageToArmor { get; }
-        //Target?
-
         public float TotalDealtDamage => DealtDamageToHealth + DealtDamageToArmor;
 
-        public DealtDamageInfo(DamageInfo incoming, float totalArmorDamage, float totalHealthDamage)
+        public DealtDamageInfo(
+            AbilitySystemActor damageTarget, 
+            DamageInfo incomingDamage, 
+            float totalArmorDamage, float totalHealthDamage)
         {
-            IncomingDamage = incoming;
+            DamageTarget = damageTarget;
+            IncomingDamage = incomingDamage;
             DealtDamageToHealth = totalHealthDamage;
             DealtDamageToArmor = totalArmorDamage;
         }
