@@ -146,7 +146,8 @@ namespace OrderElimination.AbilitySystem
                     ActionsTarget.Caster => caster,
                     _ => throw new System.NotImplementedException(),
                 };
-                var actionContext = new ActionContext(battleContext, cellGroups, caster, targetEntity);
+                var actionContext = new ActionContext(
+                    battleContext, cellGroups, caster, targetEntity, ActionCallOrigin.PassiveAbility);
                 foreach (var action in _actionsOnExit)
                 {
                     var result = await action.ModifiedPerform(actionContext);
@@ -175,7 +176,8 @@ namespace OrderElimination.AbilitySystem
                     ActionsTarget.Caster => caster,
                     _ => throw new System.NotImplementedException(),
                 };
-                var actionContext = new ActionContext(battleContext, cellGroups, caster, targetEntity);
+                var actionContext = new ActionContext(
+                    battleContext, cellGroups, caster, targetEntity, ActionCallOrigin.PassiveAbility);
                 foreach (var action in _actionsOnEnter)
                 {
                     var result = await action.ModifiedPerform(actionContext);

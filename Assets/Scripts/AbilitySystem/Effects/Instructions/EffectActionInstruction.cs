@@ -92,7 +92,7 @@ namespace OrderElimination.AbilitySystem
                 _ => throw new NotImplementedException(),
             };
             var actionContext = new ActionContext(
-                effect.BattleContext, cellGroups, effect.EffectApplier, target);
+                effect.BattleContext, cellGroups, effect.EffectApplier, target, ActionCallOrigin.Effect);
             var applierProcessing = effect.EffectData.UseApplierProcessing;
             var holderProcessing = effect.EffectData.UseHolderProcessing;
             var animationContext = new AnimationPlayContext(

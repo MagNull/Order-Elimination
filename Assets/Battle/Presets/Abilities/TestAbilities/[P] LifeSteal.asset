@@ -151,6 +151,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: TriggerOnDamageFromEffects
+      Entry: 5
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -186,7 +189,31 @@ MonoBehaviour:
       Data: 10|OrderElimination.AbilitySystem.IBattleAction[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 11|OrderElimination.AbilitySystem.HealAction, Assembly-CSharp
+    - Name: HealSize
+      Entry: 7
+      Data: 12|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+    - Name: Value
+      Entry: 4
+      Data: 10
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: HealPriority
+      Entry: 3
+      Data: 1
+    - Name: ArmorMultiplier
+      Entry: 4
+      Data: 1
+    - Name: HealthMultiplier
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 

@@ -47,7 +47,8 @@ namespace OrderElimination.AbilitySystem
             {
                 if (HasBeenActivated)
                     Logging.LogException(new InvalidOperationException("Has already been activated."));
-                var actionContext = new ActionContext(ActivationContext, null, Owner, Owner);
+                var actionContext = new ActionContext(
+                    ActivationContext, null, Owner, Owner, ActionCallOrigin.PassiveAbility);
                 foreach (var action in _activationActions)
                 {
                     //CallbackAction check

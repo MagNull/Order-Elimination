@@ -10,6 +10,7 @@ namespace OrderElimination.AbilitySystem
         public DamageType DamageType { get; }
         public LifeStatPriority DamagePriority { get; }
         public AbilitySystemActor DamageDealer { get; }
+        public bool IsFromEffect { get; }
 
         public DamageInfo(
             float value, 
@@ -17,7 +18,8 @@ namespace OrderElimination.AbilitySystem
             float healthMultiplier, 
             DamageType damageType, 
             LifeStatPriority priority,
-            AbilitySystemActor damageDealer)
+            AbilitySystemActor damageDealer,
+            bool fromEffect)
         {
             if (value < 0) Logging.LogException( new ArgumentException("Damage value is less than 0."));
             DamageValue = value;
@@ -26,6 +28,7 @@ namespace OrderElimination.AbilitySystem
             DamageType = damageType;
             DamagePriority = priority;
             DamageDealer = damageDealer;
+            IsFromEffect = fromEffect;
         }
     }
 

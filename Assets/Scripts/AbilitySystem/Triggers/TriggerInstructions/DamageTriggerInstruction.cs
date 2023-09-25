@@ -18,7 +18,10 @@ namespace OrderElimination.AbilitySystem
 
         private bool HasUndoableActions 
             => _actionsOnTarget != null && _actionsOnTarget.Any(a => a is IUndoableBattleAction);
+        private bool HasDamageActions
+            => _actionsOnTarget != null && _actionsOnTarget.Any(a => a is InflictDamageAction);
 
+        [BoxGroup("Trigger", ShowLabel = false)]
         [ShowInInspector, OdinSerialize]
         private ITriggerWithFireInfo<DamageTriggerFireInfo> _triggerSetup;
 
@@ -35,6 +38,9 @@ namespace OrderElimination.AbilitySystem
         private ActionsTarget _actionTarget;
 
         [BoxGroup("Action")]
+        [ValidateInput(
+            "@!" + nameof(HasDamageActions), 
+            "Nested damage actions can cause an infinite cycle!")]
         [ShowInInspector, OdinSerialize]
         private IBattleAction[] _actionsOnTarget = new IBattleAction[0];
 
@@ -69,7 +75,8 @@ namespace OrderElimination.AbilitySystem
                     ActionsTarget.DamageTarget => damageInflictInfo.DamageInfo.DamageTarget,
                     _ => throw new NotImplementedException(),
                 };
-                var context = new ActionContext(battleContext, CellGroupsContainer.Empty, caster, target);
+                var context = new ActionContext(
+                    battleContext, CellGroupsContainer.Empty, caster, target, ActionCallOrigin.PassiveAbility);
                 //Check conditions
                 foreach (var action in _actionsOnTarget)
                 {

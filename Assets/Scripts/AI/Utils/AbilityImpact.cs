@@ -102,7 +102,8 @@ namespace AI.Utils
         private void CalculateRawDamage(AbilityInstruction instruction, CellGroupsContainer targetGroups)
         {
             //Can throw an exception if value depends on target.
-            var actionContext = new ActionContext(_battleContext, targetGroups, _caster, null);
+            var actionContext = new ActionContext(
+                _battleContext, targetGroups, _caster, null, ActionCallOrigin.Unknown);
             var calculationContext = ValueCalculationContext.Full(actionContext);
 
             //Calculate value based on context
@@ -139,7 +140,8 @@ namespace AI.Utils
             foreach (var target in targets)
             {
                 //Form action context
-                var actionContext = new ActionContext(_battleContext, cellGroups, _caster, target);
+                var actionContext = new ActionContext(
+                    _battleContext, cellGroups, _caster, target, ActionCallOrigin.Unknown);
                 var calculationContext = ValueCalculationContext.Full(actionContext);
 
                 //Calculate value based on context
