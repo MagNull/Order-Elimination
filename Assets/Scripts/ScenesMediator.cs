@@ -39,7 +39,7 @@ namespace OrderElimination
             if(_data.Values.All(x => !type.IsInstanceOfType(x)))
                 throw new ArgumentException("Theres no registered object with type " + typeof(T).Name);
             
-            return (T)_data[name];
+            return (T)_data[name.ToLower()];
         }
 
         public bool Contains<T>(string name)
