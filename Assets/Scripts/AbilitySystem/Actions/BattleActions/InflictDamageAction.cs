@@ -113,7 +113,9 @@ namespace OrderElimination.AbilitySystem
             var calculationContext = ValueCalculationContext.Full(useContext);
             var damageSize = DamageSize.GetValue(calculationContext);
             var damageDealer = useContext.ActionMaker;
-            var damageInfo = new DamageInfo(damageSize, ArmorMultiplier, HealthMultiplier, DamageType, DamagePriority, damageDealer);
+            var fromEffect = useContext.CalledFrom == ActionCallOrigin.Effect;
+            var damageInfo = new DamageInfo(
+                damageSize, ArmorMultiplier, HealthMultiplier, DamageType, DamagePriority, damageDealer, fromEffect);
             return damageInfo;
         }
 

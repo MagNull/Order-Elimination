@@ -102,7 +102,8 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
                 .GetVisibleEntitiesAt(pos, caster.BattleSide)
                 .Where(e => instruction.TargetConditions.AllMet(battleContext, caster, e)))
             {
-                var actionContext = new ActionContext(battleContext, targetedGroups, caster, target);
+                var actionContext = new ActionContext(
+                    battleContext, targetedGroups, caster, target, ActionCallOrigin.Unknown);
                 var valueContext = ValueCalculationContext.Full(actionContext);
                 if (instruction.Action is InflictDamageAction damageAction)
                 {

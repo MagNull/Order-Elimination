@@ -14,8 +14,9 @@ namespace OrderElimination.AbilitySystem
         public IContextValueGetter MinDamageThreshold { get; private set; } = new ConstValueGetter(0);
 
         //TriggerOnDamageTo: Any, Armor, Health
-
-        //bool TriggerOnDamageFromEffects ?
+        [ToggleLeft]
+        [ShowInInspector, OdinSerialize]
+        public bool TriggerOnDamageFromEffects { get; private set; }
 
         public IBattleTrigger GetTrigger(IBattleContext battleContext, AbilitySystemActor trackingEntity)
         {
@@ -44,6 +45,7 @@ namespace OrderElimination.AbilitySystem
                     null,//Require trigger activator-entity?
                     trackingEntity);
                 if (TriggeringDamageTypes[damageInfo.IncomingDamage.DamageType]
+                    && (!damageInfo.IncomingDamage.IsFromEffect || TriggerOnDamageFromEffects)
                     && damageInfo.TotalDealtDamage >= MinDamageThreshold.GetValue(calculationContext))
                 {
                     instance.FireTrigger(new DamageTriggerFireInfo(instance, damageInfo));

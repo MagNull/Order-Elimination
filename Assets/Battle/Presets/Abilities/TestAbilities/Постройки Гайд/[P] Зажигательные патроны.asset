@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9319bd4bf903aed40b9814da813b6e29, type: 3}
-  m_Name: '[P] LifeSteal'
+  m_Name: "[P] \u0417\u0430\u0436\u0438\u0433\u0430\u0442\u0435\u043B\u044C\u043D\u044B\u0435
+    \u043F\u0430\u0442\u0440\u043E\u043D\u044B"
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 21300000, guid: e2cfd33bc68d30d4581e994ccc3fcb5f, type: 3}
+    - {fileID: 11400000, guid: ecc63ab2f2245de40b4e4f584fed62ef, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -26,14 +27,14 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: Icon
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: Description
       Entry: 6
       Data: 
     - Name: HideInCharacterDescription
       Entry: 5
-      Data: false
+      Data: true
     - Name: CooldownTime
       Entry: 3
       Data: 0
@@ -93,7 +94,7 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -117,7 +118,7 @@ MonoBehaviour:
       Data: 2
     - Name: $v
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -129,7 +130,7 @@ MonoBehaviour:
       Data: 3
     - Name: $v
       Entry: 5
-      Data: true
+      Data: false
     - Name: 
       Entry: 8
       Data: 
@@ -183,7 +184,7 @@ MonoBehaviour:
       Data: 
     - Name: _actionTarget
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: _actionsOnTarget
       Entry: 7
       Data: 10|OrderElimination.AbilitySystem.IBattleAction[], Assembly-CSharp
@@ -192,25 +193,19 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 11|OrderElimination.AbilitySystem.HealAction, Assembly-CSharp
-    - Name: HealSize
+      Data: 11|OrderElimination.AbilitySystem.ApplyEffectAction, Assembly-CSharp
+    - Name: Effect
+      Entry: 10
+      Data: 0
+    - Name: ApplyChance
       Entry: 7
       Data: 12|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
-      Data: 10
+      Data: 0.2
     - Name: 
       Entry: 8
       Data: 
-    - Name: HealPriority
-      Entry: 3
-      Data: 1
-    - Name: ArmorMultiplier
-      Entry: 4
-      Data: 1
-    - Name: HealthMultiplier
-      Entry: 4
-      Data: 1
     - Name: 
       Entry: 8
       Data: 

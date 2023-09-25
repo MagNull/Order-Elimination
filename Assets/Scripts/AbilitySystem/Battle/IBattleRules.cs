@@ -7,6 +7,8 @@ namespace OrderElimination.Battle
         public ITurnPriority TurnPriority { get; }
         public IHitCalculation HitCalculation { get; }
 
+        public IBattleTracker VictoryTracker { get; }
+        public IBattleTracker DefeatTracker { get; }
         //VictoryConditions (All/Any-compound)
         //DefeatConditions (Any)
 

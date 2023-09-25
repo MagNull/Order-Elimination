@@ -7,12 +7,6 @@ namespace OrderElimination.AbilitySystem.Conditions
 {
     public class HasEffectCondition : IEntityCondition
     {
-        public enum RequireType //TODO: Extract
-        {
-            All,
-            Any
-        }
-
         [ShowInInspector, OdinSerialize]
         public IEffectData[] RequiredEffects { get; private set; } = new IEffectData[0];
 
