@@ -1,0 +1,229 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9319bd4bf903aed40b9814da813b6e29, type: 3}
+  m_Name: "[P] \u0417\u0430\u0436\u0438\u0433\u0430\u0442\u0435\u043B\u044C\u043D\u044B\u0435
+    \u043F\u0430\u0442\u0440\u043E\u043D\u044B"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: ecc63ab2f2245de40b4e4f584fed62ef, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: Name
+      Entry: 6
+      Data: 
+    - Name: Icon
+      Entry: 6
+      Data: 
+    - Name: Description
+      Entry: 6
+      Data: 
+    - Name: HideInCharacterDescription
+      Entry: 5
+      Data: true
+    - Name: CooldownTime
+      Entry: 3
+      Data: 0
+    - Name: ActionsOnActivation
+      Entry: 7
+      Data: 0|OrderElimination.AbilitySystem.IUndoableBattleAction[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: TriggerInstructions
+      Entry: 7
+      Data: 1|OrderElimination.AbilitySystem.ITriggerInstruction[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 2|OrderElimination.AbilitySystem.DamageTriggerInstruction, Assembly-CSharp
+    - Name: _triggerSetup
+      Entry: 7
+      Data: 3|OrderElimination.AbilitySystem.EntityInflictedDamageTrigger, Assembly-CSharp
+    - Name: TriggeringDamageTypes
+      Entry: 7
+      Data: 4|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.DamageType,
+        Assembly-CSharp]], Assembly-CSharp
+    - Name: _valueFlags
+      Entry: 7
+      Data: 5|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.DamageType,
+        Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 6|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.DamageType,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: MinDamageThreshold
+      Entry: 7
+      Data: 7|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+    - Name: Value
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: TriggerOnDamageFromEffects
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _commonConditions
+      Entry: 7
+      Data: 8|OrderElimination.AbilitySystem.ICommonCondition[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _damageTargetConditions
+      Entry: 7
+      Data: 9|OrderElimination.AbilitySystem.IEntityCondition[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _actionTarget
+      Entry: 3
+      Data: 1
+    - Name: _actionsOnTarget
+      Entry: 7
+      Data: 10|OrderElimination.AbilitySystem.IBattleAction[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 11|OrderElimination.AbilitySystem.ApplyEffectAction, Assembly-CSharp
+    - Name: Effect
+      Entry: 10
+      Data: 0
+    - Name: ApplyChance
+      Entry: 7
+      Data: 12|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+    - Name: Value
+      Entry: 4
+      Data: 0.2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _undoOnTriggerDeactivation
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
