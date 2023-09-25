@@ -100,9 +100,10 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
             var visualPosition = battleContext.AnimationSceneContext.BattleMapView.GameToWorldPosition(pos);
             foreach (var target in battleContext
                 .GetVisibleEntitiesAt(pos, caster.BattleSide)
-                .Where(e => instruction.TargetConditions.All(c => c.IsConditionMet(battleContext, caster, e))))
+                .Where(e => instruction.TargetConditions.AllMet(battleContext, caster, e)))
             {
-                var actionContext = new ActionContext(battleContext, targetedGroups, caster, target);
+                var actionContext = new ActionContext(
+                    battleContext, targetedGroups, caster, target, ActionCallOrigin.Unknown);
                 var valueContext = ValueCalculationContext.Full(actionContext);
                 if (instruction.Action is InflictDamageAction damageAction)
                 {
@@ -112,7 +113,7 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
                         0, modifiedAction.Accuracy.GetValue(valueContext) * 100);
                     var damage = modifiedAction.CalculateDamage(actionContext);
                     var distributedDamage = IBattleLifeStats.DistributeDamage(target.BattleStats, damage);
-                    float damageValue = distributedDamage.TotalDealtDamage;
+                    float damageValue = distributedDamage.TotalDamage;
                     if (_roundFloatNumbers)
                     {
                         damageValue = MathExtensions.Round(damageValue, _roundingMode);

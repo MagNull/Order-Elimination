@@ -76,9 +76,11 @@ namespace OrderElimination.AbilitySystem
         {
             if (StatusHolder.HasStatus(BattleStatus.Invulnerable))
             {
-                return new DealtDamageInfo(incomingDamage, 0, 0);
+                return new DealtDamageInfo(this, incomingDamage, 0, 0);
             }
-            var dealtDamage = IBattleLifeStats.DistributeDamage(BattleStats, incomingDamage);
+            var distributedDamage = IBattleLifeStats.DistributeDamage(BattleStats, incomingDamage);
+            var dealtDamage = new DealtDamageInfo(
+                this, incomingDamage, distributedDamage.DamageToArmor, distributedDamage.DamageToHealth);
             BattleStats.TotalArmor -= dealtDamage.DealtDamageToArmor;
             BattleStats.Health -= dealtDamage.DealtDamageToHealth;
             if (dealtDamage.DealtDamageToHealth >= BattleStats.Health)
@@ -86,6 +88,8 @@ namespace OrderElimination.AbilitySystem
                 OnLethalDamage?.Invoke(dealtDamage);
             }
             Damaged?.Invoke(dealtDamage);
+            if (dealtDamage.DamageDealer != null)
+                dealtDamage.DamageDealer.GetDamageReceiveFeedback(dealtDamage);
             if (!IsAlive) OnDeath();
             return dealtDamage;
         }
@@ -106,6 +110,15 @@ namespace OrderElimination.AbilitySystem
             DisposeFromBattle();
         }
         #endregion
+
+        public event Action<DealtDamageInfo> InflictedDamage;
+
+        public void GetDamageReceiveFeedback(DealtDamageInfo dealtDamage)
+        {
+            if (dealtDamage.DamageDealer != this)
+                throw new InvalidOperationException("Current actor is not damage dealer of this damage.");
+            InflictedDamage?.Invoke(dealtDamage);
+        }
 
         #region EntityMover
         public Vector2Int Position => DeployedBattleMap.GetPosition(this);

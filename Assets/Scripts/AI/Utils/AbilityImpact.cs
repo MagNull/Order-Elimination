@@ -42,7 +42,8 @@ namespace AI.Utils
         {
             if (!TryGetTargetGroups(out var targetGroups))
             {
-                Logging.LogError($"Failed to peek Target Groups for {_data.View.Name}");
+                //TODO: fix error
+                //Logging.LogError($"Failed to peek Target Groups for {_data.View.Name}");
             }
             var instructions = _data.Execution.ActionInstructions;
             foreach (var abilityInstruction in instructions)
@@ -101,7 +102,8 @@ namespace AI.Utils
         private void CalculateRawDamage(AbilityInstruction instruction, CellGroupsContainer targetGroups)
         {
             //Can throw an exception if value depends on target.
-            var actionContext = new ActionContext(_battleContext, targetGroups, _caster, null);
+            var actionContext = new ActionContext(
+                _battleContext, targetGroups, _caster, null, ActionCallOrigin.Unknown);
             var calculationContext = ValueCalculationContext.Full(actionContext);
 
             //Calculate value based on context
@@ -138,7 +140,8 @@ namespace AI.Utils
             foreach (var target in targets)
             {
                 //Form action context
-                var actionContext = new ActionContext(_battleContext, cellGroups, _caster, target);
+                var actionContext = new ActionContext(
+                    _battleContext, cellGroups, _caster, target, ActionCallOrigin.Unknown);
                 var calculationContext = ValueCalculationContext.Full(actionContext);
 
                 //Calculate value based on context

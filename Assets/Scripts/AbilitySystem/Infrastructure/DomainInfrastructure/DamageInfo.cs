@@ -10,6 +10,7 @@ namespace OrderElimination.AbilitySystem
         public DamageType DamageType { get; }
         public LifeStatPriority DamagePriority { get; }
         public AbilitySystemActor DamageDealer { get; }
+        public bool IsFromEffect { get; }
 
         public DamageInfo(
             float value, 
@@ -17,7 +18,8 @@ namespace OrderElimination.AbilitySystem
             float healthMultiplier, 
             DamageType damageType, 
             LifeStatPriority priority,
-            AbilitySystemActor damageDealer)
+            AbilitySystemActor damageDealer,
+            bool fromEffect)
         {
             if (value < 0) Logging.LogException( new ArgumentException("Damage value is less than 0."));
             DamageValue = value;
@@ -26,21 +28,26 @@ namespace OrderElimination.AbilitySystem
             DamageType = damageType;
             DamagePriority = priority;
             DamageDealer = damageDealer;
+            IsFromEffect = fromEffect;
         }
     }
 
     public readonly struct DealtDamageInfo
     {
         public DamageInfo IncomingDamage { get; }
+        public AbilitySystemActor DamageDealer => IncomingDamage.DamageDealer;
+        public AbilitySystemActor DamageTarget { get; }
         public float DealtDamageToHealth { get; }
         public float DealtDamageToArmor { get; }
-        //Target?
-
         public float TotalDealtDamage => DealtDamageToHealth + DealtDamageToArmor;
 
-        public DealtDamageInfo(DamageInfo incoming, float totalArmorDamage, float totalHealthDamage)
+        public DealtDamageInfo(
+            AbilitySystemActor damageTarget, 
+            DamageInfo incomingDamage, 
+            float totalArmorDamage, float totalHealthDamage)
         {
-            IncomingDamage = incoming;
+            DamageTarget = damageTarget;
+            IncomingDamage = incomingDamage;
             DealtDamageToHealth = totalHealthDamage;
             DealtDamageToArmor = totalArmorDamage;
         }

@@ -57,10 +57,15 @@ namespace AI.Actions
             };
             foreach (var damageAbility in targetAbilities)
             {
-                var cellsFromTarget = GetCellsForCastingAbility(
-                    battleContext, damageAbility.AbilityRunner.AbilityData, caster);
+                var damageTargeting = damageAbility.AbilityRunner.AbilityData.GameRepresentation.TargetingSystem;
+
+                //Works only for square-distance abilities
+                var distanceFromTargetPattern = new DistanceFromPointPattern(1, damageTargeting.MaxSquareRange, true);
+
+                var cellsFromTarget = distanceFromTargetPattern.GetAbsolutePositions(target.Position);
+
                 var intersect = cellsFromTarget
-                    .Where(c => manualTargeting.CanSelectPeek(battleContext, caster, c));
+                    .Where(c => manualTargeting.CanSelectPeek(battleContext, caster, c));//Where can go
                 if (!intersect.Any())
                     continue;
                 

@@ -22,6 +22,8 @@ namespace OrderElimination.AbilitySystem
 
         public GameCharacter GetBasedCharacter(AbilitySystemActor characterEntity);
         public AbilitySystemActor GetEntityByBasedCharacter(GameCharacter gameCharacter);
+        public AbilitySystemActor[] GetEntitiesByBasedTemplate(IGameCharacterTemplate characterTemplate);
+        public AbilitySystemActor[] GetEntitiesByBasedTemplate(IBattleStructureTemplate structureTemplate);
         public IBattleStructureTemplate GetBasedStructureTemplate(AbilitySystemActor structureEntity);
     }
 
@@ -66,6 +68,18 @@ namespace OrderElimination.AbilitySystem
 
         public AbilitySystemActor GetEntityByBasedCharacter(GameCharacter gameCharacter)
             => _entitiesByCharacters[gameCharacter];
+
+        public AbilitySystemActor[] GetEntitiesByBasedTemplate(IGameCharacterTemplate characterTemplate)
+            => _basedCharacters
+            .Where(e => e.Value.CharacterData == characterTemplate)
+            .Select(e => e.Key)
+            .ToArray();
+
+        public AbilitySystemActor[] GetEntitiesByBasedTemplate(IBattleStructureTemplate structureTemplate)
+            => _basedStructures
+            .Where(e => e.Value == structureTemplate)
+            .Select(e => e.Key)
+            .ToArray();
 
         public IBattleStructureTemplate GetBasedStructureTemplate(AbilitySystemActor structureEntity)
         {

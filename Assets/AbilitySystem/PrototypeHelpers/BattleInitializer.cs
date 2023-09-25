@@ -36,8 +36,14 @@ namespace Assets.AbilitySystem.PrototypeHelpers
 
         public void StartScenario(BattleScenario scenario)
         {
-            var gameAllies = _sceneMediator.Get<IEnumerable<GameCharacter>>("player characters").ToArray();
-            var gameEnemies = _sceneMediator.Get<IEnumerable<GameCharacter>>("enemy characters").ToArray();
+            var gameAllies = _sceneMediator
+                .Get<IEnumerable<GameCharacter>>("player characters")
+                .Where(c => c.CurrentHealth > 0)
+                .ToArray();
+            var gameEnemies = _sceneMediator
+                .Get<IEnumerable<GameCharacter>>("enemy characters")
+                .Where(c => c.CurrentHealth > 0)
+                .ToArray();
             var allySpawns = scenario.GetAlliesSpawnPositions();
             var enemySpawns = scenario.GetEnemySpawnPositions();
             var structures = scenario.GetStructureSpawns();

@@ -17,6 +17,9 @@ namespace OrderElimination.AbilitySystem
         private static readonly HashSet<int> _undoneOperations = new();
 
         [ShowInInspector, OdinSerialize]
+        public int SpawnAtCellGroup { get; private set; }
+
+        [ShowInInspector, OdinSerialize]
         public EntityType Entity { get; private set; }
 
         [ShowIf("@" + nameof(Entity) + " == " + nameof(EntityType) + "." + nameof(EntityType.Character))]
@@ -35,13 +38,10 @@ namespace OrderElimination.AbilitySystem
         public BattleSide AbsoluteSide { get; private set; }
 
         [ShowInInspector, OdinSerialize]
-        public int SpawnAtCellGroup { get; private set; }
-
-        [ShowInInspector, OdinSerialize]
         public bool RemoveByTrigger { get; private set; }
 
         //TODO: Add support for entity triggers
-        [ShowIf(nameof(RemoveByTrigger))]
+        [EnableIf(nameof(RemoveByTrigger))]
         [ShowInInspector, OdinSerialize]
         public IContextTriggerSetup RemoveTrigger { get; private set; }
 

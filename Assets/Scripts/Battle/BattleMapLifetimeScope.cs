@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.Design;
+﻿using System;
+using System.ComponentModel.Design;
 using Assets.AbilitySystem.PrototypeHelpers;
 using DefaultNamespace;
 using GameInventory;
 using OrderElimination.AbilitySystem;
 using OrderElimination.AbilitySystem.Animations;
+using OrderElimination.Utils;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -24,6 +26,8 @@ namespace OrderElimination
         private DefaultAnimationsPool _defaultAnimationsPool;
         [SerializeField]
         private TextEmitter _textEmitter;
+        [SerializeField]
+        private SpriteEmitter _spriteEmitter;
         [SerializeField]
         private SoundEffectsPlayer _soundEffectsPlayer;
         [SerializeField]
@@ -46,6 +50,7 @@ namespace OrderElimination
             builder.RegisterComponent(_particlesPool).AsImplementedInterfaces();
             builder.RegisterComponent(_defaultAnimationsPool);
             builder.RegisterComponent(_textEmitter);
+            builder.RegisterComponent(_spriteEmitter);
             builder.RegisterComponent(_soundEffectsPlayer);
             builder.RegisterComponent(_battleEntitiesFactory);
             builder.RegisterComponent(_battleLoopManager);
@@ -54,7 +59,8 @@ namespace OrderElimination
 
             builder.Register<SceneTransition>(Lifetime.Singleton);
             builder.Register<BattleInitializer>(Lifetime.Singleton);
-            builder.Register<AnimationSceneContext>(Lifetime.Singleton);
+            builder.Register<AnimationSceneContext>(Lifetime.Singleton)
+                .WithParameter<Lazy<IBattleContext>>(new(() => Container.Resolve<IBattleContext>()));
             builder.Register<BattleContext>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<EntitySpawner>(Lifetime.Singleton);
         }

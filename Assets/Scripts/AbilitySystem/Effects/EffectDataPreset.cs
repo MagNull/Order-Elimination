@@ -69,6 +69,7 @@ namespace OrderElimination.AbilitySystem
 
         #region Rules
         [TitleGroup("Rules", BoldTitle = true, Alignment = TitleAlignments.Centered, Order = 1)]
+        [EnumToggleButtons]
         [ShowInInspector, OdinSerialize]
         public EffectCharacter EffectCharacter { get; protected set; }
 

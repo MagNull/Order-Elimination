@@ -16,7 +16,7 @@ namespace OrderElimination.AbilitySystem
         private readonly static HashSet<int> _undoneOperations = new();
 
         [ShowInInspector, OdinSerialize]
-        private HashSet<IEffectData> EffectImmunities { get; set; } = new();
+        private List<IEffectData> EffectImmunities { get; set; } = new();
 
         public override ActionRequires ActionRequires => ActionRequires.Target;
 
@@ -34,7 +34,7 @@ namespace OrderElimination.AbilitySystem
         public override IBattleAction Clone()
         {
             var clone = new ApplyEffectImmunityAction();
-            clone.EffectImmunities = EffectImmunities.ToHashSet();
+            clone.EffectImmunities = EffectImmunities.ToList();
             clone.Callbacks = Callbacks;//dont copy callbacks?
             return clone;
         }

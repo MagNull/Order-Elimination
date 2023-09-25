@@ -76,58 +76,37 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 7
-      Data: 3|OrderElimination.AbilitySystem.LimitByFunctionCellSelector, Assembly-CSharp
-    - Name: Function
+      Data: 3|OrderElimination.AbilitySystem.CasterToTargetCellSelector, Assembly-CSharp
+    - Name: Trajectory
       Entry: 3
-      Data: 0
-    - Name: Angle
-      Entry: 3
-      Data: 1
-    - Name: AllowedRanges
+      Data: 2
+    - Name: TakeWhileConditions
       Entry: 7
-      Data: 4|OrderElimination.Infrastructure.Maths.FloatRange[], Assembly-CSharp
+      Data: 4|OrderElimination.AbilitySystem.ICellCondition[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: OrderElimination.Infrastructure.Maths.FloatRange, Assembly-CSharp
-    - Name: Start
-      Entry: 4
-      Data: -0.4
-    - Name: End
-      Entry: 4
-      Data: 0.4
-    - Name: 
-      Entry: 8
-      Data: 
+      Data: 0
     - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: Source
+    - Name: PathConditions
       Entry: 7
-      Data: 5|OrderElimination.AbilitySystem.TargetRelativeCellSelector, Assembly-CSharp
-    - Name: RelativeToTargetOffsets
-      Entry: 7
-      Data: 6|OrderElimination.Infrastructure.DistanceFromPointPattern, Assembly-CSharp
-    - Name: UseSquareDistance
-      Entry: 5
-      Data: true
-    - Name: _minDistanceFromOrigin
-      Entry: 4
-      Data: 0.06
-    - Name: _maxDistanceFromOrigin
-      Entry: 4
-      Data: 1
+      Data: 5|OrderElimination.AbilitySystem.ICellCondition[], Assembly-CSharp
     - Name: 
-      Entry: 8
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
+    - Name: _minIntersectionSquareToInclude
+      Entry: 4
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
@@ -145,7 +124,7 @@ MonoBehaviour:
       Data: 
     - Name: _cellGroupsHighlightColors
       Entry: 7
-      Data: 7|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[UnityEngine.Color,
+      Data: 6|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[UnityEngine.Color,
         UnityEngine.CoreModule]], mscorlib
     - Name: comparer
       Entry: 9
@@ -186,13 +165,33 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: _customParameters
+      Entry: 7
+      Data: 7|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[OrderElimination.AbilitySystem.IContextValueGetter,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 8|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: _usageCost
       Entry: 7
-      Data: 8|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EnergyPoint,
+      Data: 9|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EnergyPoint,
         Assembly-CSharp],[System.Int32, mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 9|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.EnergyPoint,
+      Data: 10|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.EnergyPoint,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -214,7 +213,7 @@ MonoBehaviour:
       Data: 
     - Name: AvailabilityConditions
       Entry: 7
-      Data: 10|OrderElimination.AbilitySystem.ICommonCondition[], Assembly-CSharp
+      Data: 11|OrderElimination.AbilitySystem.ICommonCondition[], Assembly-CSharp
     - Name: 
       Entry: 12
       Data: 0
@@ -226,7 +225,7 @@ MonoBehaviour:
       Data: 
     - Name: TargetCellConditions
       Entry: 7
-      Data: 11|OrderElimination.AbilitySystem.ICellCondition[], Assembly-CSharp
+      Data: 12|OrderElimination.AbilitySystem.ICellCondition[], Assembly-CSharp
     - Name: 
       Entry: 12
       Data: 0
@@ -238,7 +237,7 @@ MonoBehaviour:
       Data: 
     - Name: AbilityInstructions
       Entry: 7
-      Data: 12|OrderElimination.AbilitySystem.AbilityInstruction[], Assembly-CSharp
+      Data: 13|OrderElimination.AbilitySystem.AbilityInstruction[], Assembly-CSharp
     - Name: 
       Entry: 12
       Data: 0

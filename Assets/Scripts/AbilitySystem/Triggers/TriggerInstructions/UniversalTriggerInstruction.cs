@@ -51,7 +51,7 @@ namespace OrderElimination.AbilitySystem
             async void OnTriggered(ITriggerFireInfo fireInfo)
             {
                 if (CommonConditions != null
-                    && !CommonConditions.All(c => c.IsConditionMet(battleContext, caster)))
+                    && !CommonConditions.AllMet(battleContext, caster))
                     return;
                 var borders = battleContext.BattleMap.CellRangeBorders;
                 var cellGroups = GroupDistributor.DistributeSelection(

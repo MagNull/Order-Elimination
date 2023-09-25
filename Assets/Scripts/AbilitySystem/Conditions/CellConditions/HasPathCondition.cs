@@ -37,7 +37,7 @@ namespace OrderElimination.AbilitySystem
             }
             return true;
 
-            bool CellPredicate(Vector2Int p) => PathConditions.All(c => c.IsConditionMet(battleContext, askingEntity, p));
+            bool CellPredicate(Vector2Int p) => PathConditions.AllMet(battleContext, askingEntity, p);
         }
     }
 }

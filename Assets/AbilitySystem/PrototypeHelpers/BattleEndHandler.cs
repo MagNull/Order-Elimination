@@ -97,40 +97,32 @@ public class BattleEndHandler : MonoBehaviour
 
     private void StartTrackingBattle(IBattleContext battleContext)
     {
-        _battleContext.EntitiesBank.BankChanged -= OnEntitiesBankChanged;
-        _battleContext.EntitiesBank.BankChanged += OnEntitiesBankChanged;
+        battleContext.BattleRules.VictoryTracker.ConditionMet += OnVictoryConditionMet;
+        battleContext.BattleRules.DefeatTracker.ConditionMet += OnDefeatConditionMet;
+        battleContext.BattleRules.VictoryTracker.StartTracking(battleContext);
+        battleContext.BattleRules.DefeatTracker.StartTracking(battleContext);
     }
 
-    private void OnEntitiesBankChanged(IReadOnlyEntitiesBank bank)
+    private void OnVictoryConditionMet(IBattleTracker tracker)
     {
-        if (bank
-            .GetActiveEntities(BattleSide.Enemies)
-            .Where(e => e.EntityType == EntityType.Character)
-            .Count() == 0)
-        {
-            OnPlayerVictory();
-        }
-        else if (bank
-            .GetActiveEntities(BattleSide.Player)
-            .Where(e => e.EntityType == EntityType.Character)
-            .Count() == 0)
-        {
-            OnPlayerLose();
-        }
+        OnPlayerVictory();
+    }
+
+    private void OnDefeatConditionMet(IBattleTracker tracker)
+    {
+        OnPlayerLose();
     }
 
     private async UniTask OnBattleEnded()
     {
-        _battleContext.EntitiesBank.BankChanged -= OnEntitiesBankChanged;
-        _playerControls.enabled = false;
+        _battleContext.BattleRules.VictoryTracker.StopTracking();
+        _battleContext.BattleRules.DefeatTracker.StopTracking();
+        _battleContext.BattleRules.VictoryTracker.ConditionMet -= OnVictoryConditionMet;
+        _battleContext.BattleRules.DefeatTracker.ConditionMet -= OnDefeatConditionMet;
+        if (_playerControls != null)
+            _playerControls.enabled = false;
         await UniTask.Delay(Mathf.RoundToInt(BattleResultsDisplayDelay * 1000));
         //_textEmitter.Emit($"������� �Esc� ��� ������.", Color.white, new Vector3(0, -1, -1), Vector3.zero, 1.2f, 100, fontSize: 0.75f);
-    }
-
-    [Button]
-    private void TestWin()
-    {
-        OnPlayerVictory();
     }
 
     private async void OnPlayerVictory()

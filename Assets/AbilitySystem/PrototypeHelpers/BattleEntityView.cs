@@ -5,6 +5,7 @@ using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.AbilitySystem.Animations;
 using OrderElimination.Infrastructure;
+using OrderElimination.Utils;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,8 @@ public class BattleEntityView : MonoBehaviour
     private SpriteRenderer _renderer;
     [SerializeField]
     private Transform _floatingNumbersPosition;
+    [SerializeField]
+    private Transform _appliedEffectsPosition;
 
     [HideInInspector, SerializeField]
     private float _iconTargetSize = 1.9f;
@@ -35,6 +38,7 @@ public class BattleEntityView : MonoBehaviour
     private BattleMapView _battleMapView;
     private IParticlesPool _particlesPool;
     private TextEmitter _textEmitter;
+    private SpriteEmitter _spriteEmitter;
     private float _damageCash;
     private float _healthCash;
     private float _armorCash;
@@ -58,25 +62,42 @@ public class BattleEntityView : MonoBehaviour
     public Sprite BattleIcon
     {
         get => _renderer.sprite;
-        private set
+        set
         {
             _renderer.sprite = value;
             if (value != null)
             {
                 var bounds = value.bounds;
-                float maxBoundsSide = bounds.size.y >= bounds.size.x ? bounds.size.y : bounds.size.x;
+                float maxBoundsSide = Mathf.Max(bounds.size.x, bounds.size.y);
                 _renderer.transform.localScale = Vector3.one * IconTargetSize / maxBoundsSide;
             }
         }
     }
-    public GameObject CustomModel { get; private set; }
+    public GameObject CustomModel { get; set; }
+
+    public bool IsVisibleToPlayer
+    {
+        get
+        {
+            if (BattleEntity.StatusHolder.HasStatus(BattleStatus.Invisible))
+            {
+                var relationShip = BattleEntity.BattleContext.GetRelationship(
+                    BattleSide.Player, BattleEntity.BattleSide);
+                if (relationShip != BattleRelationship.Ally)
+                    return false;
+            }
+            return true;
+        }
+    }
 
     [Inject]
-    public void Construct(BattleMapView battleMapView, IParticlesPool particlesPool, TextEmitter textEmitter)
+    public void Construct(
+        BattleMapView battleMapView, IParticlesPool particlesPool, TextEmitter textEmitter, SpriteEmitter spriteEmitter)
     {
         _battleMapView = battleMapView;
         _particlesPool = particlesPool;
         _textEmitter = textEmitter;
+        _spriteEmitter = spriteEmitter;
     }
 
     public void Initialize(AbilitySystemActor entity, string name, Sprite battleIcon, GameObject customModel = null)
@@ -145,6 +166,7 @@ public class BattleEntityView : MonoBehaviour
 
     private async void OnDamaged(DealtDamageInfo damageInfo)
     {
+        if (!IsVisibleToPlayer) return;
         if (_damageCash > 0)//waiting
         {
             _damageCash += damageInfo.TotalDealtDamage;
@@ -172,6 +194,7 @@ public class BattleEntityView : MonoBehaviour
 
     private async void OnHealed(DealtRecoveryInfo healInfo)
     {
+        if (!IsVisibleToPlayer) return;
         if (_healthCash > 0 || _armorCash > 0)//waiting
         {
             _healthCash += healInfo.TotalHealthRecovery;
@@ -284,6 +307,17 @@ public class BattleEntityView : MonoBehaviour
         }
     }
 
+    private void OnEffectAdded(BattleEffect effect)
+    {
+        var effectView = effect.EffectData.View;
+        if (effectView.IsHidden)
+            return;
+        if (!IsVisibleToPlayer)
+            return;
+        //TODO: multiple effects at the same time case
+        _spriteEmitter.Emit(effectView.Icon, _appliedEffectsPosition.position);
+    }
+
     private void SubscribeOnEntityEvents(AbilitySystemActor entity)
     {
         entity.DeployedBattleMap.PlacedOnMap += OnPlaced;
@@ -293,6 +327,7 @@ public class BattleEntityView : MonoBehaviour
         entity.Healed += OnHealed;
         entity.StatusHolder.StatusAppeared += OnStatusAppeared;
         entity.StatusHolder.StatusDisappeared += OnStatusDisappeared;
+        entity.EffectAdded += OnEffectAdded;
         entity.Died += OnDied;
         entity.DisposedFromBattle += OnDisposedFromBattle;
     }
@@ -306,6 +341,7 @@ public class BattleEntityView : MonoBehaviour
         entity.Healed -= OnHealed;
         entity.StatusHolder.StatusAppeared -= OnStatusAppeared;
         entity.StatusHolder.StatusDisappeared -= OnStatusDisappeared;
+        entity.EffectAdded -= OnEffectAdded;
         entity.Died -= OnDied;
         entity.DisposedFromBattle -= OnDisposedFromBattle;
     }

@@ -18,7 +18,8 @@ namespace OrderElimination.AbilitySystem
                 builderData.Description,
                 builderData.HideInCharacterDescription,
                 builderData.ShowCrosshairWhenTargeting,
-                builderData.ShowTrajectoryWhenTargeting);
+                builderData.ShowTrajectoryWhenTargeting,
+                builderData.ShowPatternRange);
             var rules = new AbilityRules(builderData.AvailabilityConditions, builderData.UsageCost);
             IAbilityTargetingSystem targetingSystem;
             if (builderData.TargetingSystem == TargetingSystemType.NoTarget)

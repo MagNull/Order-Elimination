@@ -22,14 +22,14 @@ namespace OrderElimination.AbilitySystem
             var askingEntity = context.AskingEntity;
             if (CommonConditions != null)
             {
-                var conditionsMet = CommonConditions.All(c => c.IsConditionMet(battleContext, askingEntity));
+                var conditionsMet = CommonConditions.AllMet(battleContext, askingEntity);
                 if (!conditionsMet)
                     return new Vector2Int[0];
             }
             return Source
                 .GetCellPositions(context)
                 .Where(p => context.BattleContext.BattleMap.ContainsPosition(p))
-                .Where(p => CellConditions.All(c => c.IsConditionMet(battleContext, askingEntity, p)))
+                .Where(p => CellConditions.AllMet(battleContext, askingEntity, p))
                 .ToArray();
         }
     }

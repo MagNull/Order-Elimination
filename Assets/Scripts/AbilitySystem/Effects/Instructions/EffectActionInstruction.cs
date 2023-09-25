@@ -42,6 +42,16 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         private bool UndoOnDeactivation { get; set; } = true;
 
+        [BoxGroup("Animations", ShowLabel = false)]
+        [GUIColor(0, 1, 1)]
+        [ShowInInspector, OdinSerialize]
+        private IAbilityAnimation _animationBeforeAction { get; set; }
+
+        [BoxGroup("Animations", ShowLabel = false)]
+        [GUIColor(0, 1, 1)]
+        [ShowInInspector, OdinSerialize]
+        private IAbilityAnimation _animationAfterAction { get; set; }
+
         //UndoTriggers
         [BoxGroup("Next Instruction", ShowLabel = false)]
         [GUIColor(1f, 1f, 0.3f)]
@@ -64,16 +74,6 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         private IEffectInstruction _followingInstruction { get; set; }
 
-        [BoxGroup("Animations", ShowLabel = false)]
-        [GUIColor(0, 1, 1)]
-        [ShowInInspector, OdinSerialize]
-        private IAbilityAnimation _animationBeforeAction { get; set; }
-
-        [BoxGroup("Animations", ShowLabel = false)]
-        [GUIColor(0, 1, 1)]
-        [ShowInInspector, OdinSerialize]
-        private IAbilityAnimation _animationAfterAction { get; set; }
-
         #region Public Properties
         public IBattleAction BattleAction => _battleAction;
         public IEffectInstruction InstructionOnCallback => _instructionOnCallback;
@@ -92,7 +92,7 @@ namespace OrderElimination.AbilitySystem
                 _ => throw new NotImplementedException(),
             };
             var actionContext = new ActionContext(
-                effect.BattleContext, cellGroups, effect.EffectApplier, target);
+                effect.BattleContext, cellGroups, effect.EffectApplier, target, ActionCallOrigin.Effect);
             var applierProcessing = effect.EffectData.UseApplierProcessing;
             var holderProcessing = effect.EffectData.UseHolderProcessing;
             var animationContext = new AnimationPlayContext(

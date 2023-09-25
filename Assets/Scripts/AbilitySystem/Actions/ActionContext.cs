@@ -5,6 +5,7 @@ namespace OrderElimination.AbilitySystem
     public class ActionContext
     {
         public readonly IBattleContext BattleContext;
+        public readonly ActionCallOrigin CalledFrom;
         public readonly CellGroupsContainer CellTargetGroups;
         public readonly AbilitySystemActor ActionMaker;
         public readonly AbilitySystemActor ActionTarget;
@@ -18,9 +19,11 @@ namespace OrderElimination.AbilitySystem
             IBattleContext battleContext,
             CellGroupsContainer cellTargetGroups,
             AbilitySystemActor actionMaker,
-            AbilitySystemActor target)
+            AbilitySystemActor target,
+            ActionCallOrigin calledFrom)
         {
             BattleContext = battleContext;
+            CalledFrom = calledFrom;
             CellTargetGroups = cellTargetGroups;
             ActionMaker = actionMaker;
             ActionTarget = target;
