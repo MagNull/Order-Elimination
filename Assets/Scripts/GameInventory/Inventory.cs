@@ -64,6 +64,23 @@ namespace GameInventory
             OnCellRemoved?.Invoke(removedCell);
         }
 
+        public void RemoveItem(ItemData itemData)
+        {
+            if(itemData == null)
+                Logging.LogException(new ArgumentException("Item data can't be null"));
+            
+            var indexOfItem = _cells.FindIndex(cell => cell.Item.Data.Id == itemData.Id);
+            if (indexOfItem == -1)
+            {
+                Logging.LogWarning("Not found item in inventory");
+                return;
+            }
+
+            var removedCell = _cells[indexOfItem];
+            _cells.RemoveAt(indexOfItem);
+            OnCellRemoved?.Invoke(removedCell);
+        }
+
         public List<Item> GetItems()
         {
             var result = new List<Item>();

@@ -55,6 +55,16 @@ namespace RoguelikeMap.UI.PointPanels
             return _inventory.Contains(itemData);
         }
 
+        public void SpendItem(ItemData itemData)
+        {
+            if (CheckItem(itemData))
+            {
+                _inventory.RemoveItem(itemData);
+                Debug.Log("CheckItem");
+            }
+                
+        }
+
         public void SetInteractableAnswer(int answerIndex, bool isInteractable)
         {
             _answerButtons[answerIndex].DOInterectable(isInteractable);
