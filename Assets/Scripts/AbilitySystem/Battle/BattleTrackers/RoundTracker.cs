@@ -6,7 +6,7 @@ namespace OrderElimination.AbilitySystem
 {
     public class RoundTracker : IBattleTracker
     {
-        private int _awaitedRound;
+        private int _awaitedRound = 1;
         private IBattleContext _trackingContext;
 
         [ShowInInspector, OdinSerialize]
