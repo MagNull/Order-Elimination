@@ -187,6 +187,10 @@ namespace OrderElimination.AbilitySystem.Animations
                     particle.StartFollowing(context.CasterView.transform);
                     break;
                 case ParticleFollowOption.TargetEntity:
+                    if (context.TargetView == null)
+                    {
+
+                    }
                     particle.StartFollowing(context.TargetView.transform);
                     break;
                 default:

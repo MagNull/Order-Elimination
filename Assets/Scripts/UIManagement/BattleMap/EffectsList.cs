@@ -56,7 +56,7 @@ namespace UIManagement.Elements
                 else
                     button.StackNumbersText.text = "";
             }
-            foreach (var line in _effectsHolderLines)
+            foreach (var line in _effectsHolderLines.Where(kv => kv.Value != null))
             {
                 if (line.Value.childCount > 0)
                     line.Value.gameObject.SetActive(true);
