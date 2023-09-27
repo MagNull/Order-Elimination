@@ -29,9 +29,11 @@ namespace GameInventory.Items
         public EnumMask<Role> RoleFilter = new();
         [field: SerializeField] public ItemView View { get; private set; }
         [field: SerializeField] public ItemType Type { get; private set; }
-        
+
         [field: SerializeField] public ItemRarity Rarity { get; private set; }
-        [field: ShowInInspector, DisplayAsString] public string Id { get; private set; }
+
+        [field: ShowInInspector, DisplayAsString]
+        public string Id { get; private set; }
 
         [field: SerializeReference, ShowIf("@Type == ItemType.Consumable")]
         public ActiveAbilityBuilder UseAbility { get; private set; }
