@@ -11,7 +11,7 @@ namespace OrderElimination.AbilitySystem
         IUndoableBattleAction,
         ICallbackingBattleAction
     {
-        private static Dictionary<BattleEffect, int> _effectsApplyIds = new();
+        private static Dictionary<BattleEffect, SimpleUndoablePerformResult> _effectsApplyResults = new();
         private static List<BattleEffect> _appliedEffects = new();
         private static List<IEffectHolder> _performTargets = new();
         private static HashSet<int> _undoneOperations = new();
@@ -32,7 +32,7 @@ namespace OrderElimination.AbilitySystem
         {
             var clone = new ApplyEffectAction();
             clone.Effect = Effect;
-            clone.ApplyChance = ApplyChance;
+            clone.ApplyChance = ApplyChance.Clone();
             return clone;
         }
 
@@ -50,7 +50,7 @@ namespace OrderElimination.AbilitySystem
 
         public void ClearUndoCache()
         {
-            _effectsApplyIds.Clear();
+            _effectsApplyResults.Clear();
             _appliedEffects.Clear();
             _performTargets.Clear();
             _undoneOperations.Clear();
@@ -71,11 +71,12 @@ namespace OrderElimination.AbilitySystem
                     appliedEffect.Deactivated += OnEffectRemoved;
                 }
             }
-            if (appliedEffect != null)
-                _effectsApplyIds.Add(appliedEffect, performId);
             _appliedEffects.Add(appliedEffect);
             _performTargets.Add(useContext.ActionTarget);
-            return new SimpleUndoablePerformResult(this, useContext, isSuccessfull, performId);
+            var result = new SimpleUndoablePerformResult(this, useContext, isSuccessfull, performId);
+            if (appliedEffect != null)
+                _effectsApplyResults.Add(appliedEffect, result);
+            return result;
 
             void OnEffectRemoved(BattleEffect effect)
             {
@@ -103,7 +104,7 @@ namespace OrderElimination.AbilitySystem
         {
             if (effect == null)
                 throw new ArgumentNullException();
-            return _effectsApplyIds[effect];
+            return _effectsApplyResults[effect].PerformId;
         }
     }
 }

@@ -2707,7 +2707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78bb222200f03dd42a886e82d5c2a528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sideToKill: 2
+  _sideToKill: 1
 --- !u!114 &1893120106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2913,14 +2913,10 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: dc7552cb19317d642ad2af92d805c557, type: 2}
     - {fileID: 11400000, guid: 933b6206675ce6746a6d1d3e377dbe2d, type: 2}
-    - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
     - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
-    - {fileID: 11400000, guid: 8cf61d33b5cc8a442bce0e22ce05a8fc, type: 2}
     - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
-    - {fileID: 11400000, guid: 4d83702453d81274b89c1876bee2dabb, type: 2}
-    - {fileID: 11400000, guid: 69c2e2c1f1101bb46b8a8894d47d56a7, type: 2}
+    - {fileID: 11400000, guid: d01460c94398aca489ff61e311e902fb, type: 2}
     - {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -2941,10 +2937,10 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 10
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 10
-      Data: 3
+      Data: 1
     - Name: 
       Entry: 13
       Data: 
@@ -2956,19 +2952,10 @@ MonoBehaviour:
       Data: 1|OrderElimination.IGameCharacterTemplate[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 1
     - Name: 
       Entry: 10
-      Data: 4
-    - Name: 
-      Entry: 10
-      Data: 5
-    - Name: 
-      Entry: 10
-      Data: 5
-    - Name: 
-      Entry: 10
-      Data: 6
+      Data: 2
     - Name: 
       Entry: 13
       Data: 
@@ -2977,10 +2964,10 @@ MonoBehaviour:
       Data: 
     - Name: _testScenario
       Entry: 10
-      Data: 7
+      Data: 3
     - Name: _testRules
       Entry: 10
-      Data: 8
+      Data: 4
   _test: 1
 --- !u!4 &1908500043
 Transform:
@@ -3632,7 +3619,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2005745094331833769, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -100.999985
+      value: -101
       objectReference: {fileID: 0}
     - target: {fileID: 2005745094502167488, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
       propertyPath: m_Camera

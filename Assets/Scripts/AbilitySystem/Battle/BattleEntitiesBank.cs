@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering.Universal.Internal;
 
 namespace OrderElimination.AbilitySystem
 {
@@ -67,7 +68,11 @@ namespace OrderElimination.AbilitySystem
         }
 
         public AbilitySystemActor GetEntityByBasedCharacter(GameCharacter gameCharacter)
-            => _entitiesByCharacters[gameCharacter];
+        {
+            if (!_entitiesByCharacters.ContainsKey(gameCharacter))
+                throw new KeyNotFoundException("Unknown GameCharacter");
+            return _entitiesByCharacters[gameCharacter];
+        }
 
         public AbilitySystemActor[] GetEntitiesByBasedTemplate(IGameCharacterTemplate characterTemplate)
             => _basedCharacters
@@ -93,6 +98,7 @@ namespace OrderElimination.AbilitySystem
         {
             if (entity.EntityType != EntityType.Character)
                 Logging.LogException( new InvalidOperationException("Attempt to add non-character entity."));
+            var hash = basedCharacter.GetHashCode();
             entity.DisposedFromBattle += OnEntityDisposed;
             _activeEntities.Add(entity);
             _viewsByEntities.Add(entity, view);

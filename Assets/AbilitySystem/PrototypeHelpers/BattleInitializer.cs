@@ -38,11 +38,9 @@ namespace Assets.AbilitySystem.PrototypeHelpers
         {
             var gameAllies = _sceneMediator
                 .Get<IEnumerable<GameCharacter>>("player characters")
-                .Where(c => c.CurrentHealth > 0)
                 .ToArray();
             var gameEnemies = _sceneMediator
                 .Get<IEnumerable<GameCharacter>>("enemy characters")
-                .Where(c => c.CurrentHealth > 0)
                 .ToArray();
             var allySpawns = scenario.GetAlliesSpawnPositions();
             var enemySpawns = scenario.GetEnemySpawnPositions();
