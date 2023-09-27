@@ -35,8 +35,7 @@ namespace GameInventory
         private void OnEnable()
         {
             _inventoryView.UpdateCells(_inventoryModel.Cells);
-            _inventoryModel.OnCellAdded += _inventoryView.OnCellAdded;
-            _inventoryModel.OnCellRemoved += _inventoryView.OnCellRemoved;
+            _inventoryModel.OnCellChanged += _inventoryView.OnCellChanged;
             OnEnableAdditional();
         }
 
@@ -47,8 +46,7 @@ namespace GameInventory
 
         private void OnDisable()
         {
-            _inventoryModel.OnCellAdded -= _inventoryView.OnCellAdded;
-            _inventoryModel.OnCellRemoved -= _inventoryView.OnCellRemoved;
+            _inventoryModel.OnCellChanged -= _inventoryView.OnCellChanged;
             OnDisableAdditional();
         }
 

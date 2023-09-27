@@ -1,4 +1,5 @@
 ﻿using AI;
+using GameInventory.Items;
 
 namespace GameInventory.Views
 {
@@ -12,7 +13,7 @@ namespace GameInventory.Views
         {
             foreach (var cell in _cellViews)
             {
-                if (cell.Model.Item == null)
+                if (cell.Model.Item is EmptyItem)
                     continue;
                 if (!cell.Model.Item.Data.RoleFilter[_currentCharacterRole])
                     cell.Disable();

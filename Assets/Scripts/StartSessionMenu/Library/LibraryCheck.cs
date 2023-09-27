@@ -7,6 +7,7 @@ using RoguelikeMap.UI.PointPanels;
 using UnityEngine;
 using VContainer;
 
+//TODO: Rework
 public class LibraryCheck : MonoBehaviour
 {
     private Library _library;
@@ -19,7 +20,7 @@ public class LibraryCheck : MonoBehaviour
     {
         _library = library;
         _inventory = inventory;
-        _inventory.OnCellAdded += _library.AddItem;
+        _inventory.OnCellChanged += _library.AddItem;
         var shopPanel = (ShopPanel) panelManager.GetPanelByPointInfo(PointType.Shop);
         shopPanel.OnBuyItems += _library.AddItem;
     }

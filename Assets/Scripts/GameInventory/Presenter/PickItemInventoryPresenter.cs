@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using GameInventory.Items;
 using OrderElimination;
 using UnityEngine;
 
@@ -9,8 +10,12 @@ namespace GameInventory
     {
         [SerializeField]
         private Inventory _targetInventory;
-        
+
+        [SerializeField]
+        private int _activeCellIndex;
+
         public void UpdateTargetInventory(Inventory inventory) => _targetInventory = inventory;
+        public void SetActiveCellIndex(int i) => _activeCellIndex = i;
 
         protected override void OnEnableAdditional()
         {
@@ -26,14 +31,13 @@ namespace GameInventory
         private void OnCellClicked(IReadOnlyCell cell)
         {
             if (_targetInventory == null)
-                Logging.LogException( new Exception("Target inventory is null"));
-
-            var characterItems = _targetInventory.Cells.Select(c => c.Item);
-            var itemOfType = characterItems.FirstOrDefault(item => cell.Item.Data.Type == item.Data.Type);
-            if (itemOfType != null) 
-                _targetInventory.MoveItemTo(itemOfType, _inventoryModel);
+                Logging.LogException(new Exception("Target inventory is null"));
             
-            _inventoryModel.MoveItemTo(cell.Item, _targetInventory);
+            var itemInActiveCell = _targetInventory.Cells[_activeCellIndex].Item;
+            if (itemInActiveCell is not EmptyItem)
+                _targetInventory.MoveItemTo(itemInActiveCell, _inventoryModel);
+
+            _inventoryModel.MoveItemTo(cell.Item, _targetInventory, _activeCellIndex);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace GameInventory.Items
         [SerializeField, HideInInspector]
         private ItemData _itemData;
 
-        public ItemData Data => _itemData;
+        public virtual ItemData Data => _itemData;
 
         public Item(ItemData itemData)
         {

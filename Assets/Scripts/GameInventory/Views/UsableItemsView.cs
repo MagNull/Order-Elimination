@@ -14,9 +14,9 @@ namespace GameInventory
 
         private bool _clickChecking;
 
-        public override void OnCellAdded(IReadOnlyCell cell)
+        public override void OnCellChanged(IReadOnlyCell cell)
         {
-            base.OnCellAdded(cell);
+            base.OnCellChanged(cell);
             if (cell.Item is not IUsable)
                 _cellViews.Find(c => c.Model == cell).Disable();
         }
