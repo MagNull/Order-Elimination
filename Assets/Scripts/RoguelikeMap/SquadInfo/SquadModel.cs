@@ -33,6 +33,7 @@ namespace OrderElimination
             //var characters = 
             //    GameCharactersFactory.CreateGameCharacters(members.Select(c => c.CharacterData))
             //    .ToList();//Grenade here
+            _activeMembersCount = members.Count();
             if (members.Count() == 0)
                 throw new ArgumentException($"Attempt to create {nameof(SquadModel)} with 0 members.");
             //First three members are active

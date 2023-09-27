@@ -19,5 +19,10 @@ namespace RoguelikeMap.UI.Abilities
             _name.text = name;
             _description.text = description;
         }
+
+        public void SetActive(bool isActive)
+        {
+            gameObject.SetActive(isActive);
+        }
     }
 }

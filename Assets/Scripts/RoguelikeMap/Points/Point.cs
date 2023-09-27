@@ -60,10 +60,25 @@ namespace RoguelikeMap.Points
                 _icon.color = color;
         }
 
-        public void ShowPaths() => _pathView.UpdatePaths(this);
+        public void ShowPaths() => SetActivePaths(true);
 
-        public void HidePaths() => _pathView.ClearPaths();
-        
+        public void HidePaths() => SetActivePaths(false);
+
+        private void SetActivePaths(bool isActive)
+        {
+            SetActive(isActive);
+            _isActive = false;
+            if(isActive)
+                _pathView.UpdatePaths(this);
+            else
+                _pathView.ClearPaths();
+            var nextPoints = Model.GetNextPoints();
+            if (nextPoints is null)
+                return;
+            foreach(var pointModel in nextPoints)
+                pointModel.SetActive(isActive);
+        }
+
         private void OnMouseDown()
         {
             if (!EventSystem.current.IsPointerOverGameObject() && _isActive && Model is not StartPointModel)

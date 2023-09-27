@@ -9,7 +9,6 @@ using RoguelikeMap.Points;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using RoguelikeMap.UI;
@@ -88,6 +87,7 @@ namespace RoguelikeMap
             builder.RegisterComponent(_transferPanel);
 
             builder.Register<BattleRewardHandler>(Lifetime.Singleton);
+            builder.Register<SquadPositionSaver>(Lifetime.Singleton);
             builder.Register<SquadCommander>(Lifetime.Singleton);
             builder.Register<SceneTransition>(Lifetime.Singleton);
             builder.Register<SimpleMapGenerator>(Lifetime.Singleton).As<IMapGenerator>();

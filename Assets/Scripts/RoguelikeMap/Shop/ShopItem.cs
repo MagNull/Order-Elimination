@@ -38,9 +38,18 @@ namespace RoguelikeMap.Shop
 
         public void Buy()
         {
+            if (_isBuy)
+                return;
             _isBuy = true;
-            _button.interactable = false;
             _image.DOFade(VisibilityAfterBuy, Duration);
+        }
+
+        public void Return()
+        {
+            if (!_isBuy)
+                return;
+            _isBuy = false;
+            _image.DOFade(1f, Duration);
         }
     }
 }
