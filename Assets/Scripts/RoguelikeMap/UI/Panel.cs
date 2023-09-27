@@ -1,3 +1,4 @@
+using System;
 using Cinemachine;
 using DG.Tweening;
 using Sirenix.OdinInspector;
@@ -30,7 +31,9 @@ namespace RoguelikeMap.UI
 
         private float _scaleRatio;
         private CinemachineTransposer _transposer;
-        
+
+        public event Action OnOpen;
+        public event Action OnClose;
         public bool IsOpen { get; private set; }
         
         public virtual void Open()
@@ -49,6 +52,7 @@ namespace RoguelikeMap.UI
                     break;
             }
             IsOpen = true;
+            OnOpen?.Invoke();
         }
 
         public virtual void Close()
@@ -67,6 +71,7 @@ namespace RoguelikeMap.UI
                     break;
             }
             IsOpen = false;
+            OnClose?.Invoke();
         }
 
         private void OpenWithScale()

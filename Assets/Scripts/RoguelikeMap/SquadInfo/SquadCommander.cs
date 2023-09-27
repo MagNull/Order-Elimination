@@ -47,7 +47,7 @@ namespace RoguelikeMap.SquadInfo
         public void SetPoint(PointModel target)
         {
             _target = target;
-            if(target is FinalBattlePointModel)
+            if(target is BattlePointModel)
                 StartAttackByBattlePoint();
         }
 
@@ -62,7 +62,7 @@ namespace RoguelikeMap.SquadInfo
 
         private void StartAttackByBattlePoint()
         {
-            if (_target is not FinalBattlePointModel battlePointModel)
+            if (_target is not BattlePointModel battlePointModel)
             {
                 Logging.LogException(new ArgumentException("Is not valid point to attack"));
                 throw new ArgumentException("Is not valid point to attack");

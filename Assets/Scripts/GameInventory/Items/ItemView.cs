@@ -1,4 +1,5 @@
 ﻿using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace GameInventory.Items
@@ -8,9 +9,9 @@ namespace GameInventory.Items
     {
         [SerializeField]
         private string _name;
-        [SerializeField][TextArea(1, 10)]
+        [SerializeField][TextArea(10, 20)]
         private string _description;
-        [SerializeField]
+        [SerializeField, PreviewField(100)]
         private Sprite _icon;
         
         public string Description => _description;

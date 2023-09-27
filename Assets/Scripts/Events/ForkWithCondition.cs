@@ -10,8 +10,7 @@ namespace Events
     public enum EventCondition
     {
         None,
-        Item,
-        Code
+        Item
     }
     
     public class ForkWithCondition : ForkNode
@@ -43,11 +42,6 @@ namespace Events
                         count++;
                         break;
                     }
-                    case EventCondition.Code:
-                    {
-                        CheckCode(panel, i);
-                        break;
-                    }
                     case EventCondition.None:
                         continue;
                 }
@@ -60,12 +54,6 @@ namespace Events
             if (panel.CheckItem(item))
                 return;
             panel.SetInteractableAnswer(buttonIndex, false);
-        }
-
-        private void CheckCode(EventPanel panel, int buttonIndex)
-        {
-            if (!PlayerPrefs.HasKey("Code"))
-                panel.SetInteractableAnswer(buttonIndex, false);
         }
     }
 }

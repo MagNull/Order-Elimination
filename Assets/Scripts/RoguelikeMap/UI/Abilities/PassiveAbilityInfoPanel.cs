@@ -11,11 +11,17 @@ namespace RoguelikeMap.UI.Abilities
 
         public void InitializeInfo(IPassiveAbilityData[] passiveAbilities)
         {
+            foreach(var view in _views)
+                view.SetActive(true);
+            
             for (var i = 0; i < passiveAbilities.Length; i++)
             {
                 var view = passiveAbilities[i].View;
                 _views[i].SetInfo(view.Icon, view.Name, view.Description);   
             }
+            
+            for(var i = passiveAbilities.Length; i < _views.Count; i++)
+                _views[i].SetActive(false);
         }
     }
 }

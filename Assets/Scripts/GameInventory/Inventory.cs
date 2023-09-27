@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using GameInventory.Items;
 using OrderElimination;
 using Sirenix.OdinInspector;
@@ -12,39 +11,38 @@ namespace GameInventory
     [Serializable]
     public class Inventory
     {
-        public event Action<IReadOnlyCell> OnCellRemoved;
-        public event Action<IReadOnlyCell> OnCellAdded;
+        public event Action<IReadOnlyCell> OnCellChanged;
 
         [ShowInInspector, SerializeField]
-        private List<Cell> _cells;
-
-        [SerializeField, HideInInspector]
-        private int _size;
+        private Cell[] _cells;
 
         public Inventory(int size)
         {
-            _cells = new List<Cell>(size);
-            _size = size;
+            _cells = new Cell[size];
+            for (var i = 0; i < size; i++)
+            {
+                _cells[i] = new Cell(new EmptyItem());
+            }
         }
-        
+
         public IReadOnlyList<IReadOnlyCell> Cells => _cells;
 
-        public void AddItem(Item item)
+        public void AddItem(Item item, int index = -1)
         {
             if (item == null)
                 Logging.LogException(new ArgumentException("Item can't be null"));
 
-            if (_cells.Count >= _size)
+            var availableCellIndex = index == -1 ? GetFirstAvailableCellIndex() : index;
+            if (availableCellIndex == -1)
             {
                 Logging.LogWarning("Inventory is full");
                 return;
             }
 
-            var newCell = new Cell(item);
-            _cells.Add(newCell);
-            if(item is ConsumableItem consumableItem)
+            _cells[availableCellIndex].SetItem(item);
+            if (item is ConsumableItem consumableItem)
                 consumableItem.UseTimesOver += OnConsumableItemOver;
-            OnCellAdded?.Invoke(newCell);
+            OnCellChanged?.Invoke(_cells[availableCellIndex]);
         }
 
         public void RemoveItem(Item item)
@@ -52,16 +50,31 @@ namespace GameInventory
             if (item == null)
                 Logging.LogException(new ArgumentException("Item can't be null"));
 
-            var indexOfItem = _cells.FindIndex(cell => cell.Item == item);
-            if (indexOfItem == -1)
+            var removeItemCell = _cells.FirstOrDefault(cell => cell.Item == item);
+            if (removeItemCell == null)
             {
                 Logging.LogWarning("Not found item in inventory");
                 return;
             }
 
-            var removedCell = _cells[indexOfItem];
-            _cells.RemoveAt(indexOfItem);
-            OnCellRemoved?.Invoke(removedCell);
+            removeItemCell.SetItem(new EmptyItem());
+            OnCellChanged?.Invoke(removeItemCell);
+        }
+
+        public void RemoveItem(ItemData itemData)
+        {
+            if(itemData == null)
+                Logging.LogException(new ArgumentException("Item data can't be null"));
+            
+            var removeItemCell = _cells.FirstOrDefault(cell => cell.Item.Data.Id == itemData.Id);
+            if (removeItemCell == null)
+            {
+                Logging.LogWarning("Not found item in inventory");
+                return;
+            }
+            
+            removeItemCell.SetItem(new EmptyItem());
+            OnCellChanged?.Invoke(removeItemCell);
         }
 
         public List<Item> GetItems()
@@ -69,9 +82,9 @@ namespace GameInventory
             var result = new List<Item>();
             foreach (var cell in _cells)
             {
-                if (cell.Item == null)
+                if (cell.Item is EmptyItem)
                     continue;
-                
+
                 result.Add(cell.Item);
             }
 
@@ -94,16 +107,27 @@ namespace GameInventory
             }
         }
 
-        public void MoveItemTo(Item item, Inventory other)
+        public void MoveItemTo(Item item, Inventory other, int index = -1)
         {
             RemoveItem(item);
-            other.AddItem(item);
+            other.AddItem(item, index);
         }
 
         private void OnConsumableItemOver(ConsumableItem item)
         {
             item.UseTimesOver -= OnConsumableItemOver;
             RemoveItem(item);
+        }
+
+        private int GetFirstAvailableCellIndex()
+        {
+            for (var i = 0; i < _cells.Length; i++)
+            {
+                if (_cells[i].Item is EmptyItem)
+                    return i;
+            }
+
+            return -1;
         }
     }
 }

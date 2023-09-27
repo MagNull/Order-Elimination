@@ -16,7 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 21300000, guid: 49633b4d36c36784da0458c8e094e2cf, type: 3}
+    - {fileID: 21300000, guid: 1a005a95567ee864eabf0416d5201f29, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -37,6 +37,9 @@ MonoBehaviour:
       Entry: 5
       Data: true
     - Name: ShowTrajectoryWhenTargeting
+      Entry: 5
+      Data: true
+    - Name: ShowPatternRange
       Entry: 5
       Data: true
     - Name: HideInCharacterDescription

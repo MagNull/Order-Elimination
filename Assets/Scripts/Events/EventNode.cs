@@ -1,4 +1,5 @@
 using System;
+using GameInventory.Items;
 using OrderElimination.Events;
 using RoguelikeMap.UI.PointPanels;
 using Sirenix.OdinInspector;
@@ -23,6 +24,12 @@ namespace Events
         [SerializeField, MultiLineProperty, TextArea(10, 100)]
         protected string text;
         
+        [field: SerializeField]
+        public bool IsRequiredItem { get; private set; }
+
+        [SerializeField, ShowIf("IsRequiredItem")]
+        private ItemData _item;
+        
         public override object GetValue(NodePort port)
         {
             return this;
@@ -45,6 +52,8 @@ namespace Events
         {
             var eventGraph = graph as EventPointGraph;
             eventGraph.currentNode = this;
+            if(IsRequiredItem)
+                panel.SpendItem(_item);
             panel.UpdateText(text);
             panel.UpdateSprite(_image);
         }
