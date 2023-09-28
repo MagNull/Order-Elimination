@@ -24,6 +24,9 @@ namespace OrderElimination.AbilitySystem
         }
 
         public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int positionToCheck)
+            => IsConditionMet(battleContext, askingEntity, positionToCheck, null);
+
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int positionToCheck, CellGroupsContainer cellGroups)
         {
             var borders = battleContext.BattleMap.CellRangeBorders;
             var hasPath = Pathfinding.PathExists(askingEntity.Position, positionToCheck, borders, CellPredicate, out var path);
@@ -37,7 +40,7 @@ namespace OrderElimination.AbilitySystem
             }
             return true;
 
-            bool CellPredicate(Vector2Int p) => PathConditions.AllMet(battleContext, askingEntity, p);
+            bool CellPredicate(Vector2Int p) => PathConditions.AllMet(battleContext, askingEntity, p, cellGroups);
         }
     }
 }

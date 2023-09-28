@@ -7,5 +7,6 @@ namespace OrderElimination.AbilitySystem
     public interface IEntityCondition : ICloneable<IEntityCondition>
 	{
 		public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, AbilitySystemActor entityToCheck);
-	}
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, AbilitySystemActor entityToCheck, CellGroupsContainer cellGroups);
+    }
 }

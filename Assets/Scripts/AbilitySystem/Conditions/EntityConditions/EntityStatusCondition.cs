@@ -35,5 +35,8 @@ namespace OrderElimination.AbilitySystem
                 _ => throw new System.NotImplementedException(),
             };
         }
+
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, AbilitySystemActor entityToCheck, CellGroupsContainer cellGroups)
+            => IsConditionMet(battleContext, askingEntity, entityToCheck);
     }
 }
