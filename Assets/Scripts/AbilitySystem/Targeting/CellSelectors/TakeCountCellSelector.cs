@@ -14,7 +14,7 @@ namespace OrderElimination.AbilitySystem
         {
             FromStart,
             FromEnd,
-            RandomPosition
+            FromRandomIndex
         }
 
         [ShowInInspector, OdinSerialize]
@@ -35,7 +35,7 @@ namespace OrderElimination.AbilitySystem
             {
                 TakeOption.FromStart => source.Take(Count).ToArray(),
                 TakeOption.FromEnd => source.TakeLast(Count).ToArray(),
-                TakeOption.RandomPosition => TakeRandomCount(source, Count),
+                TakeOption.FromRandomIndex => TakeRandomCount(source, Count),
                 _ => throw new NotImplementedException(),
             };
         }
