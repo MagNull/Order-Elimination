@@ -23,7 +23,7 @@ namespace RoguelikeMap.UI.Characters
         [SerializeField] 
         private PickItemInventoryPresenter _playerInventoryPresenter;
         [SerializeField]
-        private RoleFilterPlayerInventoryView _playerInventoryView;
+        private ItemFilterPlayerInventoryView _playerInventoryView;
 
         [SerializeField]
         private InventoryPresenter _characterInventoryPresenter;
@@ -72,7 +72,7 @@ namespace RoguelikeMap.UI.Characters
             if (_playerInventoryPresenter is not null)
                 _characterInventoryPresenter.InitInventoryModel(character.Inventory);
             _playerInventoryPresenter?.UpdateTargetInventory(character.Inventory);
-            _playerInventoryView.UpdateCharacterRole(character.CharacterData.Role);
+            _playerInventoryView.UpdateCharacterData(character.CharacterData);
         }
 
         private void InitializeStatsText(

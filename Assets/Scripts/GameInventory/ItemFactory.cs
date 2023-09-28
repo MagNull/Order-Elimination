@@ -11,7 +11,9 @@ namespace GameInventory.Items
                 ItemType.Consumable => data is HealItemData healItemData
                     ? new HealItem(healItemData)
                     : new ConsumableItem(data),
-                ItemType.Equipment => new EquipmentItem(data),
+                ItemType.Equipment => data.EquipType == EquipmentType.Bonus
+                    ? new EquipmentItem(data)
+                    : new AbilityChangerItem(data),
                 ItemType.Others => new Item(data),
                 _ => throw new NotImplementedException()
             };
