@@ -968,6 +968,9 @@ MonoBehaviour:
     - Name: ShakeTarget
       Entry: 3
       Data: 0
+    - Name: ShakingEntity
+      Entry: 3
+      Data: 1
     - Name: ShakeX
       Entry: 4
       Data: 0.1
@@ -1119,13 +1122,16 @@ MonoBehaviour:
     - Name: OriginCellGroup
       Entry: 3
       Data: 0
-    - Name: OriginCellOrder
+    - Name: OriginCellPriority
       Entry: 3
       Data: 0
     - Name: DestinationTarget
       Entry: 3
       Data: 0
     - Name: DestinationCellGroup
+      Entry: 3
+      Data: 0
+    - Name: DestinationCellPriority
       Entry: 3
       Data: 0
     - Name: MoveBy

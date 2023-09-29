@@ -101,6 +101,12 @@ MonoBehaviour:
     - Name: UndoOnDeactivation
       Entry: 5
       Data: true
+    - Name: _animationBeforeAction
+      Entry: 6
+      Data: 
+    - Name: _animationAfterAction
+      Entry: 6
+      Data: 
     - Name: _instructionOnCallback
       Entry: 6
       Data: 
@@ -111,12 +117,6 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: _followingInstruction
-      Entry: 6
-      Data: 
-    - Name: _animationBeforeAction
-      Entry: 6
-      Data: 
-    - Name: _animationAfterAction
       Entry: 6
       Data: 
     - Name: 
@@ -264,12 +264,21 @@ MonoBehaviour:
     - Name: _damageType
       Entry: 3
       Data: 0
+    - Name: _changeArmorMultiplier
+      Entry: 5
+      Data: false
     - Name: _armorMultiplier
       Entry: 4
       Data: 1
+    - Name: _changeHealthMultiplier
+      Entry: 5
+      Data: false
     - Name: _healthMultiplier
       Entry: 4
       Data: 1
+    - Name: _ignoreObstacles
+      Entry: 5
+      Data: false
     - Name: _ignoreEvasion
       Entry: 5
       Data: false
@@ -322,6 +331,9 @@ MonoBehaviour:
     - Name: ShakeTarget
       Entry: 3
       Data: 0
+    - Name: ShakingEntity
+      Entry: 3
+      Data: 1
     - Name: ShakeX
       Entry: 4
       Data: 0.1

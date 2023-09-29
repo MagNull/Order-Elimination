@@ -224,7 +224,7 @@ namespace OrderElimination.Infrastructure
                     }
                     foreach (var x in collectionElements
                         .Where(x => x != null)
-                        .Select(x => new SerializedMember(e.Member.Name, x, parent)))
+                        .Select(x => new SerializedMember($"{e.Member.Name}[i]", x, parent)))
                     {
                         if (seekingType.IsAssignableFrom(x.MemberValue.GetType()))
                             membersOfType.Add(x);

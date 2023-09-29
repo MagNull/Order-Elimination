@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using DefaultNamespace;
 using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Battle;
@@ -13,7 +12,7 @@ using UIManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using VContainer;
-using Assets.AbilitySystem.PrototypeHelpers;
+using OrderElimination.Utils;
 
 public class BattleEndHandler : MonoBehaviour
 {
@@ -24,7 +23,6 @@ public class BattleEndHandler : MonoBehaviour
     [HideInInspector, SerializeField]
     private int _onPlayerLoseSceneId;
     private IBattleContext _battleContext;
-    private TextEmitter _textEmitter;
     private ScenesMediator _scenesMediator;
     private ItemsPool _itemsPool;
     private bool _isLoadingNextScene;
@@ -83,14 +81,12 @@ public class BattleEndHandler : MonoBehaviour
 
     [Inject]
     private void Construct(
-        IBattleContext battleContext, 
-        TextEmitter textEmitter,
+        IBattleContext battleContext,
         ScenesMediator scenesMediator,
         ItemsPool itemsPool)
     {
         _itemsPool = itemsPool;
         _battleContext = battleContext;
-        _textEmitter = textEmitter;
         _scenesMediator = scenesMediator;
         battleContext.BattleStarted -= StartTrackingBattle;
         battleContext.BattleStarted += StartTrackingBattle;

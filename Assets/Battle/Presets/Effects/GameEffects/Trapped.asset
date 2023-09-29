@@ -28,6 +28,9 @@ MonoBehaviour:
     - Name: StackingPolicy
       Entry: 3
       Data: 2
+    - Name: _maxStackSize
+      Entry: 3
+      Data: 1
     - Name: UseApplierProcessing
       Entry: 5
       Data: false
@@ -37,15 +40,25 @@ MonoBehaviour:
     - Name: IsTemporary
       Entry: 5
       Data: true
+    - Name: _removeTriggers
+      Entry: 7
+      Data: 0|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
+        Assembly-CSharp]], System.Core
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: InstructionOnActivation
       Entry: 7
-      Data: 0|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
-    - Name: _target
-      Entry: 3
-      Data: 0
+      Data: 1|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
     - Name: _battleAction
       Entry: 7
-      Data: 1|OrderElimination.AbilitySystem.ChangeStatusAction, Assembly-CSharp
+      Data: 2|OrderElimination.AbilitySystem.ChangeStatusAction, Assembly-CSharp
     - Name: Status
       Entry: 3
       Data: 2
@@ -55,6 +68,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: _target
+      Entry: 3
+      Data: 0
     - Name: UndoOnDeactivation
       Entry: 5
       Data: true
@@ -62,6 +78,18 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: _animationAfterAction
+      Entry: 6
+      Data: 
+    - Name: _instructionOnCallback
+      Entry: 6
+      Data: 
+    - Name: _instructionOnSuccess
+      Entry: 6
+      Data: 
+    - Name: _instructionOnFail
+      Entry: 6
+      Data: 
+    - Name: _followingInstruction
       Entry: 6
       Data: 
     - Name: 
@@ -72,7 +100,7 @@ MonoBehaviour:
       Data: 
     - Name: TemporaryEffectFunctionaity
       Entry: 7
-      Data: 2|OrderElimination.AbilitySystem.TemporaryEffectFunctionaity, Assembly-CSharp
+      Data: 3|OrderElimination.AbilitySystem.TemporaryEffectFunctionaity, Assembly-CSharp
     - Name: _applyingDuration
       Entry: 3
       Data: 1
@@ -82,21 +110,15 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: IsProcessingIncomingAction
-      Entry: 5
-      Data: false
     - Name: IncomingActionProcessor
       Entry: 6
       Data: 
-    - Name: IsProcessingOutcomingAction
-      Entry: 5
-      Data: false
     - Name: OutcomingActionProcessor
       Entry: 6
       Data: 
     - Name: _view
       Entry: 7
-      Data: 3|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
+      Data: 4|OrderElimination.AbilitySystem.EffectView, Assembly-CSharp
     - Name: Name
       Entry: 1
       Data: "\u041A\u0430\u043F\u043A\u0430\u043D"
@@ -108,10 +130,13 @@ MonoBehaviour:
       Data: false
     - Name: AnimationOnActivation
       Entry: 7
-      Data: 4|OrderElimination.AbilitySystem.Animations.ShakeAnimation, Assembly-CSharp
+      Data: 5|OrderElimination.AbilitySystem.Animations.ShakeAnimation, Assembly-CSharp
     - Name: ShakeTarget
       Entry: 3
       Data: 0
+    - Name: ShakingEntity
+      Entry: 3
+      Data: 1
     - Name: ShakeX
       Entry: 4
       Data: 0
@@ -129,19 +154,6 @@ MonoBehaviour:
       Data: 
     - Name: AnimationOnDeactivation
       Entry: 6
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: _removeTriggers
-      Entry: 7
-      Data: 5|System.Collections.Generic.HashSet`1[[OrderElimination.AbilitySystem.EffectTriggerAcceptor,
-        Assembly-CSharp]], System.Core
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
       Data: 
     - Name: 
       Entry: 8

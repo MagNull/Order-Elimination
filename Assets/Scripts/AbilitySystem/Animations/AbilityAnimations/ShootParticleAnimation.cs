@@ -214,16 +214,16 @@ namespace OrderElimination.AbilitySystem.Animations
                 .AsUniTask()
                 .AttachExternalCancellation(cancellationToken);
             context.SceneContext.ParticlesPool.Release(bullet);
+        }
 
-            Vector2Int GetPositionByPriority(
+        private Vector2Int GetPositionByPriority(
                 CellGroupsContainer cellGroups, int group, CellPriority priority,
                 Vector2Int? casterPosition, Vector2Int? targetPosition)
-            {
-                var positions = cellGroups.GetGroup(group);
-                if (positions.Length == 0)
-                    throw new InvalidOperationException("No origin position");
-                return priority.GetPositionByPriority(positions, casterPosition, targetPosition);
-            }
+        {
+            var positions = cellGroups.GetGroup(group);
+            if (positions.Length == 0)
+                throw new InvalidOperationException("No origin position");
+            return priority.GetPositionByPriority(positions, casterPosition, targetPosition);
         }
     }
 }

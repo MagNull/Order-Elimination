@@ -1447,6 +1447,12 @@ MonoBehaviour:
     - Name: DisplayNear
       Entry: 3
       Data: 0
+    - Name: DisplayCellGroup
+      Entry: 3
+      Data: 0
+    - Name: PlaySimultaneously
+      Entry: 5
+      Data: false
     - Name: Duration
       Entry: 4
       Data: 1.5
@@ -1538,6 +1544,12 @@ MonoBehaviour:
     - Name: DisplayNear
       Entry: 3
       Data: 0
+    - Name: DisplayCellGroup
+      Entry: 3
+      Data: 0
+    - Name: PlaySimultaneously
+      Entry: 5
+      Data: false
     - Name: Duration
       Entry: 4
       Data: 1.5
@@ -2955,6 +2967,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 933b6206675ce6746a6d1d3e377dbe2d, type: 2}
     - {fileID: 11400000, guid: 57a8f17e1a66029478c8f69b521e76f4, type: 2}
     - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
+    - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
     - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
     - {fileID: 11400000, guid: 69c2e2c1f1101bb46b8a8894d47d56a7, type: 2}
     - {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
@@ -2977,10 +2990,10 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 10
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 10
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 13
       Data: 
@@ -2995,7 +3008,7 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 10
-      Data: 3
+      Data: 4
     - Name: 
       Entry: 13
       Data: 
@@ -3004,10 +3017,10 @@ MonoBehaviour:
       Data: 
     - Name: _testScenario
       Entry: 10
-      Data: 4
+      Data: 5
     - Name: _testRules
       Entry: 10
-      Data: 5
+      Data: 6
   _test: 1
 --- !u!4 &1908500043
 Transform:

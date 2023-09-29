@@ -5,7 +5,7 @@ using System;
 
 namespace OrderElimination.Editor
 {
-    public class MemberValueSetter : IValueEntryHandler
+    public class MemberValueSetHandler : IValueEntryHandler
     {
         [ShowInInspector]
         public MemberTypeOption MemberType { get; set; }
