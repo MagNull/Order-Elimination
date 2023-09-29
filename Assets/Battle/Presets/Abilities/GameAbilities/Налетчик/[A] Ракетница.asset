@@ -16,7 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 21300000, guid: 1a005a95567ee864eabf0416d5201f29, type: 3}
+    - {fileID: 21300000, guid: 3003493b270a7834a856a6cd72e50ee0, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -1172,25 +1172,7 @@ MonoBehaviour:
         Assembly-CSharp
     - Name: BulletParticle
       Entry: 3
-      Data: 0
-    - Name: RemapAnimationTime
-      Entry: 5
-      Data: false
-    - Name: OriginTarget
-      Entry: 3
-      Data: 1
-    - Name: OriginCellGroup
-      Entry: 3
-      Data: 0
-    - Name: OriginCellOrder
-      Entry: 3
-      Data: 0
-    - Name: DestinationTarget
-      Entry: 3
-      Data: 0
-    - Name: DestinationCellGroup
-      Entry: 3
-      Data: 0
+      Data: 17
     - Name: MoveBy
       Entry: 3
       Data: 1
@@ -1201,6 +1183,9 @@ MonoBehaviour:
       Entry: 5
       Data: true
     - Name: Inverse
+      Entry: 5
+      Data: false
+    - Name: RemapAnimationTime
       Entry: 5
       Data: false
     - Name: _minSpread
