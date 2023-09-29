@@ -202,7 +202,7 @@ namespace OrderElimination.Infrastructure
             foreach (var e in GetSerializedMembers(parent))
             {
                 var value = e.MemberValue;
-                if (value == null) continue;
+                if (value == null) continue;//Add option to include null values
                 if (seekingType.IsAssignableFrom(value.GetType()))
                     membersOfType.Add(e);
                 if (stopAtInstance != null && stopAtInstance(value))
@@ -249,6 +249,16 @@ namespace OrderElimination.Infrastructure
             {
                 SerializedParent = parent;
                 Member = member;
+                MemberDefinedType = member.MemberType switch
+                {
+                    MemberTypes.Field => ((FieldInfo)member).FieldType,
+                    MemberTypes.Property => ((PropertyInfo)member).PropertyType,
+                    _ => null
+                };
+                if (member is FieldInfo field)
+                    MemberDefinedType = field.FieldType;
+                else if (member is PropertyInfo property)
+                    MemberDefinedType = property.PropertyType;
                 MemberValue = member.GetMemberValue(memberOwner);
                 MemberOwner = memberOwner;
             }
@@ -259,10 +269,12 @@ namespace OrderElimination.Infrastructure
                 Member = null;
                 MemberValue = memberValue;
                 MemberOwner = null;
+                MemberDefinedType = null;
                 MemberNameReplacement = memberNameReplacement;
             }
 
             public MemberInfo Member { get; }
+            public Type MemberDefinedType { get; }
             public object MemberValue { get; }
             public object MemberOwner { get; }
             public SerializedMember SerializedParent { get; }
