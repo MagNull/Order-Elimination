@@ -114,6 +114,19 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: CharacterFilter
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   <View>k__BackingField:
     _name: "\u041A\u0438\u043D\u0436\u0430\u043B \u041F\u043B\u0430\u043C\u0435\u043D\u0438"
     _description: "60 \u0423\u0440\u043E\u043D\u0430; \n2\u0445 \u0423\u0440\u043E\u043D\u0430
@@ -124,4 +137,8 @@ MonoBehaviour:
   <Rarity>k__BackingField: 0
   <UseAbility>k__BackingField: {fileID: 11400000, guid: 26a69a1b526d67d47b371a1d0f05e1ab, type: 2}
   <UseTimes>k__BackingField: 2
+  <EquipType>k__BackingField: 0
   <EquipAbility>k__BackingField: {fileID: 0}
+  AbilitySwapTable:
+    m_Keys: []
+    m_Values: []

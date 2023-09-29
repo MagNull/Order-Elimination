@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using AI;
+using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace GameInventory.Items
 {
@@ -14,6 +17,12 @@ namespace GameInventory.Items
         Consumable,
         Equipment,
         Others
+    }
+
+    public enum EquipmentType
+    {
+        Bonus,
+        Upgrade
     }
 
     public enum ItemRarity
@@ -27,10 +36,14 @@ namespace GameInventory.Items
     public class ItemData : SerializedScriptableObject
     {
         public EnumMask<Role> RoleFilter = new();
-        [field: SerializeField] public ItemView View { get; private set; }
-        [field: SerializeField] public ItemType Type { get; private set; }
+        public List<IGameCharacterTemplate> CharacterFilter = new();
+        [field: SerializeField] 
+        public ItemView View { get; private set; }
+        [field: SerializeField] 
+        public ItemType Type { get; private set; }
 
-        [field: SerializeField] public ItemRarity Rarity { get; private set; }
+        [field: SerializeField] 
+        public ItemRarity Rarity { get; private set; }
 
         [field: ShowInInspector, DisplayAsString]
         public string Id { get; private set; }
@@ -41,8 +54,14 @@ namespace GameInventory.Items
         [field: SerializeReference, ShowIf("@Type == ItemType.Consumable")]
         public int UseTimes { get; private set; }
 
-        [field: SerializeReference, ShowIf("@Type == ItemType.Equipment")]
+        [field: SerializeField, ShowIf("@Type == ItemType.Equipment")]
+        public EquipmentType EquipType { get; private set; }
+
+        [field: SerializeReference, ShowIf("@Type == ItemType.Equipment && EquipType == EquipmentType.Bonus")]
         public PassiveAbilityBuilder EquipAbility { get; private set; }
+
+        [field: SerializeField, ShowIf("@Type == ItemType.Equipment && EquipType == EquipmentType.Upgrade")]
+        public SerializedDictionary<ActiveAbilityBuilder, ActiveAbilityBuilder> AbilitySwapTable = new();
 
         private void Awake()
         {
