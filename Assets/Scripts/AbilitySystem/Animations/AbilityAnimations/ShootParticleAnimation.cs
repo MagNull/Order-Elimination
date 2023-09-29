@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
@@ -12,6 +13,9 @@ namespace OrderElimination.AbilitySystem.Animations
 
     public class ShootParticleAnimation : AwaitableAbilityAnimation
     {
+        private bool OriginAsCellGroup => OriginTarget == AnimationTarget.CellGroup;
+        private bool DestinationAsCellGroup => DestinationTarget == AnimationTarget.CellGroup;
+
         [HideInInspector, OdinSerialize]
         private float _minSpread;
         [HideInInspector, OdinSerialize]
@@ -23,43 +27,56 @@ namespace OrderElimination.AbilitySystem.Animations
         [HideInInspector, OdinSerialize]
         private int _animationLoops = 1;
 
+        [BoxGroup("Particle Settings", CenterLabel = true)]
         [ShowInInspector, OdinSerialize]
         public ParticleType BulletParticle { get; set; }
 
-        [ShowInInspector, OdinSerialize, LabelText("Move By Constant")]
-        public MoveByConstant MoveBy { get; set; }
+        [BoxGroup("Particle Settings")]
+        [ShowInInspector, OdinSerialize]
+        public bool RemapAnimationTime { get; set; }
 
-        [ShowInInspector, ShowIf("@MoveBy == MoveByConstant.Speed")]
-        public float Speed
+        [BoxGroup("Particle Settings")]
+        [ShowInInspector]
+        public int AnimationLoops
         {
-            get => _speed;
+            get => _animationLoops;
             set
             {
-                if (value < 0) value = 0;
-                _speed = value;
+                if (value < 1) value = 1;
+                _animationLoops = value;
             }
         }
 
-        [ShowInInspector, ShowIf("@MoveBy == MoveByConstant.Time")]
-        public float Time
-        {
-            get => _time;
-            set
-            {
-                if (value < 0) value = 0;
-                _time = value;
-            }
-        }
-
+        #region End Points
+        [BoxGroup("Origin", CenterLabel = true)]
         [ShowInInspector, OdinSerialize]
-        public Ease MovementEase { get; set; } = Ease.Flash;
+        public AnimationTarget OriginTarget { get; set; } = AnimationTarget.Caster;
 
+        [BoxGroup("Origin")]
+        [EnableIf("@" + nameof(OriginAsCellGroup))]
         [ShowInInspector, OdinSerialize]
-        public bool FaceDirection { get; set; }
+        public int OriginCellGroup { get; set; }
 
+        [BoxGroup("Origin")]
+        [EnableIf("@" + nameof(OriginAsCellGroup))]
         [ShowInInspector, OdinSerialize]
-        public bool Inverse { get; set; }
+        public CellPriority OriginCellPriority { get; set; }
 
+        [BoxGroup("Destination", CenterLabel = true)]
+        [ShowInInspector, OdinSerialize]
+        public AnimationTarget DestinationTarget { get; set; } = AnimationTarget.Target;
+
+        [BoxGroup("Destination")]
+        [EnableIf("@" + nameof(DestinationAsCellGroup))]
+        [ShowInInspector, OdinSerialize]
+        public int DestinationCellGroup { get; set; }
+
+        [BoxGroup("Destination")]
+        [EnableIf("@" + nameof(DestinationAsCellGroup))]
+        [ShowInInspector, OdinSerialize]
+        public CellPriority DestinationCellPriority { get; set; }
+
+        [BoxGroup("Destination")]
         [ShowInInspector, MinValue(0), MaxValue(0.5f)]
         public float MinSpread
         {
@@ -72,6 +89,7 @@ namespace OrderElimination.AbilitySystem.Animations
             }
         }
 
+        [BoxGroup("Destination")]
         [ShowInInspector, MinValue(0), MaxValue(0.5f)]
         public float MaxSpread
         {
@@ -83,24 +101,53 @@ namespace OrderElimination.AbilitySystem.Animations
                 _maxSpread = value;
             }
         }
+        #endregion
 
-        [ShowInInspector, OdinSerialize]
-        public bool RemapAnimationTime { get; set; }
+        [BoxGroup("Movement", CenterLabel = true)]
+        [ShowInInspector, OdinSerialize, LabelText("Move By Constant")]
+        public MoveByConstant MoveBy { get; set; }
 
-        [ShowInInspector]
-        public int AnimationLoops
+        [BoxGroup("Movement")]
+        [ShowInInspector, ShowIf("@MoveBy == MoveByConstant.Speed")]
+        public float Speed
         {
-            get => _animationLoops;
+            get => _speed;
             set
             {
-                if (value < 1) value = 1;
-                _animationLoops = value;
+                if (value < 0) value = 0;
+                _speed = value;
             }
         }
+
+        [BoxGroup("Movement")]
+        [ShowInInspector, ShowIf("@MoveBy == MoveByConstant.Time")]
+        public float Time
+        {
+            get => _time;
+            set
+            {
+                if (value < 0) value = 0;
+                _time = value;
+            }
+        }
+
+        [BoxGroup("Movement")]
+        [ShowInInspector, OdinSerialize]
+        public Ease MovementEase { get; set; } = Ease.Flash;
+
+        [BoxGroup("Movement")]
+        [ShowInInspector, OdinSerialize]
+        public bool FaceDirection { get; set; }
+
+        [BoxGroup("Movement")]
+        [ShowInInspector, OdinSerialize]
+        public bool Inverse { get; set; }
+
         //bool ThenReturn
         //bool AwaitReturn
 
-        protected override async UniTask OnAnimationPlayRequest(AnimationPlayContext context, CancellationToken cancellationToken)
+        protected override async UniTask OnAnimationPlayRequest(
+            AnimationPlayContext context, CancellationToken cancellationToken)
         {
             if (!context.CasterGamePosition.HasValue
                 || !context.TargetGamePosition.HasValue)
@@ -108,14 +155,34 @@ namespace OrderElimination.AbilitySystem.Animations
 
             var bullet = context.SceneContext.ParticlesPool.Create(BulletParticle);
             var mapView = context.SceneContext.BattleMapView;
+
+            //Origin
+            var origin = OriginTarget switch
+            {
+                AnimationTarget.Target => context.TargetGamePosition.Value,
+                AnimationTarget.Caster => context.CasterGamePosition.Value,
+                AnimationTarget.CellGroup => GetPositionByPriority(
+                    context.TargetedCellGroups, OriginCellGroup, OriginCellPriority, 
+                    context.CasterGamePosition, context.TargetGamePosition),
+                _ => throw new NotImplementedException(),
+            };
+            var realWorldStart = mapView.GameToWorldPosition(origin);
+
+            //Destination
             var angle = Random.Range(0, 2 * Mathf.PI);
             var distanceFromCenter = Random.Range(MinSpread, MaxSpread);
             var randomOffset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * distanceFromCenter;
-
-            var start = context.CasterGamePosition.Value;
-            var destination = context.TargetGamePosition.Value + randomOffset;
-            var realWorldStart = mapView.GameToWorldPosition(start);
+            var destination = DestinationTarget switch
+            {
+                AnimationTarget.Target => context.TargetGamePosition.Value,
+                AnimationTarget.Caster => context.CasterGamePosition.Value,
+                AnimationTarget.CellGroup => GetPositionByPriority(
+                    context.TargetedCellGroups, OriginCellGroup, DestinationCellPriority,
+                    context.CasterGamePosition, context.TargetGamePosition),
+                _ => throw new NotImplementedException(),
+            } + randomOffset;
             var realWorldDestination = mapView.GameToWorldPosition(destination);
+
             var realWorldOffset = realWorldDestination - realWorldStart;
 
             var from = new Vector3(realWorldStart.x, realWorldStart.y, bullet.transform.position.z);
@@ -147,6 +214,16 @@ namespace OrderElimination.AbilitySystem.Animations
                 .AsUniTask()
                 .AttachExternalCancellation(cancellationToken);
             context.SceneContext.ParticlesPool.Release(bullet);
+
+            Vector2Int GetPositionByPriority(
+                CellGroupsContainer cellGroups, int group, CellPriority priority,
+                Vector2Int? casterPosition, Vector2Int? targetPosition)
+            {
+                var positions = cellGroups.GetGroup(group);
+                if (positions.Length == 0)
+                    throw new InvalidOperationException("No origin position");
+                return priority.GetPositionByPriority(positions, casterPosition, targetPosition);
+            }
         }
     }
 }

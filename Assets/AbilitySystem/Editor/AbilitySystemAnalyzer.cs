@@ -119,6 +119,11 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
 
         [TitleGroup("Dependencies Search")]
         [VerticalGroup("Dependencies Search/Parameters")]
+        [ShowInInspector]
+        public IValueEntryFilter EntriesFilter { get; set; }
+
+        [TitleGroup("Dependencies Search")]
+        [VerticalGroup("Dependencies Search/Parameters")]
         [GUIColor(1, 0.5f, 0.5f)]
         [ShowInInspector]
         public bool SuppressErrors { get; set; } = false;
@@ -249,29 +254,37 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
 
             _assetsWithExceptions = assetsWithExceptions;
 
-            if (SearchFor == SearchForOption.TypeReference)
+            if (SearchFor == SearchForOption.InstanceReference)
             {
-                _foundAssets = foundAssets;
-                _foundTypeEntries = foundTypeEntries;
+                FilterAssetsByFoundMembers(m => m.MemberValue == SeekingInstance);
             }
-            else if (SearchFor == SearchForOption.InstanceReference)
+
+            if (EntriesFilter != null)
             {
-                _foundAssets = new();
-                _foundTypeEntries = new();
-                foreach (var asset in foundAssets)
-                {
-                    var members = foundTypeEntries[asset].Where(m => m.MemberValue == SeekingInstance).ToArray();
-                    if (members.Length > 0)
-                    {
-                        _foundAssets.Add(asset);
-                        _foundTypeEntries.Add(asset, members);
-                    }
-                }
+                FilterAssetsByFoundMembers(m => EntriesFilter.IsAllowed(m));
             }
-            else
-                throw new NotImplementedException();
+
+            _foundAssets = foundAssets;
+            _foundTypeEntries = foundTypeEntries;
 
             DisplaySearchResults();
+
+            void FilterAssetsByFoundMembers(Func<SerializedMember, bool> selector)
+            {
+                var filteredAssets = new List<ScriptableObject>();
+                var filteredTypeEntries = new Dictionary<ScriptableObject, SerializedMember[]>();
+                foreach (var asset in foundAssets)
+                {
+                    var members = foundTypeEntries[asset].Where(selector).ToArray();
+                    if (members.Length > 0)
+                    {
+                        filteredAssets.Add(asset);
+                        filteredTypeEntries.Add(asset, members);
+                    }
+                }
+                foundAssets = filteredAssets;
+                foundTypeEntries = filteredTypeEntries;
+            }
         }
 
         private void DisplaySearchResults()
@@ -338,7 +351,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
 
             bool StopAt(object e)
             {
-                if (e.IsAbilitySystemAsset())
+                if (e.IsAbilitySystemAsset())// || e is AnimationPreset //uncomment after animation presets become AS assets
                 {
                     if (DirectReferenceOnly)
                         return true;
