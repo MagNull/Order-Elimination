@@ -1317,7 +1317,7 @@ MonoBehaviour:
       Data: 78|OrderElimination.AbilitySystem.Animations.WalkAnimation, Assembly-CSharp
     - Name: MovingEntity
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: OriginTarget
       Entry: 3
       Data: 0
@@ -1924,13 +1924,16 @@ MonoBehaviour:
     - Name: OriginCellGroup
       Entry: 3
       Data: 0
-    - Name: OriginCellOrder
+    - Name: OriginCellPriority
       Entry: 3
       Data: 0
     - Name: DestinationTarget
       Entry: 3
       Data: 0
     - Name: DestinationCellGroup
+      Entry: 3
+      Data: 0
+    - Name: DestinationCellPriority
       Entry: 3
       Data: 0
     - Name: MoveBy

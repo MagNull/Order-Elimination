@@ -101,25 +101,43 @@ namespace OrderElimination.AbilitySystem.Animations
             var casterGamePos = context.CasterGamePosition;
             var targetGamePos = context.TargetGamePosition;
 
-            var from = OriginTarget switch
+            Vector2Int from;
+            Vector2Int to;
+            switch (OriginTarget)
             {
-                AnimationTarget.Target => context.Target.Position,
-                AnimationTarget.Caster => context.Caster.Position,
-                AnimationTarget.CellGroup => OriginCellOrder.GetPositionByPriority(
-                    context.TargetedCellGroups.GetGroup(OriginCellGroup), casterGamePos, targetGamePos),
-                _ => throw new NotImplementedException(),
-            };
+                case AnimationTarget.Target:
+                    from = context.Target.Position;
+                    break;
+                case AnimationTarget.Caster:
+                    from = context.Caster.Position;
+                    break;
+                case AnimationTarget.CellGroup:
+                    var positions = context.TargetedCellGroups.GetGroup(OriginCellGroup);
+                    if (positions.Length == 0)
+                        return;
+                    from = OriginCellOrder.GetPositionByPriority(positions, casterGamePos, targetGamePos);
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
 
-            var to = DestinationTarget switch
+            switch (DestinationTarget)
             {
-                AnimationTarget.Target => context.TargetGamePosition.Value,
-                AnimationTarget.Caster => context.CasterGamePosition.Value,
-                AnimationTarget.CellGroup => DestinationCellOrder.GetPositionByPriority(
-                    context.TargetedCellGroups.GetGroup(DestinationCellGroup), casterGamePos, targetGamePos),
-                _ => throw new NotImplementedException(),
-            };
-
-            //Logging.Log($"Moving from {context.CasterGamePosition} to {context.TargetGamePosition}.");
+                case AnimationTarget.Target:
+                    to = context.Target.Position;
+                    break;
+                case AnimationTarget.Caster:
+                    to = context.Caster.Position;
+                    break;
+                case AnimationTarget.CellGroup:
+                    var positions = context.TargetedCellGroups.GetGroup(DestinationCellGroup);
+                    if (positions.Length == 0)
+                        return;
+                    to = DestinationCellOrder.GetPositionByPriority(positions, casterGamePos, targetGamePos);
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
 
             var realWorldStartPos = context.SceneContext.BattleMapView.GetCell(from.x, from.y).transform.position;
             var realWorldEndPos = context.SceneContext.BattleMapView.GetCell(to.x, to.y).transform.position;
