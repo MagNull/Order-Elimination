@@ -1317,10 +1317,7 @@ MonoBehaviour:
       Data: 78|OrderElimination.AbilitySystem.Animations.WalkAnimation, Assembly-CSharp
     - Name: MovingEntity
       Entry: 3
-      Data: 0
-    - Name: UseExecutionGroupForOrigin
-      Entry: 5
-      Data: false
+      Data: 1
     - Name: OriginTarget
       Entry: 3
       Data: 0
@@ -1330,12 +1327,9 @@ MonoBehaviour:
     - Name: OriginCellOrder
       Entry: 3
       Data: 4
-    - Name: UseExecutionGroupForDestination
-      Entry: 5
-      Data: true
     - Name: DestinationTarget
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: DestinationCellGroup
       Entry: 3
       Data: 2
@@ -1921,6 +1915,27 @@ MonoBehaviour:
     - Name: BulletParticle
       Entry: 3
       Data: 16
+    - Name: RemapAnimationTime
+      Entry: 5
+      Data: false
+    - Name: OriginTarget
+      Entry: 3
+      Data: 1
+    - Name: OriginCellGroup
+      Entry: 3
+      Data: 0
+    - Name: OriginCellPriority
+      Entry: 3
+      Data: 0
+    - Name: DestinationTarget
+      Entry: 3
+      Data: 0
+    - Name: DestinationCellGroup
+      Entry: 3
+      Data: 0
+    - Name: DestinationCellPriority
+      Entry: 3
+      Data: 0
     - Name: MoveBy
       Entry: 3
       Data: 0
@@ -1931,9 +1946,6 @@ MonoBehaviour:
       Entry: 5
       Data: false
     - Name: Inverse
-      Entry: 5
-      Data: false
-    - Name: RemapAnimationTime
       Entry: 5
       Data: false
     - Name: _minSpread

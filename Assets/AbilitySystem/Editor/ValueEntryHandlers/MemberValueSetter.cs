@@ -27,6 +27,8 @@ namespace OrderElimination.Editor
             if (MemberType == MemberTypeOption.Field)
             {
                 var field = type.GetField(MemberName);
+                if (field == null)
+                    throw new ArgumentException($"Field with name {MemberName} was not found in {type.Name}");
                 var fieldType = field.FieldType;
                 if (!fieldType.IsAssignableFrom(newValueType))
                     throw new InvalidCastException($"{fieldType.Name} is not assignable from {newValueType.Name}");
@@ -35,6 +37,8 @@ namespace OrderElimination.Editor
             else if (MemberType == MemberTypeOption.Property)
             {
                 var property = type.GetProperty(MemberName);
+                if (property == null)
+                    throw new ArgumentException($"Property with name {MemberName} was not found in {type.Name}");
                 var propertyType = property.PropertyType;
                 if (!propertyType.IsAssignableFrom(newValueType))
                     throw new InvalidCastException($"{propertyType.Name} is not assignable from {newValueType.Name}");

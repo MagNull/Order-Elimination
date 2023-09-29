@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using static OrderElimination.Infrastructure.ReflectionExtensions;
 
@@ -55,6 +56,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         private EffectDataPreset[] _projectEffects;
         private CharacterTemplate[] _projectCharacters;
         private StructureTemplate[] _projectStructures;
+        private AnimationPreset[] _projectAnimationPresets;
 
         [TitleGroup("Statistics")]
         [GUIColor("@Color.yellow")]
@@ -85,6 +87,10 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         [TitleGroup("Statistics")]
         [ShowInInspector]
         public int TotalStructures => _projectStructures.Length;
+
+        [TitleGroup("Statistics")]
+        [ShowInInspector]
+        public int TotalAnimationPresets => _projectAnimationPresets.Length;
 
         [TitleGroup("Dependencies Search")]
         [VerticalGroup("Dependencies Search/Parameters")]
@@ -181,6 +187,12 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
                 .Select(path => AssetDatabase.LoadAssetAtPath(path, typeof(StructureTemplate)) as StructureTemplate)
                 .Where(e => e != null)
                 .ToArray();
+            _projectAnimationPresets = AssetDatabase
+                .FindAssets($"t: {nameof(AnimationPreset)}")
+                .Select(id => AssetDatabase.GUIDToAssetPath(id))
+                .Select(path => AssetDatabase.LoadAssetAtPath(path, typeof(AnimationPreset)) as AnimationPreset)
+                .Where(e => e != null)
+                .ToArray();
         }
 
         [VerticalGroup("Dependencies Search/Parameters")]
@@ -205,6 +217,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
                 .Concat(_projectEffects)
                 .Concat(_projectCharacters)
                 .Concat(_projectStructures)
+                .Concat(_projectAnimationPresets)
                 .ToArray();
             var foundAssets = new List<ScriptableObject>();
             var foundTypeEntries = new Dictionary<ScriptableObject, SerializedMember[]>();
@@ -337,9 +350,11 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
                 EditorUtility.SetDirty(asset);
                 foreach (var entry in _foundTypeEntries[asset])
                     InstanceHandler.HandleValueEntry(entry);
+                PrefabUtility.RecordPrefabInstancePropertyModifications(asset);
                 if (!isDirty)
                     EditorUtility.ClearDirty(asset);
             }
+            Undo.RecordObjects(_foundAssets.ToArray(), "Value entries modified");
         }
 
         private IEnumerable<SerializedMember> GetAssignedMembersOfType(object where, Type desiredMemberType)
@@ -351,7 +366,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
 
             bool StopAt(object e)
             {
-                if (e.IsAbilitySystemAsset())// || e is AnimationPreset //uncomment after animation presets become AS assets
+                if (e.IsAbilitySystemAsset() || e is AnimationPreset)
                 {
                     if (DirectReferenceOnly)
                         return true;
@@ -400,6 +415,10 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
                 else if (foundAsset is StructureTemplate structure)
                 {
                     SearchResult.Add($"{categoryName}/Structures/{assetName}", foundAsset, structure.BattleIcon);
+                }
+                else if (foundAsset is AnimationPreset animationPreset)
+                {
+                    SearchResult.Add($"{categoryName}/Animations/{assetName}", foundAsset);
                 }
                 else
                 {

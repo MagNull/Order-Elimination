@@ -24,12 +24,18 @@ namespace OrderElimination.Editor
             var type = entry.MemberValue.GetType();
             if (MemberType == MemberTypeOption.Field)
             {
-                var value = type.GetField(MemberName).GetValue(entry.MemberValue);
+                var field = type.GetField(MemberName);
+                if (field == null)
+                    throw new ArgumentException($"Field with name {MemberName} was not found in {type.Name}");
+                var value = field.GetValue(entry.MemberValue);
                 return value.Equals(Value);
             }
             else if (MemberType == MemberTypeOption.Property)
             {
-                var value = type.GetProperty(MemberName).GetValue(entry.MemberValue);
+                var property = type.GetProperty(MemberName); 
+                if (property == null)
+                    throw new ArgumentException($"Property with name {MemberName} was not found in {type.Name}");
+                var value = property.GetValue(entry.MemberValue);
                 return value.Equals(Value);
             }
             else throw new NotImplementedException();
