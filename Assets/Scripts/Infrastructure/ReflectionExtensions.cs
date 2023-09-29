@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace OrderElimination.Infrastructure
@@ -84,7 +85,13 @@ namespace OrderElimination.Infrastructure
         public static string GetExceptionName(this Exception exception)
             => exception.GetType().Name;
 
-        public static IEnumerable<object> GetSerializedMembers(object instance)
+        public static bool HasSerializationAttributes(MemberInfo m)
+            => Attribute.IsDefined(m, typeof(OdinSerializeAttribute))
+            || Attribute.IsDefined(m, typeof(SerializableAttribute))
+            || Attribute.IsDefined(m, typeof(SerializeField))
+            || Attribute.IsDefined(m, typeof(SerializeReference));
+
+        public static IEnumerable<object> GetSerializedNonCollectionInstances(object instance)//Unwraps collections
         {
             if (instance == null)
                 return Enumerable.Empty<object>();
@@ -100,40 +107,172 @@ namespace OrderElimination.Infrastructure
                 | BindingFlags.NonPublic
                 | BindingFlags.SetField
                 | BindingFlags.SetProperty;
-            Func<MemberInfo, bool> HasRequiredAttributes = m =>
-            Attribute.IsDefined(m, typeof(OdinSerializeAttribute))
-            || Attribute.IsDefined(m, typeof(SerializableAttribute))
-            || Attribute.IsDefined(m, typeof(SerializeField))
-            || Attribute.IsDefined(m, typeof(SerializeReference));
 
-            var fields = instanceType.GetFields(bindingFlags).Where(HasRequiredAttributes).ToArray();
-            var properties = instanceType.GetProperties(bindingFlags).Where(HasRequiredAttributes).ToArray();
+            var fields = instanceType.GetFields(bindingFlags).Where(HasSerializationAttributes);
+            var properties = instanceType.GetProperties(bindingFlags).Where(HasSerializationAttributes);
 
-            var nextValues = new List<object>();
+            var serializedValues = new List<object>();
 
-            foreach (var member in fields.Concat(properties))
+            foreach (var member in fields.AsEnumerable<MemberInfo>().Concat(properties))
             {
                 var value = member.GetMemberValue(instance);
                 if (value == null) continue;
-                nextValues.Add(value);
+                serializedValues.Add(value);
                 if (value is ICollection collection)
                 {
                     if (collection is IDictionary dictionary)
                     {
-                        nextValues.AddRange(
+                        serializedValues.AddRange(
                             dictionary.Keys.AsEnumerable()
                             .Concat(dictionary.Values.AsEnumerable())
                             .Where(e => e != null));
                     }
                     else
                     {
-                        nextValues.AddRange(
+                        serializedValues.AddRange(
                             collection.AsEnumerable()
                             .Where(e => e != null));
                     }
                 }
             }
-            return nextValues;
+            return serializedValues;
+        }
+
+        public static IEnumerable<SerializedMember> GetSerializedMembers(object obj)
+        {
+            if (obj == null)
+                return Enumerable.Empty<SerializedMember>();
+            var instanceType = obj.GetType();
+            if (instanceType.IsPrimitive)
+                return Enumerable.Empty<SerializedMember>();
+
+            var bindingFlags =
+                BindingFlags.Instance
+                | BindingFlags.Public
+                | BindingFlags.NonPublic
+                | BindingFlags.SetField
+                | BindingFlags.SetProperty;
+
+            var fields = instanceType.GetFields(bindingFlags).Where(HasSerializationAttributes);
+            var properties = instanceType.GetProperties(bindingFlags).Where(HasSerializationAttributes);
+
+            return fields
+                .AsEnumerable<MemberInfo>()
+                .Concat(properties)
+                .Select(m => new SerializedMember(m, obj))
+                .ToArray();
+        }
+
+        public static IEnumerable<SerializedMember> GetSerializedMembers(SerializedMember member)
+        {
+            if (member.MemberValue == null)
+                return Enumerable.Empty<SerializedMember>();
+            var instanceType = member.MemberValue.GetType();
+            if (instanceType.IsPrimitive)
+                return Enumerable.Empty<SerializedMember>();
+
+            var bindingFlags =
+                BindingFlags.Instance
+                | BindingFlags.Public
+                | BindingFlags.NonPublic
+                | BindingFlags.SetField
+                | BindingFlags.SetProperty;
+
+            var fields = instanceType.GetFields(bindingFlags).Where(HasSerializationAttributes);
+            var properties = new List<MemberInfo>(); 
+            foreach (var p in instanceType.GetProperties(bindingFlags).Where(HasSerializationAttributes))
+            {
+                //Debug.Log($"Checking {p.Name}");
+                properties.Add(p);
+            }
+
+            return fields
+                .AsEnumerable<MemberInfo>()
+                .Concat(properties)
+                .Select(m => new SerializedMember(m, member.MemberValue, member))
+                .ToArray();
+        }
+
+        public static IEnumerable<SerializedMember> GetAllSerializedMembersOfType(
+            SerializedMember parent, Type seekingType, Func<object, bool> stopAtInstance)
+        {
+            if (parent == null || seekingType == null)
+                throw new ArgumentNullException();
+            var membersOfType = new List<SerializedMember>();
+            foreach (var e in GetSerializedMembers(parent))
+            {
+                var value = e.MemberValue;
+                if (value == null) continue;
+                if (seekingType.IsAssignableFrom(value.GetType()))
+                    membersOfType.Add(e);
+                if (stopAtInstance != null && stopAtInstance(value))
+                    continue;
+                //Debug.Log($"Checking {e.GetFullName()}");
+                if (value is ICollection collection)
+                {
+                    object[] collectionElements;
+                    if (value is IDictionary dictionary)
+                    {
+                        collectionElements = 
+                            dictionary.Keys.AsEnumerable()
+                            .Concat(dictionary.Values.AsEnumerable())
+                            .ToArray();
+                    }
+                    else
+                    {
+                        collectionElements = collection.AsEnumerable().ToArray();
+                    }
+                    foreach (var x in collectionElements
+                        .Where(x => x != null)
+                        .Select(x => new SerializedMember(e.Member.Name, x, parent)))
+                    {
+                        if (seekingType.IsAssignableFrom(x.MemberValue.GetType()))
+                            membersOfType.Add(x);
+                        if (stopAtInstance != null && stopAtInstance(x.MemberValue))
+                            continue;
+                        membersOfType.AddRange(GetAllSerializedMembersOfType(x, seekingType, stopAtInstance));
+                    }
+                }
+                membersOfType.AddRange(GetAllSerializedMembersOfType(e, seekingType, stopAtInstance));
+            }
+            return membersOfType;
+        }
+
+        public class SerializedMember
+        {
+            public SerializedMember(MemberInfo member, object memberOwner) : this(member, memberOwner, null)
+            {
+
+            }
+
+            public SerializedMember(MemberInfo member, object memberOwner, SerializedMember parent)
+            {
+                SerializedParent = parent;
+                Member = member;
+                MemberValue = member.GetMemberValue(memberOwner);
+                MemberOwner = memberOwner;
+            }
+
+            public SerializedMember(string memberNameReplacement, object memberValue, SerializedMember parent)
+            {
+                SerializedParent = parent;
+                Member = null;
+                MemberValue = memberValue;
+                MemberOwner = null;
+                MemberNameReplacement = memberNameReplacement;
+            }
+
+            public MemberInfo Member { get; }
+            public object MemberValue { get; }
+            public object MemberOwner { get; }
+            public SerializedMember SerializedParent { get; }
+            public string MemberNameReplacement { get; } = "???";
+
+            public string GetFullName()
+            {
+                var parent = SerializedParent != null ? $"{SerializedParent.GetFullName()}." : "";
+                return $"{parent}{Member?.Name ?? MemberNameReplacement}";
+            }
         }
     }
 }

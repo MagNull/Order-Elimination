@@ -4,7 +4,6 @@ using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
-using System.Linq;
 using System.Threading;
 using UnityEngine;
 
@@ -12,6 +11,11 @@ namespace OrderElimination.AbilitySystem.Animations
 {
     public class WalkAnimation : AwaitableAbilityAnimation
     {
+        #region OdinVisuals
+        private bool OriginAsCellGroup => OriginTarget == AnimationTarget.CellGroup;
+        private bool DestinationAsCellGroup => DestinationTarget == AnimationTarget.CellGroup;
+        #endregion
+
         [HideInInspector, OdinSerialize]
         private float _time = 1;
         [HideInInspector, OdinSerialize]
@@ -19,53 +23,45 @@ namespace OrderElimination.AbilitySystem.Animations
 
         [EnumToggleButtons]
         [ShowInInspector, OdinSerialize]
-        public AnimationTarget MovingEntity { get; set; } = AnimationTarget.Caster;
+        public ActionEntity MovingEntity { get; set; } = ActionEntity.Target;
 
         #region Origin
-        [TabGroup("Origin")]
-        [ShowInInspector, OdinSerialize]
-        public bool UseExecutionGroupForOrigin { get; set; } = false;
-
-        [TabGroup("Origin")]
-        [ShowIf("@!" + nameof(UseExecutionGroupForOrigin))]
+        [BoxGroup("Origin")]
         [ShowInInspector, OdinSerialize]
         public AnimationTarget OriginTarget { get; set; } = AnimationTarget.Caster;
 
-        [TabGroup("Origin")]
-        [ShowIf("@" + nameof(UseExecutionGroupForOrigin))]
+        [BoxGroup("Origin")]
+        [EnableIf("@" + nameof(OriginAsCellGroup))]
         [ShowInInspector, OdinSerialize]
         public int OriginCellGroup { get; set; }
 
-        [TabGroup("Origin")]
-        [ShowIf("@" + nameof(UseExecutionGroupForOrigin))]
+        [BoxGroup("Origin")]
+        [EnableIf("@" + nameof(OriginAsCellGroup))]
         [ShowInInspector, OdinSerialize]
         public CellPriority OriginCellOrder { get; set; }
         #endregion
 
         #region Destination
-        [TabGroup("Destination")]
-        [ShowInInspector, OdinSerialize]
-        public bool UseExecutionGroupForDestination { get; set; } = false;
-
-        [TabGroup("Destination")]
-        [ShowIf("@!" + nameof(UseExecutionGroupForDestination))]
+        [BoxGroup("Destination")]
         [ShowInInspector, OdinSerialize]
         public AnimationTarget DestinationTarget { get; set; } = AnimationTarget.Target;
 
-        [TabGroup("Destination")]
-        [ShowIf("@" + nameof(UseExecutionGroupForDestination))]
+        [BoxGroup("Destination")]
+        [EnableIf("@" + nameof(DestinationAsCellGroup))]
         [ShowInInspector, OdinSerialize]
         public int DestinationCellGroup { get; set; }
 
-        [TabGroup("Destination")]
-        [ShowIf("@" + nameof(UseExecutionGroupForDestination))]
+        [BoxGroup("Destination")]
+        [EnableIf("@" + nameof(DestinationAsCellGroup))]
         [ShowInInspector, OdinSerialize]
         public CellPriority DestinationCellOrder { get; set; }
         #endregion
 
+        [BoxGroup("Movement Parameters")]
         [ShowInInspector, OdinSerialize, LabelText("Move By Constant")]
         public MoveByConstant MoveBy { get; set; } = MoveByConstant.Speed;
 
+        [BoxGroup("Movement Parameters")]
         [ShowInInspector, ShowIf("@MoveBy == MoveByConstant.Speed")]
         public float Speed
         {
@@ -77,6 +73,7 @@ namespace OrderElimination.AbilitySystem.Animations
             }
         }
 
+        [BoxGroup("Movement Parameters")]
         [ShowInInspector, ShowIf("@MoveBy == MoveByConstant.Time")]
         public float Time
         {
@@ -88,6 +85,7 @@ namespace OrderElimination.AbilitySystem.Animations
             }
         }
 
+        [BoxGroup("Movement Parameters")]
         [ShowInInspector, OdinSerialize]
         public Ease MoveEase { get; set; }
 
@@ -95,45 +93,32 @@ namespace OrderElimination.AbilitySystem.Animations
         {
             var movingTaget = MovingEntity switch
             {
-                AnimationTarget.Target => context.TargetView,
-                AnimationTarget.Caster => context.CasterView,
+                ActionEntity.Target => context.TargetView,
+                ActionEntity.Caster => context.CasterView,
                 _ => throw new NotImplementedException(),
             };
 
             var casterGamePos = context.CasterGamePosition;
             var targetGamePos = context.TargetGamePosition;
 
-            Vector2Int from;
-            if (UseExecutionGroupForOrigin)
+            var from = OriginTarget switch
             {
-                var group = context.TargetedCellGroups.GetGroup(OriginCellGroup);
-                from = OriginCellOrder.GetPositionByPriority(group, casterGamePos, targetGamePos);
-            }
-            else
-            {
-                from = OriginTarget switch
-                {
-                    AnimationTarget.Target => context.Target.Position,
-                    AnimationTarget.Caster => context.Caster.Position,
-                    _ => throw new NotImplementedException(),
-                };
-            }
+                AnimationTarget.Target => context.Target.Position,
+                AnimationTarget.Caster => context.Caster.Position,
+                AnimationTarget.CellGroup => OriginCellOrder.GetPositionByPriority(
+                    context.TargetedCellGroups.GetGroup(OriginCellGroup), casterGamePos, targetGamePos),
+                _ => throw new NotImplementedException(),
+            };
 
-            Vector2Int to;
-            if (UseExecutionGroupForDestination)
+            var to = DestinationTarget switch
             {
-                var group = context.TargetedCellGroups.GetGroup(DestinationCellGroup);
-                to = DestinationCellOrder.GetPositionByPriority(group, casterGamePos, targetGamePos);
-            }
-            else
-            {
-                to = DestinationTarget switch
-                {
-                    AnimationTarget.Target => context.TargetGamePosition.Value,
-                    AnimationTarget.Caster => context.CasterGamePosition.Value,
-                    _ => throw new NotImplementedException(),
-                };
-            }
+                AnimationTarget.Target => context.TargetGamePosition.Value,
+                AnimationTarget.Caster => context.CasterGamePosition.Value,
+                AnimationTarget.CellGroup => DestinationCellOrder.GetPositionByPriority(
+                    context.TargetedCellGroups.GetGroup(DestinationCellGroup), casterGamePos, targetGamePos),
+                _ => throw new NotImplementedException(),
+            };
+
             //Logging.Log($"Moving from {context.CasterGamePosition} to {context.TargetGamePosition}.");
 
             var realWorldStartPos = context.SceneContext.BattleMapView.GetCell(from.x, from.y).transform.position;

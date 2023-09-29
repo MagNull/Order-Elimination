@@ -17,8 +17,8 @@ namespace OrderElimination.AbilitySystem
         [OnInspectorInit]
         private void OnInspectorInit()
         {
-            if (_specifiedCharacters == null) _specifiedCharacters = new();
-            if (_specifiedStructures == null) _specifiedStructures = new();
+            //if (_specifiedCharacters == null) _specifiedCharacters = new();
+            //if (_specifiedStructures == null) _specifiedStructures = new();
         }
         #endregion
 
