@@ -1,5 +1,4 @@
 using Cysharp.Threading.Tasks;
-using DefaultNamespace;
 using DG.Tweening;
 using OrderElimination;
 using OrderElimination.AbilitySystem;
@@ -7,33 +6,45 @@ using OrderElimination.AbilitySystem.Animations;
 using OrderElimination.Infrastructure;
 using OrderElimination.Utils;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using VContainer;
 
-public class BattleEntityView : MonoBehaviour
+public class BattleEntityView : SerializedMonoBehaviour
 {
+    [HideInInspector, SerializeField]
+    private float _iconTargetSize = 1.9f;
+
     [Title("Components")]
     [SerializeField]
     private SpriteRenderer _renderer;
-    [SerializeField]
-    private Transform _floatingNumbersPosition;
+
+    //[SerializeField]
+    //private Transform _floatingNumbersPosition;
+
     [SerializeField]
     private Transform _appliedEffectsPosition;
 
-    [HideInInspector, SerializeField]
-    private float _iconTargetSize = 1.9f;
     [Title("Parameters")]
     [SerializeField]
     private bool _showFloatingNumbers = true;
+
+    [ShowIf(nameof(_showFloatingNumbers))]
+    [ShowInInspector, OdinSerialize]
+    private TextEmitterContext _floatingNumbersPreset = TextEmitterContext.Default;
+
     [ShowIf(nameof(_showFloatingNumbers))]
     [SerializeField]
     private bool _roundFloatingNumbers = true;
-    [ShowIf("@" + nameof(_showFloatingNumbers) + "&&" + nameof(_roundFloatingNumbers))]
+
+    [ShowIf("@" + nameof(_showFloatingNumbers))]
+    [EnableIf(nameof(_roundFloatingNumbers))]
     [SerializeField]
     private RoundingOption _roundingMode;
+
 
     private BattleMapView _battleMapView;
     private IParticlesPool _particlesPool;
@@ -182,12 +193,16 @@ public class BattleEntityView : MonoBehaviour
 
         var strength = Mathf.InverseLerp(0, 200, damageValue);
         var shake = Mathf.Lerp(0, 0.5f, strength);
-        var position = _floatingNumbersPosition.position;
         float roundedDamage = MathExtensions.Round(damageValue, _roundingMode);
         if (_roundFloatingNumbers)
             damageValue = roundedDamage;
+        var damageText = _floatingNumbersPreset;
+        damageText.Text = $"{damageValue}";
+        damageText.TextColor = Color.red;
+        damageText.Origin += transform.position;
         if (_showFloatingNumbers)
-                _textEmitter.Emit($"{damageValue}", Color.red, position, new Vector2(0.5f, 0.5f));
+            _textEmitter.Emit(damageText);
+                //_textEmitter.Emit($"{damageValue}", Color.red, position, new Vector2(0.5f, 0.5f));
         if (!BattleEntity.IsDisposedFromBattle)
             Shake(shake, shake, 1, 10);
     }
@@ -212,8 +227,7 @@ public class BattleEntityView : MonoBehaviour
         _healthCash = 0;
         _armorCash = 0;
 
-        var position = _floatingNumbersPosition.position;
-        var offset = Vector3.up * 0.25f;
+        var statsOffset = Vector3.up * 0.25f;
         if (_showFloatingNumbers)
         {
             if (_roundFloatingNumbers)
@@ -221,8 +235,18 @@ public class BattleEntityView : MonoBehaviour
                 armorValue = MathExtensions.Round(armorValue, _roundingMode);
                 healthValue = MathExtensions.Round(healthValue, _roundingMode);
             }
-            _textEmitter.Emit($"+{armorValue}", Color.cyan, position + offset, new Vector2(0.5f, 0.5f), duration: 1);
-            _textEmitter.Emit($"+{healthValue}", Color.green, position - offset, new Vector2(0.5f, 0.5f), duration: 1);
+            var healthText = _floatingNumbersPreset;
+            healthText.Text = $"+{healthValue}";
+            healthText.TextColor = Color.green;
+            healthText.Origin += transform.position - statsOffset;
+
+            var armorText = _floatingNumbersPreset;
+            armorText.Text = $"+{armorValue}";
+            armorText.TextColor = Color.cyan;
+            armorText.Origin += transform.position + statsOffset;
+
+            _textEmitter.Emit(healthText);
+            _textEmitter.Emit(armorText);
         }
         //Shake(0, 0.07f, 1.5f, 3);
     }

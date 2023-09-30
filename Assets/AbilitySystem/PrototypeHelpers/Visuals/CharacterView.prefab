@@ -162,10 +162,118 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0450ed31a59471447ac250bf7d0df458, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _floatingNumbersPreset
+      Entry: 7
+      Data: OrderElimination.Utils.TextEmitterContext, Assembly-CSharp
+    - Name: Text
+      Entry: 1
+      Data: New text
+    - Name: FontSize
+      Entry: 4
+      Data: 1
+    - Name: TextColor
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: OutlineWidth
+      Entry: 4
+      Data: 0
+    - Name: OutlineColor
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Origin
+      Entry: 7
+      Data: UnityEngine.Vector3, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0.3
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Offset
+      Entry: 7
+      Data: UnityEngine.Vector3, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0.5
+    - Name: 
+      Entry: 4
+      Data: 0.5
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: OffsetMoveEase
+      Entry: 3
+      Data: 6
+    - Name: AppearTime
+      Entry: 4
+      Data: 0.1
+    - Name: HoldTime
+      Entry: 4
+      Data: 0.5
+    - Name: DisappearTime
+      Entry: 4
+      Data: 0.3
+    - Name: AppearEase
+      Entry: 3
+      Data: 33
+    - Name: DisappearEase
+      Entry: 3
+      Data: 33
+    - Name: 
+      Entry: 8
+      Data: 
+  _iconTargetSize: 1.6
   _renderer: {fileID: 7729018672302439658}
   _floatingNumbersPosition: {fileID: 3841950148003955969}
   _appliedEffectsPosition: {fileID: 4506012941013057830}
-  _iconTargetSize: 1.6
   _showFloatingNumbers: 1
   _roundFloatingNumbers: 1
   _roundingMode: 0

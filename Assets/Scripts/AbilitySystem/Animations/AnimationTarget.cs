@@ -7,7 +7,8 @@ namespace OrderElimination.AbilitySystem.Animations
     {
         Target,
         Caster,
-        CellGroup
+        CellGroup,
+        //WorldPosition
     }
 
     public static class AnimationTargetHelpers
