@@ -63,6 +63,13 @@ namespace GameInventory
         }
 
         [Button]
+        private void AddItemByData(ItemData itemData)
+        {
+            _lastItem = ItemFactory.Create(itemData);
+            _inventoryModel.AddItem(_lastItem);
+        }
+
+        [Button]
         public void Clear()
         {
             foreach (var item in _inventoryModel.GetItems())

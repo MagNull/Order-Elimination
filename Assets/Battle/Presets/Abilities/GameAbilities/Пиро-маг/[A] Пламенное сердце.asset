@@ -131,8 +131,8 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 7
-      Data: 6|OrderElimination.AbilitySystem.TargetRelativeCellSelector, Assembly-CSharp
-    - Name: RelativeToTargetOffsets
+      Data: 6|OrderElimination.AbilitySystem.CasterRelativeCellSelector, Assembly-CSharp
+    - Name: RelativeToCasterOffsets
       Entry: 7
       Data: 7|OrderElimination.Infrastructure.DistanceFromPointPattern, Assembly-CSharp
     - Name: UseSquareDistance
@@ -1049,6 +1049,12 @@ MonoBehaviour:
     - Name: ParticleType
       Entry: 3
       Data: 2
+    - Name: RemapAnimationTime
+      Entry: 5
+      Data: false
+    - Name: RemappedTime
+      Entry: 4
+      Data: 0
     - Name: SpawnAt
       Entry: 3
       Data: 1
@@ -1081,12 +1087,6 @@ MonoBehaviour:
       Data: 0
     - Name: FacingToCell
       Entry: 3
-      Data: 0
-    - Name: RemapAnimationTime
-      Entry: 5
-      Data: false
-    - Name: RemappedTime
-      Entry: 4
       Data: 0
     - Name: _animationLoops
       Entry: 3
