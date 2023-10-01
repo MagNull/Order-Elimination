@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using OrderElimination.AbilitySystem.UI;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
@@ -18,12 +20,14 @@ namespace OrderElimination.AbilitySystem
         public bool ShowTrajectoryWhenTargeting { get; }
         public bool ShowPatternRange { get; }
 
-        public IReadOnlyDictionary<string, IContextValueGetter> CustomParameters { get; } //Range, etc. for manual display
+        public bool HideAutoParameters { get; }
+        public IReadOnlyList<CustomViewParameter> CustomParameters { get; } //Range, etc. for manual display
 
         public ActiveAbilityView(
+            string name, Sprite icon, string description,
             IReadOnlyDictionary<int, Color> groupColors,
-            IReadOnlyDictionary<string, IContextValueGetter> customParameters,
-            string name, Sprite icon, string description, 
+            IEnumerable<CustomViewParameter> customParameters,
+            bool hideAutoParameters,
             bool hideInCharacterDescription,
             bool showCrosshair,
             bool showTrajectory,
@@ -33,7 +37,8 @@ namespace OrderElimination.AbilitySystem
             Icon = icon;
             Description = description ?? "";
             TargetGroupsHighlightColors = groupColors;
-            CustomParameters = customParameters;
+            HideAutoParameters = hideAutoParameters;
+            CustomParameters = customParameters.ToList();
             HideInCharacterDescription = hideInCharacterDescription;
             ShowCrosshairWhenTargeting = showCrosshair;
             ShowTrajectoryWhenTargeting = showTrajectory;

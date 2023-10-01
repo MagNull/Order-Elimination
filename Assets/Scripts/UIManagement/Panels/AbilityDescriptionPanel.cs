@@ -46,43 +46,45 @@ namespace UIManagement
 
             foreach (var p in abilityData.View.CustomParameters)
             {
-                var value = p.Value.GetSimplifiedFormula(calculationContext);
-                parameters.Add(new HumanValue(p.Key, value));
+                var value = p.Value.ToFormatString(calculationContext);
+                parameters.Add(new HumanValue(p.Name, value));
             }
 
-            foreach (var d in abilityData.GameRepresentation.DamageRepresentations)
+            if (!abilityData.View.HideAutoParameters)
             {
-                var size = d.UnprocessedDamageSize.GetSimplifiedFormula(calculationContext);
-                parameters.Add(
-                    new("Урон", $"{size} x {d.TotalRepetitions}"));
-                if (d.UnprocessedDamageAction.ArmorMultiplier != 1)
-                    parameters.Add(
-                        new("Урон броне", d.UnprocessedDamageAction.ArmorMultiplier, ValueUnits.Multiplier));
-                if (d.UnprocessedDamageAction.HealthMultiplier != 1)
-                    parameters.Add(
-                        new("Урон здоровью", d.UnprocessedDamageAction.HealthMultiplier, ValueUnits.Multiplier));
-                var accuracy = d.UnprocessedAccuracySize.GetInPercentOrSimplify(calculationContext);
-                parameters.Add(new("Точность", accuracy));
-            }
-
-            foreach (var h in abilityData.GameRepresentation.HealRepresentations)
-            {
-                var size = h.UnprocessedHealSize.GetSimplifiedFormula(calculationContext);
-                var healName = h.UnprocessedHealAction.HealPriority switch
+                foreach (var d in abilityData.GameRepresentation.DamageRepresentations)
                 {
-                    LifeStatPriority.ArmorOnly => "Броня",
-                    LifeStatPriority.HealthOnly => "Здоровье",
-                    _ => "Восстановление"
-                };
-                parameters.Add(new(healName, $"{size} x {h.TotalRepetitions}"));
-                if (h.UnprocessedHealAction.ArmorMultiplier != 1)
+                    var size = d.UnprocessedDamageSize.GetSimplifiedFormula(calculationContext);
                     parameters.Add(
-                        new("Броне", h.UnprocessedHealAction.ArmorMultiplier, ValueUnits.Multiplier));
-                if (h.UnprocessedHealAction.HealthMultiplier != 1)
-                    parameters.Add(
-                        new("Здоровью", h.UnprocessedHealAction.HealthMultiplier, ValueUnits.Multiplier));
-            }
+                        new("Урон", $"{size} x {d.TotalRepetitions}"));
+                    if (d.UnprocessedDamageAction.ArmorMultiplier != 1)
+                        parameters.Add(
+                            new("Урон броне", d.UnprocessedDamageAction.ArmorMultiplier, ValueUnits.Multiplier));
+                    if (d.UnprocessedDamageAction.HealthMultiplier != 1)
+                        parameters.Add(
+                            new("Урон здоровью", d.UnprocessedDamageAction.HealthMultiplier, ValueUnits.Multiplier));
+                    var accuracy = d.UnprocessedAccuracySize.GetInPercentOrSimplify(calculationContext);
+                    parameters.Add(new("Точность", accuracy));
+                }
 
+                foreach (var h in abilityData.GameRepresentation.HealRepresentations)
+                {
+                    var size = h.UnprocessedHealSize.GetSimplifiedFormula(calculationContext);
+                    var healName = h.UnprocessedHealAction.HealPriority switch
+                    {
+                        LifeStatPriority.ArmorOnly => "Броня",
+                        LifeStatPriority.HealthOnly => "Здоровье",
+                        _ => "Восстановление"
+                    };
+                    parameters.Add(new(healName, $"{size} x {h.TotalRepetitions}"));
+                    if (h.UnprocessedHealAction.ArmorMultiplier != 1)
+                        parameters.Add(
+                            new("Броне", h.UnprocessedHealAction.ArmorMultiplier, ValueUnits.Multiplier));
+                    if (h.UnprocessedHealAction.HealthMultiplier != 1)
+                        parameters.Add(
+                            new("Здоровью", h.UnprocessedHealAction.HealthMultiplier, ValueUnits.Multiplier));
+                }
+            }
             _abilityParameters.Clear();
             foreach (var parameter in parameters.Distinct())
                 //.Where(p => p.Value.Length < 20))

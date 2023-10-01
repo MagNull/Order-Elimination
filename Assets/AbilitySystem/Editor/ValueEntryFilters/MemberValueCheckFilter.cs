@@ -1,6 +1,7 @@
 ﻿using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using System;
+using Unity.VisualScripting;
 
 namespace OrderElimination.Editor
 {
@@ -11,9 +12,6 @@ namespace OrderElimination.Editor
             Equals,
             NotEquals
         }
-
-        [ShowInInspector]
-        public MemberTypeOption MemberType { get; set; }
 
         [ShowInInspector]
         public string MemberName { get; set; }
@@ -30,23 +28,8 @@ namespace OrderElimination.Editor
                 throw new ArgumentNullException();
             if (entry.MemberValue == null) 
                 return false;
-            var type = entry.MemberValue.GetType();
-            object value;
-            if (MemberType == MemberTypeOption.Field)
-            {
-                var field = type.GetField(MemberName);
-                if (field == null)
-                    throw new ArgumentException($"Field with name {MemberName} was not found in {type.Name}");
-                value = field.GetValue(entry.MemberValue);
-            }
-            else if (MemberType == MemberTypeOption.Property)
-            {
-                var property = type.GetProperty(MemberName); 
-                if (property == null)
-                    throw new ArgumentException($"Property with name {MemberName} was not found in {type.Name}");
-                value = property.GetValue(entry.MemberValue);
-            }
-            else throw new NotImplementedException();
+            if (!entry.MemberValue.HasFieldOrPropertySequence(MemberName, out var memberType, out var value))
+                throw new ArgumentException($"Field or Property with name {MemberName} was not found.");
             return ValueComapsion switch
             {
                 CompareOption.Equals => value.Equals(Value),

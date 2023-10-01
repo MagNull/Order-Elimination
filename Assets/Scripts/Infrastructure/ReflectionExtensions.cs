@@ -1,5 +1,4 @@
 ﻿using OrderElimination.AbilitySystem;
-using OrderElimination.AbilitySystem.Animations;
 using Sirenix.Serialization;
 using Sirenix.Utilities;
 using System;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 namespace OrderElimination.Infrastructure
 {
@@ -236,6 +236,76 @@ namespace OrderElimination.Infrastructure
                 membersOfType.AddRange(GetAllSerializedMembersOfType(e, seekingType, stopAtInstance));
             }
             return membersOfType;
+        }
+
+        public static bool HasFieldOrProperty(
+            this object owner, string memberName,
+            out Type memberType, out object memberValue)
+        {
+            if (owner == null)
+                throw new ArgumentNullException();
+            var type = owner.GetType();
+            var field = type.GetField(memberName);
+            var property = type.GetProperty(memberName);
+            if (field != null)
+            {
+                memberType = field.FieldType;
+                memberValue = field.GetValue(owner);
+                return true;
+            }
+            if (property != null)
+            {
+                memberType = property.PropertyType;
+                memberValue = property.GetValue(owner);
+                return true;
+            }
+            memberType = null;
+            memberValue = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if sequence of field or property members starting from owner exists.
+        /// Member names are separated by ".".
+        /// </summary>
+        /// <param name="owner"></param>
+        /// <param name="memberNamesSequence"></param>
+        /// <param name="lastMemberType"></param>
+        /// <param name="lastMemberValue"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="NullReferenceException"></exception>
+        public static bool HasFieldOrPropertySequence(
+            this object owner, string memberNamesSequence,
+            out Type lastMemberType, out object lastMemberValue)
+        {
+            if (owner == null)
+                throw new ArgumentNullException();
+            var currentType = owner.GetType();
+            var currentValue = owner;
+            var memberNames = memberNamesSequence.Split('.');
+            foreach (var member in memberNames)
+            {
+                if (member == string.Empty)
+                    continue;
+                if (currentValue == null)
+                    throw new NullReferenceException(
+                        $"Unable to get next parameter from {currentType.Name} because it's value is null.");
+                if (currentValue.HasFieldOrProperty(member, out var pType, out var pValue))
+                {
+                    currentType = pType;
+                    currentValue = pValue;
+                }
+                else
+                {
+                    lastMemberType = null;
+                    lastMemberValue = null;
+                    return false;
+                }
+            }
+            lastMemberType = currentType;
+            lastMemberValue = currentValue;
+            return true;
         }
 
         public class SerializedMember
