@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using OrderElimination;
 using OrderElimination.AbilitySystem;
 using UnityEngine;
 
@@ -18,20 +16,21 @@ namespace GameInventory.Items
 
         public override void OnTook(AbilitySystemActor abilitySystemActor)
         {
-            foreach (var swapPair in _abilitySwapTable)
+            var abilitiesIndeces = new Dictionary<ActiveAbilityRunner, int>();
+            for (var i = 0; i < abilitySystemActor.ActiveAbilities.Count; i++)
             {
-                var ability =
-                    abilitySystemActor.ActiveAbilities.FirstOrDefault(ab =>
-                        ab.AbilityData.BasedBuilder == swapPair.Key);
-                if (ability == null)
+                abilitiesIndeces.Add(abilitySystemActor.ActiveAbilities[i], i);
+            }
+            foreach (var runner in abilitySystemActor.ActiveAbilities)
+            {
+                var builder = runner.AbilityData.BasedBuilder;
+                if (_abilitySwapTable.ContainsKey(builder))
                 {
-                    Logging.LogWarning("Try swap ability "+ ability.AbilityData.View.Name + ". There's no such ability");
-                    return;
+                    abilitySystemActor.RemoveActiveAbility(runner);
+                    abilitySystemActor.InsertActiveAbility(
+                        abilitiesIndeces[runner],
+                        new ActiveAbilityRunner(AbilityFactory.CreateActiveAbility(_abilitySwapTable[builder]), AbilityProvider.Self));
                 }
-                //TODO(Денис): Implement ability swap
-                abilitySystemActor.RemoveActiveAbility(ability);
-                abilitySystemActor.GrantActiveAbility(
-                    new ActiveAbilityRunner(AbilityFactory.CreateActiveAbility(swapPair.Value), AbilityProvider.Self));
             }
         }
     }

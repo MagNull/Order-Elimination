@@ -85,7 +85,7 @@ namespace UIManagement
             var gamecharacter = entitiesBank.GetBasedCharacter(entity);
             _characterName.text = gamecharacter.CharacterData.Name;
             _characterAvatar.sprite = gamecharacter.CharacterData.Avatar;
-            UpdateBattleStats(entity.BattleStats);
+            UpdateBattleStats(entity.BattleStats, gamecharacter.CharacterStats);
             var activeAbilities = entity
                 .ActiveAbilities
                 .Select(runner => runner.AbilityData)
@@ -108,6 +108,7 @@ namespace UIManagement
 
         private void UpdateBattleStats(IReadOnlyGameCharacterStats stats)
         {
+            ResetStatsColor();
             if (_characterStats.Count != 5)
                 Logging.LogException(new System.InvalidOperationException());
             EnumExtensions
@@ -116,14 +117,21 @@ namespace UIManagement
                 .ForEach(stat => UpdateStat(stat, stats[stat]));
         }
 
-        private void UpdateBattleStats(IBattleStats stats)
+        private void UpdateBattleStats(IBattleStats stats, IReadOnlyGameCharacterStats defaultStats)
         {
+            ResetStatsColor();
             if (_characterStats.Count != 5)
                 Logging.LogException(new System.InvalidOperationException());
-            EnumExtensions
+            foreach (var stat in EnumExtensions
                 .GetValues<BattleStat>()
-                .Where(stat => _statsElementsIdMapping.ContainsKey(stat))
-                .ForEach(stat => UpdateStat(stat, stats[stat].ModifiedValue));
+                .Where(stat => _statsElementsIdMapping.ContainsKey(stat)))
+            {
+                UpdateStat(stat, stats[stat].ModifiedValue);
+                if (stats[stat].ModifiedValue > defaultStats[stat])
+                    _characterStats[_statsElementsIdMapping[stat]].SetValueColor(Color.green);
+                if (stats[stat].ModifiedValue < defaultStats[stat])
+                    _characterStats[_statsElementsIdMapping[stat]].SetValueColor(Color.red);
+            }
         }
 
         private void UpdateStat(BattleStat stat, float value)
@@ -197,6 +205,11 @@ namespace UIManagement
         {
             _characterInventoryPresenter.enabled = true;
             _characterInventoryPresenter.InitInventoryModel(inventory);
+        }
+
+        private void ResetStatsColor()
+        {
+            _characterStats.ForEach(stat => stat.SetValueColor(Color.white));
         }
     }
 }

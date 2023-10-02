@@ -13,6 +13,7 @@ namespace UIManagement
     public abstract class UIPanel : MonoBehaviour, IUIPanel
     {
         protected bool _isInitialized = false;
+        [Header("UI Panel")]
         [SerializeField] protected TextMeshProUGUI _titleText;
         [SerializeField] protected Button _closingButton;
         [SerializeField] protected bool _isClosingByClickingOutside = true;

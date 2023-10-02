@@ -29,8 +29,7 @@ namespace OrderElimination.AbilitySystem
                 Logging.LogException( new ArgumentOutOfRangeException("Position is outside of the map borders."));
             var gameCharacter = GameCharactersFactory.CreateGameCharacter(characterTemplate);
             var entity = _entitiesFactory.Value.CreateBattleCharacter(gameCharacter, side, position).Model;
-            entity.PassiveAbilities.ForEach(a => a.Activate(battleContext, entity));
-            //Activate passive abilities
+            //entity.PassiveAbilities.ForEach(a => a.Activate(battleContext, entity));
             return entity;
         }
 
@@ -44,9 +43,9 @@ namespace OrderElimination.AbilitySystem
             if (!battleMap.CellRangeBorders.Contains(position))
                 Logging.LogException(new ArgumentOutOfRangeException("Position is outside of the map borders."));
             if (battleContext.EntitiesBank.ContainsCharacter(gameCharacter))
-                throw new InvalidOperationException("Passed GameCharacter already exists in battle.");
+                throw new InvalidOperationException("GameCharacter already exists in battle.");
             var entity = _entitiesFactory.Value.CreateBattleCharacter(gameCharacter, side, position).Model;
-            entity.PassiveAbilities.ForEach(a => a.Activate(battleContext, entity));
+            //entity.PassiveAbilities.ForEach(a => a.Activate(battleContext, entity));
             return entity;
         }
 
@@ -60,7 +59,7 @@ namespace OrderElimination.AbilitySystem
             if (!battleMap.CellRangeBorders.Contains(position))
                 Logging.LogException( new ArgumentOutOfRangeException("Position is outside of the map borders."));
             var entity = _entitiesFactory.Value.CreateBattleStructure(structureData, side, position).Model;
-            entity.PassiveAbilities.ForEach(a => a.Activate(battleContext, entity));
+            //entity.PassiveAbilities.ForEach(a => a.Activate(battleContext, entity));
             return entity;
         }
     }
