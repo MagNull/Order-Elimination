@@ -68,7 +68,8 @@ namespace RoguelikeMap.SquadInfo
                 throw new ArgumentException("Is not valid point to attack");
             }
 
-            StartAttack(battlePointModel.Enemies, battlePointModel.Scenario, battlePointModel.ItemsDropProbability);
+            StartAttack(battlePointModel.Enemies, battlePointModel.Scenario, 
+                battlePointModel.BattleRules, battlePointModel.ItemsDropProbability);
         }
 
         private void StartAttackByEventPoint(BattleNode battleNode)
@@ -79,11 +80,13 @@ namespace RoguelikeMap.SquadInfo
                 throw new ArgumentException("Is not valid point to attack");
             }
 
-            StartAttack(battleNode.Enemies, battleNode.Scenario, battleNode.ItemsDropProbability);
+            StartAttack(battleNode.Enemies, battleNode.Scenario, 
+                battleNode.BattleRules ,battleNode.ItemsDropProbability);
         }
 
         private void StartAttack(
-            IEnumerable<IGameCharacterTemplate> enemies, BattleScenario scenario, Dictionary<ItemData, float> items)
+            IEnumerable<IGameCharacterTemplate> enemies, BattleScenario scenario, BattleRulesPreset battleRules, 
+            Dictionary<ItemData, float> items)
         {
             Debug.Log("StartAttack");
             _squadMembersPanel.OnSelected -= WereSelectedMembers;
@@ -97,6 +100,7 @@ namespace RoguelikeMap.SquadInfo
                     .ToDictionary(x => x.Key, x => x.Value);
             mediator.Register("items", winItems);
             mediator.Register("point index", _target.Index);
+            mediator.Register("battle rules", battleRules);
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();
         }
