@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using OrderElimination.AbilitySystem.UI;
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,31 +37,45 @@ namespace OrderElimination.AbilitySystem
         public string Description { get; private set; } = "";
 
         [TabGroup("MainTabs", "Visuals"), PropertyOrder(-99)]
-        [ShowInInspector, OdinSerialize, DictionaryDrawerSettings(KeyLabel = "Group", ValueLabel = "Highlight color")]
+        [TitleGroup("MainTabs/Visuals/Battle Visuals", BoldTitle = true)]
+        [DictionaryDrawerSettings(KeyLabel = "Group", ValueLabel = "Highlight color")]
+        [ShowInInspector, OdinSerialize]
         private Dictionary<int, Color> _cellGroupsHighlightColors = new();
         public IReadOnlyDictionary<int, Color> CellGroupsHighlightColors => _cellGroupsHighlightColors;
 
         [TabGroup("MainTabs", "Visuals"), PropertyOrder(4)]
+        [TitleGroup("MainTabs/Visuals/Battle Visuals")]
         [ShowInInspector, OdinSerialize]
         public bool ShowCrosshairWhenTargeting { get; private set; } = true;
 
         [TabGroup("MainTabs", "Visuals"), PropertyOrder(5)]
+        [TitleGroup("MainTabs/Visuals/Battle Visuals")]
         [ShowInInspector, OdinSerialize]
         public bool ShowTrajectoryWhenTargeting { get; private set; } = false;
 
         [TabGroup("MainTabs", "Visuals"), PropertyOrder(6)]
+        [TitleGroup("MainTabs/Visuals/Battle Visuals")]
         [ShowInInspector, OdinSerialize]
         public bool ShowPatternRange { get; private set; } = true;
 
-        [TabGroup("MainTabs", "Visuals"), PropertyOrder(10)]
+        [TabGroup("MainTabs", "Visuals"), PropertyOrder(7)]
+        [TitleGroup("MainTabs/Visuals/Description Visuals", BoldTitle = true)]
         [ShowInInspector, OdinSerialize]
         public bool HideInCharacterDescription { get; private set; }
 
-        [TabGroup("MainTabs", "Visuals"), PropertyOrder(10)]
-        [DictionaryDrawerSettings(KeyLabel = "Parameter Name", ValueLabel = "Value")]
+        [TabGroup("MainTabs", "Visuals"), PropertyOrder(8)]
+        [TitleGroup("MainTabs/Visuals/Description Visuals")]
         [ShowInInspector, OdinSerialize]
-        private Dictionary<string, IContextValueGetter> _customParameters = new();
-        public IReadOnlyDictionary<string, IContextValueGetter> CustomParameters => _customParameters;
+        public bool HideAutoParameters { get; private set; } = false;
+
+        [TabGroup("MainTabs", "Visuals"), PropertyOrder(10)]
+        [TitleGroup("MainTabs/Visuals/Description Visuals")]
+        [ListDrawerSettings(ShowFoldout = false)]
+        [TableList(AlwaysExpanded = true)]
+        //[DictionaryDrawerSettings(KeyLabel = "Parameter Name", ValueLabel = "Value")]
+        [ShowInInspector, OdinSerialize]
+        private List<CustomViewParameter> _customParameters = new();
+        public IReadOnlyList<CustomViewParameter> CustomParameters => _customParameters;
 
         [TabGroup("MainTabs", "Game Rules", Order = 1), PropertyOrder(-98)]
         [DictionaryDrawerSettings(KeyLabel = "Energy Point", ValueLabel = "Amount")]

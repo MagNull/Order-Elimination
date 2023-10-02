@@ -145,7 +145,7 @@ namespace OrderElimination.AbilitySystem
             bool IsPathPositionAvailable(Vector2Int position)
             {
                 return PathConditions == null 
-                    || PathConditions.AllMet(battleContext, movingEntity, position);
+                    || PathConditions.AllMet(battleContext, movingEntity, position, cellGroups);
             }
         }
     }

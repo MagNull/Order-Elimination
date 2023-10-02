@@ -17,6 +17,11 @@ namespace GameInventory
         {
             _item = item;
         }
+        
+        public void SetItem(Item item)
+        {
+            _item = item;
+        }
     }
 
     public interface IReadOnlyCell

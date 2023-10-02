@@ -16,7 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 21300000, guid: c2277963b355c474aaea66abe3cfc06b, type: 3}
+    - {fileID: 21300000, guid: e63d77b350f5a5f4683e80a03f775ccb, type: 3}
     - {fileID: 11400000, guid: da45139bca63cba4090491576e225099, type: 2}
     - {fileID: 11400000, guid: ecc63ab2f2245de40b4e4f584fed62ef, type: 2}
     SerializedBytesString: 
@@ -42,6 +42,9 @@ MonoBehaviour:
     - Name: ShowTrajectoryWhenTargeting
       Entry: 5
       Data: false
+    - Name: ShowPatternRange
+      Entry: 5
+      Data: true
     - Name: HideInCharacterDescription
       Entry: 5
       Data: false
@@ -128,8 +131,8 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 7
-      Data: 6|OrderElimination.AbilitySystem.TargetRelativeCellSelector, Assembly-CSharp
-    - Name: RelativeToTargetOffsets
+      Data: 6|OrderElimination.AbilitySystem.CasterRelativeCellSelector, Assembly-CSharp
+    - Name: RelativeToCasterOffsets
       Entry: 7
       Data: 7|OrderElimination.Infrastructure.DistanceFromPointPattern, Assembly-CSharp
     - Name: UseSquareDistance
@@ -1046,6 +1049,12 @@ MonoBehaviour:
     - Name: ParticleType
       Entry: 3
       Data: 2
+    - Name: RemapAnimationTime
+      Entry: 5
+      Data: false
+    - Name: RemappedTime
+      Entry: 4
+      Data: 0
     - Name: SpawnAt
       Entry: 3
       Data: 1
@@ -1078,12 +1087,6 @@ MonoBehaviour:
       Data: 0
     - Name: FacingToCell
       Entry: 3
-      Data: 0
-    - Name: RemapAnimationTime
-      Entry: 5
-      Data: false
-    - Name: RemappedTime
-      Entry: 4
       Data: 0
     - Name: _animationLoops
       Entry: 3

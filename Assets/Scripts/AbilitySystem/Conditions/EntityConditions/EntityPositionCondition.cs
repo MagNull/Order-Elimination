@@ -23,8 +23,12 @@ namespace OrderElimination.AbilitySystem
 
         public bool IsConditionMet(
             IBattleContext battleContext, AbilitySystemActor askingEntity, AbilitySystemActor entityToCheck)
+            => IsConditionMet(battleContext, askingEntity, entityToCheck);
+
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, AbilitySystemActor entityToCheck, CellGroupsContainer cellGroups)
         {
-            return PositionConditions.AllMet(battleContext, askingEntity, entityToCheck.Position);
+            //TODO: Pass CellGroups
+            return PositionConditions.AllMet(battleContext, askingEntity, entityToCheck.Position, cellGroups);
         }
     }
 }

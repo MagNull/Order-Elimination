@@ -43,12 +43,13 @@ namespace ItemsLibrary
             if (item == null)
                 Logging.LogException( new ArgumentException("Item can't be null."));
             
-            if (!_allItemsIds.Contains(item.Data.Id))
-            {
-                Logging.Log("Item added:" + item.Data.View.Name);
-                _addedItems[item.Data.Type].Add(item.Data.View);
-                _allItemsIds.Add(item.Data.Id);
-            }
+            // if (!_allItemsIds.Contains(item.Data.Id))
+            // {
+            //     Logging.Log("Item added:" + item.Data.View.Name);
+            //     _addedItems[item.Data.Type].Add(item.Data.View);
+            //     _allItemsIds.Add(item.Data.Id);
+            // }
+            Logging.LogWarning("Rework library");
         }
 
         private void AddItem(ItemData data)

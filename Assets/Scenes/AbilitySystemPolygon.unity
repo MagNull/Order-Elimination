@@ -875,7 +875,7 @@ Transform:
   - {fileID: 84768579}
   - {fileID: 1455286360}
   m_Father: {fileID: 543468711}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &538894626
 GameObject:
@@ -939,7 +939,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 276905396}
-  - {fileID: 651251070}
   - {fileID: 926713598}
   - {fileID: 1194000820}
   - {fileID: 929000869}
@@ -1027,7 +1026,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 543468711}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &616019075
 MonoBehaviour:
@@ -1324,268 +1323,6 @@ MonoBehaviour:
   _structurePrefab: {fileID: -5129956471157022677, guid: 55d9908dabb24314289fbae493856d2f, type: 3}
   _charactersParent: {fileID: 272730709}
   _structuresParent: {fileID: 356844999}
---- !u!1 &651251069
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 651251070}
-  - component: {fileID: 651251071}
-  m_Layer: 0
-  m_Name: DefaultAnimationsPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &651251070
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 651251069}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 543468711}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &651251071
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 651251069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd213944b388a8447a54c02a6cd28099, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: _defaultAnimations
-      Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.Animations.DefaultAnimation,
-        Assembly-CSharp],[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
-        Assembly-CSharp]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.Animations.DefaultAnimation,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 1
-    - Name: $v
-      Entry: 7
-      Data: 2|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
-    - Name: PlaySequentially
-      Entry: 5
-      Data: false
-    - Name: WaitForCompletion
-      Entry: 5
-      Data: false
-    - Name: Animations
-      Entry: 7
-      Data: 3|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 4|OrderElimination.AbilitySystem.Animations.DisplayTextAnimation, Assembly-CSharp
-    - Name: Text
-      Entry: 1
-      Data: "\u041F\u0440\u043E\u043C\u0430\u0445"
-    - Name: Color
-      Entry: 7
-      Data: UnityEngine.Color, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 4
-      Data: 0.1273585
-    - Name: 
-      Entry: 4
-      Data: 0.1273585
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: DisplayNear
-      Entry: 3
-      Data: 0
-    - Name: Duration
-      Entry: 4
-      Data: 1.5
-    - Name: OffsetFromTarget
-      Entry: 7
-      Data: UnityEngine.Vector2, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: FloatingOffset
-      Entry: 7
-      Data: UnityEngine.Vector2, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0.5
-    - Name: 
-      Entry: 4
-      Data: 0.5
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 2
-    - Name: $v
-      Entry: 7
-      Data: 5|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
-    - Name: PlaySequentially
-      Entry: 5
-      Data: false
-    - Name: WaitForCompletion
-      Entry: 5
-      Data: false
-    - Name: Animations
-      Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 7|OrderElimination.AbilitySystem.Animations.DisplayTextAnimation, Assembly-CSharp
-    - Name: Text
-      Entry: 1
-      Data: "\u0423\u043A\u043B\u043E\u043D\u0435\u043D\u0438\u0435"
-    - Name: Color
-      Entry: 7
-      Data: UnityEngine.Color, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0.97214967
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 4
-      Data: 0.125490189
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: DisplayNear
-      Entry: 3
-      Data: 0
-    - Name: Duration
-      Entry: 4
-      Data: 1.5
-    - Name: OffsetFromTarget
-      Entry: 7
-      Data: UnityEngine.Vector2, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: FloatingOffset
-      Entry: 7
-      Data: UnityEngine.Vector2, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0.5
-    - Name: 
-      Entry: 4
-      Data: 0.5
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
 --- !u!114 &700708824 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2005745093920114424, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
@@ -1776,7 +1513,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 543468711}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &926713599
 MonoBehaviour:
@@ -1811,6 +1548,9 @@ MonoBehaviour:
     - {fileID: 5869387579307615028, guid: 0cb76fd80f09eb54db9d6c35c7d0f0d1, type: 3}
     - {fileID: 3443483850292592821, guid: 58c863f85c77a364a87adf99b911082a, type: 3}
     - {fileID: 2742454428654191453, guid: b3d5665d81418694dbbdd88f4efd5831, type: 3}
+    - {fileID: 5869387579307615028, guid: 6e760085badf4f34e941b6e094022c70, type: 3}
+    - {fileID: 3443483850292592821, guid: cb1bb9f344869ce48b5d7649e9262365, type: 3}
+    - {fileID: 5869387579307615028, guid: 7b31ae331aa8cee4bbbad7fa01ca1668, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -1839,7 +1579,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 16
+      Data: 19
     - Name: 
       Entry: 7
       Data: 
@@ -2029,6 +1769,42 @@ MonoBehaviour:
     - Name: $v
       Entry: 10
       Data: 16
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 16
+    - Name: $v
+      Entry: 10
+      Data: 17
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 17
+    - Name: $v
+      Entry: 10
+      Data: 18
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 18
+    - Name: $v
+      Entry: 10
+      Data: 19
     - Name: 
       Entry: 8
       Data: 
@@ -2070,7 +1846,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 543468711}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2089,10 +1865,116 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0acbdf579c04a3bb80b1cf633ae0b1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _defaultTextStyle
+      Entry: 7
+      Data: OrderElimination.Utils.TextEmitterContext, Assembly-CSharp
+    - Name: Text
+      Entry: 1
+      Data: New text
+    - Name: FontSize
+      Entry: 4
+      Data: 1
+    - Name: TextColor
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: OutlineWidth
+      Entry: 4
+      Data: 0
+    - Name: OutlineColor
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Origin
+      Entry: 7
+      Data: UnityEngine.Vector3, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Offset
+      Entry: 7
+      Data: UnityEngine.Vector3, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: OffsetMoveEase
+      Entry: 3
+      Data: 32
+    - Name: AppearTime
+      Entry: 4
+      Data: 0.25
+    - Name: HoldTime
+      Entry: 4
+      Data: 1
+    - Name: DisappearTime
+      Entry: 4
+      Data: 0.25
+    - Name: AppearEase
+      Entry: 3
+      Data: 33
+    - Name: DisappearEase
+      Entry: 3
+      Data: 33
+    - Name: 
+      Entry: 8
+      Data: 
   _textPrefab: {fileID: 6609284040560546071, guid: 2274810e135262d4791da7133edd9164, type: 3}
-  _speed: 1
-  _duration: 1.5
-  _delayBetweenSpawn: 0
+  _mininalTimeInterval: 0
 --- !u!114 &929000872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2254,7 +2136,7 @@ MonoBehaviour:
   _battleLoopManager: {fileID: 1031238779}
   _battleMapView: {fileID: 246195458}
   _particlesPool: {fileID: 926713599}
-  _defaultAnimationsPool: {fileID: 651251071}
+  _defaultAnimationsPool: {fileID: 11400000, guid: a6350a0cfc9a6b546a434ca8a4cc829f, type: 2}
   _textEmitter: {fileID: 929000870}
   _spriteEmitter: {fileID: 616019075}
   _soundEffectsPlayer: {fileID: 69947343}
@@ -2293,7 +2175,7 @@ Transform:
   m_Children:
   - {fileID: 246195460}
   m_Father: {fileID: 543468711}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1220687553
 GameObject:
@@ -2707,7 +2589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78bb222200f03dd42a886e82d5c2a528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sideToKill: 2
+  _sideToKill: 1
 --- !u!114 &1893120106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2913,13 +2795,12 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: dc7552cb19317d642ad2af92d805c557, type: 2}
     - {fileID: 11400000, guid: 933b6206675ce6746a6d1d3e377dbe2d, type: 2}
-    - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
+    - {fileID: 11400000, guid: 57a8f17e1a66029478c8f69b521e76f4, type: 2}
     - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
-    - {fileID: 11400000, guid: 8cf61d33b5cc8a442bce0e22ce05a8fc, type: 2}
+    - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
+    - {fileID: 11400000, guid: dc7552cb19317d642ad2af92d805c557, type: 2}
     - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
-    - {fileID: 11400000, guid: 4d83702453d81274b89c1876bee2dabb, type: 2}
     - {fileID: 11400000, guid: 69c2e2c1f1101bb46b8a8894d47d56a7, type: 2}
     - {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
     SerializedBytesString: 
@@ -2956,7 +2837,7 @@ MonoBehaviour:
       Data: 1|OrderElimination.IGameCharacterTemplate[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 3
     - Name: 
       Entry: 10
       Data: 4
@@ -2965,10 +2846,7 @@ MonoBehaviour:
       Data: 5
     - Name: 
       Entry: 10
-      Data: 5
-    - Name: 
-      Entry: 10
-      Data: 6
+      Data: 2
     - Name: 
       Entry: 13
       Data: 
@@ -2977,10 +2855,10 @@ MonoBehaviour:
       Data: 
     - Name: _testScenario
       Entry: 10
-      Data: 7
+      Data: 6
     - Name: _testRules
       Entry: 10
-      Data: 8
+      Data: 7
   _test: 1
 --- !u!4 &1908500043
 Transform:
@@ -3622,6 +3500,10 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 574565093554469805, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
+    - target: {fileID: 1140370928203942616, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -48.359985
+      objectReference: {fileID: 0}
     - target: {fileID: 1960963787419427009, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
       propertyPath: serializationData.Prefab
       value: 
@@ -3632,7 +3514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2005745094331833769, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -100.999985
+      value: -101
       objectReference: {fileID: 0}
     - target: {fileID: 2005745094502167488, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
       propertyPath: m_Camera
@@ -3725,10 +3607,6 @@ PrefabInstance:
     - target: {fileID: 2005745094502167549, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
       propertyPath: m_Name
       value: Battle UI
-      objectReference: {fileID: 0}
-    - target: {fileID: 2479869180623456604, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
-      propertyPath: m_Spacing.y
-      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 3205302136298068938, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
       propertyPath: m_AnchorMax.y

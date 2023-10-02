@@ -50,12 +50,11 @@ namespace OrderElimination.AbilitySystem
 
             async void OnTriggered(ITriggerFireInfo fireInfo)
             {
-                if (CommonConditions != null
-                    && !CommonConditions.AllMet(battleContext, caster))
-                    return;
-                var borders = battleContext.BattleMap.CellRangeBorders;
                 var cellGroups = GroupDistributor.DistributeSelection(
                     battleContext, caster, new Vector2Int[0]);
+                if (CommonConditions != null
+                    && !CommonConditions.AllMet(battleContext, caster, cellGroups))
+                    return;
                 var executionContext = new AbilityExecutionContext(battleContext, caster, cellGroups);
                 foreach (var i in Instructions)
                 {

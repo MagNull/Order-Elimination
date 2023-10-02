@@ -51,8 +51,8 @@ public class BattleLoopManager : MonoBehaviour
         battleInitializer.InitiateBattle();
         _activeSide = Rules.TurnPriority.GetStartingSide();
         battleInitializer.StartScenario(scenario);
-        _entitiesBank.GetActiveEntities()
-            .ForEach(e => e.PassiveAbilities.ForEach(a => a.Activate(_battleContext, e)));
+        //_entitiesBank.GetActiveEntities()
+        //    .ForEach(e => e.PassiveAbilities.ForEach(a => a.Activate(_battleContext, e)));
         StartNewTurn(ActiveSide);
         //ActivatePassiveAbilities
         BattleStarted?.Invoke();

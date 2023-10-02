@@ -53,6 +53,7 @@ namespace OrderElimination.AbilitySystem
 
             void Trigger()
             {
+                //Logging.LogError($"Timer trigger activated on {activationSide} fired on {trigger.OperatingContext.ActiveSide}. PassedRounds: {passedRounds}");
                 trigger.FireTrigger(new TimerTriggerFireInfo(trigger, passedRounds));
             }
 

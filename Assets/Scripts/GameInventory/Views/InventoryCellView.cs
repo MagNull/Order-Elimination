@@ -1,4 +1,5 @@
 using System;
+using GameInventory.Items;
 using OrderElimination;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -21,10 +22,21 @@ namespace GameInventory.Views
 
         public IReadOnlyCell Model => _model;
 
-        public virtual void Init(IReadOnlyCell newCell)
+        public void Init(IReadOnlyCell newCell)
         {
             _model = newCell;
-            _iconRenderer.sprite = _model.Item.Data.View.Icon;
+            UpdateView();
+        }
+        
+        public virtual void UpdateView()
+        {
+            if(_model.Item is EmptyItem)
+                Disable();
+            else
+            {
+                _iconRenderer.sprite = _model.Item.Data.View.Icon;
+                Enable();
+            }
         }
 
         public void Enable()

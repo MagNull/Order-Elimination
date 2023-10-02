@@ -11,11 +11,15 @@ namespace OrderElimination.AbilitySystem
     public interface ICellCondition : ICloneable<ICellCondition>
     {
         public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int positionToCheck);
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int positionToCheck, CellGroupsContainer cellGroups);
 
         //For cluster-check optimizations
-        public virtual Vector2Int[] FilterMany(IBattleContext battleContext, AbilitySystemActor askingEntity, IEnumerable<Vector2Int> positions)
+        public Vector2Int[] FilterMany(IBattleContext battleContext, AbilitySystemActor askingEntity, IEnumerable<Vector2Int> positions)
+            => FilterMany(battleContext, askingEntity, positions, null);
+
+        public virtual Vector2Int[] FilterMany(IBattleContext battleContext, AbilitySystemActor askingEntity, IEnumerable<Vector2Int> positions, CellGroupsContainer cellGroups)
         {
-            return positions.Where(p => IsConditionMet(battleContext, askingEntity, p)).ToArray();
+            return positions.Where(p => IsConditionMet(battleContext, askingEntity, p, cellGroups)).ToArray();
         }
     }
 }

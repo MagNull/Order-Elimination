@@ -2,10 +2,6 @@
 using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem.Animations
@@ -14,14 +10,16 @@ namespace OrderElimination.AbilitySystem.Animations
     {
         Miss = 1,
         Evasion = 2,
+        //DamageReceived = 3,
+        //HealthRecovery = 4,
+        //ArmorRecovery = 5,
         //Walk,
-        //Evasion,
         //CloakIn
         //CloakOut
-        //Damaged
     }
 
-    public class DefaultAnimationsPool : SerializedMonoBehaviour
+    [CreateAssetMenu(fileName = "new Animations Pool", menuName = "OrderElimination/AbilitySystem/Animations/Animations Pool")]
+    public class DefaultAnimationsPool : SerializedScriptableObject
     {
         [ShowInInspector, OdinSerialize]
         private Dictionary<DefaultAnimation, IAbilityAnimation> _defaultAnimations = new();
@@ -33,7 +31,8 @@ namespace OrderElimination.AbilitySystem.Animations
         public IAbilityAnimation GetDefaultAnimation(DefaultAnimation animation)
         {
             if (!IsAnimationAssigned(animation))
-                Logging.LogException( new NotImplementedException($"Default animation of {animation} was not found."));
+                Logging.LogException(
+                    new NotImplementedException($"Default animation of {animation} was not found."));
             return _defaultAnimations[animation];
         }
     }

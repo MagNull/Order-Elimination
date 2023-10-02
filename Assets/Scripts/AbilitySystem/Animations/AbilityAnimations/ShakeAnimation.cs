@@ -8,7 +8,7 @@ namespace OrderElimination.AbilitySystem.Animations
     public class ShakeAnimation : AwaitableAbilityAnimation
     {
         [ShowInInspector, OdinSerialize]
-        public AnimationTarget ShakeTarget { get; set; }
+        public ActionEntity ShakingEntity { get; set; }
 
         [ShowInInspector, OdinSerialize]
         public float ShakeX { get; set; } = 0.5f;
@@ -24,10 +24,10 @@ namespace OrderElimination.AbilitySystem.Animations
 
         protected override async UniTask OnAnimationPlayRequest(AnimationPlayContext context, CancellationToken cancellationToken)
         {
-            if (ShakeTarget == AnimationTarget.Target)
+            if (ShakingEntity == ActionEntity.Target)
                 await context.TargetView.Shake(ShakeX, ShakeY, Duration, Vibrations)
                     .AttachExternalCancellation(cancellationToken);
-            else if (ShakeTarget == AnimationTarget.Caster)
+            else if (ShakingEntity == ActionEntity.Caster)
                 await context.CasterView.Shake(ShakeX, ShakeY, Duration, Vibrations)
                     .AttachExternalCancellation(cancellationToken);
         }

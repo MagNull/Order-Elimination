@@ -28,8 +28,9 @@ namespace OrderElimination.AbilitySystem
         }
 
         public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity)
-        {
-            return battleContext.CurrentRound >= UnlocksAtRound;
-        }
+            => battleContext.CurrentRound >= UnlocksAtRound;
+
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, CellGroupsContainer cellGroups)
+            => IsConditionMet(battleContext, askingEntity);
     }
 }

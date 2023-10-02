@@ -16,7 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 21300000, guid: bf36790271e6b9640a16925b6884c05c, type: 3}
+    - {fileID: 21300000, guid: 7e3259ae94711694699f4293b057648b, type: 3}
     - {fileID: 11400000, guid: b2bfd094b4c1f1046a6a2ff26b0546bf, type: 2}
     - {fileID: 8300000, guid: bb2e2714f962491428dcb0b38598b251, type: 3}
     - {fileID: 8300000, guid: f9eb44b85c96be5429737d4dcadbfa3b, type: 3}
@@ -40,6 +40,9 @@ MonoBehaviour:
       Entry: 5
       Data: true
     - Name: ShowTrajectoryWhenTargeting
+      Entry: 5
+      Data: true
+    - Name: ShowPatternRange
       Entry: 5
       Data: true
     - Name: HideInCharacterDescription
@@ -1796,10 +1799,7 @@ MonoBehaviour:
       Data: 112|OrderElimination.AbilitySystem.Animations.WalkAnimation, Assembly-CSharp
     - Name: MovingEntity
       Entry: 3
-      Data: 0
-    - Name: UseExecutionGroupForOrigin
-      Entry: 5
-      Data: false
+      Data: 1
     - Name: OriginTarget
       Entry: 3
       Data: 0
@@ -1809,12 +1809,9 @@ MonoBehaviour:
     - Name: OriginCellOrder
       Entry: 3
       Data: 0
-    - Name: UseExecutionGroupForDestination
-      Entry: 5
-      Data: true
     - Name: DestinationTarget
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: DestinationCellGroup
       Entry: 3
       Data: 2
@@ -2040,6 +2037,27 @@ MonoBehaviour:
     - Name: BulletParticle
       Entry: 3
       Data: 0
+    - Name: RemapAnimationTime
+      Entry: 5
+      Data: false
+    - Name: OriginTarget
+      Entry: 3
+      Data: 1
+    - Name: OriginCellGroup
+      Entry: 3
+      Data: 0
+    - Name: OriginCellPriority
+      Entry: 3
+      Data: 0
+    - Name: DestinationTarget
+      Entry: 3
+      Data: 0
+    - Name: DestinationCellGroup
+      Entry: 3
+      Data: 0
+    - Name: DestinationCellPriority
+      Entry: 3
+      Data: 0
     - Name: MoveBy
       Entry: 3
       Data: 1
@@ -2050,9 +2068,6 @@ MonoBehaviour:
       Entry: 5
       Data: true
     - Name: Inverse
-      Entry: 5
-      Data: false
-    - Name: RemapAnimationTime
       Entry: 5
       Data: false
     - Name: _minSpread

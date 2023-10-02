@@ -18,9 +18,12 @@ namespace OrderElimination.AbilitySystem
         }
 
         public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int positionToCheck)
+            => IsConditionMet(battleContext, askingEntity, positionToCheck, null);
+
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int positionToCheck, CellGroupsContainer cellGroups)
         {
             var entities = battleContext.BattleMap.GetContainedEntities(positionToCheck).ToArray();
-            return entities.All(e => 
+            return entities.All(e =>
             e.Obstacle.IsAllowedToStay(askingEntity)
             || IgnoredObstacles.IsAllowed(battleContext, askingEntity, e));
         }

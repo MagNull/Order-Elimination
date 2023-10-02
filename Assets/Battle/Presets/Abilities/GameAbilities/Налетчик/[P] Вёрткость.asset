@@ -16,7 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 21300000, guid: 3c47ae58aa5401a4495790856aebe4cf, type: 3}
+    - {fileID: 21300000, guid: 6cd7e18be493c7342b163b43482670e7, type: 3}
     - {fileID: 11400000, guid: 1c81971e156971448b97c606aacbaa5a, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -32,12 +32,15 @@ MonoBehaviour:
     - Name: Description
       Entry: 1
       Data: "-10% \u0432\u0445\u043E\u0434\u044F\u0449\u0435\u0439 \u0442\u043E\u0447\u043D\u043E\u0441\u0442\u0438"
-    - Name: HideInCharacterDiscription
+    - Name: HideInCharacterDescription
       Entry: 5
       Data: false
     - Name: CooldownTime
       Entry: 3
       Data: 0
+    - Name: ActionsOnActivation
+      Entry: 6
+      Data: 
     - Name: TriggerInstructions
       Entry: 7
       Data: 0|OrderElimination.AbilitySystem.ITriggerInstruction[], Assembly-CSharp
@@ -58,6 +61,9 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 8
+      Data: 
+    - Name: CommonConditions
+      Entry: 6
       Data: 
     - Name: GroupDistributor
       Entry: 7
@@ -158,9 +164,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: AffectPreviousTarget
-      Entry: 5
-      Data: false
+    - Name: RepeatNumber
+      Entry: 3
+      Data: 1
+    - Name: _commonConditions
+      Entry: 6
+      Data: 
     - Name: _targetConditions
       Entry: 7
       Data: 13|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
@@ -174,6 +183,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: AffectPreviousTarget
+      Entry: 5
+      Data: false
     - Name: _affectedCellGroups
       Entry: 7
       Data: 14|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
@@ -189,9 +201,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: RepeatNumber
-      Entry: 3
-      Data: 1
     - Name: _instructionsOnActionSuccess
       Entry: 7
       Data: 15|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,

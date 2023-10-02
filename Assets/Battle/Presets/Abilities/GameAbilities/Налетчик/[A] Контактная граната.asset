@@ -16,7 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 21300000, guid: 6288e8ba9fe786f4b916e1799d64918b, type: 3}
+    - {fileID: 21300000, guid: 4936fac5a3953f94fadf7e88ae7fd94c, type: 3}
     - {fileID: 8300000, guid: 419336aa8912ae0468e104596863a0a1, type: 3}
     - {fileID: 8300000, guid: 64baa1f44691afc42a584e482cd9a27d, type: 3}
     - {fileID: 8300000, guid: fa16bd6cbe8bcba40ad0f5c9644c9607, type: 3}
@@ -46,6 +46,9 @@ MonoBehaviour:
     - Name: ShowTrajectoryWhenTargeting
       Entry: 5
       Data: false
+    - Name: ShowPatternRange
+      Entry: 5
+      Data: true
     - Name: HideInCharacterDescription
       Entry: 5
       Data: false
@@ -1314,10 +1317,7 @@ MonoBehaviour:
       Data: 78|OrderElimination.AbilitySystem.Animations.WalkAnimation, Assembly-CSharp
     - Name: MovingEntity
       Entry: 3
-      Data: 0
-    - Name: UseExecutionGroupForOrigin
-      Entry: 5
-      Data: false
+      Data: 1
     - Name: OriginTarget
       Entry: 3
       Data: 0
@@ -1327,12 +1327,9 @@ MonoBehaviour:
     - Name: OriginCellOrder
       Entry: 3
       Data: 4
-    - Name: UseExecutionGroupForDestination
-      Entry: 5
-      Data: true
     - Name: DestinationTarget
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: DestinationCellGroup
       Entry: 3
       Data: 2
@@ -1524,6 +1521,9 @@ MonoBehaviour:
     - Name: ShakeTarget
       Entry: 3
       Data: 0
+    - Name: ShakingEntity
+      Entry: 3
+      Data: 1
     - Name: ShakeX
       Entry: 4
       Data: 0.5
@@ -1917,7 +1917,28 @@ MonoBehaviour:
         Assembly-CSharp
     - Name: BulletParticle
       Entry: 3
-      Data: 9
+      Data: 16
+    - Name: RemapAnimationTime
+      Entry: 5
+      Data: false
+    - Name: OriginTarget
+      Entry: 3
+      Data: 1
+    - Name: OriginCellGroup
+      Entry: 3
+      Data: 0
+    - Name: OriginCellPriority
+      Entry: 3
+      Data: 0
+    - Name: DestinationTarget
+      Entry: 3
+      Data: 0
+    - Name: DestinationCellGroup
+      Entry: 3
+      Data: 0
+    - Name: DestinationCellPriority
+      Entry: 3
+      Data: 0
     - Name: MoveBy
       Entry: 3
       Data: 0
@@ -1928,9 +1949,6 @@ MonoBehaviour:
       Entry: 5
       Data: false
     - Name: Inverse
-      Entry: 5
-      Data: false
-    - Name: RemapAnimationTime
       Entry: 5
       Data: false
     - Name: _minSpread

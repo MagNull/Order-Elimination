@@ -31,9 +31,14 @@ namespace OrderElimination.AbilitySystem
 
         public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity)
         {
+            return IsConditionMet(battleContext, askingEntity, null);
+        }
+
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, CellGroupsContainer cellGroups)
+        {
             var calculationContext = ValueCalculationContext.Full(
                 battleContext,
-                CellGroupsContainer.Empty,
+                cellGroups,//EntitiesCountGetter
                 askingEntity,
                 null);
             var left = Left.GetValue(calculationContext);

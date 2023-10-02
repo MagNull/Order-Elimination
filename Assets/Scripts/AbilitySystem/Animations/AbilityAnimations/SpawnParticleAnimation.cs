@@ -14,84 +14,21 @@ namespace OrderElimination.AbilitySystem.Animations
         [HideInInspector, OdinSerialize]
         private int _animationLoops = 1;
 
+        [BoxGroup("Particle Settings", CenterLabel = true)]
         [ShowInInspector, OdinSerialize] 
         public ParticleType ParticleType { get; private set; }
 
-        [TabGroup("Location")]
-        [ShowInInspector, OdinSerialize]
-        public AnimationTarget SpawnAt { get; private set; }
-
-        [TabGroup("Location")]
-        [ShowIf("@" + nameof(SpawnAt) + " == AnimationTarget.CellGroup")]
-        [ShowInInspector, OdinSerialize]
-        public int SpawnGroup { get; private set; }
-
-        [ShowInInspector, OdinSerialize]
-        public ParticleFollowOption Follow { get; private set; } = ParticleFollowOption.DontFollow;
-
-        [TabGroup("Direction")]
-        [ShowInInspector, OdinSerialize]
-        public bool FaceDirection { get; private set; }
-
-        #region FaceFrom
-
-        [TabGroup("Direction")]
-        [ShowIf("@" + nameof(FaceDirection))]
-        [ShowInInspector, OdinSerialize]
-        public bool FromParticlePosition { get; private set; } = true;
-
-        [TabGroup("Direction")]
-        [ShowIf("@" + nameof(FaceDirection)
-                    + " && !" + nameof(FromParticlePosition))]
-        [ShowInInspector, OdinSerialize]
-        public AnimationTarget FacingFrom { get; private set; }
-
-        [TabGroup("Direction")]
-        [ShowIf("@" + nameof(FaceDirection)
-                    + " && " + nameof(FacingFrom) + " == AnimationTarget.CellGroup"
-                    + " && !" + nameof(FromParticlePosition))]
-        [ShowInInspector, OdinSerialize]
-        public int FacingFromGroup { get; private set; }
-
-        [TabGroup("Direction")]
-        [ShowIf("@" + nameof(FaceDirection)
-                    + " && " + nameof(FacingFrom) + " == AnimationTarget.CellGroup"
-                    + " && !" + nameof(FromParticlePosition))]
-        [ShowInInspector, OdinSerialize]
-        public CellPriority FacingFromCell { get; private set; }
-
-        #endregion
-
-        #region FaceTo
-
-        [TabGroup("Direction")]
-        [ShowIf("@" + nameof(FaceDirection))]
-        [ShowInInspector, OdinSerialize]
-        public AnimationTarget FacingTo { get; private set; }
-
-        [TabGroup("Direction")]
-        [ShowIf("@" + nameof(FaceDirection) + " && " + nameof(FacingTo) + " == AnimationTarget.CellGroup")]
-        [ShowInInspector, OdinSerialize]
-        public int FacingToGroup { get; private set; }
-
-        [TabGroup("Direction")]
-        [ShowIf("@" + nameof(FaceDirection) + " && " + nameof(FacingTo) + " == AnimationTarget.CellGroup")]
-        [ShowInInspector, OdinSerialize]
-        public CellPriority FacingToCell { get; private set; }
-
-        #endregion
-
-        [TabGroup("Animation")]
+        [BoxGroup("Particle Settings")]
         [ShowInInspector, OdinSerialize]
         public bool RemapAnimationTime { get; private set; }
 
-        [TabGroup("Animation")]
-        [ShowIf("@" + nameof(RemapAnimationTime))]
+        [BoxGroup("Particle Settings")]
+        [EnableIf("@" + nameof(RemapAnimationTime))]
         [PropertyOrder(float.MaxValue - 1)]
         [ShowInInspector, OdinSerialize]
         public float RemappedTime { get; private set; }
 
-        [TabGroup("Animation")]
+        [BoxGroup("Particle Settings")]
         [PropertyOrder(float.MaxValue)]
         [ShowInInspector]
         public int AnimationLoops
@@ -103,6 +40,71 @@ namespace OrderElimination.AbilitySystem.Animations
                 _animationLoops = value;
             }
         }
+
+        [BoxGroup("Positioning", CenterLabel = true)]
+        [ShowInInspector, OdinSerialize]
+        public AnimationTarget SpawnAt { get; private set; }
+
+        [BoxGroup("Positioning")]
+        [ShowIf("@" + nameof(SpawnAt) + " == AnimationTarget.CellGroup")]
+        [ShowInInspector, OdinSerialize]
+        public int SpawnGroup { get; private set; }
+
+        [BoxGroup("Positioning")]
+        [ShowInInspector, OdinSerialize]
+        public ParticleFollowOption Follow { get; private set; } = ParticleFollowOption.DontFollow;
+
+        [BoxGroup("Direction", CenterLabel = true)]
+        [ShowInInspector, OdinSerialize]
+        public bool FaceDirection { get; private set; }
+
+        #region FaceFrom
+
+        [BoxGroup("Direction")]
+        [EnableIf("@" + nameof(FaceDirection))]
+        [ShowInInspector, OdinSerialize]
+        public bool FromParticlePosition { get; private set; } = true;
+
+        [BoxGroup("Direction")]
+        [EnableIf("@" + nameof(FaceDirection)
+                    + " && !" + nameof(FromParticlePosition))]
+        [ShowInInspector, OdinSerialize]
+        public AnimationTarget FacingFrom { get; private set; }
+
+        [TabGroup("Direction")]
+        [ShowIf("@" + nameof(FaceDirection)
+                    + " && " + nameof(FacingFrom) + " == AnimationTarget.CellGroup"
+                    + " && !" + nameof(FromParticlePosition))]
+        [ShowInInspector, OdinSerialize]
+        public int FacingFromGroup { get; private set; }
+
+        [BoxGroup("Direction")]
+        [ShowIf("@" + nameof(FaceDirection)
+                    + " && " + nameof(FacingFrom) + " == AnimationTarget.CellGroup"
+                    + " && !" + nameof(FromParticlePosition))]
+        [ShowInInspector, OdinSerialize]
+        public CellPriority FacingFromCell { get; private set; }
+
+        #endregion
+
+        #region FaceTo
+
+        [BoxGroup("Direction")]
+        [EnableIf("@" + nameof(FaceDirection))]
+        [ShowInInspector, OdinSerialize]
+        public AnimationTarget FacingTo { get; private set; }
+
+        [BoxGroup("Direction")]
+        [ShowIf("@" + nameof(FaceDirection) + " && " + nameof(FacingTo) + " == AnimationTarget.CellGroup")]
+        [ShowInInspector, OdinSerialize]
+        public int FacingToGroup { get; private set; }
+
+        [BoxGroup("Direction")]
+        [ShowIf("@" + nameof(FaceDirection) + " && " + nameof(FacingTo) + " == AnimationTarget.CellGroup")]
+        [ShowInInspector, OdinSerialize]
+        public CellPriority FacingToCell { get; private set; }
+
+        #endregion
 
         protected override async UniTask OnAnimationPlayRequest(AnimationPlayContext context, CancellationToken cancellationToken)
         {
@@ -184,10 +186,12 @@ namespace OrderElimination.AbilitySystem.Animations
                 case ParticleFollowOption.DontFollow:
                     break;
                 case ParticleFollowOption.CasterEntity:
-                    particle.StartFollowing(context.CasterView.transform);
+                    if (context.CasterView != null)
+                        particle.StartFollowing(context.CasterView.transform);
                     break;
                 case ParticleFollowOption.TargetEntity:
-                    particle.StartFollowing(context.TargetView.transform);
+                    if (context.TargetView != null)
+                        particle.StartFollowing(context.TargetView.transform);
                     break;
                 default:
                 {
