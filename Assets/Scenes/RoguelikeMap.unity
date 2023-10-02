@@ -2293,6 +2293,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2392810432619578457, guid: a41fc4d65f5324bd080a5a4e7776e7d4, type: 3}
+      propertyPath: _attackButton
+      value: 
+      objectReference: {fileID: 2008835403}
+    - target: {fileID: 2392810432619578457, guid: a41fc4d65f5324bd080a5a4e7776e7d4, type: 3}
       propertyPath: _characterInfoPanel
       value: 
       objectReference: {fileID: 0}
@@ -2412,9 +2416,25 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 8184367278409435906, guid: a41fc4d65f5324bd080a5a4e7776e7d4, type: 3}
+      propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8184367278409435906, guid: a41fc4d65f5324bd080a5a4e7776e7d4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1103720969}
+    - target: {fileID: 8184367278409435906, guid: a41fc4d65f5324bd080a5a4e7776e7d4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ClickAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 8184367278409435906, guid: a41fc4d65f5324bd080a5a4e7776e7d4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RoguelikeMap.UI.Characters.SquadMembersPanel, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 8184367278409435908, guid: a41fc4d65f5324bd080a5a4e7776e7d4, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8184367278452297836, guid: a41fc4d65f5324bd080a5a4e7776e7d4, type: 3}
       propertyPath: m_Pivot.x
@@ -5937,6 +5957,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1799776333}
   m_CullTransparentMesh: 1
+--- !u!114 &2008835403 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8184367278409435906, guid: a41fc4d65f5324bd080a5a4e7776e7d4, type: 3}
+  m_PrefabInstance: {fileID: 452325619}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2082264378
 PrefabInstance:
   m_ObjectHideFlags: 0

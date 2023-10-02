@@ -8,6 +8,7 @@ using RoguelikeMap.Points;
 using RoguelikeMap.Points.Models;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI;
+using RoguelikeMap.UI.Characters;
 using RoguelikeMap.UI.PointPanels;
 using UnityEngine;
 using VContainer;
@@ -26,19 +27,19 @@ namespace RoguelikeMap.Map
         private ScenesMediator _mediator;
         private IObjectResolver _objectResolver;
         private BattleOutcome _battleOutcome;
-        private BattlePanel _battlePanel;
+        private SquadMembersPanel _squadMembersPanel;
         private SquadPositionSaver _saver;
 
         [Inject]
         private void Construct(IMapGenerator mapGenerator, Squad squad,
-            ScenesMediator scenesMediator, PanelManager panelManager, 
+            ScenesMediator scenesMediator, SquadMembersPanel squadMembersPanel, 
             SquadPositionSaver saver, IObjectResolver objectResolver)
         {
             _mapGenerator = mapGenerator;
             _squad = squad;
             _mediator = scenesMediator;
-            _battlePanel = panelManager.GetPanelByPointInfo(PointType.Battle) as BattlePanel;
             _saver = saver;
+            _squadMembersPanel = squadMembersPanel;
             _objectResolver = objectResolver;
         }
 
@@ -46,13 +47,14 @@ namespace RoguelikeMap.Map
         {
             _points = _mapGenerator.GenerateMap();
             _saver.OnSaveBeforeMove += MoveToPoint;
-            _battlePanel.OnAccepted += MoveToPoint;
+            _saver.OnPassPoint += ShowPaths;
             HidePointIcons();
             var pointIndex = _saver.GetPointIndex();
             if(pointIndex != -1)
                 MoveToPoint(_points.First(x => x.Index == pointIndex));
             else
                 ReloadMap();
+            ShowPaths();
         }
         
         public void ReloadMap()
@@ -82,7 +84,6 @@ namespace RoguelikeMap.Map
                 _currentPoint.HidePaths();
             _currentPoint = point;
             await MoveSquad(point, isAnimation);
-            _currentPoint.ShowPaths();
             _saver.SavePosition(point.Index);
         }
 
@@ -106,6 +107,12 @@ namespace RoguelikeMap.Map
                 await point.Visit(_squad);
         }
 
+        private void ShowPaths()
+        {
+            _currentPoint.ShowPaths();
+            _squadMembersPanel.SetActiveAttackButton(false);
+        }
+
         public void LoadStartScene()
         {
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
@@ -127,7 +134,7 @@ namespace RoguelikeMap.Map
         public void OnDestroy()
         {
             _saver.OnSaveBeforeMove -= MoveToPoint;
-            _battlePanel.OnAccepted -= MoveToPoint;
+            _saver.OnPassPoint -= ShowPaths;
         }
     }
 }

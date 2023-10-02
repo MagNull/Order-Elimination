@@ -51,6 +51,7 @@ namespace RoguelikeMap.Points.Models
         public override async Task Visit(Squad squad)
         {
             await squad.Visit(this);
+            squad.OpenPanel();
         }
     }
 }

@@ -37,6 +37,7 @@ namespace RoguelikeMap.SquadInfo
             SubscribeToEvents(panelManager);
             _squadMembersPanel = squadMembersPanel;
             squadMembersPanel.OnSelected += WereSelectedMembers;
+            squadMembersPanel.OnAttack += StartAttackByBattlePoint;
         }
 
         public void SetSquad(Squad squad)
@@ -47,8 +48,6 @@ namespace RoguelikeMap.SquadInfo
         public void SetPoint(PointModel target)
         {
             _target = target;
-            if(target is BattlePointModel)
-                StartAttackByBattlePoint();
         }
 
         private void SubscribeToEvents(PanelManager panelManager)
