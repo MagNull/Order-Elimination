@@ -65,14 +65,14 @@ namespace OrderElimination.AbilitySystem
             BattleEffect appliedEffect = null;
             if (RandomExtensions.RollChance(probability))
             {
-                if (useContext.ActionTarget.ApplyEffect(Effect, useContext.ActionMaker, out appliedEffect))
+                if (useContext.TargetEntity.ApplyEffect(Effect, useContext.ActionMaker, out appliedEffect))
                 {
                     isSuccessfull = true;
                     appliedEffect.Deactivated += OnEffectRemoved;
                 }
             }
             _appliedEffects.Add(appliedEffect);
-            _performTargets.Add(useContext.ActionTarget);
+            _performTargets.Add(useContext.TargetEntity);
             var result = new SimpleUndoablePerformResult(this, useContext, isSuccessfull, performId);
             if (appliedEffect != null)
                 _effectsApplyResults.Add(appliedEffect, result);
@@ -89,9 +89,9 @@ namespace OrderElimination.AbilitySystem
         {
             if (ActionRequires == ActionRequires.Target)
             {
-                if (useContext.ActionTarget == null)
+                if (useContext.TargetEntity == null)
                     throw new ArgumentNullException("Attempt to perform action on null entity.");
-                if (useContext.ActionTarget.IsDisposedFromBattle)
+                if (useContext.TargetEntity.IsDisposedFromBattle)
                     throw new InvalidOperationException("Attempt to perform action on entity that had been disposed.");
             }
             var modifiedAction = GetModifiedAction(useContext, actionMakerProcessing, targetProcessing);

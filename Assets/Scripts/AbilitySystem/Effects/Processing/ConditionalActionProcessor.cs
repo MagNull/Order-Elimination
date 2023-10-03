@@ -21,7 +21,7 @@ namespace OrderElimination.AbilitySystem
         {
             var battleContext = performContext.BattleContext;
             var caster = performContext.ActionMaker;
-            var target = performContext.ActionTarget;
+            var target = performContext.TargetEntity;
             if (_commonConditions.Count > 0 && caster == null)
                 return originalAction;
             if (_targetConditions.Count > 0 && target == null)

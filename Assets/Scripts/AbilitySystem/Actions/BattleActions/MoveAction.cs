@@ -63,7 +63,7 @@ namespace OrderElimination.AbilitySystem
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
-            var target = useContext.ActionTarget;
+            var target = useContext.TargetEntity;
             var failResult = new SimplePerformResult(this, useContext, false);
             var cellGroups = useContext.CellTargetGroups;
             if (!cellGroups.ContainsGroup(DestinationCellGroup)
@@ -96,7 +96,7 @@ namespace OrderElimination.AbilitySystem
                     {
                         if (!IsPathPositionAvailable(path[i]))
                             return failResult;
-                        if (!useContext.ActionTarget.CanMove && !ForceMove)
+                        if (!useContext.TargetEntity.CanMove && !ForceMove)
                             return failResult;
                         var fakeGroupsContainer = new CellGroupsContainer(new Dictionary<int, Vector2Int[]>
                         {
@@ -106,7 +106,7 @@ namespace OrderElimination.AbilitySystem
                             useContext.AnimationSceneContext,
                             fakeGroupsContainer,
                             useContext.ActionMaker,
-                            useContext.ActionTarget,
+                            useContext.TargetEntity,
                             path[i]);
                         if (movingEntity.CanMove && MoveAnimation != null)
                             await MoveAnimation.Play(pathAnimContext);
@@ -130,7 +130,7 @@ namespace OrderElimination.AbilitySystem
                     useContext.AnimationSceneContext,
                     useContext.CellTargetGroups,
                     useContext.ActionMaker,
-                    useContext.ActionTarget,
+                    useContext.TargetEntity,
                     targetPos);
                 if (MoveAnimation != null)
                     await MoveAnimation.Play(animationContext);

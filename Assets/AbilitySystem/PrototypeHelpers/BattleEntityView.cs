@@ -45,15 +45,13 @@ public class BattleEntityView : SerializedMonoBehaviour
     [SerializeField]
     private RoundingOption _roundingMode;
 
-
-    private BattleMapView _battleMapView;
-    private IParticlesPool _particlesPool;
-    private TextEmitter _textEmitter;
-    private SpriteEmitter _spriteEmitter;
+    private AnimationSceneContext _animationSceneContext;
     private float _damageCash;
     private float _healthCash;
     private float _armorCash;
     private bool _isDisposed;
+    private GameObject _customModel;
+    private Renderer _customModelRenderer;
 
     private static float TimeGapToSumValues { get; set; } = 0.01f;
 
@@ -78,13 +76,37 @@ public class BattleEntityView : SerializedMonoBehaviour
             _renderer.sprite = value;
             if (value != null)
             {
-                var bounds = value.bounds;
-                float maxBoundsSide = Mathf.Max(bounds.size.x, bounds.size.y);
-                _renderer.transform.localScale = Vector3.one * IconTargetSize / maxBoundsSide;
+                var spriteSize = value.bounds.size;
+                var maxSpriteDimension = Mathf.Max(spriteSize.x, spriteSize.y);
+                var cellSize = _animationSceneContext?.CellSize ?? Vector2.one;
+                _renderer.transform.localScale = IconTargetSize * cellSize / maxSpriteDimension;
+                //Debug.Log($"Icon Size: {initialSize} -> {newSize}");
+                //_renderer.transform.localScale = Vector3.one / _mapView.CellSize * IconTargetSize / maxSpriteDimension;
+                //_renderer.transform.localScale = Vector3.one / _mapView.CellSize * IconTargetSize / maxSpriteDimension;
+                //_renderer.transform.localScale = Vector3.one * IconTargetSize / maxSpriteDimension;
             }
         }
     }
-    public GameObject CustomModel { get; set; }
+    public GameObject CustomModel//One Renderer only
+    {
+        get => _customModel;
+        set
+        {
+            _customModel = value;
+            _customModelRenderer = null;
+            if (value != null)
+            {
+                _customModelRenderer = _customModel.GetComponentInChildren<Renderer>();
+                if (_customModelRenderer != null)
+                {
+                    var modelSize = _customModelRenderer.bounds.size;
+                    var maxSpriteDimension = Mathf.Max(modelSize.x, modelSize.y);
+                    var cellSize = _animationSceneContext?.CellSize ?? Vector2.one;
+                    _customModel.transform.localScale = IconTargetSize * cellSize / maxSpriteDimension;
+                }
+            }
+        }
+    }
 
     public bool IsVisibleToPlayer
     {
@@ -103,15 +125,13 @@ public class BattleEntityView : SerializedMonoBehaviour
 
     [Inject]
     public void Construct(
-        BattleMapView battleMapView, IParticlesPool particlesPool, TextEmitter textEmitter, SpriteEmitter spriteEmitter)
+        AnimationSceneContext animationSceneContext)
     {
-        _battleMapView = battleMapView;
-        _particlesPool = particlesPool;
-        _textEmitter = textEmitter;
-        _spriteEmitter = spriteEmitter;
+        _animationSceneContext = animationSceneContext;
     }
 
-    public void Initialize(AbilitySystemActor entity, string name, Sprite battleIcon, GameObject customModel = null)
+    public void Initialize(
+        AbilitySystemActor entity, string name, Sprite battleIcon, GameObject customModel = null)
     {
         if (BattleEntity != null)
             return;
@@ -129,8 +149,6 @@ public class BattleEntityView : SerializedMonoBehaviour
         if (BattleEntity.DeployedBattleMap.ContainsEntity(BattleEntity))
         {
             throw new InvalidOperationException("Initialize EntityView first and place entity on map after.");
-            var gamePosition = BattleEntity.Position;
-            transform.position = _battleMapView.GetCell(gamePosition.x, gamePosition.y).transform.position;
         }
     }
 
@@ -151,9 +169,27 @@ public class BattleEntityView : SerializedMonoBehaviour
     public async UniTask Shake(float shakeX = 0.5f, float shakeY = 0.5f, float duration = 1, int vibrations = 10)
     {
         _renderer.transform.DOComplete();
-        await _renderer.transform.DOShakePosition(duration, new Vector3(shakeX, shakeY, 0), vibrations).AsyncWaitForCompletion();
+        var strength = new Vector3(shakeX, shakeY, 0) * _animationSceneContext.ScaleMultiplier;
+        await _renderer.transform.DOShakePosition(duration, strength, vibrations).AsyncWaitForCompletion();
     }
 
+    private TextEmitterContext GetScaledText(TextEmitterContext text)
+    {
+        var mapView = _animationSceneContext.BattleMapView;
+        Debug.Log($"Initial text: origin={text.Origin}; offset={text.Offset}");
+        var map = BattleEntity.BattleContext.BattleMap;
+        var gameOrigin = (Vector3)(Vector2)map.GetLastPosition(BattleEntity) + text.Origin;
+        var gameDestination = gameOrigin + text.Offset;
+        var worldOrigin = mapView.GameToWorldPosition(gameOrigin);//Cast to Vector2
+        var worldDestination = mapView.GameToWorldPosition(gameDestination);//Cast to Vector2
+        var worldOffset = worldDestination - worldOrigin;
+        text.Origin = worldOrigin;
+        text.Offset = worldOffset;
+        text.FontSize *= _animationSceneContext.ScaleMultiplier;
+        return text;
+    }
+
+    #region Entity Event Handlers
     private void OnPlaced(AbilitySystemActor entity)
     {
         if (BattleEntity != entity) return;
@@ -172,7 +208,8 @@ public class BattleEntityView : SerializedMonoBehaviour
 
     private void PlaceAtGamePosition(Vector2Int position)
     {
-        transform.position = _battleMapView.GetCell(position.x, position.y).transform.position;
+        transform.position = _animationSceneContext.BattleMapView
+            .GetCell(position.x, position.y).transform.position;
     }
 
     private async void OnDamaged(DealtDamageInfo damageInfo)
@@ -199,9 +236,9 @@ public class BattleEntityView : SerializedMonoBehaviour
         var damageText = _floatingNumbersPreset;
         damageText.Text = $"{damageValue}";
         damageText.TextColor = Color.red;
-        damageText.Origin += transform.position;
+        damageText = GetScaledText(damageText);
         if (_showFloatingNumbers)
-            _textEmitter.Emit(damageText);
+            _animationSceneContext.TextEmitter.Emit(damageText);
                 //_textEmitter.Emit($"{damageValue}", Color.red, position, new Vector2(0.5f, 0.5f));
         if (!BattleEntity.IsDisposedFromBattle)
             Shake(shake, shake, 1, 10);
@@ -238,15 +275,17 @@ public class BattleEntityView : SerializedMonoBehaviour
             var healthText = _floatingNumbersPreset;
             healthText.Text = $"+{healthValue}";
             healthText.TextColor = Color.green;
-            healthText.Origin += transform.position - statsOffset;
+            healthText.Origin -= statsOffset;
+            healthText = GetScaledText(healthText);
 
             var armorText = _floatingNumbersPreset;
             armorText.Text = $"+{armorValue}";
             armorText.TextColor = Color.cyan;
-            armorText.Origin += transform.position + statsOffset;
+            armorText.Origin += statsOffset;
+            armorText = GetScaledText(armorText);
 
-            _textEmitter.Emit(healthText);
-            _textEmitter.Emit(armorText);
+            _animationSceneContext.TextEmitter.Emit(healthText);
+            _animationSceneContext.TextEmitter.Emit(armorText);
         }
         //Shake(0, 0.07f, 1.5f, 3);
     }
@@ -338,9 +377,17 @@ public class BattleEntityView : SerializedMonoBehaviour
             return;
         if (!IsVisibleToPlayer)
             return;
+        var map = BattleEntity.BattleContext.BattleMap;
+        var mapView = _animationSceneContext.BattleMapView;
+        var scale = _animationSceneContext.ScaleMultiplier;
         //TODO: multiple effects at the same time case
-        _spriteEmitter.Emit(effectView.Icon, _appliedEffectsPosition.position);
+        var gameOrigin = map.GetLastPosition(BattleEntity);
+        var origin = mapView.GameToWorldPosition(gameOrigin);
+        var destination = mapView.GameToWorldPosition(gameOrigin + new Vector2(0, 0.5f));
+        _animationSceneContext.SpriteEmitter.Emit(
+            effectView.Icon, _appliedEffectsPosition.position, destination - origin, scale);
     }
+    #endregion
 
     private void SubscribeOnEntityEvents(AbilitySystemActor entity)
     {

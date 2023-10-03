@@ -17,6 +17,9 @@ namespace OrderElimination.Utils
         [SerializeField]
         private float _mininalTimeInterval;
 
+        [SerializeField]
+        private int _sortingOrder;
+
         [ShowInInspector, OdinSerialize]
         private TextEmitterContext _defaultTextStyle = TextEmitterContext.Default;
 
@@ -36,6 +39,7 @@ namespace OrderElimination.Utils
             _lastEmitTime = Time.time;
             var textInstance = Instantiate(_textPrefab, transform);
             textInstance.gameObject.SetActive(true);
+            textInstance.canvas.sortingOrder = _sortingOrder;
             textInstance.transform.position = context.Origin;
             textInstance.fontSize = context.FontSize;
             textInstance.text = context.Text;

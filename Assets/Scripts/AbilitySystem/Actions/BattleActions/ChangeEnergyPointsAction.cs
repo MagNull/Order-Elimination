@@ -34,16 +34,16 @@ namespace OrderElimination.AbilitySystem
             switch (Modification)
             {
                 case ModificationType.Add:
-                    useContext.ActionTarget.AddEnergyPoints(EnergyPointType, Value);
+                    useContext.TargetEntity.AddEnergyPoints(EnergyPointType, Value);
                     break;
                 case ModificationType.Remove:
-                    useContext.ActionTarget.RemoveEnergyPoints(EnergyPointType, Value);
+                    useContext.TargetEntity.RemoveEnergyPoints(EnergyPointType, Value);
                     break;
                 case ModificationType.Set:
-                    useContext.ActionTarget.SetEnergyPoints(EnergyPointType, Value);
+                    useContext.TargetEntity.SetEnergyPoints(EnergyPointType, Value);
                     break;
                 case ModificationType.SetToPerRoundValue:
-                    useContext.ActionTarget.SetEnergyPoints(
+                    useContext.TargetEntity.SetEnergyPoints(
                         EnergyPointType,
                         useContext.BattleContext.BattleRules.GetEnergyPointsPerRound(EnergyPointType));
                     break;

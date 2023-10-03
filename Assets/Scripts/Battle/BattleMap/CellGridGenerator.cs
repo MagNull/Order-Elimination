@@ -1,40 +1,49 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class CellGridGenerator : MonoBehaviour
 {
     [SerializeField]
-    private Transform _parent;
+    private Transform _cellHolder;
+
+    [SerializeField]
+    private BoxCollider2D _fitCollider;
+
     [SerializeField]
     private CellView _cellPrefab;
-    [SerializeField]
-    private float _spaceBetweenCells;
+
+    [ShowInInspector]
+    public Vector2 PrefabCellSize => _cellPrefab.Size;
+
+    [ShowInInspector]
+    public Vector2 GeneratedCellSize { get; private set; }
 
     public CellGrid GenerateGrid(int width, int height)
     {
-        CellView[,] viewGrid = new CellView[width, height];
-        Cell[,] modelGrid = new Cell[width, height];
-
-        float x = _cellPrefab.transform.localScale.x;
-        float y = _cellPrefab.transform.localScale.y;
-
-        float xStart = -(float) width / 2;
-        float yStart = -(float) height / 2;
-
+        var viewGrid = new CellView[width, height];
+        var modelGrid = new Cell[width, height];
+        var xStart = _fitCollider.bounds.min.x;
+        var yStart = _fitCollider.bounds.min.y;
+        var xEnd = _fitCollider.bounds.max.x;
+        var yEnd = _fitCollider.bounds.max.y;
+        GeneratedCellSize = new Vector2((xEnd - xStart) / width, (yEnd - yStart) / height);
+        var scaler = GeneratedCellSize / PrefabCellSize;
         for (var i = 0; i < width; i++)
         {
             for (var j = 0; j < height; j++)
             {
-                Cell current = new Cell();
-                CellView currentObject = Instantiate(_cellPrefab,
-                    new Vector3(xStart + i * (x + _spaceBetweenCells) + _parent.position.x,
-                        yStart + j * (y + _spaceBetweenCells) + _parent.position.y, 0),
-                    Quaternion.identity,
-                    _parent);
+                var cellView = Instantiate(_cellPrefab, _cellHolder);
+                cellView.transform.position = new Vector3(
+                    xStart + i * GeneratedCellSize.x + GeneratedCellSize.x / 2,
+                    yStart + j * GeneratedCellSize.y + GeneratedCellSize.y / 2,
+                    0);
+                cellView.transform.localScale *= scaler;
 
-                currentObject.BindModel(current);
+                var cellModel = new Cell();
+                cellView.BindModel(cellModel);
 
-                viewGrid[i, j] = currentObject;
-                modelGrid[i, j] = current;
+                viewGrid[i, j] = cellView;
+                modelGrid[i, j] = cellModel;
             }
         }
 

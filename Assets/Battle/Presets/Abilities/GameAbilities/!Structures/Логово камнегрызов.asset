@@ -666,6 +666,12 @@ MonoBehaviour:
     - Name: AffectPreviousTarget
       Entry: 5
       Data: false
+    - Name: AffectPreviousCell
+      Entry: 5
+      Data: false
+    - Name: AffectPreviousEntity
+      Entry: 5
+      Data: false
     - Name: _affectedCellGroups
       Entry: 7
       Data: 44|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
@@ -741,9 +747,6 @@ MonoBehaviour:
     - Name: Action
       Entry: 7
       Data: 49|OrderElimination.AbilitySystem.SpawnEntityAction, Assembly-CSharp
-    - Name: SpawnAtCellGroup
-      Entry: 3
-      Data: 0
     - Name: Entity
       Entry: 3
       Data: 0
@@ -1013,6 +1016,12 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: AffectPreviousTarget
+      Entry: 5
+      Data: false
+    - Name: AffectPreviousCell
+      Entry: 5
+      Data: false
+    - Name: AffectPreviousEntity
       Entry: 5
       Data: false
     - Name: _affectedCellGroups

@@ -18,6 +18,7 @@ namespace OrderElimination.AbilitySystem
         public void RemoveEntity(AbilitySystemActor entity);
         public bool ContainsPosition(Vector2Int position);
         public Vector2Int GetPosition(AbilitySystemActor entity);
+        public Vector2Int GetLastPosition(AbilitySystemActor entity);
         public Vector2Int GetPosition(IReadOnlyCell cell);
         public IEnumerable<AbilitySystemActor> GetContainedEntities(Vector2Int position);
         public float GetGameDistanceBetween(Vector2Int posA, Vector2Int posB);

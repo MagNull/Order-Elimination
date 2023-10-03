@@ -56,7 +56,7 @@ namespace OrderElimination.AbilitySystem
             if (!result.IsSuccessful) 
                 return false;
             var armor = _appliedTempArmors[performId];
-            result.ActionContext.ActionTarget.BattleStats.RemoveTemporaryArmor(armor);
+            result.ActionContext.TargetEntity.BattleStats.RemoveTemporaryArmor(armor);
             _undoneOperations.Add(performId);
             return true;
         }
@@ -66,8 +66,8 @@ namespace OrderElimination.AbilitySystem
             var calculationContext = ValueCalculationContext.Full(useContext);
             var temporaryArmor = new TemporaryArmor(TemporaryArmorAmount.GetValue(calculationContext));
             var currentId = _appliedTempArmors.Count;
-            useContext.ActionTarget.BattleStats.TemporaryArmorLayerRemoved += OnTemporaryArmorRemoved;
-            useContext.ActionTarget.BattleStats.AddTemporaryArmor(temporaryArmor);
+            useContext.TargetEntity.BattleStats.TemporaryArmorLayerRemoved += OnTemporaryArmorRemoved;
+            useContext.TargetEntity.BattleStats.AddTemporaryArmor(temporaryArmor);
             var actionResult = new SimpleUndoablePerformResult(this, useContext, true, currentId);
             _appliedTempArmors.Add(temporaryArmor);
             _actionResults.Add(actionResult);
@@ -77,7 +77,7 @@ namespace OrderElimination.AbilitySystem
             {
                 if (armor == temporaryArmor)
                 {
-                    useContext.ActionTarget.BattleStats.TemporaryArmorLayerRemoved -= OnTemporaryArmorRemoved;
+                    useContext.TargetEntity.BattleStats.TemporaryArmorLayerRemoved -= OnTemporaryArmorRemoved;
                     Callbacks?.Invoke(new ApplyTemporaryArmorActionCallback(armor));
                 }
             }
@@ -91,9 +91,9 @@ namespace OrderElimination.AbilitySystem
         {
             if (ActionRequires == ActionRequires.Target)
             {
-                if (useContext.ActionTarget == null)
+                if (useContext.TargetEntity == null)
                     throw new ArgumentNullException("Attempt to perform action on null entity.");
-                if (useContext.ActionTarget.IsDisposedFromBattle)
+                if (useContext.TargetEntity.IsDisposedFromBattle)
                     throw new InvalidOperationException("Attempt to perform action on entity that had been disposed.");
             }
             var modifiedAction = GetModifiedAction(useContext, actionMakerProcessing, targetProcessing);

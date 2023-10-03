@@ -26,9 +26,9 @@ namespace OrderElimination.AbilitySystem
             //TODO: Refactor. "Entity disposed" case shouldn't be reached.
             if (ActionRequires == ActionRequires.Target)
             {
-                if (useContext.ActionTarget == null)
+                if (useContext.TargetEntity == null)
                     throw new ArgumentNullException("Attempt to perform action on null entity.");
-                if (useContext.ActionTarget.IsDisposedFromBattle)
+                if (useContext.TargetEntity.IsDisposedFromBattle)
                     throw new InvalidOperationException("Attempt to perform action on entity that had been disposed.");
             }
             var modifiedAction = GetModifiedAction(useContext, actionMakerProcessing, targetProcessing);
@@ -45,8 +45,8 @@ namespace OrderElimination.AbilitySystem
             var modifiedAction = (TAction)this;
             if (actionMakerProcessing && performContext.ActionMaker != null)
                 modifiedAction = performContext.ActionMaker.ActionProcessor.ProcessOutcomingAction(modifiedAction, performContext);
-            if (targetProcessing && performContext.ActionTarget != null)
-                modifiedAction = performContext.ActionTarget.ActionProcessor.ProcessIncomingAction(modifiedAction, performContext);
+            if (targetProcessing && performContext.TargetEntity != null)
+                modifiedAction = performContext.TargetEntity.ActionProcessor.ProcessIncomingAction(modifiedAction, performContext);
             return modifiedAction;
         }
 

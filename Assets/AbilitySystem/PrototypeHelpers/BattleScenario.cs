@@ -12,8 +12,8 @@ namespace OrderElimination.MacroGame
     [CreateAssetMenu(fileName = "new BattleScenario", menuName = "OrderElimination/Battle/Battle Scenario")]
     public class BattleScenario : SerializedScriptableObject
     {
-        public const int MapHeight = 8;
-        public const int MapWidth = 8;
+        public int MapHeight => 8;
+        public int MapWidth => 8;
 
         #region OdinVisuals
         private static Color GetSpawnTypeColor(SpawnType type)

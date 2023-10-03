@@ -8,16 +8,12 @@ using System.Collections.Generic;
 namespace OrderElimination.AbilitySystem
 {
     public class SpawnEntityAction : BattleAction<SpawnEntityAction>, 
-        IUndoableBattleAction,
-        IUtilizeCellGroupsAction
+        IUndoableBattleAction
     {
-        private static readonly List<List<AbilitySystemActor>> _spawnedEntities = new();
+        private static readonly List<AbilitySystemActor> _spawnedEntities = new();
         private static readonly Dictionary<int, IBattleTrigger> _activeTriggers = new();
         private static readonly Dictionary<IBattleTrigger, int> _perforIdsByTriggers = new();
         private static readonly HashSet<int> _undoneOperations = new();
-
-        [ShowInInspector, OdinSerialize]
-        public int SpawnAtCellGroup { get; private set; }
 
         [ShowInInspector, OdinSerialize]
         public EntityType Entity { get; private set; }
@@ -45,9 +41,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public IContextTriggerSetup RemoveTrigger { get; private set; }
 
-        public override ActionRequires ActionRequires => ActionRequires.Maker;
-
-        public int[] UtilizedCellGroups => new[] { SpawnAtCellGroup };
+        public override ActionRequires ActionRequires => ActionRequires.Cell;
 
         public override IBattleAction Clone()
         {
@@ -57,7 +51,6 @@ namespace OrderElimination.AbilitySystem
             clone.StructureData = StructureData;
             clone.SideType = SideType;
             clone.AbsoluteSide = AbsoluteSide;
-            clone.SpawnAtCellGroup = SpawnAtCellGroup;
             clone.RemoveByTrigger = RemoveByTrigger;
             clone.RemoveTrigger = RemoveTrigger;
             return clone;
@@ -69,11 +62,9 @@ namespace OrderElimination.AbilitySystem
         {
             if (IsUndone(performId)) Logging.LogException(ActionUndoFailedException.AlreadyUndoneException);
             var isSuccessful = true;
-            foreach (var entity in _spawnedEntities[performId])
-            {
-                if (!entity.IsDisposedFromBattle && !entity.DisposeFromBattle())
-                    isSuccessful = false;
-            }
+            var entity = _spawnedEntities[performId];
+            if (!entity.IsDisposedFromBattle && !entity.DisposeFromBattle())
+                isSuccessful = false;
             //TODO: Add support for entity triggers
             if (_activeTriggers.ContainsKey(performId))
                 _activeTriggers[performId].Deactivate();
@@ -106,18 +97,14 @@ namespace OrderElimination.AbilitySystem
             };
             var performId = _spawnedEntities.Count;
             Logging.Log($"Spawn perform Id: {performId}", Colorize.Purple);
-            _spawnedEntities.Add(new());
-            var currentPerformEntities = _spawnedEntities[_spawnedEntities.Count - 1];
-            foreach (var pos in useContext.CellTargetGroups.GetGroup(SpawnAtCellGroup))
+            var pos = useContext.TargetCell.Value;
+            var entity = Entity switch
             {
-                var entity = Entity switch
-                {
-                    EntityType.Character => battleContext.EntitySpawner.SpawnCharacter(CharacterData, side, pos),
-                    EntityType.Structure => battleContext.EntitySpawner.SpawnStructure(StructureData, side, pos),
-                    _ => throw new NotImplementedException(),
-                };
-                currentPerformEntities.Add(entity);
-            }
+                EntityType.Character => battleContext.EntitySpawner.SpawnCharacter(CharacterData, side, pos),
+                EntityType.Structure => battleContext.EntitySpawner.SpawnStructure(StructureData, side, pos),
+                _ => throw new NotImplementedException(),
+            };
+            _spawnedEntities.Add(entity);
             if (RemoveByTrigger)//TODO: Add support for entity triggers
             {
                 var trigger = RemoveTrigger.GetTrigger(battleContext);

@@ -16,7 +16,7 @@ namespace OrderElimination.AbilitySystem
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
-            var result = useContext.ActionTarget.DisposeFromBattle();
+            var result = useContext.TargetEntity.DisposeFromBattle();
             return new SimplePerformResult(this, useContext, result);
         }
     }

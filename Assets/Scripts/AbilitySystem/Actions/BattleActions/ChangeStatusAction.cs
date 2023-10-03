@@ -90,7 +90,7 @@ namespace OrderElimination.AbilitySystem
 
         protected async override UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
-            var target = useContext.ActionTarget.StatusHolder;
+            var target = useContext.TargetEntity.StatusHolder;
             bool success;
             switch (Operation)
             {

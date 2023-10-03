@@ -28,9 +28,9 @@ namespace Assets.AbilitySystem.PrototypeHelpers
             _entitiesBank = entitiesBank;
         }
 
-        public void InitiateBattle()
+        public void InitiateBattle(int mapWidth, int mapHeight)
         {
-            _battleMapDirector.InitializeMap();
+            _battleMapDirector.InitializeMap(mapWidth, mapHeight);
             _entitiesBank.Clear();
         }
 

@@ -13,11 +13,11 @@ public class BattleMap : MonoBehaviour, IBattleMap
     private int _height;
     private Cell[,] _cellGrid;
     private Dictionary<AbilitySystemActor, Vector2Int> _containedEntitiesPositions;
+    private Dictionary<AbilitySystemActor, Vector2Int> _lastEntitiesPositions;
     private Dictionary<IReadOnlyCell, Vector2Int> _cellCoordinates;
 
-
-    public int Width => _width;
-    public int Height => _height;
+    public int Width { get; private set; }
+    public int Height { get; private set; }
     public CellRangeBorders CellRangeBorders { get; private set; }
 
     public event Action<Vector2Int> CellChanged;
@@ -44,6 +44,15 @@ public class BattleMap : MonoBehaviour, IBattleMap
         return _containedEntitiesPositions[entity];
     }
 
+    public Vector2Int GetLastPosition(AbilitySystemActor entity)
+    {
+        if (!ContainsEntity(entity) && !_lastEntitiesPositions.ContainsKey(entity))
+        {
+            Logging.LogException(new ArgumentException("Entity never existed on the map."));
+        }
+        return _lastEntitiesPositions[entity];
+    }
+
     public Vector2Int GetPosition(IReadOnlyCell cell) => _cellCoordinates[cell];
 
     public void PlaceEntity(AbilitySystemActor entity, Vector2Int position)
@@ -52,6 +61,7 @@ public class BattleMap : MonoBehaviour, IBattleMap
         {
             //place first time
             _containedEntitiesPositions.Add(entity, position);
+            _lastEntitiesPositions.Add(entity, position);
             GetCell(position.x, position.y).AddEntity(entity);
             PlacedOnMap?.Invoke(entity);
             CellChanged?.Invoke(position);
@@ -61,6 +71,7 @@ public class BattleMap : MonoBehaviour, IBattleMap
             //move
             var oldPos = _containedEntitiesPositions[entity];
             _containedEntitiesPositions[entity] = position;
+            _lastEntitiesPositions[entity] = position;
             GetCell(oldPos.x, oldPos.y).RemoveEntity(entity);
             GetCell(position.x, position.y).AddEntity(entity);
             CellChanged?.Invoke(oldPos);
@@ -88,15 +99,18 @@ public class BattleMap : MonoBehaviour, IBattleMap
         return Pathfinding.PathExists(origin, destination, CellRangeBorders, positionPredicate, out path);
     }
 
-    public void Init(Cell[,] modelGrid)// – Width, Height ??
+    public void Init(Cell[,] modelGrid)
     {
         _cellGrid = modelGrid;
+        Width = _cellGrid.GetLength(0);
+        Height = _cellGrid.GetLength(1);
         CellRangeBorders = new CellRangeBorders(0, 0, Width - 1, Height - 1);
-        _containedEntitiesPositions = new Dictionary<AbilitySystemActor, Vector2Int>();
+        _containedEntitiesPositions = new();
+        _lastEntitiesPositions = new();
         _cellCoordinates = new Dictionary<IReadOnlyCell, Vector2Int>();
-        for (var x = 0; x < _cellGrid.GetLength(0); x++)
+        for (var x = 0; x < Width; x++)
         {
-            for (var y = 0; y < _cellGrid.GetLength(1); y++)
+            for (var y = 0; y < Height; y++)
             {
                 _cellCoordinates.Add(_cellGrid[x, y], new Vector2Int(x, y));
             }
@@ -105,8 +119,8 @@ public class BattleMap : MonoBehaviour, IBattleMap
 
     private Cell GetCell(int x, int y)
     {
-        if (x < 0 || x > _width - 1 || y < 0 || y > _height - 1)
-            Logging.LogException( new ArgumentException($"Cell ({x}, {y}) not found"));
+        if (x < 0 || x > Width - 1 || y < 0 || y > Height - 1)
+            Logging.LogException(new ArgumentException($"Cell ({x}, {y}) not found"));
         return _cellGrid[x, y];
     }
 }

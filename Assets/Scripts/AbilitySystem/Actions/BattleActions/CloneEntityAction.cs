@@ -171,7 +171,7 @@ namespace OrderElimination.AbilitySystem
         {
             var battleContext = useContext.BattleContext;
             var caster = useContext.ActionMaker;
-            var target = useContext.ActionTarget;
+            var target = useContext.TargetEntity;
             var side = SideType switch
             {
                 BattleSideReference.Same => caster.BattleSide,

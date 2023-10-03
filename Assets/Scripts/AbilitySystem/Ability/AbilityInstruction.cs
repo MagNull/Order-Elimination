@@ -92,6 +92,10 @@ namespace OrderElimination.AbilitySystem
         #endregion
 
         [BoxGroup("MainSection/Targeting/Target", CenterLabel = true)]
+        [ShowInInspector]
+        public ActionRequires ActionRequires => Action?.ActionRequires ?? ActionRequires.Maker;
+
+        [BoxGroup("MainSection/Targeting/Target")]
         [EnableIf(
             "@" + nameof(IsEntityAction) + " && "
             + "$property.ParentValueProperty.ParentValueProperty != null && "//is in list
@@ -101,7 +105,15 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public bool AffectPreviousTarget { get; private set; } = false;
 
-        [BoxGroup("MainSection/Targeting/Target", CenterLabel = true)]
+        [BoxGroup("MainSection/Targeting/Target")]
+        [ShowInInspector, OdinSerialize]
+        public bool AffectPreviousCell { get; set; }
+
+        [BoxGroup("MainSection/Targeting/Target")]
+        [ShowInInspector, OdinSerialize]
+        public bool AffectPreviousEntity { get; set; }
+
+        [BoxGroup("MainSection/Targeting/Target")]
         [EnableIf("@" + nameof(CellGroupsRequired))]
         [ValidateInput(
             "@" + nameof(_hasAnyTargetGroups) + " || " + nameof(AffectPreviousTarget), 
@@ -259,12 +271,28 @@ namespace OrderElimination.AbilitySystem
                 {
                     targetPositionOverride = target.Position;
                 }
-                var entityActionUseContext = new ActionContext(
-                    executionContext.BattleContext, 
-                    executionContext.TargetedCellGroups, 
-                    caster, 
-                    target,
-                    ActionCallOrigin.ActiveAbility);
+                var entityActionUseContext = Action.ActionRequires switch
+                {
+                    ActionRequires.Target => new ActionContext(
+                        executionContext.BattleContext,
+                        executionContext.TargetedCellGroups,
+                        caster,
+                        target,
+                        ActionCallOrigin.ActiveAbility),
+                    ActionRequires.Cell => new ActionContext(
+                        executionContext.BattleContext,
+                        executionContext.TargetedCellGroups,
+                        caster,
+                        targetPositionOverride.Value,
+                        ActionCallOrigin.ActiveAbility),
+                    ActionRequires.Maker => new ActionContext(
+                        executionContext.BattleContext,
+                        executionContext.TargetedCellGroups,
+                        caster,
+                        null,
+                        ActionCallOrigin.ActiveAbility),
+                    _ => throw new NotImplementedException(),
+                };
 
                 var animationContext = new AnimationPlayContext(
                     executionContext.AnimationSceneContext,
@@ -286,7 +314,7 @@ namespace OrderElimination.AbilitySystem
                     if (AnimationBeforeAction != null)
                         await AnimationBeforeAction.Play(animationContext);
                     if (Action.ActionRequires == ActionRequires.Target
-                        && actionContext.ActionTarget.IsDisposedFromBattle)
+                        && actionContext.TargetEntity.IsDisposedFromBattle)
                         continue;
                     if ((await Action.ModifiedPerform(actionContext)).IsSuccessful) //Action Success
                     {

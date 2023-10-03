@@ -101,10 +101,10 @@ namespace AI.Utils
 
         private void CalculateRawDamage(AbilityInstruction instruction, CellGroupsContainer targetGroups)
         {
-            //Can throw an exception if value depends on target.
-            var actionContext = new ActionContext(
-                _battleContext, targetGroups, _caster, null, ActionCallOrigin.Unknown);
-            var calculationContext = ValueCalculationContext.Full(actionContext);
+            //Should throw an exception if value depends on target.
+            //But doesn't
+            //*_*
+            var calculationContext = ValueCalculationContext.Full(_battleContext, targetGroups, _caster, null);
 
             //Calculate value based on context
             switch (instruction.Action)
@@ -140,9 +140,8 @@ namespace AI.Utils
             foreach (var target in targets)
             {
                 //Form action context
-                var actionContext = new ActionContext(
-                    _battleContext, cellGroups, _caster, target, ActionCallOrigin.Unknown);
-                var calculationContext = ValueCalculationContext.Full(actionContext);
+                var calculationContext = ValueCalculationContext.Full(
+                    _battleContext, cellGroups, _caster, target);
 
                 //Calculate value based on context
                 switch (instruction.Action)
@@ -160,10 +159,10 @@ namespace AI.Utils
 
                 if (target != null)
                 {
-                    if (actionContext.BattleContext.GetRelationship(_caster.BattleSide, target.BattleSide) ==
+                    if (_battleContext.GetRelationship(_caster.BattleSide, target.BattleSide) ==
                         BattleRelationship.Enemy)
                         AffectedEnemies++;
-                    else if (actionContext.BattleContext.GetRelationship(_caster.BattleSide, target.BattleSide) ==
+                    else if (_battleContext.GetRelationship(_caster.BattleSide, target.BattleSide) ==
                              BattleRelationship.Ally)
                         AffectedAlies++;
                 }

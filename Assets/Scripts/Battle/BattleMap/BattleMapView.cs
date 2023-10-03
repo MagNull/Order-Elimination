@@ -1,25 +1,22 @@
 using System;
 using System.Collections.Generic;
-using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using UnityEngine;
 
-//TODO: Optimize some methods (find cell example)
 public class BattleMapView : MonoBehaviour
 {
     public event Action<CellView> CellClicked;
 
     [SerializeField]
     private BattleMap _battleMap;
-    [SerializeField]
-    private float _moveDuration = 0.5f;
 
     private CellView[,] _cellViewGrid;
-
     private readonly List<CellView> _lightedCells = new();
-    private bool _battleEnded = false;
 
     public BattleMap Map => _battleMap;
+    public Vector2 CellSize => _cellViewGrid != null && _cellViewGrid[0, 0] != null
+        ? _cellViewGrid[0, 0].Size 
+        : new Vector2(float.NaN, float.NaN);
 
     /// <summary>
     /// Interpolates game position between MapView borders.
@@ -52,7 +49,6 @@ public class BattleMapView : MonoBehaviour
     public void Init(CellView[,] viewGrid)
     {
         _cellViewGrid = viewGrid;
-
         foreach (var cellView in _cellViewGrid)
         {
             cellView.CellClicked += OnCellClicked;
@@ -68,7 +64,7 @@ public class BattleMapView : MonoBehaviour
     {
         foreach (var cell in _lightedCells)
         {
-            cell?.Delight();
+            cell.Delight();
         }
 
         _lightedCells.Clear();
@@ -83,8 +79,6 @@ public class BattleMapView : MonoBehaviour
 
     private void OnCellClicked(CellView cellView)
     {
-        if (_battleEnded)
-            return;
         CellClicked?.Invoke(cellView);
     }
 }

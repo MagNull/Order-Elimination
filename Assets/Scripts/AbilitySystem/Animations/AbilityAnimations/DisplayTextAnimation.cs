@@ -38,6 +38,10 @@ namespace OrderElimination.AbilitySystem.Animations
         [ShowInInspector, OdinSerialize]
         public Vector2 FloatingOffset { get; set; }
 
+        [BoxGroup("Positioning")]
+        [ShowInInspector, OdinSerialize]
+        public bool ScaleWithCellSize { get; set; }
+
         [ValidateInput("@" + nameof(NoOffsetsAssigned), 
             "Origin and Offset will be defined by script. \nSet these in \"Positioning\" section!")]
         [HideLabel]
@@ -62,6 +66,10 @@ namespace OrderElimination.AbilitySystem.Animations
                 var realWorldEndPosition = context.SceneContext.BattleMapView.GameToWorldPosition(textEndPosition);
                 var offset = realWorldEndPosition - realWorldStartPosition;
                 var modifiedContext = TextEmitterContext;
+                if (ScaleWithCellSize)
+                {
+                    modifiedContext.FontSize *= context.SceneContext.ScaleMultiplier;
+                }
                 modifiedContext.Origin = realWorldStartPosition;
                 modifiedContext.Offset = offset;
                 var task = context.SceneContext.TextEmitter

@@ -25,7 +25,7 @@ namespace OrderElimination.AbilitySystem
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
             var healInfo = CalculateRecovery(useContext);
-            useContext.ActionTarget.TakeRecovery(healInfo);
+            useContext.TargetEntity.TakeRecovery(healInfo);
             return new SimplePerformResult(this, useContext, true);
         }
 
