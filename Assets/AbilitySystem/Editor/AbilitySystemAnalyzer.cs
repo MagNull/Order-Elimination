@@ -390,7 +390,9 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
             IEnumerable<ScriptableObject> assets, 
             IDictionary<ScriptableObject, SerializedMember[]> entries)
         {
-            foreach (var foundAsset in assets)
+            var assetsArray = assets.ToArray();
+            //var assetsCount = assetsArray.GroupBy(a => a.GetType()).ToDictionary(g => g.Key, g => g.Count());
+            foreach (var foundAsset in assetsArray)
             {
                 var entriesCount = entries[foundAsset].Length > 1
                     ? $"{entries[foundAsset].Length} entries"

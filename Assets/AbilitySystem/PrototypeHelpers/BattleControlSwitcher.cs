@@ -1,4 +1,5 @@
 using AI;
+using Cysharp.Threading.Tasks;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using UIManagement.Elements;
@@ -71,6 +72,8 @@ public class BattleControlSwitcher : MonoBehaviour
                 _endTurnButton.interactable = false;
             if (battleContext.ActiveSide != BattleSide.NoSide)
                 await _nonPlayerController.Run(battleContext.ActiveSide);
+            if (battleContext.HasExecutingTasks)
+                await UniTask.WaitUntil(() => !battleContext.HasExecutingTasks);
             _battleManager.StartNextTurn();
         }
         //_isTurnRunning = false;

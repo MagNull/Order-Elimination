@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cysharp.Threading.Tasks;
+using System;
 namespace OrderElimination.AbilitySystem
 {
     public class ActiveAbilityRunner
@@ -17,6 +18,7 @@ namespace OrderElimination.AbilitySystem
 
         public event Action<ActiveAbilityRunner> AbilityExecutionStarted;
         public event Action<ActiveAbilityRunner> AbilityExecutionCompleted;
+        public event Action<ActiveAbilityRunner> AbilityAvailableAfterExecution;
 
         public bool IsCastAvailable(IBattleContext battleContext, AbilitySystemActor caster)
         {
@@ -67,15 +69,24 @@ namespace OrderElimination.AbilitySystem
                 battleContext.NewRoundBegan += decreaseCooldown;
                 var abilityUseContext = new AbilityExecutionContext(
                     ActionCallOrigin.ActiveAbility, battleContext, caster, executionGroups);
+
                 IsRunning = true;
                 caster.IsPerformingAbility = true;
-                AbilityExecutionStarted?.Invoke(this);//Ability functionality initiated, but not finished yet.
+                AbilityExecutionStarted?.Invoke(this);
 
                 await AbilityData.Execution.Execute(abilityUseContext);
+
+                if (battleContext.HasExecutingTasks)
+                    await UniTask.WaitUntil(() => !battleContext.HasExecutingTasks);
 
                 IsRunning = false;
                 caster.IsPerformingAbility = false;
                 AbilityExecutionCompleted?.Invoke(this);
+
+                if (battleContext.HasExecutingTasks)
+                    await UniTask.WaitUntil(() => !battleContext.HasExecutingTasks);
+
+                AbilityAvailableAfterExecution?.Invoke(this);
             }
 
             void onCanceled(IAbilityTargetingSystem targetingSystem)

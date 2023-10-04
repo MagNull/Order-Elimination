@@ -11,9 +11,9 @@ namespace OrderElimination.AbilitySystem
         public EnumMask<DamageType> TriggeringDamageTypes { get; private set; } = EnumMask<DamageType>.Full;
 
         public IBattleTrigger GetTrigger(
-            IBattleContext battleContext, AbilitySystemActor trackingEntity)
+            IBattleContext battleContext, AbilitySystemActor activator, AbilitySystemActor trackingEntity)
         {
-            var instance = new ITriggerSetup.BattleTrigger(this, battleContext);
+            var instance = new ITriggerSetup.BattleTrigger(this, battleContext, activator);
             instance.ActivationRequested += OnActivation;
             return instance;
 

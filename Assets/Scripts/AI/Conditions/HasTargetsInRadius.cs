@@ -50,7 +50,7 @@ namespace AI.Conditions
 
             targets = targets
                 .Where(e =>
-                e.IsAlive && context.BattleMap.GetGameDistanceBetween(e.Position, caster.Position) <= _radius)
+                !e.IsDisposedFromBattle && context.BattleMap.GetGameDistanceBetween(e.Position, caster.Position) <= _radius)
                 .Where(enemy => _targetConditions.All(co => co.Check(enemy)));
             blackboard.Register("targets", targets);
             

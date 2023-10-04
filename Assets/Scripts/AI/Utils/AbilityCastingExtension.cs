@@ -22,7 +22,7 @@ namespace AI.Utils
             var casterView = battleContext.EntitiesBank.GetViewByEntity(caster);
             Debug.Log($"AI {casterView.Name} casted {abilityRunner.AbilityData.View.Name}");
             var completed = false;
-            abilityRunner.AbilityExecutionCompleted += _ => completed = true;
+            abilityRunner.AbilityAvailableAfterExecution += _ => completed = true;
             
             targeting.Select(targetPos);
             await UniTask.WaitUntil(() => completed);

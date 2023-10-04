@@ -107,7 +107,7 @@ namespace OrderElimination.AbilitySystem
             _spawnedEntities.Add(entity);
             if (RemoveByTrigger)//TODO: Add support for entity triggers
             {
-                var trigger = RemoveTrigger.GetTrigger(battleContext);
+                var trigger = RemoveTrigger.GetTrigger(battleContext, caster);
                 _activeTriggers.Add(performId, trigger);
                 _perforIdsByTriggers.Add(trigger, performId);
                 trigger.Triggered += OnTriggerFired;

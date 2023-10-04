@@ -89,7 +89,8 @@ namespace OrderElimination.AbilitySystem.Animations
         [ShowInInspector, OdinSerialize]
         public Ease MoveEase { get; set; }
 
-        protected override async UniTask OnAnimationPlayRequest(AnimationPlayContext context, CancellationToken cancellationToken)
+        protected override async UniTask OnAnimationPlayRequest(
+            AnimationPlayContext context, CancellationToken cancellationToken)
         {
             var movingTaget = MovingEntity switch
             {

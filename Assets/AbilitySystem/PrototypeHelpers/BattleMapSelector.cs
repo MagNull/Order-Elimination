@@ -233,8 +233,8 @@ public class BattleMapSelector : MonoBehaviour
         {
             ability.AbilityExecutionStarted -= OnAbilityExecutionStarted;
             ability.AbilityExecutionStarted += OnAbilityExecutionStarted;
-            ability.AbilityExecutionCompleted -= OnAbilityExecutionCompleted;
-            ability.AbilityExecutionCompleted += OnAbilityExecutionCompleted;
+            ability.AbilityAvailableAfterExecution -= OnAbilityExecutionCompleted;
+            ability.AbilityAvailableAfterExecution += OnAbilityExecutionCompleted;
         }
         _characterBattleStatsPanel.UpdateEntityInfo(view);
         _characterBattleStatsPanel.ShowInfo();
@@ -286,7 +286,7 @@ public class BattleMapSelector : MonoBehaviour
             foreach (var ability in _currentSelectedEntity.ActiveAbilities)
             {
                 ability.AbilityExecutionStarted -= OnAbilityConditionUpdated;
-                ability.AbilityExecutionCompleted -= OnAbilityConditionUpdated;
+                ability.AbilityAvailableAfterExecution -= OnAbilityConditionUpdated;
             }
         }
         _characterBattleStatsPanel.HideInfo();

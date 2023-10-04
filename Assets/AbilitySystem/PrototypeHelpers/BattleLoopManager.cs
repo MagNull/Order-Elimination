@@ -25,8 +25,11 @@ public class BattleLoopManager : MonoBehaviour
     public int CurrentRound { get; private set; }
     private IBattleRules Rules => _battleContext.BattleRules;
 
+    [Obsolete("Only for BattleContext use!")]
     public event Action BattleStarted;
+    [Obsolete("Only for BattleContext use!")]
     public event Action NewTurnStarted;
+    [Obsolete("Only for BattleContext use!")]
     public event Action NewRoundBegan;
 
     [Inject]

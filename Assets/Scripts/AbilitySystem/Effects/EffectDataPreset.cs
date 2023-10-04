@@ -219,14 +219,14 @@ namespace OrderElimination.AbilitySystem
 
         public void OnActivation(BattleEffect effect)
         {
-            var bank = effect.BattleContext.EntitiesBank;
-            var targetView = bank.GetViewByEntity(effect.EffectHolder);
-            var applier = effect.EffectApplier != null
-                ? $"{bank.GetViewByEntity(effect.EffectApplier).Name}"
-                : "<Unknown>";
-            Logging.Log(
-                $"Effect «{effect.EffectData.View.Name % Colorize.Orange}» has been applied on {targetView.Name % Colorize.Orange} by {applier % Colorize.Orange} during {effect.BattleContext.ActiveSide.ToString() % Colorize.Orange} turn.",
-                context: this);
+            //var bank = effect.BattleContext.EntitiesBank;
+            //var targetView = bank.GetViewByEntity(effect.EffectHolder);
+            //var applier = effect.EffectApplier != null
+            //    ? $"{bank.GetViewByEntity(effect.EffectApplier).Name}"
+            //    : "<Unknown>";
+            //Logging.Log(
+            //    $"Effect «{effect.EffectData.View.Name % Colorize.Orange}» has been applied on {targetView.Name % Colorize.Orange} by {applier % Colorize.Orange} during {effect.BattleContext.ActiveSide.ToString() % Colorize.Orange} turn.",
+            //    context: this);
         }
 
         public void OnDeactivation(BattleEffect effect)

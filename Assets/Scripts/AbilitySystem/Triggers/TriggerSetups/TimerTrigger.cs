@@ -24,9 +24,9 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public bool TriggerOnStart { get; private set; }
 
-        public IBattleTrigger GetTrigger(IBattleContext battleContext)
+        public IBattleTrigger GetTrigger(IBattleContext battleContext, AbilitySystemActor activator)
         {
-            var instance = new ITriggerSetup.BattleTrigger(this, battleContext);
+            var instance = new ITriggerSetup.BattleTrigger(this, battleContext, activator);
             instance.ActivationRequested += OnActivation;
             return instance;
         }

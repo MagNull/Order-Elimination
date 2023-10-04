@@ -17,9 +17,10 @@ namespace OrderElimination.AbilitySystem
 
         //bool IgnoreSimultaneousChanges ? //might be hard to implement
 
-        public IBattleTrigger GetTrigger(IBattleContext battleContext, AbilitySystemActor trackingEntity)
+        public IBattleTrigger GetTrigger(
+            IBattleContext battleContext, AbilitySystemActor activator, AbilitySystemActor trackingEntity)
         {
-            var instance = new ITriggerSetup.BattleTrigger(this, battleContext);
+            var instance = new ITriggerSetup.BattleTrigger(this, battleContext, activator);
             instance.ActivationRequested += OnActivation;
             return instance;
 

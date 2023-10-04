@@ -40,7 +40,7 @@ public class BattleMap : MonoBehaviour, IBattleMap
     public Vector2Int GetPosition(AbilitySystemActor entity)
     {
         if (!ContainsEntity(entity))
-            Logging.LogException(new ArgumentException("Entity does not exist on the map."));
+            throw new ArgumentException("Entity does not exist on the map.");
         return _containedEntitiesPositions[entity];
     }
 

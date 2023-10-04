@@ -41,7 +41,7 @@ namespace AI.Actions
                 targeting.Select(structure.Position);
 
                 var completed = false;
-                movementAbility.AbilityExecutionCompleted += _ => completed = true;
+                movementAbility.AbilityAvailableAfterExecution += _ => completed = true;
                 await UniTask.WaitUntil(() => completed);
 
                 targeting.CancelTargeting();
