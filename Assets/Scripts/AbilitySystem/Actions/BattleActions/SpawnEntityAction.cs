@@ -41,7 +41,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public IContextTriggerSetup RemoveTrigger { get; private set; }
 
-        public override ActionRequires ActionRequires => ActionRequires.Cell;
+        public override BattleActionType BattleActionType => BattleActionType.CellAction;
 
         public override IBattleAction Clone()
         {

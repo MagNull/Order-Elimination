@@ -20,7 +20,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public float HealthMultiplier { get; set; } = 1f;
 
-        public override ActionRequires ActionRequires => ActionRequires.Target;
+        public override BattleActionType BattleActionType => BattleActionType.EntityAction;
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {

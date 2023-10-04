@@ -65,7 +65,8 @@ namespace OrderElimination.AbilitySystem
                 Cooldown = AbilityData.GameRepresentation.CooldownTime;
                 battleContext.NewRoundBegan -= decreaseCooldown;
                 battleContext.NewRoundBegan += decreaseCooldown;
-                var abilityUseContext = new AbilityExecutionContext(battleContext, caster, executionGroups);
+                var abilityUseContext = new AbilityExecutionContext(
+                    ActionCallOrigin.ActiveAbility, battleContext, caster, executionGroups);
                 IsRunning = true;
                 caster.IsPerformingAbility = true;
                 AbilityExecutionStarted?.Invoke(this);//Ability functionality initiated, but not finished yet.

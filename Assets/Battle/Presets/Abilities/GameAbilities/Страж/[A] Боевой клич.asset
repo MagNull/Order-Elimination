@@ -331,7 +331,10 @@ MonoBehaviour:
     - Name: Action
       Entry: 7
       Data: 18|OrderElimination.AbilitySystem.EmptyAction, Assembly-CSharp
-    - Name: ExecutesOn
+    - Name: ActionType
+      Entry: 3
+      Data: 2
+    - Name: ActionTypeS
       Entry: 3
       Data: 2
     - Name: IsSuccessful
@@ -366,12 +369,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: AffectPreviousTarget
-      Entry: 5
-      Data: false
-    - Name: AffectPreviousCell
-      Entry: 5
-      Data: false
-    - Name: AffectPreviousEntity
       Entry: 5
       Data: false
     - Name: _affectedCellGroups
@@ -1457,12 +1454,6 @@ MonoBehaviour:
     - Name: AffectPreviousTarget
       Entry: 5
       Data: false
-    - Name: AffectPreviousCell
-      Entry: 5
-      Data: false
-    - Name: AffectPreviousEntity
-      Entry: 5
-      Data: false
     - Name: _affectedCellGroups
       Entry: 7
       Data: 51|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
@@ -1746,12 +1737,6 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: AffectPreviousTarget
-      Entry: 5
-      Data: false
-    - Name: AffectPreviousCell
-      Entry: 5
-      Data: false
-    - Name: AffectPreviousEntity
       Entry: 5
       Data: false
     - Name: _affectedCellGroups

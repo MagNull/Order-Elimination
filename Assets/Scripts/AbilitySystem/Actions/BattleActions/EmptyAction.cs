@@ -2,19 +2,13 @@
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
     public class EmptyAction : BattleAction<EmptyAction>
     {
         [ShowInInspector, OdinSerialize]
-        public ActionRequires ExecutesOn { get; set; } = ActionRequires.Cell;
+        public BattleActionType ActionType { get; set; } = BattleActionType.CellAction;
 
         [DisableIf("@" + nameof(HasRandomSuccessChance))]
         [ShowInInspector, OdinSerialize]
@@ -28,12 +22,12 @@ namespace OrderElimination.AbilitySystem
         public IContextValueGetter SuccessChance { get; set; } = new ConstValueGetter(0.5f);
 
 
-        public override ActionRequires ActionRequires => ExecutesOn;
+        public override BattleActionType BattleActionType => ActionType;
 
         public override IBattleAction Clone()
         {
             var clone = new EmptyAction();
-            clone.ExecutesOn = ExecutesOn;
+            clone.ActionType = ActionType;
             clone.HasRandomSuccessChance = HasRandomSuccessChance;
             clone.SuccessChance = SuccessChance != null ? SuccessChance.Clone() : null;
             clone.IsSuccessful = IsSuccessful;

@@ -19,7 +19,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public IContextValueGetter TemporaryArmorAmount { get; private set; }
 
-        public override ActionRequires ActionRequires => ActionRequires.Target;
+        public override BattleActionType BattleActionType => BattleActionType.EntityAction;
 
         public string CallbackDescription => "Callback happens when temporary armor is depleted.";
 
@@ -89,7 +89,7 @@ namespace OrderElimination.AbilitySystem
             bool actionMakerProcessing = true,
             bool targetProcessing = true)
         {
-            if (ActionRequires == ActionRequires.Target)
+            if (BattleActionType == BattleActionType.EntityAction)
             {
                 if (useContext.TargetEntity == null)
                     throw new ArgumentNullException("Attempt to perform action on null entity.");

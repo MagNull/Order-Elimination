@@ -176,7 +176,6 @@ public class BattleEntityView : SerializedMonoBehaviour
     private TextEmitterContext GetScaledText(TextEmitterContext text)
     {
         var mapView = _animationSceneContext.BattleMapView;
-        Debug.Log($"Initial text: origin={text.Origin}; offset={text.Offset}");
         var map = BattleEntity.BattleContext.BattleMap;
         var gameOrigin = (Vector3)(Vector2)map.GetLastPosition(BattleEntity) + text.Origin;
         var gameDestination = gameOrigin + text.Offset;

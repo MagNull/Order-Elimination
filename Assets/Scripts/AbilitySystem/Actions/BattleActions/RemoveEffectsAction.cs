@@ -38,7 +38,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public ActionEntity AppliedBy { get; set; }
 
-        public override ActionRequires ActionRequires => ActionRequires.Target;
+        public override BattleActionType BattleActionType => BattleActionType.EntityAction;
 
         public override IBattleAction Clone()
         {

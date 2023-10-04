@@ -6,7 +6,7 @@ namespace OrderElimination.AbilitySystem
     {
         //Where to place entity on undo?
 
-        public override ActionRequires ActionRequires => ActionRequires.Target;
+        public override BattleActionType BattleActionType => BattleActionType.EntityAction;
 
         public override IBattleAction Clone()
         {

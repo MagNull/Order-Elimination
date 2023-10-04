@@ -16,13 +16,11 @@ namespace OrderElimination.AbilitySystem.Animations
         [OdinSerialize]
         private Transform _particlesParent;
 
-        [OdinSerialize]
-        private BattleMapView _mapView;
-
         [DictionaryDrawerSettings(KeyLabel = "Particle Type", ValueLabel = "Prefab")]
         [OdinSerialize, ShowInInspector, AssetsOnly]
         private Dictionary<ParticleType, AnimatedParticle> _parcticlesPrefabs = new();
 
+        private BattleMapView _mapView;
         private Dictionary<ParticleType, ObjectPool<AnimatedParticle>> _parcticlesPools = new();
         private Dictionary<AnimatedParticle, ParticleType> _spawnedParticleTypes = new();
         private ParticleType? _currentAwaitedParticle;

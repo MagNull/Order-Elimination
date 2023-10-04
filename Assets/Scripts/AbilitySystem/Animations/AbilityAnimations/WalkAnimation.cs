@@ -28,7 +28,7 @@ namespace OrderElimination.AbilitySystem.Animations
         #region Origin
         [BoxGroup("Origin")]
         [ShowInInspector, OdinSerialize]
-        public AnimationTarget OriginTarget { get; set; } = AnimationTarget.Caster;
+        public AnimationTarget OriginTarget { get; set; } = AnimationTarget.Target;
 
         [BoxGroup("Origin")]
         [EnableIf("@" + nameof(OriginAsCellGroup))]
@@ -44,7 +44,7 @@ namespace OrderElimination.AbilitySystem.Animations
         #region Destination
         [BoxGroup("Destination")]
         [ShowInInspector, OdinSerialize]
-        public AnimationTarget DestinationTarget { get; set; } = AnimationTarget.Target;
+        public AnimationTarget DestinationTarget { get; set; } = AnimationTarget.CellGroup;
 
         [BoxGroup("Destination")]
         [EnableIf("@" + nameof(DestinationAsCellGroup))]

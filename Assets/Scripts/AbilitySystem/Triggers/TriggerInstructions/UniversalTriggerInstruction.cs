@@ -55,7 +55,8 @@ namespace OrderElimination.AbilitySystem
                 if (CommonConditions != null
                     && !CommonConditions.AllMet(battleContext, caster, cellGroups))
                     return;
-                var executionContext = new AbilityExecutionContext(battleContext, caster, cellGroups);
+                var executionContext = new AbilityExecutionContext(
+                    ActionCallOrigin.PassiveAbility, battleContext, caster, cellGroups);
                 foreach (var i in Instructions)
                 {
                     await i.ExecuteRecursive(executionContext);

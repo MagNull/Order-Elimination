@@ -44,7 +44,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public IAbilityAnimation MoveFailedAnimation { get; private set; }
 
-        public override ActionRequires ActionRequires => ActionRequires.Target;
+        public override BattleActionType BattleActionType => BattleActionType.EntityAction;
 
         public int[] UtilizedCellGroups => new[] { DestinationCellGroup };
 

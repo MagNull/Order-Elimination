@@ -18,42 +18,71 @@ namespace OrderElimination.AbilitySystem
 
         public ActionContext(
             IBattleContext battleContext,
-            CellGroupsContainer cellTargetGroups,
+            CellGroupsContainer cellGroups,
             AbilitySystemActor actionMaker,
-            AbilitySystemActor target,
+            AbilitySystemActor targetEntity,
             ActionCallOrigin calledFrom)
         {
-            BattleContext = battleContext;
             CalledFrom = calledFrom;
-            CellTargetGroups = cellTargetGroups;
+            BattleContext = battleContext;
+            CellTargetGroups = cellGroups;
             ActionMaker = actionMaker;
-            TargetEntity = target;
+            TargetEntity = targetEntity;
             //In some cases entity can be not on the map, but it's position is required.
             //(entity != null, position == null)
             //There must be option to pass it's last position
             //e.g. ZoneTrigger leaver (because of death)
+            //Possible solutions:
             //1.New method overload with both entity and cell position (hard to control).
             //2.Maintain access to entity position in IBattleMap, even if entity is no longer on it.
             //3.Store last position somewhere (entity/bank/map).
             //Note: option 3 was chosen.
-            if (target != null)
-                TargetCell = battleContext.BattleMap.GetLastPosition(target);
+            if (targetEntity != null)
+                TargetCell = battleContext.BattleMap.GetLastPosition(targetEntity);
             AnimationSceneContext = battleContext.AnimationSceneContext;
         }
 
         public ActionContext(
+            ActionCallOrigin calledFrom,
             IBattleContext battleContext,
-            CellGroupsContainer cellTargetGroups,
-            AbilitySystemActor actionMaker,
-            Vector2Int target,
-            ActionCallOrigin calledFrom)
+            CellGroupsContainer cellGroups,
+            AbilitySystemActor actionMaker)
         {
-            BattleContext = battleContext;
             CalledFrom = calledFrom;
-            CellTargetGroups = cellTargetGroups;
+            BattleContext = battleContext;
+            CellTargetGroups = cellGroups;
             ActionMaker = actionMaker;
-            TargetCell = target;
             AnimationSceneContext = battleContext.AnimationSceneContext;
+        }
+
+        public ActionContext(
+            ActionCallOrigin calledFrom,
+            IBattleContext battleContext,
+            CellGroupsContainer cellGroups,
+            AbilitySystemActor actionMaker,
+            Vector2Int targetCell)
+        {
+            CalledFrom = calledFrom;
+            BattleContext = battleContext;
+            CellTargetGroups = cellGroups;
+            ActionMaker = actionMaker;
+            TargetCell = targetCell;
+            AnimationSceneContext = battleContext.AnimationSceneContext;
+        }
+
+        public static ActionContext CreateBest(
+            ActionCallOrigin callOrigin,
+            IBattleContext battleContext,
+            CellGroupsContainer cellGroups,
+            AbilitySystemActor actionMaker,
+            Vector2Int? targetCell,
+            AbilitySystemActor targetEntity)
+        {
+            if (targetEntity != null)
+                return new ActionContext(battleContext, cellGroups, actionMaker, targetEntity, callOrigin);
+            if (targetCell != null)
+                return new ActionContext(callOrigin, battleContext, cellGroups, actionMaker, targetCell.Value);
+            return new ActionContext(callOrigin, battleContext, cellGroups, actionMaker);
         }
     }
 }

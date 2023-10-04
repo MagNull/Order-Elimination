@@ -106,7 +106,7 @@ namespace OrderElimination.AbilitySystem
         public IContextTriggerSetup RemoveTrigger { get; private set; }
         #endregion
 
-        public override ActionRequires ActionRequires => ActionRequires.Target;
+        public override BattleActionType BattleActionType => BattleActionType.EntityAction;
 
         public int[] UtilizedCellGroups => new[] { SpawnAtCellGroup };
 

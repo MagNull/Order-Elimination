@@ -18,7 +18,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         private List<IEffectData> EffectImmunities { get; set; } = new();
 
-        public override ActionRequires ActionRequires => ActionRequires.Target;
+        public override BattleActionType BattleActionType => BattleActionType.EntityAction;
 
         public string CallbackDescription => "Callback happens when immunity blocked an attempt to apply effect.";
 
@@ -47,7 +47,7 @@ namespace OrderElimination.AbilitySystem
             bool actionMakerProcessing = true, 
             bool targetProcessing = true)
         {
-            if (ActionRequires == ActionRequires.Target)
+            if (BattleActionType == BattleActionType.EntityAction)
             {
                 if (useContext.TargetEntity == null)
                     throw new ArgumentNullException("Attempt to perform action on null entity.");

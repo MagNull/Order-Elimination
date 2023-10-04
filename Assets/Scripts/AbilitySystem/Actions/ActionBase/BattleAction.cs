@@ -7,7 +7,7 @@ namespace OrderElimination.AbilitySystem
     public abstract class BattleAction<TAction> : IBattleAction 
         where TAction : BattleAction<TAction> //TODO: reconsider necessity of this
     {
-        public abstract ActionRequires ActionRequires { get; }
+        public abstract BattleActionType BattleActionType { get; }
 
         public TAction GetModifiedAction(
             ActionContext useContext,
@@ -24,7 +24,7 @@ namespace OrderElimination.AbilitySystem
             bool targetProcessing = true)
         {
             //TODO: Refactor. "Entity disposed" case shouldn't be reached.
-            if (ActionRequires == ActionRequires.Target)
+            if (BattleActionType == BattleActionType.EntityAction)
             {
                 if (useContext.TargetEntity == null)
                     throw new ArgumentNullException("Attempt to perform action on null entity.");

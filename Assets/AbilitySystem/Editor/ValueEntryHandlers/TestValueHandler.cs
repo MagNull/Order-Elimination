@@ -10,16 +10,11 @@ namespace OrderElimination.Editor
     {
         public void HandleValueEntry(ReflectionExtensions.SerializedMember entry)
         {
-            if (entry.MemberValue is ShakeAnimation instance)
+            if (entry.MemberValue is EmptyAction instance)
             {
                 //public modifications
-                //instance.ShakingEntity = instance.ShakeTarget switch
-                //{
-                //    AnimationTarget.Target => ActionEntity.Target,
-                //    AnimationTarget.Caster => ActionEntity.Caster,
-                //    AnimationTarget.CellGroup => throw new NotImplementedException(),
-                //    _ => throw new NotImplementedException(),
-                //};
+                //instance.ActionType = (BattleActionType)(int)instance.ActionTypeS;
+                //instance.ActionTypeS = (ActionTypeC)(int)instance.ExecutesOn;
             }
             else throw new InvalidOperationException();
         }

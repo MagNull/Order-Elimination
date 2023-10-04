@@ -24,7 +24,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public IContextValueGetter ApplyChance { get; set; } = new ConstValueGetter(1);
 
-        public override ActionRequires ActionRequires => ActionRequires.Target;
+        public override BattleActionType BattleActionType => BattleActionType.EntityAction;
 
         public string CallbackDescription => "Callback happens when effect is deactivated.";
 
@@ -87,7 +87,7 @@ namespace OrderElimination.AbilitySystem
 
         public async UniTask<IActionPerformResult> ModifiedPerformWithCallbacks(ActionContext useContext, Action<IBattleActionCallback> onCallback, bool actionMakerProcessing = true, bool targetProcessing = true)
         {
-            if (ActionRequires == ActionRequires.Target)
+            if (BattleActionType == BattleActionType.EntityAction)
             {
                 if (useContext.TargetEntity == null)
                     throw new ArgumentNullException("Attempt to perform action on null entity.");

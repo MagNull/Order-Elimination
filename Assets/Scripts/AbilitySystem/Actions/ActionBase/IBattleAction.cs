@@ -7,7 +7,7 @@ namespace OrderElimination.AbilitySystem
     [Obsolete("Интерфейс " + nameof(IBattleAction) + " является обобщающим. По возможности используйте BattleAction<TAction>.")]
     public interface IBattleAction : ICloneable<IBattleAction>
     {
-        public ActionRequires ActionRequires { get; }
+        public BattleActionType BattleActionType { get; }
 
         //public bool CanPerform(ActionExecutionContext useContext, bool actionMakerProcessing = true, bool targetProcessing = true);
 

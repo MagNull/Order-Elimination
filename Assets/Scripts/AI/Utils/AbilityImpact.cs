@@ -126,11 +126,11 @@ namespace AI.Utils
             AbilityInstruction instruction, Vector2Int cell, CellGroupsContainer cellGroups)
         {
             //Determine target type
-            AbilitySystemActor[] targets = instruction.Action.ActionRequires switch
+            AbilitySystemActor[] targets = instruction.Action.BattleActionType switch
             {
-                ActionRequires.Maker => new[] { _caster },
-                ActionRequires.Cell => new AbilitySystemActor[] { },
-                ActionRequires.Target => _battleContext.BattleMap.GetContainedEntities(cell).ToArray(),
+                BattleActionType.CommonAction => new[] { _caster },
+                BattleActionType.CellAction => new AbilitySystemActor[] { },
+                BattleActionType.EntityAction => _battleContext.BattleMap.GetContainedEntities(cell).ToArray(),
                 _ => new AbilitySystemActor[] { }
             };
             //If there no targets on cell - skip

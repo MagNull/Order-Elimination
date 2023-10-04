@@ -1507,7 +1507,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 926713597}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.89085203, y: -0.038884476, z: -0.13142166}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1558,9 +1558,6 @@ MonoBehaviour:
     - Name: _particlesParent
       Entry: 10
       Data: 0
-    - Name: _mapView
-      Entry: 6
-      Data: 
     - Name: _parcticlesPrefabs
       Entry: 7
       Data: 0|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.Animations.ParticleType,
