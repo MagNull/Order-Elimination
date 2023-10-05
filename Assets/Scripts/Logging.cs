@@ -30,7 +30,7 @@ namespace OrderElimination
             [CallerMemberName] string caller = null)
         {
             ConfigureScope(context, caller, lineNumber);
-            Debug.LogException(exception, context);
+            throw exception;
         }
 
         private static void ConfigureScope(Object context, string className, int lineNumber)

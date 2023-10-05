@@ -1,5 +1,6 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using OrderElimination.AbilitySystem;
 using UnityEngine;
 
 namespace AI.Compositions
@@ -26,6 +27,9 @@ namespace AI.Compositions
                 var result = await task.TryRun(blackboard);
                 if (result)
                     return true;
+                var caster = blackboard.Get<AbilitySystemActor>("caster");
+                if (caster.IsDisposedFromBattle)
+                    return false;
             }
 
             return false;
