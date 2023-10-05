@@ -1,4 +1,9 @@
-﻿using Sirenix.OdinInspector;
+﻿using Mono.Cecil.Cil;
+using OrderElimination.Battle;
+using OrderElimination.Editor;
+using OrderElimination.Infrastructure;
+using OrderElimination.Utils;
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
@@ -9,11 +14,12 @@ using UnityEngine;
 
 namespace OrderElimination.MacroGame
 {
+    [Obsolete(nameof(BattleScenario) + " deprecated. Use " + nameof(BattleMapLayeredLayout) + " instead.")]
     [CreateAssetMenu(fileName = "new BattleScenario", menuName = "OrderElimination/Battle/Battle Scenario")]
-    public class BattleScenario : SerializedScriptableObject
+    public class BattleScenario : SerializedScriptableObject, IBattleMapLayout
     {
-        public int MapHeight => 8;
-        public int MapWidth => 8;
+        public int Height => 8;
+        public int Width => 8;
 
         #region OdinVisuals
         private static Color GetSpawnTypeColor(SpawnType type)
@@ -26,7 +32,7 @@ namespace OrderElimination.MacroGame
             };
         }
 
-        private int InverseY(int y) => MapHeight - 1 - y;
+        private int InverseY(int y) => Height - 1 - y;
 
         private readonly struct SpawnInfo
         {
@@ -60,7 +66,7 @@ namespace OrderElimination.MacroGame
                 _entitiesSpawns = new();
             if (_structureSpawns == null)
                 _structureSpawns = new();
-            _entitiesSpawnsLayout = new SpawnInfo[MapWidth, MapHeight];
+            _entitiesSpawnsLayout = new SpawnInfo[Width, Height];
             for (var x = 0; x < _entitiesSpawnsLayout.GetLength(0); x++)
             {
                 for (var y = 0; y < _entitiesSpawnsLayout.GetLength(1); y++)
@@ -75,7 +81,7 @@ namespace OrderElimination.MacroGame
                 _entitiesSpawnsLayout[pos.x, InverseY(pos.y)] = spawnInfo;
             }
 
-            _structureSpawnsLayout = new StructureTemplate[MapWidth, MapHeight];
+            _structureSpawnsLayout = new StructureTemplate[Width, Height];
             foreach (var pos in _structureSpawns.Keys)
             {
                 _structureSpawnsLayout[pos.x, InverseY(pos.y)] = _structureSpawns[pos];
@@ -117,9 +123,7 @@ namespace OrderElimination.MacroGame
                 var structure = _structureSpawns[spawnInfo.Position];
                 DrawStructureSpawnCell(rect, structure);
             }
-
-            Color.RGBToHSV(cellColor, out var hue, out var sat, out var val);
-            DrawLabel(rect, cellText.ToString(), Color.Lerp(Color.white, new Color(0.2f, 0.2f, 0.2f), val));
+            InspectorGUIExtensions.DrawLabel(rect, cellText.ToString(), cellColor.GetContrastColor());
 
             return spawnInfo;
         }
@@ -132,17 +136,6 @@ namespace OrderElimination.MacroGame
             return structure;
         }
 
-        private static void DrawLabel(Rect rect, string text, Color color)
-        {
-#if UNITY_EDITOR
-            var prevColor = GUI.contentColor;
-            var style = new GUIStyle(EditorStyles.boldLabel) { alignment = TextAnchor.MiddleCenter };
-            GUI.contentColor = color;
-            GUI.Label(rect, text, style);
-            GUI.contentColor = prevColor;
-#endif
-        }
-
         private void UpdateEntitySpawns(SpawnInfo[,] spawns)
         {
             _entitiesSpawns.Clear();
@@ -151,7 +144,7 @@ namespace OrderElimination.MacroGame
                 for (var y = 0; y < spawns.GetLength(1); y++)
                 {
                     if (spawns[x, y].SpawnType != null)
-                        _entitiesSpawns.Add(new Vector2Int(x, MapHeight - 1 - y), spawns[x, y].SpawnType.Value);
+                        _entitiesSpawns.Add(new Vector2Int(x, Height - 1 - y), spawns[x, y].SpawnType.Value);
                 }
             }
         }
@@ -164,7 +157,7 @@ namespace OrderElimination.MacroGame
                 for (var y = 0; y < spawns.GetLength(1); y++)
                 {
                     if (spawns[x, y] != null)
-                        _structureSpawns.Add(new Vector2Int(x, MapHeight - 1 - y), spawns[x, y]);
+                        _structureSpawns.Add(new Vector2Int(x, Height - 1 - y), spawns[x, y]);
                 }
             }
         }
@@ -217,5 +210,30 @@ namespace OrderElimination.MacroGame
 
         public IReadOnlyDictionary<Vector2Int, IBattleStructureTemplate> GetStructureSpawns()
             => _structureSpawns.ToDictionary(kv => kv.Key, kv => (IBattleStructureTemplate)kv.Value);
+
+        public BattleSpawnData[] GetSpawns()
+        {
+            var allyMask = EnumMask<BattleSide>.Empty;
+            allyMask[BattleSide.Player] = true;
+            allyMask[BattleSide.Allies] = true;
+            var enemyMask = EnumMask<BattleSide>.Empty;
+            allyMask[BattleSide.Enemies] = true;
+            allyMask[BattleSide.Others] = true;
+            var allySpawns = GetAlliesSpawnPositions().Select(p => new BattleSpawnData(p, allyMask.Clone()));
+            var enemySpawns = GetEnemySpawnPositions().Select(p => new BattleSpawnData(p, enemyMask.Clone()));
+            return allySpawns.Concat(enemySpawns).ToArray();
+        }
+
+        public StructureSpawnData[] GetStructures()
+        {
+            return GetStructureSpawns()
+                .Select(kv => new StructureSpawnData(kv.Value, BattleSide.NoSide, kv.Key))
+                .ToArray();
+        }
+
+        public CharacterSpawnData[] GetCharacters()
+        {
+            return new CharacterSpawnData[0];
+        }
     }
 }

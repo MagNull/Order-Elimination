@@ -17,9 +17,6 @@ public class BattleLoopManager : MonoBehaviour
     private BattleSide _activeSide;
     private EnergyPoint[] _energyPointTypes = EnumExtensions.GetValues<EnergyPoint>().ToArray();
 
-    [SerializeField]
-    private Vector2Int MapSize = new Vector2Int(8, 8);
-
     //public BattlePlayer ActivePlayer { get; private set; }
     public BattleSide ActiveSide => _activeSide;
     public int CurrentRound { get; private set; }
@@ -51,12 +48,12 @@ public class BattleLoopManager : MonoBehaviour
         ScenesMediator scenesMediator, IBattleContext battleContext, BattleInitializer battleInitializer)
     {
         IUndoableBattleAction.ClearAllActionsUndoCache();
-        var scenario = scenesMediator.Get<BattleScenario>("scenario");
+        var mapLayout = scenesMediator.Get<IBattleMapLayout>("scenario");
         _battleContext = battleContext;
-        battleInitializer.InitiateBattle(MapSize.x, MapSize.y);
+        battleInitializer.InitiateBattle(mapLayout.Width, mapLayout.Height);
         //battleInitializer.InitiateBattle(scenario.MapWidth, scenario.MapWidth);
         _activeSide = Rules.TurnPriority.GetStartingSide();
-        battleInitializer.StartScenario(scenario);
+        battleInitializer.StartScenario(mapLayout);
         //_entitiesBank.GetActiveEntities()
         //    .ForEach(e => e.PassiveAbilities.ForEach(a => a.Activate(_battleContext, e)));
         StartNewTurn(ActiveSide);

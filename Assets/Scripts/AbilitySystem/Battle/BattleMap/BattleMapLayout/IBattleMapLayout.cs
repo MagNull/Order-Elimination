@@ -1,7 +1,6 @@
 ﻿using OrderElimination.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
 namespace OrderElimination.Battle
@@ -15,16 +14,24 @@ namespace OrderElimination.Battle
         //Spawn side
         //Spawns for reinforcements?
         //Spawn class priorities?
-        public BattleSpawnData[] GetSpawns();//index is priority
+        public BattleSpawnData[] GetSpawns();//index = priority
         public StructureSpawnData[] GetStructures();
         public CharacterSpawnData[] GetCharacters();
     }
 
     public class BattleSpawnData
     {
-        public Vector2Int Position { get; set; }
-        public EnumMask<BattleSide> SpawningSides { get; set; }
-        //public int Priority { get; set; }
+        public Vector2Int Position { get; }
+
+        public EnumMask<BattleSide> SpawningSides { get; } = new();
+        //public bool IsReinforcementSpawn { get; set; } = false;
+        //public int Priority { get; set; } //dictated by index in list
+
+        public BattleSpawnData(Vector2Int position, EnumMask<BattleSide> spawningSides)
+        {
+            Position = position;
+            SpawningSides = spawningSides.Clone();
+        }
     }
 
     public class StructureSpawnData
@@ -37,9 +44,9 @@ namespace OrderElimination.Battle
             Position = position;
         }
 
-        public IBattleStructureTemplate StructureTemplate { get; set; }
-        public BattleSide Side { get; set; }
-        public Vector2Int Position { get; set; }
+        public IBattleStructureTemplate StructureTemplate { get; }
+        public BattleSide Side { get; }
+        public Vector2Int Position { get; }
     }
 
     public class CharacterSpawnData
@@ -52,8 +59,8 @@ namespace OrderElimination.Battle
             Position = position;
         }
 
-        public IGameCharacterTemplate CharacterTemplate { get; set; }
-        public BattleSide Side { get; set; }
-        public Vector2Int Position { get; set; }
+        public IGameCharacterTemplate CharacterTemplate { get; }
+        public BattleSide Side { get; }
+        public Vector2Int Position { get; }
     }
 }
