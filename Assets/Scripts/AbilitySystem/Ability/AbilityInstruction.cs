@@ -344,9 +344,7 @@ namespace OrderElimination.AbilitySystem
                             || actionContext.TargetEntity.IsDisposedFromBattle
                             || !actionContext.TargetEntity.IsAlive)
                         {
-                            Logging.LogException(
-                                new InvalidOperationException(
-                                    "Action requires entity but it's not allowed one. Skipping perform." + actionContext.ActionMaker.IsDisposedFromBattle));
+                            Logging.LogError("Action requires entity but it's not allowed one. Skipping perform.");
                             continue; //break;
                         }
 
