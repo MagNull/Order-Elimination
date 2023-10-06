@@ -2770,7 +2770,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: dc7552cb19317d642ad2af92d805c557, type: 2}
     - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
     - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
-    - {fileID: 11400000, guid: 3ef88edc210fa794f9b128e591f5fdbc, type: 2}
+    - {fileID: 11400000, guid: 4f406f6de158381498b4b6051bb8d4be, type: 2}
     - {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -3600,6 +3600,10 @@ PrefabInstance:
     - target: {fileID: 2005745094502167549, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
       propertyPath: m_Name
       value: Battle UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005745094502167549, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3205302136298068938, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
       propertyPath: m_AnchorMax.y

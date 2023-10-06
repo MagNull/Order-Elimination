@@ -7,6 +7,7 @@ namespace OrderElimination.Battle
 {
     public interface IBattleMapLayout
     {
+        public string MapName { get; }
         public int Width { get; }
         public int Height { get; }
 

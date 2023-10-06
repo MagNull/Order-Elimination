@@ -4,6 +4,7 @@ using OrderElimination.Utils;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using Sirenix.Utilities;
+using Sirenix.Utilities.Editor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,10 @@ namespace OrderElimination.Battle
     public class BattleMapLayeredLayout : SerializedScriptableObject, IBattleMapLayout
     {
         #region OdinVisuals
-        [ShowInInspector]
+        [ShowInInspector, PropertyOrder(-10)]
         private static bool _displayCoordinates = true;
+        //[ShowInInspector, PropertyOrder(-10)]
+        private static bool _displayBackground = true;
 
         [TableMatrix(
             DrawElementMethod = nameof(DrawPreviewCell),
@@ -60,7 +63,17 @@ namespace OrderElimination.Battle
             }
 
 #if UNITY_EDITOR
-            var cellColor = new Color(0, 0, 0, 0);
+            if (BackgroundImage != null && _displayBackground)
+            {
+                //draw image part
+                var texture = BackgroundImage;
+                var deltaX = (float)texture.width / Width;
+                var deltaY = (float)texture.height / Height;
+                var cropRect = new Rect(deltaX * pos.x, deltaY * pos.y, deltaX, deltaY);
+                var texturePart = texture.CropTexture(cropRect);
+                GUI.DrawTexture(rect, texturePart, ScaleMode.StretchToFill);
+            }
+            var cellColor = Color.black.WithAlpha(0);
             var cellText = new StringBuilder();
             if (_displayCoordinates)
                 cellText.Append(gamePos);
@@ -68,6 +81,7 @@ namespace OrderElimination.Battle
             var charTint = new Color(1, 1, 1, 0.8f);
             var charRect = rect.AlignCenterXY(rect.width * 0.7f);
 
+            //Draw Spawns
             if (_spawns.ContainsKey(gamePos))
             {
                 var sides = EnumExtensions.GetValues<BattleSide>()
@@ -90,7 +104,11 @@ namespace OrderElimination.Battle
                 if (sides.Length > 1)
                     cellColor = Color.yellow;
             }
+            if (_displayBackground && cellColor.a != 0)
+                cellColor = cellColor.WithAlpha(0.8f);
             EditorGUI.DrawRect(rect.AlignCenterXY(rect.width * 0.98f), cellColor);
+
+            //Draw Entities
             foreach (var (item, side) in GetItemsFromLayersAt(_structureLayers, pos.x, pos.y))
             {
                 var texture = item.BattleIcon.texture;
@@ -102,6 +120,7 @@ namespace OrderElimination.Battle
                 GUI.DrawTexture(charRect, texture, ScaleMode.ScaleToFit, true, 0, charTint, 0, 0);
             }
 
+            //Draw Text data
             InspectorGUIExtensions.DrawLabel(rect, cellText.ToString(), cellColor.GetContrastColor());
 #endif
             return pos;
@@ -118,6 +137,15 @@ namespace OrderElimination.Battle
             var positions = EnumerableExtensions.GetIndexVectorMatrix(defaultSize, defaultSize);
             _preview = positions;
         }
+
+        [TitleGroup("Map Properties", Alignment = TitleAlignments.Centered)]
+        [PropertyOrder(-1)]
+        [ShowInInspector, OdinSerialize]
+        public string MapName { get; private set; }
+
+        //[PropertyOrder(-1)]
+        //[ShowInInspector, OdinSerialize]
+        public Texture BackgroundImage { get; private set; }
 
         [HideInInspector, OdinSerialize]
         private int _size { get; set; } = 8;
@@ -243,7 +271,11 @@ namespace OrderElimination.Battle
             return objects.ToArray();
         }
 
+        private bool HasSpawnsOutsideBorders
+            => _spawns.Keys.Any(pos => pos.x < 0 || pos.y < 0 || pos.x > Width - 1 || pos.y > Height - 1);
+
         [TitleGroup("Spawns")]
+        [EnableIf("@" + nameof(HasSpawnsOutsideBorders))]
         [Button]
         private void ClearSpawnsOutsideBorders()
         {

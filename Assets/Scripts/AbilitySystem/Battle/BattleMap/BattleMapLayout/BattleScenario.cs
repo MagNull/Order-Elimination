@@ -14,10 +14,11 @@ using UnityEngine;
 
 namespace OrderElimination.MacroGame
 {
-    [Obsolete(nameof(BattleScenario) + " deprecated. Use " + nameof(BattleMapLayeredLayout) + " instead.")]
-    [CreateAssetMenu(fileName = "new BattleScenario", menuName = "OrderElimination/Battle/Battle Scenario")]
+    //[Obsolete(nameof(BattleScenario) + " deprecated. Use " + nameof(BattleMapLayeredLayout) + " instead.")]
+    //[CreateAssetMenu(fileName = "new BattleScenario", menuName = "OrderElimination/Battle/Battle Scenario")]
     public class BattleScenario : SerializedScriptableObject, IBattleMapLayout
     {
+        public string MapName => $"Battle Scenario «{name}»";
         public int Height => 8;
         public int Width => 8;
 
@@ -217,8 +218,8 @@ namespace OrderElimination.MacroGame
             allyMask[BattleSide.Player] = true;
             allyMask[BattleSide.Allies] = true;
             var enemyMask = EnumMask<BattleSide>.Empty;
-            allyMask[BattleSide.Enemies] = true;
-            allyMask[BattleSide.Others] = true;
+            enemyMask[BattleSide.Enemies] = true;
+            enemyMask[BattleSide.Others] = true;
             var allySpawns = GetAlliesSpawnPositions().Select(p => new BattleSpawnData(p, allyMask.Clone()));
             var enemySpawns = GetEnemySpawnPositions().Select(p => new BattleSpawnData(p, enemyMask.Clone()));
             return allySpawns.Concat(enemySpawns).ToArray();
