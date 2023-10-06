@@ -83,7 +83,7 @@ namespace RoguelikeMap.SquadInfo
         }
 
         private void StartAttack(
-            IEnumerable<IGameCharacterTemplate> enemies, BattleScenario scenario, Dictionary<ItemData, float> items)
+            IEnumerable<IGameCharacterTemplate> enemies, IBattleMapLayout scenario, Dictionary<ItemData, float> items)
         {
             Debug.Log("StartAttack");
             _squadMembersPanel.OnSelected -= WereSelectedMembers;

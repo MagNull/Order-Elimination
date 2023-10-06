@@ -40,6 +40,9 @@ namespace OrderElimination.AbilitySystem
         }
 
         public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int positionToCheck)
+            => IsConditionMet(battleContext, askingEntity, positionToCheck, null);
+
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int positionToCheck, CellGroupsContainer cellGroups)
         {
             var cellEntities = VisibleEntitiesOnly
                 ? battleContext.GetVisibleEntitiesAt(positionToCheck, askingEntity.BattleSide).ToArray()
@@ -47,18 +50,18 @@ namespace OrderElimination.AbilitySystem
             var isCellEmpty = cellEntities.Length == 0;
             if (MustBeEmpty)
                 return isCellEmpty;
-            if (AllowEmptyCells && isCellEmpty) 
+            if (AllowEmptyCells && isCellEmpty)
                 return true;
             if (AllEntitiesMustMeetRequirements)
             {
-                return cellEntities.All(e => EntityConditions.AllMet(battleContext, askingEntity, e));
+                return cellEntities.All(e => EntityConditions.AllMet(battleContext, askingEntity, e, cellGroups));
             }
             else
             {
                 var view = battleContext.EntitiesBank.GetViewByEntity(askingEntity);
                 if (EntityConditions == null)
                     Debug.LogError($"{nameof(EntityConditions)} null on {view.Name}");
-                return cellEntities.Any(e => EntityConditions.AllMet(battleContext, askingEntity, e));
+                return cellEntities.Any(e => EntityConditions.AllMet(battleContext, askingEntity, e, cellGroups));
             }
         }
     }

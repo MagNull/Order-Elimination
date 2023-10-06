@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using OrderElimination.AbilitySystem.Animations;
 using OrderElimination.Battle;
 using OrderElimination.Infrastructure;
@@ -21,6 +22,10 @@ namespace OrderElimination.AbilitySystem
         public BattleSide ActiveSide { get; }
         public IBattleRules BattleRules { get; }
         #endregion
+
+        public bool HasExecutingTasks { get; }
+        public void AddExecutingTask(UniTask task);
+        public void RemoveExecutingTask(UniTask task);
 
         public BattleRelationship GetRelationship(BattleSide askingSide, BattleSide relationSide);
         public IEnumerable<AbilitySystemActor> GetVisibleEntities(BattleSide askingSide);

@@ -53,8 +53,8 @@ namespace OrderElimination.AbilitySystem
         {
             var instance = _triggerSetup switch
             {
-                IContextTriggerSetup contextSetup => contextSetup.GetTrigger(battleContext),
-                IEntityTriggerSetup entitySetup => entitySetup.GetTrigger(battleContext, caster),
+                IContextTriggerSetup contextSetup => contextSetup.GetTrigger(battleContext, caster),
+                IEntityTriggerSetup entitySetup => entitySetup.GetTrigger(battleContext, caster, caster),
                 _ => throw new NotImplementedException(),
             };
             instance.Triggered += OnTriggered;

@@ -19,13 +19,13 @@ namespace AI.Utils
             var targeting = (SingleTargetTargetingSystem)abilityRunner.AbilityData.TargetingSystem;
             targeting.ConfirmationUnlocked += _ => { targeting.ConfirmTargeting(); };
 
-            Debug.Log("Start cast");
+            var casterView = battleContext.EntitiesBank.GetViewByEntity(caster);
+            Debug.Log($"AI {casterView.Name} casted {abilityRunner.AbilityData.View.Name}");
             var completed = false;
-            abilityRunner.AbilityExecutionCompleted += _ => completed = true;
+            abilityRunner.AbilityAvailableAfterExecution += _ => completed = true;
             
             targeting.Select(targetPos);
             await UniTask.WaitUntil(() => completed);
-            Debug.Log("End cast");
 
             return true;
         }

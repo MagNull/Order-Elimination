@@ -27,13 +27,15 @@ namespace OrderElimination.Utils
         }
 
         public async UniTask Emit(Sprite sprite, Vector3 position)//size
+            => Emit(sprite, position, new Vector2(0, 0.5f), 1);
+
+        public async UniTask Emit(Sprite sprite, Vector3 position, Vector3 offset, float spriteSize)//size
         {
             var element = _spritePool.Get();
             element.transform.position = position;
             element.sprite = sprite;
             var maxSpriteDimension = Mathf.Max(sprite.bounds.size.x, sprite.bounds.size.y);
-            element.transform.localScale = Vector3.one * _defaultSpriteSize / maxSpriteDimension;
-            var offset = new Vector2(0, 0.5f);
+            element.transform.localScale = Vector3.one * spriteSize * _defaultSpriteSize / maxSpriteDimension;
             var duration = 1f;
             element.transform.DOBlendableMoveBy(offset, duration).SetEase(Ease.OutCubic);
             element.DOFade(0, duration).SetDelay(duration / 3).OnComplete(() => _spritePool.Release(element));

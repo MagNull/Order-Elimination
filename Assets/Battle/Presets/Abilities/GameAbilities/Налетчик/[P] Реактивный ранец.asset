@@ -16,7 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 21300000, guid: 94046d13d573e464aa6ca640df40ceb2, type: 3}
+    - {fileID: 21300000, guid: 76ad78edee129b04793218e98b761881, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -34,12 +34,15 @@ MonoBehaviour:
         \u043F\u0440\u0438 \u043F\u0435\u0440\u0435\u043C\u0435\u0449\u0435\u043D\u0438\u0438;\n2
         \u043F\u0435\u0440\u0435\u043C\u0435\u0449\u0435\u043D\u0438\u044F \u0437\u0430
         \u0445\u043E\u0434"
-    - Name: HideInCharacterDiscription
+    - Name: HideInCharacterDescription
       Entry: 5
       Data: false
     - Name: CooldownTime
       Entry: 3
       Data: 0
+    - Name: ActionsOnActivation
+      Entry: 6
+      Data: 
     - Name: TriggerInstructions
       Entry: 7
       Data: 0|OrderElimination.AbilitySystem.ITriggerInstruction[], Assembly-CSharp
@@ -60,6 +63,9 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 8
+      Data: 
+    - Name: CommonConditions
+      Entry: 6
       Data: 
     - Name: GroupDistributor
       Entry: 7
@@ -145,7 +151,7 @@ MonoBehaviour:
     - Name: Action
       Entry: 7
       Data: 11|OrderElimination.AbilitySystem.ChangeEnergyPointsAction, Assembly-CSharp
-    - Name: EnergyPoint
+    - Name: EnergyPointType
       Entry: 3
       Data: 0
     - Name: Modification
@@ -157,9 +163,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: AffectPreviousTarget
-      Entry: 5
-      Data: false
+    - Name: RepeatNumber
+      Entry: 3
+      Data: 1
+    - Name: _commonConditions
+      Entry: 6
+      Data: 
     - Name: _targetConditions
       Entry: 7
       Data: 12|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
@@ -173,6 +182,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: AffectPreviousTarget
+      Entry: 5
+      Data: false
     - Name: _affectedCellGroups
       Entry: 7
       Data: 13|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
@@ -188,9 +200,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: RepeatNumber
-      Entry: 3
-      Data: 1
     - Name: _instructionsOnActionSuccess
       Entry: 7
       Data: 14|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,

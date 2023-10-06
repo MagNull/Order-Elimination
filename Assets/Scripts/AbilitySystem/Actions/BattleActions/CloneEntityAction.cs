@@ -106,7 +106,7 @@ namespace OrderElimination.AbilitySystem
         public IContextTriggerSetup RemoveTrigger { get; private set; }
         #endregion
 
-        public override ActionRequires ActionRequires => ActionRequires.Target;
+        public override BattleActionType BattleActionType => BattleActionType.EntityAction;
 
         public int[] UtilizedCellGroups => new[] { SpawnAtCellGroup };
 
@@ -171,7 +171,7 @@ namespace OrderElimination.AbilitySystem
         {
             var battleContext = useContext.BattleContext;
             var caster = useContext.ActionMaker;
-            var target = useContext.ActionTarget;
+            var target = useContext.TargetEntity;
             var side = SideType switch
             {
                 BattleSideReference.Same => caster.BattleSide,
@@ -191,7 +191,7 @@ namespace OrderElimination.AbilitySystem
             _spawnedEntities.Add(spawnedInActionEntities.ToArray());
             if (RemoveByTrigger)
             {
-                var trigger = RemoveTrigger.GetTrigger(battleContext);
+                var trigger = RemoveTrigger.GetTrigger(battleContext, caster);
                 _activeTriggers.Add(performId, trigger);
                 _perforIdsByTriggers.Add(trigger, performId);
                 trigger.Triggered += OnTriggerFired;

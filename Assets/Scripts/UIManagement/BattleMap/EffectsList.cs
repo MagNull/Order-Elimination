@@ -56,7 +56,7 @@ namespace UIManagement.Elements
                 else
                     button.StackNumbersText.text = "";
             }
-            foreach (var line in _effectsHolderLines)
+            foreach (var line in _effectsHolderLines.Where(kv => kv.Value != null))
             {
                 if (line.Value.childCount > 0)
                     line.Value.gameObject.SetActive(true);
@@ -74,6 +74,8 @@ namespace UIManagement.Elements
             _effectsByData.Remove(effect);
 
             effectButton.DOComplete();
+            if (effectButton == null)
+                return;
             effectButton.transform.SetParent(null);
             var disappearTime = effectButton.transform.localScale.magnitude * effectAppearTime / 2;
             effectButton.transform

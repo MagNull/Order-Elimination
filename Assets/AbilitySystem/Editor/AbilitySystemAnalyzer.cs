@@ -1,30 +1,25 @@
 using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.AbilitySystem.Animations;
+using OrderElimination.Battle;
+using OrderElimination.Editor;
 using OrderElimination.Infrastructure;
+using OrderElimination.MacroGame;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Serialization;
 using Sirenix.Utilities;
 using Sirenix.Utilities.Editor;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using static OrderElimination.Infrastructure.ReflectionExtensions;
 
 public class AbilitySystemAnalyzer : OdinMenuEditorWindow
 {
     #region SupportTypes
-    public enum AbilitySystemAssetType
-    {
-        ActiveAbility,
-        PassiveAbility,
-        Effect
-    }
-
     private class AbilitySystemAnalyzerInfo
     {
         private enum SearchForOption
@@ -33,11 +28,36 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
             InstanceReference
         }
 
+        private bool IsTypeSearch => SearchFor == SearchForOption.TypeReference;
+        private bool IsInstanceSearch => SearchFor == SearchForOption.InstanceReference;
+        private bool InstanceHandlerIsValid
+        {
+            get
+            {
+                if (InstanceHandler == null
+                    || IsTypeSearch && SeekingType == null
+                    || IsInstanceSearch && SeekingInstance == null)
+                    return false;
+                var instanceType = SearchFor switch
+                {
+                    SearchForOption.TypeReference => SeekingType,
+                    SearchForOption.InstanceReference => SeekingInstance.GetType(),
+                    _ => throw new NotImplementedException(),
+                };
+                return true;
+                //var changerInputType = InstanceHandler.GetType().GetGenericArguments()[0];
+                //return changerInputType.IsAssignableFrom(instanceType);
+            }
+        }
+        private bool HasResults
+            => SearchResult != null && SearchResult.MenuItems.Count > 0;
+
         private ActiveAbilityBuilder[] _projectActiveAbilities;
         private PassiveAbilityBuilder[] _projectPassiveAbilities;
         private EffectDataPreset[] _projectEffects;
         private CharacterTemplate[] _projectCharacters;
         private StructureTemplate[] _projectStructures;
+        private AnimationPreset[] _projectAnimationPresets;
 
         [TitleGroup("Statistics")]
         [GUIColor("@Color.yellow")]
@@ -69,45 +89,72 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         [ShowInInspector]
         public int TotalStructures => _projectStructures.Length;
 
+        [TitleGroup("Statistics")]
+        [ShowInInspector]
+        public int TotalAnimationPresets => _projectAnimationPresets.Length;
+
         [TitleGroup("Dependencies Search")]
         [VerticalGroup("Dependencies Search/Parameters")]
-        [ValidateInput("@false", "Only searches for serialized parameters")]
+        [ValidateInput("@false", "Only searches for assigned serialized values")]
+        [EnumToggleButtons]
         [ShowInInspector]
         private SearchForOption SearchFor { get; set; }
 
         [TitleGroup("Dependencies Search")]
         [VerticalGroup("Dependencies Search/Parameters")]
-        [ShowIf("@SearchFor == SearchForOption.InstanceReference")]
+        [EnableIf("@SearchFor == SearchForOption.TypeReference")]
         [ShowInInspector]
-        public object SeekingInstance { get; set; }
+        public Type SeekingType { get; set; }
 
         [TitleGroup("Dependencies Search")]
         [VerticalGroup("Dependencies Search/Parameters")]
-        [ShowIf("@SearchFor == SearchForOption.TypeReference")]
+        [EnableIf("@" + nameof(IsInstanceSearch))]
         [ShowInInspector]
-        public Type SeekingType { get; set; }
+        public object SeekingInstance { get; set; }
 
         [TitleGroup("Dependencies Search")]
         [VerticalGroup("Dependencies Search/Parameters")]
         [ShowInInspector]
         public bool DirectReferenceOnly { get; set; } = true;
 
+        //public bool IncludeNullEntries = false
+
         [TitleGroup("Dependencies Search")]
         [VerticalGroup("Dependencies Search/Parameters")]
         [ShowInInspector]
-        public bool IncludeAnimations { get; set; } = true;
+        public bool SearchInAnimations { get; set; } = true;
+
+        [TitleGroup("Dependencies Search")]
+        [VerticalGroup("Dependencies Search/Parameters")]
+        [ShowInInspector]
+        public IValueEntryFilter EntriesFilter { get; set; }
+
+        [TitleGroup("Dependencies Search")]
+        [VerticalGroup("Dependencies Search/Parameters")]
+        [GUIColor(1, 0.5f, 0.5f)]
+        [ShowInInspector]
+        public bool SuppressErrors { get; set; } = false;
 
         [VerticalGroup("Dependencies Search/Results")]
-        [ShowIf("@" + nameof(SearchResult) + " != null")]
+        [ShowIf("@" + nameof(HasResults))]
         //[HideLabel, Title("Auto Select Asset")]
         [ShowInInspector]
         public bool AutoSelectAsset { get; set; } = false;
 
         [VerticalGroup("Dependencies Search/Results")]
-        [ShowIf("@" + nameof(SearchResult) + " != null && " + nameof(SearchResult) + ".MenuItems.Count > 0")]
+        [ShowIf("@" + nameof(HasResults))]
         [HideLabel, OnInspectorInit("@$property.State.Expanded = true")]
         [ShowInInspector]
         private OdinMenuTree SearchResult { get; set; }
+
+        private List<ScriptableObject> _foundAssets = new();
+        private Dictionary<ScriptableObject, SerializedMember[]>  _foundTypeEntries = new();
+        private Dictionary<ScriptableObject, Exception> _assetsWithExceptions = new();
+
+        [ValidateInput("@" + nameof(InstanceHandlerIsValid), "Invalid " + nameof(InstanceHandler))]
+        [VerticalGroup("Dependencies Search/Replace")]
+        [ShowInInspector]
+        private IValueEntryHandler InstanceHandler { get; set; }
 
         public AbilitySystemAnalyzerInfo()
         {
@@ -141,11 +188,17 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
                 .Select(path => AssetDatabase.LoadAssetAtPath(path, typeof(StructureTemplate)) as StructureTemplate)
                 .Where(e => e != null)
                 .ToArray();
+            _projectAnimationPresets = AssetDatabase
+                .FindAssets($"t: {nameof(AnimationPreset)}")
+                .Select(id => AssetDatabase.GUIDToAssetPath(id))
+                .Select(path => AssetDatabase.LoadAssetAtPath(path, typeof(AnimationPreset)) as AnimationPreset)
+                .Where(e => e != null)
+                .ToArray();
         }
 
         [VerticalGroup("Dependencies Search/Parameters")]
         [PropertyTooltip(
-            "Cascading search for serialized fields and properties with assigned value of a seeking type.")]
+            "Cascaded search for serialized value entries of seeking type.")]
         [Button, GUIColor("@Color.cyan")]
         public void FindAssignedDependencies()
         {
@@ -165,57 +218,91 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
                 .Concat(_projectEffects)
                 .Concat(_projectCharacters)
                 .Concat(_projectStructures)
+                .Concat(_projectAnimationPresets)
                 .ToArray();
             var foundAssets = new List<ScriptableObject>();
+            var foundTypeEntries = new Dictionary<ScriptableObject, SerializedMember[]>();
             var assetsWithExceptions = new Dictionary<ScriptableObject, Exception>();
+            //var ignoredExceptionLimit = 10;
+            var seekingType = SearchFor switch
+            {
+                SearchForOption.TypeReference => SeekingType,
+                SearchForOption.InstanceReference => SeekingInstance.GetType(),
+                _ => throw new NotImplementedException(),
+            };
 
-            if (SearchFor == SearchForOption.TypeReference)
+            if (SuppressErrors)
             {
                 foreach (var asset in assets)
                 {
-                    bool success = false;
-                    Exception exception = null;
                     try
                     {
-                        if (HasChildrenOfType(asset, SeekingType, new()))
-                            success = true;
+                        var members = GetAssignedMembersOfType(asset, seekingType).ToArray();
+                        if (members.Length > 0)
+                        {
+                            foundAssets.Add(asset);
+                            foundTypeEntries.Add(asset, members);
+                        }
                     }
                     catch (Exception e)
                     {
                         Logging.LogError($"Exception on {asset.name}");
+                        assetsWithExceptions.Add(asset, e);
+                        break;
                         throw e;
-                        exception = e;
                     }
-                    if (success)
-                        foundAssets.Add(asset);
-                    if (exception != null)
-                        assetsWithExceptions.Add(asset, exception);
                 }
             }
+            else
+            {
+                foreach (var asset in assets)
+                {
+                    var members = GetAssignedMembersOfType(asset, seekingType).ToArray();
+                    if (members.Length > 0)
+                    {
+                        foundAssets.Add(asset);
+                        foundTypeEntries.Add(asset, members);
+                    }
+                }
+            }
+
+            _assetsWithExceptions = assetsWithExceptions;
+
             if (SearchFor == SearchForOption.InstanceReference)
             {
-                foreach (var asset in assets)
-                {
-                    bool success = false;
-                    Exception exception = null;
-                    try
-                    {
-                        if (HasInstanceInChildren(asset, SeekingInstance, new()))
-                            success = true;
-                    }
-                    catch (Exception e)
-                    {
-                        Logging.LogError($"Exception on {asset.name}");
-                        throw e;
-                        exception = e;
-                    }
-                    if (success)
-                        foundAssets.Add(asset);
-                    if (exception != null)
-                        assetsWithExceptions.Add(asset, exception);
-                }
+                FilterAssetsByFoundMembers(m => m.MemberValue == SeekingInstance);
             }
 
+            if (EntriesFilter != null)
+            {
+                FilterAssetsByFoundMembers(m => EntriesFilter.IsAllowed(m));
+            }
+
+            _foundAssets = foundAssets;
+            _foundTypeEntries = foundTypeEntries;
+
+            DisplaySearchResults();
+
+            void FilterAssetsByFoundMembers(Func<SerializedMember, bool> selector)
+            {
+                var filteredAssets = new List<ScriptableObject>();
+                var filteredTypeEntries = new Dictionary<ScriptableObject, SerializedMember[]>();
+                foreach (var asset in foundAssets)
+                {
+                    var members = foundTypeEntries[asset].Where(selector).ToArray();
+                    if (members.Length > 0)
+                    {
+                        filteredAssets.Add(asset);
+                        filteredTypeEntries.Add(asset, members);
+                    }
+                }
+                foundAssets = filteredAssets;
+                foundTypeEntries = filteredTypeEntries;
+            }
+        }
+
+        private void DisplaySearchResults()
+        {
             if (SearchResult != null)
             {
                 SearchResult.Selection.SelectionConfirmed -= OnSelectionConfirmed;
@@ -225,76 +312,104 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
             searchTree.Selection.SelectionConfirmed += OnSelectionConfirmed;
             searchTree.Selection.SelectionChanged += OnSelectionChanged;
             SearchResult = searchTree;
-            AddToSearchResultDisplay($"Found Assets ({foundAssets.Count})", foundAssets);
-            AddToSearchResultDisplay($"Assets with Exceptions ({assetsWithExceptions.Count})", assetsWithExceptions.Keys);
-            if (assetsWithExceptions.Count > 0)
+            AddToSearchResultDisplay(
+                $"Found Assets ({_foundAssets.Count}) with {_foundTypeEntries.Sum(e => e.Value.Length)} entries", _foundAssets, _foundTypeEntries);
+            AddToSearchResultDisplay(
+                $"Assets with Exceptions ({_assetsWithExceptions.Count})", _assetsWithExceptions.Keys, _foundTypeEntries);
+            if (_assetsWithExceptions.Count > 0)
             {
                 Logging.LogError(
-                    $"Assets with exceptions ({assetsWithExceptions.Count}):\n\t" % Colorize.Red
-                    + string.Join("\n\t", assetsWithExceptions.Select(a => $"Asset with exception: \"{a.Key.name}\": {a.Value.GetExceptionName()}"))
+                    $"Assets with exceptions ({_assetsWithExceptions.Count}):\n\t" % Colorize.Red
+                    + string.Join("\n\t", _assetsWithExceptions.Select(a => $"Asset with exception: \"{a.Key.name}\": {a.Value.GetExceptionName()}"))
                     + "\n");
             }
         }
 
-        private bool HasChildrenOfType(
-            object instance, Type seekingType, HashSet<ScriptableObject> openedAssets)
+        [VerticalGroup("Dependencies Search/Replace")]
+        [Button, GUIColor("@Color.red")]
+        public void ChangeValueEntries()
         {
-            if (instance.IsAbilitySystemAsset())
-                openedAssets.Add((ScriptableObject)instance);
-            var members = ReflectionExtensions.GetSerializedMembers(instance)
-                .Where(e => !e.IsAbilitySystemAsset() || !DirectReferenceOnly && !openedAssets.Contains(e))
-                .Where(e => e is not IAbilityAnimation || IncludeAnimations);
-            foreach (var value in members)
+            if (InstanceHandler == null)
+                throw new ArgumentNullException($"{nameof(InstanceHandler)} is null");
+            var seekingType = SearchFor switch
             {
-                var valueType = value.GetType();
-                var isSeekingType = seekingType.IsAssignableFrom(valueType);
-                if (isSeekingType)
-                    return true;//<- field/property of seeking type found
-                if (value is not ICollection)
-                {
-                    if (HasChildrenOfType(value, seekingType, openedAssets))
-                        return true;
-                }
+                SearchForOption.TypeReference => SeekingType,
+                SearchForOption.InstanceReference => SeekingInstance?.GetType(),
+                _ => throw new NotImplementedException(),
+            };
+            if (seekingType == null)
+                throw new ArgumentNullException($"Type is null");
+            if (seekingType.IsValueType)
+                throw new NotSupportedException("Value types not supported.");
+            if (!InstanceHandlerIsValid)
+                throw new InvalidOperationException($"Invalid {InstanceHandler}");
+            FindAssignedDependencies();
+            Undo.RecordObjects(_foundAssets.ToArray(), "Value entries modified");
+            foreach (var asset in _foundAssets)
+            {
+                var isDirty = EditorUtility.IsDirty(asset);
+                EditorUtility.SetDirty(asset);
+                foreach (var entry in _foundTypeEntries[asset])
+                    InstanceHandler.HandleValueEntry(entry);
+                PrefabUtility.RecordPrefabInstancePropertyModifications(asset);
+                if (!isDirty)
+                    EditorUtility.ClearDirty(asset);
             }
-            return false;
+            Undo.RecordObjects(_foundAssets.ToArray(), "Value entries modified");
         }
 
-        private bool HasInstanceInChildren(
-            object obj, object seekingInstance, HashSet<ScriptableObject> openedAssets)
+        private IEnumerable<SerializedMember> GetAssignedMembersOfType(object where, Type desiredMemberType)
         {
-            if (obj.IsAbilitySystemAsset())
-                openedAssets.Add((ScriptableObject)obj);
-            var members = ReflectionExtensions.GetSerializedMembers(obj)
-                .Where(e => !e.IsAbilitySystemAsset() || !DirectReferenceOnly && !openedAssets.Contains(e))
-                .Where(e => e is not IAbilityAnimation || IncludeAnimations);
-            foreach (var value in members)
+            //var rootName = where is ScriptableObject whereSO ? whereSO.name : "<asset>";
+            var rootMember = new SerializedMember("<asset>", where, null);
+            var openedAssets = new HashSet<ScriptableObject>();
+            return ReflectionExtensions.GetAllSerializedMembersOfType(rootMember, desiredMemberType, StopAt);
+
+            bool StopAt(object e)
             {
-                if (value == seekingInstance)
-                    return true;
-                if (value is not ICollection)
+                if (e.IsAbilitySystemAsset() || e is AnimationPreset)
                 {
-                    if (HasInstanceInChildren(value, seekingInstance, openedAssets))
+                    if (DirectReferenceOnly)
                         return true;
+                    if (!openedAssets.Contains(e))
+                    {
+                        openedAssets.Add((ScriptableObject)e);
+                        return false;
+                    }
+                    else return true;
                 }
+                if (e is IAbilityAnimation)
+                {
+                    return !SearchInAnimations;
+                }
+                return false;
             }
-            return false;
         }
 
-        private void AddToSearchResultDisplay(string categoryName, IEnumerable<UnityEngine.Object> assets)
+        private void AddToSearchResultDisplay(
+            string categoryName, 
+            IEnumerable<ScriptableObject> assets, 
+            IDictionary<ScriptableObject, SerializedMember[]> entries)
         {
-            foreach (var foundAsset in assets)
+            var assetsArray = assets.ToArray();
+            //var assetsCount = assetsArray.GroupBy(a => a.GetType()).ToDictionary(g => g.Key, g => g.Count());
+            foreach (var foundAsset in assetsArray)
             {
+                var entriesCount = entries[foundAsset].Length > 1
+                    ? $"{entries[foundAsset].Length} entries"
+                    : "1 entry";
+                var assetName = $"{foundAsset.name} ({entriesCount})";
                 if (foundAsset is ActiveAbilityBuilder activeAbility)
                 {
-                    SearchResult.Add($"{categoryName}/Active Abilities/{foundAsset.name}", foundAsset, activeAbility.Icon);
+                    SearchResult.Add($"{categoryName}/Active Abilities/{assetName}", foundAsset, activeAbility.Icon);
                 }
                 else if (foundAsset is PassiveAbilityBuilder passiveAbility)
                 {
-                    SearchResult.Add($"{categoryName}/Passive Abilities/{foundAsset.name}", foundAsset, passiveAbility.Icon);
+                    SearchResult.Add($"{categoryName}/Passive Abilities/{assetName}", foundAsset, passiveAbility.Icon);
                 }
                 else if (foundAsset is EffectDataPreset effect)
                 {
-                    SearchResult.Add($"{categoryName}/Effects/{foundAsset.name}", foundAsset, effect.View.Icon);
+                    SearchResult.Add($"{categoryName}/Effects/{assetName}", foundAsset, effect.View.Icon);
                 }
                 else if (foundAsset is CharacterTemplate character)
                 {
@@ -302,31 +417,44 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
                 }
                 else if (foundAsset is StructureTemplate structure)
                 {
-                    SearchResult.Add($"{categoryName}/Structures/{foundAsset.name}", foundAsset, structure.BattleIcon);
+                    SearchResult.Add($"{categoryName}/Structures/{assetName}", foundAsset, structure.BattleIcon);
+                }
+                else if (foundAsset is AnimationPreset animationPreset)
+                {
+                    SearchResult.Add($"{categoryName}/Animations/{assetName}", foundAsset);
                 }
                 else
                 {
-                    SearchResult.Add($"{categoryName}/Unknown/{foundAsset.name}", foundAsset);
+                    SearchResult.Add($"{categoryName}/Unknown/{assetName}", foundAsset);
                 }
             }
             var menuItem = SearchResult.GetMenuItem(categoryName);
-            if (menuItem != null)
-                menuItem.MenuTree.SortMenuItemsByName();
+            menuItem?.MenuTree.SortMenuItemsByName();
         }
 
         private void OnSelectionChanged(SelectionChangedType changeType)
         {
-            if (changeType == SelectionChangedType.ItemAdded && AutoSelectAsset)
+            if (changeType == SelectionChangedType.ItemAdded)
             {
                 if (SearchResult.Selection.SelectedValue != null
                     && SearchResult.Selection.SelectedValue is UnityEngine.Object unityObject)
-                    Selection.activeObject = unityObject;
+                {
+                    if (AutoSelectAsset)
+                        Selection.activeObject = unityObject;
+                    if (unityObject.IsAbilitySystemAsset())
+                    {
+                        var asset = (ScriptableObject)unityObject;
+
+                        Debug.Log($"{asset.GetType().Name} «{asset.name}» with {_foundTypeEntries[asset].Length} entries:\n - "
+                            + string.Join($"\n - ", _foundTypeEntries[asset].Select(m => m.GetFullName()))
+                            + "\n");
+                    }
+                }
             }
         }
 
         private void OnSelectionConfirmed(OdinMenuTreeSelection selection)
         {
-            Debug.Log("Selection confirmed" % Colorize.Red);
             if (selection.SelectedValue != null
             && selection.SelectedValue is UnityEngine.Object unityObject)
                 Selection.activeObject = unityObject;
@@ -357,6 +485,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
     }
     #endregion
 
+    #region Assets Inspector
     private const string PresetsPath = @"Assets/Battle/Presets";
 
     [OdinSerialize]
@@ -376,6 +505,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         var effectsPath = $"{PresetsPath}/Effects";
         var charactersPath = $"{PresetsPath}/Characters";
         var structuresPath = $"{PresetsPath}/Structures";
+        var mapsPath = $"{PresetsPath}/Maps";
 
         DrawMenuSearchBar = true;
         var isFlat = ExplorerParameters.FlattenHierarchy;
@@ -387,31 +517,43 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         var tree = new OdinMenuTree(false);
         tree.Add("Analyzer", new AbilitySystemAnalyzerInfo(), EditorIcons.SettingsCog);
         tree.Add("Presets", ExplorerParameters, EditorIcons.FileCabinet);
-        tree.Add("Presets/Active Abilities", null, EditorIcons.Crosshair);
-        tree.Add("Presets/Passive Abilities", null, EditorIcons.Clouds);
-        tree.Add("Presets/Effects", null, EditorIcons.StarPointer);
-        tree.Add("Presets/Characters", null, EditorIcons.Male);
-        tree.Add("Presets/Structures", null, EditorIcons.House);
+        tree.Add("Presets/Maps", null, EditorIcons.Globe);
 
-        tree.AddAllAssetsAtPath("Presets/Active Abilities", abilitiesPath, typeof(ActiveAbilityBuilder), true, isFlat)
-            .SortMenuItemsByName()
-            .AddIcons<ActiveAbilityBuilder>(b => b.Icon);
-        tree.AddAllAssetsAtPath("Presets/Passive Abilities", abilitiesPath, typeof(PassiveAbilityBuilder), true, isFlat)
-            .SortMenuItemsByName()
-            .AddIcons<PassiveAbilityBuilder>(b => b.Icon);
-        tree.AddAllAssetsAtPath("Presets/Effects", effectsPath, typeof(EffectDataPreset), true, isFlat)
-            .SortMenuItemsByName()
-            .AddIcons<EffectDataPreset>(b => b.View.Icon);
-        tree.AddAllAssetsAtPath("Presets/Characters", charactersPath, typeof(CharacterTemplate), true, isFlat)
-            .SortMenuItemsByName()
-            .AddIcons<CharacterTemplate>(b => b.BattleIcon);
-        tree.AddAllAssetsAtPath("Presets/Structures", structuresPath, typeof(StructureTemplate), true, isFlat)
-            .SortMenuItemsByName()
-            .AddIcons<StructureTemplate>(b => b.BattleIcon);
+        DisplayAssets<ActiveAbilityBuilder>(
+            abilitiesPath, "Presets/Active Abilities", EditorIcons.Crosshair, a => a.Icon);
+        DisplayAssets<PassiveAbilityBuilder>(
+            abilitiesPath, "Presets/Passive Abilities", EditorIcons.Clouds, a => a.Icon);
+        DisplayAssets<EffectDataPreset>(
+            effectsPath, "Presets/Effects", EditorIcons.StarPointer, a => a.View.Icon);
+        DisplayAssets<CharacterTemplate>(
+            charactersPath, "Presets/Characters", EditorIcons.Male, a => a.BattleIcon);
+        DisplayAssets<StructureTemplate>(
+            structuresPath, "Presets/Structures", EditorIcons.House, a => a.BattleIcon);
+        DisplayAssets<BattleScenario>(
+            mapsPath, "Presets/Maps/BattleScenario", EditorIcons.GridBlocks, a => null);
+        DisplayAssets<BattleMapLayeredLayout>(
+            mapsPath, "Presets/Maps/Layered Layout", EditorIcons.GridLayout, a => null);
 
         tree.Selection.SelectionConfirmed += OnSelectionConfirmed;
 
         return tree;
+
+        IEnumerable<OdinMenuItem> DisplayAssets<TAsset>(
+            string assetsPath, string displayPath, EditorIcon rootIcon, Func<TAsset, Sprite> iconGetter)
+            where TAsset : class
+        {
+            //var subElements = new List<TAsset>();
+            tree.Add(displayPath, null, rootIcon);
+            var createdMenuItems = 
+                tree.AddAllAssetsAtPath(displayPath, assetsPath, typeof(TAsset), true, isFlat)
+                .SortMenuItemsByName()
+                .AddIcons<TAsset>(b => iconGetter(b));
+            //foreach (var e in createdMenuItems.Select(i => i.Value as TAsset).Where(a => a != null))
+            //{
+            //    subElements.Add(e);
+            //}
+            return createdMenuItems;
+        }
     }
 
     private void OnSelectionConfirmed(OdinMenuTreeSelection selection)
@@ -434,4 +576,5 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         }
         base.OnDestroy();
     }
+    #endregion
 }

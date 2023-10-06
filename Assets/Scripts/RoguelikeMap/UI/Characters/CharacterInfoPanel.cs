@@ -23,7 +23,7 @@ namespace RoguelikeMap.UI.Characters
         [SerializeField] 
         private PickItemInventoryPresenter _playerInventoryPresenter;
         [SerializeField]
-        private RoleFilterPlayerInventoryView _playerInventoryView;
+        private ItemFilterPlayerInventoryView _playerInventoryView;
 
         [SerializeField]
         private InventoryPresenter _characterInventoryPresenter;
@@ -72,7 +72,7 @@ namespace RoguelikeMap.UI.Characters
             if (_playerInventoryPresenter is not null)
                 _characterInventoryPresenter.InitInventoryModel(character.Inventory);
             _playerInventoryPresenter?.UpdateTargetInventory(character.Inventory);
-            _playerInventoryView.UpdateCharacterRole(character.CharacterData.Role);
+            _playerInventoryView.UpdateCharacterData(character.CharacterData);
         }
 
         private void InitializeStatsText(
@@ -95,19 +95,21 @@ namespace RoguelikeMap.UI.Characters
                 button.image.sprite = _noAbilityIcon;
                 button.onClick.RemoveAllListeners();
             }
-            var displayedActiveAbilities = activeAbilities
+            var unhiddenActiveAbilities = activeAbilities
                 .Where(a => !a.View.HideInCharacterDescription)
                 .ToArray();
-            var displayedPassiveAbilities = passiveAbilities
+            var unhiddenPassiveAbilities = passiveAbilities
                 .Where(a => !a.View.HideInCharacterDescription)
                 .ToArray();
-            if (displayedActiveAbilities.Length > _activeAbilityButtons.Count
-                || displayedPassiveAbilities.Length > _passiveAbilityButtons.Count)
-                Logging.LogException( new System.NotSupportedException("Abilities to display count is greater than can be shown."));
-            for (var i = 0; i < displayedActiveAbilities.Length; i++)
+            if (unhiddenActiveAbilities.Length > _activeAbilityButtons.Count
+                || unhiddenPassiveAbilities.Length > _passiveAbilityButtons.Count)
+                Logging.LogException(new System.NotSupportedException("Abilities to display count is greater than can be shown."));
+            var activeAbilitiesToDisplayCount = Mathf.Min(_activeAbilityButtons.Count, unhiddenActiveAbilities.Length);
+            var passiveAbilitiesToDisplayCount = Mathf.Min(_passiveAbilityButtons.Count, unhiddenPassiveAbilities.Length);
+            for (var i = 0; i < activeAbilitiesToDisplayCount; i++)
             {
                 var button = _activeAbilityButtons[i];
-                var ability = displayedActiveAbilities[i];
+                var ability = unhiddenActiveAbilities[i];
                 button.image.sprite = ability.View.Icon;
                 button.onClick.AddListener(OnActiveAbilityClicked);
 
@@ -117,16 +119,16 @@ namespace RoguelikeMap.UI.Characters
                     _abilityDescriptionPanel.Open();
                 }
             }
-            for (var i = 0; i < displayedPassiveAbilities.Length; i++)
+            for (var i = 0; i < passiveAbilitiesToDisplayCount; i++)
             {
                 var button = _passiveAbilityButtons[i];
-                button.image.sprite = displayedPassiveAbilities[i].View.Icon;
+                button.image.sprite = unhiddenPassiveAbilities[i].View.Icon;
                 button.onClick.AddListener(OnPassiveAbilityClicked);
             }
 
             void OnPassiveAbilityClicked()
             {
-                _passiveAbilityInfoPanel.InitializeInfo(displayedPassiveAbilities);
+                _passiveAbilityInfoPanel.InitializeInfo(unhiddenPassiveAbilities);
                 _passiveAbilityInfoPanel.Open();
             }
         }

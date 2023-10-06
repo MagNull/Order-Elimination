@@ -21,13 +21,11 @@ namespace GameInventory.Views
         [SerializeField]
         private GridLayoutGroup _cellContainer;
 
-        private readonly Stack<InventoryCellView> _unusedCellViews = new();
-
         public void ShowItemWithType(int itemType)
         {
             foreach (var cell in _cellViews)
             {
-                if (cell.Model.Item == null)
+                if (cell.Model.Item is EmptyItem)
                     continue;
                 if (cell.Model.Item.Data.Type == (ItemType)itemType)
                     cell.Enable();
@@ -46,38 +44,35 @@ namespace GameInventory.Views
 
         public override void UpdateCells(IReadOnlyList<IReadOnlyCell> cells)
         {
-            foreach (var cell in cells.Where(cell => _cellViews.All(c => c.Model != cell)))
-                OnCellAdded(cell);
-            
-            //Trash
-            var viewCopy = new InventoryCellView[_cellViews.Count];
-            _cellViews.CopyTo(viewCopy);
-            foreach (var view in viewCopy)
+            if (_cellViews.Count == 0) FillInventoryViews();
+
+            for(var i = 0; i < _cellViews.Count; i++)
             {
-                if (!cells.Contains(view.Model))
-                    OnCellRemoved(view.Model);
+                if(i < cells.Count)
+                    _cellViews[i].Init(cells[i]);
+                else
+                    _cellViews[i].Disable();
             }
         }
 
-        public override void OnCellAdded(IReadOnlyCell cell)
+        public override void OnCellChanged(IReadOnlyCell cell)
         {
-            var cellView = _unusedCellViews.Count > 0
-                ? _unusedCellViews.Pop()
-                : Instantiate(_cellViewPrefab, _cellContainer.transform);
-            
-            cellView.Init(cell);
-            cellView.Clicked += OnCellClicked;
-            cellView.Enable();
-            _cellViews.Add(cellView);
+            foreach (var cellView in _cellViews.Where(cellView => cellView.Model == cell))
+            {
+                cellView.UpdateView();
+                return;
+            }
         }
 
-        public override void OnCellRemoved(IReadOnlyCell cell)
+        private void FillInventoryViews()
         {
-            var cellView = _cellViews.Find(c => c.Model == cell);
-            _cellViews.Remove(cellView);
-            cellView.Disable();
-            _unusedCellViews.Push(cellView);
-            cellView.Clicked -= OnCellClicked;
+            for (var i = 0; i < 100; i++)
+            {
+                var cellView = Instantiate(_cellViewPrefab, _cellContainer.transform);
+                cellView.Disable();
+                cellView.Clicked += OnCellClicked;
+                _cellViews.Add(cellView);
+            }
         }
 
         private void OnCellClicked(IReadOnlyCell cell)

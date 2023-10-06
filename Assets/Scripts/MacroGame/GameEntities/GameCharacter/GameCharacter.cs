@@ -30,7 +30,7 @@ namespace OrderElimination.MacroGame
             }
         }
         //public bool CanBeEvacuated { get; private set; }
-        public Inventory Inventory { get; private set; } = new(2);
+        public Inventory Inventory { get; private set; } = new(4);
 
         public event Action<GameCharacter> StatsChanged;
 

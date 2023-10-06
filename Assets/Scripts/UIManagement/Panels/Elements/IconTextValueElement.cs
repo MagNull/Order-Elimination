@@ -93,6 +93,22 @@ namespace UIManagement.Elements
 
         public event Action<IconTextValueElement> Destroyed;
 
+        public bool SetTextColor(Color color)
+        {
+            if (_textComponent == null)
+                return false;
+            _textComponent.color = color;
+            return true;
+        }
+
+        public bool SetValueColor(Color color)
+        {
+            if (_valueComponent == null)
+                return false;
+            _valueComponent.color = color;
+            return true;
+        }
+
         private void OnDestroy()
         {
             Destroyed?.Invoke(this);

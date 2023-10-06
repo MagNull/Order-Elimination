@@ -17,6 +17,9 @@
         Debuff,
         MuzzleFlash_Laser,
         Projectile_Laser,
-        Fire_Simple
+        Fire_Simple,
+        Grenade_Round,
+        Grenade_Underbarrel,
+        Evacuation_Fire
     }
 }

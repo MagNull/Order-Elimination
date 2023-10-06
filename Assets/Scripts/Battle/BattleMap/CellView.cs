@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,11 +9,15 @@ public class CellView : MonoBehaviour
 
     [SerializeField]
     private SpriteRenderer _renderer;
-    private Color _basicCellTint;
+    [SerializeField]
+    private BoxCollider2D _collider;
 
+    private Color _basicCellTint;
     private Cell _model;
 
     public Color CurrentColor => _renderer == null ? Color.white : _renderer.material.color;
+    [ShowInInspector]
+    public Vector2 Size => _collider.size * transform.localScale;
     public IReadOnlyCell Model => _model;
 
     public void Start()

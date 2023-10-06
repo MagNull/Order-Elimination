@@ -1,4 +1,4 @@
-using System;
+using GameInventory.Items;
 using TMPro;
 using UnityEngine;
 
@@ -11,11 +11,13 @@ namespace GameInventory.Views
         [SerializeField]
         private TextMeshProUGUI _nameText;
 
-        public override void Init(IReadOnlyCell newCell)
+        public override void UpdateView()
         {
-            base.Init(newCell);
-            _nameText.text = newCell.Item.Data.View.Name;
-            _descriptionText.text = newCell.Item.Data.View.Description;
+            base.UpdateView();
+            if(Model.Item is EmptyItem)
+                return;
+            _nameText.text = Model.Item.Data.View.Name;
+            _descriptionText.text = Model.Item.Data.View.Description;
         }
     }
 }

@@ -27,23 +27,23 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public int Value { get; private set; }
 
-        public override ActionRequires ActionRequires => ActionRequires.Target;
+        public override BattleActionType BattleActionType => BattleActionType.EntityAction;
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
             switch (Modification)
             {
                 case ModificationType.Add:
-                    useContext.ActionTarget.AddEnergyPoints(EnergyPointType, Value);
+                    useContext.TargetEntity.AddEnergyPoints(EnergyPointType, Value);
                     break;
                 case ModificationType.Remove:
-                    useContext.ActionTarget.RemoveEnergyPoints(EnergyPointType, Value);
+                    useContext.TargetEntity.RemoveEnergyPoints(EnergyPointType, Value);
                     break;
                 case ModificationType.Set:
-                    useContext.ActionTarget.SetEnergyPoints(EnergyPointType, Value);
+                    useContext.TargetEntity.SetEnergyPoints(EnergyPointType, Value);
                     break;
                 case ModificationType.SetToPerRoundValue:
-                    useContext.ActionTarget.SetEnergyPoints(
+                    useContext.TargetEntity.SetEnergyPoints(
                         EnergyPointType,
                         useContext.BattleContext.BattleRules.GetEnergyPointsPerRound(EnergyPointType));
                     break;

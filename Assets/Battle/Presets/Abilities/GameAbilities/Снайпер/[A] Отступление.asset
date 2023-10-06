@@ -16,7 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 21300000, guid: c6997e336472c6b45b07675dded608f7, type: 3}
+    - {fileID: 21300000, guid: 7282ecba244f0e148bcab177ed335945, type: 3}
     - {fileID: 11400000, guid: 852a4e420e5699f4b942a22be3e95628, type: 2}
     - {fileID: 11400000, guid: 1f9141c62e024d84294a1de3dc2e42a9, type: 2}
     SerializedBytesString: 
@@ -42,6 +42,9 @@ MonoBehaviour:
     - Name: ShowTrajectoryWhenTargeting
       Entry: 5
       Data: false
+    - Name: ShowPatternRange
+      Entry: 5
+      Data: true
     - Name: HideInCharacterDescription
       Entry: 5
       Data: false
@@ -357,6 +360,9 @@ MonoBehaviour:
     - Name: Action
       Entry: 7
       Data: 21|OrderElimination.AbilitySystem.SpawnEntityAction, Assembly-CSharp
+    - Name: SpawnAtCellGroup
+      Entry: 3
+      Data: 0
     - Name: Entity
       Entry: 3
       Data: 1
@@ -370,9 +376,6 @@ MonoBehaviour:
       Entry: 3
       Data: 0
     - Name: AbsoluteSide
-      Entry: 3
-      Data: 0
-    - Name: SpawnAtCellGroup
       Entry: 3
       Data: 0
     - Name: RemoveByTrigger

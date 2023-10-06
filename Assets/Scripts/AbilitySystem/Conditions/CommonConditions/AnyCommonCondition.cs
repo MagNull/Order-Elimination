@@ -21,5 +21,9 @@ namespace OrderElimination.AbilitySystem
         {
             return CommonConditions.Any(c => c.IsConditionMet(battleContext, askingEntity));
         }
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, CellGroupsContainer cellGroups)
+        {
+            return CommonConditions.Any(c => c.IsConditionMet(battleContext, askingEntity, cellGroups));
+        }
     }
 }

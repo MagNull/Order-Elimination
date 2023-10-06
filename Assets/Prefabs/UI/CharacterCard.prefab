@@ -185,7 +185,7 @@ RectTransform:
   m_Children:
   - {fileID: 2112236813729793855}
   m_Father: {fileID: 5809841624109694273}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -786,8 +786,8 @@ RectTransform:
   - {fileID: 588667597710946138}
   - {fileID: 2245156454494166758}
   - {fileID: 973153053967371720}
-  - {fileID: 2267647262269074664}
   - {fileID: 871976340435125814}
+  - {fileID: 2267647262269074664}
   - {fileID: 524452086169422041}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -957,64 +957,17 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 5845061407743792770}
-    - {fileID: 7853358963350723959}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: _cellViewByItemType
-      Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[GameInventory.Items.ItemType,
-        Assembly-CSharp],[UnityEngine.UI.Image, UnityEngine.UI]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[GameInventory.Items.ItemType,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 0
-    - Name: $v
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 1
-    - Name: $v
-      Entry: 10
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+    SerializationNodes: []
+  _cellImages:
+  - {fileID: 5845061407743792770}
+  - {fileID: 7853358963350723959}
+  - {fileID: 4635311952761292405}
+  - {fileID: 4798183626382915041}
 --- !u!114 &4175836290815281472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1038,6 +991,11 @@ MonoBehaviour:
     SerializationNodes: []
   _inventoryView: {fileID: 1508673175335756914}
   _items: []
+  _inventoryModel:
+    _cells: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &5809841624342609726
 GameObject:
   m_ObjectHideFlags: 0
@@ -1181,8 +1139,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 19a54ab75101ebc48a74a12bd527ce72, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1203,7 +1161,7 @@ GameObject:
   - component: {fileID: 3963999537679323227}
   - component: {fileID: 5845061407743792770}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1543,7 +1501,7 @@ RectTransform:
   - {fileID: 5417059311870362648}
   - {fileID: 5403557636331684838}
   m_Father: {fileID: 5809841624109694273}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

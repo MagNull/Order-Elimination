@@ -52,12 +52,15 @@ namespace OrderElimination.AbilitySystem
 
             public ITriggerSetup OperatingSetup { get; }
             public IBattleContext OperatingContext { get; private set; }
+            public AbilitySystemActor ActivatorEntity { get; private set; }
             //public AbilitySystemActor TrackingEntity { get; private set; }
 
-            public BattleTrigger(ITriggerSetup setup, IBattleContext context)
+            public BattleTrigger(
+                ITriggerSetup setup, IBattleContext context, AbilitySystemActor activator)
             {
                 OperatingSetup = setup;
                 OperatingContext = context;
+                ActivatorEntity = activator;
             }
 
             public void FireTrigger(ITriggerFireInfo triggerFiredInfo)
@@ -77,16 +80,5 @@ namespace OrderElimination.AbilitySystem
             }
 
         }
-    }
-
-    public interface IContextTriggerSetup : ITriggerSetup
-    {
-        public IBattleTrigger GetTrigger(IBattleContext battleContext);
-    }
-
-    public interface IEntityTriggerSetup : ITriggerSetup
-    {
-        public IBattleTrigger GetTrigger(
-            IBattleContext battleContext, AbilitySystemActor trackingEntity);
     }
 }

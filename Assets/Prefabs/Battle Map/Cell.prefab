@@ -131,12 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderer: {fileID: 6637598426461122774}
-  _selectedColor: {r: 0, g: 0.469, b: 0, a: 1}
-  _lightColor: {r: 0, g: 1, b: 0, a: 1}
-  _enemyColor: {r: 1, g: 0, b: 0, a: 1}
-  _obstacleColor: {r: 0, g: 0.19427681, b: 1, a: 1}
-  _characterSelectedColor: {r: 1, g: 1, b: 1, a: 1}
-  _allyColor: {r: 0.015686274, g: 0.9888755, b: 1, a: 1}
+  _collider: {fileID: 6088376201772160902}
 --- !u!61 &6088376201772160902
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -150,7 +145,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0053728223, y: 0.0013041496}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -161,5 +156,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.99929893, y: 0.9931085}
+  m_Size: {x: 1.01734, y: 1.01734}
   m_EdgeRadius: 0

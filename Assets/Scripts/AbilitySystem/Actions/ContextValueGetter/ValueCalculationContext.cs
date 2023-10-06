@@ -53,7 +53,7 @@ namespace OrderElimination.AbilitySystem
                 actionContext.BattleContext,
                 actionContext.CellTargetGroups,
                 actionContext.ActionMaker,
-                actionContext.ActionTarget);
+                actionContext.TargetEntity);
 
         public static ValueCalculationContext ForBattleCaster(
             IBattleContext battleContext,

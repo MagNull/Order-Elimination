@@ -38,7 +38,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public ActionEntity AppliedBy { get; set; }
 
-        public override ActionRequires ActionRequires => ActionRequires.Target;
+        public override BattleActionType BattleActionType => BattleActionType.EntityAction;
 
         public override IBattleAction Clone()
         {
@@ -53,7 +53,7 @@ namespace OrderElimination.AbilitySystem
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
-            var target = useContext.ActionTarget;
+            var target = useContext.TargetEntity;
             var targetedEffects = SpecifyBy switch
             {
                 EffectSpecificationOption.ByCharacter 
@@ -68,7 +68,7 @@ namespace OrderElimination.AbilitySystem
                 var targetedApplier = AppliedBy switch
                 {
                     ActionEntity.Caster => useContext.ActionMaker,
-                    ActionEntity.Target => useContext.ActionTarget,
+                    ActionEntity.Target => useContext.TargetEntity,
                     _ => throw new NotImplementedException(),
                 };
                 targetedEffects = targetedEffects.Where(e => e.EffectApplier == targetedApplier);

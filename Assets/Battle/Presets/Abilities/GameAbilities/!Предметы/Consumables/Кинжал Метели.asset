@@ -16,7 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 21300000, guid: f764553ebf728194a84366e09d32151a, type: 3}
+    - {fileID: 21300000, guid: 660615b51943c9b4c8f2ce7594f4f71b, type: 3}
     - {fileID: 11400000, guid: 249876582c664ea49885b2c46bd89b76, type: 2}
     - {fileID: 11400000, guid: 2079a0cdc5de4044e929c8319593b546, type: 2}
     - {fileID: 11400000, guid: b759035308d61ca49826abbcd62e1a4d, type: 2}
@@ -27,7 +27,7 @@ MonoBehaviour:
     SerializationNodes:
     - Name: Name
       Entry: 1
-      Data: "\u041A\u0438\u043D\u0436\u0430\u043B \u041F\u043B\u0430\u043C\u0435\u043D\u0438"
+      Data: "\u041A\u0438\u043D\u0436\u0430\u043B \u041C\u0435\u0442\u0435\u043B\u0438"
     - Name: Icon
       Entry: 10
       Data: 0
@@ -40,7 +40,13 @@ MonoBehaviour:
     - Name: ShowTrajectoryWhenTargeting
       Entry: 5
       Data: true
+    - Name: ShowPatternRange
+      Entry: 5
+      Data: true
     - Name: HideInCharacterDescription
+      Entry: 5
+      Data: false
+    - Name: HideAutoParameters
       Entry: 5
       Data: false
     - Name: CooldownTime
@@ -170,6 +176,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: _customParameters
+      Entry: 6
+      Data: 
     - Name: _usageCost
       Entry: 7
       Data: 7|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EnergyPoint,
@@ -274,18 +283,30 @@ MonoBehaviour:
     - Name: Action
       Entry: 7
       Data: 16|OrderElimination.AbilitySystem.EmptyAction, Assembly-CSharp
-    - Name: ExecutesOn
+    - Name: ActionType
+      Entry: 3
+      Data: 1
+    - Name: ActionTypeS
       Entry: 3
       Data: 1
     - Name: IsSuccessful
       Entry: 5
       Data: true
+    - Name: HasRandomSuccessChance
+      Entry: 5
+      Data: false
+    - Name: SuccessChance
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: AffectPreviousTarget
-      Entry: 5
-      Data: false
+    - Name: RepeatNumber
+      Entry: 3
+      Data: 1
+    - Name: _commonConditions
+      Entry: 6
+      Data: 
     - Name: _targetConditions
       Entry: 7
       Data: 17|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
@@ -299,6 +320,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: AffectPreviousTarget
+      Entry: 5
+      Data: false
     - Name: _affectedCellGroups
       Entry: 7
       Data: 18|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
@@ -314,9 +338,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: RepeatNumber
-      Entry: 3
-      Data: 1
     - Name: _instructionsOnActionSuccess
       Entry: 7
       Data: 19|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
@@ -401,9 +422,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: AffectPreviousTarget
-      Entry: 5
-      Data: false
+    - Name: RepeatNumber
+      Entry: 3
+      Data: 1
+    - Name: _commonConditions
+      Entry: 6
+      Data: 
     - Name: _targetConditions
       Entry: 7
       Data: 26|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
@@ -420,12 +444,6 @@ MonoBehaviour:
     - Name: AllowSelf
       Entry: 5
       Data: false
-    - Name: CharactersSpecification
-      Entry: 3
-      Data: 0
-    - Name: StructuresSpecification
-      Entry: 3
-      Data: 1
     - Name: AllowedEntityTypes
       Entry: 7
       Data: 29|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.EntityType,
@@ -552,6 +570,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: CharactersSpecification
+      Entry: 3
+      Data: 0
+    - Name: StructuresSpecification
+      Entry: 3
+      Data: 1
     - Name: _specifiedCharacters
       Entry: 7
       Data: 35|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
@@ -596,6 +620,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: AffectPreviousTarget
+      Entry: 5
+      Data: false
     - Name: _affectedCellGroups
       Entry: 7
       Data: 37|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
@@ -611,9 +638,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: RepeatNumber
-      Entry: 3
-      Data: 1
     - Name: _instructionsOnActionSuccess
       Entry: 7
       Data: 38|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
@@ -642,9 +666,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: AffectPreviousTarget
-      Entry: 5
-      Data: true
+    - Name: RepeatNumber
+      Entry: 3
+      Data: 1
+    - Name: _commonConditions
+      Entry: 6
+      Data: 
     - Name: _targetConditions
       Entry: 7
       Data: 42|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
@@ -658,6 +685,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: AffectPreviousTarget
+      Entry: 5
+      Data: true
     - Name: _affectedCellGroups
       Entry: 7
       Data: 43|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
@@ -670,9 +700,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: RepeatNumber
-      Entry: 3
-      Data: 1
     - Name: _instructionsOnActionSuccess
       Entry: 7
       Data: 44|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
@@ -806,6 +833,27 @@ MonoBehaviour:
     - Name: BulletParticle
       Entry: 3
       Data: 14
+    - Name: RemapAnimationTime
+      Entry: 5
+      Data: false
+    - Name: OriginTarget
+      Entry: 3
+      Data: 1
+    - Name: OriginCellGroup
+      Entry: 3
+      Data: 0
+    - Name: OriginCellPriority
+      Entry: 3
+      Data: 0
+    - Name: DestinationTarget
+      Entry: 3
+      Data: 0
+    - Name: DestinationCellGroup
+      Entry: 3
+      Data: 0
+    - Name: DestinationCellPriority
+      Entry: 3
+      Data: 0
     - Name: MoveBy
       Entry: 3
       Data: 1
@@ -816,9 +864,6 @@ MonoBehaviour:
       Entry: 5
       Data: true
     - Name: Inverse
-      Entry: 5
-      Data: false
-    - Name: RemapAnimationTime
       Entry: 5
       Data: false
     - Name: _minSpread

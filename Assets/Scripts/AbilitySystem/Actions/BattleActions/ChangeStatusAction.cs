@@ -48,7 +48,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public StatusOperation Operation { get; private set; }
 
-        public override ActionRequires ActionRequires => ActionRequires.Target;
+        public override BattleActionType BattleActionType => BattleActionType.EntityAction;
 
         public override IBattleAction Clone()
         {
@@ -90,7 +90,7 @@ namespace OrderElimination.AbilitySystem
 
         protected async override UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
-            var target = useContext.ActionTarget.StatusHolder;
+            var target = useContext.TargetEntity.StatusHolder;
             bool success;
             switch (Operation)
             {

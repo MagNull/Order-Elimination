@@ -957,64 +957,17 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 3516842261485202074}
-    - {fileID: 893216347211473548}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: _cellViewByItemType
-      Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[GameInventory.Items.ItemType,
-        Assembly-CSharp],[UnityEngine.UI.Image, UnityEngine.UI]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[GameInventory.Items.ItemType,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 0
-    - Name: $v
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 1
-    - Name: $v
-      Entry: 10
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+    SerializationNodes: []
+  _cellImages:
+  - {fileID: 3516842261485202074}
+  - {fileID: 893216347211473548}
+  - {fileID: 5346558079259972730}
+  - {fileID: 7399980159219011815}
 --- !u!114 &797079766910207561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1040,7 +993,6 @@ MonoBehaviour:
   _items: []
   _inventoryModel:
     _cells: []
-    _size: 0
   references:
     version: 2
     RefIds: []

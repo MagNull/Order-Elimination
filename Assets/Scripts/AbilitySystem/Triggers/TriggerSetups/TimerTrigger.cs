@@ -24,9 +24,9 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public bool TriggerOnStart { get; private set; }
 
-        public IBattleTrigger GetTrigger(IBattleContext battleContext)
+        public IBattleTrigger GetTrigger(IBattleContext battleContext, AbilitySystemActor activator)
         {
-            var instance = new ITriggerSetup.BattleTrigger(this, battleContext);
+            var instance = new ITriggerSetup.BattleTrigger(this, battleContext, activator);
             instance.ActivationRequested += OnActivation;
             return instance;
         }
@@ -53,6 +53,7 @@ namespace OrderElimination.AbilitySystem
 
             void Trigger()
             {
+                //Logging.LogError($"Timer trigger activated on {activationSide} fired on {trigger.OperatingContext.ActiveSide}. PassedRounds: {passedRounds}");
                 trigger.FireTrigger(new TimerTriggerFireInfo(trigger, passedRounds));
             }
 

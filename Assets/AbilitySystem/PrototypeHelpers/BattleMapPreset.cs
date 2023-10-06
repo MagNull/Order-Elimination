@@ -20,7 +20,7 @@
 //        }
 
 //        [TableMatrix()]
-//        public CellData[,] Cells = new CellData[Height,Width];
+//        public CellData[,] Cells = new CellData[Height, Width];
 
 //        private static CellData DrawCell(Rect rect, CellData cellData)
 //        {

@@ -3,13 +3,15 @@ using OrderElimination.MacroGame;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
     public interface IReadOnlyEntitiesBank
     {
         public event Action<IReadOnlyEntitiesBank> BankChanged;
+        public event Action<IReadOnlyEntitiesBank, AbilitySystemActor> EntityAdded;
+        public event Action<IReadOnlyEntitiesBank, AbilitySystemActor> EntityRemoved;
+        public event Action<IReadOnlyEntitiesBank, AbilitySystemActor> EntityDisposed;
 
         public bool ContainsEntity(AbilitySystemActor entity, bool includeDisposed = false);
         public bool ContainsCharacter(GameCharacter character, bool includeDisposed = false);
@@ -38,6 +40,9 @@ namespace OrderElimination.AbilitySystem
         private readonly Dictionary<AbilitySystemActor, IBattleStructureTemplate> _basedStructures = new();
 
         public event Action<IReadOnlyEntitiesBank> BankChanged;
+        public event Action<IReadOnlyEntitiesBank, AbilitySystemActor> EntityAdded;
+        public event Action<IReadOnlyEntitiesBank, AbilitySystemActor> EntityRemoved;
+        public event Action<IReadOnlyEntitiesBank, AbilitySystemActor> EntityDisposed;
 
         public bool ContainsEntity(AbilitySystemActor entity, bool includeDisposed = false)
         {
@@ -67,7 +72,11 @@ namespace OrderElimination.AbilitySystem
         }
 
         public AbilitySystemActor GetEntityByBasedCharacter(GameCharacter gameCharacter)
-            => _entitiesByCharacters[gameCharacter];
+        {
+            if (!_entitiesByCharacters.ContainsKey(gameCharacter))
+                throw new KeyNotFoundException("Unknown GameCharacter");
+            return _entitiesByCharacters[gameCharacter];
+        }
 
         public AbilitySystemActor[] GetEntitiesByBasedTemplate(IGameCharacterTemplate characterTemplate)
             => _basedCharacters
@@ -93,12 +102,14 @@ namespace OrderElimination.AbilitySystem
         {
             if (entity.EntityType != EntityType.Character)
                 Logging.LogException( new InvalidOperationException("Attempt to add non-character entity."));
+            var hash = basedCharacter.GetHashCode();
             entity.DisposedFromBattle += OnEntityDisposed;
             _activeEntities.Add(entity);
             _viewsByEntities.Add(entity, view);
             _entitiesByViews.Add(view, entity);
             _basedCharacters.Add(entity, basedCharacter);
             _entitiesByCharacters.Add(basedCharacter, entity);
+            EntityAdded?.Invoke(this, entity);
             BankChanged?.Invoke(this);
         }
 
@@ -111,6 +122,7 @@ namespace OrderElimination.AbilitySystem
             _viewsByEntities.Add(entity, view);
             _entitiesByViews.Add(view, entity);
             _basedStructures.Add(entity, basedData);
+            EntityAdded?.Invoke(this, entity);
             BankChanged?.Invoke(this);
         }
 
@@ -132,10 +144,11 @@ namespace OrderElimination.AbilitySystem
             _basedCharacters.Remove(entity);
             _basedStructures.Remove(entity);
             entity.DisposedFromBattle -= OnEntityDisposed;
+            EntityRemoved?.Invoke(this, entity);
             BankChanged?.Invoke(this);
         }
 
-        public void Clear()
+        public void Clear() //Little meaning to this method due to Bank is created before each battle.
         {
             foreach (var entity in _viewsByEntities.Keys)
                 entity.DisposedFromBattle -= OnEntityDisposed;
@@ -146,6 +159,7 @@ namespace OrderElimination.AbilitySystem
             _basedCharacters.Clear();
             _entitiesByCharacters.Clear();
             _basedStructures.Clear();
+            //Entity Remove callbacks?
             BankChanged?.Invoke(this);
         }
         #endregion
@@ -156,6 +170,7 @@ namespace OrderElimination.AbilitySystem
             _activeEntities.Remove(entityAsActor);
             _disposedEntities.Add(entityAsActor);
             entity.DisposedFromBattle -= OnEntityDisposed;
+            EntityDisposed?.Invoke(this, entityAsActor);
             BankChanged?.Invoke(this);
             //RemoveEntity(entityAsActor);
         }

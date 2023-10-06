@@ -16,7 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 21300000, guid: f91d05b69dc93144ca3549f82b1cdb35, type: 3}
+    - {fileID: 21300000, guid: 9ce54d35e0d1d1e48bae2da8afcc0736, type: 3}
     - {fileID: 11400000, guid: 2079a0cdc5de4044e929c8319593b546, type: 2}
     - {fileID: 11400000, guid: b2bfd094b4c1f1046a6a2ff26b0546bf, type: 2}
     SerializedBytesString: 
@@ -43,6 +43,9 @@ MonoBehaviour:
     - Name: ShowTrajectoryWhenTargeting
       Entry: 5
       Data: false
+    - Name: ShowPatternRange
+      Entry: 5
+      Data: true
     - Name: HideInCharacterDescription
       Entry: 5
       Data: false
@@ -1238,10 +1241,7 @@ MonoBehaviour:
       Data: 71|OrderElimination.AbilitySystem.Animations.WalkAnimation, Assembly-CSharp
     - Name: MovingEntity
       Entry: 3
-      Data: 0
-    - Name: UseExecutionGroupForOrigin
-      Entry: 5
-      Data: false
+      Data: 1
     - Name: OriginTarget
       Entry: 3
       Data: 0
@@ -1251,12 +1251,9 @@ MonoBehaviour:
     - Name: OriginCellOrder
       Entry: 3
       Data: 0
-    - Name: UseExecutionGroupForDestination
-      Entry: 5
-      Data: true
     - Name: DestinationTarget
       Entry: 3
-      Data: 0
+      Data: 2
     - Name: DestinationCellGroup
       Entry: 3
       Data: 0

@@ -34,14 +34,14 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, SerializeField]
         public bool ObjectsBetweenAffectAccuracy { get; set; } //TODO Extract to Accuracy ValueGetter
 
-        public override ActionRequires ActionRequires => ActionRequires.Target;
+        public override BattleActionType BattleActionType => BattleActionType.EntityAction;
 
         protected override InflictDamageAction ProcessAction(
             ActionContext context,
             bool actionMakerProcessing = true,
             bool targetProcessing = true)
         {
-            if (context.ActionTarget == null)
+            if (context.TargetEntity == null)
                 Logging.LogException( new System.ArgumentNullException());
 
             var modifiedAction = this;
@@ -54,14 +54,14 @@ namespace OrderElimination.AbilitySystem
             {
                 modifiedAccuracy = context.BattleContext.ModifyAccuracyBetween(
                     context.ActionMaker.Position,
-                    context.ActionTarget.Position,
+                    context.TargetEntity.Position,
                     modifiedAccuracy,
                     context.ActionMaker);
             }
             modifiedAction.Accuracy = modifiedAccuracy;
 
             if (targetProcessing)
-                modifiedAction = context.ActionTarget.ActionProcessor.ProcessIncomingAction(modifiedAction, context);
+                modifiedAction = context.TargetEntity.ActionProcessor.ProcessIncomingAction(modifiedAction, context);
             return modifiedAction;
         }
 
@@ -69,18 +69,18 @@ namespace OrderElimination.AbilitySystem
         {
             var calculationContext = ValueCalculationContext.Full(useContext);
             var accuracy = Accuracy.GetValue(calculationContext);
-            var evasion = useContext.ActionTarget.BattleStats[BattleStat.Evasion].ModifiedValue;
+            var evasion = useContext.TargetEntity.BattleStats[BattleStat.Evasion].ModifiedValue;
             var hitResult = useContext.BattleContext.BattleRules.HitCalculation.CalculateHitResult(accuracy, evasion);
             var animationContext = new AnimationPlayContext(
                 useContext.AnimationSceneContext,
                 useContext.CellTargetGroups,
                 useContext.ActionMaker,
-                useContext.ActionTarget);
+                useContext.TargetEntity);
             if (hitResult == HitResult.Success
                 || hitResult == HitResult.Evasion && IgnoreEvasion)
             {
                 var damageInfo = CalculateDamage(useContext);
-                useContext.ActionTarget.TakeDamage(damageInfo);
+                useContext.TargetEntity.TakeDamage(damageInfo);
                 return new SimplePerformResult(this, useContext, true);
             }
             else if (hitResult == HitResult.Miss)

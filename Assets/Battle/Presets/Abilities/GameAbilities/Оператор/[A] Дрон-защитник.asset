@@ -42,7 +42,13 @@ MonoBehaviour:
     - Name: ShowTrajectoryWhenTargeting
       Entry: 5
       Data: false
+    - Name: ShowPatternRange
+      Entry: 5
+      Data: true
     - Name: HideInCharacterDescription
+      Entry: 5
+      Data: false
+    - Name: HideAutoParameters
       Entry: 5
       Data: false
     - Name: CooldownTime
@@ -248,6 +254,9 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 8
+      Data: 
+    - Name: _customParameters
+      Entry: 6
       Data: 
     - Name: _usageCost
       Entry: 7
@@ -556,7 +565,10 @@ MonoBehaviour:
     - Name: Action
       Entry: 7
       Data: 32|OrderElimination.AbilitySystem.EmptyAction, Assembly-CSharp
-    - Name: ExecutesOn
+    - Name: ActionType
+      Entry: 3
+      Data: 1
+    - Name: ActionTypeS
       Entry: 3
       Data: 1
     - Name: IsSuccessful
@@ -663,6 +675,27 @@ MonoBehaviour:
     - Name: BulletParticle
       Entry: 3
       Data: 1
+    - Name: RemapAnimationTime
+      Entry: 5
+      Data: false
+    - Name: OriginTarget
+      Entry: 3
+      Data: 1
+    - Name: OriginCellGroup
+      Entry: 3
+      Data: 0
+    - Name: OriginCellPriority
+      Entry: 3
+      Data: 0
+    - Name: DestinationTarget
+      Entry: 3
+      Data: 0
+    - Name: DestinationCellGroup
+      Entry: 3
+      Data: 0
+    - Name: DestinationCellPriority
+      Entry: 3
+      Data: 0
     - Name: MoveBy
       Entry: 3
       Data: 0
@@ -673,9 +706,6 @@ MonoBehaviour:
       Entry: 5
       Data: false
     - Name: Inverse
-      Entry: 5
-      Data: false
-    - Name: RemapAnimationTime
       Entry: 5
       Data: false
     - Name: _minSpread
@@ -705,7 +735,10 @@ MonoBehaviour:
     - Name: Action
       Entry: 7
       Data: 40|OrderElimination.AbilitySystem.EmptyAction, Assembly-CSharp
-    - Name: ExecutesOn
+    - Name: ActionType
+      Entry: 3
+      Data: 1
+    - Name: ActionTypeS
       Entry: 3
       Data: 1
     - Name: IsSuccessful
@@ -828,6 +861,27 @@ MonoBehaviour:
     - Name: BulletParticle
       Entry: 3
       Data: 1
+    - Name: RemapAnimationTime
+      Entry: 5
+      Data: false
+    - Name: OriginTarget
+      Entry: 3
+      Data: 1
+    - Name: OriginCellGroup
+      Entry: 3
+      Data: 0
+    - Name: OriginCellPriority
+      Entry: 3
+      Data: 0
+    - Name: DestinationTarget
+      Entry: 3
+      Data: 0
+    - Name: DestinationCellGroup
+      Entry: 3
+      Data: 0
+    - Name: DestinationCellPriority
+      Entry: 3
+      Data: 0
     - Name: MoveBy
       Entry: 3
       Data: 0
@@ -840,9 +894,6 @@ MonoBehaviour:
     - Name: Inverse
       Entry: 5
       Data: true
-    - Name: RemapAnimationTime
-      Entry: 5
-      Data: false
     - Name: _minSpread
       Entry: 4
       Data: 0
@@ -1181,6 +1232,12 @@ MonoBehaviour:
     - Name: ParticleType
       Entry: 3
       Data: 3
+    - Name: RemapAnimationTime
+      Entry: 5
+      Data: true
+    - Name: RemappedTime
+      Entry: 4
+      Data: 0.4
     - Name: SpawnAt
       Entry: 3
       Data: 0
@@ -1214,12 +1271,6 @@ MonoBehaviour:
     - Name: FacingToCell
       Entry: 3
       Data: 0
-    - Name: RemapAnimationTime
-      Entry: 5
-      Data: true
-    - Name: RemappedTime
-      Entry: 4
-      Data: 0.4
     - Name: _animationLoops
       Entry: 3
       Data: 1

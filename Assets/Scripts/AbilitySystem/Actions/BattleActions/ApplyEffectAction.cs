@@ -11,7 +11,7 @@ namespace OrderElimination.AbilitySystem
         IUndoableBattleAction,
         ICallbackingBattleAction
     {
-        private static Dictionary<BattleEffect, int> _effectsApplyIds = new();
+        private static Dictionary<BattleEffect, SimpleUndoablePerformResult> _effectsApplyResults = new();
         private static List<BattleEffect> _appliedEffects = new();
         private static List<IEffectHolder> _performTargets = new();
         private static HashSet<int> _undoneOperations = new();
@@ -24,7 +24,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public IContextValueGetter ApplyChance { get; set; } = new ConstValueGetter(1);
 
-        public override ActionRequires ActionRequires => ActionRequires.Target;
+        public override BattleActionType BattleActionType => BattleActionType.EntityAction;
 
         public string CallbackDescription => "Callback happens when effect is deactivated.";
 
@@ -32,7 +32,7 @@ namespace OrderElimination.AbilitySystem
         {
             var clone = new ApplyEffectAction();
             clone.Effect = Effect;
-            clone.ApplyChance = ApplyChance;
+            clone.ApplyChance = ApplyChance.Clone();
             return clone;
         }
 
@@ -50,7 +50,7 @@ namespace OrderElimination.AbilitySystem
 
         public void ClearUndoCache()
         {
-            _effectsApplyIds.Clear();
+            _effectsApplyResults.Clear();
             _appliedEffects.Clear();
             _performTargets.Clear();
             _undoneOperations.Clear();
@@ -65,17 +65,18 @@ namespace OrderElimination.AbilitySystem
             BattleEffect appliedEffect = null;
             if (RandomExtensions.RollChance(probability))
             {
-                if (useContext.ActionTarget.ApplyEffect(Effect, useContext.ActionMaker, out appliedEffect))
+                if (useContext.TargetEntity.ApplyEffect(Effect, useContext.ActionMaker, out appliedEffect))
                 {
                     isSuccessfull = true;
                     appliedEffect.Deactivated += OnEffectRemoved;
                 }
             }
-            if (appliedEffect != null)
-                _effectsApplyIds.Add(appliedEffect, performId);
             _appliedEffects.Add(appliedEffect);
-            _performTargets.Add(useContext.ActionTarget);
-            return new SimpleUndoablePerformResult(this, useContext, isSuccessfull, performId);
+            _performTargets.Add(useContext.TargetEntity);
+            var result = new SimpleUndoablePerformResult(this, useContext, isSuccessfull, performId);
+            if (appliedEffect != null)
+                _effectsApplyResults.Add(appliedEffect, result);
+            return result;
 
             void OnEffectRemoved(BattleEffect effect)
             {
@@ -86,11 +87,11 @@ namespace OrderElimination.AbilitySystem
 
         public async UniTask<IActionPerformResult> ModifiedPerformWithCallbacks(ActionContext useContext, Action<IBattleActionCallback> onCallback, bool actionMakerProcessing = true, bool targetProcessing = true)
         {
-            if (ActionRequires == ActionRequires.Target)
+            if (BattleActionType == BattleActionType.EntityAction)
             {
-                if (useContext.ActionTarget == null)
+                if (useContext.TargetEntity == null)
                     throw new ArgumentNullException("Attempt to perform action on null entity.");
-                if (useContext.ActionTarget.IsDisposedFromBattle)
+                if (useContext.TargetEntity.IsDisposedFromBattle)
                     throw new InvalidOperationException("Attempt to perform action on entity that had been disposed.");
             }
             var modifiedAction = GetModifiedAction(useContext, actionMakerProcessing, targetProcessing);
@@ -103,7 +104,7 @@ namespace OrderElimination.AbilitySystem
         {
             if (effect == null)
                 throw new ArgumentNullException();
-            return _effectsApplyIds[effect];
+            return _effectsApplyResults[effect].PerformId;
         }
     }
 }

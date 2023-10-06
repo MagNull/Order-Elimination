@@ -1,4 +1,5 @@
-﻿using OrderElimination.AbilitySystem.Animations;
+﻿using Cysharp.Threading.Tasks;
+using OrderElimination.AbilitySystem.Animations;
 using OrderElimination.Battle;
 using OrderElimination.Infrastructure;
 using System;
@@ -13,6 +14,7 @@ namespace OrderElimination.AbilitySystem
     {
         private BattleLoopManager _battleLoopManager;
         private Lazy<IBattleRules> _battleRules;
+        private HashSet<UniTask> _executingTasks = new();
 
         #region Components
         public AnimationSceneContext AnimationSceneContext { get; private set; }
@@ -26,6 +28,19 @@ namespace OrderElimination.AbilitySystem
         public BattleSide ActiveSide => _battleLoopManager.ActiveSide;
         public IBattleRules BattleRules => _battleRules.Value;
         #endregion
+
+        public bool HasExecutingTasks => _executingTasks.Count > 0;
+        public void AddExecutingTask(UniTask task)
+        {
+            if (_executingTasks.Contains(task))
+                return;
+            _executingTasks.Add(task);
+            //task.ContinueWith(() => _executingTasks.Remove(task));//TODO: Timeout case
+        }
+        public void RemoveExecutingTask(UniTask task)
+        {
+            _executingTasks.Remove(task);
+        }
 
         public event Action<IBattleContext> BattleStarted;
         public event Action<IBattleContext> NewTurnUpdatesRequested;
@@ -54,9 +69,11 @@ namespace OrderElimination.AbilitySystem
             _battleLoopManager.NewRoundBegan += OnNewRound;
             _battleLoopManager.BattleStarted += OnBattleStarted;
 
-            void OnNewTurn()
+            async void OnNewTurn()
             {
                 NewTurnUpdatesRequested?.Invoke(this);
+                if (HasExecutingTasks)
+                    await UniTask.WaitUntil(() => !HasExecutingTasks);
                 NewTurnStarted?.Invoke(this);
             }
             void OnNewRound() => NewRoundBegan?.Invoke(this);
