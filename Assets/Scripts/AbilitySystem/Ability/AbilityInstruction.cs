@@ -18,16 +18,25 @@ namespace OrderElimination.AbilitySystem
     public class AbilityInstruction : IAbilityInstruction, ICloneable<AbilityInstruction>
     {
         #region OdinVisuals
+
         private const string HasEntityParentInstruction =
-            "$property.ParentValueProperty.ParentValueProperty != null"//instruction parent (list*) not null
-            + " && $property.ParentValueProperty.ParentValueProperty.ParentValueProperty != null"//list* parent not null
-            + " && $property.ParentValueProperty.ParentValueProperty.ParentValueProperty.ValueEntry.WeakSmartValue is " + nameof(AbilityInstruction) //list parent is Instruction
-            + " && ((" + nameof(AbilityInstruction) + ")$property.ParentValueProperty.ParentValueProperty.ParentValueProperty.ValueEntry.WeakSmartValue)." + nameof(IsEntityAction);
+            "$property.ParentValueProperty.ParentValueProperty != null" //instruction parent (list*) not null
+            + " && $property.ParentValueProperty.ParentValueProperty.ParentValueProperty != null" //list* parent not null
+            + " && $property.ParentValueProperty.ParentValueProperty.ParentValueProperty.ValueEntry.WeakSmartValue is " +
+            nameof(AbilityInstruction) //list parent is Instruction
+            + " && ((" + nameof(AbilityInstruction) +
+            ")$property.ParentValueProperty.ParentValueProperty.ParentValueProperty.ValueEntry.WeakSmartValue)." +
+            nameof(IsEntityAction);
+
         private const string HasCellParentInstruction =
-            "$property.ParentValueProperty.ParentValueProperty != null"//instruction parent (list*) not null
-            + " && $property.ParentValueProperty.ParentValueProperty.ParentValueProperty != null"//list* parent not null
-            + " && $property.ParentValueProperty.ParentValueProperty.ParentValueProperty.ValueEntry.WeakSmartValue is " + nameof(AbilityInstruction) //list parent is Instruction
-            + " && ((" + nameof(AbilityInstruction) + ")$property.ParentValueProperty.ParentValueProperty.ParentValueProperty.ValueEntry.WeakSmartValue)." + nameof(IsCellAction);
+            "$property.ParentValueProperty.ParentValueProperty != null" //instruction parent (list*) not null
+            + " && $property.ParentValueProperty.ParentValueProperty.ParentValueProperty != null" //list* parent not null
+            + " && $property.ParentValueProperty.ParentValueProperty.ParentValueProperty.ValueEntry.WeakSmartValue is " +
+            nameof(AbilityInstruction) //list parent is Instruction
+            + " && ((" + nameof(AbilityInstruction) +
+            ")$property.ParentValueProperty.ParentValueProperty.ParentValueProperty.ValueEntry.WeakSmartValue)." +
+            nameof(IsCellAction);
+
         private string InstructionName
         {
             get
@@ -38,9 +47,11 @@ namespace OrderElimination.AbilitySystem
                 return $"Instruction <{actionName}>";
             }
         }
+
         private bool _hasAnyTargetGroups => _affectedCellGroups != null && _affectedCellGroups.Count > 0;
         private bool IsCellAction => Action != null && Action.BattleActionType == BattleActionType.CellAction;
         private bool IsEntityAction => Action != null && Action.BattleActionType == BattleActionType.EntityAction;
+
         private bool CellGroupsRequired
         {
             get
@@ -57,19 +68,22 @@ namespace OrderElimination.AbilitySystem
                 return actionRequireCellGroups;
             }
         }
+
         #endregion
 
         private bool _isSafeCopy;
 
         #region Properties
+
         private int _repeatNumber = 1;
 
         [TabGroup("MainSection", "Execution")]
         [BoxGroup("MainSection/Execution/Action", CenterLabel = true)]
         [GUIColor(1f, 1, 0.2f)]
         [ValidateInput(
-            "@!(Action is " + nameof(IUndoableBattleAction) + ")", 
-            "Action is Undoable but can't be undone with " + nameof(AbilityInstruction) + ". Use with caution or utilize effects!")]
+            "@!(Action is " + nameof(IUndoableBattleAction) + ")",
+            "Action is Undoable but can't be undone with " + nameof(AbilityInstruction) +
+            ". Use with caution or utilize effects!")]
         [ShowInInspector, OdinSerialize]
         public IBattleAction Action { get; private set; }
 
@@ -91,10 +105,12 @@ namespace OrderElimination.AbilitySystem
         }
 
         #region Conditions
+
         [TabGroup("MainSection", "Targeting")]
         [BoxGroup("MainSection/Targeting/Conditions", CenterLabel = true)]
         [ShowInInspector, OdinSerialize]
         private List<ICommonCondition> _commonConditions { get; set; } = new();
+
         //cell conditions are useless if cell groups are already filtered by conditions
         private List<ICellCondition> _cellConditions { get; set; } = new();
 
@@ -102,7 +118,9 @@ namespace OrderElimination.AbilitySystem
         [EnableIf("@" + nameof(IsEntityAction))]
         [ShowInInspector, OdinSerialize]
         private List<IEntityCondition> _targetConditions { get; set; } = new();
+
         public IReadOnlyList<IEntityCondition> TargetConditions => _targetConditions;
+
         #endregion
 
         [BoxGroup("MainSection/Targeting/Target", CenterLabel = true)]
@@ -119,10 +137,11 @@ namespace OrderElimination.AbilitySystem
         [BoxGroup("MainSection/Targeting/Target")]
         [EnableIf("@" + nameof(CellGroupsRequired))]
         [ValidateInput(
-            "@" + nameof(_hasAnyTargetGroups) + " || " + nameof(AffectPreviousTarget), 
+            "@" + nameof(_hasAnyTargetGroups) + " || " + nameof(AffectPreviousTarget),
             "Instruction has no affected cell groups.")]
         [ShowInInspector, OdinSerialize]
         private HashSet<int> _affectedCellGroups { get; set; } = new();
+
         public IEnumerable<int> AffectedCellGroups => _affectedCellGroups;
 
         //public bool StopRepeatAfterFirstFail { get; set; }
@@ -131,19 +150,21 @@ namespace OrderElimination.AbilitySystem
         //with identifier when to use them (always, on attempt, on success, on fail)
 
         #region NextInstructions
+
         [TabGroup("MainSection", "Execution")]
         [BoxGroup("MainSection/Execution/Next Instructions", CenterLabel = true)]
         [GUIColor(0.5f, 1f, 0.5f)]
         [ShowInInspector, OdinSerialize]
         private List<AbilityInstruction> _instructionsOnActionSuccess { get; set; } = new();
+
         public IReadOnlyList<AbilityInstruction> InstructionsOnActionSuccess => _instructionsOnActionSuccess;
 
-        
+
         [TabGroup("MainSection", "Execution")]
         [BoxGroup("MainSection/Execution/Next Instructions", CenterLabel = true)]
         [GUIColor(0.7f, 1f, 0.7f)]
         [PropertyTooltip("If true, executes after each successful action perform.\n"
-            + "If false, executes if AT LEAST ONE perform was successful. ")]
+                         + "If false, executes if AT LEAST ONE perform was successful. ")]
         [EnableIf("@" + nameof(RepeatNumber) + " > 1")]
         //[DisableIf("@" + nameof(_instructionsOnActionSuccess) + ".Count == 0")]
         [ShowInInspector, OdinSerialize]
@@ -154,13 +175,14 @@ namespace OrderElimination.AbilitySystem
         [GUIColor(1f, 0.5f, 0.5f)]
         [ShowInInspector, OdinSerialize]
         private List<AbilityInstruction> _instructionsOnActionFail { get; set; } = new();
+
         public IReadOnlyList<AbilityInstruction> InstructionsOnActionFail => _instructionsOnActionFail;
 
         [TabGroup("MainSection", "Execution")]
         [BoxGroup("MainSection/Execution/Next Instructions", CenterLabel = true)]
         [GUIColor(1f, 0.7f, 0.7f)]
         [PropertyTooltip("If true, executes after each failed action perform.\n"
-            + "If false, executes if ALL performs failed. ")]
+                         + "If false, executes if ALL performs failed. ")]
         [EnableIf("@" + nameof(RepeatNumber) + " > 1")]
         //[DisableIf("@" + nameof(_instructionsOnActionFail) + ".Count == 0")]
         [ShowInInspector, OdinSerialize]
@@ -171,27 +193,31 @@ namespace OrderElimination.AbilitySystem
         [BoxGroup("MainSection/Execution/Next Instructions", CenterLabel = true)]
         [ShowInInspector, OdinSerialize]
         private List<AbilityInstruction> _followingInstructions { get; set; } = new();
+
         public IReadOnlyList<AbilityInstruction> FollowingInstructions => _followingInstructions;
 
         [TabGroup("MainSection", "Execution")]
         [BoxGroup("MainSection/Execution/Next Instructions", CenterLabel = true)]
         [GUIColor(0.75f, 0.75f, 1f)]
         [PropertyTooltip("If true, executes after each action perform.\n"
-            + "If false, executes once.\n" +
-            "Perform result doesn't matter.")]
+                         + "If false, executes once.\n" +
+                         "Perform result doesn't matter.")]
         [EnableIf("@" + nameof(RepeatNumber) + " > 1")]
         //[DisableIf("@" + nameof(_followingInstructions) + ".Count == 0")]
         [ShowInInspector, OdinSerialize]
         public bool FollowInstructionsEveryRepeat { get; private set; } = true;
+
         #endregion
 
         [TabGroup("MainSection", "Animations")]
         [GUIColor(0, 1, 1)]
         [ShowInInspector, OdinSerialize]
         public IAbilityAnimation AnimationBeforeAction { get; private set; }
+
         //AnimationAfterAction
         //AnimationBeforeExecution
         //AnimationAfterExecution
+
         #endregion
 
         public async UniTask Execute(AbilityExecutionContext executionContext)
@@ -202,32 +228,36 @@ namespace OrderElimination.AbilitySystem
             var battleContext = executionContext.BattleContext;
             var battleMap = battleContext.BattleMap;
             var caster = executionContext.AbilityCaster;
-            if (_commonConditions != null && !_commonConditions.AllMet(battleContext, caster, executionContext.CellTargetGroups))
+            if (_commonConditions != null &&
+                !_commonConditions.AllMet(battleContext, caster, executionContext.CellTargetGroups))
                 return;
             var groups = executionContext.CellTargetGroups;
             if (Action.BattleActionType == BattleActionType.CommonAction)
             {
                 if (Action is IUtilizeCellGroupsAction groupAction
                     && !groupAction.UtilizedCellGroups
-                    .All(requiredG => groups.ContainsGroup(requiredG)))//why?
+                        .All(requiredG => groups.ContainsGroup(requiredG))) //why?
                 {
                     return;
                 }
+
                 await ExecuteCurrentInstruction(executionContext, caster, null, null);
             }
-            else if (Action.BattleActionType == BattleActionType.CellAction || Action.BattleActionType == BattleActionType.EntityAction)
+            else if (Action.BattleActionType == BattleActionType.CellAction ||
+                     Action.BattleActionType == BattleActionType.EntityAction)
             {
                 if (AffectPreviousTarget && executionContext.HasSpecifiedTarget)
                     await ExecuteCurrentInstruction(
                         executionContext, caster, executionContext.SpecifiedCell, executionContext.SpecifiedEntity);
                 //Targets in Cell Groups
                 foreach (var pos in executionContext
-                    .CellTargetGroups
-                    .ContainedCellGroups
-                    .Where(g => _affectedCellGroups.Contains(g))
-                    .SelectMany(g => executionContext.CellTargetGroups.GetGroup(g))
-                    .Where(p => _cellConditions == null || _cellConditions.AllMet(battleContext, caster, p, groups))
-                    .ToArray())
+                             .CellTargetGroups
+                             .ContainedCellGroups
+                             .Where(g => _affectedCellGroups.Contains(g))
+                             .SelectMany(g => executionContext.CellTargetGroups.GetGroup(g))
+                             .Where(p => _cellConditions == null ||
+                                         _cellConditions.AllMet(battleContext, caster, p, groups))
+                             .ToArray())
                 {
                     if (Action.BattleActionType == BattleActionType.CellAction)
                     {
@@ -236,7 +266,8 @@ namespace OrderElimination.AbilitySystem
                     else if (Action.BattleActionType == BattleActionType.EntityAction)
                     {
                         var entitiesInCell = battleMap.GetContainedEntities(pos)
-                            .Where(e => _targetConditions == null || _targetConditions.AllMet(battleContext, caster, e, groups))
+                            .Where(e => _targetConditions == null ||
+                                        _targetConditions.AllMet(battleContext, caster, e, groups))
                             .ToArray();
                         foreach (var entity in entitiesInCell)
                         {
@@ -249,9 +280,10 @@ namespace OrderElimination.AbilitySystem
                 throw new NotImplementedException();
 
             #region SupportFunctions
+
             async UniTask ExecuteCurrentInstruction(
-                AbilityExecutionContext executionContext, 
-                AbilitySystemActor caster, 
+                AbilityExecutionContext executionContext,
+                AbilitySystemActor caster,
                 Vector2Int? targetCell,
                 AbilitySystemActor targetEntity)
             {
@@ -276,8 +308,8 @@ namespace OrderElimination.AbilitySystem
             }
 
             async UniTask ExecuteCurrentAndNextInstructions(
-                AbilityExecutionContext executionContext, 
-                ActionContext actionContext, 
+                AbilityExecutionContext executionContext,
+                ActionContext actionContext,
                 AnimationPlayContext animationContext)
             {
                 var anyRepetitionSuccessed = false;
@@ -285,8 +317,8 @@ namespace OrderElimination.AbilitySystem
                 for (var i = 0; i < RepeatNumber; i++)
                 {
                     if (_commonConditions != null && !_commonConditions.AllMet(
-                        actionContext.BattleContext,
-                        actionContext.ActionMaker))
+                            actionContext.BattleContext,
+                            actionContext.ActionMaker))
                         continue;
                     if (Action.BattleActionType == BattleActionType.CellAction
                         || Action.BattleActionType == BattleActionType.EntityAction)
@@ -294,31 +326,33 @@ namespace OrderElimination.AbilitySystem
                         if (actionContext.TargetCell == null)
                         {
                             Logging.LogException(
-                                new ArgumentNullException("Action requires cell position but it's null. Skipping perform."));
-                            continue;//break;
+                                new ArgumentNullException(
+                                    "Action requires cell position but it's null. Skipping perform."));
+                            continue; //break;
                         }
-                        if (_cellConditions != null && !_cellConditions.AllMet(
-                            actionContext.BattleContext,
-                            actionContext.ActionMaker,
-                            actionContext.TargetCell.Value))
-                            continue;//return false;
 
+                        if (_cellConditions != null && !_cellConditions.AllMet(
+                                actionContext.BattleContext,
+                                actionContext.ActionMaker,
+                                actionContext.TargetCell.Value))
+                            continue; //return false;
                     }
+
                     if (Action.BattleActionType == BattleActionType.EntityAction)
                     {
                         if (actionContext.TargetEntity == null
-                        || actionContext.TargetEntity.IsDisposedFromBattle
-                        || !actionContext.TargetEntity.IsAlive)
+                            || actionContext.TargetEntity.IsDisposedFromBattle
+                            || !actionContext.TargetEntity.IsAlive)
                         {
-                            Logging.LogException(
-                                new InvalidOperationException("Action requires entity but it's not allowed one. Skipping perform."));
-                            continue;//break;
+                            Logging.LogError("Action requires entity but it's not allowed one. Skipping perform.");
+                            continue; //break;
                         }
+
                         if (_targetConditions != null && !_targetConditions.AllMet(
-                            actionContext.BattleContext,
-                            actionContext.ActionMaker,
-                            actionContext.TargetEntity))
-                            continue;//break;
+                                actionContext.BattleContext,
+                                actionContext.ActionMaker,
+                                actionContext.TargetEntity))
+                            continue; //break;
                     }
 
                     if (AnimationBeforeAction != null)
@@ -336,6 +370,7 @@ namespace OrderElimination.AbilitySystem
                         if (FailInstructionsEveryRepeat)
                             await ExecuteRecursiveInSequence(_instructionsOnActionFail, executionContext);
                     }
+
                     if (FollowInstructionsEveryRepeat)
                     {
                         await ExecuteRecursiveInSequence(_followingInstructions, executionContext);
@@ -351,7 +386,7 @@ namespace OrderElimination.AbilitySystem
             }
 
             async UniTask ExecuteRecursiveInSequence(
-                IEnumerable<AbilityInstruction> instructions, 
+                IEnumerable<AbilityInstruction> instructions,
                 AbilityExecutionContext executionContext)
             {
                 if (instructions == null)
@@ -359,6 +394,7 @@ namespace OrderElimination.AbilitySystem
                 foreach (var instruction in instructions)
                     await instruction.ExecuteRecursive(executionContext);
             }
+
             #endregion
         }
 
@@ -374,7 +410,7 @@ namespace OrderElimination.AbilitySystem
         //Inconvenient instruction addition
         //Can return list of appended instructions (considering children)
         public bool AppendInstructionRecursively(
-            Predicate<AbilityInstruction> parentSelector, 
+            Predicate<AbilityInstruction> parentSelector,
             AbilityInstruction newInstruction,
             bool copyParentTargetGroups,
             InstructionFollowType followType)
@@ -384,13 +420,15 @@ namespace OrderElimination.AbilitySystem
                 Logging.Log(new InvalidOperationException("Attempt to modify instruction in template."));
                 return false;
             }
+
             foreach (var child in InstructionsOnActionSuccess
-                .Concat(InstructionsOnActionFail)
-                .Concat(FollowingInstructions))
+                         .Concat(InstructionsOnActionFail)
+                         .Concat(FollowingInstructions))
             {
                 child.AppendInstructionRecursively(
                     parentSelector, newInstruction, copyParentTargetGroups, followType);
             }
+
             var parent = this;
             if (parentSelector(parent))
             {
@@ -412,6 +450,7 @@ namespace OrderElimination.AbilitySystem
                         throw new NotImplementedException();
                 }
             }
+
             return true;
         }
 
@@ -424,16 +463,19 @@ namespace OrderElimination.AbilitySystem
                 Logging.Log(new InvalidOperationException("Attempt to modify instruction in template."));
                 return false;
             }
+
             foreach (var child in InstructionsOnActionSuccess
-                .Concat(InstructionsOnActionFail)
-                .Concat(FollowingInstructions))
+                         .Concat(InstructionsOnActionFail)
+                         .Concat(FollowingInstructions))
             {
                 child.ModifyInstructionRecursively(selector, modifier);
             }
+
             if (selector(this))
             {
                 CopySettingsFrom(modifier(this));
             }
+
             return true;
         }
 
@@ -455,7 +497,7 @@ namespace OrderElimination.AbilitySystem
             FailInstructionsEveryRepeat = instruction.FailInstructionsEveryRepeat;
             FollowInstructionsEveryRepeat = instruction.FollowInstructionsEveryRepeat;
 
-            AnimationBeforeAction = instruction.AnimationBeforeAction;//Not safe for changes (shared)
+            AnimationBeforeAction = instruction.AnimationBeforeAction; //Not safe for changes (shared)
         }
     }
 }
