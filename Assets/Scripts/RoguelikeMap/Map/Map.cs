@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using OrderElimination.Battle;
 using RoguelikeMap.Points;
 using RoguelikeMap.SquadInfo;
+using RoguelikeMap.UI.Characters;
 using UnityEngine;
 using VContainer;
 
@@ -15,23 +15,25 @@ namespace RoguelikeMap.Map
         private Squad _squad;
         private List<Point> _points;
         private Point _currentPoint;
-        private BattleOutcome _battleOutcome;
         private SquadPositionSaver _saver;
+        private SquadMembersPanel _squadMembersPanel;
 
         [Inject]
         private void Construct(IMapGenerator mapGenerator, Squad squad,
-            SquadPositionSaver saver)
+            SquadMembersPanel squadMembersPanel, SquadPositionSaver saver)
         {
             _mapGenerator = mapGenerator;
             _squad = squad;
+            _squadMembersPanel = squadMembersPanel;
             _saver = saver;
         }
 
         private void Start()
         {
             _saver.OnSaveBeforeMove += MoveToPoint;
+            _saver.OnPassPoint += ShowPaths;
         }
-
+        
         public void LoadPoints()
         {
             _points = _mapGenerator.GenerateMap();
@@ -59,6 +61,7 @@ namespace RoguelikeMap.Map
                 await SetSquadPosition(_points.First(x => x.Index == pointIndex));
             else
                 ReloadMap();
+            _currentPoint.ShowPaths();
         }
 
         public async Task MoveToPoint(Point point)
@@ -67,6 +70,7 @@ namespace RoguelikeMap.Map
                 await SetSquadPosition(_points.First(x => x.Index == point.Index));
             else
                 ReloadMap();
+            _currentPoint.ShowPaths();
         }
 
         private async Task SetSquadPosition(Point point, bool isAnimation = true)
@@ -75,7 +79,6 @@ namespace RoguelikeMap.Map
                 _currentPoint.HidePaths();
             _currentPoint = point;
             await MoveSquad(point, isAnimation);
-            _currentPoint.ShowPaths();
             _saver.SavePosition(point.Index);
         }
 
@@ -87,6 +90,12 @@ namespace RoguelikeMap.Map
                 await point.Visit(_squad);
         }
 
+        private void ShowPaths()
+        {
+            _currentPoint.ShowPaths();
+            _squadMembersPanel.SetActiveAttackButton(false);
+        }
+        
         private void HidePointIcons()
         {
             foreach (var point in _points)
@@ -96,6 +105,7 @@ namespace RoguelikeMap.Map
         public void OnDestroy()
         {
             _saver.OnSaveBeforeMove -= MoveToPoint;
+            _saver.OnPassPoint -= ShowPaths;
         }
     }
 }

@@ -129,6 +129,12 @@ namespace RoguelikeMap.SquadInfo
                              IconSize + 10f);
             transform.position = target;
         }
+
+        public void OpenPanel()
+        {
+            _squadMembersPanel.SetActiveAttackButton(true);
+            _squadMembersPanel.Open();
+        }
         
         private void SetActiveSquadMembers(bool isActive) => _model.SetActivePanel(isActive);
     }

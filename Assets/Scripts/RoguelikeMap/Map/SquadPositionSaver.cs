@@ -22,7 +22,8 @@ namespace RoguelikeMap.Map
         private const string PassPointKey = "is point passed";
 
         public event Action<int> OnSaveBeforeMove;
-        
+        public event Action OnPassPoint; 
+
         [Inject]
         public SquadPositionSaver(PanelManager panelManager, TransferPanel transferPanel, 
             ScenesMediator mediator)
@@ -58,7 +59,6 @@ namespace RoguelikeMap.Map
             _transferPanel.OnAccept += LeavePoint;
             _battlePanel.OnAccepted += LeavePoint;
             
-            _battlePanel.OnOpen += SwitchPoint;
             _shopPanel.OnClose += PassPoint;
             _eventPanel.OnClose += PassPoint;
             _safeZonePanel.OnClose += PassPoint;
@@ -69,7 +69,6 @@ namespace RoguelikeMap.Map
             _transferPanel.OnAccept -= LeavePoint;
             _battlePanel.OnAccepted -= LeavePoint;
             
-            _battlePanel.OnOpen -= SwitchPoint;
             _shopPanel.OnClose -= PassPoint;
             _eventPanel.OnClose -= PassPoint;
             _safeZonePanel.OnClose -= PassPoint;
@@ -96,6 +95,7 @@ namespace RoguelikeMap.Map
             if(_mediator.Contains<bool>(PassPointKey))
                 _mediator.Unregister(PassPointKey);
             _mediator.Register(PassPointKey, true);
+            OnPassPoint?.Invoke();
         }
     }
 }

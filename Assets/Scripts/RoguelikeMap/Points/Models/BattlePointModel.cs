@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GameInventory.Items;
 using OrderElimination;
+using OrderElimination.Battle;
 using OrderElimination.MacroGame;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI.PointPanels;
@@ -22,6 +23,8 @@ namespace RoguelikeMap.Points.Models
         private List<CharacterTemplate> _enemies;
         [SerializeField]
         private BattleScenario _battleScenario;
+        [field: SerializeField]
+        public BattleRulesPreset BattleRules { get; private set; }
 
         [SerializeField]
         private SerializedDictionary<ItemData, float> _itemsDropProbability;
@@ -48,6 +51,7 @@ namespace RoguelikeMap.Points.Models
         public override async Task Visit(Squad squad)
         {
             await squad.Visit(this);
+            squad.OpenPanel();
         }
     }
 }
