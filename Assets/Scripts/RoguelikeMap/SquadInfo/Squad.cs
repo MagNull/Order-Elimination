@@ -80,7 +80,12 @@ namespace RoguelikeMap.SquadInfo
             }
         }
 
-        private void HealCharacters(int amountHeal) => _model.HealCharacters(amountHeal);
+        private void HealCharacters(int amountHeal)
+        {
+            _model.HealCharacters(amountHeal);
+            foreach(var card in _cardsOnButton)
+                card.UpdateColor();
+        }
 
         private void SetSquadMembers(List<GameCharacter> squadMembers, int countActiveMembers)
         {
