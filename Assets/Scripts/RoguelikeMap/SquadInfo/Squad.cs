@@ -51,7 +51,7 @@ namespace RoguelikeMap.SquadInfo
             _commander.OnHealAccept += HealCharacters;
         }
 
-        private void Start()
+        public void Initialize()
         {
             var characters = _mediator.Get<IEnumerable<GameCharacter>>("player characters");
             _model = new SquadModel(characters, _squadMembersPanel, _mediator);
@@ -81,8 +81,6 @@ namespace RoguelikeMap.SquadInfo
         }
 
         private void HealCharacters(int amountHeal) => _model.HealCharacters(amountHeal);
-        
-        public void DistributeExperience(float expirience) => _model.DistributeExperience(expirience);
 
         private void SetSquadMembers(List<GameCharacter> squadMembers, int countActiveMembers)
         {

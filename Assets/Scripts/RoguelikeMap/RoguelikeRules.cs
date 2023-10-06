@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using OrderElimination;
 using OrderElimination.Battle;
 using RoguelikeMap.Map;
@@ -35,25 +35,36 @@ namespace RoguelikeMap
 
         public async void Start()
         {
+            _squad.Initialize();
+            if (CheckSquadMembers())
+            {
+                GameEnd(false);
+                return;
+            }
             _map.LoadPoints();
             var pointIndex = _saver.GetPointIndex();
             var point = _map.GetPointByIndex(pointIndex);
-            var isEnd = CheckLoadAfterBattlePoint(point);
-            if(!isEnd)
-                await _map.MoveToPoint(point);
+            if (CheckLoadAfterBattlePoint(point))
+                return;
+            await _map.MoveToPoint(point);
+        }
+
+        private bool CheckSquadMembers()
+        {
+            return _squad.Members.All(x => x.CurrentHealth <= 0);
         }
 
         private bool CheckLoadAfterBattlePoint(Point point)
         {
             if (!_mediator.Contains<BattleResults>("battle results")
-                || _mediator.Get<BattleResults>("battle results").BattleOutcome is not BattleOutcome.Win) return false;
+                || _mediator.Get<BattleResults>("battle results").BattleOutcome is not BattleOutcome.Win)
+                return false;
             if (point.Model is FinalBattlePointModel)
             {
                 GameEnd(true);
                 return true;
             }
 
-            _squad.MoveWithoutAnimation(point.Model.position);
             _mediator.Unregister("battle results");
             _saver.PassPoint();
             return false;
