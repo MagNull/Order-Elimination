@@ -73,7 +73,10 @@ namespace RoguelikeMap
         private void GameEnd(bool isVictory)
         {
             if (isVictory)
+            {
                 _victoryPanel.Open();
+                PlayerPrefs.SetInt("MoneyAfterGameEnd", 1000);
+            }
             else
                 _losePanel.Open();
 
