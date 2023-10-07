@@ -212,6 +212,11 @@ namespace OrderElimination.AbilitySystem
             AbilitiesChanged?.Invoke(this);
             return result;
         }
+        public void InsertActiveAbility(int index, ActiveAbilityRunner ability)
+        {
+            _activeAbilities.Insert(index, ability);
+            AbilitiesChanged?.Invoke(this);
+        }
         public void GrantPassiveAbility(PassiveAbilityRunner ability)
         {
             _passiveAbilities.Add(ability);

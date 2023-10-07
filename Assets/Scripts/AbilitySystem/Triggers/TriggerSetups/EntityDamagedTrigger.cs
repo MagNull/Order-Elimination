@@ -10,15 +10,17 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public EnumMask<DamageType> TriggeringDamageTypes { get; private set; } = EnumMask<DamageType>.Full;
 
-        [ValidateInput("@false", "*Only Target entity is available in Context Values.")]
+        [ValidateInput("@false", "*Caster is entity that activated trigger.\n"
+            + "Usually it's passive ability's owner or effect applier")]
         [ShowInInspector, OdinSerialize]
         public IContextValueGetter MinDamageThreshold { get; private set; } = new ConstValueGetter(0);
 
         //TriggerOnDamageTo: Any, Armor, Health
 
-        public IBattleTrigger GetTrigger(IBattleContext battleContext, AbilitySystemActor trackingEntity)
+        public IBattleTrigger GetTrigger(
+            IBattleContext battleContext, AbilitySystemActor activator, AbilitySystemActor trackingEntity)
         {
-            var instance = new ITriggerSetup.BattleTrigger(this, battleContext);
+            var instance = new ITriggerSetup.BattleTrigger(this, battleContext, activator);
             instance.ActivationRequested += OnActivation;
             return instance;
 
@@ -41,7 +43,7 @@ namespace OrderElimination.AbilitySystem
                 var calculationContext = ValueCalculationContext.Full(
                     battleContext,
                     CellGroupsContainer.Empty,
-                    null,//Require trigger activator-entity?
+                    activator,
                     trackingEntity);
                 if (TriggeringDamageTypes[damageInfo.IncomingDamage.DamageType]
                     && damageInfo.TotalDealtDamage >= MinDamageThreshold.GetValue(calculationContext))

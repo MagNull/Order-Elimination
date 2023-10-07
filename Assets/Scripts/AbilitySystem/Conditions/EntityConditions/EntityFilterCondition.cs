@@ -19,5 +19,10 @@ namespace OrderElimination.AbilitySystem
         {
             return EntityFilter.IsAllowed(battleContext, askingEntity, entityToCheck);
         }
+
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, AbilitySystemActor entityToCheck, CellGroupsContainer cellGroups)
+        {
+            return EntityFilter.IsAllowed(battleContext, askingEntity, entityToCheck);
+        }
     }
 }

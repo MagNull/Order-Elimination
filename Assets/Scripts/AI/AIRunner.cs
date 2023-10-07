@@ -49,6 +49,8 @@ namespace AI
 
             foreach (var enemyData in templates)
             {
+                if (enemyData.enemy.IsDisposedFromBattle)
+                    continue;
                 var characterBehavior = _characterToBehaviors.TryGetValue(enemyData.CharacterData, out var behavior) ? 
                     behavior : _generalBehavior;
                 await characterBehavior.Run(_context, enemyData.enemy);

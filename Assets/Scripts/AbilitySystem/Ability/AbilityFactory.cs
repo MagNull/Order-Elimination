@@ -1,4 +1,5 @@
 ﻿using OrderElimination.AbilitySystem.GameRepresentation;
+using OrderElimination.AbilitySystem.UI;
 using OrderElimination.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,12 @@ namespace OrderElimination.AbilitySystem
         public static IActiveAbilityData CreateActiveAbility(ActiveAbilityBuilder builderData)
         {
             var view = new ActiveAbilityView(
-                builderData.CellGroupsHighlightColors,
-                builderData.CustomParameters ?? new Dictionary<string, IContextValueGetter>(),
                 builderData.Name,
                 builderData.Icon,
                 builderData.Description,
+                builderData.CellGroupsHighlightColors,
+                builderData.CustomParameters ?? Enumerable.Empty<CustomViewParameter>(),
+                builderData.HideAutoParameters,
                 builderData.HideInCharacterDescription,
                 builderData.ShowCrosshairWhenTargeting,
                 builderData.ShowTrajectoryWhenTargeting,

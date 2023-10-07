@@ -18,7 +18,7 @@ namespace OrderElimination
         private IGameCharacterTemplate[] _testEnemyCharacters;
 
         [OdinSerialize]
-        private BattleScenario _testScenario;
+        private IBattleMapLayout _testScenario;
 
         [OdinSerialize]
         private IBattleRules _testRules;
@@ -66,7 +66,7 @@ namespace OrderElimination
                 Register(playerChars, GameCharactersFactory.CreateGameCharacters(_testPlayerCharacters));
             if (!Contains<IEnumerable<GameCharacter>>(enemyChars))
                 Register(enemyChars, GameCharactersFactory.CreateGameCharacters(_testEnemyCharacters));
-            if (!Contains<BattleScenario>(scenario))
+            if (!Contains<IBattleMapLayout>(scenario))
                 Register(scenario, _testScenario);
             if (!Contains<IBattleRules>(rules))
                 Register(rules, _testRules);

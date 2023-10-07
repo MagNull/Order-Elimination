@@ -25,5 +25,10 @@ namespace OrderElimination.AbilitySystem
         {
             return CasterConditions.AllMet(battleContext, askingEntity, askingEntity);
         }
+
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, CellGroupsContainer cellGroups)
+        {
+            return CasterConditions.AllMet(battleContext, askingEntity, askingEntity, cellGroups);
+        }
     }
 }

@@ -75,7 +75,7 @@ public class BattleEntitiesFactory : SerializedMonoBehaviour
         _entitiesBank.AddCharacterEntity(battleEntity, entityView, character);
 
         _battleContext.BattleMap.PlaceEntity(battleEntity, position);
-        //battleEntity.PassiveAbilities.ForEach(a => a.Activate(_battleContext, battleEntity));
+        battleEntity.PassiveAbilities.ForEach(a => a.Activate(_battleContext, battleEntity));
 
         return new CreatedBattleEntity(entityView, battleEntity);
     }
@@ -107,7 +107,7 @@ public class BattleEntitiesFactory : SerializedMonoBehaviour
         _entitiesBank.AddStructureEntity(battleEntity, entityView, structureData);
 
         _battleContext.BattleMap.PlaceEntity(battleEntity, position);
-        //battleEntity.PassiveAbilities.ForEach(a => a.Activate(_battleContext, battleEntity));
+        battleEntity.PassiveAbilities.ForEach(a => a.Activate(_battleContext, battleEntity));
 
         return new CreatedBattleEntity(entityView, battleEntity);
     }

@@ -18,7 +18,7 @@ namespace AI
         public async UniTask<bool> TryRun(Blackboard blackboard)
         {
             var caster = blackboard.Get<AbilitySystemActor>("caster");
-            if (!caster.IsAlive)
+            if (!caster.IsAlive || caster.IsDisposedFromBattle)
                 return false;
             if (caster.BattleSide == OrderElimination.Infrastructure.BattleSide.Player)
                 Logging.LogError("AI tries to control Player characters!");

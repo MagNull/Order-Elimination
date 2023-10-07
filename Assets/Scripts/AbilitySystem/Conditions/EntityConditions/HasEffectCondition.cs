@@ -50,5 +50,8 @@ namespace OrderElimination.AbilitySystem.Conditions
                 return entityToCheck.HasEffect(effectData);
             }
         }
+
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, AbilitySystemActor entityToCheck, CellGroupsContainer cellGroups)
+            => IsConditionMet(battleContext, askingEntity, entityToCheck);
     }
 }

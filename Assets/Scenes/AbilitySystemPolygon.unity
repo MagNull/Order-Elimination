@@ -404,13 +404,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 131492486}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.04000002, y: -0.06, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2033553829}
+  m_Children: []
   m_Father: {fileID: 246195460}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &246195455
 GameObject:
@@ -443,9 +442,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85622b47d061c594da1b9dd0b1c99efb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _parent: {fileID: 131492487}
+  _cellHolder: {fileID: 131492487}
+  _fitCollider: {fileID: 2033553831}
   _cellPrefab: {fileID: 3076350496369068030, guid: 20e623f1406dd904c9323264104101c9, type: 3}
-  _spaceBetweenCells: 0
 --- !u!114 &246195458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -459,7 +458,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _battleMap: {fileID: 246195459}
-  _moveDuration: 0.5
 --- !u!114 &246195459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -482,15 +480,16 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 246195455}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.89085203, y: 0.038884476, z: 0.13142166}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2033553829}
   - {fileID: 131492487}
   - {fileID: 259532663}
   - {fileID: 1600433760}
-  m_Father: {fileID: 1194000820}
-  m_RootOrder: 0
+  m_Father: {fileID: 543468711}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &259532662
 GameObject:
@@ -516,14 +515,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 259532662}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.89085203, y: -0.038884476, z: -0.13142166}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 272730709}
   - {fileID: 356844999}
   m_Father: {fileID: 246195460}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &272730708
 GameObject:
@@ -875,7 +874,7 @@ Transform:
   - {fileID: 84768579}
   - {fileID: 1455286360}
   m_Father: {fileID: 543468711}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &538894626
 GameObject:
@@ -939,9 +938,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 276905396}
-  - {fileID: 651251070}
   - {fileID: 926713598}
-  - {fileID: 1194000820}
+  - {fileID: 246195460}
   - {fileID: 929000869}
   - {fileID: 616019074}
   - {fileID: 439632989}
@@ -1027,7 +1025,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 543468711}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &616019075
 MonoBehaviour:
@@ -1324,268 +1322,6 @@ MonoBehaviour:
   _structurePrefab: {fileID: -5129956471157022677, guid: 55d9908dabb24314289fbae493856d2f, type: 3}
   _charactersParent: {fileID: 272730709}
   _structuresParent: {fileID: 356844999}
---- !u!1 &651251069
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 651251070}
-  - component: {fileID: 651251071}
-  m_Layer: 0
-  m_Name: DefaultAnimationsPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &651251070
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 651251069}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 543468711}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &651251071
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 651251069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd213944b388a8447a54c02a6cd28099, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: _defaultAnimations
-      Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.Animations.DefaultAnimation,
-        Assembly-CSharp],[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
-        Assembly-CSharp]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.Animations.DefaultAnimation,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 1
-    - Name: $v
-      Entry: 7
-      Data: 2|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
-    - Name: PlaySequentially
-      Entry: 5
-      Data: false
-    - Name: WaitForCompletion
-      Entry: 5
-      Data: false
-    - Name: Animations
-      Entry: 7
-      Data: 3|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 4|OrderElimination.AbilitySystem.Animations.DisplayTextAnimation, Assembly-CSharp
-    - Name: Text
-      Entry: 1
-      Data: "\u041F\u0440\u043E\u043C\u0430\u0445"
-    - Name: Color
-      Entry: 7
-      Data: UnityEngine.Color, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 4
-      Data: 0.1273585
-    - Name: 
-      Entry: 4
-      Data: 0.1273585
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: DisplayNear
-      Entry: 3
-      Data: 0
-    - Name: Duration
-      Entry: 4
-      Data: 1.5
-    - Name: OffsetFromTarget
-      Entry: 7
-      Data: UnityEngine.Vector2, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: FloatingOffset
-      Entry: 7
-      Data: UnityEngine.Vector2, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0.5
-    - Name: 
-      Entry: 4
-      Data: 0.5
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 2
-    - Name: $v
-      Entry: 7
-      Data: 5|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
-    - Name: PlaySequentially
-      Entry: 5
-      Data: false
-    - Name: WaitForCompletion
-      Entry: 5
-      Data: false
-    - Name: Animations
-      Entry: 7
-      Data: 6|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 7|OrderElimination.AbilitySystem.Animations.DisplayTextAnimation, Assembly-CSharp
-    - Name: Text
-      Entry: 1
-      Data: "\u0423\u043A\u043B\u043E\u043D\u0435\u043D\u0438\u0435"
-    - Name: Color
-      Entry: 7
-      Data: UnityEngine.Color, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0.97214967
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 4
-      Data: 0.125490189
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: DisplayNear
-      Entry: 3
-      Data: 0
-    - Name: Duration
-      Entry: 4
-      Data: 1.5
-    - Name: OffsetFromTarget
-      Entry: 7
-      Data: UnityEngine.Vector2, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: FloatingOffset
-      Entry: 7
-      Data: UnityEngine.Vector2, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0.5
-    - Name: 
-      Entry: 4
-      Data: 0.5
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
 --- !u!114 &700708824 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2005745093920114424, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
@@ -1771,12 +1507,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 926713597}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.89085203, y: -0.038884476, z: -0.13142166}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 543468711}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &926713599
 MonoBehaviour:
@@ -2109,7 +1845,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 543468711}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2128,10 +1864,117 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0acbdf579c04a3bb80b1cf633ae0b1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _defaultTextStyle
+      Entry: 7
+      Data: OrderElimination.Utils.TextEmitterContext, Assembly-CSharp
+    - Name: Text
+      Entry: 1
+      Data: New text
+    - Name: FontSize
+      Entry: 4
+      Data: 1
+    - Name: TextColor
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: OutlineWidth
+      Entry: 4
+      Data: 0
+    - Name: OutlineColor
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Origin
+      Entry: 7
+      Data: UnityEngine.Vector3, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: Offset
+      Entry: 7
+      Data: UnityEngine.Vector3, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: OffsetMoveEase
+      Entry: 3
+      Data: 32
+    - Name: AppearTime
+      Entry: 4
+      Data: 0.25
+    - Name: HoldTime
+      Entry: 4
+      Data: 1
+    - Name: DisappearTime
+      Entry: 4
+      Data: 0.25
+    - Name: AppearEase
+      Entry: 3
+      Data: 33
+    - Name: DisappearEase
+      Entry: 3
+      Data: 33
+    - Name: 
+      Entry: 8
+      Data: 
   _textPrefab: {fileID: 6609284040560546071, guid: 2274810e135262d4791da7133edd9164, type: 3}
-  _speed: 1
-  _duration: 1.5
-  _delayBetweenSpawn: 0
+  _mininalTimeInterval: 0
+  _sortingOrder: 100
 --- !u!114 &929000872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2289,11 +2132,12 @@ MonoBehaviour:
   - {fileID: 84768578}
   - {fileID: 1503250385}
   - {fileID: 1893120103}
+  - {fileID: 926713597}
   _battleEntitiesFactory: {fileID: 625776184}
   _battleLoopManager: {fileID: 1031238779}
   _battleMapView: {fileID: 246195458}
   _particlesPool: {fileID: 926713599}
-  _defaultAnimationsPool: {fileID: 651251071}
+  _defaultAnimationsPool: {fileID: 11400000, guid: a6350a0cfc9a6b546a434ca8a4cc829f, type: 2}
   _textEmitter: {fileID: 929000870}
   _spriteEmitter: {fileID: 616019075}
   _soundEffectsPlayer: {fileID: 69947343}
@@ -2302,38 +2146,6 @@ MonoBehaviour:
     _generator: {fileID: 246195457}
     _battleMapView: {fileID: 246195458}
   _itemsPool: {fileID: 11400000, guid: 93c01c736e486634fa627c0d29c0603c, type: 2}
---- !u!1 &1194000819
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1194000820}
-  m_Layer: 0
-  m_Name: BattleMap
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1194000820
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1194000819}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.89085203, y: -0.038884476, z: -0.13142166}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 246195460}
-  m_Father: {fileID: 543468711}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1220687553
 GameObject:
   m_ObjectHideFlags: 0
@@ -2503,12 +2315,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1600433759}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.89085203, y: -0.038884476, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 246195460}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1644134203
 GameObject:
@@ -2746,7 +2558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78bb222200f03dd42a886e82d5c2a528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sideToKill: 2
+  _sideToKill: 1
 --- !u!114 &1893120106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2952,14 +2764,13 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 11400000, guid: dc7552cb19317d642ad2af92d805c557, type: 2}
     - {fileID: 11400000, guid: 933b6206675ce6746a6d1d3e377dbe2d, type: 2}
-    - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
+    - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
     - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
-    - {fileID: 11400000, guid: 8cf61d33b5cc8a442bce0e22ce05a8fc, type: 2}
+    - {fileID: 11400000, guid: dc7552cb19317d642ad2af92d805c557, type: 2}
+    - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
     - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
-    - {fileID: 11400000, guid: 4d83702453d81274b89c1876bee2dabb, type: 2}
-    - {fileID: 11400000, guid: 69c2e2c1f1101bb46b8a8894d47d56a7, type: 2}
+    - {fileID: 11400000, guid: 4f406f6de158381498b4b6051bb8d4be, type: 2}
     - {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -2971,7 +2782,7 @@ MonoBehaviour:
       Data: 0|OrderElimination.IGameCharacterTemplate[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 3
     - Name: 
       Entry: 10
       Data: 0
@@ -2981,9 +2792,6 @@ MonoBehaviour:
     - Name: 
       Entry: 10
       Data: 2
-    - Name: 
-      Entry: 10
-      Data: 3
     - Name: 
       Entry: 13
       Data: 
@@ -2995,19 +2803,16 @@ MonoBehaviour:
       Data: 1|OrderElimination.IGameCharacterTemplate[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 3
+    - Name: 
+      Entry: 10
+      Data: 3
     - Name: 
       Entry: 10
       Data: 4
     - Name: 
       Entry: 10
       Data: 5
-    - Name: 
-      Entry: 10
-      Data: 5
-    - Name: 
-      Entry: 10
-      Data: 6
     - Name: 
       Entry: 13
       Data: 
@@ -3016,10 +2821,10 @@ MonoBehaviour:
       Data: 
     - Name: _testScenario
       Entry: 10
-      Data: 7
+      Data: 6
     - Name: _testRules
       Entry: 10
-      Data: 8
+      Data: 7
   _test: 1
 --- !u!4 &1908500043
 Transform:
@@ -3305,6 +3110,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2033553829}
   - component: {fileID: 2033553830}
+  - component: {fileID: 2033553831}
   m_Layer: 0
   m_Name: Battle Frame
   m_TagString: Untagged
@@ -3320,11 +3126,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2033553828}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.04, y: 0.06, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 0.92, y: 0.92, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 131492487}
+  m_Father: {fileID: 246195460}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2033553830
@@ -3367,7 +3173,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: a3d1f53f9cc1de345bc5bfa3bdd61e76, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3379,6 +3185,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &2033553831
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033553828}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 10.66, y: 10.34}
+    newSize: {x: 10.66, y: 10.34}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 10.1, y: 10.1}
+  m_EdgeRadius: 0
 --- !u!1 &2082279893
 GameObject:
   m_ObjectHideFlags: 0
@@ -3661,6 +3493,10 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 574565093554469805, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
+    - target: {fileID: 1140370928203942616, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -48.359985
+      objectReference: {fileID: 0}
     - target: {fileID: 1960963787419427009, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
       propertyPath: serializationData.Prefab
       value: 
@@ -3765,9 +3601,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Battle UI
       objectReference: {fileID: 0}
-    - target: {fileID: 2479869180623456604, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
-      propertyPath: m_Spacing.y
-      value: 40
+    - target: {fileID: 2005745094502167549, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3205302136298068938, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
       propertyPath: m_AnchorMax.y

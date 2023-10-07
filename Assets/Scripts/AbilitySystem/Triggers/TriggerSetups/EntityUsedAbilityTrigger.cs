@@ -18,9 +18,10 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         private List<ActiveAbilityBuilder> _ignoredAbilities = new();
 
-        public IBattleTrigger GetTrigger(IBattleContext battleContext, AbilitySystemActor trackingEntity)
+        public IBattleTrigger GetTrigger(
+            IBattleContext battleContext, AbilitySystemActor activator, AbilitySystemActor trackingEntity)
         {
-            var instance = new ITriggerSetup.BattleTrigger(this, battleContext);
+            var instance = new ITriggerSetup.BattleTrigger(this, battleContext, activator);
             instance.ActivationRequested += OnActivation;
             return instance;
 

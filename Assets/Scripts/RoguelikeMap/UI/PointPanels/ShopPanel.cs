@@ -43,6 +43,7 @@ namespace RoguelikeMap.UI.PointPanels
         public void InitializeItems(IReadOnlyList<ShopItemData> items)
         {
             _itemInfoPanel.OnBuy += Buy;
+            _itemInfoPanel.OnReturn += Return;
             foreach (var item in items)
             {
                 var itemObject = Instantiate(_itemPrefab, _itemsParent);
@@ -62,9 +63,16 @@ namespace RoguelikeMap.UI.PointPanels
             _inventory.AddItem(item);
         }
 
+        private void Return()
+        {
+            _wallet.AddMoney(_currentItem.Cost);
+            _currentItem.Return();
+            _inventory.RemoveItem(_currentItem.Data);
+        }
+
         private void ShowItemInfo(ShopItem item)
         {
-            _itemInfoPanel.Initialize(item.Data.View);
+            _itemInfoPanel.Initialize(item);
             _itemInfoPanel.Open();
             _currentItem = item;
         }
@@ -84,6 +92,8 @@ namespace RoguelikeMap.UI.PointPanels
 
         public void OnDisable()
         {
+            _itemInfoPanel.OnBuy -= Buy;
+            _itemInfoPanel.OnReturn -= Return;
             ClearShop();
         }
 

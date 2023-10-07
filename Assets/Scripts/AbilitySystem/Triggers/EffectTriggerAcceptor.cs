@@ -32,9 +32,10 @@ namespace OrderElimination.AbilitySystem
         public IBattleTrigger GetTrigger(
             IBattleContext battleContext, AbilitySystemActor effectHolder, AbilitySystemActor effectApplier)
         {
+            var activator = effectApplier;
             if (TriggerSetup is IContextTriggerSetup contextSetup)
             {
-                return contextSetup.GetTrigger(battleContext);
+                return contextSetup.GetTrigger(battleContext, activator);
             }
             if (TriggerSetup is IEntityTriggerSetup entitySetup)
             {
@@ -44,7 +45,7 @@ namespace OrderElimination.AbilitySystem
                     EffectEntity.EffectApplier => effectApplier,
                     _ => throw new NotImplementedException(),
                 };
-                return entitySetup.GetTrigger(battleContext, trackingEntity);
+                return entitySetup.GetTrigger(battleContext, activator, trackingEntity);
             }
             Logging.LogException( new NotImplementedException());
             throw new NotImplementedException();

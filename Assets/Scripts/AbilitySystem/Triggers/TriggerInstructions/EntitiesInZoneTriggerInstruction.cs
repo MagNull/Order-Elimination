@@ -88,7 +88,7 @@ namespace OrderElimination.AbilitySystem
             var undoables = new Dictionary<AbilitySystemActor, UndoableResultsContainer>();
             AbilitySystemActor[] entitiesInZone = null;
 
-            var instance = TriggerSetup.GetTrigger(battleContext, caster);
+            var instance = TriggerSetup.GetTrigger(battleContext, caster, caster);
             instance.Triggered += OnTriggered;
             instance.Deactivated += OnTriggerDeactivation;
             return instance;

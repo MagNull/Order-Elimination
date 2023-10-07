@@ -1,4 +1,3 @@
-using DefaultNamespace;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using System.Collections.Generic;
@@ -11,6 +10,7 @@ using VContainer;
 using OrderElimination;
 using UnityEditor;
 using System;
+using OrderElimination.Utils;
 
 public enum SelectorMode
 {
@@ -192,7 +192,15 @@ public class BattleMapSelector : MonoBehaviour
                         Logging.Log($"Wrong target at {cellPosition}");
                         var scenePos = _battleMapView.GameToWorldPosition(cellPosition);
                         var textPosition = new Vector3(scenePos.x, scenePos.y, 0);
-                        _textEmitter.Emit(_wrongTargrgetText, Color.red, textPosition, duration:0.5f, fontSize:0.5f);
+                        var textStyle = TextEmitterContext.Default;
+                        textStyle.Text = _wrongTargrgetText;
+                        textStyle.TextColor = Color.red;
+                        textStyle.Origin = textPosition;
+                        textStyle.AppearTime = 0;
+                        textStyle.HoldTime = 0;
+                        textStyle.DisappearTime = 0.5f;
+                        textStyle.FontSize = 0.5f;
+                        _textEmitter.Emit(textStyle);
                     }
                 }
             }
@@ -225,8 +233,8 @@ public class BattleMapSelector : MonoBehaviour
         {
             ability.AbilityExecutionStarted -= OnAbilityExecutionStarted;
             ability.AbilityExecutionStarted += OnAbilityExecutionStarted;
-            ability.AbilityExecutionCompleted -= OnAbilityExecutionCompleted;
-            ability.AbilityExecutionCompleted += OnAbilityExecutionCompleted;
+            ability.AbilityAvailableAfterExecution -= OnAbilityExecutionCompleted;
+            ability.AbilityAvailableAfterExecution += OnAbilityExecutionCompleted;
         }
         _characterBattleStatsPanel.UpdateEntityInfo(view);
         _characterBattleStatsPanel.ShowInfo();
@@ -278,7 +286,7 @@ public class BattleMapSelector : MonoBehaviour
             foreach (var ability in _currentSelectedEntity.ActiveAbilities)
             {
                 ability.AbilityExecutionStarted -= OnAbilityConditionUpdated;
-                ability.AbilityExecutionCompleted -= OnAbilityConditionUpdated;
+                ability.AbilityAvailableAfterExecution -= OnAbilityConditionUpdated;
             }
         }
         _characterBattleStatsPanel.HideInfo();

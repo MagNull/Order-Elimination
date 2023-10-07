@@ -19,8 +19,11 @@ namespace OrderElimination.AbilitySystem
         }
 
         public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int positionToCheck)
+            => IsConditionMet(battleContext, askingEntity, positionToCheck, null);
+
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int positionToCheck, CellGroupsContainer cellGroups)
         {
-            return CellConditions.Any(c => c.IsConditionMet(battleContext, askingEntity, positionToCheck));
+            return CellConditions.Any(c => c.IsConditionMet(battleContext, askingEntity, positionToCheck, cellGroups));
         }
     }
 }

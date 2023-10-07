@@ -18,7 +18,7 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         private List<IEffectData> EffectImmunities { get; set; } = new();
 
-        public override ActionRequires ActionRequires => ActionRequires.Target;
+        public override BattleActionType BattleActionType => BattleActionType.EntityAction;
 
         public string CallbackDescription => "Callback happens when immunity blocked an attempt to apply effect.";
 
@@ -47,11 +47,11 @@ namespace OrderElimination.AbilitySystem
             bool actionMakerProcessing = true, 
             bool targetProcessing = true)
         {
-            if (ActionRequires == ActionRequires.Target)
+            if (BattleActionType == BattleActionType.EntityAction)
             {
-                if (useContext.ActionTarget == null)
+                if (useContext.TargetEntity == null)
                     throw new ArgumentNullException("Attempt to perform action on null entity.");
-                if (useContext.ActionTarget.IsDisposedFromBattle)
+                if (useContext.TargetEntity.IsDisposedFromBattle)
                     throw new InvalidOperationException("Attempt to perform action on entity that had been disposed.");
             }
             var modifiedAction = GetModifiedAction(useContext, actionMakerProcessing, targetProcessing);
@@ -82,7 +82,7 @@ namespace OrderElimination.AbilitySystem
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
             var performId = _targets.Count;
-            var target = useContext.ActionTarget;
+            var target = useContext.TargetEntity;
             target.EffectBlockedByImmunity += OnEffectBlocked;
             foreach (var effect in EffectImmunities)
             {

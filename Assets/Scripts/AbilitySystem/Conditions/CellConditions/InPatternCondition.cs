@@ -19,12 +19,16 @@ namespace OrderElimination.AbilitySystem
         }
 
         public bool IsConditionMet(IBattleContext context, AbilitySystemActor askingEntity, Vector2Int positionToCheck)
+            => IsConditionMet(context, askingEntity, positionToCheck, null);
+
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, Vector2Int positionToCheck, CellGroupsContainer cellGroups)
         {
             var casterPos = askingEntity.Position;
             return Pattern.ContainsPositionWithOrigin(positionToCheck, casterPos);
-		}
+        }
 
-        Vector2Int[] ICellCondition.FilterMany(IBattleContext battleContext, AbilitySystemActor askingEntity, IEnumerable<Vector2Int> positions)
+        Vector2Int[] ICellCondition.FilterMany(
+            IBattleContext battleContext, AbilitySystemActor askingEntity, IEnumerable<Vector2Int> positions, CellGroupsContainer cellGroups)
         {
             var casterPos = askingEntity.Position;
             var pattern = Pattern.GetAbsolutePositions(casterPos).ToHashSet();

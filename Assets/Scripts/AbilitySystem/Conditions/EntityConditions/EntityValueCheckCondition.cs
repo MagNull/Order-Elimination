@@ -30,10 +30,13 @@ namespace OrderElimination.AbilitySystem
         }
 
         public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, AbilitySystemActor entityToCheck)
+            => IsConditionMet(battleContext, askingEntity, entityToCheck, null);
+
+        public bool IsConditionMet(IBattleContext battleContext, AbilitySystemActor askingEntity, AbilitySystemActor entityToCheck, CellGroupsContainer cellGroups)
         {
             var calculationContext = ValueCalculationContext.Full(
                 battleContext,
-                CellGroupsContainer.Empty,
+                cellGroups,
                 askingEntity,
                 entityToCheck);
             var left = Left.GetValue(calculationContext);

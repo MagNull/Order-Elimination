@@ -24,11 +24,12 @@ namespace OrderElimination.AbilitySystem
         [ShowInInspector, OdinSerialize]
         public bool TriggerOnExit { get; private set; }
 
-        public IBattleTrigger GetTrigger(IBattleContext battleContext, AbilitySystemActor trackingEntity)
+        public IBattleTrigger GetTrigger(
+            IBattleContext battleContext, AbilitySystemActor activator, AbilitySystemActor trackingEntity)
         {
             var entitiesInZone = new HashSet<AbilitySystemActor>();
 
-            var instance = new ITriggerSetup.BattleTrigger(this, battleContext);
+            var instance = new ITriggerSetup.BattleTrigger(this, battleContext, activator);
             instance.ActivationRequested += OnActivation;
             return instance;
 

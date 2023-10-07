@@ -38,35 +38,47 @@ MonoBehaviour:
     - Name: Description
       Entry: 6
       Data: 
-    - Name: HideInCharacterDiscription
+    - Name: HideInCharacterDescription
       Entry: 5
       Data: false
     - Name: CooldownTime
       Entry: 3
       Data: 0
+    - Name: ActionsOnActivation
+      Entry: 7
+      Data: 0|OrderElimination.AbilitySystem.IUndoableBattleAction[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: TriggerInstructions
       Entry: 7
-      Data: 0|OrderElimination.AbilitySystem.ITriggerInstruction[], Assembly-CSharp
+      Data: 1|OrderElimination.AbilitySystem.ITriggerInstruction[], Assembly-CSharp
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|OrderElimination.AbilitySystem.UniversalTriggerInstruction, Assembly-CSharp
+      Data: 2|OrderElimination.AbilitySystem.UniversalTriggerInstruction, Assembly-CSharp
     - Name: TriggerSetup
       Entry: 7
-      Data: 2|OrderElimination.AbilitySystem.EntityDamagedTrigger, Assembly-CSharp
+      Data: 3|OrderElimination.AbilitySystem.EntityDamagedTrigger, Assembly-CSharp
     - Name: TriggeringDamageTypes
       Entry: 7
-      Data: 3|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.DamageType,
+      Data: 4|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.DamageType,
         Assembly-CSharp]], Assembly-CSharp
     - Name: _valueFlags
       Entry: 7
-      Data: 4|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.DamageType,
+      Data: 5|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.DamageType,
         Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 5|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.DamageType,
+      Data: 6|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.DamageType,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -139,7 +151,7 @@ MonoBehaviour:
       Data: 
     - Name: MinDamageThreshold
       Entry: 7
-      Data: 6|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+      Data: 7|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
       Data: 0
@@ -149,16 +161,19 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: CommonConditions
+      Entry: 6
+      Data: 
     - Name: GroupDistributor
       Entry: 7
-      Data: 7|OrderElimination.AbilitySystem.BasicCellGroupsDistributor, Assembly-CSharp
+      Data: 8|OrderElimination.AbilitySystem.BasicCellGroupsDistributor, Assembly-CSharp
     - Name: _groupSelectors
       Entry: 7
-      Data: 8|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[OrderElimination.AbilitySystem.ICellSelector,
+      Data: 9|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[OrderElimination.AbilitySystem.ICellSelector,
         Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 9|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
+      Data: 10|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
         mscorlib]], mscorlib
     - Name: 
       Entry: 8
@@ -174,10 +189,10 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 7
-      Data: 10|OrderElimination.AbilitySystem.CasterRelativeCellSelector, Assembly-CSharp
+      Data: 11|OrderElimination.AbilitySystem.CasterRelativeCellSelector, Assembly-CSharp
     - Name: RelativeToCasterOffsets
       Entry: 7
-      Data: 11|OrderElimination.Infrastructure.DistanceFromPointPattern, Assembly-CSharp
+      Data: 12|OrderElimination.Infrastructure.DistanceFromPointPattern, Assembly-CSharp
     - Name: UseSquareDistance
       Entry: 5
       Data: true
@@ -204,13 +219,13 @@ MonoBehaviour:
       Data: 1
     - Name: $v
       Entry: 7
-      Data: 12|OrderElimination.AbilitySystem.CasterRelativeCellSelector, Assembly-CSharp
+      Data: 13|OrderElimination.AbilitySystem.CasterRelativeCellSelector, Assembly-CSharp
     - Name: RelativeToCasterOffsets
       Entry: 7
-      Data: 13|OrderElimination.Infrastructure.PointRelativePattern, Assembly-CSharp
+      Data: 14|OrderElimination.Infrastructure.PointRelativePattern, Assembly-CSharp
     - Name: _relativePositions
       Entry: 7
-      Data: 14|System.Collections.Generic.HashSet`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
+      Data: 15|System.Collections.Generic.HashSet`1[[UnityEngine.Vector2Int, UnityEngine.CoreModule]],
         System.Core
     - Name: 
       Entry: 12
@@ -251,36 +266,45 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: CommonConditions
-      Entry: 6
-      Data: 
     - Name: Instructions
       Entry: 7
-      Data: 15|OrderElimination.AbilitySystem.AbilityInstruction[], Assembly-CSharp
+      Data: 16|OrderElimination.AbilitySystem.AbilityInstruction[], Assembly-CSharp
     - Name: 
       Entry: 12
       Data: 2
     - Name: 
       Entry: 7
-      Data: 16|OrderElimination.AbilitySystem.AbilityInstruction, Assembly-CSharp
+      Data: 17|OrderElimination.AbilitySystem.AbilityInstruction, Assembly-CSharp
     - Name: Action
       Entry: 7
-      Data: 17|OrderElimination.AbilitySystem.EmptyAction, Assembly-CSharp
-    - Name: ExecutesOn
+      Data: 18|OrderElimination.AbilitySystem.EmptyAction, Assembly-CSharp
+    - Name: ActionType
+      Entry: 3
+      Data: 1
+    - Name: ActionTypeS
       Entry: 3
       Data: 1
     - Name: IsSuccessful
       Entry: 5
       Data: true
+    - Name: HasRandomSuccessChance
+      Entry: 5
+      Data: false
+    - Name: SuccessChance
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: AffectPreviousTarget
-      Entry: 5
-      Data: false
+    - Name: RepeatNumber
+      Entry: 3
+      Data: 1
+    - Name: _commonConditions
+      Entry: 6
+      Data: 
     - Name: _targetConditions
       Entry: 7
-      Data: 18|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
+      Data: 19|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -291,9 +315,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: AffectPreviousTarget
+      Entry: 5
+      Data: false
     - Name: _affectedCellGroups
       Entry: 7
-      Data: 19|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
+      Data: 20|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
     - Name: 
       Entry: 12
       Data: 1
@@ -306,12 +333,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: RepeatNumber
-      Entry: 3
-      Data: 1
     - Name: _instructionsOnActionSuccess
       Entry: 7
-      Data: 20|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
+      Data: 21|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -327,7 +351,7 @@ MonoBehaviour:
       Data: true
     - Name: _instructionsOnActionFail
       Entry: 7
-      Data: 21|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
+      Data: 22|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -343,7 +367,7 @@ MonoBehaviour:
       Data: true
     - Name: _followingInstructions
       Entry: 7
-      Data: 22|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
+      Data: 23|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -359,7 +383,7 @@ MonoBehaviour:
       Data: true
     - Name: AnimationBeforeAction
       Entry: 7
-      Data: 23|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
+      Data: 24|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
     - Name: PlaySequentially
       Entry: 5
       Data: true
@@ -368,14 +392,14 @@ MonoBehaviour:
       Data: true
     - Name: Animations
       Entry: 7
-      Data: 24|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
+      Data: 25|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 3
     - Name: 
       Entry: 7
-      Data: 25|OrderElimination.AbilitySystem.Animations.AnimationDelay, Assembly-CSharp
+      Data: 26|OrderElimination.AbilitySystem.Animations.AnimationDelay, Assembly-CSharp
     - Name: _delayTime
       Entry: 4
       Data: 0.2
@@ -384,7 +408,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 26|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
+      Data: 27|OrderElimination.AbilitySystem.Animations.AnimationSequence, Assembly-CSharp
     - Name: PlaySequentially
       Entry: 5
       Data: false
@@ -393,18 +417,24 @@ MonoBehaviour:
       Data: false
     - Name: Animations
       Entry: 7
-      Data: 27|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
+      Data: 28|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.Animations.IAbilityAnimation,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 2
     - Name: 
       Entry: 7
-      Data: 28|OrderElimination.AbilitySystem.Animations.SpawnParticleAnimation,
+      Data: 29|OrderElimination.AbilitySystem.Animations.SpawnParticleAnimation,
         Assembly-CSharp
     - Name: ParticleType
       Entry: 3
       Data: 2
+    - Name: RemapAnimationTime
+      Entry: 5
+      Data: false
+    - Name: RemappedTime
+      Entry: 4
+      Data: 0
     - Name: SpawnAt
       Entry: 3
       Data: 2
@@ -438,12 +468,6 @@ MonoBehaviour:
     - Name: FacingToCell
       Entry: 3
       Data: 0
-    - Name: RemapAnimationTime
-      Entry: 5
-      Data: false
-    - Name: RemappedTime
-      Entry: 4
-      Data: 0
     - Name: _animationLoops
       Entry: 3
       Data: 1
@@ -452,11 +476,11 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 29|Assets.Scripts.AbilitySystem.Animations.AbilityAnimations.Special.AnimationSound,
+      Data: 30|Assets.Scripts.AbilitySystem.Animations.AbilityAnimations.Special.AnimationSound,
         Assembly-CSharp
     - Name: Sounds
       Entry: 7
-      Data: 30|UnityEngine.AudioClip[], UnityEngine.AudioModule
+      Data: 31|UnityEngine.AudioClip[], UnityEngine.AudioModule
     - Name: 
       Entry: 12
       Data: 4
@@ -495,7 +519,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 31|OrderElimination.AbilitySystem.Animations.AnimationDelay, Assembly-CSharp
+      Data: 32|OrderElimination.AbilitySystem.Animations.AnimationDelay, Assembly-CSharp
     - Name: _delayTime
       Entry: 4
       Data: 0.3
@@ -516,13 +540,13 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 32|OrderElimination.AbilitySystem.AbilityInstruction, Assembly-CSharp
+      Data: 33|OrderElimination.AbilitySystem.AbilityInstruction, Assembly-CSharp
     - Name: Action
       Entry: 7
-      Data: 33|OrderElimination.AbilitySystem.InflictDamageAction, Assembly-CSharp
+      Data: 34|OrderElimination.AbilitySystem.InflictDamageAction, Assembly-CSharp
     - Name: DamageSize
       Entry: 7
-      Data: 34|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+      Data: 35|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
       Data: 100
@@ -543,7 +567,7 @@ MonoBehaviour:
       Data: 0
     - Name: Accuracy
       Entry: 7
-      Data: 35|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+      Data: 36|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
     - Name: Value
       Entry: 4
       Data: 1
@@ -559,36 +583,39 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: AffectPreviousTarget
-      Entry: 5
-      Data: false
+    - Name: RepeatNumber
+      Entry: 3
+      Data: 1
+    - Name: _commonConditions
+      Entry: 6
+      Data: 
     - Name: _targetConditions
       Entry: 7
-      Data: 36|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
+      Data: 37|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
       Data: 1
     - Name: 
       Entry: 7
-      Data: 37|OrderElimination.AbilitySystem.EntityFilterCondition, Assembly-CSharp
+      Data: 38|OrderElimination.AbilitySystem.EntityFilterCondition, Assembly-CSharp
     - Name: EntityFilter
       Entry: 7
-      Data: 38|OrderElimination.AbilitySystem.EntityFilter, Assembly-CSharp
+      Data: 39|OrderElimination.AbilitySystem.EntityFilter, Assembly-CSharp
     - Name: AllowSelf
       Entry: 5
       Data: false
     - Name: AllowedEntityTypes
       Entry: 7
-      Data: 39|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.EntityType,
+      Data: 40|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.AbilitySystem.EntityType,
         Assembly-CSharp]], Assembly-CSharp
     - Name: _valueFlags
       Entry: 7
-      Data: 40|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EntityType,
+      Data: 41|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.EntityType,
         Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 41|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.EntityType,
+      Data: 42|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.EntityType,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -637,15 +664,15 @@ MonoBehaviour:
       Data: 
     - Name: AllowedRelationships
       Entry: 7
-      Data: 42|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.Infrastructure.BattleRelationship,
+      Data: 43|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.Infrastructure.BattleRelationship,
         Assembly-CSharp]], Assembly-CSharp
     - Name: _valueFlags
       Entry: 7
-      Data: 43|System.Collections.Generic.Dictionary`2[[OrderElimination.Infrastructure.BattleRelationship,
+      Data: 44|System.Collections.Generic.Dictionary`2[[OrderElimination.Infrastructure.BattleRelationship,
         Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 44|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.Infrastructure.BattleRelationship,
+      Data: 45|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.Infrastructure.BattleRelationship,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -712,7 +739,7 @@ MonoBehaviour:
       Data: 1
     - Name: _specifiedCharacters
       Entry: 7
-      Data: 45|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
+      Data: 46|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -725,7 +752,7 @@ MonoBehaviour:
       Data: 
     - Name: _specifiedStructures
       Entry: 7
-      Data: 46|System.Collections.Generic.List`1[[OrderElimination.IBattleStructureTemplate,
+      Data: 47|System.Collections.Generic.List`1[[OrderElimination.IBattleStructureTemplate,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -754,9 +781,12 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: AffectPreviousTarget
+      Entry: 5
+      Data: false
     - Name: _affectedCellGroups
       Entry: 7
-      Data: 47|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
+      Data: 48|System.Collections.Generic.HashSet`1[[System.Int32, mscorlib]], System.Core
     - Name: 
       Entry: 12
       Data: 1
@@ -769,12 +799,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: RepeatNumber
-      Entry: 3
-      Data: 1
     - Name: _instructionsOnActionSuccess
       Entry: 7
-      Data: 48|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
+      Data: 49|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -790,7 +817,7 @@ MonoBehaviour:
       Data: true
     - Name: _instructionsOnActionFail
       Entry: 7
-      Data: 49|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
+      Data: 50|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -806,7 +833,7 @@ MonoBehaviour:
       Data: true
     - Name: _followingInstructions
       Entry: 7
-      Data: 50|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
+      Data: 51|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.AbilityInstruction,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12

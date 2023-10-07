@@ -821,6 +821,24 @@ MonoBehaviour:
     - Name: BulletParticle
       Entry: 3
       Data: 14
+    - Name: RemapAnimationTime
+      Entry: 5
+      Data: false
+    - Name: OriginTarget
+      Entry: 3
+      Data: 1
+    - Name: OriginCellGroup
+      Entry: 3
+      Data: 0
+    - Name: OriginCellOrder
+      Entry: 3
+      Data: 0
+    - Name: DestinationTarget
+      Entry: 3
+      Data: 0
+    - Name: DestinationCellGroup
+      Entry: 3
+      Data: 0
     - Name: MoveBy
       Entry: 3
       Data: 1
@@ -831,9 +849,6 @@ MonoBehaviour:
       Entry: 5
       Data: true
     - Name: Inverse
-      Entry: 5
-      Data: false
-    - Name: RemapAnimationTime
       Entry: 5
       Data: false
     - Name: _minSpread

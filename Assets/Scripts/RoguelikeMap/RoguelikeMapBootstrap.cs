@@ -52,6 +52,8 @@ namespace RoguelikeMap
         private CharacterCardWithCost _cardWithCost;
         [SerializeField]
         private CharacterCard _cardIcon;
+        [SerializeField]
+        private Map.Map _map;
 
         [Header("Saves Management")]
         [SerializeField]
@@ -85,6 +87,7 @@ namespace RoguelikeMap
             builder.RegisterComponent(_cardIcon);
             builder.RegisterComponent(_panelManager);
             builder.RegisterComponent(_transferPanel);
+            builder.RegisterComponent(_map);
 
             builder.Register<BattleRewardHandler>(Lifetime.Singleton);
             builder.Register<SquadPositionSaver>(Lifetime.Singleton);

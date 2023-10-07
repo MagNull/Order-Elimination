@@ -1,4 +1,6 @@
-﻿using GameInventory.Items;
+﻿using System.Collections.Generic;
+using System.Linq;
+using GameInventory.Items;
 using GameInventory.Views;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
@@ -14,16 +16,23 @@ namespace GameInventory
 
         private bool _clickChecking;
 
-        public override void OnCellAdded(IReadOnlyCell cell)
+        public override void OnCellChanged(IReadOnlyCell cell)
         {
-            base.OnCellAdded(cell);
+            base.OnCellChanged(cell);
             if (cell.Item is not IUsable)
                 _cellViews.Find(c => c.Model == cell).Disable();
         }
 
+        public override void UpdateCells(IReadOnlyList<IReadOnlyCell> cells)
+        {
+            base.UpdateCells(cells);
+            foreach (var cellView in _cellViews.Where(cellView => cellView.Model.Item is not IUsable))
+                cellView.Disable();
+        }
+
         private void Update()
         {
-            if(_clickChecking)
+            if (_clickChecking)
                 ResetItemUseOnClick();
         }
 
@@ -31,9 +40,9 @@ namespace GameInventory
         {
             if (!Input.GetMouseButtonDown(0))
                 return;
-            
+
             var selectedObject = EventSystem.current.currentSelectedGameObject;
-            if(selectedObject == null || !selectedObject.GetComponent<CharacterCard>())
+            if (selectedObject == null || !selectedObject.GetComponent<CharacterCard>())
                 ResetItemUse();
         }
 
@@ -55,9 +64,9 @@ namespace GameInventory
 
             foreach (var characterCard in _squadMembersPanel.CharacterCards)
             {
-                if(!usableItem.CheckConditionToUse(characterCard.Character))
+                if (!usableItem.CheckConditionToUse(characterCard.Character))
                     continue;
-                
+
                 _clickChecking = true;
                 characterCard.EnableHighlight();
                 characterCard.SetSpecialClickEvent(() =>

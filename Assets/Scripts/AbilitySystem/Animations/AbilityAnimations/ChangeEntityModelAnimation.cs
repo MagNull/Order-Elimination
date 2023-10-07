@@ -31,7 +31,7 @@ namespace OrderElimination.AbilitySystem.Animations
         protected override async UniTask OnAnimationPlayRequest(
             AnimationPlayContext context, CancellationToken cancellationToken)
         {
-            var entitiesBank = context.SceneContext.BattleContext.EntitiesBank;
+            var entitiesBank = context.SceneContext.EntitiesBank;
             var entityView = EntityToChangeIcon switch
             {
                 ActionEntity.Caster => context.CasterView,

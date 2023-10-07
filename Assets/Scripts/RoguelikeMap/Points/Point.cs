@@ -67,6 +67,7 @@ namespace RoguelikeMap.Points
         private void SetActivePaths(bool isActive)
         {
             SetActive(isActive);
+            _isActive = false;
             if(isActive)
                 _pathView.UpdatePaths(this);
             else

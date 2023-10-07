@@ -85,7 +85,7 @@ namespace UIManagement
             var gamecharacter = entitiesBank.GetBasedCharacter(entity);
             _characterName.text = gamecharacter.CharacterData.Name;
             _characterAvatar.sprite = gamecharacter.CharacterData.Avatar;
-            UpdateBattleStats(entity.BattleStats);
+            UpdateBattleStats(entity.BattleStats, gamecharacter.CharacterStats);
             var activeAbilities = entity
                 .ActiveAbilities
                 .Select(runner => runner.AbilityData)
@@ -108,6 +108,7 @@ namespace UIManagement
 
         private void UpdateBattleStats(IReadOnlyGameCharacterStats stats)
         {
+            ResetStatsColor();
             if (_characterStats.Count != 5)
                 Logging.LogException(new System.InvalidOperationException());
             EnumExtensions
@@ -116,14 +117,21 @@ namespace UIManagement
                 .ForEach(stat => UpdateStat(stat, stats[stat]));
         }
 
-        private void UpdateBattleStats(IBattleStats stats)
+        private void UpdateBattleStats(IBattleStats stats, IReadOnlyGameCharacterStats defaultStats)
         {
+            ResetStatsColor();
             if (_characterStats.Count != 5)
                 Logging.LogException(new System.InvalidOperationException());
-            EnumExtensions
+            foreach (var stat in EnumExtensions
                 .GetValues<BattleStat>()
-                .Where(stat => _statsElementsIdMapping.ContainsKey(stat))
-                .ForEach(stat => UpdateStat(stat, stats[stat].ModifiedValue));
+                .Where(stat => _statsElementsIdMapping.ContainsKey(stat)))
+            {
+                UpdateStat(stat, stats[stat].ModifiedValue);
+                if (stats[stat].ModifiedValue > defaultStats[stat])
+                    _characterStats[_statsElementsIdMapping[stat]].SetValueColor(Color.green);
+                if (stats[stat].ModifiedValue < defaultStats[stat])
+                    _characterStats[_statsElementsIdMapping[stat]].SetValueColor(Color.red);
+            }
         }
 
         private void UpdateStat(BattleStat stat, float value)
@@ -151,19 +159,21 @@ namespace UIManagement
                 button.image.sprite = _noAbilityIcon;
                 button.onClick.RemoveAllListeners();
             }
-            var displayedActiveAbilities = activeAbilities
+            var unhiddenActiveAbilities = activeAbilities
                 .Where(a => !a.View.HideInCharacterDescription)
                 .ToArray();
-            var displayedPassiveAbilities = passiveAbilities
+            var unhiddenPassiveAbilities = passiveAbilities
                 .Where(a => !a.View.HideInCharacterDescription)
                 .ToArray();
-            if (displayedActiveAbilities.Length > _activeAbilityButtons.Count
-                || displayedPassiveAbilities.Length > _passiveAbilityButtons.Count)
-                Logging.LogException( new System.NotSupportedException("Abilities to display count is greater than can be shown."));
-            for (var i = 0; i < displayedActiveAbilities.Length; i++)
+            if (unhiddenActiveAbilities.Length > _activeAbilityButtons.Count
+                || unhiddenPassiveAbilities.Length > _passiveAbilityButtons.Count)
+                Logging.LogException(new System.NotSupportedException("Abilities to display count is greater than can be shown."));
+            var activeAbilitiesToDisplayCount = Mathf.Min(_activeAbilityButtons.Count, unhiddenActiveAbilities.Length);
+            var passiveAbilitiesToDisplayCount = Mathf.Min(_passiveAbilityButtons.Count, unhiddenPassiveAbilities.Length);
+            for (var i = 0; i < activeAbilitiesToDisplayCount; i++)
             {
                 var button = _activeAbilityButtons[i];
-                var ability = displayedActiveAbilities[i];
+                var ability = unhiddenActiveAbilities[i];
                 button.image.sprite = ability.View.Icon;
                 button.onClick.AddListener(OnActiveAbilityClicked);
 
@@ -175,10 +185,10 @@ namespace UIManagement
                     panel.Open();
                 }
             }
-            for (var i = 0; i < displayedPassiveAbilities.Length; i++)
+            for (var i = 0; i < passiveAbilitiesToDisplayCount; i++)
             {
                 var button = _passiveAbilityButtons[i];
-                button.image.sprite = displayedPassiveAbilities[i].View.Icon;
+                button.image.sprite = unhiddenPassiveAbilities[i].View.Icon;
                 button.onClick.AddListener(OnPassiveAbilityClicked);
             }
 
@@ -186,7 +196,7 @@ namespace UIManagement
             {
                 var panel = (PassiveAbilityDescriptionPanel)
                     UIController.SceneInstance.OpenPanel(PanelType.PassiveAbilityDescription);
-                panel.UpdateAbilitiesDescription(displayedPassiveAbilities);
+                panel.UpdateAbilitiesDescription(unhiddenPassiveAbilities);
                 panel.Open();
             }
         }
@@ -195,6 +205,11 @@ namespace UIManagement
         {
             _characterInventoryPresenter.enabled = true;
             _characterInventoryPresenter.InitInventoryModel(inventory);
+        }
+
+        private void ResetStatsColor()
+        {
+            _characterStats.ForEach(stat => stat.SetValueColor(Color.white));
         }
     }
 }

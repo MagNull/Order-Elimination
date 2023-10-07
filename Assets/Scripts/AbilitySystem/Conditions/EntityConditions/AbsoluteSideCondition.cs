@@ -21,5 +21,11 @@ namespace OrderElimination.AbilitySystem.Conditions
         {
             return AllowedSides[entityToCheck.BattleSide];
         }
+
+        public bool IsConditionMet(
+            IBattleContext battleContext, AbilitySystemActor askingEntity, AbilitySystemActor entityToCheck, CellGroupsContainer cellGroups)
+        {
+            return AllowedSides[entityToCheck.BattleSide];
+        }
     }
 }

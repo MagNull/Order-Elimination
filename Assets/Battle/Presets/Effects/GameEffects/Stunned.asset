@@ -66,9 +66,6 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 3|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
-    - Name: _target
-      Entry: 3
-      Data: 0
     - Name: _battleAction
       Entry: 7
       Data: 4|OrderElimination.AbilitySystem.ChangeStatusAction, Assembly-CSharp
@@ -81,6 +78,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: _target
+      Entry: 3
+      Data: 0
     - Name: UndoOnDeactivation
       Entry: 5
       Data: true
@@ -90,15 +90,24 @@ MonoBehaviour:
     - Name: _animationAfterAction
       Entry: 6
       Data: 
+    - Name: _instructionOnCallback
+      Entry: 6
+      Data: 
+    - Name: _instructionOnSuccess
+      Entry: 6
+      Data: 
+    - Name: _instructionOnFail
+      Entry: 6
+      Data: 
+    - Name: _followingInstruction
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
       Data: 5|OrderElimination.AbilitySystem.EffectActionInstruction, Assembly-CSharp
-    - Name: _target
-      Entry: 3
-      Data: 0
     - Name: _battleAction
       Entry: 7
       Data: 6|OrderElimination.AbilitySystem.ChangeStatusAction, Assembly-CSharp
@@ -111,6 +120,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: _target
+      Entry: 3
+      Data: 0
     - Name: UndoOnDeactivation
       Entry: 5
       Data: true
@@ -118,6 +130,18 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: _animationAfterAction
+      Entry: 6
+      Data: 
+    - Name: _instructionOnCallback
+      Entry: 6
+      Data: 
+    - Name: _instructionOnSuccess
+      Entry: 6
+      Data: 
+    - Name: _instructionOnFail
+      Entry: 6
+      Data: 
+    - Name: _followingInstruction
       Entry: 6
       Data: 
     - Name: 
@@ -187,6 +211,9 @@ MonoBehaviour:
     - Name: ShakeTarget
       Entry: 3
       Data: 0
+    - Name: ShakingEntity
+      Entry: 3
+      Data: 1
     - Name: ShakeX
       Entry: 4
       Data: 0.15

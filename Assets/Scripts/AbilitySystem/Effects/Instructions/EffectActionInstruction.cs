@@ -11,7 +11,7 @@ namespace OrderElimination.AbilitySystem
     {
         #region OdinVisuals
         private bool ActionIsUndoable => _battleAction is IUndoableBattleAction;
-        private bool IsEntityAction => _battleAction != null ? _battleAction.ActionRequires == ActionRequires.Target : false;
+        private bool IsEntityAction => _battleAction != null ? _battleAction.BattleActionType == BattleActionType.EntityAction : false;
         private bool IsCallbackingAction => _battleAction is ICallbackingBattleAction;
 
         [OnInspectorInit]

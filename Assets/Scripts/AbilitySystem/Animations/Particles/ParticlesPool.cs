@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Pool;
+using VContainer;
 
 namespace OrderElimination.AbilitySystem.Animations
 {
@@ -19,6 +20,7 @@ namespace OrderElimination.AbilitySystem.Animations
         [OdinSerialize, ShowInInspector, AssetsOnly]
         private Dictionary<ParticleType, AnimatedParticle> _parcticlesPrefabs = new();
 
+        private BattleMapView _mapView;
         private Dictionary<ParticleType, ObjectPool<AnimatedParticle>> _parcticlesPools = new();
         private Dictionary<AnimatedParticle, ParticleType> _spawnedParticleTypes = new();
         private ParticleType? _currentAwaitedParticle;
@@ -30,6 +32,12 @@ namespace OrderElimination.AbilitySystem.Animations
             {
                 _parcticlesPrefabs.Add(missingType, null);
             }
+        }
+
+        [Inject]
+        private void Construct(BattleMapView battleMapView)
+        {
+            _mapView = battleMapView;
         }
 
         private void Awake()
@@ -70,6 +78,7 @@ namespace OrderElimination.AbilitySystem.Animations
             _currentAwaitedParticle = parcticleType;
             var particle = _parcticlesPools[parcticleType].Get();
             particle.SetBodyVisibility(true);
+            particle.transform.localScale = _mapView.CellSize;
             _spawnedParticleTypes.Add(particle, parcticleType);
             _currentAwaitedParticle = null;
             return particle;

@@ -6,7 +6,7 @@ namespace OrderElimination.AbilitySystem
     {
         //Where to place entity on undo?
 
-        public override ActionRequires ActionRequires => ActionRequires.Target;
+        public override BattleActionType BattleActionType => BattleActionType.EntityAction;
 
         public override IBattleAction Clone()
         {
@@ -16,7 +16,7 @@ namespace OrderElimination.AbilitySystem
 
         protected override async UniTask<IActionPerformResult> Perform(ActionContext useContext)
         {
-            var result = useContext.ActionTarget.DisposeFromBattle();
+            var result = useContext.TargetEntity.DisposeFromBattle();
             return new SimplePerformResult(this, useContext, result);
         }
     }

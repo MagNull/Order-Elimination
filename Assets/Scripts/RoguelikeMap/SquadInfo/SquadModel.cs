@@ -101,15 +101,6 @@ namespace OrderElimination
                 }
             }
         }
-
-        public void DistributeExperience(float expirience)
-        {
-            Logging.LogException( new NotImplementedException());
-            foreach (var member in _members)
-            {
-                //member.RaiseExperience(expirience / AmountOfMembers);
-            }
-        }
         
         public void HealCharacters(int amountHeal)
         {

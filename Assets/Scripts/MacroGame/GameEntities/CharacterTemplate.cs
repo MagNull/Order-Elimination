@@ -87,10 +87,12 @@ namespace OrderElimination
         [TitleGroup("Character Stats")]
         [PropertyOrder(0)]
         [ShowInInspector]
-        [Button("Parse from table string", Style = ButtonStyle.Box)]
+        [Tooltip("Pattern: \"health damage armor evasion accuracy\"")]
+        [Button("Parse string to characteristics", Style = ButtonStyle.Box)]
         private void SetStatsFromTableString(string characteristicsString, bool percentsAsFracture)
         {
-            var elements = characteristicsString.Split('\t');
+            var splitSigns = new char[] { '\t', ' ' };
+            var elements = characteristicsString.Split(splitSigns);
             for (var i = 0; i < elements.Length; i++)
             {
                 if (float.TryParse(elements[i], out var result))//"0.0" value parsing
@@ -130,56 +132,5 @@ namespace OrderElimination
                 return false;
             }
         }
-
-        #region Old
-        public void SetLevel(int level)
-        {
-            //if (_strategyStats.Lvl == level)
-            //    return;
-            //for (var i = _strategyStats.Lvl; i <= level; i++)
-            //    Upgrade();
-        }
-
-        public void Heal(int healStat)
-        {
-            // _battleStats.Health += healStat;
-        }
-
-        public void Upgrade()
-        {
-            //IReadOnlyBattleStats _battleStats = null;
-            //var battleStats = new BattleStats(_battleStats)
-            //{
-            //    Health = _strategyStats.HealthGrowth + _battleStats.UnmodifiedHealth,
-            //    UnmodifiedHealth = _strategyStats.HealthGrowth + _battleStats.UnmodifiedHealth,
-            //    Armor = _strategyStats.ArmorGrowth + _battleStats.UnmodifiedArmor,
-            //    UnmodifiedArmor = _strategyStats.ArmorGrowth + _battleStats.UnmodifiedArmor,
-            //    Accuracy = _strategyStats.AccuracyGrowth + _battleStats.UnmodifiedAccuracy,
-            //    UnmodifiedAccuracy = _strategyStats.AccuracyGrowth + _battleStats.UnmodifiedAccuracy,
-            //    Evasion = _strategyStats.EvasionGrowth + _battleStats.UnmodifiedEvasion,
-            //    UnmodifiedEvasion = _strategyStats.EvasionGrowth + _battleStats.UnmodifiedEvasion,
-            //    Attack = _strategyStats.AttackGrowth + _battleStats.UnmodifiedAttack,
-            //    UnmodifiedAttack = _strategyStats.AttackGrowth + _battleStats.UnmodifiedAttack
-            //};
-            //_strategyStats.Lvl++;
-
-            //Logging.Log($"Health: Old - {_battleStats.UnmodifiedHealth}, New - {battleStats.UnmodifiedHealth}");
-            //Logging.Log($"Health: Old - {_battleStats.UnmodifiedArmor}, New - {battleStats.UnmodifiedArmor}");
-            //Logging.Log($"Health: Old - {_battleStats.UnmodifiedAccuracy}, New - {battleStats.UnmodifiedAccuracy}");
-            //Logging.Log($"Health: Old - {_battleStats.UnmodifiedEvasion}, New - {battleStats.UnmodifiedEvasion}");
-            //Logging.Log($"Health: Old - {_battleStats.UnmodifiedAttack}, New - {battleStats.UnmodifiedAttack}");
-            //_battleStats = battleStats;
-        }
-
-        private void OnValidate()
-        {
-            //_battleStats.UnmodifiedHealth = _battleStats.Health;
-            //_battleStats.UnmodifiedArmor = _battleStats.Armor;
-            //_battleStats.UnmodifiedAttack = _battleStats.Attack;
-            //_battleStats.UnmodifiedAccuracy = _battleStats.Accuracy;
-            //_battleStats.UnmodifiedEvasion = _battleStats.Evasion;
-            //_battleStats.UnmodifiedMovement = _battleStats.Movement;
-        }
-        #endregion
     }
 }
