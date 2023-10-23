@@ -765,7 +765,7 @@ MonoBehaviour:
   - {fileID: -3608191583331798603}
   _startNode: {fileID: -1737530262650804252}
   <IsContainsBattle>k__BackingField: 1
-  currentNode: {fileID: 4882863301246453672}
+  currentNode: {fileID: 4838145087600201119}
 --- !u!114 &278949756765254313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1155,11 +1155,13 @@ MonoBehaviour:
   _name: "\u0411\u0435\u0437\u0443\u043C\u0435\u0446"
   _enemies:
   - {fileID: 11400000, guid: 04588733ccd1f2a4bb0aad35a508b4de, type: 2}
-  <Scenario>k__BackingField: {fileID: 11400000, guid: 51f15a7a4052dfd448b6e20d53610712, type: 2}
+  <Scenario>k__BackingField: {fileID: 11400000, guid: 9fc7f7043f1dea246b974161f8f25bed, type: 2}
   BattleRules: {fileID: 0}
   <ItemsDropProbability>k__BackingField:
-    m_Keys: []
-    m_Values: []
+    m_Keys:
+    - {fileID: 11400000, guid: 75eabdd86c4db6a41bd21cf6611a648e, type: 2}
+    m_Values:
+    - 1
 --- !u!114 &6257590612769680664
 MonoBehaviour:
   m_ObjectHideFlags: 0
