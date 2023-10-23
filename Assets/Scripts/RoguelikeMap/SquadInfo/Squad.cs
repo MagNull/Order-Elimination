@@ -51,7 +51,7 @@ namespace RoguelikeMap.SquadInfo
             _commander.OnHealAccept += HealCharacters;
         }
 
-        private void Start()
+        public void Initialize()
         {
             var characters = _mediator.Get<IEnumerable<GameCharacter>>("player characters");
             _model = new SquadModel(characters, _squadMembersPanel, _mediator);
@@ -80,9 +80,12 @@ namespace RoguelikeMap.SquadInfo
             }
         }
 
-        private void HealCharacters(int amountHeal) => _model.HealCharacters(amountHeal);
-        
-        public void DistributeExperience(float expirience) => _model.DistributeExperience(expirience);
+        private void HealCharacters(int amountHeal)
+        {
+            _model.HealCharacters(amountHeal);
+            foreach(var card in _cardsOnButton)
+                card.UpdateColor();
+        }
 
         private void SetSquadMembers(List<GameCharacter> squadMembers, int countActiveMembers)
         {
@@ -125,6 +128,12 @@ namespace RoguelikeMap.SquadInfo
                          new Vector2(-IconSize,
                              IconSize + 10f);
             transform.position = target;
+        }
+
+        public void OpenPanel()
+        {
+            _squadMembersPanel.SetActiveAttackButton(true);
+            _squadMembersPanel.Open();
         }
         
         private void SetActiveSquadMembers(bool isActive) => _model.SetActivePanel(isActive);

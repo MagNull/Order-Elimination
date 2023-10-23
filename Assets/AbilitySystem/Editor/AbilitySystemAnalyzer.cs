@@ -1,8 +1,10 @@
 using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.AbilitySystem.Animations;
+using OrderElimination.Battle;
 using OrderElimination.Editor;
 using OrderElimination.Infrastructure;
+using OrderElimination.MacroGame;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Serialization;
@@ -12,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using static OrderElimination.Infrastructure.ReflectionExtensions;
 
@@ -504,6 +505,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         var effectsPath = $"{PresetsPath}/Effects";
         var charactersPath = $"{PresetsPath}/Characters";
         var structuresPath = $"{PresetsPath}/Structures";
+        var mapsPath = $"{PresetsPath}/Maps";
 
         DrawMenuSearchBar = true;
         var isFlat = ExplorerParameters.FlattenHierarchy;
@@ -515,31 +517,43 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         var tree = new OdinMenuTree(false);
         tree.Add("Analyzer", new AbilitySystemAnalyzerInfo(), EditorIcons.SettingsCog);
         tree.Add("Presets", ExplorerParameters, EditorIcons.FileCabinet);
-        tree.Add("Presets/Active Abilities", null, EditorIcons.Crosshair);
-        tree.Add("Presets/Passive Abilities", null, EditorIcons.Clouds);
-        tree.Add("Presets/Effects", null, EditorIcons.StarPointer);
-        tree.Add("Presets/Characters", null, EditorIcons.Male);
-        tree.Add("Presets/Structures", null, EditorIcons.House);
+        tree.Add("Presets/Maps", null, EditorIcons.Globe);
 
-        tree.AddAllAssetsAtPath("Presets/Active Abilities", abilitiesPath, typeof(ActiveAbilityBuilder), true, isFlat)
-            .SortMenuItemsByName()
-            .AddIcons<ActiveAbilityBuilder>(b => b.Icon);
-        tree.AddAllAssetsAtPath("Presets/Passive Abilities", abilitiesPath, typeof(PassiveAbilityBuilder), true, isFlat)
-            .SortMenuItemsByName()
-            .AddIcons<PassiveAbilityBuilder>(b => b.Icon);
-        tree.AddAllAssetsAtPath("Presets/Effects", effectsPath, typeof(EffectDataPreset), true, isFlat)
-            .SortMenuItemsByName()
-            .AddIcons<EffectDataPreset>(b => b.View.Icon);
-        tree.AddAllAssetsAtPath("Presets/Characters", charactersPath, typeof(CharacterTemplate), true, isFlat)
-            .SortMenuItemsByName()
-            .AddIcons<CharacterTemplate>(b => b.BattleIcon);
-        tree.AddAllAssetsAtPath("Presets/Structures", structuresPath, typeof(StructureTemplate), true, isFlat)
-            .SortMenuItemsByName()
-            .AddIcons<StructureTemplate>(b => b.BattleIcon);
+        DisplayAssets<ActiveAbilityBuilder>(
+            abilitiesPath, "Presets/Active Abilities", EditorIcons.Crosshair, a => a.Icon);
+        DisplayAssets<PassiveAbilityBuilder>(
+            abilitiesPath, "Presets/Passive Abilities", EditorIcons.Clouds, a => a.Icon);
+        DisplayAssets<EffectDataPreset>(
+            effectsPath, "Presets/Effects", EditorIcons.StarPointer, a => a.View.Icon);
+        DisplayAssets<CharacterTemplate>(
+            charactersPath, "Presets/Characters", EditorIcons.Male, a => a.BattleIcon);
+        DisplayAssets<StructureTemplate>(
+            structuresPath, "Presets/Structures", EditorIcons.House, a => a.BattleIcon);
+        DisplayAssets<BattleScenario>(
+            mapsPath, "Presets/Maps/BattleScenario", EditorIcons.GridBlocks, a => null);
+        DisplayAssets<BattleMapLayeredLayout>(
+            mapsPath, "Presets/Maps/Layered Layout", EditorIcons.GridLayout, a => null);
 
         tree.Selection.SelectionConfirmed += OnSelectionConfirmed;
 
         return tree;
+
+        IEnumerable<OdinMenuItem> DisplayAssets<TAsset>(
+            string assetsPath, string displayPath, EditorIcon rootIcon, Func<TAsset, Sprite> iconGetter)
+            where TAsset : class
+        {
+            //var subElements = new List<TAsset>();
+            tree.Add(displayPath, null, rootIcon);
+            var createdMenuItems = 
+                tree.AddAllAssetsAtPath(displayPath, assetsPath, typeof(TAsset), true, isFlat)
+                .SortMenuItemsByName()
+                .AddIcons<TAsset>(b => iconGetter(b));
+            //foreach (var e in createdMenuItems.Select(i => i.Value as TAsset).Where(a => a != null))
+            //{
+            //    subElements.Add(e);
+            //}
+            return createdMenuItems;
+        }
     }
 
     private void OnSelectionConfirmed(OdinMenuTreeSelection selection)

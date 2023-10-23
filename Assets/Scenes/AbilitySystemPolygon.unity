@@ -2074,7 +2074,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33adebae85bfa4043865878ad3519809, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapSize: {x: 8, y: 8}
 --- !u!1 &1106864593
 GameObject:
   m_ObjectHideFlags: 0
@@ -3601,6 +3600,10 @@ PrefabInstance:
     - target: {fileID: 2005745094502167549, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
       propertyPath: m_Name
       value: Battle UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005745094502167549, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3205302136298068938, guid: 40a1ee8628ff6df42bec49171da40f1e, type: 3}
       propertyPath: m_AnchorMax.y

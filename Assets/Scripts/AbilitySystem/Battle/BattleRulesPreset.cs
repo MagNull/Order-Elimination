@@ -42,7 +42,7 @@ namespace OrderElimination.Battle
         public int ConsumablesPointsPerRound { get; set; } = 1;
 
         [TitleGroup("Energy Points")]
-        [PropertyTooltip("Resets points to default value instead of adding them.")]
+        [PropertyTooltip("Sets points to per-round value instead of incrementing them.")]
         [ShowInInspector, OdinSerialize]
         public bool HardResetEnergyPointsEveryRound { get; set; } = true;
 
@@ -57,7 +57,7 @@ namespace OrderElimination.Battle
             };
         }
 
-        public void SetEnergyPointsPerRound(EnergyPoint pointType, int valuePerRound)
+        private void SetEnergyPointsPerRound(EnergyPoint pointType, int valuePerRound)
         {
             switch (pointType)
             {

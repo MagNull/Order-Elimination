@@ -33,25 +33,22 @@ namespace OrderElimination.AbilitySystem.Animations
             CasterGamePosition = null;
             TargetGamePosition = null;
 
-            if (caster != null && caster.IsAlive)
+            if (caster != null)
             {
-                CasterGamePosition = caster.Position;
-                var pos = CasterGamePosition.Value;
+                var pos = caster.BattleContext.BattleMap.GetLastPosition(caster);
+                CasterGamePosition = pos;
                 CasterVisualPosition = sceneContext.BattleMapView.GetCell(pos.x, pos.y).transform.position;
                 CasterView = sceneContext.EntitiesBank.GetViewByEntity(caster);
             }
-            if (target != null && target.IsAlive)
+            if (target != null)
             {
-                TargetGamePosition = target.Position;
+                var pos = target.BattleContext.BattleMap.GetLastPosition(target);
+                TargetGamePosition = pos;
                 TargetView = sceneContext.EntitiesBank.GetViewByEntity(target);
-            }
-            if (targetPositionOverride != null && targetPositionOverride.HasValue)
-                TargetGamePosition = targetPositionOverride;
-            if (TargetGamePosition != null && TargetGamePosition.HasValue)
-            {
-                var pos = TargetGamePosition.Value;
                 TargetVisualPosition = sceneContext.BattleMapView.GetCell(pos.x, pos.y).transform.position;
             }
+            if (targetPositionOverride != null)
+                TargetGamePosition = targetPositionOverride;
         }
 
         public static AnimationPlayContext Duplicate(

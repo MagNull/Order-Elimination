@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using RoguelikeMap.Points.Models;
@@ -54,6 +55,12 @@ namespace RoguelikeMap.Points
         {
             foreach (var path in _paths)
                 Destroy(path.gameObject);
+            _paths.Clear();
+        }
+
+        private void OnDestroy()
+        {
+            ClearPaths();
         }
     }
 }
