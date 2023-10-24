@@ -67,6 +67,7 @@ namespace RoguelikeMap.Points
         private void SetActivePaths(bool isActive)
         {
             SetActive(Model is BattlePointModel || isActive);
+            _isActive = Model is BattlePointModel;
             if(isActive)
                 _pathView.UpdatePaths(this);
             else
