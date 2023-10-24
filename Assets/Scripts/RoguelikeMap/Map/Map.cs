@@ -57,7 +57,7 @@ namespace RoguelikeMap.Map
 
         private async void MoveToPoint(int pointIndex)
         {
-            if (pointIndex > 0 && pointIndex < _points.Count)
+            if (pointIndex >= 0 && pointIndex < _points.Count)
                 await SetSquadPosition(_points.First(x => x.Index == pointIndex));
             else
                 ReloadMap();

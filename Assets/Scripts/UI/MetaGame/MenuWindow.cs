@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DG.Tweening;
+using GameInventory;
 using OrderElimination;
 using OrderElimination.MacroGame;
 using OrderElimination.UI;
@@ -58,6 +59,7 @@ public class MenuWindow : MonoBehaviour
         
         _startGameButton.onClick.AddListener(() =>
         {
+            InventorySerializer.Delete();
             _metaShopPanel.SaveStats();
             if(_scenesMediator.Contains<GameCharacter[]>("player characters"))
                 _scenesMediator.Unregister("player characters");
