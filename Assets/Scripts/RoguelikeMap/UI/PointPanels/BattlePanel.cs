@@ -5,6 +5,7 @@ using OrderElimination;
 using OrderElimination.MacroGame;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
+using TMPro;
 using UnityEngine;
 using VContainer;
 
@@ -12,6 +13,8 @@ namespace RoguelikeMap.UI.PointPanels
 {
     public class BattlePanel : Panel
     {
+        [SerializeField]
+        private TMP_Text _text;
         [SerializeField]
         private Transform _characterParent;
         [SerializeField]
@@ -32,9 +35,11 @@ namespace RoguelikeMap.UI.PointPanels
             _characterInfoPanel = characterInfoPanel;
         }
 
-        public void Initialize(BattleScenario battleScenario, IReadOnlyList<GameCharacter> enemies,
+        public void Initialize(string pointName,
+            BattleScenario battleScenario, IReadOnlyList<GameCharacter> enemies,
             IReadOnlyList<GameCharacter> allies, int pointIndex)
         {
+            _text.text = pointName;
             if (_cards.Count != 0)
                 Clear();
             foreach (var enemy in enemies)
