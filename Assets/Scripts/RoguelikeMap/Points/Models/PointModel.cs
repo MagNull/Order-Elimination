@@ -47,6 +47,7 @@ namespace RoguelikeMap.Points.Models
         {
             panel = panelManager.GetPanelByPointInfo(Type);
             this.transferPanel = transferPanel;
+            this.transferPanel.SetBattlePanel(panelManager.GetPanelByPointInfo(PointType.Battle));
         }
 
         public IEnumerable<PointModel> GetNextPoints()
@@ -58,5 +59,10 @@ namespace RoguelikeMap.Points.Models
         public void SetActive(bool isActive) => OnChangeActivity?.Invoke(isActive);
 
         private void OnValidate() => name = _name == "" ? GetType().Name : _name;
+
+        protected void CheckIsPanelOpen()
+        {
+            
+        }
     }
 }
