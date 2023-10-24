@@ -32,6 +32,7 @@ namespace RoguelikeMap.Map
         {
             _saver.OnSaveBeforeMove += MoveToPoint;
             _saver.OnPassPoint += ShowPaths;
+            ShowPaths();
         }
         
         public void LoadPoints()
@@ -61,7 +62,7 @@ namespace RoguelikeMap.Map
                 await SetSquadPosition(_points.First(x => x.Index == pointIndex));
             else
                 ReloadMap();
-            _currentPoint.ShowPaths();
+            _currentPoint.HidePaths();
         }
 
         public async Task MoveToPoint(Point point)
@@ -70,13 +71,16 @@ namespace RoguelikeMap.Map
                 await SetSquadPosition(_points.First(x => x.Index == point.Index));
             else
                 ReloadMap();
-            _currentPoint.ShowPaths();
+            _currentPoint.HidePaths();
         }
 
         private async Task SetSquadPosition(Point point, bool isAnimation = true)
         {
             if (_currentPoint is not null)
+            {
                 _currentPoint.HidePaths();
+                _currentPoint.SetActive(false);
+            }
             _currentPoint = point;
             await MoveSquad(point, isAnimation);
             _saver.SavePosition(point.Index);

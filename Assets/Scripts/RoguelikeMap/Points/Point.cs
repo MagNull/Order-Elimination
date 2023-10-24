@@ -51,7 +51,7 @@ namespace RoguelikeMap.Points
 
         public async Task Visit(Squad squad) => await Model.Visit(squad);
 
-        private void SetActive(bool isActive)
+        public void SetActive(bool isActive)
         {
             _isActive = isActive;
             var color = isActive ? Color.white : Color.gray;
@@ -66,8 +66,7 @@ namespace RoguelikeMap.Points
 
         private void SetActivePaths(bool isActive)
         {
-            SetActive(isActive);
-            _isActive = false;
+            SetActive(Model is BattlePointModel || isActive);
             if(isActive)
                 _pathView.UpdatePaths(this);
             else
