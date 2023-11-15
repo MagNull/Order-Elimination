@@ -62,6 +62,9 @@ namespace GameInventory.Items
 
         [field: SerializeField, ShowIf("@Type == ItemType.Equipment && EquipType == EquipmentType.Upgrade")]
         public SerializedDictionary<ActiveAbilityBuilder, ActiveAbilityBuilder> AbilitySwapTable = new();
+        
+        [field: SerializeField]
+        public bool HideInInventory;
 
         private void Awake()
         {
