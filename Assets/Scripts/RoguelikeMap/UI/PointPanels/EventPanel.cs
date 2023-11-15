@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Events;
 using GameInventory;
 using GameInventory.Items;
@@ -54,6 +55,20 @@ namespace RoguelikeMap.UI.PointPanels
         {
             return _inventory.Contains(itemData);
         }
+        
+        public bool CheckCharacter(CharacterTemplate characterTemplate)
+        {
+            var characters = _squad.Members.Any(x => x.CharacterData == characterTemplate);
+            return characters;
+        }
+        
+        public void SpendItems(IEnumerable<ItemData> itemsDatas)
+        {
+            foreach (var itemData in itemsDatas)
+            {
+                SpendItem(itemData);
+            }
+        }
 
         public void SpendItem(ItemData itemData)
         {
@@ -62,12 +77,25 @@ namespace RoguelikeMap.UI.PointPanels
                 _inventory.RemoveItem(itemData);
                 Debug.Log("CheckItem");
             }
-                
+        }
+
+        public void AddItems(IEnumerable<ItemData> itemsDatas)
+        {
+            foreach (var itemData in itemsDatas)
+            {
+                AddItem(itemData);
+            }
+        }
+        
+        public void AddItem(ItemData itemData)
+        {
+            var item = ItemFactory.Create(itemData);
+            _inventory.AddItem(item);
         }
 
         public void SetInteractableAnswer(int answerIndex, bool isInteractable)
         {
-            _answerButtons[answerIndex].DOInterectable(isInteractable);
+            _answerButtons[answerIndex].gameObject.SetActive(isInteractable);
         }
 
         public void UpdateAnswersText(IReadOnlyList<string> answers)
