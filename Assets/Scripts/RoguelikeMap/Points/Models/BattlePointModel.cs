@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,7 +21,7 @@ namespace RoguelikeMap.Points.Models
         
         [SerializeField]
         private List<CharacterTemplate> _enemies;
-        [SerializeField]
+        [SerializeReference]
         private IBattleMapLayout _mapLayout;
         [field: SerializeField]
         public BattleRulesPreset BattleRules { get; private set; }

@@ -18,7 +18,7 @@ namespace Events
         
         [SerializeField]
         private List<CharacterTemplate> _enemies;
-        [SerializeField]
+        [SerializeReference]
         private IBattleMapLayout _mapLayout;
 
         [field: SerializeField]
