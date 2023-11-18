@@ -69,7 +69,7 @@ namespace OrderElimination.Infrastructure
             {
                 var minIntDistance = Mathf.CeilToInt(MinDistanceFromOrigin);
                 var maxIntDistance = Mathf.FloorToInt(MaxDistanceFromOrigin);
-                return CoordinateInSymmetricalSquare(pos.x, pos.y, minIntDistance, maxIntDistance);
+                return CoordinateIsInSymmetricalSquare(pos.x, pos.y, minIntDistance, maxIntDistance);
             }
             var sqrMagnitude = pos.sqrMagnitude;
             var minDistSqr = MinDistanceFromOrigin * MinDistanceFromOrigin;
@@ -89,7 +89,7 @@ namespace OrderElimination.Infrastructure
                     var pos = new Vector2Int(x, y);
                     if (UseSquareDistance)
                     {
-                        if (!CoordinateInSymmetricalSquare(x, y, minIntDistance, maxIntDistance))
+                        if (!CoordinateIsInSymmetricalSquare(x, y, minIntDistance, maxIntDistance))
                             continue;
                         filteredPoints.Add(pos);
                         continue;
@@ -104,20 +104,19 @@ namespace OrderElimination.Infrastructure
             return filteredPoints.Select(p => p + originPoint).ToArray();
         }
 
-        private bool CoordinateInSymmetricalSquare(int x, int y, int minRange, int maxRange)
+        private bool CoordinateIsInSymmetricalSquare(int x, int y, int minRange, int maxRange)
         {
+            x = Mathf.Abs(x);
+            y = Mathf.Abs(y);
             minRange = Mathf.Abs(minRange);
             maxRange = Mathf.Abs(maxRange);
+
             if (maxRange < minRange)
-                throw new InvalidProgramException();
+                throw new ArgumentException();
             // -max -min 0 +min +max
-            var xOut = x < -maxRange || maxRange < x;
-            var yOut = y < -maxRange || maxRange < y;
-            var xInExcludedRange = -minRange < x && x < minRange;
-            var yInExcludedRange = -minRange < y && y < minRange;
-            if (xOut || yOut || xInExcludedRange && yInExcludedRange)
-                return false;
-            return true;
+
+            return minRange <= x && x <= maxRange 
+                && minRange <= y && y <= maxRange;
         }
     }
 }

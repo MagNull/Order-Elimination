@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using OrderElimination;
+using OrderElimination.Battle;
+using OrderElimination.Infrastructure;
 using OrderElimination.MacroGame;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
@@ -36,7 +38,7 @@ namespace RoguelikeMap.UI.PointPanels
         }
 
         public void Initialize(string pointName,
-            BattleScenario battleScenario, IReadOnlyList<GameCharacter> enemies,
+            IBattleMapLayout mapLayout, IReadOnlyList<GameCharacter> enemies,
             IReadOnlyList<GameCharacter> allies, int pointIndex)
         {
             _text.text = pointName;
@@ -50,7 +52,7 @@ namespace RoguelikeMap.UI.PointPanels
                 _cards.Add(characterCard);
             }
 
-            _scenarioVisualiser.Initialize(battleScenario, enemies, allies);
+            _scenarioVisualiser.Initialize(mapLayout, enemies, allies);
             _pointIndex = pointIndex;
         }
 
@@ -71,7 +73,7 @@ namespace RoguelikeMap.UI.PointPanels
         public void UpdateAlliesOnMap(IReadOnlyList<GameCharacter> allies)
         {
             _scenarioVisualiser.SetActiveAlliesCells(false);
-            _scenarioVisualiser.UpdateCharactersCells(allies);
+            _scenarioVisualiser.UpdateCharactersCells(allies, BattleSide.Allies);
         }
 
         public void OnClickAttackButton()
