@@ -1,5 +1,4 @@
-﻿using Mono.Cecil.Cil;
-using OrderElimination.Battle;
+﻿using OrderElimination.Battle;
 using OrderElimination.Editor;
 using OrderElimination.Infrastructure;
 using OrderElimination.Utils;
