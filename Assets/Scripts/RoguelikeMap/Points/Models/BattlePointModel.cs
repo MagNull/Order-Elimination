@@ -21,8 +21,8 @@ namespace RoguelikeMap.Points.Models
         
         [SerializeField]
         private List<CharacterTemplate> _enemies;
-        [SerializeField]
-        private BattleScenario _battleScenario;
+        [SerializeReference]
+        private IBattleMapLayout _mapLayout;
         [field: SerializeField]
         public BattleRulesPreset BattleRules { get; private set; }
 
@@ -35,7 +35,7 @@ namespace RoguelikeMap.Points.Models
 
         public override PointType Type => PointType.Battle;
         public IReadOnlyList<IGameCharacterTemplate> Enemies => _enemies;
-        public BattleScenario Scenario => _battleScenario;
+        public IBattleMapLayout MapLayout => _mapLayout;
         public Dictionary<ItemData, float> ItemsDropProbability => _itemsDropProbability;
 
         public override void ShowPreview(Squad squad)
@@ -43,7 +43,7 @@ namespace RoguelikeMap.Points.Models
             squad.OnUpdateMembers -= Panel.UpdateAlliesOnMap;
             squad.OnUpdateMembers += Panel.UpdateAlliesOnMap;
             _enemiesGameCharacter = GameCharactersFactory.CreateGameCharacters(Enemies).ToList();
-            Panel.Initialize(_name, _battleScenario, _enemiesGameCharacter, squad.Members, Index); //TODO: Store GameCharacters
+            Panel.Initialize(_name, _mapLayout, _enemiesGameCharacter, squad.Members, Index); //TODO: Store GameCharacters
             if(transferPanel.IsOpen)
                 transferPanel.Close();
             if(!Panel.IsOpen)

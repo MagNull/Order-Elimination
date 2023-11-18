@@ -18,13 +18,14 @@ namespace Events
         
         [SerializeField]
         private List<CharacterTemplate> _enemies;
+        [SerializeReference]
+        private IBattleMapLayout _mapLayout;
 
-        [field: SerializeField] 
-        public BattleScenario Scenario { get; private set; }
         [field: SerializeField]
         public BattleRulesPreset BattleRules;
         [field: SerializeField]
         public SerializedDictionary<ItemData, float> ItemsDropProbability { get; private set; }
+        public IBattleMapLayout MapLayout => _mapLayout;
 
         public IReadOnlyList<CharacterTemplate> Enemies => _enemies;
 
