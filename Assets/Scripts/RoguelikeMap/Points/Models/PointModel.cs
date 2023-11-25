@@ -14,7 +14,7 @@ namespace RoguelikeMap.Points.Models
     public abstract class PointModel : Node
     {
         [SerializeField]
-        private string _name;
+        protected string _name;
         
         [field: SerializeField]
         public Sprite Sprite { get; private set; }
@@ -47,6 +47,7 @@ namespace RoguelikeMap.Points.Models
         {
             panel = panelManager.GetPanelByPointInfo(Type);
             this.transferPanel = transferPanel;
+            this.transferPanel.SetBattlePanel(panelManager.GetPanelByPointInfo(PointType.Battle));
         }
 
         public IEnumerable<PointModel> GetNextPoints()

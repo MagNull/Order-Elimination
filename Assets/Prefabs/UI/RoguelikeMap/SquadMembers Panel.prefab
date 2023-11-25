@@ -516,7 +516,20 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: _cellViews
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[GameInventory.Views.InventoryCellView,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   _cellViewPrefab: {fileID: 4008308856870602872, guid: e24b87f7454437542b568f6de0e5917a, type: 3}
   _cellContainer: {fileID: 7919039249288696008}
   _squadMembersPanel: {fileID: 2392810432619578457}
@@ -544,6 +557,11 @@ MonoBehaviour:
   _inventoryView: {fileID: 6243576366760687977}
   _items:
   - {fileID: 11400000, guid: 8cf14f270c3336c4da3f6168e1b739a1, type: 2}
+  _inventoryModel:
+    _cells: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &6098517679969943558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1034,9 +1052,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _windowOpeningTime: 0.3
   _windowOpeningEase: 32
+  _isHaveMask: 0
+  _mask: {fileID: 0}
+  _openingType: 2
+  _isHaveCameraShift: 0
+  _camera: {fileID: 0}
+  _canvasScaler: {fileID: 0}
+  _shift: 0
   _selectedDropZone: {fileID: 6138690563007284942}
   _unselectedDropZone: {fileID: 5223204907798521858}
   _characterButtonPref: {fileID: 4089897780089222038, guid: 411db3d6bc8ec471bba9fe51c61fd356, type: 3}
+  _attackButton: {fileID: 0}
   MaxSquadSize: 3
 --- !u!1 &8184367278821394452
 GameObject:
@@ -1212,7 +1238,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 320.04, y: -0.4163}
+  m_AnchoredPosition: {x: 319, y: -0.4163}
   m_SizeDelta: {x: 1279.9, y: 1080.8325}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8184367278884307341

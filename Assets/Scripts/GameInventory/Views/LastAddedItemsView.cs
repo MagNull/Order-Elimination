@@ -36,7 +36,7 @@ namespace GameInventory.Views
         private void UpdateLastItems(IReadOnlyCell _)
         {
             var lastItems = _inventory.GetItems()
-                .Where(x => x is not EmptyItem)
+                .Where(x => x is not EmptyItem && !x.Data.HideInInventory)
                 .TakeLast(_cellsSprites.Count)
                 .ToArray();
             foreach (var cellsSprite in _cellsSprites)

@@ -1,14 +1,17 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GameInventory.Items;
 using OrderElimination;
+using OrderElimination.Battle;
 using OrderElimination.MacroGame;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI.PointPanels;
 using UnityEngine;
 using UnityEngine.Rendering;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 
 namespace RoguelikeMap.Points.Models
 {
@@ -20,8 +23,11 @@ namespace RoguelikeMap.Points.Models
         
         [SerializeField]
         private List<CharacterTemplate> _enemies;
-        [SerializeField]
-        private BattleScenario _battleScenario;
+        [OdinSerialize]
+        [ShowInInspector]
+        private IBattleMapLayout _mapLayout;
+        [field: SerializeField]
+        public BattleRulesPreset BattleRules { get; private set; }
 
         [SerializeField]
         private SerializedDictionary<ItemData, float> _itemsDropProbability;
@@ -32,7 +38,7 @@ namespace RoguelikeMap.Points.Models
 
         public override PointType Type => PointType.Battle;
         public IReadOnlyList<IGameCharacterTemplate> Enemies => _enemies;
-        public BattleScenario Scenario => _battleScenario;
+        public IBattleMapLayout MapLayout => _mapLayout;
         public Dictionary<ItemData, float> ItemsDropProbability => _itemsDropProbability;
 
         public override void ShowPreview(Squad squad)
@@ -40,7 +46,9 @@ namespace RoguelikeMap.Points.Models
             squad.OnUpdateMembers -= Panel.UpdateAlliesOnMap;
             squad.OnUpdateMembers += Panel.UpdateAlliesOnMap;
             _enemiesGameCharacter = GameCharactersFactory.CreateGameCharacters(Enemies).ToList();
-            Panel.Initialize(_battleScenario, _enemiesGameCharacter, squad.Members, Index); //TODO: Store GameCharacters
+            Panel.Initialize(_name, _mapLayout, _enemiesGameCharacter, squad.Members, Index); //TODO: Store GameCharacters
+            if(transferPanel.IsOpen)
+                transferPanel.Close();
             if(!Panel.IsOpen)
                 Panel.Open();
         }
@@ -48,6 +56,7 @@ namespace RoguelikeMap.Points.Models
         public override async Task Visit(Squad squad)
         {
             await squad.Visit(this);
+            squad.OpenPanel();
         }
     }
 }

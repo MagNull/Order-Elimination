@@ -33,6 +33,7 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         {
             Character = character;
             _cardImage.sprite = character.CharacterData.Avatar;
+            UpdateColor();
             IsSelected = isSelected;
         }
 
@@ -44,6 +45,11 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         public void SetImage(Sprite sprite)
         {
             _cardImage.sprite = sprite;
+        }
+
+        public void UpdateColor()
+        {
+            _cardImage.color = Character.CurrentHealth <= 0 ? Color.red : Color.white;
         }
 
         public void SetSpecialClickEvent(UnityAction action)

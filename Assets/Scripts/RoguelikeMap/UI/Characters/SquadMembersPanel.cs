@@ -3,21 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using OrderElimination;
 using OrderElimination.MacroGame;
-using Sirenix.Serialization;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace RoguelikeMap.UI.Characters
 {
     public class SquadMembersPanel : ChoosingSquadMembersPanel
     {
         [SerializeField] 
+        private Button _attackButton;
+        [SerializeField] 
         private int MaxSquadSize = 3;
         
         private int _selectedCount = -1;
         
         public event Action<List<GameCharacter>, int> OnSelected;
+        public event Action OnAttack;
 
+        public void SetActiveAttackButton(bool isActive)
+        {
+            _attackButton.gameObject.SetActive(isActive);
+        }
+        
         public void UpdateMembers(IReadOnlyList<GameCharacter> activeMembers, IReadOnlyList<GameCharacter> inactiveMembers)
         {
             if (_characterCards is not null)
@@ -82,5 +90,7 @@ namespace RoguelikeMap.UI.Characters
                 Destroy(card.gameObject);
             _characterCards.Clear();
         }
+
+        public void ClickAttack() => OnAttack?.Invoke();
     }
 }

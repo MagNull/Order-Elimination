@@ -28,10 +28,5 @@ namespace StartSessionMenu
             builder.RegisterComponent(sceneTransition);
             builder.RegisterComponent(_characterInfoPanel);
         }
-        
-        private void OnApplicationQuit()
-        {
-            InventorySerializer.Delete();
-        }
     }
 }

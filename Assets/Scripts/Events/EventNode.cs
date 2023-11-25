@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using GameInventory.Items;
 using OrderElimination.Events;
 using RoguelikeMap.UI.PointPanels;
@@ -28,7 +29,13 @@ namespace Events
         public bool IsRequiredItem { get; private set; }
 
         [SerializeField, ShowIf("IsRequiredItem")]
-        private ItemData _item;
+        private List<ItemData> _requiredItems;
+        
+        [field: SerializeField]
+        public bool IsAddItem { get; private set; }
+
+        [SerializeField, ShowIf("IsAddItem")]
+        private List<ItemData> _addedItems;
         
         public override object GetValue(NodePort port)
         {
@@ -52,8 +59,12 @@ namespace Events
         {
             var eventGraph = graph as EventPointGraph;
             eventGraph.currentNode = this;
-            if(IsRequiredItem)
-                panel.SpendItem(_item);
+            if (IsRequiredItem)
+                panel.SpendItems(_requiredItems);
+
+            if (IsAddItem)
+                panel.AddItems(_addedItems);
+                
             panel.UpdateText(text);
             panel.UpdateSprite(_image);
         }

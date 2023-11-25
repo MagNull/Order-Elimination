@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using GameInventory.Items;
 using OrderElimination;
+using OrderElimination.Battle;
 using OrderElimination.Events;
 using OrderElimination.MacroGame;
 using RoguelikeMap.UI.PointPanels;
@@ -17,11 +18,14 @@ namespace Events
         
         [SerializeField]
         private List<CharacterTemplate> _enemies;
+        [SerializeReference]
+        private IBattleMapLayout _mapLayout;
 
-        [field: SerializeField] 
-        public BattleScenario Scenario { get; private set; }
+        [field: SerializeField]
+        public BattleRulesPreset BattleRules;
         [field: SerializeField]
         public SerializedDictionary<ItemData, float> ItemsDropProbability { get; private set; }
+        public IBattleMapLayout MapLayout => _mapLayout;
 
         public IReadOnlyList<CharacterTemplate> Enemies => _enemies;
 

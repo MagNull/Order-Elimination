@@ -10,7 +10,7 @@ namespace RoguelikeMap.UI
     public class Panel : MonoBehaviour
     {
         [SerializeField]
-        private float _windowOpeningTime = 0.3f;
+        protected float _windowOpeningTime = 0.3f;
         [SerializeField]
         private Ease _windowOpeningEase = Ease.Flash;
         [SerializeField]
@@ -21,15 +21,15 @@ namespace RoguelikeMap.UI
         private PanelOpeningType _openingType = PanelOpeningType.None;
         private Vector3? _localScale;
         [SerializeField, ShowIf("_openingType", PanelOpeningType.Shift)]
-        private bool _isHaveCameraShift;
+        protected bool _isHaveCameraShift;
         [SerializeField, ShowIf("_isHaveCameraShift")]
         private CinemachineVirtualCamera _camera;
         [SerializeField, ShowIf("_openingType", PanelOpeningType.Shift)]
         private CanvasScaler _canvasScaler;
         [SerializeField, ShowIf("_openingType", PanelOpeningType.Shift)]
-        private float _shift;
+        protected float _shift;
 
-        private float _scaleRatio;
+        protected float _scaleRatio;
         private CinemachineTransposer _transposer;
 
         public event Action OnOpen;
@@ -94,18 +94,17 @@ namespace RoguelikeMap.UI
             _mask.DOFade(isActive ? 0.65f : 0, _windowOpeningTime);
         }
 
-        private void OpenWithShift()
+        protected virtual void OpenWithShift()
         {
             if(_scaleRatio is default(float))
                 InitializeCanvasSettings();
 
-            var a = Screen.width - _shift * _scaleRatio;
-            transform.DOMoveX(a, _windowOpeningTime);
+            transform.DOMoveX(Screen.width - _shift * _scaleRatio, _windowOpeningTime);
             if(_isHaveCameraShift)
                 DoCameraShift();
         }
 
-        private void DoCameraShift()
+        protected void DoCameraShift()
         {
             _transposer ??= _camera.GetCinemachineComponent<CinemachineTransposer>();
             
@@ -123,18 +122,17 @@ namespace RoguelikeMap.UI
                 .OnComplete(() => gameObject.SetActive(false));
         }
 
-        private void CloseWithShift()
+        protected virtual void CloseWithShift()
         {
             if(_scaleRatio is default(float))
                 InitializeCanvasSettings();
             
-            var a = Screen.width + _shift * _scaleRatio;
             transform.DOMoveX(Screen.width + _shift * _scaleRatio, _windowOpeningTime);
             if(_isHaveCameraShift)
                 DoCameraShift();
         }
         
-        private void InitializeCanvasSettings()
+        protected void InitializeCanvasSettings()
         {
             if (_openingType is not PanelOpeningType.Shift)
                 return;
