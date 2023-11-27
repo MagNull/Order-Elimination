@@ -1,7 +1,6 @@
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class SpriteTextValueElement : MonoBehaviour
 {
