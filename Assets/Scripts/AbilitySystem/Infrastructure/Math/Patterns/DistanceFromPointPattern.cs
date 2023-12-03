@@ -69,7 +69,7 @@ namespace OrderElimination.Infrastructure
             {
                 var minIntDistance = Mathf.CeilToInt(MinDistanceFromOrigin);
                 var maxIntDistance = Mathf.FloorToInt(MaxDistanceFromOrigin);
-                return CoordinateIsInSymmetricalSquare(pos.x, pos.y, minIntDistance, maxIntDistance);
+                return CoordinateIsInSquareRing(pos.x, pos.y, minIntDistance, maxIntDistance);
             }
             var sqrMagnitude = pos.sqrMagnitude;
             var minDistSqr = MinDistanceFromOrigin * MinDistanceFromOrigin;
@@ -89,7 +89,7 @@ namespace OrderElimination.Infrastructure
                     var pos = new Vector2Int(x, y);
                     if (UseSquareDistance)
                     {
-                        if (!CoordinateIsInSymmetricalSquare(x, y, minIntDistance, maxIntDistance))
+                        if (!CoordinateIsInSquareRing(x, y, minIntDistance, maxIntDistance))
                             continue;
                         filteredPoints.Add(pos);
                         continue;
@@ -104,7 +104,7 @@ namespace OrderElimination.Infrastructure
             return filteredPoints.Select(p => p + originPoint).ToArray();
         }
 
-        private bool CoordinateIsInSymmetricalSquare(int x, int y, int minRange, int maxRange)
+        private bool CoordinateIsInSquareRing(int x, int y, int minRange, int maxRange)
         {
             x = Mathf.Abs(x);
             y = Mathf.Abs(y);
@@ -113,10 +113,10 @@ namespace OrderElimination.Infrastructure
 
             if (maxRange < minRange)
                 throw new ArgumentException();
-            // -max -min 0 +min +max
+            //0 -max 1 -min 0 +min 1 +max 0
 
-            return minRange <= x && x <= maxRange 
-                && minRange <= y && y <= maxRange;
+            return x <= maxRange && y <= maxRange
+                && (x >= minRange || y >= minRange);
         }
     }
 }

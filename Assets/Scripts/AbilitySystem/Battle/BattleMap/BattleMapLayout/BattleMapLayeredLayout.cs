@@ -4,7 +4,9 @@ using OrderElimination.Utils;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using Sirenix.Utilities;
+#if UNITY_EDITOR
 using Sirenix.Utilities.Editor;
+#endif
 using System;
 using System.Collections.Generic;
 using System.Linq;
