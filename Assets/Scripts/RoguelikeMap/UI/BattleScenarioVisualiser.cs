@@ -52,14 +52,15 @@ namespace RoguelikeMap.UI
 
         public void UpdateCharactersCells(IReadOnlyList<GameCharacter> characters, BattleSide side)
         {
-            var charactersToSpawn = new Queue<GameCharacter>(characters);
-            foreach (var spawn in _mapLayout.GetSpawns())
+            if (characters.Count == 0)
+                return;
+            var spawns = _mapLayout.GetSpawns().Where(s => s.SpawningSides[side]).ToList();
+            if (characters.Count > spawns.Count)
+                throw new System.InvalidOperationException("Not enough appropriate spawns.");
+            for (var i = 0; i < characters.Count; i++)
             {
-                if (spawn.SpawningSides[side])
-                {
-                    UpdateCell(
-                        spawn.Position, charactersToSpawn.Dequeue().CharacterData.BattleIcon);
-                }
+                UpdateCell(
+                        spawns[i].Position, characters[i].CharacterData.BattleIcon);
             }
         }
 
