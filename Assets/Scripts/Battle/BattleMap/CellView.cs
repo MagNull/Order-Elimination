@@ -8,7 +8,9 @@ public class CellView : MonoBehaviour
     public event Action<CellView> CellClicked;
 
     [SerializeField]
-    private SpriteRenderer _renderer;
+    private SpriteRenderer _renderer; 
+    [SerializeField]
+    private SpriteRenderer _backgroundRenderer;
     [SerializeField]
     private BoxCollider2D _collider;
 
@@ -34,12 +36,16 @@ public class CellView : MonoBehaviour
     {
         if (_renderer != null)
             _renderer.material.color = color;
+        if (_backgroundRenderer != null)
+            _backgroundRenderer.material.color = color;
     }
 
     public void Delight()
     {
         if (_renderer != null)
             _renderer.material.color = _basicCellTint;
+        if (_backgroundRenderer != null)
+            _backgroundRenderer.material.color = _basicCellTint;
     }
 
     private void OnMouseDown()

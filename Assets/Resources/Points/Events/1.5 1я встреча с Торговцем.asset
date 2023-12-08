@@ -1,0 +1,4021 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9160612919958543762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e28619e1d6b54f58b69948bb61f0c676, type: 3}
+  m_Name: "\u0412\u044B\u0431\u043E\u0440 \u043F\u0443\u0442\u0438"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 200, y: -8}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -9160612919958543762}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 1648141056745088361}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -9160612919958543762}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -2579542656124532325}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: -4648162568319277143}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: 7286422005986784249}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0412\u044B\u0431\u043E\u0440 \u043F\u0443\u0442\u0438"
+  <IsRandom>k__BackingField: 0
+  _answers:
+  - "\u0421\u043F\u0443\u0441\u0442\u0438\u0442\u044C\u0441\u044F \u0432 \u043C\u0435\u0442\u0440\u043E"
+  - "\u041F\u0440\u043E\u0439\u0442\u0438 \u0447\u0435\u0440\u0435\u0437 \u0422\u0420\u0426"
+  - "\u041F\u043E\u0434\u043D\u044F\u0442\u044C\u0441\u044F \u043D\u0430 \u043A\u0440\u044B\u0448\u0438"
+--- !u!114 &-8951724450919868195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2584, y: -472}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -8951724450919868195}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 1183468848962879052}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: 3391204924586447971}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -8951724450919868195}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 2926543293371927303}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u041A\u043E\u0433\u0434\u0430 \u043E\u043D\u043E \u0440\u0430\u0441\u0441\u0435\u044F\u043B\u043E\u0441\u044C,
+    \u0432\u044B \u0443\u0432\u0438\u0434\u0435\u043B\u0438 \u0442\u0440\u0435\u0445
+    \u043C\u0435\u0442\u0440\u043E\u0432\u043E\u0433\u043E \u043C\u043E\u043D\u0441\u0442\u0440\u0430,
+    \u043D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u044E\u0449\u0435\u0433\u043E
+    \u043E\u0433\u0440\u043E\u043C\u043D\u043E\u0433\u043E \u043A\u0440\u0430\u0431\u0430...\u043E\u0447\u0435\u043D\u044C
+    \u0437\u043B\u043E\u0433\u043E \u043A\u0440\u0430\u0431\u0430."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-8922880593851881816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 4952, y: 280}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -8922880593851881816}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -1401658730662677688}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -8922880593851881816}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -1727541091782090811}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u041F\u044B\u043B\u0435\u0432\u043E\u0435 \u043E\u0431\u043B\u0430\u043A\u043E
+    \u043F\u043E\u0447\u0442\u0438 \u0440\u0430\u0441\u0441\u0435\u044F\u043B\u043E\u0441\u044C,
+    \u0441\u0443\u0434\u044F \u043F\u043E \u043A\u0430\u0440\u0442\u0435 \u043E\u0442\u0441\u044E\u0434\u0430
+    \u043C\u043E\u0436\u043D\u043E \u0432\u044B\u0439\u0442\u0438 \u043A\u0430\u043A
+    \u0440\u0430\u0437 \u0443 \u0440\u0430\u043D\u0435\u0435 \u0437\u0430\u043F\u043B\u0430\u043D\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u043E\u0433\u043E
+    \u043C\u0435\u0441\u0442\u0430...\u0432\u043E\u0442 \u0442\u043E\u043B\u044C\u043A\u043E
+    \u043F\u0443\u0442\u044C \u043F\u0440\u0435\u0433\u0440\u0430\u0434\u0438\u043B
+    \u044D\u0442\u043E\u0442 \u0437\u0434\u043E\u0440\u043E\u0432\u044B\u0439 \u043C\u043E\u043D\u0441\u0442\u0440."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-8337294580584919626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0594005723bb4e538e8c9c4938d94fb4, type: 3}
+  m_Name: "\u0412\u0441\u0442\u0440\u0435\u0447\u0430"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -792, y: -56}
+  ports:
+    keys:
+    - exits
+    values:
+    - _fieldName: exits
+      _node: {fileID: -8337294580584919626}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -3559480479111933553}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0412\u0441\u0442\u0440\u0435\u0447\u0430"
+  _text: "\u0414\u043E \u0441\u0442\u043E\u043B\u043F\u0430 \u0441\u0432\u0435\u0442\u0430
+    \u0435\u0449\u0435 \u043D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u043A\u0432\u0430\u0440\u0442\u0430\u043B\u043E\u0432.
+    \u041D\u043E \u0441\u043E \u0432\u0441\u0435\u0445 \u0441\u0442\u043E\u0440\u043E\u043D
+    \u0434\u043E\u043D\u043E\u0441\u0438\u0442\u0441\u044F \u0441\u043A\u0440\u0435\u0436\u0435\u0442
+    \u043C\u043E\u043D\u0441\u0442\u0440\u043E\u0432...\u043A\u0430\u043A-\u0431\u0443\u0434\u0442\u043E
+    \u043E\u043D\u0438 \u0443\u0436\u0435 \u043E\u043A\u0440\u0443\u0436\u0438\u043B\u0438
+    \u0432\u0430\u0441."
+  _sprite: {fileID: 21300000, guid: 244d6888cde8edd49924575db2b1d6aa, type: 3}
+--- !u!114 &-8219957856647372970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3272, y: 1016}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -8219957856647372970}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 3764317834677346039}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -8219957856647372970}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 5017467164895145699}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\"\u0429\u0410 \u0420\u0412\u0410\u041D\u0415\u0422! \u041A \u043F\u0440\u043E\u0442\u0438\u0432\u043E\u043F\u043E\u043B\u043E\u0436\u043D\u043E\u043C\u0443
+    \u043A\u0440\u0430\u044E \u0437\u0434\u0430..!\""
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-8047098990945643813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3944, y: -408}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -8047098990945643813}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -3033442956533699660}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: 2798579191163497392}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: 8429278103432269919}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: 9171428117737663126}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: -3221492412934055189}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -8047098990945643813}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -4847227968744648812}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 09d1b96bf9568d64e9f561747fe62877, type: 3}
+  text: "\u0421\u0438\u043B\u0443\u0435\u0442 \u043F\u043E\u0432\u0435\u0440\u043D\u0443\u043B\u0441\u044F
+    \u0432 \u0432\u0430\u0448\u0443 \u0441\u0442\u043E\u0440\u043E\u043D\u0443.\n\"\u041E\u0445,
+    \u043E\u0447\u0435\u0440\u0435\u0434\u043D\u044B\u0435 \u0437\u0430\u0431\u043B\u0443\u0434\u0448\u0438\u0435
+    \u0434\u0443\u0448\u0438! \u042F \u0437\u043D\u0430\u044E \u0447\u0442\u043E
+    \u0432\u044B \u043F\u0440\u044F\u0447\u0435\u0442\u0435\u0441\u044C \u0437\u0430
+    \u043F\u0435\u0440\u0435\u0433\u043E\u0440\u043E\u0434\u043A\u0430\u043C\u0438,
+    \u0443\u0432\u0435\u0440\u044F\u044E, \u044F \u0432\u0430\u043C \u043D\u0435
+    \u0432\u0440\u0430\u0433!\""
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-8045235520315615413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 5416, y: -296}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -8045235520315615413}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -7495793487086290108}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -8045235520315615413}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -3839024815658893884}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 09d1b96bf9568d64e9f561747fe62877, type: 3}
+  text: "\"\u0412 \u0447\u0435\u0441\u0442\u044C \u0437\u043D\u0430\u043A\u043E\u043C\u0441\u0442\u0432\u0430
+    \u043F\u0440\u0435\u0434\u043B\u0430\u0433\u0430\u044E \u0432\u0430\u043C \u0432\u044B\u0433\u043E\u0434\u043D\u044B\u0439
+    \u043E\u0431\u043C\u0435\u043D: \u043C\u0435\u0434\u043F\u0430\u043A \u043D\u0430
+    \u043F\u0430\u0442\u0440\u043E\u043D\u044B \"\u0414\u0438\u043A\u043E\u0431\u0440\u0430\u0437\"!
+    \u0414\u0443\u043C\u0430\u044E \u0432\u0430\u043C \u044D\u0442\u043E \u043E\u0447\u0435\u043D\u044C
+    \u043F\u0440\u0438\u0433\u043E\u0434\u0438\u0442\u044C\u0441\u044F.\""
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-7633599106455955366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3656, y: 664}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -7633599106455955366}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 7565798499723321869}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -7633599106455955366}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -1299873296245174281}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\"\u041D\u0430\u0437\u0430\u0434! \u041F\u043E\u043A\u0430 \u043D\u0430\u0441
+    \u0442\u0443\u0442 \u043D\u0435 \u0437\u0430\u043C\u0443\u0440\u043E\u0432\u0430\u043B\u043E!\"\n\u042D\u0442\u043E
+    \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0435\u0435 \u0447\u0442\u043E \u0432\u044B
+    \u0443\u0441\u043F\u0435\u043B\u0438 \u0441\u043A\u0430\u0437\u0430\u0442\u044C,
+    \u043F\u0440\u0435\u0436\u0434\u0435 \u0447\u0435\u043C \u043F\u0440\u043E\u0432\u0430\u043B\u0438\u043B\u0441\u044F
+    \u043F\u043E\u0442\u043E\u043B\u043E\u043A, \u0430 \u0437\u0430\u0442\u0435\u043C
+    \u0438 \u043F\u043E\u043B \u0432\u043C\u0435\u0441\u0442\u0435 \u0441 \u043E\u0442\u0440\u044F\u0434\u043E\u043C."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-7559587977339296166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2680, y: -88}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -7559587977339296166}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 5897233075574686066}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -7559587977339296166}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -2681055383990703904}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u0412\u043E\u0437\u043C\u043E\u0436\u043D\u043E \u0432 \u043C\u0430\u0433\u0430\u0437\u0438\u043D\u0435
+    \u0435\u0449\u0435 \u0443\u0446\u0435\u043B\u0435\u043B\u0438 \u0443\u043B\u0443\u0447\u0448\u0435\u043D\u043D\u044B\u0435
+    \u043C\u043E\u0434\u0435\u043B\u0438 \u044D\u043A\u0438\u043F\u0438\u0440\u043E\u0432\u043A\u0438,
+    \u0434\u0430 \u0438 \u0432\u0441\u0435 \u0440\u0430\u0432\u043D\u043E \u043F\u043E
+    \u043F\u0443\u0442\u0438. \u0418\u043D\u0442\u0435\u0440\u0435\u0441\u043D\u043E,
+    \u0442\u0435\u0440\u043C\u0438\u043D\u0430\u043B \u043E\u043F\u043B\u0430\u0442\u044B
+    \u0435\u0449\u0435 \u0440\u0430\u0431\u043E\u0442\u0430\u0435\u0442?..."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-7495793487086290108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 5112, y: -296}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -7495793487086290108}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -5684706175324624423}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -7495793487086290108}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -8045235520315615413}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 09d1b96bf9568d64e9f561747fe62877, type: 3}
+  text: "\u041F\u0435\u0440\u0435\u0434\u0430\u0434\u0438\u0442\u0435 \u043C\u043D\u0435
+    \u043D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0440\u0435\u0434\u043A\u0438\u0445
+    \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u043E\u0432, \u0430 \u044F \u043E\u0442\u043A\u0440\u043E\u044E
+    \u0434\u043B\u044F \u0432\u0430\u0441 \u043F\u043E\u0440\u0442\u0430\u043B \u0432
+    \u0432\u0430\u0448 \u0440\u043E\u0434\u043D\u043E\u0439 \u043C\u0438\u0440. \u041E\u0431\u044B\u0447\u043D\u043E
+    \u044F \u0437\u0430\u0440\u0430\u043D\u0435\u0435 \u0431\u0443\u0434\u0443 \u043D\u0430\u0437\u044B\u0432\u0430\u0442\u044C
+    \u0438\u043D\u0442\u0435\u0440\u0435\u0441\u0443\u044E\u0449\u0438\u0439 \u043C\u0435\u043D\u044F
+    \u043F\u0440\u0435\u0434\u043C\u0435\u0442."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-7306478785480864589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 1320, y: -216}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -7306478785480864589}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 8138342400149595096}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -7306478785480864589}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 5880970378952498101}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u0421\u043F\u0443\u0441\u0442\u044F 36 \u043C\u0438\u043D\u0443\u0442...."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-6973833361742318064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 5960, y: -328}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -6973833361742318064}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -3839024815658893884}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -6973833361742318064}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -1610046754501681903}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 09d1b96bf9568d64e9f561747fe62877, type: 3}
+  text: "\"\u041F\u0440\u0435\u0432\u043E\u0441\u0445\u043E\u0434\u043D\u043E!  \u041C\u044B
+    \u0435\u0449\u0435 \u0432\u0441\u0442\u0440\u0435\u0442\u0438\u043C\u0441\u044F,
+    \u0442\u0430\u043A \u0447\u0442\u043E \u043D\u0435 \u0443\u043F\u0443\u0441\u0442\u0438\u0442\u0435
+    \u0432\u043E\u0437\u043C\u043E\u0436\u043D\u043E\u0441\u0442\u044C \u0437\u0430\u0440\u0430\u0431\u043E\u0442\u0430\u0442\u044C
+    \u0431\u0438\u043B\u0435\u0442 \u043E\u0442\u0441\u044E\u0434\u0430!\"\n\u041E\u043D
+    \u043C\u0430\u0445\u043D\u0443\u043B \u0432\u0430\u043C \u0438 \u043F\u0440\u044B\u0433\u043D\u0443\u043B
+    \u0432 \u0434\u044B\u0440\u0443 \u0432 \u043F\u043E\u0442\u043E\u043B\u043A\u0435."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 1
+  _addedItems:
+  - {fileID: 11400000, guid: 3f4b55cd8fe5df045a219143a8ce0476, type: 2}
+--- !u!114 &-6445940958355033687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3992, y: 1016}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -6445940958355033687}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 5017467164895145699}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -6445940958355033687}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 5212949478611905195}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u041C\u0430\u043B\u043E \u0432\u0430\u043B \u0431\u044B\u043B\u043E \u043E\u0431\u0440\u0443\u0448\u0435\u043D\u0438\u044F,
+    \u0442\u0430\u043A \u0435\u0449\u0435 \u0438 \u0437\u0435\u043C\u043B\u044F \u043F\u043E\u0434
+    \u043E\u0431\u043B\u043E\u043C\u043A\u0430\u043C\u0438 \u043D\u0430\u0447\u0430\u043B\u0430
+    \u043F\u0440\u043E\u0432\u0430\u043B\u0438\u0432\u0430\u0442\u044C\u0441\u044F!
+    \u0412\u044B \u043D\u0435 \u0443\u0441\u043F\u0435\u043B\u0438 \u0434\u0430\u0436\u0435
+    \u043F\u043E\u0434\u043D\u044F\u0442\u044C\u0441\u044F, \u043F\u0440\u0435\u0436\u0434\u0435
+    \u0447\u0435\u043C \u0432\u0435\u0441\u044C \u043E\u0442\u0440\u044F\u0434 \u043F\u0440\u043E\u0432\u0430\u043B\u0438\u043B\u0441\u044F
+    \u043F\u043E\u0434 \u0437\u0435\u043C\u043B\u044E."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-5684706175324624423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 4808, y: -296}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -5684706175324624423}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 533204050168969117}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -5684706175324624423}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -7495793487086290108}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 09d1b96bf9568d64e9f561747fe62877, type: 3}
+  text: "\"\u042F \u043F\u0440\u0435\u043A\u0440\u0430\u0441\u043D\u043E \u043F\u043E\u043D\u0438\u043C\u0430\u044E,
+    \u0447\u0442\u043E \u0432\u044B \u0438\u0449\u0435\u0442\u0435 \u0441\u043F\u043E\u0441\u043E\u0431
+    \u0432\u044B\u0431\u0440\u0430\u0442\u044C\u0441\u044F \u0438\u0437 \u044D\u0442\u043E\u0433\u043E
+    \u0438\u0437\u043C\u0435\u0440\u0435\u043D\u0438\u044F! \u0410 \u044F \u0438\u0449\u0443
+    \u0440\u0435\u0434\u043A\u0438\u0435 \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u044B
+    \u0432 \u0441\u0432\u043E\u044E \u043A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u044E. "
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-4977509248825714975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2152, y: -472}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -4977509248825714975}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 5880970378952498101}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -4977509248825714975}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -1899397200169894458}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u0412\u044B \u0441\u043B\u044B\u0448\u0438\u0442\u0435 \u0433\u043E\u043B\u043E\u0441\u0430,
+    \u043E\u043D\u0438 \u043A\u0430\u043A-\u0431\u0443\u0434\u0442\u043E \u0447\u0442\u043E-\u0442\u043E
+    \u0438\u0441\u043F\u0443\u0433\u0430\u043D\u043D\u043E \u043E\u0431\u0441\u0443\u0436\u0434\u0430\u044E\u0442.
+    \u041D\u0438\u0447\u0435\u0433\u043E \u043D\u0435 \u043F\u043E\u043B\u0443\u0447\u0430\u0435\u0442\u0441\u044F
+    \u0440\u0430\u0437\u043E\u0431\u0440\u0430\u0442\u044C, \u0430 \u0433\u043E\u043B\u043E\u0441\u0430
+    \u0432\u0441\u0435 \u0433\u0440\u043E\u043C\u0447\u0435!"
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-4847227968744648812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e28619e1d6b54f58b69948bb61f0c676, type: 3}
+  m_Name: ForkNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 4264, y: -360}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -4847227968744648812}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -8047098990945643813}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -4847227968744648812}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -2932612716863347213}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: 533204050168969117}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  <IsRandom>k__BackingField: 0
+  _answers:
+  - "\u041D\u0435 \u0440\u0435\u0430\u0433\u0438\u0440\u043E\u0432\u0430\u0442\u044C."
+  - "\"\u041A\u0442\u043E \u0442\u044B?\""
+--- !u!114 &-4648162568319277143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: "\u0422\u0420\u0426"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 552, y: 184}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -4648162568319277143}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -9160612919958543762}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -4648162568319277143}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 4467331469178715445}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0422\u0420\u0426"
+  _image: {fileID: 21300000, guid: e0d0a9ccbdc9d0345835fe2fdc7accce, type: 3}
+  text: "\u041A\u043E\u0433\u0434\u0430-\u0442\u043E \u043F\u043E\u043B\u043D\u044B\u0439
+    \u0436\u0438\u0437\u043D\u0438 \u0438 \u0448\u0443\u043C\u0430 \u0442\u043E\u0440\u0433\u043E\u0432\u043E-\u0440\u0430\u0437\u0432\u043B\u0435\u043A\u0430\u0442\u0435\u043B\u044C\u043D\u044B\u0439
+    \u0446\u0435\u043D\u0442\u0440 \u0441\u0435\u0439\u0447\u0430\u0441 \u0432\u044B\u0433\u043B\u044F\u0434\u0438\u0442
+    \u043C\u0440\u0430\u0447\u043D\u044B\u043C \u0438 \u0437\u0430\u0431\u0440\u043E\u0448\u0435\u043D\u043D\u044B\u043C,
+    \u0430 \u0432\u043D\u0443\u0442\u0440\u0438 \u0446\u0430\u0440\u0438\u0442 \u0442\u0438\u0448\u0438\u043D\u0430
+    \u0438 \u043F\u0443\u0441\u0442\u043E\u0442\u0430. \u0412\u043D\u0443\u0442\u0440\u0438
+    \u043C\u043E\u0436\u043D\u043E \u0443\u0432\u0438\u0434\u0435\u0442\u044C \u0440\u0430\u0437\u0431\u0438\u0442\u044B\u0435
+    \u0432\u0438\u0442\u0440\u0438\u043D\u044B, \u043E\u0431\u043B\u043E\u043C\u043A\u0438
+    \u043F\u0440\u0438\u043B\u0430\u0432\u043A\u043E\u0432 \u0438 \u0440\u0430\u0437\u043E\u0440\u0432\u0430\u043D\u043D\u044B\u0435
+    \u0430\u0444\u0438\u0448\u0438. "
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-4446444434322188244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 5976, y: 120}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -4446444434322188244}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -3839024815658893884}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -4446444434322188244}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -1610046754501681903}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 09d1b96bf9568d64e9f561747fe62877, type: 3}
+  text: "\u0421\u0438\u043B\u0443\u0435\u0442 \u043F\u0440\u0438\u0431\u043B\u0438\u0437\u0438\u043B\u0441\u044F.\n\"\u0416\u0430\u043B\u044C! 
+    \u041C\u044B \u0435\u0449\u0435 \u043D\u0435 \u0440\u0430\u0437 \u0432\u0441\u0442\u0440\u0435\u0442\u0438\u043C\u0441\u044F,
+    \u0442\u0430\u043A \u0447\u0442\u043E \u043D\u0435 \u0443\u043F\u0443\u0441\u0442\u0438\u0442\u0435
+    \u0432\u044B\u0433\u043E\u0434\u043D\u044B\u0435 \u0441\u0434\u0435\u043B\u043A\u0438
+    \u0432 \u0434\u0430\u043B\u044C\u043D\u0435\u0439\u0448\u0435\u043C!\"\n\u041E\u043D
+    \u043C\u0430\u0445\u043D\u0443\u043B \u0432\u0430\u043C \u0438 \u043F\u0440\u044B\u0433\u043D\u0443\u043B
+    \u0432 \u0434\u044B\u0440\u0443 \u0432 \u043F\u043E\u0442\u043E\u043B\u043A\u0435."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-4130718812092379301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2488, y: 648}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -4130718812092379301}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 5897233075574686066}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -4130718812092379301}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -2841202431137567164}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u0421\u0442\u043E\u0438\u0442 \u043F\u0440\u043E\u0432\u0435\u0440\u0438\u0442\u044C
+    \u0441\u043A\u043B\u0430\u0434. \u0421\u0435\u0439\u0447\u0430\u0441 \u043A\u0430\u0436\u0434\u044B\u0439
+    \u0432\u044B\u0441\u0442\u0440\u0435\u043B \u043D\u0430 \u0432\u0435\u0441 \u0437\u043E\u043B\u043E\u0442\u0430."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-3953205329340229119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 1320, y: 184}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -3953205329340229119}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 4467331469178715445}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -3953205329340229119}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 5465004251863973045}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u0418\u0434\u0435\u044F \u043F\u0440\u043E\u0439\u0442\u0438 \u043D\u0430\u043F\u0440\u044F\u043C\u0438\u043A
+    \u0443\u0436\u0435 \u043D\u0435 \u043A\u0430\u0436\u0435\u0442\u0441\u044F \u0432\u0430\u043C
+    \u0442\u0430\u043A\u043E\u0439 \u0445\u043E\u0440\u043E\u0448\u0435\u0439, \u043D\u043E
+    \u0443\u0436\u0435 \u0442\u0440\u0435\u0442\u044C \u043F\u0443\u0442\u0438 \u043F\u043E\u0437\u0430\u0434\u0438.
+    \u0414\u0430 \u0438 \u0432\u044B \u043D\u0438\u043A\u043E\u0433\u043E \u043D\u0435
+    \u0432\u0442\u0440\u0435\u0442\u0438\u043B\u0438..."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-3839024815658893884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 748e73e7b886488db3a2733e0af2dca6, type: 3}
+  m_Name: ForkWithCondition
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 5720, y: -344}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -3839024815658893884}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -8045235520315615413}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -3839024815658893884}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -6973833361742318064}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: -4446444434322188244}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  <IsRandom>k__BackingField: 0
+  _answers:
+  - "\"\u041F\u043E \u0440\u0443\u043A\u0430\u043C\""
+  - "\"\u0418\u0437\u0432\u0438\u043D\u0438, \u0443 \u043D\u0430\u0441 \u043D\u0435\u0442
+    \u0441 \u0441\u043E\u0431\u043E\u0439\""
+  _conditions: 0100000000000000
+  _requirementItems:
+  - {fileID: 11400000, guid: 75eabdd86c4db6a41bd21cf6611a648e, type: 2}
+  _requirementCharacter: []
+--- !u!114 &-3559480479111933553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 748e73e7b886488db3a2733e0af2dca6, type: 3}
+  m_Name: ForkWithCondition
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -504, y: -56}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -3559480479111933553}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -8337294580584919626}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -3559480479111933553}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 1648141056745088361}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: 5820168066477677774}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  <IsRandom>k__BackingField: 0
+  _answers:
+  - ...
+  - "\"\u041E\u043F\u0435\u0440, \u043F\u0443\u0441\u0442\u0438 \u043F\u0442\u0438\u0447\u043A\u0443!\""
+  _conditions: 0000000002000000
+  _requirementItems: []
+  _requirementCharacter:
+  - {fileID: 11400000, guid: 04588733ccd1f2a4bb0aad35a508b4de, type: 2}
+--- !u!114 &-3221492412934055189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3640, y: -1240}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -3221492412934055189}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -1727541091782090811}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -3221492412934055189}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -8047098990945643813}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u0418\u0437 \u0434\u044B\u0440\u044B \u0432 \u043F\u043E\u0442\u043E\u043B\u043A\u0435
+    \u0441\u043F\u0440\u044B\u0433\u043D\u0443\u043B \u0441\u0438\u043B\u0443\u0435\u0442
+    \u0432 \u043F\u043B\u0430\u0449\u0435. \u041E\u043D \u043F\u0440\u0435\u0437\u0435\u043C\u043B\u0438\u043B\u0441\u044F
+    \u043D\u0430 \"\u0433\u043E\u043B\u043E\u0432\u0443\" \u043C\u043E\u043D\u0441\u0442\u0440\u0430,
+    \u0438\u0437-\u0437\u0430 \u0447\u0435\u0433\u043E \u0442\u043E\u0433\u043E \u0432\u0434\u0430\u0432\u0438\u043B\u043E
+    \u0432 \u043F\u043E\u043B \u0442\u043E\u043D\u043D\u0435\u043B\u044F."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-3033442956533699660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3640, y: -136}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -3033442956533699660}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -1727541091782090811}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -3033442956533699660}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -8047098990945643813}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u0418\u0437 \u0434\u044B\u0440\u044B \u0432 \u043F\u043E\u0442\u043E\u043B\u043A\u0435
+    \u0441\u043F\u0440\u044B\u0433\u043D\u0443\u043B \u0441\u0438\u043B\u0443\u0435\u0442
+    \u0432 \u043F\u043B\u0430\u0449\u0435. \u041E\u043D \u043F\u0440\u0435\u0437\u0435\u043C\u043B\u0438\u043B\u0441\u044F
+    \u043D\u0430 \"\u0433\u043E\u043B\u043E\u0432\u0443\" \u043C\u043E\u043D\u0441\u0442\u0440\u0430,
+    \u0438\u0437-\u0437\u0430 \u0447\u0435\u0433\u043E \u0442\u043E\u0433\u043E \u0432\u0434\u0430\u0432\u0438\u043B\u043E
+    \u0432 \u043F\u043E\u043B \u0442\u043E\u043D\u043D\u0435\u043B\u044F."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-2932612716863347213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 4808, y: -712}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -2932612716863347213}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -4847227968744648812}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -2932612716863347213}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -650401374797561230}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 09d1b96bf9568d64e9f561747fe62877, type: 3}
+  text: "\"\u0427\u0442\u043E\u0436, \u043F\u043E\u0445\u043E\u0436\u0435 \u0432\u044B
+    \u043D\u0435 \u043D\u0430\u0441\u0442\u0440\u043E\u0435\u043D\u044B \u043D\u0430
+    \u0441\u043E\u0442\u0440\u0443\u0434\u043D\u0438\u0447\u0435\u0441\u0442\u0432\u043E.
+    \u041C\u044B \u0435\u0449\u0435 \u043D\u0435 \u0440\u0430\u0437 \u0432\u0441\u0442\u0440\u0435\u0442\u0438\u043C\u0441\u044F,
+    \u0442\u0430\u043A \u0447\u0442\u043E \u043D\u0435 \u0443\u043F\u0443\u0441\u0442\u0438\u0442\u0435
+    \u0432\u044B\u0433\u043E\u0434\u043D\u044B\u0435 \u0441\u0434\u0435\u043B\u043A\u0438
+    \u0432 \u0434\u0430\u043B\u044C\u043D\u0435\u0439\u0448\u0435\u043C!\""
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-2841202431137567164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2872, y: 664}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -2841202431137567164}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -4130718812092379301}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -2841202431137567164}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 7565798499723321869}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "-\"\u041A\u044D\u043F, \u0442\u0443\u0442 \u043F\u043E\u0442\u043E\u043B\u043E\u043A
+    \u043C\u043E\u0436\u0435\u0442 \u043E\u0431\u0440\u0443\u0448\u0438\u0442\u044C\u0441\u044F,
+    \u043B\u0443\u0447\u0448\u0435 \u0434\u0432\u0438\u0433\u0430\u0442\u044C\u0441\u044F
+    \u043F\u043E \u043F\u0440\u0430\u0432\u043E\u043C\u0443 \u043A\u0440\u0430\u044E\"\n-\"\u041F\u0430\u0440\u043D\u0438,
+    \u0434\u0432\u0438\u0433\u0430\u0435\u043C\u0441\u044F \u043F\u043E \u043F\u0440\u0430\u0432\u043E\u043C\u0443
+    \u043A\u0440\u0430\u044E. \u0415\u0449\u0435 \u043E\u0431\u0432\u0430\u043B\u0430
+    \u043D\u0430\u043C \u043D\u0435 \u0445\u0432\u0430\u0442\u0430...\" "
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-2681055383990703904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2872, y: 280}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -2681055383990703904}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 6234791109986515235}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: -7559587977339296166}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -2681055383990703904}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 4568421182379747419}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "-\"\u041A\u044D\u043F, \u0442\u0443\u0442 \u043F\u043E\u043B \u043C\u043E\u0436\u0435\u0442
+    \u043E\u0431\u0440\u0443\u0448\u0438\u0442\u044C\u0441\u044F, \u043B\u0443\u0447\u0448\u0435
+    \u0434\u0432\u0438\u0433\u0430\u0442\u044C\u0441\u044F \u043F\u043E \u043B\u0435\u0432\u043E\u043C\u0443
+    \u043A\u0440\u0430\u044E\"\n-\"\u041F\u0430\u0440\u043D\u0438, \u0434\u0432\u0438\u0433\u0430\u0435\u043C\u0441\u044F
+    \u043F\u043E \u043B\u0435\u0432\u043E\u043C\u0443 \u043A\u0440\u0430\u044E. \u0415\u0449\u0435
+    \u043E\u0431\u0432\u0430\u043B\u0430 \u043D\u0430\u043C \u043D\u0435 \u0445\u0432\u0430\u0442\u0430...\" "
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-2579542656124532325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: "\u041C\u0435\u0442\u0440\u043E"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 552, y: -216}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -2579542656124532325}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -9160612919958543762}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -2579542656124532325}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 8138342400149595096}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u041C\u0435\u0442\u0440\u043E"
+  _image: {fileID: 21300000, guid: c05f2b731b5d05b41803779a3c6c2772, type: 3}
+  text: "\u041D\u0430 \u0443\u0434\u0438\u0432\u043B\u0435\u043D\u0438\u0435 \u043D\u0430
+    \u0441\u0442\u0430\u043D\u0446\u0438\u0438 \u043C\u0435\u0442\u0440\u043E \u043D\u0435
+    \u0431\u044B\u043B\u043E \u043C\u043E\u043D\u0441\u0442\u0440\u043E\u0432. \u0415\u0441\u043B\u0438
+    \u043F\u0440\u043E\u0439\u0442\u0438 \u0434\u043E \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0435\u0439
+    \u0441\u0442\u0430\u043D\u0446\u0438\u0438, \u0442\u043E \u0432\u044B\u0445\u043E\u0434
+    \u0431\u0443\u0434\u0435\u0442 \u043D\u0435\u0434\u0430\u043B\u0435\u043A\u043E
+    \u043E\u0442 \u0441\u0442\u043E\u043B\u043F\u0430 \u0441\u0432\u0435\u0442\u0430."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-2529600096946706710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2488, y: 1016}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -2529600096946706710}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 3762398050494174676}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -2529600096946706710}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 3764317834677346039}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\"\u041A\u043E\u043C\u0430\u043D\u0434\u0438\u0440, \u0442\u043E\u0442 \u043A\u0440\u0430\u0431-\u043F\u0435\u0440\u0435\u0440\u043E\u0441\u0442\u043E\u043A
+    \u043D\u0430\u0441 \u0437\u0430\u043C\u0435\u0442\u0438\u043B! \u041E\u043D \u0441\u0435\u0439\u0447\u0430\u0441
+    \u0432\u0440\u0435\u0436\u0435\u0442\u0441\u044F \u0432 \u043D\u0435\u0441\u0443\u0449\u0443\u044E
+    \u0441\u0442\u0435\u043D\u0443!\""
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-1899397200169894458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2216, y: -856}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -1899397200169894458}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -4977509248825714975}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -1899397200169894458}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 3391204924586447971}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u041A\u0430\u0436\u0434\u0430\u044F \u043A\u043B\u0435\u0442\u043A\u0430
+    \u0432\u0430\u0448\u0435\u0433\u043E \u0442\u0435\u043B\u0430 \u0445\u043E\u0447\u0435\u0442
+    \u043D\u0430\u0440\u0443\u0436\u0443, \u043F\u0440\u043E\u0431\u0438\u0442\u044C
+    \u043F\u043E\u0442\u043E\u043B\u043E\u043A \u0438 \u0432\u044B\u0440\u0432\u0430\u0442\u044C\u0441\u044F
+    \u0438\u0437 \u044D\u0442\u0438\u0445 \u043F\u0440\u043E\u043A\u043B\u044F\u0442\u044B\u0445
+    \u043A\u0430\u0442\u0430\u043A\u043E\u043C\u0431!"
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-1727541091782090811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 748e73e7b886488db3a2733e0af2dca6, type: 3}
+  m_Name: ForkWithCondition
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3400, y: -440}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -1727541091782090811}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 2926543293371927303}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: -8922880593851881816}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -1727541091782090811}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -3033442956533699660}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: 2798579191163497392}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: 8429278103432269919}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: -3221492412934055189}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: 9171428117737663126}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  <IsRandom>k__BackingField: 0
+  _answers:
+  - "\"\u041F\u0435\u0445\u043E\u0442\u0430, \u0433\u043E\u0442\u043E\u0432\u044C\u0442\u0435
+    \u0433\u0440\u0430\u043D\u0430\u0442\u044B!\""
+  - "\"\u041B\u0435\u0442\u0443\u043D, \u0433\u043E\u0442\u043E\u0432\u044C \u0440\u0430\u043A\u0435\u0442\u0443!\""
+  - "\"\u0421\u0442\u0440\u0430\u0436, \u0431\u0443\u0434\u044C \u0433\u043E\u0442\u043E\u0432
+    \u0440\u0443\u0431\u0438\u0442\u044C \u0435\u043C\u0443 \u043A\u043B\u0435\u0448\u043D\u0438!\""
+  - "\"\u0420\u043E\u043D\u0438\u043D, \u0431\u0443\u0434\u044C \u0433\u043E\u0442\u043E\u0432
+    \u0440\u0443\u0431\u0438\u0442\u044C \u0435\u043C\u0443 \u043A\u043B\u0435\u0448\u043D\u0438!\""
+  - "\u041F\u0440\u0438\u0433\u043E\u0442\u043E\u0432\u0438\u0442\u044C\u0441\u044F
+    \u043A \u0431\u043E\u044E"
+  _conditions: 0200000002000000020000000200000000000000
+  _requirementItems: []
+  _requirementCharacter:
+  - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
+  - {fileID: 11400000, guid: 57a8f17e1a66029478c8f69b521e76f4, type: 2}
+  - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
+  - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
+--- !u!114 &-1610046754501681903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e66a698acc7471a99c99286de762602, type: 3}
+  m_Name: "\u041A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u043E\u043D\u0435\u0440"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 6488, y: -648}
+  ports:
+    keys:
+    - entries
+    values:
+    - _fieldName: entries
+      _node: {fileID: -1610046754501681903}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -650401374797561230}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: -4446444434322188244}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: -6973833361742318064}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u041A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u043E\u043D\u0435\u0440"
+  <IsHaveItems>k__BackingField: 0
+  <IsAddMember>k__BackingField: 0
+  _itemsData: []
+  _characters: []
+--- !u!114 &-1401658730662677688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 4568, y: 280}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -1401658730662677688}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 5212949478611905195}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -1401658730662677688}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -8922880593851881816}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\"\u0412\u043E\u0441\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u044C
+    \u043F\u043E\u0441\u0442\u0440\u043E\u0435\u043D\u0438\u0435, \u0437\u0430\u043D\u044F\u0442\u044C
+    \u043F\u043E\u0437\u0438\u0446\u0438\u0438 \u0437\u0430 \u043A\u0430\u0440\u043A\u0430\u0441\u043E\u043C
+    \u0442\u0443\u043D\u043D\u0435\u043B\u044F \u043F\u043E\u043A\u0430 \u043F\u044B\u043B\u044C
+    \u043D\u0435 \u0440\u0430\u0441\u0441\u0435\u044F\u043B\u0430\u0441\u044C!\"\n"
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-1299873296245174281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 4008, y: 664}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -1299873296245174281}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -7633599106455955366}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -1299873296245174281}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 5212949478611905195}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u041F\u043E\u043A\u0430 \u043F\u0435\u0440\u0435\u0434 \u0448\u043B\u0435\u043C\u043E\u043C
+    \u043F\u0440\u043E\u043D\u043E\u0441\u0438\u043B\u0438\u0441\u044C \u043E\u0431\u043B\u043E\u043C\u043A\u0438,
+    \u0432\u044B \u0443\u0441\u043F\u0435\u043B\u0438 \u0437\u0430\u043C\u0435\u0442\u0438\u0442\u044C
+    \u0438\u0433\u0440\u043E\u043C\u043D\u043E\u0433\u043E \u043C\u043E\u043D\u0441\u0442\u0440\u0430,
+    \u043F\u0440\u0438\u043B\u043E\u0436\u0438\u0432\u0448\u0435\u0433\u043E \u0441\u0432\u043E\u044E
+    \u043A\u043B\u0435\u0448\u043D\u044E \u043A \u044D\u0442\u043E\u043C\u0443 \u0445\u0430\u043E\u0441\u0443!"
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-650401374797561230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 5112, y: -712}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -650401374797561230}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -2932612716863347213}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -650401374797561230}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -1610046754501681903}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u041E\u043D \u043C\u0430\u0445\u043D\u0443\u043B \u0432\u0430\u043C \u0438
+    \u043F\u0440\u044B\u0433\u043D\u0443\u043B \u0432 \u0434\u044B\u0440\u0443 \u0432
+    \u043F\u043E\u0442\u043E\u043B\u043A\u0435."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32ee2938fdcf041cabe277e0ee3949d3, type: 3}
+  m_Name: "1.5 1\u044F \u0432\u0441\u0442\u0440\u0435\u0447\u0430 \u0441 \u0422\u043E\u0440\u0433\u043E\u0432\u0446\u0435\u043C"
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: -8337294580584919626}
+  - {fileID: 1648141056745088361}
+  - {fileID: -3559480479111933553}
+  - {fileID: 5820168066477677774}
+  - {fileID: -9160612919958543762}
+  - {fileID: -2579542656124532325}
+  - {fileID: 8138342400149595096}
+  - {fileID: -7306478785480864589}
+  - {fileID: 5880970378952498101}
+  - {fileID: -4977509248825714975}
+  - {fileID: -8951724450919868195}
+  - {fileID: 2926543293371927303}
+  - {fileID: -1727541091782090811}
+  - {fileID: -3033442956533699660}
+  - {fileID: -8047098990945643813}
+  - {fileID: -8045235520315615413}
+  - {fileID: -4847227968744648812}
+  - {fileID: 533204050168969117}
+  - {fileID: -2932612716863347213}
+  - {fileID: -3839024815658893884}
+  - {fileID: -6973833361742318064}
+  - {fileID: -4446444434322188244}
+  - {fileID: 1183468848962879052}
+  - {fileID: -650401374797561230}
+  - {fileID: -1610046754501681903}
+  - {fileID: -4648162568319277143}
+  - {fileID: 4467331469178715445}
+  - {fileID: -3953205329340229119}
+  - {fileID: 5465004251863973045}
+  - {fileID: 5897233075574686066}
+  - {fileID: 6234791109986515235}
+  - {fileID: -2681055383990703904}
+  - {fileID: 4568421182379747419}
+  - {fileID: 3536615757600918113}
+  - {fileID: 5212949478611905195}
+  - {fileID: -1401658730662677688}
+  - {fileID: -8922880593851881816}
+  - {fileID: 7286422005986784249}
+  - {fileID: 3634087193324906813}
+  - {fileID: 647026914005536881}
+  - {fileID: 8618273770991161147}
+  - {fileID: -2529600096946706710}
+  - {fileID: 3762398050494174676}
+  - {fileID: 3764317834677346039}
+  - {fileID: -8219957856647372970}
+  - {fileID: 5017467164895145699}
+  - {fileID: -6445940958355033687}
+  - {fileID: -7559587977339296166}
+  - {fileID: -4130718812092379301}
+  - {fileID: -2841202431137567164}
+  - {fileID: 7565798499723321869}
+  - {fileID: -7633599106455955366}
+  - {fileID: -1299873296245174281}
+  - {fileID: -5684706175324624423}
+  - {fileID: -7495793487086290108}
+  - {fileID: 2798579191163497392}
+  - {fileID: 8429278103432269919}
+  - {fileID: -3221492412934055189}
+  - {fileID: 9171428117737663126}
+  - {fileID: -1899397200169894458}
+  - {fileID: 3391204924586447971}
+  _startNode: {fileID: -8337294580584919626}
+  <IsContainsBattle>k__BackingField: 0
+  currentNode: {fileID: 2798579191163497392}
+--- !u!114 &533204050168969117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 4488, y: -296}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 533204050168969117}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -4847227968744648812}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 533204050168969117}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -5684706175324624423}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 09d1b96bf9568d64e9f561747fe62877, type: 3}
+  text: "\"\u0412 \u0432\u0430\u0448\u0435\u043C \u043E\u0431\u0449\u0435\u0441\u0442\u0432\u0435
+    \u043C\u0435\u043D\u044F \u043C\u043E\u0433\u043B\u0438 \u0431\u044B \u043D\u0430\u0437\u044B\u0432\u0430\u0442\u044C
+    \u043A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u043E\u043D\u0435\u0440\u043E\u043C.
+    \u041D\u0435\u0442, \u044F \u043D\u0435 \u043F\u0440\u0438\u0441\u043E\u0435\u0434\u0438\u043D\u044E\u0441\u044C
+    \u043A \u0432\u0430\u043C, \u043C\u0435\u043D\u044F \u0438\u043D\u0442\u0435\u0440\u0435\u0441\u0443\u044E\u0442
+    \u043B\u0438\u0448\u044C \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u044B \u044D\u0442\u043E\u0433\u043E
+    \u043C\u0438\u0440\u0430. \u041D\u0443 \u0442\u0430\u043A \u043A\u0430\u043A?\""
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &647026914005536881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 1320, y: 600}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 647026914005536881}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 3634087193324906813}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 647026914005536881}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 8618273770991161147}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u0442\u0435\u043B\u044C\u043D\u043E,
+    \u0435\u0441\u043B\u0438 \u0431\u044B \u0432\u044B \u043D\u0435 \u043F\u043E\u0434\u043D\u044F\u043B\u0438\u0441\u044C
+    \u043D\u0430 \u043A\u0440\u044B\u0448\u0438, \u043C\u043E\u043D\u0441\u0442\u0440\u044B
+    \u0442\u043E\u0447\u043D\u043E \u0432\u0437\u044F\u043B\u0438 \u0431\u044B \u0432\u0430\u0441
+    \u0432... \u043A\u043B\u0435\u0448\u043D\u0438. \u0418\u0445 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0442\u0435\u043B\u044C\u043D\u043E
+    \u043E\u043A\u0430\u0437\u0430\u043B\u043E\u0441\u044C \u043E\u0447\u0435\u043D\u044C
+    \u043C\u043D\u043E\u0433\u043E \u0441\u043D\u0430\u0440\u0436\u0438."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &1183468848962879052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2152, y: -88}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 1183468848962879052}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 5880970378952498101}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 1183468848962879052}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -8951724450919868195}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 550c0e30c3951684ba71e476f756d2e8, type: 3}
+  text: "\u0412\u0430\u0441 \u0441\u043B\u0435\u043F\u0438\u0442 \u0441\u0432\u0435\u0442!
+    \u0412\u044B \u0441\u043B\u044B\u0448\u0438\u0442\u0435 \u0433\u0440\u043E\u0445\u043E\u0442
+    \u0441\u043E\u0441\u0442\u0430\u0432\u0430 \u043C\u0435\u0442\u0440\u043E...\u043E\u043D
+    \u043D\u0435\u0441\u0435\u0442\u0441\u044F \u043F\u0440\u044F\u043C\u043E \u043D\u0430
+    \u0432\u0430\u0441!\n\u041E\u043D \u043F\u0440\u043B\u0435\u0442\u0430\u0435\u0442
+    \u0441\u043A\u0432\u043E\u0437\u044C \u043E\u0442\u0440\u044F\u0434...\u0438
+    \u0438\u0441\u0447\u0435\u0437\u0430\u0435\u0442. \u041D\u0443\u0436\u043D\u043E
+    \u043F\u043E\u0441\u043A\u043E\u0440\u0435\u0435 \u0443\u0431\u0438\u0440\u0430\u0442\u044C\u0441\u044F
+    \u043E\u0442\u0441\u044E\u0434\u0430."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &1648141056745088361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -200, y: -56}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 1648141056745088361}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -3559480479111933553}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: 5820168066477677774}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 1648141056745088361}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -9160612919958543762}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 244d6888cde8edd49924575db2b1d6aa, type: 3}
+  text: "\u041E\u0441\u0442\u0430\u0432\u0430\u0442\u044C\u0441\u044F \u043D\u0430
+    \u0443\u043B\u0438\u0446\u0435 \u0441\u043B\u0438\u0448\u043A\u043E\u043C \u043E\u043F\u0430\u0441\u043D\u043E.
+    \u041D\u0443\u0436\u043D\u043E \u0441\u043A\u043E\u0440\u0440\u0435\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u0442\u044C
+    \u043C\u0430\u0440\u0448\u0440\u0443\u0442, \u0447\u0442\u043E\u0431\u044B \u043C\u0438\u043D\u0438\u043C\u0438\u0437\u0438\u0440\u043E\u0432\u0430\u0442\u044C
+    \u0441\u0442\u044B\u0447\u043A\u0438 \u0441 \u0432\u0440\u0430\u0433\u043E\u043C."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &2798579191163497392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3640, y: -504}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 2798579191163497392}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -1727541091782090811}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 2798579191163497392}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -8047098990945643813}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u0418\u0437 \u0434\u044B\u0440\u044B \u0432 \u043F\u043E\u0442\u043E\u043B\u043A\u0435
+    \u0441\u043F\u0440\u044B\u0433\u043D\u0443\u043B \u0441\u0438\u043B\u0443\u0435\u0442
+    \u0432 \u043F\u043B\u0430\u0449\u0435. \u041E\u043D \u043F\u0440\u0435\u0437\u0435\u043C\u043B\u0438\u043B\u0441\u044F
+    \u043D\u0430 \"\u0433\u043E\u043B\u043E\u0432\u0443\" \u043C\u043E\u043D\u0441\u0442\u0440\u0430,
+    \u0438\u0437-\u0437\u0430 \u0447\u0435\u0433\u043E \u0442\u043E\u0433\u043E \u0432\u0434\u0430\u0432\u0438\u043B\u043E
+    \u0432 \u043F\u043E\u043B \u0442\u043E\u043D\u043D\u0435\u043B\u044F."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &2926543293371927303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2968, y: -472}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 2926543293371927303}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -8951724450919868195}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 2926543293371927303}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -1727541091782090811}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\"\u0412\u0436\u0430\u0442\u044C\u0441\u044F \u0432 \u043F\u0435\u0440\u0435\u0433\u043E\u0440\u043E\u0434\u043A\u0438
+    \u0442\u043E\u043D\u043D\u0435\u043B\u0435\u0439 \u043F\u043E\u043A\u0430 \u043F\u044B\u043B\u044C
+    \u043D\u0435 \u0440\u0430\u0441\u0441\u0435\u044F\u043B\u0430\u0441\u044C!\""
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &3391204924586447971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2568, y: -856}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 3391204924586447971}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -1899397200169894458}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 3391204924586447971}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -8951724450919868195}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u041D\u0430\u0434 \u0433\u043E\u043B\u043E\u0432\u043E\u0439 \u0447\u0442\u043E-\u0442\u043E
+    \u0437\u0430\u0433\u0440\u043E\u0445\u043E\u0442\u0430\u043B\u043E \u0438 \u0432\u0430\u0441
+    \u043D\u0430\u043A\u0440\u044B\u043B\u043E \u043F\u044B\u043B\u0435\u0432\u044B\u043C
+    \u043E\u0431\u043B\u0430\u043A\u043E\u043C. "
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &3536615757600918113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3672, y: 280}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 3536615757600918113}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 4568421182379747419}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 3536615757600918113}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 5212949478611905195}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\"\u041F\u043E\u043B \u0441\u0435\u0439\u0447\u0430\u0441 \u043E\u0431\u0440\u0443\u0448\u0438\u0442\u0441\u044F,
+    \u043E\u0442\u0441\u0442\u0443\u043F\u0430\u0435\u043C!\"\n\u042D\u0442\u043E
+    \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0435\u0435 \u0447\u0442\u043E \u0432\u044B
+    \u0443\u0441\u043F\u0435\u043B\u0438 \u0441\u043A\u0430\u0437\u0430\u0442\u044C,
+    \u043F\u0440\u0435\u0436\u0434\u0435 \u0447\u0435\u043C \u0432\u0435\u0441\u044C
+    \u043E\u0442\u0440\u044F\u0434 \u043F\u0440\u043E\u0432\u0430\u043B\u0438\u043B\u0441\u044F."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &3634087193324906813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 920, y: 600}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 3634087193324906813}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 7286422005986784249}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 3634087193324906813}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 647026914005536881}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u0421\u0430\u043C\u044B\u043C \u0442\u0440\u0443\u0434\u043D\u044B\u043C
+    \u0431\u044B\u043B\u043E \u0437\u0430\u0431\u0440\u0430\u0442\u044C\u0441\u044F
+    \u043D\u0430 \u043A\u0440\u044B\u0448\u0438 \u0448\u0435\u0441\u0442\u0438\u044D\u0442\u0430\u0436\u043D\u044B\u0445
+    \u043E\u0444\u0438\u0441\u043D\u044B\u0445 \u0437\u0434\u0430\u043D\u0438\u0439.
+    \u041D\u043E \u0438\u0437-\u0437\u0430 \u0442\u043E\u0433\u043E \u0447\u0442\u043E
+    \u043E\u043D\u0438 \u0431\u043B\u0438\u0437\u043A\u043E\u0440\u0430\u0441\u043F\u043E\u043B\u043E\u0436\u0435\u043D\u043D\u044B
+    \u043F\u0435\u0440\u0435\u043C\u0435\u0449\u0430\u0442\u044C\u0441\u044F \u043C\u0435\u0436\u0434\u0443
+    \u043D\u0438\u043C\u0438 \u043D\u0435 \u0441\u043E\u0441\u0442\u0430\u0432\u0438\u043B\u043E
+    \u043E\u0441\u043E\u0431\u043E\u0433\u043E \u0442\u0440\u0443\u0434\u0430."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &3762398050494174676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2088, y: 648}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 3762398050494174676}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 8618273770991161147}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 3762398050494174676}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -2529600096946706710}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u042D\u0442\u043E\u043C\u0443 \u0440\u0430\u0439\u043E\u043D\u0443 \u0431\u043E\u043B\u044C\u0448\u0435
+    \u0434\u043E\u0441\u0442\u0430\u043B\u043E\u0441\u044C, \u0437\u0434\u0430\u043D\u0438\u044F
+    \u0441\u0438\u043B\u044C\u043D\u043E \u043F\u043E\u0432\u0440\u0435\u0436\u0434\u0435\u043D\u044B
+    \u0432\u043E \u0432\u0440\u0435\u043C\u044F \u043E\u0431\u0441\u0442\u0440\u0435\u043B\u043E\u0432
+    \u0438 \u0443\u0434\u0430\u0440\u043E\u0432 \u043A\u0440\u0443\u043F\u043D\u044B\u0445
+    \u043C\u043E\u043D\u0441\u0442\u0440\u043E\u0432. \u041D\u0443\u0436\u043D\u043E
+    \u0432\u043D\u0438\u043C\u0430\u0442\u0435\u043B\u044C\u043D\u0435\u0435 \u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C
+    \u043F\u043E\u0434 \u043D\u043E\u0433\u0438, \u043A\u0430\u043A \u0431\u044B
+    \u043D\u0435 \u043F\u0440\u043E\u0432\u0430\u043B\u0438\u0442\u044C\u0441\u044F."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &3764317834677346039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2888, y: 1016}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 3764317834677346039}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -2529600096946706710}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 3764317834677346039}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -8219957856647372970}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u041C\u043E\u043D\u0441\u0442\u0440 \u0431\u0435\u0436\u0430\u043B \u0441\u043E
+    \u0432\u0441\u0435\u0439 \u0434\u0443\u0440\u0438 \u043A \u0432\u0430\u0448\u0435\u043C\u0443
+    \u043E\u0431\u0432\u0435\u0442\u0448\u0430\u043B\u043E\u043C\u0443 \u0443\u043A\u0440\u044B\u0442\u0438\u044E!
+    \u041D\u043E \u0432\u043C\u0435\u0441\u0442\u043E \u0441\u0442\u0435\u043D\u044B
+    \u043E\u043D \u0432\u0440\u0435\u0437\u0430\u043B\u0441\u044F \u0432 \u0441\u0442\u043E\u044F\u0449\u0438\u0439
+    \u0440\u044F\u0434\u043E\u043C \u0433\u0440\u0443\u0437\u043E\u0432\u0438\u043A
+    \u0441 \u0433\u0430\u0437\u043E\u043C!"
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &4467331469178715445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 920, y: 184}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 4467331469178715445}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -4648162568319277143}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 4467331469178715445}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -3953205329340229119}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u0412\u044B \u043E\u0449\u0443\u0449\u0430\u0435\u0442\u0435 \u043D\u0430
+    \u0441\u0435\u0431\u0435 \u0447\u0435\u0439-\u0442\u043E \u0432\u0437\u0433\u043B\u044F\u0434
+    \u0438\u0437 \u0442\u0435\u043C\u043D\u043E\u0442\u044B \u043A\u043E\u0440\u0438\u0434\u043E\u0440\u043E\u0432
+    \u0438 \u0437\u0430\u0431\u0440\u043E\u0448\u0435\u043D\u043D\u044B\u0445 \u043C\u0430\u0433\u0430\u0437\u0438\u043D\u043E\u0432.
+    \u0415\u0441\u043B\u0438 \u043F\u043E\u0434\u0443\u043C\u0430\u0442\u044C, \u0442\u043E
+    \u0443 \u043C\u043E\u043D\u0441\u0442\u0440\u043E\u0432 \u0435\u0441\u0442\u044C
+    \u0432\u043E\u0437\u043C\u043E\u0436\u043D\u043E\u0441\u0442\u044C \u0443\u0441\u0442\u0440\u043E\u0438\u0442\u044C
+    \u0437\u0430\u0441\u0430\u0434\u0443, \u0447\u0442\u043E  \u0434\u0435\u043B\u0430\u0435\u0442
+    \u044D\u0442\u043E \u043C\u0435\u0441\u0442\u043E \u0435\u0449\u0435 \u0431\u043E\u043B\u0435\u0435
+    \u0436\u0443\u0442\u043A\u0438\u043C."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &4568421182379747419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3272, y: 280}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 4568421182379747419}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -2681055383990703904}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 4568421182379747419}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 3536615757600918113}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u0418\u0437 \u0441\u043E\u0441\u0435\u0434\u043D\u0435\u0433\u043E \u043C\u0430\u0433\u0430\u0437\u0438\u043D\u0430
+    \u043D\u0430 \u0446\u0435\u043D\u0442\u0440 \u043A\u043E\u0440\u0438\u0434\u043E\u0440\u0430
+    \u0432\u044B\u043F\u0440\u044B\u0433\u043D\u0443\u043B\u043E \u043D\u0435\u0447\u0442\u043E,
+    \u043D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u044E\u0449\u0435\u0435 4\u0445
+    \u043C\u0435\u0442\u0440\u043E\u0432\u043E\u0433\u043E \u043A\u0440\u0430\u0431\u0430!"
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &5017467164895145699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3656, y: 1016}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 5017467164895145699}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -8219957856647372970}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 5017467164895145699}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -6445940958355033687}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u041F\u043E\u0445\u043E\u0436\u0435 \u0433\u0440\u0443\u0437\u043E\u0432\u0438\u043A
+    \u0431\u044B\u043B \u043F\u043E\u043B\u043D\u044B\u043C. \u0412\u0437\u0440\u044B\u0432
+    \u0432\u044B\u0440\u0432\u0430\u043B \u0438\u0437 \u0437\u0435\u043C\u043B\u0438
+    \u043F\u0440\u0438\u043B\u0438\u0447\u043D\u044B\u0439 \u043A\u0443\u0441\u043E\u043A
+    \u0437\u0435\u043C\u043B\u0438, \u0430 \u0432\u043C\u0435\u0441\u0442\u0435 \u0441
+    \u044D\u0442\u0438\u043C \u0438 \u0447\u0430\u0441\u0442\u044C \u0437\u0434\u0430\u043D\u0438\u044F,
+    \u0438\u0437-\u0437\u0430 \u0447\u0435\u0433\u043E \u043E\u043D\u043E \u043D\u0430\u0447\u0430\u043B\u043E
+    \u043A\u0440\u0435\u043D\u0438\u0442\u044C\u0441\u044F \u0438 \u0440\u0443\u0448\u0438\u0442\u044C\u0441\u044F."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &5212949478611905195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 4152, y: 280}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 5212949478611905195}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 3536615757600918113}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: -6445940958355033687}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: -1299873296245174281}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 5212949478611905195}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -1401658730662677688}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u0421\u0443\u0434\u044F \u043F\u043E \u043A\u0430\u0440\u0442\u0435 \u0432\u0441\u0435
+    \u0431\u043E\u0439\u0446\u044B \u0436\u0438\u0432\u044B \u0438 \u0443\u043F\u0430\u043B\u0438
+    \u0440\u044F\u0434\u043E\u043C \u0434\u0440\u0443\u0433 \u0441 \u0434\u0440\u0443\u0433\u043E\u043C.
+    \u0422\u043E\u043B\u044C\u043A\u043E \u043A\u0430\u0440\u0442\u0430 \u043F\u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442,
+    \u0447\u0442\u043E \u0432\u044B \u043F\u043E\u0441\u0442\u0435\u043F\u0435\u043D\u043D\u043E
+    \u043F\u0440\u043E\u0432\u0430\u043B\u0438\u043B\u0438\u0441\u044C \u0432 \u0442\u0443\u043D\u043D\u0435\u043B\u044C
+    \u043C\u0435\u0442\u0440\u043E."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &5465004251863973045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 1730.7083, y: 242.38998}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 5465004251863973045}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -3953205329340229119}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 5465004251863973045}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 5897233075574686066}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u0421\u0443\u0434\u044F \u043F\u043E \u043A\u0430\u0440\u0442\u0435 \u043C\u043E\u0436\u043D\u043E
+    \u043F\u043E\u0439\u0442\u0438 3\u043C\u044F \u043F\u0443\u0442\u044F\u043C\u0438:
+    \u0447\u0435\u0440\u0435\u0437 3\u0439 \u044D\u0442\u0430\u0436, \u0437\u0430\u0439\u0434\u044F
+    \u0432 \u043C\u0435\u0434\u043F\u0443\u043D\u043A\u0442, \u0447\u0435\u0440\u0435\u0437
+    \u0442\u0435\u0445. \u043F\u043E\u043C\u0435\u0449\u0435\u043D\u0438\u044F, \u0437\u0430\u0439\u0434\u044F
+    \u0432\u043E \u0432\u0440\u0435\u043C\u0435\u043D\u043D\u044B\u0439 \u043F\u0443\u043D\u043A\u0442
+    \u0441\u043A\u043B\u0430\u0434 \u0431\u043E\u0435\u043F\u0440\u0438\u043F\u0430\u0441\u043E\u0432
+    \u0438\u043B\u0438 \u043F\u043E\u0439\u0442\u0438 \u0447\u0435\u0440\u0435\u0437
+    2\u0439 \u044D\u0442\u0430\u0436, \u0437\u0430\u0439\u0434\u044F \u0432 \u043C\u0430\u0433\u0430\u0437\u0438\u043D
+    \u0442\u0430\u043A\u0442\u0438\u0447\u0435\u0441\u043A\u043E\u0439 \u044D\u043A\u0438\u043F\u0438\u0440\u043E\u0432\u043A\u0438. "
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &5820168066477677774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: "\u0420\u0430\u0437\u0432\u0435\u0434\u043A\u0430 \u0434\u0440\u043E\u043D\u043E\u043C"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: -200, y: 328}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 5820168066477677774}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -3559480479111933553}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 5820168066477677774}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 1648141056745088361}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0420\u0430\u0437\u0432\u0435\u0434\u043A\u0430 \u0434\u0440\u043E\u043D\u043E\u043C"
+  _image: {fileID: 21300000, guid: b524074d5092b9a4187ff6042ac1811b, type: 3}
+  text: "\"\u041A\u043E\u043C\u0430\u043D\u0434\u0438\u0440, \u043D\u0430 \u0443\u043B\u0438\u0446\u0430\u0445,
+    \u043F\u0430\u0440\u0430\u043B\u043B\u0435\u043B\u044C\u043D\u044B\u0445 \u043D\u0430\u0448\u0435\u0439,
+    \u043D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0434\u0435\u0441\u044F\u0442\u043A\u043E\u0432
+    \u0442\u0432\u0430\u0440\u0435\u0439. \u041D\u0430 \u043A\u0440\u044B\u0448\u0430\u0445
+    \u0438 \u0432\u0445\u043E\u0434\u0435 \u0432 \u043C\u0435\u0442\u0440\u043E \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A\u0430
+    \u043D\u0435 \u043E\u0431\u043D\u0430\u0440\u0443\u0436\u0435\u043D\u043E. \u0422\u0430\u043A\u0436\u0435
+    \u043C\u043E\u0436\u043D\u043E \u043F\u0440\u043E\u0439\u0442\u0438 \u043D\u0430\u043F\u0440\u044F\u043C\u0438\u043A
+    \u0447\u0435\u0440\u0435\u0437 \u044D\u0442\u043E\u0442 \u0422\u0420\u0426.\""
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &5880970378952498101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 1736, y: -216}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 5880970378952498101}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -7306478785480864589}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 5880970378952498101}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -4977509248825714975}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: 1183468848962879052}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u0421\u0443\u0434\u044F \u043F\u043E \u043A\u0430\u0440\u0442\u0435, \u043C\u044B
+    \u043F\u0440\u0435\u043E\u0434\u043E\u043B\u0435\u043B\u0438 73% \u0442\u0443\u043D\u043D\u0435\u043B\u044F.
+    \u0412\u0430\u043C \u043A\u0430\u0436\u0435\u0442\u0441\u044F, \u0447\u0442\u043E
+    \u0441\u043F\u0443\u0441\u043A\u0430\u0442\u044C\u0441\u044F \u0432 \u044D\u0442\u0438
+    \u043A\u0430\u0442\u0430\u043A\u043E\u043C\u0431\u044B \u0431\u044B\u043B\u043E
+    \u043E\u0448\u0438\u0431\u043A\u043E\u0439, \u0445\u043E\u0442\u044F \u043C\u043E\u043D\u0441\u0442\u0440\u043E\u0432
+    \u0432\u044B \u0442\u0430\u043A \u0438 \u043D\u0435 \u0432\u0441\u0442\u0440\u0435\u0442\u0438\u043B\u0438,
+    \u044D\u0442\u0438 \u0441\u0442\u0435\u043D\u044B \u043A\u0430\u043A \u0431\u0443\u0434\u0442\u043E
+    \u0432\u043E\u0442-\u0432\u043E\u0442 \u0437\u0430\u0434\u0430\u0432\u044F\u0442
+    \u0432\u0430\u0441."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &5897233075574686066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e28619e1d6b54f58b69948bb61f0c676, type: 3}
+  m_Name: ForkNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2168, y: 328}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 5897233075574686066}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 5465004251863973045}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 5897233075574686066}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 6234791109986515235}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: -7559587977339296166}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: -4130718812092379301}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  <IsRandom>k__BackingField: 0
+  _answers:
+  - "\u0427\u0435\u0440\u0435\u0437 3\u0439 \u044D\u0442\u0430\u0436"
+  - "\u0427\u0435\u0440\u0435\u0437 2\u0439 \u044D\u0442\u0430\u0436"
+  - "\u0427\u0435\u0440\u0435\u0437 \u0442\u0435\u0445. \u043F\u043E\u043C\u0435\u0449\u0435\u043D\u0438\u044F"
+--- !u!114 &6234791109986515235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2456, y: 280}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 6234791109986515235}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 5897233075574686066}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 6234791109986515235}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -2681055383990703904}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u041D\u0443\u0436\u043D\u043E \u043F\u043E\u043F\u0440\u043E\u0431\u043E\u0432\u0430\u0442\u044C
+    \u043F\u043E\u043F\u043E\u043B\u043D\u0438\u0442\u044C \u0437\u0430\u043F\u0430\u0441\u044B
+    \u043C\u0435\u0434\u0438\u0446\u0438\u043D\u044B, \u0434\u0430 \u0438 \u0432\u0441\u0435
+    \u0440\u0430\u0432\u043D\u043E \u043F\u043E \u043F\u0443\u0442\u0438."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &7286422005986784249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 552, y: 600}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 7286422005986784249}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -9160612919958543762}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 7286422005986784249}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 3634087193324906813}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\"\u041F\u043E\u0439\u0434\u0435\u043C \u043F\u043E \u043A\u0440\u044B\u0448\u0430\u043C.
+    \u042D\u0442\u043E \u0441\u0442\u0430\u0440\u044B\u0439 \u0440\u0430\u0439\u043E\u043D,
+    \u0437\u043D\u0430\u0447\u0438\u0442 \u0443 \u0437\u0434\u0430\u043D\u0438\u0439
+    \u0435\u0441\u0442\u044C \u043F\u043E\u0436\u0430\u0440\u043D\u044B\u0435 \u043B\u0435\u0441\u0442\u043D\u0438\u0446\u044B,
+    \u0434\u0432\u0438\u0433\u0430\u0435\u043C \u043A \u043D\u0438\u043C. \u041D\u0430\u0434\u0435\u044E\u0441\u044C
+    \u043D\u0438\u043A\u0442\u043E \u043D\u0435 \u0431\u043E\u0438\u0442\u0441\u044F
+    \u0432\u044B\u0441\u043E\u0442\u044B?\""
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &7565798499723321869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3272, y: 664}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 7565798499723321869}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -2841202431137567164}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 7565798499723321869}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -7633599106455955366}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u041D\u0430\u0434 \u0433\u043E\u043B\u043E\u0432\u043E\u0439 \u0440\u0430\u0437\u0434\u0430\u043B\u0441\u044F
+    \u0433\u0440\u043E\u0445\u043E\u0442 \u0438 \u0442\u043E\u043F\u043E\u0442, \u0430
+    \u0441 \u043F\u043E\u0442\u043E\u043B\u043A\u0430 \u043F\u043E\u0441\u044B\u043F\u0430\u043B\u0430\u0441\u044C
+    \u043F\u044B\u043B\u044C!"
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &8138342400149595096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 920, y: -216}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 8138342400149595096}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -2579542656124532325}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 8138342400149595096}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -7306478785480864589}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 7335d113204cf6e4d8991f8494456e48, type: 3}
+  text: "\"\u0414\u0432\u0438\u0433\u0430\u0435\u043C\u044F \u043F\u043E \u0442\u0443\u043D\u0435\u043B\u044F\u043C
+    \u0432\u0434\u043E\u043B\u044C \u0441\u0442\u0435\u043D\u043E\u043A. \u0424\u043E\u043D\u0430\u0440\u0438\u043A\u0438
+    \u043D\u0435 \u0432\u043A\u043B\u044E\u0447\u0430\u0442\u044C. \u041F\u041D\u0412
+    \u0432 \u0440\u0435\u0436\u0438\u043C \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u0438.\""
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &8429278103432269919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3640, y: -872}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 8429278103432269919}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -1727541091782090811}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 8429278103432269919}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -8047098990945643813}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u0418\u0437 \u0434\u044B\u0440\u044B \u0432 \u043F\u043E\u0442\u043E\u043B\u043A\u0435
+    \u0441\u043F\u0440\u044B\u0433\u043D\u0443\u043B \u0441\u0438\u043B\u0443\u0435\u0442
+    \u0432 \u043F\u043B\u0430\u0449\u0435. \u041E\u043D \u043F\u0440\u0435\u0437\u0435\u043C\u043B\u0438\u043B\u0441\u044F
+    \u043D\u0430 \"\u0433\u043E\u043B\u043E\u0432\u0443\" \u043C\u043E\u043D\u0441\u0442\u0440\u0430,
+    \u0438\u0437-\u0437\u0430 \u0447\u0435\u0433\u043E \u0442\u043E\u0433\u043E \u0432\u0434\u0430\u0432\u0438\u043B\u043E
+    \u0432 \u043F\u043E\u043B \u0442\u043E\u043D\u043D\u0435\u043B\u044F."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &8618273770991161147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 1720, y: 616}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 8618273770991161147}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 647026914005536881}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 8618273770991161147}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 3762398050494174676}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u0410 \u0432\u0435\u0434\u044C \u043E\u0442\u0441\u044E\u0434\u0430 \u043E\u0442\u043A\u0440\u044B\u0432\u0430\u0435\u0442\u0441\u044F
+    \u043F\u043E \u0441\u0432\u043E\u0435\u043C\u0443 \u043A\u0440\u0430\u0441\u0438\u0432\u044B\u0439
+    \u0432\u0438\u0434, \u0437\u0430\u043A\u0430\u0442\u0430 \u043D\u0435 \u0445\u0432\u0430\u0442\u0430\u0435\u0442.
+    \u0415\u0449\u0435 \u043D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0437\u0434\u0430\u043D\u0438\u0439
+    \u0438 \u0432\u044B \u043F\u0440\u0435\u043E\u0434\u043E\u043B\u0435\u0435\u0442\u0435
+    \u0441\u043A\u043E\u043F\u043B\u0435\u043D\u0438\u0435 \u043C\u043E\u043D\u0441\u0442\u0440\u043E\u0432. "
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &9171428117737663126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3640, y: -1608}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 9171428117737663126}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -1727541091782090811}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 9171428117737663126}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -8047098990945643813}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u0418\u0437 \u0434\u044B\u0440\u044B \u0432 \u043F\u043E\u0442\u043E\u043B\u043A\u0435
+    \u0441\u043F\u0440\u044B\u0433\u043D\u0443\u043B \u0441\u0438\u043B\u0443\u0435\u0442
+    \u0432 \u043F\u043B\u0430\u0449\u0435. \u041E\u043D \u043F\u0440\u0435\u0437\u0435\u043C\u043B\u0438\u043B\u0441\u044F
+    \u043D\u0430 \"\u0433\u043E\u043B\u043E\u0432\u0443\" \u043C\u043E\u043D\u0441\u0442\u0440\u0430,
+    \u0438\u0437-\u0437\u0430 \u0447\u0435\u0433\u043E \u0442\u043E\u0433\u043E \u0432\u0434\u0430\u0432\u0438\u043B\u043E
+    \u0432 \u043F\u043E\u043B \u0442\u043E\u043D\u043D\u0435\u043B\u044F."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
