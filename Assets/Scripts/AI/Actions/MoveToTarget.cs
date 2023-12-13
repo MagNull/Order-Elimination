@@ -55,12 +55,13 @@ namespace AI.Actions
                 Purpose.Heal => AbilityAIPresentation.GetAvailableHealAbilities(battleContext, caster, target),
                 _ => throw new ArgumentOutOfRangeException()
             };
-            foreach (var damageAbility in targetAbilities)
+            foreach (var targetAbility in targetAbilities)
             {
-                var damageTargeting = damageAbility.AbilityRunner.AbilityData.GameRepresentation.TargetingSystem;
+                var targeting = targetAbility.AbilityRunner.AbilityData.GameRepresentation.TargetingSystem;
 
                 //Works only for square-distance abilities
-                var distanceFromTargetPattern = new DistanceFromPointPattern(1, damageTargeting.MaxSquareRange, true);
+                var distanceFromTargetPattern = new DistanceFromPointPattern(
+                    0, targeting.MaxSquareRange, true);//target range, not actual hit range!
 
                 var cellsFromTarget = distanceFromTargetPattern.GetAbsolutePositions(target.Position);
 
