@@ -8,7 +8,6 @@ using System.Linq;
 using System.Reflection;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 
 namespace OrderElimination.Infrastructure
 {
@@ -70,6 +69,15 @@ namespace OrderElimination.Infrastructure
                 .GetExecutingAssembly()
                 .GetTypes()
                 .Where(t => t.GetInterfaces().Contains(type)).ToArray();
+        }
+
+        public static Type[] GetAllSubTypes(Type type)
+        {
+            return Assembly
+                .GetExecutingAssembly()
+                .GetTypes()
+                .Where(t => type.IsAssignableFrom(t))
+                .ToArray();
         }
 
         public static bool IsImplementingAllInterfaces(this Type type, params string[] names)

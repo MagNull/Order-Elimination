@@ -1,15 +1,17 @@
 ﻿using Newtonsoft.Json;
+using OrderElimination.Infrastructure;
 using OrderElimination.MacroGame;
+using System;
 
 namespace OrderElimination.SavesManagement
 {
     public static class GameCharacterSerializer
     {
-        public static GameCharacter SaveDataToCharacter(
+        public static GameCharacter UnpackCharacterFromSaveData(
             GameCharacterSaveData characterSaveData,
-            IDataMapping<int, IGameCharacterTemplate> templatesMapping)
+            IDataMapping<Guid, IGameCharacterTemplate> templatesMapping)
         {
-            var template = templatesMapping.GetData(characterSaveData.BasedTemplateId);
+            var template = templatesMapping.GetData(characterSaveData.CharacterTemplateId);
             var character = GameCharactersFactory.CreateGameCharacter(
                 template, characterSaveData.CharacterStats);
             character.CurrentHealth = characterSaveData.CurrentHealth;
@@ -17,9 +19,9 @@ namespace OrderElimination.SavesManagement
             return character;
         }
 
-        public static GameCharacterSaveData CharacterToSaveData(
+        public static GameCharacterSaveData PackCharacterToSaveData(
             GameCharacter character,
-            IDataMapping<int, IGameCharacterTemplate> templatesMapping)
+            IDataMapping<Guid, IGameCharacterTemplate> templatesMapping)
         {
             var characterTemplateId = templatesMapping.GetKey(character.CharacterData);
             var stats = new GameCharacterStats(character.CharacterStats);

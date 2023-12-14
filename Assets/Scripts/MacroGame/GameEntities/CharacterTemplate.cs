@@ -17,7 +17,6 @@ namespace OrderElimination
         [SerializeField]
         private string _name;
 
-
         [PreviewField(Alignment = ObjectFieldAlignment.Left, Height = 80)]
         [PropertyOrder(0.1f)]
         [SerializeField]

@@ -1,4 +1,4 @@
-﻿namespace OrderElimination.SavesManagement
+﻿namespace OrderElimination.Infrastructure
 {
     public interface IDataMapping<TKey, TData>
     {

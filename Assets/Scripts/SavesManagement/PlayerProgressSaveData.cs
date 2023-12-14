@@ -4,17 +4,17 @@ using System;
 namespace OrderElimination.SavesManagement
 {
     [Serializable]
-    public readonly struct PlayerProgressLocalData
+    public readonly struct PlayerProgressSaveData
     {
         public GameCharacterSaveData[] PlayerSquadCharacters { get; }
         //public Inventory PlayerInventory { get; }//cant serialize sub-classes
         public StrategyStats StatsUpgrades { get; }
 
-        public static PlayerProgressLocalData Empty => new (
+        public static PlayerProgressSaveData Empty => new (
             new GameCharacterSaveData[0], new StrategyStats());
 
 
-        public PlayerProgressLocalData(
+        public PlayerProgressSaveData(
             GameCharacterSaveData[] playerSquadCharacters,
             StrategyStats statsUpgrades)
         {

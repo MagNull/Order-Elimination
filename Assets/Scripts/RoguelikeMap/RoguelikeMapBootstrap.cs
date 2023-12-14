@@ -9,22 +9,17 @@ using RoguelikeMap.Points;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
-using System.Collections.Generic;
-using System.Linq;
 using RoguelikeMap.UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 using VContainer;
 using VContainer.Unity;
 using SquadCommander = RoguelikeMap.SquadInfo.SquadCommander;
-using Wallet = StartSessionMenu.Wallet;
 
 namespace RoguelikeMap
 {
     public class RoguelikeMapBootstrap : LifetimeScope, IStartable
     {
-        [SerializeField] 
-        private int _startMoney = 1000;
         [FormerlySerializedAs("_charactersMediatorPrefab")]
         [SerializeField]
         private ScenesMediator _testMediator;
@@ -57,8 +52,6 @@ namespace RoguelikeMap
 
         [Header("Saves Management")]
         [SerializeField]
-        private CharacterTemplatesMapping _characterTemplatesMapping;
-        [SerializeField]
         private bool _saveLocalData;
         [SerializeField]
         private bool _loadLocalData;
@@ -71,9 +64,9 @@ namespace RoguelikeMap
                 mediator = _testMediator;
                 mediator.InitTest();
             }
-            LoadLocalData(mediator, builder);
-            builder.Register<Wallet>(Lifetime.Singleton).WithParameter(
-                PlayerPrefs.GetInt("Wallet") == 0 ? _startMoney : PlayerPrefs.GetInt("Wallet"));
+
+            PlayerProgressManager.LoadPlayerProgress(mediator, builder);
+
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_squad);
             builder.RegisterComponent(_pathPrefab);
@@ -105,52 +98,12 @@ namespace RoguelikeMap
         public void OnDisable()
         {
             var sceneMediator = Container.Resolve<ScenesMediator>();
-            var inventory = Container.Resolve<Inventory>();
-            var playerSquad = sceneMediator.Get<IEnumerable<GameCharacter>>("player characters");
-            var upgradeStats = sceneMediator.Get<StrategyStats>("stats");
-            SaveLocalData(playerSquad, inventory, upgradeStats);
-        }
-
-        protected void SaveLocalData(
-            IEnumerable<GameCharacter> playerSquad, 
-            Inventory inventory,
-            StrategyStats upgradeStats)
-        {
-            PlayerPrefs.SetInt("Wallet", Container.Resolve<Wallet>().Money);
-            InventorySerializer.Save(inventory);
-            if (!_saveLocalData) return;
-            LocalDataManager.SaveLocalData(
-                playerSquad.ToArray(), upgradeStats, _characterTemplatesMapping);
-        }
-
-        protected void LoadLocalData(ScenesMediator mediator, IContainerBuilder containerBuilder)
-        {
-            var inventory = InventorySerializer.Load();
-            containerBuilder.RegisterComponent(inventory);
-            
-            if (!_loadLocalData) return;
-            if (LocalDataManager.IsLocalDataExists)
-            {
-                var localData = LocalDataManager.LoadLocalData();
-                var playerCharacters = localData.PlayerSquadCharacters
-                    .Select(d => GameCharacterSerializer.SaveDataToCharacter(d, _characterTemplatesMapping))
-                    .ToArray();
-                if (playerCharacters.Length == 0)
-                {
-                    Logging.LogError(new LocalDataCorruptedException("Squad members count is 0"));
-                }
-                else
-                {
-                    mediator.Register("player characters", playerCharacters);
-                    //localData.PlayerInventory;
-                    mediator.Register("stats", localData.StatsUpgrades);
-                }
-            }
+            PlayerProgressManager.SavePlayerProgress(sceneMediator, Container);
         }
 
         private void OnApplicationQuit()
         {
-            InventorySerializer.Delete();
+            PlayerProgressManager.ClearPlayerProgress();
         }
     }
 }

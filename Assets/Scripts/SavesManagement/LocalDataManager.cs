@@ -1,4 +1,6 @@
 ﻿using GameInventory;
+using OrderElimination.GameContent;
+using OrderElimination.Infrastructure;
 using OrderElimination.MacroGame;
 using System;
 using System.Collections.Generic;
@@ -32,7 +34,7 @@ namespace OrderElimination.SavesManagement
             }
         }
 
-        public static PlayerProgressLocalData LoadLocalData()
+        public static PlayerProgressSaveData LoadLatestLocalData()
         {
             if (!Directory.Exists(LocalProgressSavePath))
                 throw new FailedToLoadLocalDataException(
@@ -48,32 +50,14 @@ namespace OrderElimination.SavesManagement
             FileStream fileStream;
             fileStream = new FileStream(localDatas[0].FullName, FileMode.Open);//latest
             var deserializedObject = Formatter.Deserialize(fileStream);
-            if (deserializedObject is not PlayerProgressLocalData playerProgress)
+            if (deserializedObject is not PlayerProgressSaveData playerProgress)
                 throw new FailedToLoadLocalDataException("Local data file is corrupted.");//try to get another
-            var latestLocalData = (PlayerProgressLocalData)deserializedObject;
+            var latestLocalData = (PlayerProgressSaveData)deserializedObject;
             return latestLocalData;
         }
 
-        public static void SaveLocalData(
-            GameCharacter[] playerCharacters,
-            //Inventory playerInventory,
-            StrategyStats statsUpgrades,
-            IDataMapping<int, IGameCharacterTemplate> characterTemplatesMap)
+        public static void WriteLocalData(PlayerProgressSaveData saveData)
         {
-            var playerCharactersData = new List<GameCharacterSaveData>();
-            foreach (var character in playerCharacters)
-            {
-                var templateId = characterTemplatesMap.GetKey(character.CharacterData);
-                var charData = new GameCharacterSaveData(
-                    templateId,
-                    new GameCharacterStats(character.CharacterStats),
-                    character.CurrentHealth);
-                    //character.Inventory);
-                playerCharactersData.Add(charData);
-            }
-            var saveData = new PlayerProgressLocalData(
-                playerCharactersData.ToArray(), statsUpgrades);
-
             if (!Directory.Exists(LocalProgressSavePath))
             {
                 Directory.CreateDirectory(LocalProgressSavePath);
