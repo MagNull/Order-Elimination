@@ -8,19 +8,16 @@ using UnityEngine;
 
 namespace OrderElimination.SavesManagement
 {
-    public static class SaveDataPacker
+    public class SaveDataPacker
     {
-        private static IDataMapping<Guid, IGameCharacterTemplate> _charactersMapping;
+        private IDataMapping<Guid, IGameCharacterTemplate> _charactersMapping;
 
-        public static PlayerProgressSaveData PackSaveData(
-            GameCharacter[] playerCharacters,
-            //Mapping/Predicate activeSquadMembers,
-            //Inventory playerInventory,
-            StrategyStats statsUpgrades)
+        public PlayerProgressSerializableData PackSaveData(
+            PlayerProgressData progress)
         {
             ValidateMappings();
             var playerCharactersData = new List<GameCharacterSaveData>();
-            foreach (var character in playerCharacters)
+            foreach (var character in progress.PlayerCharacters)
             {
                 var charData = new GameCharacterSaveData(
                     _charactersMapping.GetKey(character.CharacterData),
@@ -29,26 +26,28 @@ namespace OrderElimination.SavesManagement
                 //character.Inventory);
                 playerCharactersData.Add(charData);
             }
-            var saveData = new PlayerProgressSaveData(
-                playerCharactersData.ToArray(), statsUpgrades);
+            var saveData = new PlayerProgressSerializableData(
+                playerCharactersData.ToArray(), progress.StatsUpgrades, progress.Currencies);
             return saveData;
         }
 
-        public static GameCharacter[] UnpackPlayerCharacters(this PlayerProgressSaveData saveData)
+        public PlayerProgressData UnpackSaveData(PlayerProgressSerializableData saveData)
         {
             ValidateMappings();
-            return saveData.PlayerSquadCharacters
+            var playerCharacters = saveData.PlayerSquadCharacters
                 .Select(c => GameCharacterSerializer.UnpackCharacterFromSaveData(c, _charactersMapping))
                 .ToArray();
+            return new PlayerProgressData(
+                playerCharacters, saveData.StatsUpgrades, saveData.Currencies);
         }
 
-        public static void RefreshMappings()
+        public void RefreshMappings()
         {
             _charactersMapping = BuildGuidAssetMapping<IGameCharacterTemplate>(
                 c => ((IGuidAsset)c).AssetId);
         }
 
-        private static void ValidateMappings()
+        private void ValidateMappings()
         {
             if (_charactersMapping == null)
             {
@@ -70,7 +69,7 @@ namespace OrderElimination.SavesManagement
 
             foreach (var type in dataTypes)
             {
-                var dataObjects = Resources.FindObjectsOfTypeAll(dataType).Cast<TData>();
+                var dataObjects = Resources.FindObjectsOfTypeAll(type).Cast<TData>();
                 foreach (var obj in dataObjects)
                 {
                     var id = guidGetter(obj);

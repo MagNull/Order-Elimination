@@ -11,48 +11,71 @@ namespace OrderElimination.SavesManagement
 {
     public static class PlayerProgressManager
     {
-        private static int _startMoney = 1000;
+        private static int _startMoney = 1000;//Replace with start progress (progress SO template)
+        private static IPlayerProgressStorage _progressStorage = new LocalProgressStorage();
+        private static SaveDataPacker _saveDataPacker = new SaveDataPacker();
+        private static PlayerData _localPlayer = new PlayerData();
+
+        public static bool HasProgress()
+        {
+            return _progressStorage.ContainsProgressData(_localPlayer);
+        }
 
         public static void LoadPlayerProgress(
             ScenesMediator mediator, IContainerBuilder builder)
         {
-            SaveDataPacker.RefreshMappings();
+            var localPlayer = new PlayerData();
+            //Getting values
             var inventory = InventorySerializer.Load();
-            var money = PlayerPrefs.GetInt("Wallet");
-
-            builder.Register<Wallet>(Lifetime.Singleton).WithParameter(money);
-            builder.RegisterComponent(inventory);
-
-            if (LocalDataManager.IsLocalDataExists)
+            var roguelikeMoney = PlayerPrefs.GetInt("Wallet");
+            PlayerProgressData progress = null;
+            if (_progressStorage.ContainsProgressData(localPlayer))
             {
-                var localData = LocalDataManager.LoadLatestLocalData();
-                var playerCharacters = SaveDataPacker.UnpackPlayerCharacters(localData);
-                if (playerCharacters.Length == 0)
+                _saveDataPacker.RefreshMappings();
+                var localData = _progressStorage.GetPlayerProgress(localPlayer);
+                progress = _saveDataPacker.UnpackSaveData(localData);
+            }
+
+            //Setting values
+            if (progress != null)
+            {
+                if (progress.PlayerCharacters.Length == 0)
                 {
                     Logging.LogError(new LocalDataCorruptedException("Squad members count is 0"));
                 }
                 else
                 {
-                    mediator.Register("player characters", playerCharacters);
+                    mediator.Register("player characters", progress.PlayerCharacters);
                     //localData.PlayerInventory;
-                    mediator.Register("stats", localData.StatsUpgrades);
+                    mediator.Register("stats", progress.StatsUpgrades);
                 }
+                roguelikeMoney = progress.Currencies[GameCurrency.Roguelike];
             }
+            builder.Register<Wallet>(Lifetime.Singleton).WithParameter(roguelikeMoney);
+            builder.RegisterComponent(inventory);
             Logging.Log("Player progress data loaded.");
         }
 
         public static void SavePlayerProgress(
             ScenesMediator mediator, IObjectResolver resolver)
         {
-            SaveDataPacker.RefreshMappings();
+            var localPlayer = new PlayerData();
+            _saveDataPacker.RefreshMappings();
             var inventory = resolver.Resolve<Inventory>();
             var playerSquad = mediator.Get<IEnumerable<GameCharacter>>("player characters");
             var upgradeStats = mediator.Get<StrategyStats>("stats");
+            var roguelikeMoney = resolver.Resolve<Wallet>().Money;
+            var currencies = new Dictionary<GameCurrency, int>()
+            {
+                { GameCurrency.Roguelike, roguelikeMoney },
+            };
+            var progress = new PlayerProgressData(
+                playerSquad.ToArray(), upgradeStats, currencies);
 
-            PlayerPrefs.SetInt("Wallet", resolver.Resolve<Wallet>().Money);
+            PlayerPrefs.SetInt("Wallet", roguelikeMoney);
             InventorySerializer.Save(inventory);
-            var save = SaveDataPacker.PackSaveData(playerSquad.ToArray(), upgradeStats);
-            LocalDataManager.WriteLocalData(save);
+            var save = _saveDataPacker.PackSaveData(progress);
+            _progressStorage.SetPlayerProgress(localPlayer, save);
 
             Logging.Log("Player progress data saved.");
         }

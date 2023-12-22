@@ -533,6 +533,10 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
                     _searchResult.Add($"{type.Name}/{assetName} ({asset.AssetId})", asset);
                 }
             }
+            foreach (var upperSection in _searchResult.MenuItems)
+            {
+                upperSection.Name = $"{upperSection.Name} ({upperSection.ChildMenuItems.Count})";
+            }
         }
 
         private IReadOnlyDictionary<Type, IGuidAsset[]> FindAssetsByGuid(Guid guid)

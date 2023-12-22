@@ -18,6 +18,10 @@ namespace OrderElimination.Infrastructure
         [HideInInspector, OdinSerialize]
         private Dictionary<TData, TKey> _keysMapping = new();
 
+        public bool ContainsKey(TKey key) => _dataMapping.ContainsKey(key);
+
+        public bool ContainsData(TData data) => _keysMapping.ContainsKey(data);
+
         public TData GetData(TKey key) => _dataMapping[key];
 
         public TKey GetKey(TData data) => _keysMapping[data];

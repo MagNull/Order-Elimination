@@ -5,13 +5,25 @@ using System.Linq;
 using OrderElimination.MacroGame;
 using System.Text.RegularExpressions;
 using AI;
+using OrderElimination.GameContent;
+using System;
 
 namespace OrderElimination
 {
     [CreateAssetMenu(fileName = "new CharacterTemplate", menuName = "OrderElimination/Battle/Character Template")]
-    [System.Serializable]
-    public class CharacterTemplate : SerializedScriptableObject, IGameCharacterTemplate
+    [Serializable]
+    public class CharacterTemplate : SerializedScriptableObject, IGameCharacterTemplate, ITemplateAsset
     {
+
+        #region TemplateAsset
+        [SerializeField, DisableIf("@true")]
+        private Guid _assetId;
+        public string AssetName => Name;
+        public Sprite AssetIcon => BattleIcon;
+        public Guid AssetId => _assetId;
+        public void UpdateId(Guid newId) => _assetId = newId;
+        #endregion
+
         [TitleGroup("Visuals", Alignment = TitleAlignments.Centered, BoldTitle = true, Order = 0)]
         [PropertyOrder(0.0f)]
         [SerializeField]
@@ -80,7 +92,6 @@ namespace OrderElimination
         
         public ActiveAbilityBuilder[] GetActiveAbilities() => _activeAbilitiesData.ToArray();
         public PassiveAbilityBuilder[] GetPassiveAbilities() => _passiveAbilitiesData.ToArray();
-
 
         //Parses string with hp, dmg, armor, evasion, accuracy respectively.
         [TitleGroup("Character Stats")]

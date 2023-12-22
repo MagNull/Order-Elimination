@@ -64,8 +64,8 @@ namespace RoguelikeMap
                 mediator = _testMediator;
                 mediator.InitTest();
             }
-
-            PlayerProgressManager.LoadPlayerProgress(mediator, builder);
+            if (_loadLocalData)
+                PlayerProgressManager.LoadPlayerProgress(mediator, builder);
 
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_squad);
@@ -98,11 +98,13 @@ namespace RoguelikeMap
         public void OnDisable()
         {
             var sceneMediator = Container.Resolve<ScenesMediator>();
-            PlayerProgressManager.SavePlayerProgress(sceneMediator, Container);
+            if (_saveLocalData)
+                PlayerProgressManager.SavePlayerProgress(sceneMediator, Container);
         }
 
         private void OnApplicationQuit()
         {
+            //TODO-SAVE: get and save playerprogress
             PlayerProgressManager.ClearPlayerProgress();
         }
     }

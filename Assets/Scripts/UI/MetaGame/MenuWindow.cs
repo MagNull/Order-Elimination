@@ -3,6 +3,7 @@ using DG.Tweening;
 using GameInventory;
 using OrderElimination;
 using OrderElimination.MacroGame;
+using OrderElimination.SavesManagement;
 using OrderElimination.UI;
 using RoguelikeMap.Map;
 using StartSessionMenu;
@@ -42,8 +43,8 @@ public class MenuWindow : MonoBehaviour
     private void Start()
     {
         _startMenuPanelInitialPosition = _startMenuPanel.transform.position;
-        _continueButton
-            .DOInterectable(_scenesMediator.Contains<IEnumerable<GameCharacter>>("player characters"));
+        var hasLocalProgress = PlayerProgressManager.HasProgress();
+        _continueButton.DOInterectable(hasLocalProgress);
 
         _previousButton.onClick.AddListener(() =>
         {
@@ -59,7 +60,8 @@ public class MenuWindow : MonoBehaviour
         
         _startGameButton.onClick.AddListener(() =>
         {
-            InventorySerializer.Delete();
+            //TODO-SAVE
+            PlayerProgressManager.ClearPlayerProgress();
             _metaShopPanel.SaveStats();
             if(_scenesMediator.Contains<GameCharacter[]>("player characters"))
                 _scenesMediator.Unregister("player characters");
