@@ -2,8 +2,8 @@
 {
     public interface IFileSerializer
     {
-        public void Serialize(string path, object obj);
+        public void Serialize<T>(string path, T obj);
 
-        public object Deserialize(string path);
+        public T Deserialize<T>(string path);
     }
 }

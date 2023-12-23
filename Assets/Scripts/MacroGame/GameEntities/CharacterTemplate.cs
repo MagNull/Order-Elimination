@@ -16,7 +16,7 @@ namespace OrderElimination
     {
 
         #region TemplateAsset
-        [SerializeField, DisableIf("@true")]
+        [SerializeField, DisplayAsString(Overflow = true)]
         private Guid _assetId;
         public string AssetName => Name;
         public Sprite AssetIcon => BattleIcon;

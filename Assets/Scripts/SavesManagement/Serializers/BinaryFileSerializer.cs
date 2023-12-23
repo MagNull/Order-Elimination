@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using UnityEngine;
 
 namespace OrderElimination.SavesManagement
 {
@@ -9,15 +8,15 @@ namespace OrderElimination.SavesManagement
     {
         private IFormatter _formatter = new BinaryFormatter();
 
-        public object Deserialize(string path)
+        public T Deserialize<T>(string path)
         {
             var fileStream = new FileStream(path, FileMode.Open);
             var deserializedObject = _formatter.Deserialize(fileStream);
             fileStream.Close();
-            return deserializedObject;
+            return (T)deserializedObject;
         }
 
-        public void Serialize(string path, object obj)
+        public void Serialize<T>(string path, T obj)
         {
             var fileStream = new FileStream(path, FileMode.CreateNew);
             _formatter.Serialize(fileStream, obj);

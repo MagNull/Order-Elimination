@@ -64,6 +64,7 @@ namespace RoguelikeMap
                 mediator = _testMediator;
                 mediator.InitTest();
             }
+
             if (_loadLocalData)
                 PlayerProgressManager.LoadPlayerProgress(mediator, builder);
 

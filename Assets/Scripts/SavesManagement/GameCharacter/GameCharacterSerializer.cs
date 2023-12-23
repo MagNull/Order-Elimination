@@ -11,7 +11,7 @@ namespace OrderElimination.SavesManagement
             GameCharacterSaveData characterSaveData,
             IDataMapping<Guid, IGameCharacterTemplate> templatesMapping)
         {
-            var template = templatesMapping.GetData(characterSaveData.CharacterTemplateId);
+            var template = templatesMapping.GetData(characterSaveData.TemplateId);
             var character = GameCharactersFactory.CreateGameCharacter(
                 template, characterSaveData.CharacterStats);
             character.CurrentHealth = characterSaveData.CurrentHealth;

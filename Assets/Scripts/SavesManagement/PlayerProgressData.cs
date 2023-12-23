@@ -1,4 +1,5 @@
-﻿using OrderElimination.MacroGame;
+﻿using GameInventory;
+using OrderElimination.MacroGame;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,23 +8,27 @@ namespace OrderElimination.SavesManagement
     public class PlayerProgressData
     {
         private readonly Dictionary<GameCurrency, int> _currencies;
+        private GameCharacter[] _playerCharacters;
+        private StrategyStats _statsUpgrades;
+        //private Inventory _playerInventory;
 
         public PlayerProgressData(
             GameCharacter[] playerCharacters, 
             StrategyStats statsUpgrades, 
             IReadOnlyDictionary<GameCurrency, int> currencies)
         {
-            PlayerCharacters = playerCharacters;
-            StatsUpgrades = statsUpgrades;
+            _playerCharacters = playerCharacters;
+            _statsUpgrades = statsUpgrades;
+            //_playerInventory = playerInventory;
             _currencies = currencies.ToDictionary(kv => kv.Key, kv => kv.Value);
         }
 
-        public GameCharacter[] PlayerCharacters { get; }
+        public GameCharacter[] PlayerCharacters => _playerCharacters;
         //Mapping/Predicate/ids activeSquadMembers,
-        //Inventory playerInventory,
         //int CurrentPointLocation
-        public StrategyStats StatsUpgrades { get; }
+        public StrategyStats StatsUpgrades => _statsUpgrades;
         public IReadOnlyDictionary<GameCurrency, int> Currencies => _currencies;
-        
+        //public Inventory PlayerInventory => _playerInventory;
+
     }
 }

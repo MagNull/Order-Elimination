@@ -27,14 +27,15 @@ namespace OrderElimination.SavesManagement
                 playerCharactersData.Add(charData);
             }
             var saveData = new PlayerProgressSerializableData(
-                playerCharactersData.ToArray(), progress.StatsUpgrades, progress.Currencies);
+                playerCharactersData.ToArray(), 
+                progress.StatsUpgrades, progress.Currencies);
             return saveData;
         }
 
         public PlayerProgressData UnpackSaveData(PlayerProgressSerializableData saveData)
         {
             ValidateMappings();
-            var playerCharacters = saveData.PlayerSquadCharacters
+            var playerCharacters = saveData.PlayerCharacters
                 .Select(c => GameCharacterSerializer.UnpackCharacterFromSaveData(c, _charactersMapping))
                 .ToArray();
             return new PlayerProgressData(
@@ -51,8 +52,7 @@ namespace OrderElimination.SavesManagement
         {
             if (_charactersMapping == null)
             {
-                _charactersMapping = BuildGuidAssetMapping<IGameCharacterTemplate>(
-                    c => ((IGuidAsset)c).AssetId);
+                RefreshMappings();
             }
         }
 

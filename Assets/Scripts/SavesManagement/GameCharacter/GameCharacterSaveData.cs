@@ -7,7 +7,7 @@ namespace OrderElimination.SavesManagement
     [Serializable]
     public readonly struct GameCharacterSaveData
     {
-        public Guid CharacterTemplateId { get; }
+        public Guid TemplateId { get; }
         public GameCharacterStats CharacterStats { get; }
         public float CurrentHealth { get; }
         //public Inventory CharacterInventory { get; }
@@ -18,7 +18,7 @@ namespace OrderElimination.SavesManagement
             float currentHealth)//,
             //Inventory inventory)
         {
-            CharacterTemplateId = templateId;
+            TemplateId = templateId;
             CharacterStats = characterStats;
             CurrentHealth = currentHealth;
             //CharacterInventory = inventory;

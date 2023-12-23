@@ -8,7 +8,7 @@ namespace OrderElimination.SavesManagement
 {
     public class LocalProgressStorage : IPlayerProgressStorage
     {
-        private IFileSerializer _serializer = new BinaryFileSerializer();
+        private IFileSerializer _serializer = new JsonFileSerializer();
 
         public static string LocalDataFileExtension => ".oesave";
         public static string LocalProgressSavePath => $"{Application.persistentDataPath}/Saves";
@@ -34,8 +34,9 @@ namespace OrderElimination.SavesManagement
                 .Where(f => IsSaveFileValid(f))
                 .OrderByDescending(f => f.CreationTimeUtc)
                 .ToArray();
-            var deserializedObject = _serializer.Deserialize(localDatas.First().FullName);
-            return (PlayerProgressSerializableData)deserializedObject;
+            var deserializedObject = _serializer.Deserialize<PlayerProgressSerializableData>(
+                localDatas.First().FullName);
+            return deserializedObject;
         }
 
         public void SetPlayerProgress(PlayerData player, PlayerProgressSerializableData saveData)
@@ -62,19 +63,19 @@ namespace OrderElimination.SavesManagement
 
         private bool IsSaveFileValid(FileInfo file)
         {
-            object deserializedObject;
+            PlayerProgressSerializableData? deserializedObject;
             try
             {
-                deserializedObject = _serializer.Deserialize(file.FullName);
+                deserializedObject = _serializer.Deserialize<PlayerProgressSerializableData>(
+                    file.FullName);
             }
             catch
             {
                 return false;
             }
-            if (deserializedObject == null
-                || deserializedObject is not PlayerProgressSerializableData progress)
+            if (deserializedObject == null)
                 return false;
-            //Check values
+            //TODO-SAVE: Check values?
             return true;
         }
     }

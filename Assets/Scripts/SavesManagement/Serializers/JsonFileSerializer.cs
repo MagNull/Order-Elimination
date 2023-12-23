@@ -1,20 +1,19 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
-using UnityEngine;
 
 namespace OrderElimination.SavesManagement
 {
     public class JsonFileSerializer : IFileSerializer
     {
-        public object Deserialize(string path)
+        public T Deserialize<T>(string path)
         {
             var json = File.ReadAllText(path);
-            return JsonConvert.DeserializeObject(json);
+            return JsonConvert.DeserializeObject<T>(json);
         }
 
-        public void Serialize(string path, object obj)
+        public void Serialize<T>(string path, T obj)
         {
-            var json = JsonConvert.SerializeObject(obj);//JsonUtility.ToJson(obj);
+            var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
             File.WriteAllText(path, json);
         }
     }
