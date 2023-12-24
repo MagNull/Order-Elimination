@@ -13,7 +13,7 @@ namespace OrderElimination.SavesManagement
         private IDataMapping<Guid, IGameCharacterTemplate> _charactersMapping;
 
         public PlayerProgressSerializableData PackSaveData(
-            PlayerProgressData progress)
+            IPlayerProgressData progress)
         {
             ValidateMappings();
             var playerCharactersData = new List<GameCharacterSaveData>();
@@ -32,7 +32,7 @@ namespace OrderElimination.SavesManagement
             return saveData;
         }
 
-        public PlayerProgressData UnpackSaveData(PlayerProgressSerializableData saveData)
+        public IPlayerProgressData UnpackSaveData(PlayerProgressSerializableData saveData)
         {
             ValidateMappings();
             var playerCharacters = saveData.PlayerCharacters

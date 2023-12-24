@@ -54,6 +54,16 @@ namespace OrderElimination.SavesManagement
             _serializer.Serialize($"{fileName}({id}){LocalDataFileExtension}", saveData);
         }
 
+        public void ClearPlayerProgress(PlayerData player)
+        {
+            if (!Directory.Exists(LocalProgressSavePath))
+                return;
+            foreach (var path in Directory.GetFiles(LocalProgressSavePath))
+            {
+                File.Delete(path);
+            }
+        }
+
         private static string GetDatedFileNameWithoutExtension(string path, DateTime creationTimeUtc)
         {
             var shortName =

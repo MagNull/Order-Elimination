@@ -53,7 +53,7 @@ namespace OrderElimination
         
         public void Unregister(string name) => _data.Remove(name.ToLower());
         
-        public void Register(string name, object obj) => _data[name.ToLower()] = obj;
+        public void Register<T>(string name, T obj) => _data[name.ToLower()] = obj;
 
         public void InitTest()
         {
@@ -62,9 +62,11 @@ namespace OrderElimination
             var scenario = "scenario";
             var stats = "stats";//character meta-upgrades
             var rules = "rules";
-            if (!Contains<IEnumerable<GameCharacter>>(playerChars))
+            //if (_testEnemyCharacters == null || _testEnemyCharacters.Any(c => c == null))
+            //    Logging.LogWarning("Test enemy characters null");
+            if (!Contains<GameCharacter[]>(playerChars))
                 Register(playerChars, GameCharactersFactory.CreateGameCharacters(_testPlayerCharacters));
-            if (!Contains<IEnumerable<GameCharacter>>(enemyChars))
+            if (!Contains<GameCharacter[]>(enemyChars) && _testEnemyCharacters != null)
                 Register(enemyChars, GameCharactersFactory.CreateGameCharacters(_testEnemyCharacters));
             if (!Contains<IBattleMapLayout>(scenario))
                 Register(scenario, _testScenario);

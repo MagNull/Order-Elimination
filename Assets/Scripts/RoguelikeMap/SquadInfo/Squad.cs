@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DG.Tweening;
 using OrderElimination;
@@ -53,7 +54,7 @@ namespace RoguelikeMap.SquadInfo
 
         public void Initialize()
         {
-            var characters = _mediator.Get<IEnumerable<GameCharacter>>("player characters");
+            var characters = _mediator.Get<GameCharacter[]>("player characters");
             _model = new SquadModel(characters, _squadMembersPanel, _mediator);
             Debug.Log("New squad created" % Colorize.Red);
             _model.OnUpdateSquadMembers += GenerateCharactersCard;
@@ -92,7 +93,7 @@ namespace RoguelikeMap.SquadInfo
             _model.SetSquadMembers(squadMembers, countActiveMembers);
             if(_mediator.Contains<GameCharacter[]>("player characters"))
                 _mediator.Unregister("player characters");
-            _mediator.Register("player characters", Members);
+            _mediator.Register("player characters", Members.ToArray());
             OnUpdateMembers?.Invoke(ActiveMembers);
         }
 

@@ -118,7 +118,7 @@ public class BattleEndHandler : MonoBehaviour
         _battleContext.BattleRules.DefeatTracker.ConditionMet -= OnDefeatConditionMet;
         if (_playerControls != null)
             _playerControls.enabled = false;
-        var playerCharacters = _scenesMediator.Get<IEnumerable<GameCharacter>>("player characters").ToArray();
+        var playerCharacters = _scenesMediator.Get<GameCharacter[]>("player characters");
         Logging.Log($"Current squad [{playerCharacters.Length}]: {string.Join(", ", playerCharacters.Select(c => c.CharacterData.Name))}" % Colorize.Red);
         var battleResult = CalculateBattleResult(battleOutcome);
 
@@ -130,7 +130,7 @@ public class BattleEndHandler : MonoBehaviour
     private async void OnPlayerVictory()
     {
         OnBattleEnded(BattleOutcome.Win);
-        var playerCharacters = _scenesMediator.Get<IEnumerable<GameCharacter>>("player characters").ToArray();
+        var playerCharacters = _scenesMediator.Get<GameCharacter[]>("player characters").ToArray();
         var battleResult = _scenesMediator.Get<BattleResults>("battle results");
         await UniTask.Delay(Mathf.RoundToInt(BattleResultsDisplayDelay * 1000));
         var panel = (BattleVictoryPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleVictory);
@@ -145,7 +145,7 @@ public class BattleEndHandler : MonoBehaviour
     private async void OnPlayerLose()
     {
         OnBattleEnded(BattleOutcome.Lose); 
-        var playerCharacters = _scenesMediator.Get<IEnumerable<GameCharacter>>("player characters").ToArray();
+        var playerCharacters = _scenesMediator.Get<GameCharacter[]>("player characters").ToArray();
         var battleResult = _scenesMediator.Get<BattleResults>("battle results");
         await UniTask.Delay(Mathf.RoundToInt(BattleResultsDisplayDelay * 1000));
         var panel = (BattleDefeatPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleDefeat);

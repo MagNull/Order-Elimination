@@ -12,5 +12,7 @@
 
         //Cheat unsafe
         public void SetPlayerProgress(PlayerData player, PlayerProgressSerializableData saveData);
+
+        public void ClearPlayerProgress(PlayerData player);
     }
 }

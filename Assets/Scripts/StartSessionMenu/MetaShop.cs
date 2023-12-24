@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using OrderElimination;
+using OrderElimination.MacroGame;
+using OrderElimination.SavesManagement;
 using RoguelikeMap.UI;
 using UnityEngine;
 using VContainer;
@@ -12,9 +14,8 @@ namespace StartSessionMenu
         private MoneyCounter _uiCounter;
         [SerializeField]
         private List<UpgradeCategory> _progressCategories;
-        [SerializeField] 
+        //[SerializeField]
         private int StartMetaMoney = 1000;
-        
         private Wallet _wallet;
         private ScenesMediator _mediator;
         

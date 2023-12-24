@@ -14,14 +14,14 @@ namespace StartSessionMenu
         public Wallet(int money)
         {
             _money = money;
-            PlayerPrefs.SetInt("Money", money);
+            //PlayerPrefs.SetInt("Money", money);
             ChangeMoneyEvent = new WalletEvent();
         }
         
         public void AddMoney(int money)
         {
             _money += money;
-            PlayerPrefs.SetInt("Money", money);
+            //PlayerPrefs.SetInt("Money", money);
             ChangeMoneyEvent?.Invoke(_money);
         }
 
@@ -32,7 +32,7 @@ namespace StartSessionMenu
                 return;
             }
             _money -= money;
-            PlayerPrefs.SetInt("Money", money);
+            //PlayerPrefs.SetInt("Money", money);
             ChangeMoneyEvent?.Invoke(_money);
         }
     }

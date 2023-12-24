@@ -91,7 +91,7 @@ namespace RoguelikeMap.SquadInfo
             _squadMembersPanel.OnSelected -= WereSelectedMembers;
             var enemyCharacters = GameCharactersFactory.CreateGameCharacters(enemies);
             var mediator = _objectResolver.Resolve<ScenesMediator>();
-            var activeMembers = _squad.ActiveMembers.Where(x => x.CurrentHealth > 0);
+            var activeMembers = _squad.ActiveMembers.Where(x => x.CurrentHealth > 0).ToArray();
             mediator.Register("player characters", activeMembers);
             mediator.Register("enemy characters", enemyCharacters);
             mediator.Register("scenario", map);

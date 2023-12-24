@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace OrderElimination.SavesManagement
 {
-    public class PlayerProgressData
+    public class PlayerProgressData : IPlayerProgressData
     {
         private readonly Dictionary<GameCurrency, int> _currencies;
         private GameCharacter[] _playerCharacters;

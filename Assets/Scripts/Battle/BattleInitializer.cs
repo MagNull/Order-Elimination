@@ -40,10 +40,10 @@ namespace Assets.AbilitySystem.PrototypeHelpers
         public void StartScenario(IBattleMapLayout mapLayout)
         {
             var gameAllies = _sceneMediator
-                .Get<IEnumerable<GameCharacter>>("player characters")
+                .Get<GameCharacter[]>("player characters")
                 .ToArray();
             var gameEnemies = _sceneMediator
-                .Get<IEnumerable<GameCharacter>>("enemy characters")
+                .Get<GameCharacter[]>("enemy characters")
                 .ToArray();
             foreach (var data in mapLayout.GetStructures())
             {

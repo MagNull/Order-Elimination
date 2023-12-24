@@ -56,11 +56,12 @@ public class MenuWindow : MonoBehaviour
         _continueButton.onClick.AddListener(() =>
         {
             _sceneTransition.LoadRoguelikeMap();
+            //TODO-SAVE: load progress
         });
         
         _startGameButton.onClick.AddListener(() =>
         {
-            //TODO-SAVE
+            //TODO-SAVE: save previous games backups?
             PlayerProgressManager.ClearPlayerProgress();
             _metaShopPanel.SaveStats();
             if(_scenesMediator.Contains<GameCharacter[]>("player characters"))

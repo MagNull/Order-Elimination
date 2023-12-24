@@ -1,21 +1,22 @@
 ﻿using GameInventory;
-using Newtonsoft.Json;
 using OrderElimination.MacroGame;
-using StartSessionMenu;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using VContainer;
-using VContainer.Unity;
 
 namespace OrderElimination.SavesManagement
 {
     public static class PlayerProgressManager
     {
-        private static int _startMoney = 1000;//Replace with start progress (progress SO template)
         private static IPlayerProgressStorage _progressStorage = new LocalProgressStorage();
         private static SaveDataPacker _saveDataPacker = new SaveDataPacker();
         private static PlayerData _localPlayer = new PlayerData();
+
+        public static IPlayerProgressData NewGameProgress { get; } = new PlayerProgressData(
+            new GameCharacter[0],
+            new StrategyStats(),
+            new Dictionary<GameCurrency, int>()
+            {
+                { GameCurrency.Roguelike, 1800 }
+            });
 
         public static bool HasProgress()
         {
@@ -24,14 +25,14 @@ namespace OrderElimination.SavesManagement
             return hasProgress;
         }
 
-        public static void LoadPlayerProgress(
-            ScenesMediator mediator, IContainerBuilder builder)
+        public static bool LoadPlayerProgress(
+            out IPlayerProgressData progress, out Inventory playerInventory)
         {
             _saveDataPacker.RefreshMappings();
             //Getting values
-            var inventory = InventorySerializer.Load();
-            var roguelikeMoney = PlayerPrefs.GetInt("Wallet");
-            PlayerProgressData progress = null;
+            playerInventory = InventorySerializer.Load();
+            var roguelikeMoney = UnityEngine.PlayerPrefs.GetInt("Wallet");
+            progress = null;
             try
             {
                 if (_progressStorage.ContainsProgressData(_localPlayer))
@@ -39,6 +40,8 @@ namespace OrderElimination.SavesManagement
                     var localData = _progressStorage.GetPlayerProgress(_localPlayer);
                     progress = _saveDataPacker.UnpackSaveData(localData);
                 }
+                else
+                    return false;
             }
             catch (System.Exception e)
             {
@@ -48,50 +51,32 @@ namespace OrderElimination.SavesManagement
             //Setting values
             if (progress != null)
             {
-                if (progress.PlayerCharacters.Length == 0)
+                if (progress.PlayerCharacters.Length > 0)
                 {
-                    Logging.LogError(new LocalDataCorruptedException("Squad members count is 0"));
+                    return true;
                 }
                 else
                 {
-                    mediator.Register("player characters", progress.PlayerCharacters);
-                    mediator.Register("stats", progress.StatsUpgrades);
+                    Logging.LogError(new LocalDataCorruptedException("Squad members count is 0"));
                 }
-                roguelikeMoney = progress.Currencies[GameCurrency.Roguelike];
             }
-            builder.Register<Wallet>(Lifetime.Singleton).WithParameter(roguelikeMoney);
-            builder.RegisterComponent(inventory);
-            Logging.Log("Player progress data loaded.");
+            return false;
         }
 
         public static void SavePlayerProgress(
-            ScenesMediator mediator, IObjectResolver resolver)
+            IPlayerProgressData progress, Inventory playerInventory)
         {
             _saveDataPacker.RefreshMappings();
-            var inventory = resolver.Resolve<Inventory>();
-            var playerSquad = mediator.Get<IEnumerable<GameCharacter>>("player characters");
-            var upgradeStats = mediator.Get<StrategyStats>("stats");
-            var roguelikeMoney = resolver.Resolve<Wallet>().Money;
-            var currencies = new Dictionary<GameCurrency, int>()
-            {
-                { GameCurrency.Roguelike, roguelikeMoney },
-            };
-            var progress = new PlayerProgressData(
-                playerSquad.ToArray(), upgradeStats, currencies);
-
-            PlayerPrefs.SetInt("Wallet", roguelikeMoney);
-            InventorySerializer.Save(inventory);
+            InventorySerializer.Save(playerInventory);
             var save = _saveDataPacker.PackSaveData(progress);
             _progressStorage.SetPlayerProgress(_localPlayer, save);
-
-            Logging.Log("Player progress data saved.");
         }
 
         public static void ClearPlayerProgress()
         {
-            InventorySerializer.Delete();
-            PlayerPrefs.SetInt("Wallet", _startMoney);
             //Remove Local Data
+            _progressStorage.ClearPlayerProgress(_localPlayer);
+            InventorySerializer.Delete();
             Logging.Log("Player progress data cleared.");
         }
     }
