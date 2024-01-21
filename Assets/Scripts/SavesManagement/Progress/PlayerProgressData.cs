@@ -1,4 +1,5 @@
 ﻿using GameInventory;
+using GameInventory.Items;
 using OrderElimination.MacroGame;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,27 @@ namespace OrderElimination.SavesManagement
 {
     public class PlayerProgressData : IPlayerProgressData
     {
+        //--- MetaGame ---
+        //(*const per real player)
+        public int MetaCurrency { get; set; }
+        public int HireCurrencyLimit { get; set; } //(used to hire characters for Roguelike Run)
+        //public HashSet<CharacterTemplate> UnlockedCharacters 
+        //public HashSet<ItemData> KnownItems
+
+        //--- Roguelike Run --- 
+        //(*resets each "new game")
+        public StrategyStats StatUpgrades { get; set; }//NEW GAME RESETS
+        // Modifiers
+        // Map (points, locations, enemies)
+
+        public int RoguelikeCurrency { get; set; }//NEW GAME RESETS
+        public GameCharacter[] PosessedCharacters { get; set; }//NEW GAME RESETS
+        // Characters metadata ? (id, isActiveInSquad, isHired, ...)
+        // Inventory
+        // Current point
+
+
+
         private readonly Dictionary<GameCurrency, int> _currencies;
         private GameCharacter[] _playerCharacters;
         private StrategyStats _statsUpgrades;

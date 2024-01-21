@@ -7,12 +7,13 @@ using UnityEngine;
 
 namespace OrderElimination.MacroGame
 {
-    public class GameCharacter
+    public class GameCharacter : ISerializationCallbackReceiver
     {
         private GameCharacterStats _characterStats;
         private float _currentHealth;
         private readonly List<IActiveAbilityData> _activeAbilities = new();
         private readonly List<IPassiveAbilityData> _passiveAbilities = new();
+
 
         public IGameCharacterTemplate CharacterData { get; }
         public IReadOnlyList<IActiveAbilityData> ActiveAbilities => _activeAbilities;
@@ -71,6 +72,16 @@ namespace OrderElimination.MacroGame
         public void SetInventory(Inventory inventory)
         {
             Inventory = inventory;
+        }
+
+        public void OnBeforeSerialize()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnAfterDeserialize()
+        {
+            throw new NotImplementedException();
         }
     }
 }
