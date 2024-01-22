@@ -45,7 +45,7 @@ namespace StartSessionMenu
             _wallet.SubtractMoney(cost);
         }
 
-        public void SaveStats()
+        public StrategyStats GetUpgradeStats()
         {
             var statsGrowth = new StrategyStats()
             {
@@ -55,7 +55,7 @@ namespace StartSessionMenu
                 EvasionGrowth = _progressCategories[3].ProgressCount * _progressCategories[3].PercentInPart,
                 AccuracyGrowth = _progressCategories[4].ProgressCount * _progressCategories[4].PercentInPart
             };
-            _mediator.Register("stats", statsGrowth);
+            return statsGrowth;
         }
     }
 }

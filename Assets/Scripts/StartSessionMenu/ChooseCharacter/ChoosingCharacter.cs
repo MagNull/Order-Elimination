@@ -109,20 +109,15 @@ namespace StartSessionMenu.ChooseCharacter
             SetActiveStartButton();
         }
 
-        public bool SaveCharacters()
+        public GameCharacter[] GetSelectedCharacters()
         {
             if (_selectedCount <= 0)
-                return false;
+                return new GameCharacter[0];
 
-            var characters = 
-                (from zone in _selectedDropZones 
+            return (from zone in _selectedDropZones 
                 where zone.CharacterCard != null 
                 select GameCharactersFactory.CreateGameCharacter(zone.CharacterCard.Character.CharacterData))
                 .ToArray();
-            
-
-            _mediator.Register("player characters", characters);
-            return true;
         }
 
         public void ClickShift(float shift)

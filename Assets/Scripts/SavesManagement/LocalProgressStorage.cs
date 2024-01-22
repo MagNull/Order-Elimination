@@ -1,92 +1,93 @@
-﻿using OrderElimination.Infrastructure;
-using System;
+﻿using System;
 using System.IO;
-using System.Linq;
 using UnityEngine;
 
 namespace OrderElimination.SavesManagement
 {
     public class LocalProgressStorage : IPlayerProgressStorage
     {
-        private IFileSerializer _serializer = new JsonFileSerializer();
+        public static string SaveFileExtension => ".oesave";
+        public static string LocalSavesPath => $"{Application.persistentDataPath}/Saves";
 
-        public static string LocalDataFileExtension => ".oesave";
-        public static string LocalProgressSavePath => $"{Application.persistentDataPath}/Saves";
+        private readonly SaveDataPacker _saveDataPacker;
 
-        public bool ContainsProgressData(PlayerData player)
+        public LocalProgressStorage(SaveDataPacker saveDataPacker)
         {
-            if (!Directory.Exists(LocalProgressSavePath))
+            AssetIdsMappings.RefreshMappings();
+            _saveDataPacker = saveDataPacker;
+        }
+
+        public IPlayerProgress GetProgress(PlayerData player)
+        {
+            var path = LocalSavesPath;
+            if (!Directory.Exists(path))
+                return null;
+            var targetFile = GetSaveFileFullName(player);
+            if (!File.Exists(targetFile))
+                return null;
+            if (!IsSaveFileValid(new FileInfo(targetFile), out var progress))
+                return null;
+            return progress;
+        }
+
+        public bool SetProgress(PlayerData player, IPlayerProgress progress)
+        {
+            if (progress == null)
+                throw new ArgumentNullException("Progress to save can not be null");
+            var path = LocalSavesPath;
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(LocalSavesPath);
+            var targetFile = GetSaveFileFullName(player);
+            if (File.Exists(targetFile))
             {
-                return false;
+                var backupFile = GetBackupFileFullName(player);
+                File.Delete(backupFile);
+                File.Copy(targetFile, backupFile);
             }
-            return Directory.EnumerateFiles(LocalProgressSavePath, $"*{LocalDataFileExtension}")
-                .Any(f => IsSaveFileValid(new FileInfo(f)));
+            var json = _saveDataPacker.PackSaveData(progress);
+            File.WriteAllText(targetFile, json);
+            Logging.Log($"Progress saved at \"{targetFile}\"");
+            return true;
         }
 
-        public PlayerProgressSerializableData GetPlayerProgress(PlayerData player)
+        public void ClearProgress(PlayerData player)
         {
-            if (!ContainsProgressData(player))
-                throw new FailedToLoadLocalDataException(
-                    $"Local data wasn't found at {LocalProgressSavePath}.");
-            var localDatas = Directory
-                .GetFiles(LocalProgressSavePath, $"*{LocalDataFileExtension}")
-                .Select(name => new FileInfo(name))
-                .Where(f => IsSaveFileValid(f))
-                .OrderByDescending(f => f.CreationTimeUtc)
-                .ToArray();
-            var deserializedObject = _serializer.Deserialize<PlayerProgressSerializableData>(
-                localDatas.First().FullName);
-            return deserializedObject;
+            var targetFile = GetBackupFileFullName(player);
+            if (File.Exists(targetFile))
+                File.Delete(targetFile);
         }
 
-        public void SetPlayerProgress(PlayerData player, PlayerProgressSerializableData saveData)
+        private bool IsSaveFileValid(FileInfo file, out IPlayerProgress progress)
         {
-            if (!Directory.Exists(LocalProgressSavePath))
-            {
-                Directory.CreateDirectory(LocalProgressSavePath);
-            }
-            var fileName = GetDatedFileNameWithoutExtension(LocalProgressSavePath, DateTime.Now);
-            var id = 0;
-            while (File.Exists($"{fileName}({id}){LocalDataFileExtension}"))
-            {
-                id++;
-            }
-            _serializer.Serialize($"{fileName}({id}){LocalDataFileExtension}", saveData);
-        }
-
-        public void ClearPlayerProgress(PlayerData player)
-        {
-            if (!Directory.Exists(LocalProgressSavePath))
-                return;
-            foreach (var path in Directory.GetFiles(LocalProgressSavePath))
-            {
-                File.Delete(path);
-            }
-        }
-
-        private static string GetDatedFileNameWithoutExtension(string path, DateTime creationTimeUtc)
-        {
-            var shortName =
-                $"LocalProgress-{creationTimeUtc.Year}-{creationTimeUtc.Month}-{creationTimeUtc.Day}";
-            return Path.Combine(path, shortName);
-        }
-
-        private bool IsSaveFileValid(FileInfo file)
-        {
-            PlayerProgressSerializableData? deserializedObject;
             try
             {
-                deserializedObject = _serializer.Deserialize<PlayerProgressSerializableData>(
-                    file.FullName);
+                var text = File.ReadAllText(file.FullName);
+                var deserializedObject = _saveDataPacker.UnpackSaveData(text);
+                progress = deserializedObject;
             }
-            catch
+            catch (Exception e)
             {
+                Logging.LogException(e);
+                progress = null;
                 return false;
             }
-            if (deserializedObject == null)
-                return false;
             //TODO-SAVE: Check values?
             return true;
         }
+
+        private string GetSaveFileName(PlayerData player)
+            => $"PlayerProgress-Default" + SaveFileExtension;
+
+        private string GetSaveFileFullName(PlayerData player)
+            => $"{LocalSavesPath}/{GetSaveFileName(player)}";
+
+        private string GetBackupFileName(PlayerData player)
+        {
+            var now = DateTime.Now;
+            return $"bc-{now.Month}-{now.Day}-{GetSaveFileName(player)}";
+        }
+
+        private string GetBackupFileFullName(PlayerData player)
+            => $"{LocalSavesPath}/{GetBackupFileName(player)}";
     }
 }

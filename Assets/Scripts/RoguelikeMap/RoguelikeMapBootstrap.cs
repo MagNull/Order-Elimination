@@ -10,9 +10,9 @@ using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 using VContainer;
@@ -69,19 +69,19 @@ namespace RoguelikeMap
                 mediator.InitTest();
             }
 
-            var defaultProgress = PlayerProgressManager.NewGameProgress;
-            var roguelikeMoney = defaultProgress.Currencies[GameCurrency.Roguelike];
+            var roguelikeMoney = 1800;//default
             var playerInventory = InventorySerializer.Load();
-            if (_loadLocalData
-                && PlayerProgressManager.LoadPlayerProgress(out var progress, out var inventory))
+            if (_loadLocalData)
             {
-                mediator.Register("player characters", progress.PlayerCharacters);
-                mediator.Register("stats", progress.StatsUpgrades);
-                roguelikeMoney = progress.Currencies[GameCurrency.Roguelike];
-                playerInventory = inventory;
+                var progress = mediator.Contains<IPlayerProgress>("progress")
+                    ? mediator.Get<IPlayerProgress>("progress")
+                    : PlayerProgressManager.LoadSavedProgress();
+                //TODO-SAVES: replace with progress
+                //mediator.Register("player characters", progress.PosessedCharacters);
+                //mediator.Register("stats", progress.StatUpgrades);
+                roguelikeMoney = progress.CurrentRunProgress.RoguelikeCurrency;
+                //playerInventory = inventory;
                 Logging.Log("Player progress data loaded.");
-                Logging.Log("Player Currency:\n" + 
-                    string.Join("\n", progress.Currencies.Select(c => $"{c.Key}: {c.Value}")));
             }
             Logging.Log($"Player money: {roguelikeMoney}");
             builder.Register<Wallet>(Lifetime.Singleton).WithParameter(roguelikeMoney);
@@ -130,21 +130,21 @@ namespace RoguelikeMap
         private void SaveProgress()
         {
             var sceneMediator = Container.Resolve<ScenesMediator>();
+
+            //ToRemove
             var inventory = Container.Resolve<Inventory>();
             var roguelikeMoney = Container.Resolve<Wallet>().Money;
-
             var playerSquad = sceneMediator
                 .Get<IEnumerable<GameCharacter>>("player characters")
                 .ToArray();
             var upgradeStats = sceneMediator.Get<StrategyStats>("stats");
-            var currencies = new Dictionary<GameCurrency, int>()
-                {
-                    { GameCurrency.Roguelike, roguelikeMoney },
-                };
-            var progress = new PlayerProgressData(playerSquad, upgradeStats, currencies);
+            //Deprecated
 
-            //var progress = sceneMediator.Get<IPlayerProgressData>("progress");
-            PlayerProgressManager.SavePlayerProgress(progress, inventory);
+            var progress = sceneMediator.Get<IPlayerProgress>("progress");
+            if (progress.CurrentRunProgress == null)
+                throw new ArgumentException("Current run progress should be already assigned");
+
+            PlayerProgressManager.SaveProgress(progress);
             Logging.Log("Player progress data saved.");
         }
     }

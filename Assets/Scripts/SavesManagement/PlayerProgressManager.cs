@@ -1,83 +1,74 @@
 ﻿using GameInventory;
-using OrderElimination.MacroGame;
-using System.Collections.Generic;
+using System;
 
 namespace OrderElimination.SavesManagement
 {
     public static class PlayerProgressManager
     {
-        private static IPlayerProgressStorage _progressStorage = new LocalProgressStorage();
-        private static SaveDataPacker _saveDataPacker = new SaveDataPacker();
+        private static readonly IPlayerProgressStorage _progressStorage;
+        private static readonly SaveDataPacker _saveDataPacker;
         private static PlayerData _localPlayer = new PlayerData();
+        private static IPlayerProgress _lastLoadedProgress;
 
-        public static IPlayerProgressData NewGameProgress { get; } = new PlayerProgressData(
-            new GameCharacter[0],
-            new StrategyStats(),
-            new Dictionary<GameCurrency, int>()
-            {
-                { GameCurrency.Roguelike, 1800 }
-            });
-
-        public static bool HasProgress()
+        static PlayerProgressManager()
         {
-            var hasProgress = _progressStorage.ContainsProgressData(_localPlayer);
-            Logging.Log($"Has local progress: {hasProgress}");
-            return hasProgress;
+            AssetIdsMappings.RefreshMappings();
+            _saveDataPacker = new(AssetIdsMappings.CharactersMapping);
+            _progressStorage = new LocalProgressStorage(_saveDataPacker);
         }
 
-        public static bool LoadPlayerProgress(
-            out IPlayerProgressData progress, out Inventory playerInventory)
+        public static IPlayerProgress LoadSavedProgress()
         {
-            _saveDataPacker.RefreshMappings();
-            //Getting values
-            playerInventory = InventorySerializer.Load();
+            //ToRemove
+            var playerInventory = InventorySerializer.Load();
             var roguelikeMoney = UnityEngine.PlayerPrefs.GetInt("Wallet");
-            progress = null;
-            try
+            //
+
+            var localProgress = _progressStorage.GetProgress(_localPlayer);
+            if (localProgress != null)
             {
-                if (_progressStorage.ContainsProgressData(_localPlayer))
-                {
-                    var localData = _progressStorage.GetPlayerProgress(_localPlayer);
-                    progress = _saveDataPacker.UnpackSaveData(localData);
-                }
-                else
-                    return false;
-            }
-            catch (System.Exception e)
-            {
-                Logging.LogException(e);
+                //Validate
+                if (!ProgressIsValid(localProgress))
+                    Logging.LogError(new LocalDataCorruptedException());
+                _lastLoadedProgress = localProgress;
+                return localProgress;
             }
 
-            //Setting values
-            if (progress != null)
+            //return default progress
+            return new PlayerProgress()
             {
-                if (progress.PlayerCharacters.Length > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    Logging.LogError(new LocalDataCorruptedException("Squad members count is 0"));
-                }
-            }
-            return false;
+                CurrentRunProgress = null
+            };
+            throw new NotImplementedException();
         }
 
-        public static void SavePlayerProgress(
-            IPlayerProgressData progress, Inventory playerInventory)
+        public static IPlayerProgress GetLastLoadedProgress()
+            => _lastLoadedProgress;
+
+        public static void SaveProgress(IPlayerProgress progress)
         {
-            _saveDataPacker.RefreshMappings();
-            InventorySerializer.Save(playerInventory);
-            var save = _saveDataPacker.PackSaveData(progress);
-            _progressStorage.SetPlayerProgress(_localPlayer, save);
+            if (progress == null)
+                throw new ArgumentNullException();
+            _progressStorage.SetProgress(_localPlayer, progress);
+            //InventorySerializer.Save(playerInventory);
         }
 
-        public static void ClearPlayerProgress()
+        public static void ClearProgress()
         {
             //Remove Local Data
-            _progressStorage.ClearPlayerProgress(_localPlayer);
+            _progressStorage.ClearProgress(_localPlayer);
             InventorySerializer.Delete();
             Logging.Log("Player progress data cleared.");
+        }
+
+        private static bool ProgressIsValid(IPlayerProgress progress)
+        {
+            if (progress.CurrentRunProgress != null)
+            {
+                if (progress.CurrentRunProgress.PosessedCharacters.Length == 0)
+                    return false;
+            }
+            return true;
         }
     }
 }

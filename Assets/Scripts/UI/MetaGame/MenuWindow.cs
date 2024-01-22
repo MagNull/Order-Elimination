@@ -28,6 +28,9 @@ public class MenuWindow : MonoBehaviour
     private GameObject _startMenuPanel;
     [SerializeField] 
     private Image _maskWallpaper;
+
+    [SerializeField]
+    private IPlayerProgress _defaultPlayerProgress;
     
     private SceneTransition _sceneTransition;
     private ScenesMediator _scenesMediator;
@@ -43,11 +46,14 @@ public class MenuWindow : MonoBehaviour
     private void Start()
     {
         _startMenuPanelInitialPosition = _startMenuPanel.transform.position;
-        var hasLocalProgress = PlayerProgressManager.HasProgress();
-        _continueButton.DOInterectable(hasLocalProgress);
+        var progress = PlayerProgressManager.LoadSavedProgress();
+        //Progress validation
+        _continueButton.DOInterectable(progress.CurrentRunProgress != null);
+        _scenesMediator.Register("progress", progress);
 
         _previousButton.onClick.AddListener(() =>
         {
+            Debug.Log("Button: Prev");
             _startMenuPanel.transform.DOMoveX(_startMenuPanelInitialPosition.x, 1.5f);
             _maskWallpaper.gameObject.SetActive(true);
             _maskWallpaper.DOFade(0.65f, 1.5f);
@@ -55,21 +61,34 @@ public class MenuWindow : MonoBehaviour
         
         _continueButton.onClick.AddListener(() =>
         {
+            Debug.Log("Button: Continue");
+            if (progress.CurrentRunProgress == null)
+            {
+                throw new System.InvalidOperationException("Should not be allowed");
+            }
             _sceneTransition.LoadRoguelikeMap();
             //TODO-SAVE: load progress
         });
         
         _startGameButton.onClick.AddListener(() =>
         {
-            //TODO-SAVE: save previous games backups?
-            PlayerProgressManager.ClearPlayerProgress();
-            _metaShopPanel.SaveStats();
-            if(_scenesMediator.Contains<GameCharacter[]>("player characters"))
-                _scenesMediator.Unregister("player characters");
-            if(_scenesMediator.Contains<int>("point index"))
+            Debug.Log("Button: Start");
+            if (_scenesMediator.Contains<int>("point index"))
                 _scenesMediator.Unregister("point index");
-            if(_choosingCharacterPanel.SaveCharacters())
-                _sceneTransition.LoadRoguelikeMap();
+
+            var stats = _metaShopPanel.GetUpgradeStats();
+            var characters = _choosingCharacterPanel.GetSelectedCharacters();
+            if (characters.Length == 0)
+                return;
+            _scenesMediator.Register("stats", stats);
+            _scenesMediator.Register("player characters", characters);
+            progress.CurrentRunProgress = new()
+            {
+                PosessedCharacters = characters,
+                StatUpgrades = stats,
+                RoguelikeCurrency = 1800//TODO: Get from MetaProgress
+            };
+            _sceneTransition.LoadRoguelikeMap();
         });
     }
 
