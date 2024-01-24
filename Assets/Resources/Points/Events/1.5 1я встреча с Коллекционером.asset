@@ -98,10 +98,10 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: exits
-        node: {fileID: -4977509248825714975}
+        node: {fileID: 1183468848962879052}
         reroutePoints: []
       - fieldName: exits
-        node: {fileID: 1183468848962879052}
+        node: {fileID: 3391204924586447971}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -120,14 +120,11 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   _name: 
-  _image: {fileID: 0}
-  text: "\u041D\u0430\u0434 \u0433\u043E\u043B\u043E\u0432\u043E\u0439 \u0447\u0442\u043E-\u0442\u043E
-    \u0437\u0430\u0433\u0440\u043E\u0445\u043E\u0442\u0430\u043B\u043E \u0438 \u0432\u0430\u0441
-    \u043D\u0430\u043A\u0440\u044B\u043B\u043E \u043F\u044B\u043B\u0435\u0432\u044B\u043C
-    \u043E\u0431\u043B\u0430\u043A\u043E\u043C. \u041A\u043E\u0433\u0434\u0430 \u043E\u043D\u043E
-    \u0440\u0430\u0441\u0441\u0435\u044F\u043B\u043E\u0441\u044C, \u0432\u044B \u0443\u0432\u0438\u0434\u0435\u043B\u0438
-    \u0442\u0440\u0435\u0445 \u043C\u0435\u0442\u0440\u043E\u0432\u043E\u0433\u043E
-    \u043C\u043E\u043D\u0441\u0442\u0440\u0430, \u043D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u044E\u0449\u0435\u0433\u043E
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u041A\u043E\u0433\u0434\u0430 \u043E\u043D\u043E \u0440\u0430\u0441\u0441\u0435\u044F\u043B\u043E\u0441\u044C,
+    \u0432\u044B \u0443\u0432\u0438\u0434\u0435\u043B\u0438 \u0442\u0440\u0435\u0445
+    \u043C\u0435\u0442\u0440\u043E\u0432\u043E\u0433\u043E \u043C\u043E\u043D\u0441\u0442\u0440\u0430,
+    \u043D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u044E\u0449\u0435\u0433\u043E
     \u043E\u0433\u0440\u043E\u043C\u043D\u043E\u0433\u043E \u043A\u0440\u0430\u0431\u0430...\u043E\u0447\u0435\u043D\u044C
     \u0437\u043B\u043E\u0433\u043E \u043A\u0440\u0430\u0431\u0430."
   <IsRequiredItem>k__BackingField: 0
@@ -270,7 +267,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 3240, y: 664}
+  position: {x: 3272, y: 1016}
   ports:
     keys:
     - entries
@@ -330,7 +327,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 4120, y: -408}
+  position: {x: 3944, y: -408}
   ports:
     keys:
     - entries
@@ -344,6 +341,18 @@ MonoBehaviour:
       - fieldName: exits
         node: {fileID: -3033442956533699660}
         reroutePoints: []
+      - fieldName: exits
+        node: {fileID: 2798579191163497392}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: 8429278103432269919}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: 9171428117737663126}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: -3221492412934055189}
+        reroutePoints: []
       _direction: 0
       _connectionType: 0
       _typeConstraint: 0
@@ -354,22 +363,22 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: entries
-        node: {fileID: -8045235520315615413}
+        node: {fileID: -4847227968744648812}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
   _name: 
-  _image: {fileID: 0}
+  _image: {fileID: 21300000, guid: 09d1b96bf9568d64e9f561747fe62877, type: 3}
   text: "\u0421\u0438\u043B\u0443\u0435\u0442 \u043F\u043E\u0432\u0435\u0440\u043D\u0443\u043B\u0441\u044F
     \u0432 \u0432\u0430\u0448\u0443 \u0441\u0442\u043E\u0440\u043E\u043D\u0443.\n\"\u041E\u0445,
-    \u0436\u0438\u0432\u044B\u0435 \u0434\u0443\u0448\u0438! \u0412\u0440\u0435\u043C\u044F-\u0434\u0435\u043D\u044C\u0433\u0438,
-    \u0432\u0440\u043E\u0434\u0435 \u0442\u0430\u043A \u0443 \u0432\u0430\u0441 \u0433\u043E\u0432\u043E\u0440\u0438\u0442\u0441\u044F.
-    \u0422\u0430\u043A \u0447\u0442\u043E \u043F\u0435\u0440\u0435\u0439\u0434\u0435\u043C
-    \u043A \u0434\u0435\u043B\u0443. \u042F \u0437\u043D\u0430\u044E \u0447\u0442\u043E
+    \u043E\u0447\u0435\u0440\u0435\u0434\u043D\u044B\u0435 \u0437\u0430\u0431\u043B\u0443\u0434\u0448\u0438\u0435
+    \u0434\u0443\u0448\u0438! \u042F \u0437\u043D\u0430\u044E \u0447\u0442\u043E
     \u0432\u044B \u043F\u0440\u044F\u0447\u0435\u0442\u0435\u0441\u044C \u0437\u0430
-    \u043F\u0435\u0440\u0435\u0433\u043E\u0440\u043E\u0434\u043A\u0430\u043C\u0438...\""
+    \u043F\u0435\u0440\u0435\u0433\u043E\u0440\u043E\u0434\u043A\u0430\u043C\u0438,
+    \u0443\u0432\u0435\u0440\u044F\u044E, \u044F \u0432\u0430\u043C \u043D\u0435
+    \u0432\u0440\u0430\u0433!\""
   <IsRequiredItem>k__BackingField: 0
   _requiredItems: []
   <IsAddItem>k__BackingField: 0
@@ -396,7 +405,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 4504, y: -408}
+  position: {x: 5416, y: -296}
   ports:
     keys:
     - entries
@@ -408,7 +417,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: exits
-        node: {fileID: -8047098990945643813}
+        node: {fileID: -7495793487086290108}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -420,7 +429,71 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: entries
-        node: {fileID: -4847227968744648812}
+        node: {fileID: -3839024815658893884}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 09d1b96bf9568d64e9f561747fe62877, type: 3}
+  text: "\"\u0412 \u0447\u0435\u0441\u0442\u044C \u0437\u043D\u0430\u043A\u043E\u043C\u0441\u0442\u0432\u0430
+    \u043F\u0440\u0435\u0434\u043B\u0430\u0433\u0430\u044E \u0432\u0430\u043C \u0432\u044B\u0433\u043E\u0434\u043D\u044B\u0439
+    \u043E\u0431\u043C\u0435\u043D: \u043C\u0435\u0434\u043F\u0430\u043A \u043D\u0430
+    \u043F\u0430\u0442\u0440\u043E\u043D\u044B \"\u0414\u0438\u043A\u043E\u0431\u0440\u0430\u0437\"!
+    \u0414\u0443\u043C\u0430\u044E \u0432\u0430\u043C \u044D\u0442\u043E \u043E\u0447\u0435\u043D\u044C
+    \u043F\u0440\u0438\u0433\u043E\u0434\u0438\u0442\u044C\u0441\u044F.\""
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-7633599106455955366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3656, y: 664}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -7633599106455955366}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 7565798499723321869}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -7633599106455955366}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -1299873296245174281}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -428,11 +501,144 @@ MonoBehaviour:
       _dynamic: 0
   _name: 
   _image: {fileID: 0}
-  text: "\"\u0421\u0435\u0439\u0447\u0430\u0441 \u044F \u043F\u0440\u0435\u0434\u043B\u0430\u0433\u0430\u044E
-    \u0432\u0430\u043C \u0432\u044B\u0433\u043E\u0434\u043D\u044B\u0439 \u043E\u0431\u043C\u0435\u043D:
-    \u043C\u0435\u0434\u043F\u0430\u043A \u043D\u0430 \u043F\u0430\u0442\u0440\u043E\u043D\u044B
-    \"\u0414\u0438\u043A\u043E\u0431\u0440\u0430\u0437\"! \u0414\u0443\u043C\u0430\u044E
-    \u0432\u0430\u043C \u044D\u0442\u043E \u043E\u0447\u0435\u043D\u044C \u043F\u0440\u0438\u0433\u043E\u0434\u0438\u0442\u044C\u0441\u044F."
+  text: "\"\u041D\u0430\u0437\u0430\u0434! \u041F\u043E\u043A\u0430 \u043D\u0430\u0441
+    \u0442\u0443\u0442 \u043D\u0435 \u0437\u0430\u043C\u0443\u0440\u043E\u0432\u0430\u043B\u043E!\"\n\u042D\u0442\u043E
+    \u043F\u043E\u0441\u043B\u0435\u0434\u043D\u0435\u0435 \u0447\u0442\u043E \u0432\u044B
+    \u0443\u0441\u043F\u0435\u043B\u0438 \u0441\u043A\u0430\u0437\u0430\u0442\u044C,
+    \u043F\u0440\u0435\u0436\u0434\u0435 \u0447\u0435\u043C \u043F\u0440\u043E\u0432\u0430\u043B\u0438\u043B\u0441\u044F
+    \u043F\u043E\u0442\u043E\u043B\u043E\u043A, \u0430 \u0437\u0430\u0442\u0435\u043C
+    \u0438 \u043F\u043E\u043B \u0432\u043C\u0435\u0441\u0442\u0435 \u0441 \u043E\u0442\u0440\u044F\u0434\u043E\u043C."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-7559587977339296166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2680, y: -88}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -7559587977339296166}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 5897233075574686066}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -7559587977339296166}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -2681055383990703904}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u0412\u043E\u0437\u043C\u043E\u0436\u043D\u043E \u0432 \u043C\u0430\u0433\u0430\u0437\u0438\u043D\u0435
+    \u0435\u0449\u0435 \u0443\u0446\u0435\u043B\u0435\u043B\u0438 \u0443\u043B\u0443\u0447\u0448\u0435\u043D\u043D\u044B\u0435
+    \u043C\u043E\u0434\u0435\u043B\u0438 \u044D\u043A\u0438\u043F\u0438\u0440\u043E\u0432\u043A\u0438,
+    \u0434\u0430 \u0438 \u0432\u0441\u0435 \u0440\u0430\u0432\u043D\u043E \u043F\u043E
+    \u043F\u0443\u0442\u0438. \u0418\u043D\u0442\u0435\u0440\u0435\u0441\u043D\u043E,
+    \u0442\u0435\u0440\u043C\u0438\u043D\u0430\u043B \u043E\u043F\u043B\u0430\u0442\u044B
+    \u0435\u0449\u0435 \u0440\u0430\u0431\u043E\u0442\u0430\u0435\u0442?..."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-7495793487086290108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 5112, y: -296}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -7495793487086290108}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -5684706175324624423}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -7495793487086290108}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -8045235520315615413}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 09d1b96bf9568d64e9f561747fe62877, type: 3}
+  text: "\u041F\u0435\u0440\u0435\u0434\u0430\u0434\u0438\u0442\u0435 \u043C\u043D\u0435
+    \u043D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0440\u0435\u0434\u043A\u0438\u0445
+    \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u043E\u0432, \u0430 \u044F \u043E\u0442\u043A\u0440\u043E\u044E
+    \u0434\u043B\u044F \u0432\u0430\u0441 \u043F\u043E\u0440\u0442\u0430\u043B \u0432
+    \u0432\u0430\u0448 \u0440\u043E\u0434\u043D\u043E\u0439 \u043C\u0438\u0440. \u041E\u0431\u044B\u0447\u043D\u043E
+    \u044F \u0437\u0430\u0440\u0430\u043D\u0435\u0435 \u0431\u0443\u0434\u0443 \u043D\u0430\u0437\u044B\u0432\u0430\u0442\u044C
+    \u0438\u043D\u0442\u0435\u0440\u0435\u0441\u0443\u044E\u0449\u0438\u0439 \u043C\u0435\u043D\u044F
+    \u043F\u0440\u0435\u0434\u043C\u0435\u0442."
   <IsRequiredItem>k__BackingField: 0
   _requiredItems: []
   <IsAddItem>k__BackingField: 0
@@ -490,7 +696,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   _name: 
-  _image: {fileID: 0}
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
   text: "\u0421\u043F\u0443\u0441\u0442\u044F 36 \u043C\u0438\u043D\u0443\u0442...."
   <IsRequiredItem>k__BackingField: 0
   _requiredItems: []
@@ -550,11 +756,11 @@ MonoBehaviour:
       _dynamic: 0
   _name: 
   _image: {fileID: 21300000, guid: 09d1b96bf9568d64e9f561747fe62877, type: 3}
-  text: "\u0421\u0438\u043B\u0443\u0435\u0442 \u043F\u0440\u0438\u0431\u043B\u0438\u0437\u0438\u043B\u0441\u044F.\n\"\u041F\u0440\u0435\u0432\u043E\u0441\u0445\u043E\u0434\u043D\u043E! 
-    \u041C\u044B \u0435\u0449\u0435 \u043D\u0435 \u0440\u0430\u0437 \u0432\u0441\u0442\u0440\u0435\u0442\u0438\u043C\u0441\u044F,
+  text: "\"\u041F\u0440\u0435\u0432\u043E\u0441\u0445\u043E\u0434\u043D\u043E!  \u041C\u044B
+    \u0435\u0449\u0435 \u0432\u0441\u0442\u0440\u0435\u0442\u0438\u043C\u0441\u044F,
     \u0442\u0430\u043A \u0447\u0442\u043E \u043D\u0435 \u0443\u043F\u0443\u0441\u0442\u0438\u0442\u0435
-    \u0432\u044B\u0433\u043E\u0434\u043D\u044B\u0435 \u0441\u0434\u0435\u043B\u043A\u0438
-    \u0432 \u0434\u0430\u043B\u044C\u043D\u0435\u0439\u0448\u0435\u043C!\"\n\u041E\u043D
+    \u0432\u043E\u0437\u043C\u043E\u0436\u043D\u043E\u0441\u0442\u044C \u0437\u0430\u0440\u0430\u0431\u043E\u0442\u0430\u0442\u044C
+    \u0431\u0438\u043B\u0435\u0442 \u043E\u0442\u0441\u044E\u0434\u0430!\"\n\u041E\u043D
     \u043C\u0430\u0445\u043D\u0443\u043B \u0432\u0430\u043C \u0438 \u043F\u0440\u044B\u0433\u043D\u0443\u043B
     \u0432 \u0434\u044B\u0440\u0443 \u0432 \u043F\u043E\u0442\u043E\u043B\u043A\u0435."
   <IsRequiredItem>k__BackingField: 0
@@ -562,61 +768,6 @@ MonoBehaviour:
   <IsAddItem>k__BackingField: 1
   _addedItems:
   - {fileID: 11400000, guid: 3f4b55cd8fe5df045a219143a8ce0476, type: 2}
---- !u!114 &-6447116970183759624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
-  m_Name: EventNode
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  graph: {fileID: 11400000}
-  position: {x: 6440, y: -328}
-  ports:
-    keys:
-    - entries
-    - exits
-    values:
-    - _fieldName: entries
-      _node: {fileID: -6447116970183759624}
-      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: exits
-      _node: {fileID: -6447116970183759624}
-      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  _name: 
-  _image: {fileID: 0}
-  text: "\u041C\u043E\u043D\u0441\u0442\u0440 \u0431\u044B\u043B \u0443\u043D\u0438\u0447\u0442\u043E\u0436\u0435\u043D
-    \u043E\u0434\u043D\u0438\u043C \u0443\u0434\u0430\u0440\u043E\u043C. \u0425\u043E\u0440\u043E\u0448\u043E
-    \u0447\u0442\u043E \u044D\u0442\u043E\u0442 \u0447\u0443\u0434\u0430\u043A"
-  <IsRequiredItem>k__BackingField: 0
-  _requiredItems: []
-  <IsAddItem>k__BackingField: 0
-  _addedItems: []
 --- !u!114 &-6445940958355033687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -639,7 +790,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 4008, y: 680}
+  position: {x: 3992, y: 1016}
   ports:
     keys:
     - entries
@@ -679,6 +830,70 @@ MonoBehaviour:
     \u043F\u043E\u0434\u043D\u044F\u0442\u044C\u0441\u044F, \u043F\u0440\u0435\u0436\u0434\u0435
     \u0447\u0435\u043C \u0432\u0435\u0441\u044C \u043E\u0442\u0440\u044F\u0434 \u043F\u0440\u043E\u0432\u0430\u043B\u0438\u043B\u0441\u044F
     \u043F\u043E\u0434 \u0437\u0435\u043C\u043B\u044E."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-5684706175324624423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 4808, y: -296}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -5684706175324624423}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 533204050168969117}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -5684706175324624423}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -7495793487086290108}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 09d1b96bf9568d64e9f561747fe62877, type: 3}
+  text: "\"\u042F \u043F\u0440\u0435\u043A\u0440\u0430\u0441\u043D\u043E \u043F\u043E\u043D\u0438\u043C\u0430\u044E,
+    \u0447\u0442\u043E \u0432\u044B \u0438\u0449\u0435\u0442\u0435 \u0441\u043F\u043E\u0441\u043E\u0431
+    \u0432\u044B\u0431\u0440\u0430\u0442\u044C\u0441\u044F \u0438\u0437 \u044D\u0442\u043E\u0433\u043E
+    \u0438\u0437\u043C\u0435\u0440\u0435\u043D\u0438\u044F! \u0410 \u044F \u0438\u0449\u0443
+    \u0440\u0435\u0434\u043A\u0438\u0435 \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u044B
+    \u0432 \u0441\u0432\u043E\u044E \u043A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u044E. "
   <IsRequiredItem>k__BackingField: 0
   _requiredItems: []
   <IsAddItem>k__BackingField: 0
@@ -729,24 +944,20 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: entries
-        node: {fileID: -8951724450919868195}
+        node: {fileID: -1899397200169894458}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
   _name: 
-  _image: {fileID: 0}
-  text: "\u0412\u044B \u0441\u043B\u044B\u0448\u0438\u0442\u0435 \u0433\u043E\u043B\u043E\u0441,
-    \u043D\u0435\u0442...\u043A\u0443\u0447\u0443 \u0433\u043E\u043B\u043E\u0441\u043E\u0432...\u043E\u043D\u0438
-    \u043A\u0430\u043A-\u0431\u0443\u0434\u0442\u043E \u0447\u0442\u043E-\u0442\u043E
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u0412\u044B \u0441\u043B\u044B\u0448\u0438\u0442\u0435 \u0433\u043E\u043B\u043E\u0441\u0430,
+    \u043E\u043D\u0438 \u043A\u0430\u043A-\u0431\u0443\u0434\u0442\u043E \u0447\u0442\u043E-\u0442\u043E
     \u0438\u0441\u043F\u0443\u0433\u0430\u043D\u043D\u043E \u043E\u0431\u0441\u0443\u0436\u0434\u0430\u044E\u0442.
-    \u041D\u0435\u043F\u043E\u043B\u0443\u0447\u0430\u0435\u0442\u0441\u044F \u0440\u0430\u0437\u043E\u0431\u0440\u0430\u0442\u044C
-    \u0441\u043B\u043E\u0432, \u043D\u043E \u043A\u0430\u0436\u0434\u0430\u044F \u043A\u043B\u0435\u0442\u043A\u0430
-    \u0432\u0430\u0448\u0435\u0433\u043E \u0442\u0435\u043B\u0430 \u0445\u043E\u0447\u0435\u0442
-    \u043D\u0430\u0440\u0443\u0436\u0443, \u043F\u0440\u043E\u0431\u0438\u0442\u044C
-    \u043F\u043E\u0442\u043E\u043B\u043E\u043A \u0438 \u0432\u044B\u0440\u0432\u0430\u0442\u044C\u0441\u044F
-    \u0438\u0437 \u044D\u0442\u0438\u0445 \u043A\u0430\u0442\u0430\u043A\u043E\u043C\u0431!"
+    \u041D\u0438\u0447\u0435\u0433\u043E \u043D\u0435 \u043F\u043E\u043B\u0443\u0447\u0430\u0435\u0442\u0441\u044F
+    \u0440\u0430\u0437\u043E\u0431\u0440\u0430\u0442\u044C, \u0430 \u0433\u043E\u043B\u043E\u0441\u0430
+    \u0432\u0441\u0435 \u0433\u0440\u043E\u043C\u0447\u0435!"
   <IsRequiredItem>k__BackingField: 0
   _requiredItems: []
   <IsAddItem>k__BackingField: 0
@@ -773,7 +984,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 4904, y: -376}
+  position: {x: 4264, y: -360}
   ports:
     keys:
     - entries
@@ -785,7 +996,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: exits
-        node: {fileID: -8045235520315615413}
+        node: {fileID: -8047098990945643813}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -944,6 +1155,67 @@ MonoBehaviour:
   _requiredItems: []
   <IsAddItem>k__BackingField: 0
   _addedItems: []
+--- !u!114 &-4130718812092379301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2488, y: 648}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -4130718812092379301}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 5897233075574686066}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -4130718812092379301}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -2841202431137567164}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u0421\u0442\u043E\u0438\u0442 \u043F\u0440\u043E\u0432\u0435\u0440\u0438\u0442\u044C
+    \u0441\u043A\u043B\u0430\u0434. \u0421\u0435\u0439\u0447\u0430\u0441 \u043A\u0430\u0436\u0434\u044B\u0439
+    \u0432\u044B\u0441\u0442\u0440\u0435\u043B \u043D\u0430 \u0432\u0435\u0441 \u0437\u043E\u043B\u043E\u0442\u0430."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
 --- !u!114 &-3953205329340229119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1030,7 +1302,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 5608, y: -344}
+  position: {x: 5720, y: -344}
   ports:
     keys:
     - entries
@@ -1042,7 +1314,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: exits
-        node: {fileID: 533204050168969117}
+        node: {fileID: -8045235520315615413}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -1137,6 +1409,70 @@ MonoBehaviour:
   _requirementItems: []
   _requirementCharacter:
   - {fileID: 11400000, guid: 04588733ccd1f2a4bb0aad35a508b4de, type: 2}
+--- !u!114 &-3221492412934055189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3640, y: -1240}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -3221492412934055189}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -1727541091782090811}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -3221492412934055189}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -8047098990945643813}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u0418\u0437 \u0434\u044B\u0440\u044B \u0432 \u043F\u043E\u0442\u043E\u043B\u043A\u0435
+    \u0441\u043F\u0440\u044B\u0433\u043D\u0443\u043B \u0441\u0438\u043B\u0443\u0435\u0442
+    \u0432 \u043F\u043B\u0430\u0449\u0435. \u041E\u043D \u043F\u0440\u0435\u0437\u0435\u043C\u043B\u0438\u043B\u0441\u044F
+    \u043D\u0430 \"\u0433\u043E\u043B\u043E\u0432\u0443\" \u043C\u043E\u043D\u0441\u0442\u0440\u0430,
+    \u0438\u0437-\u0437\u0430 \u0447\u0435\u0433\u043E \u0442\u043E\u0433\u043E \u0432\u0434\u0430\u0432\u0438\u043B\u043E
+    \u0432 \u043F\u043E\u043B \u0442\u043E\u043D\u043D\u0435\u043B\u044F."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
 --- !u!114 &-3033442956533699660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1159,7 +1495,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 3753.74, y: -401.91}
+  position: {x: 3640, y: -136}
   ports:
     keys:
     - entries
@@ -1190,7 +1526,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   _name: 
-  _image: {fileID: 0}
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
   text: "\u0418\u0437 \u0434\u044B\u0440\u044B \u0432 \u043F\u043E\u0442\u043E\u043B\u043A\u0435
     \u0441\u043F\u0440\u044B\u0433\u043D\u0443\u043B \u0441\u0438\u043B\u0443\u0435\u0442
     \u0432 \u043F\u043B\u0430\u0449\u0435. \u041E\u043D \u043F\u0440\u0435\u0437\u0435\u043C\u043B\u0438\u043B\u0441\u044F
@@ -1223,7 +1559,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 5176, y: -760}
+  position: {x: 4808, y: -712}
   ports:
     keys:
     - entries
@@ -1255,13 +1591,78 @@ MonoBehaviour:
       _dynamic: 0
   _name: 
   _image: {fileID: 21300000, guid: 09d1b96bf9568d64e9f561747fe62877, type: 3}
-  text: "\u0421\u0438\u043B\u0443\u0435\u0442 \u043F\u0440\u0438\u0431\u043B\u0438\u0437\u0438\u043B\u0441\u044F.\n\"\u0427\u0442\u043E\u0436,
-    \u043F\u043E\u0445\u043E\u0436\u0435 \u0432\u044B \u043D\u0435 \u043D\u0430\u0441\u0442\u0440\u043E\u0435\u043D\u044B
-    \u043D\u0430 \u0441\u043E\u0442\u0440\u0443\u0434\u043D\u0438\u0447\u0435\u0441\u0442\u0432\u043E.
+  text: "\"\u0427\u0442\u043E\u0436, \u043F\u043E\u0445\u043E\u0436\u0435 \u0432\u044B
+    \u043D\u0435 \u043D\u0430\u0441\u0442\u0440\u043E\u0435\u043D\u044B \u043D\u0430
+    \u0441\u043E\u0442\u0440\u0443\u0434\u043D\u0438\u0447\u0435\u0441\u0442\u0432\u043E.
     \u041C\u044B \u0435\u0449\u0435 \u043D\u0435 \u0440\u0430\u0437 \u0432\u0441\u0442\u0440\u0435\u0442\u0438\u043C\u0441\u044F,
     \u0442\u0430\u043A \u0447\u0442\u043E \u043D\u0435 \u0443\u043F\u0443\u0441\u0442\u0438\u0442\u0435
     \u0432\u044B\u0433\u043E\u0434\u043D\u044B\u0435 \u0441\u0434\u0435\u043B\u043A\u0438
     \u0432 \u0434\u0430\u043B\u044C\u043D\u0435\u0439\u0448\u0435\u043C!\""
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-2841202431137567164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2872, y: 664}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -2841202431137567164}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -4130718812092379301}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -2841202431137567164}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 7565798499723321869}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "-\"\u041A\u044D\u043F, \u0442\u0443\u0442 \u043F\u043E\u0442\u043E\u043B\u043E\u043A
+    \u043C\u043E\u0436\u0435\u0442 \u043E\u0431\u0440\u0443\u0448\u0438\u0442\u044C\u0441\u044F,
+    \u043B\u0443\u0447\u0448\u0435 \u0434\u0432\u0438\u0433\u0430\u0442\u044C\u0441\u044F
+    \u043F\u043E \u043F\u0440\u0430\u0432\u043E\u043C\u0443 \u043A\u0440\u0430\u044E\"\n-\"\u041F\u0430\u0440\u043D\u0438,
+    \u0434\u0432\u0438\u0433\u0430\u0435\u043C\u0441\u044F \u043F\u043E \u043F\u0440\u0430\u0432\u043E\u043C\u0443
+    \u043A\u0440\u0430\u044E. \u0415\u0449\u0435 \u043E\u0431\u0432\u0430\u043B\u0430
+    \u043D\u0430\u043C \u043D\u0435 \u0445\u0432\u0430\u0442\u0430...\" "
   <IsRequiredItem>k__BackingField: 0
   _requiredItems: []
   <IsAddItem>k__BackingField: 0
@@ -1301,6 +1702,9 @@ MonoBehaviour:
       connections:
       - fieldName: exits
         node: {fileID: 6234791109986515235}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: -7559587977339296166}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -1383,7 +1787,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   _name: "\u041C\u0435\u0442\u0440\u043E"
-  _image: {fileID: 0}
+  _image: {fileID: 21300000, guid: c05f2b731b5d05b41803779a3c6c2772, type: 3}
   text: "\u041D\u0430 \u0443\u0434\u0438\u0432\u043B\u0435\u043D\u0438\u0435 \u043D\u0430
     \u0441\u0442\u0430\u043D\u0446\u0438\u0438 \u043C\u0435\u0442\u0440\u043E \u043D\u0435
     \u0431\u044B\u043B\u043E \u043C\u043E\u043D\u0441\u0442\u0440\u043E\u0432. \u0415\u0441\u043B\u0438
@@ -1417,7 +1821,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 2472, y: 648}
+  position: {x: 2488, y: 1016}
   ports:
     keys:
     - entries
@@ -1453,6 +1857,70 @@ MonoBehaviour:
     \u043D\u0430\u0441 \u0437\u0430\u043C\u0435\u0442\u0438\u043B! \u041E\u043D \u0441\u0435\u0439\u0447\u0430\u0441
     \u0432\u0440\u0435\u0436\u0435\u0442\u0441\u044F \u0432 \u043D\u0435\u0441\u0443\u0449\u0443\u044E
     \u0441\u0442\u0435\u043D\u0443!\""
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &-1899397200169894458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2216, y: -856}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -1899397200169894458}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -4977509248825714975}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -1899397200169894458}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 3391204924586447971}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u041A\u0430\u0436\u0434\u0430\u044F \u043A\u043B\u0435\u0442\u043A\u0430
+    \u0432\u0430\u0448\u0435\u0433\u043E \u0442\u0435\u043B\u0430 \u0445\u043E\u0447\u0435\u0442
+    \u043D\u0430\u0440\u0443\u0436\u0443, \u043F\u0440\u043E\u0431\u0438\u0442\u044C
+    \u043F\u043E\u0442\u043E\u043B\u043E\u043A \u0438 \u0432\u044B\u0440\u0432\u0430\u0442\u044C\u0441\u044F
+    \u0438\u0437 \u044D\u0442\u0438\u0445 \u043F\u0440\u043E\u043A\u043B\u044F\u0442\u044B\u0445
+    \u043A\u0430\u0442\u0430\u043A\u043E\u043C\u0431!"
   <IsRequiredItem>k__BackingField: 0
   _requiredItems: []
   <IsAddItem>k__BackingField: 0
@@ -1508,6 +1976,18 @@ MonoBehaviour:
       - fieldName: entries
         node: {fileID: -3033442956533699660}
         reroutePoints: []
+      - fieldName: entries
+        node: {fileID: 2798579191163497392}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: 8429278103432269919}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: -3221492412934055189}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: 9171428117737663126}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -1541,7 +2021,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e66a698acc7471a99c99286de762602, type: 3}
-  m_Name: "\u041C\u0435\u0442\u0440\u043E. \u0422\u043E\u0440\u0433\u043E\u0432\u0435\u0446"
+  m_Name: "\u041A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u043E\u043D\u0435\u0440"
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -1553,7 +2033,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 5960, y: -712}
+  position: {x: 6488, y: -648}
   ports:
     keys:
     - entries
@@ -1576,7 +2056,7 @@ MonoBehaviour:
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
-  _name: "\u041C\u0435\u0442\u0440\u043E. \u0422\u043E\u0440\u0433\u043E\u0432\u0435\u0446"
+  _name: "\u041A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u043E\u043D\u0435\u0440"
   <IsHaveItems>k__BackingField: 0
   <IsAddMember>k__BackingField: 0
   _itemsData: []
@@ -1644,6 +2124,70 @@ MonoBehaviour:
   _requiredItems: []
   <IsAddItem>k__BackingField: 0
   _addedItems: []
+--- !u!114 &-1299873296245174281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 4008, y: 664}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -1299873296245174281}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -7633599106455955366}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -1299873296245174281}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 5212949478611905195}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u041F\u043E\u043A\u0430 \u043F\u0435\u0440\u0435\u0434 \u0448\u043B\u0435\u043C\u043E\u043C
+    \u043F\u0440\u043E\u043D\u043E\u0441\u0438\u043B\u0438\u0441\u044C \u043E\u0431\u043B\u043E\u043C\u043A\u0438,
+    \u0432\u044B \u0443\u0441\u043F\u0435\u043B\u0438 \u0437\u0430\u043C\u0435\u0442\u0438\u0442\u044C
+    \u0438\u0433\u0440\u043E\u043C\u043D\u043E\u0433\u043E \u043C\u043E\u043D\u0441\u0442\u0440\u0430,
+    \u043F\u0440\u0438\u043B\u043E\u0436\u0438\u0432\u0448\u0435\u0433\u043E \u0441\u0432\u043E\u044E
+    \u043A\u043B\u0435\u0448\u043D\u044E \u043A \u044D\u0442\u043E\u043C\u0443 \u0445\u0430\u043E\u0441\u0443!"
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
 --- !u!114 &-650401374797561230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1666,7 +2210,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 5544, y: -760}
+  position: {x: 5112, y: -712}
   ports:
     keys:
     - entries
@@ -1697,7 +2241,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   _name: 
-  _image: {fileID: 0}
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
   text: "\u041E\u043D \u043C\u0430\u0445\u043D\u0443\u043B \u0432\u0430\u043C \u0438
     \u043F\u0440\u044B\u0433\u043D\u0443\u043B \u0432 \u0434\u044B\u0440\u0443 \u0432
     \u043F\u043E\u0442\u043E\u043B\u043A\u0435."
@@ -1715,7 +2259,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32ee2938fdcf041cabe277e0ee3949d3, type: 3}
-  m_Name: "1.5 1\u044F \u0432\u0441\u0442\u0440\u0435\u0447\u0430 \u0441 \u0422\u043E\u0440\u0433\u043E\u0432\u0446\u0435\u043C"
+  m_Name: "1.5 1\u044F \u0432\u0441\u0442\u0440\u0435\u0447\u0430 \u0441 \u041A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u043E\u043D\u0435\u0440\u043E\u043C"
   m_EditorClassIdentifier: 
   nodes:
   - {fileID: -8337294580584919626}
@@ -1752,7 +2296,6 @@ MonoBehaviour:
   - {fileID: -2681055383990703904}
   - {fileID: 4568421182379747419}
   - {fileID: 3536615757600918113}
-  - {fileID: -6447116970183759624}
   - {fileID: 5212949478611905195}
   - {fileID: -1401658730662677688}
   - {fileID: -8922880593851881816}
@@ -1766,9 +2309,23 @@ MonoBehaviour:
   - {fileID: -8219957856647372970}
   - {fileID: 5017467164895145699}
   - {fileID: -6445940958355033687}
-  _startNode: {fileID: 0}
+  - {fileID: -7559587977339296166}
+  - {fileID: -4130718812092379301}
+  - {fileID: -2841202431137567164}
+  - {fileID: 7565798499723321869}
+  - {fileID: -7633599106455955366}
+  - {fileID: -1299873296245174281}
+  - {fileID: -5684706175324624423}
+  - {fileID: -7495793487086290108}
+  - {fileID: 2798579191163497392}
+  - {fileID: 8429278103432269919}
+  - {fileID: -3221492412934055189}
+  - {fileID: 9171428117737663126}
+  - {fileID: -1899397200169894458}
+  - {fileID: 3391204924586447971}
+  _startNode: {fileID: -8337294580584919626}
   <IsContainsBattle>k__BackingField: 0
-  currentNode: {fileID: 0}
+  currentNode: {fileID: 2798579191163497392}
 --- !u!114 &533204050168969117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1791,7 +2348,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 5176, y: -392}
+  position: {x: 4488, y: -296}
   ports:
     keys:
     - entries
@@ -1815,18 +2372,17 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: entries
-        node: {fileID: -3839024815658893884}
+        node: {fileID: -5684706175324624423}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
   _name: 
-  _image: {fileID: 0}
+  _image: {fileID: 21300000, guid: 09d1b96bf9568d64e9f561747fe62877, type: 3}
   text: "\"\u0412 \u0432\u0430\u0448\u0435\u043C \u043E\u0431\u0449\u0435\u0441\u0442\u0432\u0435
     \u043C\u0435\u043D\u044F \u043C\u043E\u0433\u043B\u0438 \u0431\u044B \u043D\u0430\u0437\u044B\u0432\u0430\u0442\u044C
-    \u043B\u0438\u0431\u043E \u0442\u043E\u0440\u0433\u043E\u0432\u0446\u0435\u043C,
-    \u043B\u0438\u0431\u043E \u043F\u043E\u0441\u0440\u0435\u0434\u043D\u0438\u043A\u043E\u043C.
+    \u043A\u043E\u043B\u043B\u0435\u043A\u0446\u0438\u043E\u043D\u0435\u0440\u043E\u043C.
     \u041D\u0435\u0442, \u044F \u043D\u0435 \u043F\u0440\u0438\u0441\u043E\u0435\u0434\u0438\u043D\u044E\u0441\u044C
     \u043A \u0432\u0430\u043C, \u043C\u0435\u043D\u044F \u0438\u043D\u0442\u0435\u0440\u0435\u0441\u0443\u044E\u0442
     \u043B\u0438\u0448\u044C \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u044B \u044D\u0442\u043E\u0433\u043E
@@ -1953,7 +2509,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   _name: 
-  _image: {fileID: 0}
+  _image: {fileID: 21300000, guid: 550c0e30c3951684ba71e476f756d2e8, type: 3}
   text: "\u0412\u0430\u0441 \u0441\u043B\u0435\u043F\u0438\u0442 \u0441\u0432\u0435\u0442!
     \u0412\u044B \u0441\u043B\u044B\u0448\u0438\u0442\u0435 \u0433\u0440\u043E\u0445\u043E\u0442
     \u0441\u043E\u0441\u0442\u0430\u0432\u0430 \u043C\u0435\u0442\u0440\u043E...\u043E\u043D
@@ -2033,6 +2589,70 @@ MonoBehaviour:
   _requiredItems: []
   <IsAddItem>k__BackingField: 0
   _addedItems: []
+--- !u!114 &2798579191163497392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3640, y: -504}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 2798579191163497392}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -1727541091782090811}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 2798579191163497392}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -8047098990945643813}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u0418\u0437 \u0434\u044B\u0440\u044B \u0432 \u043F\u043E\u0442\u043E\u043B\u043A\u0435
+    \u0441\u043F\u0440\u044B\u0433\u043D\u0443\u043B \u0441\u0438\u043B\u0443\u0435\u0442
+    \u0432 \u043F\u043B\u0430\u0449\u0435. \u041E\u043D \u043F\u0440\u0435\u0437\u0435\u043C\u043B\u0438\u043B\u0441\u044F
+    \u043D\u0430 \"\u0433\u043E\u043B\u043E\u0432\u0443\" \u043C\u043E\u043D\u0441\u0442\u0440\u0430,
+    \u0438\u0437-\u0437\u0430 \u0447\u0435\u0433\u043E \u0442\u043E\u0433\u043E \u0432\u0434\u0430\u0432\u0438\u043B\u043E
+    \u0432 \u043F\u043E\u043B \u0442\u043E\u043D\u043D\u0435\u043B\u044F."
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
 --- !u!114 &2926543293371927303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2086,10 +2706,72 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   _name: 
-  _image: {fileID: 0}
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
   text: "\"\u0412\u0436\u0430\u0442\u044C\u0441\u044F \u0432 \u043F\u0435\u0440\u0435\u0433\u043E\u0440\u043E\u0434\u043A\u0438
     \u0442\u043E\u043D\u043D\u0435\u043B\u0435\u0439 \u043F\u043E\u043A\u0430 \u043F\u044B\u043B\u044C
     \u043D\u0435 \u0440\u0430\u0441\u0441\u0435\u044F\u043B\u0430\u0441\u044C!\""
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &3391204924586447971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 2568, y: -856}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 3391204924586447971}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -1899397200169894458}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 3391204924586447971}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -8951724450919868195}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u041D\u0430\u0434 \u0433\u043E\u043B\u043E\u0432\u043E\u0439 \u0447\u0442\u043E-\u0442\u043E
+    \u0437\u0430\u0433\u0440\u043E\u0445\u043E\u0442\u0430\u043B\u043E \u0438 \u0432\u0430\u0441
+    \u043D\u0430\u043A\u0440\u044B\u043B\u043E \u043F\u044B\u043B\u0435\u0432\u044B\u043C
+    \u043E\u0431\u043B\u0430\u043A\u043E\u043C. "
   <IsRequiredItem>k__BackingField: 0
   _requiredItems: []
   <IsAddItem>k__BackingField: 0
@@ -2314,7 +2996,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 2856, y: 648}
+  position: {x: 2888, y: 1016}
   ports:
     keys:
     - entries
@@ -2510,7 +3192,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 3624, y: 680}
+  position: {x: 3656, y: 1016}
   ports:
     keys:
     - entries
@@ -2592,6 +3274,9 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: exits
         node: {fileID: -6445940958355033687}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: -1299873296245174281}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -2812,7 +3497,7 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   _name: 
-  _image: {fileID: 0}
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
   text: "\u0421\u0443\u0434\u044F \u043F\u043E \u043A\u0430\u0440\u0442\u0435, \u043C\u044B
     \u043F\u0440\u0435\u043E\u0434\u043E\u043B\u0435\u043B\u0438 73% \u0442\u0443\u043D\u043D\u0435\u043B\u044F.
     \u0412\u0430\u043C \u043A\u0430\u0436\u0435\u0442\u0441\u044F, \u0447\u0442\u043E
@@ -2875,6 +3560,12 @@ MonoBehaviour:
       - fieldName: entries
         node: {fileID: 6234791109986515235}
         reroutePoints: []
+      - fieldName: entries
+        node: {fileID: -7559587977339296166}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: -4130718812092379301}
+        reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
@@ -2883,8 +3574,8 @@ MonoBehaviour:
   <IsRandom>k__BackingField: 0
   _answers:
   - "\u0427\u0435\u0440\u0435\u0437 3\u0439 \u044D\u0442\u0430\u0436"
-  - "\u0427\u0435\u0440\u0435\u0437 \u0442\u0435\u0445. \u043F\u043E\u043C\u0435\u0449\u0435\u043D\u0438\u044F"
   - "\u0427\u0435\u0440\u0435\u0437 2\u0439 \u044D\u0442\u0430\u0436"
+  - "\u0427\u0435\u0440\u0435\u0437 \u0442\u0435\u0445. \u043F\u043E\u043C\u0435\u0449\u0435\u043D\u0438\u044F"
 --- !u!114 &6234791109986515235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2907,7 +3598,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 2488, y: 280}
+  position: {x: 2456, y: 280}
   ports:
     keys:
     - entries
@@ -3012,6 +3703,68 @@ MonoBehaviour:
   _requiredItems: []
   <IsAddItem>k__BackingField: 0
   _addedItems: []
+--- !u!114 &7565798499723321869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3272, y: 664}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 7565798499723321869}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -2841202431137567164}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 7565798499723321869}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -7633599106455955366}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 0}
+  text: "\u041D\u0430\u0434 \u0433\u043E\u043B\u043E\u0432\u043E\u0439 \u0440\u0430\u0437\u0434\u0430\u043B\u0441\u044F
+    \u0433\u0440\u043E\u0445\u043E\u0442 \u0438 \u0442\u043E\u043F\u043E\u0442, \u0430
+    \u0441 \u043F\u043E\u0442\u043E\u043B\u043A\u0430 \u043F\u043E\u0441\u044B\u043F\u0430\u043B\u0430\u0441\u044C
+    \u043F\u044B\u043B\u044C!"
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
 --- !u!114 &8138342400149595096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3065,11 +3818,75 @@ MonoBehaviour:
       _typeConstraint: 0
       _dynamic: 0
   _name: 
-  _image: {fileID: 0}
+  _image: {fileID: 21300000, guid: 7335d113204cf6e4d8991f8494456e48, type: 3}
   text: "\"\u0414\u0432\u0438\u0433\u0430\u0435\u043C\u044F \u043F\u043E \u0442\u0443\u043D\u0435\u043B\u044F\u043C
     \u0432\u0434\u043E\u043B\u044C \u0441\u0442\u0435\u043D\u043E\u043A. \u0424\u043E\u043D\u0430\u0440\u0438\u043A\u0438
     \u043D\u0435 \u0432\u043A\u043B\u044E\u0447\u0430\u0442\u044C. \u041F\u041D\u0412
     \u0432 \u0440\u0435\u0436\u0438\u043C \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u0438.\""
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &8429278103432269919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3640, y: -872}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 8429278103432269919}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -1727541091782090811}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 8429278103432269919}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -8047098990945643813}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u0418\u0437 \u0434\u044B\u0440\u044B \u0432 \u043F\u043E\u0442\u043E\u043B\u043A\u0435
+    \u0441\u043F\u0440\u044B\u0433\u043D\u0443\u043B \u0441\u0438\u043B\u0443\u0435\u0442
+    \u0432 \u043F\u043B\u0430\u0449\u0435. \u041E\u043D \u043F\u0440\u0435\u0437\u0435\u043C\u043B\u0438\u043B\u0441\u044F
+    \u043D\u0430 \"\u0433\u043E\u043B\u043E\u0432\u0443\" \u043C\u043E\u043D\u0441\u0442\u0440\u0430,
+    \u0438\u0437-\u0437\u0430 \u0447\u0435\u0433\u043E \u0442\u043E\u0433\u043E \u0432\u0434\u0430\u0432\u0438\u043B\u043E
+    \u0432 \u043F\u043E\u043B \u0442\u043E\u043D\u043D\u0435\u043B\u044F."
   <IsRequiredItem>k__BackingField: 0
   _requiredItems: []
   <IsAddItem>k__BackingField: 0
@@ -3134,6 +3951,70 @@ MonoBehaviour:
     \u0415\u0449\u0435 \u043D\u0435\u0441\u043A\u043E\u043B\u044C\u043A\u043E \u0437\u0434\u0430\u043D\u0438\u0439
     \u0438 \u0432\u044B \u043F\u0440\u0435\u043E\u0434\u043E\u043B\u0435\u0435\u0442\u0435
     \u0441\u043A\u043E\u043F\u043B\u0435\u043D\u0438\u0435 \u043C\u043E\u043D\u0441\u0442\u0440\u043E\u0432. "
+  <IsRequiredItem>k__BackingField: 0
+  _requiredItems: []
+  <IsAddItem>k__BackingField: 0
+  _addedItems: []
+--- !u!114 &9171428117737663126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4b6864841b41d481c91da1602126ed, type: 3}
+  m_Name: EventNode
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  graph: {fileID: 11400000}
+  position: {x: 3640, y: -1608}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 9171428117737663126}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -1727541091782090811}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 9171428117737663126}
+      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -8047098990945643813}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  _image: {fileID: 21300000, guid: 03172e3d8548e154e8d91e4899ad91cf, type: 3}
+  text: "\u0418\u0437 \u0434\u044B\u0440\u044B \u0432 \u043F\u043E\u0442\u043E\u043B\u043A\u0435
+    \u0441\u043F\u0440\u044B\u0433\u043D\u0443\u043B \u0441\u0438\u043B\u0443\u0435\u0442
+    \u0432 \u043F\u043B\u0430\u0449\u0435. \u041E\u043D \u043F\u0440\u0435\u0437\u0435\u043C\u043B\u0438\u043B\u0441\u044F
+    \u043D\u0430 \"\u0433\u043E\u043B\u043E\u0432\u0443\" \u043C\u043E\u043D\u0441\u0442\u0440\u0430,
+    \u0438\u0437-\u0437\u0430 \u0447\u0435\u0433\u043E \u0442\u043E\u0433\u043E \u0432\u0434\u0430\u0432\u0438\u043B\u043E
+    \u0432 \u043F\u043E\u043B \u0442\u043E\u043D\u043D\u0435\u043B\u044F."
   <IsRequiredItem>k__BackingField: 0
   _requiredItems: []
   <IsAddItem>k__BackingField: 0

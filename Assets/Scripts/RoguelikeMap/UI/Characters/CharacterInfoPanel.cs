@@ -18,8 +18,8 @@ namespace RoguelikeMap.UI.Characters
     {
         [SerializeField]
         private AbilityDescriptionPanel _abilityDescriptionPanel;
-        [SerializeField] 
-        private PassiveAbilityInfoPanel _passiveAbilityInfoPanel;
+        [SerializeField]
+        private PassiveAbilityDescriptionPanel _passiveAbilityDescriptionPanel;
         [SerializeField] 
         private PickItemInventoryPresenter _playerInventoryPresenter;
         [SerializeField]
@@ -128,8 +128,8 @@ namespace RoguelikeMap.UI.Characters
 
             void OnPassiveAbilityClicked()
             {
-                _passiveAbilityInfoPanel.InitializeInfo(unhiddenPassiveAbilities);
-                _passiveAbilityInfoPanel.Open();
+                _passiveAbilityDescriptionPanel.UpdateAbilitiesDescription(unhiddenPassiveAbilities);
+                _passiveAbilityDescriptionPanel.Open();
             }
         }
     }

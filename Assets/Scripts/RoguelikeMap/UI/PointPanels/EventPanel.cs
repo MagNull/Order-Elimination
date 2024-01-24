@@ -12,6 +12,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
+using XNode.Examples.MathNodes;
 
 namespace RoguelikeMap.UI.PointPanels
 {
@@ -25,10 +26,15 @@ namespace RoguelikeMap.UI.PointPanels
         private Button _skipButton;
         [SerializeField] 
         private Image _sprite;
-
+        [SerializeField]
+        private Transform _skipButtonParent;
+        [SerializeField] 
+        private Transform _buttonsParent;
+        
         private Inventory _inventory;
         private Squad _squad;
         private bool _isContainsBattle = false;
+        private bool _isSwap = false;
         
         public event Action<int> OnAnswerClick;
         public event Action<BattleNode> OnStartBattle;
@@ -102,12 +108,26 @@ namespace RoguelikeMap.UI.PointPanels
         {
             SetActiveSkipButton(false);
             SetActiveAnswers(false);
+
+            while (answers.Count > _answerButtons.Count)
+                _answerButtons.Add(Instantiate(_answerButtons[0], _buttonsParent));
+            
             for (var i = 0; i < answers.Count; i++)
             {
                 _answerButtons[i].gameObject.SetActive(true);
                 var buttonText = _answerButtons[i].GetComponentInChildren<TMP_Text>();
                 buttonText.text = answers[i];
             }
+        }
+
+        public void CheckActiveAnswerButtons()
+        {
+            var activeAnswerButtons = _answerButtons.Where(x => x.gameObject.activeSelf);
+            if (activeAnswerButtons.Count() != 1) return;
+            _answerButtons[0].transform.SetParent(_skipButtonParent);
+            var rectTransformButton = _answerButtons[0].transform as RectTransform;
+            rectTransformButton.sizeDelta = new Vector2(1715, 80);
+            _isSwap = true;
         }
 
         public void UpdateSprite(Sprite sprite)
@@ -155,6 +175,12 @@ namespace RoguelikeMap.UI.PointPanels
 
         public void ClickAnswer(int buttonIndex)
         {
+            if (_isSwap)
+            {
+                _answerButtons[0].transform.SetParent(_buttonsParent);
+                _answerButtons[0].transform.SetSiblingIndex(0);
+                _isSwap = false;
+            }
             OnAnswerClick?.Invoke(buttonIndex);
         }
 

@@ -65,6 +65,7 @@ namespace Events
                         continue;
                 }
             }
+            panel.CheckActiveAnswerButtons();
         }
 
         private void CheckItem(EventPanel panel, int buttonIndex)
