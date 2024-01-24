@@ -65,7 +65,7 @@ namespace OrderElimination.SavesManagement
         {
             if (progress.CurrentRunProgress != null)
             {
-                if (progress.CurrentRunProgress.PosessedCharacters.Length == 0)
+                if (progress.CurrentRunProgress.PosessedCharacters.Count == 0)
                     return false;
             }
             return true;

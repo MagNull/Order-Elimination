@@ -76,9 +76,8 @@ namespace RoguelikeMap
                 var progress = mediator.Contains<IPlayerProgress>("progress")
                     ? mediator.Get<IPlayerProgress>("progress")
                     : PlayerProgressManager.LoadSavedProgress();
-                //TODO-SAVES: replace with progress
-                //mediator.Register("player characters", progress.PosessedCharacters);
-                //mediator.Register("stats", progress.StatUpgrades);
+                if (progress.CurrentRunProgress == null)
+                    throw new ArgumentException("Current run progress should be already assigned");
                 roguelikeMoney = progress.CurrentRunProgress.RoguelikeCurrency;
                 //playerInventory = inventory;
                 Logging.Log("Player progress data loaded.");
@@ -122,30 +121,11 @@ namespace RoguelikeMap
             }
         }
 
-        private void OnApplicationQuit()
-        {
-            //TODO-SAVE: get and save playerprogress
-        }
-
         private void SaveProgress()
         {
             var sceneMediator = Container.Resolve<ScenesMediator>();
-
-            //ToRemove
-            var inventory = Container.Resolve<Inventory>();
-            var roguelikeMoney = Container.Resolve<Wallet>().Money;
-            var playerSquad = sceneMediator
-                .Get<IEnumerable<GameCharacter>>("player characters")
-                .ToArray();
-            var upgradeStats = sceneMediator.Get<StrategyStats>("stats");
-            //Deprecated
-
             var progress = sceneMediator.Get<IPlayerProgress>("progress");
-            if (progress.CurrentRunProgress == null)
-                throw new ArgumentException("Current run progress should be already assigned");
-
             PlayerProgressManager.SaveProgress(progress);
-            Logging.Log("Player progress data saved.");
         }
     }
 }

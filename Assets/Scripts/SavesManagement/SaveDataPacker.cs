@@ -17,18 +17,15 @@ namespace OrderElimination.SavesManagement
             IPlayerProgress progress)
         {
             var characterConverter = new GameCharacterJsonConverter(_charactersMapping);
-            var runConverter = new PlayerRunProgressJsonConverter();
             return JsonConvert.SerializeObject(
-                progress, Formatting.Indented, runConverter, characterConverter);
+                progress, Formatting.Indented, characterConverter);
         }
 
         public IPlayerProgress UnpackSaveData(string saveData)
         {
             var characterConverter = new GameCharacterJsonConverter(_charactersMapping);
-            var runConverter = new PlayerRunProgressJsonConverter();
-
             return JsonConvert.DeserializeObject<PlayerProgress>(
-                saveData, runConverter, characterConverter);
+                saveData, characterConverter);
         }
     }
 }

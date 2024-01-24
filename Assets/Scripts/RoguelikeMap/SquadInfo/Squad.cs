@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using DG.Tweening;
 using OrderElimination;
 using OrderElimination.MacroGame;
+using OrderElimination.SavesManagement;
 using RoguelikeMap.Points.Models;
 using RoguelikeMap.UI.Characters;
 using Sirenix.OdinInspector;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
+using Unity.VisualScripting;
 using UnityEngine;
 using VContainer;
 
@@ -19,9 +21,6 @@ namespace RoguelikeMap.SquadInfo
         public float IconSize { get; private set; } = 50f;
         private const float Duration = 0.5f;
         
-        //Заглушка, чтобы не запускаться из другой сцены
-        [SerializeField]
-        private List<CharacterTemplate> _testSquadMembers;
         [SerializeField] 
         private Transform _iconsMembersOnButton;
         
@@ -32,9 +31,9 @@ namespace RoguelikeMap.SquadInfo
         private List<CharacterCard> _cardsOnButton = new();
         private ScenesMediator _mediator;
 
-        public int AmountOfCharacters => _model.AmountOfMembers;
         public IReadOnlyList<GameCharacter> Members => _model.Members;
         public IReadOnlyList<GameCharacter> ActiveMembers => _model.ActiveMembers;
+
         public event Action<IReadOnlyList<GameCharacter>> OnUpdateMembers;
         
         [Inject]
@@ -54,11 +53,20 @@ namespace RoguelikeMap.SquadInfo
 
         public void Initialize()
         {
-            var characters = _mediator.Get<GameCharacter[]>("player characters");
-            _model = new SquadModel(characters, _squadMembersPanel, _mediator);
+            var progress = _mediator.Get<IPlayerProgress>("progress");
+            List<GameCharacter> characters;//= default test characters
+            if (progress != null && progress.CurrentRunProgress != null)
+            {
+                characters = progress.CurrentRunProgress.PosessedCharacters;
+            }
+            else
+            {
+                throw new InvalidOperationException("Invalid progress");
+            }
+            _model = new SquadModel(characters, _squadMembersPanel);
             Debug.Log("New squad created" % Colorize.Red);
-            _model.OnUpdateSquadMembers += GenerateCharactersCard;
-            GenerateCharactersCard();
+            _model.SquadUpdated += OnSquadUpdated;
+            OnSquadUpdated(_model);
         }
 
         private void GenerateCharactersCard()
@@ -83,16 +91,17 @@ namespace RoguelikeMap.SquadInfo
 
         private void HealCharacters(int amountHeal)
         {
-            _model.HealCharacters(amountHeal);
-            foreach(var card in _cardsOnButton)
+            foreach (var member in Members)
+            {
+                member.CurrentHealth += amountHeal;
+            }
+            foreach (var card in _cardsOnButton)
                 card.UpdateColor();
         }
 
-        private void SetSquadMembers(List<GameCharacter> squadMembers, int countActiveMembers)
+        private void SetSquadMembers(List<GameCharacter> squadMembers)
         {
-            _model.SetSquadMembers(squadMembers, countActiveMembers);
-            if(_mediator.Contains<GameCharacter[]>("player characters"))
-                _mediator.Unregister("player characters");
+            _model.SetSquadMembers(squadMembers);
             _mediator.Register("player characters", Members.ToArray());
             OnUpdateMembers?.Invoke(ActiveMembers);
         }
@@ -136,7 +145,22 @@ namespace RoguelikeMap.SquadInfo
             _squadMembersPanel.SetActiveAttackButton(true);
             _squadMembersPanel.Open();
         }
-        
-        private void SetActiveSquadMembers(bool isActive) => _model.SetActivePanel(isActive);
+
+        #region UI interaction
+        private void OnSquadUpdated(SquadModel model)
+        {
+            _squadMembersPanel.UpdateMembers(model.ActiveMembers, model.InactiveMembers);
+            GenerateCharactersCard();
+        }
+
+        //TODO: Set in UnityEvent in SquadMembersButton
+        private void SetPanelActive(bool isActive)
+        {
+            if (isActive)
+                _squadMembersPanel.Open();
+            else
+                _squadMembersPanel.Close();
+        }
+        #endregion
     }
 }

@@ -26,7 +26,7 @@ namespace RoguelikeMap.SquadInfo
         public BattleOutcome? BattleOutcome { get; private set; } = null;
         public PointModel Target => _target;
         public Squad Squad => _squad;
-        public event Action<List<GameCharacter>, int> OnSelected;
+        public event Action<List<GameCharacter>> OnSelected;
         public event Action<int> OnHealAccept;
 
         [Inject]
@@ -105,9 +105,9 @@ namespace RoguelikeMap.SquadInfo
             sceneTransition.LoadBattleMap();
         }
 
-        private void WereSelectedMembers(List<GameCharacter> characters, int activeMembersCount)
+        private void WereSelectedMembers(List<GameCharacter> characters)
         {
-            OnSelected?.Invoke(characters, activeMembersCount);
+            OnSelected?.Invoke(characters);
         }
 
         private void HealAccept(int amountHeal)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using GameInventory;
 using OrderElimination;
@@ -49,7 +50,6 @@ public class MenuWindow : MonoBehaviour
         var progress = PlayerProgressManager.LoadSavedProgress();
         //Progress validation
         _continueButton.DOInterectable(progress.CurrentRunProgress != null);
-        _scenesMediator.Register("progress", progress);
 
         _previousButton.onClick.AddListener(() =>
         {
@@ -66,8 +66,7 @@ public class MenuWindow : MonoBehaviour
             {
                 throw new System.InvalidOperationException("Should not be allowed");
             }
-            _sceneTransition.LoadRoguelikeMap();
-            //TODO-SAVE: load progress
+            OnRunStart(progress, _scenesMediator);
         });
         
         _startGameButton.onClick.AddListener(() =>
@@ -80,15 +79,18 @@ public class MenuWindow : MonoBehaviour
             var characters = _choosingCharacterPanel.GetSelectedCharacters();
             if (characters.Length == 0)
                 return;
-            _scenesMediator.Register("stats", stats);
-            _scenesMediator.Register("player characters", characters);
+            progress.MetaProgress = new()
+            {
+                StatUpgrades = stats,
+                MetaCurrency = 1777,
+                HireCurrencyLimit = 1111
+            };
             progress.CurrentRunProgress = new()
             {
-                PosessedCharacters = characters,
-                StatUpgrades = stats,
+                PosessedCharacters = characters.ToList(),
                 RoguelikeCurrency = 1800//TODO: Get from MetaProgress
             };
-            _sceneTransition.LoadRoguelikeMap();
+            OnRunStart(progress, _scenesMediator);
         });
     }
 
@@ -102,5 +104,11 @@ public class MenuWindow : MonoBehaviour
     public void ExitInMenuClick()
     {
         Application.Quit();
+    }
+
+    private void OnRunStart(IPlayerProgress progress, ScenesMediator mediator)
+    {
+        RoguelikeRunStartManager.StartNewRun(progress, mediator);
+        _sceneTransition.LoadRoguelikeMap();
     }
 }
