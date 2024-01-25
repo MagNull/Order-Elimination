@@ -11,13 +11,15 @@ namespace OrderElimination
     [Serializable, CreateAssetMenu(fileName = "ItemsPool", menuName = "Inventory/ItemsPool")]
     public class ItemsPool : SerializedScriptableObject
     {
+        private static ItemData[] _allItemAssets = Resources.FindObjectsOfTypeAll<ItemData>();
+
         [SerializeField]
         private Dictionary<ItemRarity, float> _rarityProbability = new();
 
         public Item GetRandomItem()
         {
             var randomRarity = GetRandomRarity();
-            var items = ItemIdentifier.GetItems().Where(item => item.Rarity == randomRarity).ToList();
+            var items = _allItemAssets.Where(item => item.Rarity == randomRarity).ToList();
 
             var randomItemIndex = UnityEngine.Random.Range(0, items.Count);
             return ItemFactory.Create(items[randomItemIndex]);

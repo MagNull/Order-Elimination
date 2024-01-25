@@ -1,10 +1,6 @@
 ﻿using System;
-using AI;
 using OrderElimination.AbilitySystem;
-using OrderElimination.Infrastructure;
 using OrderElimination.MacroGame;
-using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using UnityEngine;
 
 namespace GameInventory.Items

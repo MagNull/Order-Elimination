@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using GameInventory.Items;
+using Newtonsoft.Json;
 using OrderElimination.Infrastructure;
 using System;
 
@@ -7,25 +8,36 @@ namespace OrderElimination.SavesManagement
     public class SaveDataPacker
     {
         private readonly IDataMapping<Guid, IGameCharacterTemplate> _charactersMapping;
+        private readonly IDataMapping<Guid, ItemData> _itemsMapping;
 
-        public SaveDataPacker(IDataMapping<Guid, IGameCharacterTemplate> charactersMapping)
+        public SaveDataPacker(
+            IDataMapping<Guid, IGameCharacterTemplate> charactersMapping, 
+            IDataMapping<Guid, ItemData> itemsMapping)
         {
             _charactersMapping = charactersMapping;
+            _itemsMapping = itemsMapping;
         }
 
-        public string PackSaveData(
-            IPlayerProgress progress)
+        public string PackSaveData(IPlayerProgress progress)
         {
-            var characterConverter = new GameCharacterJsonConverter(_charactersMapping);
-            return JsonConvert.SerializeObject(
-                progress, Formatting.Indented, characterConverter);
+            return JsonConvert.SerializeObject(progress, Formatting.Indented, GetConverters());
         }
 
         public IPlayerProgress UnpackSaveData(string saveData)
         {
+            return JsonConvert.DeserializeObject<PlayerProgress>(saveData, GetConverters());
+        }
+
+        private JsonConverter[] GetConverters()
+        {
             var characterConverter = new GameCharacterJsonConverter(_charactersMapping);
-            return JsonConvert.DeserializeObject<PlayerProgress>(
-                saveData, characterConverter);
+            var itemDataConverter = new ItemDataJsonConverter(_itemsMapping);
+            var itemConverter = new ItemJsonConverter();
+            var inventoryConverter = new InventoryJsonConverter();
+            return new JsonConverter[]
+            { 
+                characterConverter, itemDataConverter, itemConverter, inventoryConverter 
+            };
         }
     }
 }

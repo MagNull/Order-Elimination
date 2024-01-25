@@ -303,7 +303,7 @@ public class BattleMapSelector : MonoBehaviour
             var itemsDescriptions = string.Join(
                 ", ", 
                 inventoryItems.Select(e => $"[{e.Data.View.Name}({e.Data.UseTimes})]"));
-            inventoryInfo = $"\nInventory({inventoryItems.Count}): {itemsDescriptions}";
+            inventoryInfo = $"\nInventory({inventoryItems.Length}): {itemsDescriptions}";
         }
 
         Debug.Log(

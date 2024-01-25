@@ -70,7 +70,7 @@ namespace RoguelikeMap
             }
 
             var roguelikeMoney = 1800;//default
-            var playerInventory = InventorySerializer.Load();
+            var playerInventory = new Inventory(100);
             if (_loadLocalData)
             {
                 var progress = mediator.Contains<IPlayerProgress>("progress")
@@ -79,7 +79,7 @@ namespace RoguelikeMap
                 if (progress.CurrentRunProgress == null)
                     throw new ArgumentException("Current run progress should be already assigned");
                 roguelikeMoney = progress.CurrentRunProgress.RoguelikeCurrency;
-                //playerInventory = inventory;
+                playerInventory = progress.CurrentRunProgress.PlayerInventory;
                 Logging.Log("Player progress data loaded.");
             }
             Logging.Log($"Player money: {roguelikeMoney}");

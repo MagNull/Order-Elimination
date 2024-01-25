@@ -25,9 +25,9 @@ namespace OrderElimination.SavesManagement
             JsonSerializer serializer)
         {
             var jo = JObject.Load(reader);
-            var id = jo[_templateToken].ToObject<Guid>();
-            var stats = jo[_statsToken].ToObject<GameCharacterStats>();
-            var health = jo[_healthToken].ToObject<float>();
+            var id = jo[_templateToken].ToObject<Guid>(serializer);
+            var stats = jo[_statsToken].ToObject<GameCharacterStats>(serializer);
+            var health = jo[_healthToken].ToObject<float>(serializer);
 
             var template = _templatesMap.GetData(id);
             var character = GameCharactersFactory.CreateGameCharacter(template, stats);
@@ -43,7 +43,7 @@ namespace OrderElimination.SavesManagement
 
             var jo = new JObject();
             jo[_templateToken] = _templatesMap.GetKey(value.CharacterData);
-            jo[_statsToken] = JToken.FromObject(value.CharacterStats);
+            jo[_statsToken] = JToken.FromObject(value.CharacterStats, serializer);
             jo[_healthToken] = value.CurrentHealth;
             
             jo.WriteTo(writer);

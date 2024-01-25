@@ -7,18 +7,18 @@ namespace GameInventory.Items
     [Serializable]
     public class EquipmentItem : Item
     {
-        [SerializeField]
-        private PassiveAbilityBuilder _equipAbility;
-
         public EquipmentItem(ItemData itemData) : base(itemData)
         {
-            _equipAbility = itemData.EquipAbility;
+            if (itemData.EquipAbility == null)
+                throw new ArgumentException(
+                    $"{nameof(itemData)} has no {nameof(itemData.EquipAbility)} assigned.");
         }
 
         public override void OnTook(AbilitySystemActor abilitySystemActor)
         {
+            var ability = Data.EquipAbility;
             abilitySystemActor.GrantPassiveAbility(
-                new PassiveAbilityRunner(AbilityFactory.CreatePassiveAbility(_equipAbility),
+                new PassiveAbilityRunner(AbilityFactory.CreatePassiveAbility(ability),
                     AbilityProvider.Equipment));
         }
     }

@@ -1,21 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OrderElimination.AbilitySystem;
-using UnityEngine;
 
 namespace GameInventory.Items
 {
     public class AbilityChangerItem : Item
     {
-        [SerializeField]
-        private Dictionary<ActiveAbilityBuilder, ActiveAbilityBuilder> _abilitySwapTable = new();
-
         public AbilityChangerItem(ItemData itemData) : base(itemData)
         {
-            _abilitySwapTable = itemData.AbilitySwapTable;
+            if (itemData.AbilitySwapTable == null)
+                throw new ArgumentException(
+                    $"{nameof(itemData)} has no {nameof(itemData.AbilitySwapTable)} assigned.");
         }
 
         public override void OnTook(AbilitySystemActor abilitySystemActor)
         {
+            var swapTable = Data.AbilitySwapTable;
             var abilitiesIndeces = new Dictionary<ActiveAbilityRunner, int>();
             for (var i = 0; i < abilitySystemActor.ActiveAbilities.Count; i++)
             {
@@ -24,12 +24,14 @@ namespace GameInventory.Items
             foreach (var runner in abilitySystemActor.ActiveAbilities)
             {
                 var builder = runner.AbilityData.BasedBuilder;
-                if (_abilitySwapTable.ContainsKey(builder))
+                if (swapTable.ContainsKey(builder))
                 {
                     abilitySystemActor.RemoveActiveAbility(runner);
                     abilitySystemActor.InsertActiveAbility(
                         abilitiesIndeces[runner],
-                        new ActiveAbilityRunner(AbilityFactory.CreateActiveAbility(_abilitySwapTable[builder]), AbilityProvider.Self));
+                        new ActiveAbilityRunner(
+                            AbilityFactory.CreateActiveAbility(swapTable[builder]), 
+                            AbilityProvider.Self));
                 }
             }
         }

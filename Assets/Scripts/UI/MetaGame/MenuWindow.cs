@@ -88,7 +88,8 @@ public class MenuWindow : MonoBehaviour
             progress.CurrentRunProgress = new()
             {
                 PosessedCharacters = characters.ToList(),
-                RoguelikeCurrency = 1800//TODO: Get from MetaProgress
+                RoguelikeCurrency = 1800,//TODO: Get from MetaProgress
+                PlayerInventory = new(100)
             };
             OnRunStart(progress, _scenesMediator);
         });

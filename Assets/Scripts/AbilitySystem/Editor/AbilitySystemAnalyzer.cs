@@ -490,16 +490,34 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
 
         [VerticalGroup("Search")]
         [Button]
+        [GUIColor("@Color.yellow")]
+        private void ReplaceEmptyGuidsWithRandom()
+        {
+            var searchResult = FindGuidAssets(a => a.AssetId == Guid.Empty);
+            AssignRandomGuids(searchResult.Values.SelectMany(a => a));
+            //Update search result
+            DisplaySearchResult(FindGuidAssets(a => true));
+        }
+
+        [VerticalGroup("Search")]
+        [Button]
         [GUIColor("@Color.red")]
         private void AssignAllAssetsRandomGuid()
         {
             var searchResult = FindGuidAssets(a => true);
-            var assets = searchResult.Values
-                .SelectMany(a => a)
-                .Select(a => (UnityEngine.Object)a)
+            AssignRandomGuids(searchResult.Values.SelectMany(a => a));
+            //Update search result
+            DisplaySearchResult(FindGuidAssets(a => true));
+        }
+
+        private void AssignRandomGuids(IEnumerable<IGuidAsset> assets)
+        {
+            var unityAssets = assets
+                .Select(a => a as UnityEngine.Object)
+                .Where(a => a != null)
                 .ToArray();
-            Undo.RecordObjects(assets, "Random GUIDs assigned");
-            foreach (var asset in assets)
+            Undo.RecordObjects(unityAssets, "Random GUIDs assigned");
+            foreach (var asset in unityAssets)
             {
                 var isDirty = EditorUtility.IsDirty(asset);
                 EditorUtility.SetDirty(asset);
@@ -508,7 +526,6 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
                 if (!isDirty)
                     EditorUtility.ClearDirty(asset);
             }
-            //Update search result
         }
 
         private void DisplaySearchResult(IReadOnlyDictionary<Type, IGuidAsset[]> searchResult)

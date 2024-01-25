@@ -1,45 +1,49 @@
 using System;
+using System.Diagnostics;
+using OrderElimination;
 using OrderElimination.AbilitySystem;
-using UnityEngine;
 
 namespace GameInventory.Items
 {
     [Serializable]
     public class ConsumableItem : Item
     {
-        public event Action<ConsumableItem> UseTimesOver;
+        private int _consumesLeft;
 
-        [SerializeField]
-        private ActiveAbilityBuilder _useAbility;
+        public ConsumableItem(ItemData itemData) : this(itemData, itemData.UseTimes) { }
 
-        [SerializeField]
-        private int _useTimes;
-
-        protected int UseTimes
+        public ConsumableItem(ItemData itemData, int consumesLeft) : base(itemData)
         {
-            get => _useTimes;
-            set
+            Logging.Log($"{itemData.UseAbility?.Name}");
+            if (itemData.UseAbility == null)
+                throw new ArgumentException(
+                    $"Item {itemData.View.Name} has no {nameof(itemData.UseAbility)} assigned.");
+            if (consumesLeft < 0)
+                throw new ArgumentOutOfRangeException();
+            _consumesLeft = consumesLeft;
+        }
+
+        public int ConsumesLeft
+        {
+            get => _consumesLeft;
+            protected set
             {
-                _useTimes = value;
-                if (_useTimes > 0)
-                    return;
-                UseTimesOver?.Invoke(this);
+                _consumesLeft = value;
+                if (_consumesLeft <= 0)
+                    UseTimesOver?.Invoke(this);
             }
         }
 
-        public ConsumableItem(ItemData itemData) : base(itemData)
-        {
-            _useAbility = itemData.UseAbility;
-            _useTimes = itemData.UseTimes;
-        }
+        public event Action<ConsumableItem> UseTimesOver;
 
         public override void OnTook(AbilitySystemActor abilitySystemActor)
         {
-            var ability = new ActiveAbilityRunner(AbilityFactory.CreateActiveAbility(_useAbility),
+            var abilityBuilder = Data.UseAbility;
+            var ability = new ActiveAbilityRunner(AbilityFactory.CreateActiveAbility(abilityBuilder),
                 AbilityProvider.Equipment);
             abilitySystemActor.GrantActiveAbility(ability);
             UseTimesOver += _ => abilitySystemActor.RemoveActiveAbility(ability);
-            ability.AbilityExecutionStarted += _ => UseTimes--;
+            ability.AbilityExecutionStarted += _ => ConsumesLeft--;
         }
     }
 }

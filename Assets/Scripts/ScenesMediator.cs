@@ -60,7 +60,6 @@ namespace OrderElimination
             var playerChars = "player characters";
             var enemyChars = "enemy characters";
             var scenario = "scenario";
-            var stats = "stats";//character meta-upgrades
             var rules = "rules";
             //if (_testEnemyCharacters == null || _testEnemyCharacters.Any(c => c == null))
             //    Logging.LogWarning("Test enemy characters null");
@@ -72,8 +71,6 @@ namespace OrderElimination
                 Register(scenario, _testScenario);
             if (!Contains<IBattleRules>(rules))
                 Register(rules, _testRules);
-            if (!Contains<StrategyStats>(stats))
-                Register(stats, new StrategyStats());
         }
 
         private void Awake()

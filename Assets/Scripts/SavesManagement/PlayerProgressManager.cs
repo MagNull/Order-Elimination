@@ -13,14 +13,15 @@ namespace OrderElimination.SavesManagement
         static PlayerProgressManager()
         {
             AssetIdsMappings.RefreshMappings();
-            _saveDataPacker = new(AssetIdsMappings.CharactersMapping);
+            _saveDataPacker = new(
+                AssetIdsMappings.CharactersMapping, 
+                AssetIdsMappings.ItemsMapping);
             _progressStorage = new LocalProgressStorage(_saveDataPacker);
         }
 
         public static IPlayerProgress LoadSavedProgress()
         {
             //ToRemove
-            var playerInventory = InventorySerializer.Load();
             var roguelikeMoney = UnityEngine.PlayerPrefs.GetInt("Wallet");
             //
 
@@ -50,14 +51,11 @@ namespace OrderElimination.SavesManagement
             if (progress == null)
                 throw new ArgumentNullException();
             _progressStorage.SetProgress(_localPlayer, progress);
-            //InventorySerializer.Save(playerInventory);
         }
 
         public static void ClearProgress()
         {
-            //Remove Local Data
             _progressStorage.ClearProgress(_localPlayer);
-            InventorySerializer.Delete();
             Logging.Log("Player progress data cleared.");
         }
 
