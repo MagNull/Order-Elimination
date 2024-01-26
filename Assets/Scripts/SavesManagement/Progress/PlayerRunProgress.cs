@@ -1,5 +1,6 @@
 ﻿using GameInventory;
 using OrderElimination.MacroGame;
+using System;
 using System.Collections.Generic;
 
 namespace OrderElimination.SavesManagement
@@ -17,7 +18,8 @@ namespace OrderElimination.SavesManagement
         //2.Characters metadata ? (id, isActiveInSquad, isHired, ...)
         //3.List ActiveCharactersIds
         public List<GameCharacter> PosessedCharacters { get; set; }
-        public Inventory PlayerInventory { get; set; }//not used yet
-        public int CurrentPointId { get; set; }//not used yet
+        public Inventory PlayerInventory { get; set; }
+        public Guid CurrentPointId { get; set; }//not used yet
+        public Dictionary<Guid, bool> PassedPoints { get; set; }//not used yet
     }
 }

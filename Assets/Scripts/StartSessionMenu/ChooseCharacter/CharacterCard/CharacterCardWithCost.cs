@@ -6,7 +6,7 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
 {
     public class CharacterCardWithCost : CharacterCard
     {
-        private int _cost = 400;
+        private int _cost = -1;
         public int Cost => _cost;
         
         [SerializeField]

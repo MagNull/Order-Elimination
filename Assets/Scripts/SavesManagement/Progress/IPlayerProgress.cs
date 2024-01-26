@@ -8,5 +8,6 @@ namespace OrderElimination.SavesManagement
         public PlayerRunProgress CurrentRunProgress { get; set; }
 
         public DateTime SaveDate { get; set; }
+        //SaveHash
     }
 }

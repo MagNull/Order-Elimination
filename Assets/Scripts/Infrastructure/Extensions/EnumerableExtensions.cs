@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace OrderElimination.Infrastructure
 {
@@ -21,6 +23,32 @@ namespace OrderElimination.Infrastructure
             {
                 action(item);
             }
+        }
+
+        public static T TakeRandom<T>(this IEnumerable<T> collection)
+        {
+            //BEWARE INFINITE COLLECTIONS
+            var array = collection.ToArray();
+            var id = UnityEngine.Random.Range(0, array.Length);
+            return array[id];
+        }
+
+        public static T[] TakeRandom<T>(this IEnumerable<T> collection, int count)
+        {
+            //BEWARE INFINITE COLLECTIONS
+            var array = collection.ToArray();
+            if (array.Length < count)
+                throw new ArgumentOutOfRangeException(
+                    "Expected count is greater than collection size");
+            var result = new T[count];
+            var indices = Enumerable.Range(0, array.Length).ToHashSet();
+            for (var i = 0; i < count; i++)
+            {
+                var id = indices.TakeRandom();
+                indices.Remove(id);
+                result[i] = array[id];
+            }
+            return result;
         }
 
         public static TOut[,] Select<TIn, TOut>(this TIn[,] array, Func<TIn, TOut> selector)

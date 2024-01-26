@@ -6590,22 +6590,11 @@ MonoBehaviour:
   _characterButtonPref: {fileID: 82469547036186783, guid: 46af61c7af418f1468beb2ca38630730, type: 3}
   _startGameButton: {fileID: 78452348}
   _uiCounter: {fileID: 1272125001}
-  _characters:
-  - {fileID: 11400000, guid: f955e75325156c14a886dcd2bc4e619c, type: 2}
-  - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
-  - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
-  - {fileID: 11400000, guid: 04588733ccd1f2a4bb0aad35a508b4de, type: 2}
-  - {fileID: 11400000, guid: 57a8f17e1a66029478c8f69b521e76f4, type: 2}
-  - {fileID: 11400000, guid: 4e7a387afb417644e9ac82e8a6591a9a, type: 2}
-  - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
-  - {fileID: 11400000, guid: dc7552cb19317d642ad2af92d805c557, type: 2}
   _selectedDropZones:
   - {fileID: 1696033165}
   - {fileID: 1285933320}
   - {fileID: 1069356594}
-  MaxSquadSize: 3
   _scrollRect: {fileID: 797776870}
-  StartMoney: 1200
 --- !u!1 &1002972822
 GameObject:
   m_ObjectHideFlags: 0
@@ -9925,15 +9914,16 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: d492ff7015016504a8b79e21738287fb, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
     - Name: _defaultProgress
-      Entry: 6
-      Data: 
+      Entry: 10
+      Data: 0
 --- !u!4 &1580549308
 Transform:
   m_ObjectHideFlags: 0

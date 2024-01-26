@@ -19,7 +19,6 @@ namespace GameInventory.Views
         [Inject]
         public void Construct(Inventory inventory)
         {
-            Debug.LogError("Injected");
             _inventory = inventory;
         }
 

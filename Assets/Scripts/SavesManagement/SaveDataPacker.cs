@@ -30,13 +30,18 @@ namespace OrderElimination.SavesManagement
 
         private JsonConverter[] GetConverters()
         {
+            var characterTemplateConverter = new CharacterTemplateJsonConverter(_charactersMapping);
             var characterConverter = new GameCharacterJsonConverter(_charactersMapping);
             var itemDataConverter = new ItemDataJsonConverter(_itemsMapping);
             var itemConverter = new ItemJsonConverter();
             var inventoryConverter = new InventoryJsonConverter();
             return new JsonConverter[]
-            { 
-                characterConverter, itemDataConverter, itemConverter, inventoryConverter 
+            {
+                characterTemplateConverter, 
+                characterConverter, 
+                itemDataConverter, 
+                itemConverter, 
+                inventoryConverter 
             };
         }
     }

@@ -1,5 +1,7 @@
 ﻿using Sirenix.Serialization;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace OrderElimination.Infrastructure
@@ -25,6 +27,10 @@ namespace OrderElimination.Infrastructure
         public TData GetData(TKey key) => _dataMapping[key];
 
         public TKey GetKey(TData data) => _keysMapping[data];
+
+        public IEnumerable<(TKey key, TData data)> GetEntries()
+            => _dataMapping.Keys.Select(k => (k, _dataMapping[k]));
+
 
         public bool Add(TKey key, TData data)
         {

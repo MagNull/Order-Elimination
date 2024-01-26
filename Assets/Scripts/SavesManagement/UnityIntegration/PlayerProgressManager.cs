@@ -1,6 +1,8 @@
-﻿using Sirenix.OdinInspector;
+﻿using OrderElimination.Infrastructure;
+using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
+using System.Linq;
 
 namespace OrderElimination.SavesManagement
 {
@@ -24,15 +26,27 @@ namespace OrderElimination.SavesManagement
                 AssetIdsMappings.CharactersMapping,
                 AssetIdsMappings.ItemsMapping);
             _progressStorage = new LocalProgressStorage(_saveDataPacker);
-            _defaultProgress ??= new PlayerProgress()
+            if (_defaultProgress != null)
             {
-                MetaProgress = new()
+                var copy = _saveDataPacker.UnpackSaveData(
+                    _saveDataPacker.PackSaveData(_defaultProgress));
+                _defaultProgress = copy;
+            }
+            else
+            {
+                _defaultProgress = new PlayerProgress()
                 {
-                    StatUpgrades = new(),
-                    MetaCurrency = 1777,
-                    HireCurrencyLimit = 1111
-                },
-            };
+                    MetaProgress = new()
+                    {
+                        StatUpgrades = new(),
+                        MetaCurrency = 1777,
+                        HireCurrencyLimit = 1111,
+                        MaxSquadSize = 3,
+                        UnlockedCharacters = AssetIdsMappings.CharactersMapping
+                        .GetEntries().TakeRandom(5).Select(kv => kv.data).ToList()
+                    },
+                };
+            }
         }
 
         public IPlayerProgress GetPlayerProgress()
