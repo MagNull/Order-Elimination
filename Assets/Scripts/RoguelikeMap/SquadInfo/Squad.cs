@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 using DG.Tweening;
 using OrderElimination;
 using OrderElimination.MacroGame;
-using OrderElimination.SavesManagement;
 using RoguelikeMap.Points.Models;
 using RoguelikeMap.UI.Characters;
 using Sirenix.OdinInspector;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
-using Unity.VisualScripting;
 using UnityEngine;
 using VContainer;
 
@@ -115,13 +113,7 @@ namespace RoguelikeMap.SquadInfo
         public async Task Visit(PointModel pointModel)
         {
             await MoveAnimation(pointModel.position);
-            UpdatePoint(pointModel);
-        }
-        
-        private void UpdatePoint(PointModel pointModel)
-        {
             _commander.SetPoint(pointModel);
-            _model.SetPoint(pointModel);
         }
         
         private async Task MoveAnimation(Vector2 position)

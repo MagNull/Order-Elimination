@@ -18,7 +18,6 @@ namespace OrderElimination
             _members.GetRange(0, ActiveMembersCount);
         public IReadOnlyList<GameCharacter> InactiveMembers => 
             _members.GetRange(ActiveMembersCount, _members.Count - ActiveMembersCount);
-        public PointModel Point { get; private set; }
 
         public event Action<SquadModel> SquadUpdated;
         
@@ -41,11 +40,6 @@ namespace OrderElimination
             if (!_members.Contains(member))
                 Logging.LogException( new ArgumentException("No such character in squad"));
             _members.Remove(member);
-        }
-        
-        public void SetPoint(PointModel point)
-        {
-            Point = point;
         }
 
         public void SetSquadMembers(IEnumerable<GameCharacter> characters)
