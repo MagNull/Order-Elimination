@@ -54,6 +54,7 @@ namespace RoguelikeMap
         [SerializeField]
         private Map.Map _map;
 
+        private Wallet _wallet;
         private IPlayerProgressManager _progressManager;
 
         protected override void Configure(IContainerBuilder builder)
@@ -72,7 +73,8 @@ namespace RoguelikeMap
             var playerInventory = progress.CurrentRunProgress.PlayerInventory;
             Logging.Log($"Player money: {roguelikeMoney}");
 
-            builder.Register<Wallet>(Lifetime.Singleton).WithParameter(roguelikeMoney);
+            _wallet = new Wallet(roguelikeMoney);
+            builder.RegisterComponent(_wallet);
             builder.RegisterComponent(playerInventory);
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_squad);
