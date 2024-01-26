@@ -7,15 +7,9 @@ using UnityEngine.UI;
 
 namespace OrderElimination
 {
+    //TODO: THIS IS VIEW-TYPE CLASS. ALL UPGRADE FUNCTIONALITY MUST NOT BE HERE
     public class UpgradeCategory : MonoBehaviour
     {
-        public float StartUpgradeWidthPart = 0.5f;
-        public float EndUpgradeWidthPart = 0.9f;
-        public float AnimationTime = 0.5f;
-        public float ShiftPart = 50f;
-        public int PercentInPart = 5;
-        private int MaxProgressCount = 6;
-        
         [SerializeField]
         private List<Image> _progressBar;
         [SerializeField]
@@ -24,12 +18,38 @@ namespace OrderElimination
         private TextMeshProUGUI _costText;
         [SerializeField]
         private TextMeshProUGUI _percentText;
+
+        private int _progressCount;
+
+        public float StartUpgradeWidthPart = 0.5f;
+        public float EndUpgradeWidthPart = 0.9f;
+        public float AnimationTime = 0.5f;
+        public float ShiftPart = 50f;
+
+        public int PercentInPart = 5;
+        private int MaxProgressCount = 6;
         
-        public event Action<UpgradeCategory> OnUpgrade;
 
         private int StartCostOfUpgrade = 200;
         public int CostOfUpgrade { get; private set; } = 200;
-        public int ProgressCount { get; private set; } = 0;
+        public int ProgressCount
+        {
+            get => _progressCount;
+            set
+            {
+                if (value < 0) value = 0;
+                if (value > MaxProgressCount) value = MaxProgressCount;
+                var prevValue = _progressCount;
+                if (prevValue != value)
+                {
+                    _progressCount = value;
+                    CostOfUpgrade = GetUpgradePrice(ProgressCount + 1);
+                    VisualUpgrade();
+                }
+            }
+        }
+
+        public event Action<UpgradeCategory> OnUpgrade;
 
         private void Start()
         {
@@ -42,17 +62,22 @@ namespace OrderElimination
             OnUpgrade?.Invoke(this);
         }
         
-        public int TryUpgrade(int availableMoney)
+        public bool CanUpgrade(int availableMoney)
         {
             if (availableMoney < CostOfUpgrade)
-                return -1;
+                return false;
             if (ProgressCount == MaxProgressCount - 1)
-                return -1;
-            var cost = CostOfUpgrade;
-            CostOfUpgrade += StartCostOfUpgrade;
+                return false;
+            return true;
+        }
+
+        public void Upgrade(int availableMoney)
+        {
+            if (!CanUpgrade(availableMoney))
+                throw new InvalidOperationException();
             ProgressCount++;
+            CostOfUpgrade = GetUpgradePrice(ProgressCount + 1);
             VisualUpgrade();
-            return cost;
         }
 
         private void VisualUpgrade()
@@ -70,6 +95,13 @@ namespace OrderElimination
             
             _costText.text = $"{CostOfUpgrade}$";
             _percentText.text = $"{(ProgressCount + 1) * PercentInPart}%";
+        }
+
+        private int GetUpgradePrice(int targetProgressCount)
+        {
+            var price = targetProgressCount * StartCostOfUpgrade;
+            //Debug.Log($"UpgradeCost({targetProgressCount}) = {price}");
+            return price;
         }
     }
 }

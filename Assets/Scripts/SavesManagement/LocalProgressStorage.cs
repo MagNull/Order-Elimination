@@ -67,11 +67,11 @@ namespace OrderElimination.SavesManagement
             }
             catch (Exception e)
             {
-                Logging.LogException(e);
+                Logging.LogError("Error occured while attempting to load a saved progress");
+                Logging.LogError(e);
                 progress = null;
                 return false;
             }
-            //TODO-SAVE: Check values?
             return true;
         }
 

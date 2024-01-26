@@ -250,7 +250,7 @@ GameObject:
   - component: {fileID: 78452348}
   - component: {fileID: 78452351}
   m_Layer: 5
-  m_Name: StartGameButton
+  m_Name: StartRunButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -390,7 +390,7 @@ GameObject:
   - component: {fileID: 83800228}
   - component: {fileID: 83800227}
   m_Layer: 5
-  m_Name: Wallpaper
+  m_Name: Welcome Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2892,14 +2892,13 @@ MonoBehaviour:
   _camera: {fileID: 0}
   _canvasScaler: {fileID: 0}
   _shift: 0
-  _uiCounter: {fileID: 2070371899}
+  _uiCounter: {fileID: 2067778367}
   _progressCategories:
   - {fileID: 620782494}
   - {fileID: 563827440}
   - {fileID: 906364351}
   - {fileID: 1837803561}
   - {fileID: 703908961}
-  StartMetaMoney: 1000
 --- !u!1 &372645049
 GameObject:
   m_ObjectHideFlags: 0
@@ -3678,11 +3677,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a924fc06808e44b395fe95b3a121dbc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartUpgradeWidthPart: 0.01
-  EndUpgradeWidthPart: 0.02
-  AnimationTime: 0.5
-  ShiftPart: 50
-  PercentInPart: 5
   _progressBar:
   - {fileID: 1238025785}
   - {fileID: 1244342162}
@@ -3693,6 +3687,11 @@ MonoBehaviour:
   _upgradeButton: {fileID: 1446026478}
   _costText: {fileID: 1002972824}
   _percentText: {fileID: 1434224825}
+  StartUpgradeWidthPart: 0.01
+  EndUpgradeWidthPart: 0.02
+  AnimationTime: 0.5
+  ShiftPart: 50
+  PercentInPart: 5
 --- !u!1 &565318712
 GameObject:
   m_ObjectHideFlags: 0
@@ -3781,7 +3780,7 @@ GameObject:
   - component: {fileID: 582196760}
   - component: {fileID: 582196759}
   m_Layer: 5
-  m_Name: MaskForWallpaper
+  m_Name: Welcome Screen Tint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3993,7 +3992,7 @@ GameObject:
   - component: {fileID: 619606633}
   - component: {fileID: 619606635}
   m_Layer: 5
-  m_Name: MenuButtons
+  m_Name: Panel Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4126,11 +4125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a924fc06808e44b395fe95b3a121dbc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartUpgradeWidthPart: 0.01
-  EndUpgradeWidthPart: 0.02
-  AnimationTime: 0.5
-  ShiftPart: 50
-  PercentInPart: 5
   _progressBar:
   - {fileID: 1675090541}
   - {fileID: 1209699125}
@@ -4141,6 +4135,11 @@ MonoBehaviour:
   _upgradeButton: {fileID: 1766457949}
   _costText: {fileID: 478500016}
   _percentText: {fileID: 1398395570}
+  StartUpgradeWidthPart: 0.01
+  EndUpgradeWidthPart: 0.02
+  AnimationTime: 0.5
+  ShiftPart: 50
+  PercentInPart: 5
 --- !u!1 &659658469
 GameObject:
   m_ObjectHideFlags: 0
@@ -4644,11 +4643,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a924fc06808e44b395fe95b3a121dbc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartUpgradeWidthPart: 0.01
-  EndUpgradeWidthPart: 0.02
-  AnimationTime: 0.5
-  ShiftPart: 50
-  PercentInPart: 5
   _progressBar:
   - {fileID: 713941085}
   - {fileID: 1786486691}
@@ -4659,6 +4653,11 @@ MonoBehaviour:
   _upgradeButton: {fileID: 1384174877}
   _costText: {fileID: 1520635763}
   _percentText: {fileID: 2118581287}
+  StartUpgradeWidthPart: 0.01
+  EndUpgradeWidthPart: 0.02
+  AnimationTime: 0.5
+  ShiftPart: 50
+  PercentInPart: 5
 --- !u!1 &706125550
 GameObject:
   m_ObjectHideFlags: 0
@@ -6063,11 +6062,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a924fc06808e44b395fe95b3a121dbc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartUpgradeWidthPart: 0.01
-  EndUpgradeWidthPart: 0.02
-  AnimationTime: 0.5
-  ShiftPart: 50
-  PercentInPart: 5
   _progressBar:
   - {fileID: 296979983}
   - {fileID: 193795385}
@@ -6078,6 +6072,11 @@ MonoBehaviour:
   _upgradeButton: {fileID: 362949597}
   _costText: {fileID: 429197788}
   _percentText: {fileID: 333511602}
+  StartUpgradeWidthPart: 0.01
+  EndUpgradeWidthPart: 0.02
+  AnimationTime: 0.5
+  ShiftPart: 50
+  PercentInPart: 5
 --- !u!1 &920518822
 GameObject:
   m_ObjectHideFlags: 0
@@ -6514,7 +6513,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5239559543545713467, guid: a246b125667bc714581d7669bbc550ec, type: 3}
       propertyPath: m_Name
-      value: Counter
+      value: HireCurrencyDisplay
       objectReference: {fileID: 0}
     - target: {fileID: 7339144948600235969, guid: a246b125667bc714581d7669bbc550ec, type: 3}
       propertyPath: m_Sprite
@@ -9551,6 +9550,7 @@ MonoBehaviour:
   _library: {fileID: 11400000, guid: ccf5a05429ccd6e4ea3c89c2b79f7a33, type: 2}
   _characterInfoPanel: {fileID: 1787063235}
   _scenesMediatorPrefab: {fileID: 1422321889289218424, guid: 92d0a280c590cac489aa4d276cc5be93, type: 3}
+  _playerProgressManager: {fileID: 1580549307}
 --- !u!4 &1514633135
 Transform:
   m_ObjectHideFlags: 0
@@ -9891,6 +9891,62 @@ Transform:
   - {fileID: 242491887}
   - {fileID: 343574086}
   m_Father: {fileID: 1704901500}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1580549306
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1580549308}
+  - component: {fileID: 1580549307}
+  m_Layer: 0
+  m_Name: PlayerProgressManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1580549307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1580549306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7582cc0bfd7ed844497af1f2c60f95a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _defaultProgress
+      Entry: 6
+      Data: 
+--- !u!4 &1580549308
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1580549306}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1639922303
@@ -12223,11 +12279,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a924fc06808e44b395fe95b3a121dbc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartUpgradeWidthPart: 0.01
-  EndUpgradeWidthPart: 0.02
-  AnimationTime: 0.5
-  ShiftPart: 50
-  PercentInPart: 5
   _progressBar:
   - {fileID: 1754500893}
   - {fileID: 1760526708}
@@ -12238,6 +12289,11 @@ MonoBehaviour:
   _upgradeButton: {fileID: 928019464}
   _costText: {fileID: 1816034820}
   _percentText: {fileID: 706125552}
+  StartUpgradeWidthPart: 0.01
+  EndUpgradeWidthPart: 0.02
+  AnimationTime: 0.5
+  ShiftPart: 50
+  PercentInPart: 5
 --- !u!1 &1870369908
 GameObject:
   m_ObjectHideFlags: 0
@@ -13457,7 +13513,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5239559543545713467, guid: a246b125667bc714581d7669bbc550ec, type: 3}
       propertyPath: m_Name
-      value: MetaCounterWithBackground
+      value: UpgradeCurrencyDisplay
       objectReference: {fileID: 0}
     - target: {fileID: 7339144948600235969, guid: a246b125667bc714581d7669bbc550ec, type: 3}
       propertyPath: m_Sprite
@@ -13470,7 +13526,7 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5239559543545713466, guid: a246b125667bc714581d7669bbc550ec, type: 3}
   m_PrefabInstance: {fileID: 2067778365}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2070371899 stripped
+--- !u!114 &2067778367 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5239559541971330961, guid: a246b125667bc714581d7669bbc550ec, type: 3}
   m_PrefabInstance: {fileID: 2067778365}

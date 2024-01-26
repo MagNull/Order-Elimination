@@ -61,8 +61,6 @@ namespace OrderElimination
             var enemyChars = "enemy characters";
             var scenario = "scenario";
             var rules = "rules";
-            //if (_testEnemyCharacters == null || _testEnemyCharacters.Any(c => c == null))
-            //    Logging.LogWarning("Test enemy characters null");
             if (!Contains<GameCharacter[]>(playerChars))
                 Register(playerChars, GameCharactersFactory.CreateGameCharacters(_testPlayerCharacters));
             if (!Contains<GameCharacter[]>(enemyChars) && _testEnemyCharacters != null)

@@ -65,7 +65,8 @@ namespace GameInventory
             if(itemData == null)
                 Logging.LogException(new ArgumentException("Item data can't be null"));
             
-            var removeItemCell = _cells.FirstOrDefault(cell => cell.Item.Data.Id == itemData.Id);
+            var removeItemCell = _cells.FirstOrDefault(
+                cell => cell.Item.Data.AssetId == itemData.AssetId);
             if (removeItemCell == null)
             {
                 Logging.LogWarning("Not found item in inventory");
@@ -83,7 +84,7 @@ namespace GameInventory
 
         public bool Contains(ItemData itemData)
         {
-            return _cells.Any(cell => cell.Item.Data.Id == itemData.Id);
+            return _cells.Any(cell => cell.Item.Data.AssetId == itemData.AssetId);
         }
 
         public void InitConsumables()

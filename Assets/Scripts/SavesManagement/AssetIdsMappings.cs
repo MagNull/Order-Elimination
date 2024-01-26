@@ -19,8 +19,9 @@ namespace OrderElimination.SavesManagement
         public static IDataMapping<Guid, ItemData> ItemsMapping
             => _itemsMapping;
 
-        public static bool IsValidationRequired 
-            => _lastUpdateTime == default || (DateTime.Now -_lastUpdateTime).Seconds > 2;//mock
+        public static bool IsValidationRequired
+            => true;
+            //=> _lastUpdateTime == default || (DateTime.Now -_lastUpdateTime).Seconds > 2;//mock
 
         static AssetIdsMappings()
         {

@@ -4,7 +4,7 @@ using System.Text;
 namespace OrderElimination
 {
     [Serializable]
-    public struct StrategyStats
+    public struct UpgradeStats
     {
         public int HealthGrowth;
         public int ArmorGrowth;

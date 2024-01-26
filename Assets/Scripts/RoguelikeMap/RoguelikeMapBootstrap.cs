@@ -54,11 +54,7 @@ namespace RoguelikeMap
         [SerializeField]
         private Map.Map _map;
 
-        [Header("Saves Management")]
-        [SerializeField]
-        private bool _saveLocalData;
-        [SerializeField]
-        private bool _loadLocalData;
+        private IPlayerProgressManager _progressManager;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -69,20 +65,13 @@ namespace RoguelikeMap
                 mediator.InitTest();
             }
 
-            var roguelikeMoney = 1800;//default
-            var playerInventory = new Inventory(100);
-            if (_loadLocalData)
-            {
-                var progress = mediator.Contains<IPlayerProgress>("progress")
-                    ? mediator.Get<IPlayerProgress>("progress")
-                    : PlayerProgressManager.LoadSavedProgress();
-                if (progress.CurrentRunProgress == null)
-                    throw new ArgumentException("Current run progress should be already assigned");
-                roguelikeMoney = progress.CurrentRunProgress.RoguelikeCurrency;
-                playerInventory = progress.CurrentRunProgress.PlayerInventory;
-                Logging.Log("Player progress data loaded.");
-            }
+            var progressManager = mediator.Get<IPlayerProgressManager>("progress manager");
+            _progressManager = progressManager;
+            var progress = _progressManager.GetPlayerProgress();
+            var roguelikeMoney = progress.CurrentRunProgress.RunCurrency;
+            var playerInventory = progress.CurrentRunProgress.PlayerInventory;
             Logging.Log($"Player money: {roguelikeMoney}");
+
             builder.Register<Wallet>(Lifetime.Singleton).WithParameter(roguelikeMoney);
             builder.RegisterComponent(playerInventory);
             builder.RegisterComponent(mediator);
@@ -111,21 +100,6 @@ namespace RoguelikeMap
         public void Start()
         {
             Container.Resolve<BattleRewardHandler>().Start();
-        }
-
-        public void OnDisable()
-        {
-            if (_saveLocalData)
-            {
-                SaveProgress();
-            }
-        }
-
-        private void SaveProgress()
-        {
-            var sceneMediator = Container.Resolve<ScenesMediator>();
-            var progress = sceneMediator.Get<IPlayerProgress>("progress");
-            PlayerProgressManager.SaveProgress(progress);
         }
     }
 }

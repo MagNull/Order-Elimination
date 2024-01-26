@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace OrderElimination.MacroGame
 {
-    public class GameCharacter : ISerializationCallbackReceiver
+    public class GameCharacter
     {
         private GameCharacterStats _characterStats;
         private float _currentHealth;
@@ -72,16 +72,6 @@ namespace OrderElimination.MacroGame
         public void SetInventory(Inventory inventory)
         {
             Inventory = inventory;
-        }
-
-        public void OnBeforeSerialize()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnAfterDeserialize()
-        {
-            throw new NotImplementedException();
         }
     }
 }

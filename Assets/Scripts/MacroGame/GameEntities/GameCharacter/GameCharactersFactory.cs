@@ -1,4 +1,5 @@
-﻿using OrderElimination.AbilitySystem;
+﻿using GameInventory;
+using OrderElimination.AbilitySystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,20 @@ namespace OrderElimination.MacroGame
                 specifiedStats,
                 template.GetActiveAbilities(),
                 template.GetPassiveAbilities());
+        }
+
+        public static GameCharacter CreateGameCharacter(
+            IGameCharacterTemplate template,
+            IReadOnlyGameCharacterStats specifiedStats,
+            Inventory specifiedInventory)
+        {
+            var character = CreateGameCharacter(
+                template,
+                specifiedStats,
+                template.GetActiveAbilities(),
+                template.GetPassiveAbilities());
+            character.SetInventory(specifiedInventory);
+            return character;
         }
 
         public static GameCharacter CreateGameCharacter(

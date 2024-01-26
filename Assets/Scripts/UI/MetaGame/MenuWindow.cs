@@ -29,25 +29,27 @@ public class MenuWindow : MonoBehaviour
     private GameObject _startMenuPanel;
     [SerializeField] 
     private Image _maskWallpaper;
-
-    [SerializeField]
-    private IPlayerProgress _defaultPlayerProgress;
     
     private SceneTransition _sceneTransition;
     private ScenesMediator _scenesMediator;
+    private IPlayerProgressManager _progressManager;
     private Vector3 _startMenuPanelInitialPosition;
     
     [Inject]
-    public void Construct(SceneTransition sceneTransition, ScenesMediator scenesMediator)
+    public void Construct(
+        SceneTransition sceneTransition, 
+        ScenesMediator scenesMediator,
+        IPlayerProgressManager progressManager)
     {
         _sceneTransition = sceneTransition;
         _scenesMediator = scenesMediator;
+        _progressManager = progressManager;
     }
     
     private void Start()
     {
         _startMenuPanelInitialPosition = _startMenuPanel.transform.position;
-        var progress = PlayerProgressManager.LoadSavedProgress();
+        var progress = _progressManager.GetPlayerProgress();
         //Progress validation
         _continueButton.DOInterectable(progress.CurrentRunProgress != null);
 
@@ -69,30 +71,7 @@ public class MenuWindow : MonoBehaviour
             OnRunStart(progress, _scenesMediator);
         });
         
-        _startGameButton.onClick.AddListener(() =>
-        {
-            Debug.Log("Button: Start");
-            if (_scenesMediator.Contains<int>("point index"))
-                _scenesMediator.Unregister("point index");
-
-            var stats = _metaShopPanel.GetUpgradeStats();
-            var characters = _choosingCharacterPanel.GetSelectedCharacters();
-            if (characters.Length == 0)
-                return;
-            progress.MetaProgress = new()
-            {
-                StatUpgrades = stats,
-                MetaCurrency = 1777,
-                HireCurrencyLimit = 1111
-            };
-            progress.CurrentRunProgress = new()
-            {
-                PosessedCharacters = characters.ToList(),
-                RoguelikeCurrency = 1800,//TODO: Get from MetaProgress
-                PlayerInventory = new(100)
-            };
-            OnRunStart(progress, _scenesMediator);
-        });
+        _startGameButton.onClick.AddListener(StartNewRun);
     }
 
     public void StartInMenuClick()
@@ -109,7 +88,27 @@ public class MenuWindow : MonoBehaviour
 
     private void OnRunStart(IPlayerProgress progress, ScenesMediator mediator)
     {
-        RoguelikeRunStartManager.StartNewRun(progress, mediator);
+        Logging.Log("Start/Continue run!" % Colorize.Red);
+        RoguelikeRunStartManager.StartRun(progress, mediator);
         _sceneTransition.LoadRoguelikeMap();
+    }
+
+    private void StartNewRun()
+    {
+        Debug.Log("Button: Start");
+        if (_scenesMediator.Contains<int>("point index"))
+            _scenesMediator.Unregister("point index");
+
+        var progress = _progressManager.GetPlayerProgress();
+
+        var stats = progress.MetaProgress.StatUpgrades;
+        var characters = _choosingCharacterPanel.GetSelectedCharacters();
+        if (characters.Length == 0)
+            return;
+        progress.CurrentRunProgress = RoguelikeRunStartManager
+            .GetInitialProgress(progress.MetaProgress);
+        progress.MetaProgress.StatUpgrades = stats;//TODO-SAVES: make dependency in upgrader
+        progress.CurrentRunProgress.PosessedCharacters = characters.ToList();
+        OnRunStart(progress, _scenesMediator);
     }
 }

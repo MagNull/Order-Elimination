@@ -78,7 +78,7 @@ namespace StartSessionMenu.ChooseCharacter
                     || _wallet.Money - card.Cost < 0
                     || _selectedCount >= MaxSquadSize) 
                     return;
-                _wallet.SubtractMoney(card.Cost);
+                _wallet.Money -= card.Cost;
                 SelectCard(card, dropZone.transform);
                 _selectedCount++;
                 dropZone.Select(card);
@@ -89,7 +89,7 @@ namespace StartSessionMenu.ChooseCharacter
                 if (cost < 0 || _wallet.Money + cost < card.Cost)
                     return;
                 SelectCard(card, dropZone.transform);
-                _wallet.SubtractMoney(card.Cost - cost);
+                _wallet.Money -= card.Cost - cost;
                 dropZone.Select(card);
             }
             SetActiveStartButton();
@@ -104,7 +104,7 @@ namespace StartSessionMenu.ChooseCharacter
         {
             if (!characterCard.IsSelected)
                 return;
-            _wallet.AddMoney(characterCard.Character.CharacterData.Price);
+            _wallet.Money += characterCard.Character.CharacterData.Price;
             _selectedCount--;
             SetActiveStartButton();
         }

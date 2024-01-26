@@ -26,7 +26,7 @@ namespace RoguelikeMap
                 return;
             var results = _scenesMediator.Get<BattleResults>("battle results");
             
-            _wallet.AddMoney(results.MoneyReward);
+            _wallet.Money += results.MoneyReward;
             foreach (var item in results.ItemsReward)
             {
                 _inventory.AddItem(item);

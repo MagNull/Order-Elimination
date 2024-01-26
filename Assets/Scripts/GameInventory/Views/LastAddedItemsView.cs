@@ -19,18 +19,25 @@ namespace GameInventory.Views
         [Inject]
         public void Construct(Inventory inventory)
         {
+            Debug.LogError("Injected");
             _inventory = inventory;
         }
 
         private void OnEnable()
         {
-            _inventory.OnCellChanged += UpdateLastItems;
-            UpdateLastItems(null);
+            if (_inventory != null)
+            {
+                _inventory.OnCellChanged += UpdateLastItems;
+                UpdateLastItems(null);
+            }
         }
 
         private void OnDisable()
         {
-            _inventory.OnCellChanged -= UpdateLastItems;
+            if (_inventory != null)
+            {
+                _inventory.OnCellChanged -= UpdateLastItems;
+            }
         }
 
         private void UpdateLastItems(IReadOnlyCell _)

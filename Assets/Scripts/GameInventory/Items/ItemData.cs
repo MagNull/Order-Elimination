@@ -52,9 +52,6 @@ namespace GameInventory.Items
         [field: SerializeField] 
         public ItemRarity Rarity { get; private set; }
 
-        [field: ShowInInspector, DisplayAsString]
-        public string Id { get; private set; }//TODO-SAVES: replace with AssetId
-
         [field: SerializeReference, ShowIf("@Type == ItemType.Consumable")]
         public ActiveAbilityBuilder UseAbility { get; private set; }
 

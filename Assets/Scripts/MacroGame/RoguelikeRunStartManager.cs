@@ -8,10 +8,14 @@ namespace OrderElimination.MacroGame
 {
     public static class RoguelikeRunStartManager//Replace with dontdestroy-object
     {
-        public static void StartNewRun(IPlayerProgress progress, ScenesMediator mediator)
+        public static void StartRun(IPlayerProgress progress, ScenesMediator mediator)
         {
-            if (!IsProgressValid(progress))
-                throw new ArgumentException(nameof(progress));
+            if (progress == null)
+                throw new ArgumentNullException(nameof(progress));
+            if (!IsProgressValid(progress.CurrentRunProgress))
+            {
+                throw new ArgumentException("Run is invalid");
+            }
             mediator.Register("progress", progress);
             var characters = progress.CurrentRunProgress.PosessedCharacters;
             UpgradeCharacterStats(
@@ -19,19 +23,30 @@ namespace OrderElimination.MacroGame
             //Load roguelike scene
         }
 
-        private static bool IsProgressValid(IPlayerProgress progress)
+        private static bool IsProgressValid(PlayerRunProgress runProgress)
         {
-            if (progress == null)
+            if (runProgress == null) 
                 return false;
-            if (progress.CurrentRunProgress == null) 
+            if (runProgress.PosessedCharacters == null 
+                || runProgress.PosessedCharacters.Count == 0)
                 return false;
-            if (progress.CurrentRunProgress.PosessedCharacters == null)
+            if (runProgress.PlayerInventory == null) 
                 return false;
             return true;
         }
 
+        public static PlayerRunProgress GetInitialProgress(PlayerMetaProgress metaProgress)
+        {
+            return new PlayerRunProgress()
+            {
+                PosessedCharacters = new(),
+                PlayerInventory = new(100),
+                RunCurrency = metaProgress.StartRunCurrency
+            };
+        }
+
         private static void UpgradeCharacterStats(
-            IEnumerable<GameCharacter> characters, StrategyStats upgradeStats)
+            IEnumerable<GameCharacter> characters, UpgradeStats upgradeStats)
         {
             var statsGrowth = new Dictionary<BattleStat, float>()
             {

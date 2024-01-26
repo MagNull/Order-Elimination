@@ -11,7 +11,7 @@ namespace OrderElimination.SavesManagement
         // Map (points, locations, enemies)
 
         // - - - Dynamic (can change during run)
-        public int RoguelikeCurrency { get; set; }
+        public int RunCurrency { get; set; }
 
         //1.Replace with SquadCharacter wrapper
         //2.Characters metadata ? (id, isActiveInSquad, isHired, ...)
