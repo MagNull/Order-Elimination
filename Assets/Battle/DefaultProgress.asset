@@ -31,28 +31,60 @@ MonoBehaviour:
       Data: 0|OrderElimination.SavesManagement.PlayerMetaProgress, Assembly-CSharp
     - Name: StatUpgrades
       Entry: 7
-      Data: OrderElimination.UpgradeStats, Assembly-CSharp
-    - Name: HealthGrowth
+      Data: 1|OrderElimination.StatModifiers, Assembly-CSharp
+    - Name: _statModifiers
+      Entry: 7
+      Data: 2|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.BattleStat,
+        Assembly-CSharp],[OrderElimination.ValueModifier, Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 3|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.BattleStat,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
       Entry: 3
       Data: 0
-    - Name: ArmorGrowth
+    - Name: $v
+      Entry: 7
+      Data: OrderElimination.ValueModifier, Assembly-CSharp
+    - Name: Operation
       Entry: 3
-      Data: 0
-    - Name: AttackGrowth
-      Entry: 3
-      Data: 0
-    - Name: EvasionGrowth
-      Entry: 3
-      Data: 0
-    - Name: AccuracyGrowth
-      Entry: 3
-      Data: 0
+      Data: 2
+    - Name: Operand
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 
     - Name: MetaCurrency
       Entry: 3
-      Data: 4000
+      Data: 2000
     - Name: StartRunCurrency
       Entry: 3
       Data: 1337
@@ -64,7 +96,7 @@ MonoBehaviour:
       Data: 3
     - Name: UnlockedCharacters
       Entry: 7
-      Data: 1|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
+      Data: 4|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12

@@ -46,34 +46,23 @@ namespace OrderElimination.MacroGame
         }
 
         private static void UpgradeCharacterStats(
-            IEnumerable<GameCharacter> characters, UpgradeStats upgradeStats)
+            IEnumerable<GameCharacter> characters, StatModifiers upgradeStats)
         {
-            var statsGrowth = new Dictionary<BattleStat, float>()
-            {
-                { BattleStat.MaxHealth, upgradeStats.HealthGrowth },
-                { BattleStat.MaxArmor, upgradeStats.ArmorGrowth },
-                { BattleStat.AttackDamage, upgradeStats.AttackGrowth },
-                { BattleStat.Accuracy, upgradeStats.AccuracyGrowth },
-                { BattleStat.Evasion, upgradeStats.EvasionGrowth },
-            };
-
             foreach (var character in characters)
             {
                 var baseStats = character.CharacterData.GetBaseBattleStats();
-                foreach (var stat in statsGrowth.Keys)
+                var currentHealthPart = 
+                    character.CurrentHealth / character.CharacterStats[BattleStat.MaxHealth];
+                foreach (var stat in upgradeStats.Modifiers.Keys)
                 {
-                    var originalStat = baseStats[stat];
-                    var initialStat = character.CharacterStats[stat];
-                    float newStat = stat == BattleStat.Accuracy || stat == BattleStat.Evasion
-                        ? originalStat + statsGrowth[stat] / 100
-                        : Mathf.RoundToInt(originalStat + (originalStat * statsGrowth[stat] / 100));
-                    character.ChangeStat(stat, newStat);
+                    var baseStat = baseStats[stat];
+                    var upgradedStat = upgradeStats.Modifiers[stat].ModifyValue(baseStat);
+                    character.ChangeStat(stat, upgradedStat);
                     if (stat == BattleStat.MaxHealth)
                     {
-                        var prevHealthPercent = character.CurrentHealth / initialStat;
-                        character.CurrentHealth = newStat * prevHealthPercent;
+                        character.CurrentHealth = currentHealthPart * upgradedStat;
                     }
-                    Logging.Log($"{character.CharacterData.Name}[{stat}]: {initialStat} -> {newStat}; StatGrow: {statsGrowth[stat]}");
+                    Logging.Log($"{character.CharacterData.Name}[{stat}]: {baseStat} -> {upgradedStat}");
                 }
             }
         }

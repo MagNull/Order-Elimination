@@ -1,5 +1,6 @@
 ﻿using GameInventory.Items;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using OrderElimination.Infrastructure;
 using System;
 
@@ -35,13 +36,16 @@ namespace OrderElimination.SavesManagement
             var itemDataConverter = new ItemDataJsonConverter(_itemsMapping);
             var itemConverter = new ItemJsonConverter();
             var inventoryConverter = new InventoryJsonConverter();
+            var statUpgradesConverter = new StatModifiersJsonConverter();
             return new JsonConverter[]
             {
                 characterTemplateConverter, 
                 characterConverter, 
                 itemDataConverter, 
                 itemConverter, 
-                inventoryConverter 
+                inventoryConverter,
+                statUpgradesConverter,
+                new StringEnumConverter()
             };
         }
     }

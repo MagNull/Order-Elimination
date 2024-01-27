@@ -19,68 +19,67 @@ namespace OrderElimination
         [SerializeField]
         private TextMeshProUGUI _percentText;
 
-        private int _progressCount;
-
         public float StartUpgradeWidthPart = 0.5f;
         public float EndUpgradeWidthPart = 0.9f;
         public float AnimationTime = 0.5f;
         public float ShiftPart = 50f;
 
-        public int PercentInPart = 5;
-        private int MaxProgressCount = 6;
-        
+        private int _progressCount;
+        private int _costOfUpgrade;
+        private int _increaseAmount;
 
-        private int StartCostOfUpgrade = 200;
-        public int CostOfUpgrade { get; private set; } = 200;
+        public int CostOfUpgrade
+        {
+            get => _costOfUpgrade;
+            set
+            {
+                _costOfUpgrade = value;
+                _costText.text = $"{_costOfUpgrade}$";
+            }
+        }
+
+        public int IncreaseAmount
+        {
+            get => _increaseAmount;
+            set
+            {
+                _increaseAmount = value;
+                _percentText.text = $"+{_increaseAmount}%";
+            }
+        }
+
         public int ProgressCount
         {
             get => _progressCount;
             set
             {
                 if (value < 0) value = 0;
-                if (value > MaxProgressCount) value = MaxProgressCount;
+                if (value > 5) value = 5;
                 var prevValue = _progressCount;
                 if (prevValue != value)
                 {
                     _progressCount = value;
-                    CostOfUpgrade = GetUpgradePrice(ProgressCount + 1);
-                    VisualUpgrade();
+                    VisualUpdate();
                 }
             }
         }
 
-        public event Action<UpgradeCategory> OnUpgrade;
+        public event Action<UpgradeCategory> UpgradeButtonClicked;
 
         private void Start()
         {
-            _costText.text = $"{CostOfUpgrade}$";
+            CostOfUpgrade = -1;
+            IncreaseAmount = -1;
+            ProgressCount = 0;
             _upgradeButton.onClick.AddListener(ClickOnUpgradeButton);
         }
 
         private void ClickOnUpgradeButton()
         {
-            OnUpgrade?.Invoke(this);
-        }
-        
-        public bool CanUpgrade(int availableMoney)
-        {
-            if (availableMoney < CostOfUpgrade)
-                return false;
-            if (ProgressCount == MaxProgressCount - 1)
-                return false;
-            return true;
+            UpgradeButtonClicked?.Invoke(this);
         }
 
-        public void Upgrade(int availableMoney)
-        {
-            if (!CanUpgrade(availableMoney))
-                throw new InvalidOperationException();
-            ProgressCount++;
-            CostOfUpgrade = GetUpgradePrice(ProgressCount + 1);
-            VisualUpgrade();
-        }
-
-        private void VisualUpgrade()
+        private void VisualUpdate()
         {
             var firstPart = _progressBar[ProgressCount - 1];
             firstPart.DOColor(Color.yellow, AnimationTime);
@@ -92,16 +91,6 @@ namespace OrderElimination
             var secondPartTransform = _progressBar[ProgressCount].transform;
             secondPartTransform.transform.DOScaleX(EndUpgradeWidthPart, AnimationTime);
             secondPartTransform.transform.DOMoveX(secondPartTransform.position.x - ShiftPart, AnimationTime);
-            
-            _costText.text = $"{CostOfUpgrade}$";
-            _percentText.text = $"{(ProgressCount + 1) * PercentInPart}%";
-        }
-
-        private int GetUpgradePrice(int targetProgressCount)
-        {
-            var price = targetProgressCount * StartCostOfUpgrade;
-            //Debug.Log($"UpgradeCost({targetProgressCount}) = {price}");
-            return price;
         }
     }
 }
