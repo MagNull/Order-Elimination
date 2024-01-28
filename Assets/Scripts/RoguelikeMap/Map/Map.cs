@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,9 +47,9 @@ namespace RoguelikeMap.Map
             SetSquadPosition(FindStartPoint(), false);
         }
 
-        public Point GetPointByIndex(int pointIndex)
+        public Point GetPointById(Guid id)
         {
-            return pointIndex != -1 ? _points.First(x => x.Index == pointIndex) : null;
+            return id != Guid.Empty ? _points.First(x => x.Id == id) : null;
         }
 
         private Point FindStartPoint()
@@ -56,10 +57,10 @@ namespace RoguelikeMap.Map
             return _points.First(point => point.Model is StartPointModel);
         }
 
-        private async void MoveToPoint(int pointIndex)
+        private async void MoveToPoint(Guid pointId)
         {
-            if (pointIndex >= 0 && pointIndex < _points.Count)
-                await SetSquadPosition(_points.First(x => x.Index == pointIndex));
+            if (pointId != Guid.Empty)
+                await SetSquadPosition(_points.First(x => x.Id == pointId));
             else
                 ReloadMap();
             _currentPoint.HidePaths();
@@ -68,7 +69,7 @@ namespace RoguelikeMap.Map
         public async Task MoveToPoint(Point point)
         {
             if (point is not null)
-                await SetSquadPosition(_points.First(x => x.Index == point.Index));
+                await SetSquadPosition(_points.First(x => x.Id == point.Id));
             else
                 ReloadMap();
             _currentPoint.HidePaths();
@@ -83,7 +84,7 @@ namespace RoguelikeMap.Map
             }
             _currentPoint = point;
             await MoveSquad(point, isAnimation);
-            _saver.SavePosition(point.Index);
+            _saver.SavePosition(point.Id);
         }
 
         private async Task MoveSquad(Point point, bool isAnimation)

@@ -18,7 +18,7 @@ namespace RoguelikeMap.Points
         private SpriteRenderer _icon;
         [SerializeField]
         private PathView _pathPrefab;
-
+        
         private PathView _pathView;
         private TransferPanel _transferPanel;
         private PanelManager _panelManager;
@@ -26,7 +26,7 @@ namespace RoguelikeMap.Points
         private Squad _squad;
         
         public PointModel Model { get; private set; }
-        public int Index => Model.Index;
+        public Guid Id => Model.AssetId;
 
         [Inject]
         private void Construct(PanelManager panelManager, TransferPanel transferPanel,

@@ -11,21 +11,21 @@ namespace RoguelikeMap.UI
         [SerializeField]
         private TMP_Text _text;
 
-        private int _pointIndex;
+        private Guid _pointId;
         private Panel _battlePointTransferPanel;
         
-        public event Action<int> OnAccept;
+        public event Action<Guid> OnAccept;
 
         public void Initialize(PointModel pointModel)
         {
             _text.text = pointModel.TransferText;
-            _pointIndex = pointModel.Index;
+            _pointId = pointModel.AssetId;
         }
         
         public void AcceptClick()
         {
             Close();
-            OnAccept?.Invoke(_pointIndex);
+            OnAccept?.Invoke(_pointId);
         }
 
         public void SetBattlePanel(Panel panel)
