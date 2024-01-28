@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 087dea7e287b4bf6b474c4bd7769c1cb, type: 3}
-  m_Name: Tower
+  m_Name: "Sci-fi \u0441\u0442\u0435\u043D\u0430 \u043D\u0438\u0437-\u043B\u0435\u0432\u043E"
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -26,10 +26,10 @@ MonoBehaviour:
       Data: 0|OrderElimination.AbilitySystem.BattleObstacleSetup, Assembly-CSharp
     - Name: AllowsToStay
       Entry: 5
-      Data: true
+      Data: false
     - Name: AllowsToWalkOn
       Entry: 5
-      Data: true
+      Data: false
     - Name: _entityStayConditions
       Entry: 7
       Data: 1|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
@@ -62,7 +62,57 @@ MonoBehaviour:
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: OrderElimination.AbilitySystem.BattleObstacleSetup+AccuracyAffectionRule,
+        Assembly-CSharp
+    - Name: AccuracyOperation
+      Entry: 3
+      Data: 1
+    - Name: ValueOperand
+      Entry: 7
+      Data: 4|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+    - Name: Value
+      Entry: 4
+      Data: 0.25
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _minAffectedSquare
+      Entry: 4
+      Data: 0.02
+    - Name: _maxAffectedSquare
+      Entry: 4
+      Data: 0.1875
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: OrderElimination.AbilitySystem.BattleObstacleSetup+AccuracyAffectionRule,
+        Assembly-CSharp
+    - Name: AccuracyOperation
+      Entry: 3
+      Data: 1
+    - Name: ValueOperand
+      Entry: 7
+      Data: 5|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+    - Name: Value
+      Entry: 4
+      Data: 0.5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _minAffectedSquare
+      Entry: 4
+      Data: 0.1875
+    - Name: _maxAffectedSquare
+      Entry: 4
+      Data: 0.5
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -72,9 +122,8 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  _name: Tower
-  _spriteView: {fileID: 21300000, guid: 26486a9a0f0059d4f8054e978e71fe0f, type: 3}
+  _name: Stone
+  _spriteView: {fileID: 21300000, guid: 21166058dcfa28f48b8cfc5d48de9e2f, type: 3}
   _visualModel: {fileID: 0}
-  _maxHealth: 1000
-  _posessedAbilities:
-  - {fileID: 11400000, guid: f6488d714b05317408c5f7614b92ba2f, type: 2}
+  _maxHealth: 3000
+  _posessedAbilities: []

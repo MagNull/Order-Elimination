@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 087dea7e287b4bf6b474c4bd7769c1cb, type: 3}
-  m_Name: Tower
+  m_Name: "\u041B\u0443\u0436\u0430"
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -26,7 +26,7 @@ MonoBehaviour:
       Data: 0|OrderElimination.AbilitySystem.BattleObstacleSetup, Assembly-CSharp
     - Name: AllowsToStay
       Entry: 5
-      Data: true
+      Data: false
     - Name: AllowsToWalkOn
       Entry: 5
       Data: true
@@ -72,9 +72,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  _name: Tower
-  _spriteView: {fileID: 21300000, guid: 26486a9a0f0059d4f8054e978e71fe0f, type: 3}
+  _name: Hole
+  _spriteView: {fileID: 21300000, guid: 6d6e57af91c05294cab5883b5142fe0e, type: 3}
   _visualModel: {fileID: 0}
-  _maxHealth: 1000
+  _maxHealth: 750
   _posessedAbilities:
-  - {fileID: 11400000, guid: f6488d714b05317408c5f7614b92ba2f, type: 2}
+  - {fileID: 11400000, guid: 3f134081112be5c4dbaec088e8860d92, type: 2}
