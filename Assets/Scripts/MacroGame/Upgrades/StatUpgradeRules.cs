@@ -1,19 +1,24 @@
-﻿using OrderElimination;
-using OrderElimination.AbilitySystem;
+﻿using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
 
-namespace StartSessionMenu
+namespace OrderElimination.MacroGame
 {
-    public class StatUpgradesRules
+    public class StatUpgradeRules : IStatUpgradeRules
     {
+        [ShowInInspector, OdinSerialize]
         private Dictionary<BattleStat, int> _costGrowth = new();
+        [ShowInInspector, OdinSerialize]
         private Dictionary<BattleStat, BinaryMathOperation> _upgradeOperations = new();
+        [ShowInInspector, OdinSerialize]
         private Dictionary<BattleStat, float> _increasePerLevel = new();
 
-        public StatUpgradesRules()
+        public StatUpgradeRules()
         {
+            MaxUpgradeLevel = 5;
             _costGrowth = new()
             {
                 { BattleStat.MaxHealth, 200 },
@@ -40,7 +45,8 @@ namespace StartSessionMenu
             };
         }
 
-        public float MaxUpgradeLevel { get; } = 6;
+        [ShowInInspector]
+        public float MaxUpgradeLevel { get; private set; }
 
         public float GetUpgradeToLevelCost(BattleStat stat, float upgradeLevel)
         {

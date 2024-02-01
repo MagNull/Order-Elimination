@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OrderElimination
+namespace OrderElimination.MacroGame
 {
     [Serializable]
     public class StatModifiers

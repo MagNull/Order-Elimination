@@ -7,9 +7,9 @@ using OrderElimination.Infrastructure;
 using OrderElimination.MacroGame;
 using OrderElimination.SavesManagement;
 using RoguelikeMap.UI;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using VContainer;
-using static Cinemachine.DocumentationSortingAttribute;
 
 namespace StartSessionMenu
 {
@@ -19,11 +19,12 @@ namespace StartSessionMenu
         private MoneyCounter _uiCounter;
         [SerializeField]
         private List<UpgradeCategory> _progressCategories;
-        private StatUpgradesRules _upgradeRules;
+        [ShowInInspector]
+        private IStatUpgradeRules _upgradeRules;
         private Wallet _wallet;
         private Dictionary<BattleStat, UpgradeCategory> _categoriesByStats;
         private Dictionary<UpgradeCategory, BattleStat> _statsByCategories;
-        private Dictionary<BattleStat, float> _upgradeLevels;
+        private Dictionary<BattleStat, int> _upgradeLevels;
 
         private IPlayerProgressManager _playerProgressManager;
         private IPlayerProgress PlayerProgress => _playerProgressManager.GetPlayerProgress();
@@ -51,7 +52,7 @@ namespace StartSessionMenu
         {
             _playerProgressManager = scenesMediator.Get<IPlayerProgressManager>("progress manager");
         }
-        
+
         private void Start()
         {
             var availableStats = new BattleStat[] { 
@@ -64,7 +65,7 @@ namespace StartSessionMenu
                 () => UpgradeMoney, 
                 value => UpgradeMoney = value);
             _uiCounter.Initialize(_wallet);
-            _upgradeRules = new();
+            _upgradeRules ??= new StatUpgradeRules();
             _categoriesByStats = new()
             {
                 { BattleStat.MaxHealth, _progressCategories[0] },
@@ -74,9 +75,12 @@ namespace StartSessionMenu
                 { BattleStat.Accuracy, _progressCategories[4] },
             };
             _statsByCategories = _categoriesByStats.ToDictionary(kv => kv.Value, kv => kv.Key);
-            _upgradeLevels = availableStats.ToDictionary(s => s, s => 0f);
+            _upgradeLevels = availableStats.ToDictionary(s => s, s => 0);
             foreach (var category in _progressCategories)
+            {
                 category.UpgradeButtonClicked += OnUpgradeAttempt;
+                category.MaxUpgradeLevel = (int)_upgradeRules.MaxUpgradeLevel;
+            }
             RestoreUpgrades(UpgradeStats);
         }
 
@@ -116,7 +120,7 @@ namespace StartSessionMenu
             else
                 throw new NotImplementedException();
 
-            category.ProgressCount = Mathf.RoundToInt(currentLevel);
+            category.ProgressLevel = Mathf.RoundToInt(currentLevel);
             category.IncreaseAmount = Mathf.RoundToInt(upgradeIncrease);
             category.CostOfUpgrade = Mathf.RoundToInt(upgradeCost);
         }
@@ -140,13 +144,10 @@ namespace StartSessionMenu
                 {
                     var modifier = stats.Modifiers[stat];
                     var level = _upgradeRules.GetEstimatedUpgradeLevel(stat, modifier);
-                    Logging.Log($"Estimated level for {stat}: {level}");
-                    _upgradeLevels[stat] = level;
+                    _upgradeLevels[stat] = Mathf.RoundToInt(level);
                 }
                 UpdateStatCategoryView(category);
             }
-            Logging.Log("Upgrades Restored");
-            Logging.Log(UpgradeStats.ToString());
         }
     }
 }

@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
 
-namespace OrderElimination
+namespace OrderElimination.Infrastructure
 {
     [Serializable]
     public struct ValueModifier

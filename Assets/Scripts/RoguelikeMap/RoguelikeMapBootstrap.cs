@@ -103,5 +103,10 @@ namespace RoguelikeMap
         {
             Container.Resolve<BattleRewardHandler>().Start();
         }
+
+        private void OnDisable()
+        {
+            _progressManager?.SaveProgress();
+        }
     }
 }

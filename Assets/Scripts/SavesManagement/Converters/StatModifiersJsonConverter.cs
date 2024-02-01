@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OrderElimination.AbilitySystem;
+using OrderElimination.Infrastructure;
+using OrderElimination.MacroGame;
 using System;
 using System.Collections.Generic;
 
