@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using RoguelikeMap.Points;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI.Characters;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using VContainer;
 
@@ -15,6 +16,7 @@ namespace RoguelikeMap.Map
         private IMapGenerator _mapGenerator;
         private Squad _squad;
         private List<Point> _points;
+        [ShowInInspector]
         private Point _currentPoint;
         private SquadPositionSaver _saver;
         private SquadMembersPanel _squadMembersPanel;
@@ -63,7 +65,10 @@ namespace RoguelikeMap.Map
                 await SetSquadPosition(_points.First(x => x.Id == pointId));
             else
                 ReloadMap();
-            _currentPoint.HidePaths();
+            if (!_saver.IsPassedPoint())
+            {
+                _currentPoint.HidePaths();   
+            }
         }
 
         public async Task MoveToPoint(Point point)
@@ -72,7 +77,10 @@ namespace RoguelikeMap.Map
                 await SetSquadPosition(_points.First(x => x.Id == point.Id));
             else
                 ReloadMap();
-            _currentPoint.HidePaths();
+            if (!_saver.IsPassedPoint())
+            {
+                _currentPoint.HidePaths();   
+            }
         }
 
         private async Task SetSquadPosition(Point point, bool isAnimation = true)

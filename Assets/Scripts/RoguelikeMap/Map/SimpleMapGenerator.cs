@@ -5,6 +5,7 @@ using OrderElimination;
 using OrderElimination.SavesManagement;
 using RoguelikeMap.Points;
 using RoguelikeMap.Points.Models;
+using Unity.VisualScripting;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -36,21 +37,25 @@ namespace RoguelikeMap.Map
             var path = "Points\\RoguelikeMaps";
             var maps = Resources.LoadAll<PointGraph>(path);
             var mapIndex = Random.Range(0, maps.Length);
-            _progressManager.GetPlayerProgress().CurrentRunProgress.PassedPoints = new Dictionary<Guid, bool>();
             var points = GeneratePoints(maps[mapIndex]);
             return points;
         }
 
         private List<Point> GeneratePoints(PointGraph map)
         {
-            return map.GetPoints().Select(CreatePoint).ToList();
+            var isInitialize = _progressManager.GetPlayerProgress().CurrentRunProgress.PassedPoints.Count == 0;
+            return map.GetPoints().Select(x => CreatePoint(x, isInitialize)).ToList();
         }
 
-        private Point CreatePoint(PointModel pointModel)
+        private Point CreatePoint(PointModel pointModel, bool isInitialize)
         {
             var point = _resolver.Instantiate(_pointPrefab, pointModel.position, Quaternion.identity, _parent);
             point.Initialize(pointModel, _lastIndex++);
-            _progressManager.GetPlayerProgress().CurrentRunProgress.PassedPoints.Add(point.Id, false);
+            point.name = point.Id.ToString();
+            if (isInitialize)
+            {
+                _progressManager.GetPlayerProgress().CurrentRunProgress.PassedPoints[point.Id] = pointModel is StartPointModel;
+            }
             return point;
         }
     }

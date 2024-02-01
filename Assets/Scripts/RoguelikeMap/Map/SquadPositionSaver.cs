@@ -75,21 +75,11 @@ namespace RoguelikeMap.Map
         private void LeavePoint(Guid pointId)
         {
             SavePosition(pointId);
-            //SwitchPoint();
             OnSaveBeforeMove?.Invoke(pointId);
         }
         
-        // public void SwitchPoint()
-        // {
-        //     Debug.Log("Pass point false");
-        //     if(_mediator.Contains<bool>(PassPointKey))
-        //         _mediator.Unregister(PassPointKey);
-        //     _mediator.Register(PassPointKey, false);
-        // }
-        
         public void PassPoint()
         {
-            Debug.Log("Pass point true");
             var currentPointId = _progressManager.GetPlayerProgress().CurrentRunProgress.CurrentPointId;
             _progressManager.GetPlayerProgress().CurrentRunProgress.PassedPoints[currentPointId] = true;
             OnPassPoint?.Invoke();
