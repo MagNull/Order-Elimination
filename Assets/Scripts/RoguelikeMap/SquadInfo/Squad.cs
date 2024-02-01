@@ -133,9 +133,9 @@ namespace RoguelikeMap.SquadInfo
             transform.position = target;
         }
 
-        public void OpenPanel()
+        public void OpenPanel(bool isActiveAttackButton = true)
         {
-            _squadMembersPanel.SetActiveAttackButton(true);
+            _squadMembersPanel.SetActiveAttackButton(isActiveAttackButton);
             _squadMembersPanel.Open();
         }
 

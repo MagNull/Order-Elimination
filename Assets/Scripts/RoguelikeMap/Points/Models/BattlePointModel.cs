@@ -46,7 +46,7 @@ namespace RoguelikeMap.Points.Models
             squad.OnUpdateMembers -= Panel.UpdateAlliesOnMap;
             squad.OnUpdateMembers += Panel.UpdateAlliesOnMap;
             _enemiesGameCharacter = GameCharactersFactory.CreateGameCharacters(Enemies).ToList();
-            Panel.Initialize(_name, _mapLayout, _enemiesGameCharacter, squad.Members, AssetId); //TODO: Store GameCharacters
+            Panel.Initialize(_name, _mapLayout, _enemiesGameCharacter, squad.ActiveMembers, AssetId); //TODO: Store GameCharacters
             if(transferPanel.IsOpen)
                 transferPanel.Close();
             if(!Panel.IsOpen)
