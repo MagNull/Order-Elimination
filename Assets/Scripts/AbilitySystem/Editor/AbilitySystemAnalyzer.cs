@@ -457,26 +457,48 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
 
     private class GuidExplorer
     {
-        [VerticalGroup("Search")]
-        [ShowInInspector, OdinSerialize]
-        private string _guidToSearch = string.Empty;
-
-        [ShowIf("@" + nameof(HasResults))]
-        [HideLabel, OnInspectorInit("@$property.State.Expanded = true")]
-        [Title("Search Result")]
+        [TitleGroup("Guid Management")]
         [ShowInInspector]
-        private OdinMenuTree _searchResult;
+        private bool _safeMode = true;
 
-        private bool HasResults => _searchResult?.MenuItems.Count > 0;
+        [TitleGroup("Guid Management")]
+        [GUIColor("@Color.yellow")]
+        [Button]
+        private void ReplaceEmptyGuidsWithRandom()
+        {
+            var searchResult = FindGuidAssets(a => a.AssetId == Guid.Empty);
+            AssignRandomGuids(searchResult.Values.SelectMany(a => a));
+            //Update search result
+            DisplaySearchResult(FindGuidAssets(a => true));
+        }
 
-        [VerticalGroup("Search")]
+        [TitleGroup("Guid Management")]
+        [GUIColor("@Color.red")]
+        [DisableIf("@" + nameof(_safeMode))]
+        [Button]
+        private void AssignAllAssetsRandomGuid()
+        {
+            var searchResult = FindGuidAssets(a => true);
+            AssignRandomGuids(searchResult.Values.SelectMany(a => a));
+            //Update search result
+            DisplaySearchResult(FindGuidAssets(a => true));
+        }
+
+        [TitleGroup("Guid Search")]
         [Button]
         private void FindAllGuidAssets()
         {
             DisplaySearchResult(FindGuidAssets(a => true));
         }
 
-        [VerticalGroup("Search")]
+        [TitleGroup("Guid Search")]
+        [ValidateInput("@false", "Searches for " + nameof(IGuidAsset) + " assets")]
+        [PropertyOrder(1)]
+        [ShowInInspector, OdinSerialize]
+        private string _guidToSearch = string.Empty;
+
+        [TitleGroup("Guid Search")]
+        [PropertyOrder(2)]
         [Button]
         private void FindAssetsByGuid()
         {
@@ -488,27 +510,14 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
             DisplaySearchResult(FindAssetsByGuid(guid));
         }
 
-        [VerticalGroup("Search")]
-        [Button]
-        [GUIColor("@Color.yellow")]
-        private void ReplaceEmptyGuidsWithRandom()
-        {
-            var searchResult = FindGuidAssets(a => a.AssetId == Guid.Empty);
-            AssignRandomGuids(searchResult.Values.SelectMany(a => a));
-            //Update search result
-            DisplaySearchResult(FindGuidAssets(a => true));
-        }
+        [TitleGroup("Guid Search")]
+        [ShowIf("@" + nameof(HasResults))]
+        [OnInspectorInit("@$property.State.Expanded = true")]
+        [PropertyOrder(3)]
+        [ShowInInspector]
+        private OdinMenuTree _searchResult;
 
-        [VerticalGroup("Search")]
-        [Button]
-        [GUIColor("@Color.red")]
-        private void AssignAllAssetsRandomGuid()
-        {
-            var searchResult = FindGuidAssets(a => true);
-            AssignRandomGuids(searchResult.Values.SelectMany(a => a));
-            //Update search result
-            DisplaySearchResult(FindGuidAssets(a => true));
-        }
+        private bool HasResults => _searchResult?.MenuItems.Count > 0;
 
         private void AssignRandomGuids(IEnumerable<IGuidAsset> assets)
         {
