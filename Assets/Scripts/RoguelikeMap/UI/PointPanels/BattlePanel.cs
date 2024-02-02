@@ -73,7 +73,7 @@ namespace RoguelikeMap.UI.PointPanels
         public void UpdateAlliesOnMap(IReadOnlyList<GameCharacter> allies)
         {
             _scenarioVisualiser.SetActiveAlliesCells(false);
-            _scenarioVisualiser.UpdateCharactersCells(allies, BattleSide.Allies);
+            _scenarioVisualiser.UpdateCharactersCells(allies, BattleSide.Player);
         }
 
         public void OnClickAttackButton()

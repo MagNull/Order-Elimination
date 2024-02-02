@@ -36,7 +36,7 @@ namespace RoguelikeMap.UI
         private void UpdateMap(IReadOnlyList<GameCharacter> enemies, IReadOnlyList<GameCharacter> allies)
         {
             UpdateCharactersCells(enemies, BattleSide.Enemies);
-            UpdateCharactersCells(allies, BattleSide.Allies);
+            UpdateCharactersCells(allies, BattleSide.Player);
 
             var structuresByPos = _mapLayout.GetStructures()
                 .GroupBy(s => s.Position)
@@ -56,7 +56,9 @@ namespace RoguelikeMap.UI
                 return;
             var spawns = _mapLayout.GetSpawns().Where(s => s.SpawningSides[side]).ToList();
             if (characters.Count > spawns.Count)
-                throw new System.InvalidOperationException("Not enough appropriate spawns.");
+                throw new System.InvalidOperationException(
+                    $"Not enough appropriate spawns for {side}. " +
+                    $"({characters.Count} characters; {spawns.Count} spawns)");
             for (var i = 0; i < characters.Count; i++)
             {
                 UpdateCell(

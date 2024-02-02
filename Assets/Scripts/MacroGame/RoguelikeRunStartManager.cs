@@ -1,4 +1,5 @@
 ﻿using OrderElimination.AbilitySystem;
+using OrderElimination.Infrastructure;
 using OrderElimination.SavesManagement;
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,7 @@ namespace OrderElimination.MacroGame
         private static void UpgradeCharacterStats(
             IEnumerable<GameCharacter> characters, StatModifiers upgradeStats)
         {
+            var rounding = true;
             foreach (var character in characters)
             {
                 var baseStats = character.CharacterData.GetBaseBattleStats();
@@ -57,6 +59,18 @@ namespace OrderElimination.MacroGame
                 {
                     var baseStat = baseStats[stat];
                     var upgradedStat = upgradeStats.Modifiers[stat].ModifyValue(baseStat);
+                    //STATS ROUNDING
+                    if (rounding)
+                    {
+                        if (stat.IsAbsoluteStat())
+                        {
+                            upgradedStat = MathExtensions.Round(upgradedStat, RoundingOption.Math);
+                        }
+                        else if (stat.IsPercentStat())
+                        {
+                            upgradedStat = MathExtensions.Round(upgradedStat * 100, RoundingOption.Math) / 100f;
+                        }
+                    }
                     character.ChangeStat(stat, upgradedStat);
                     if (stat == BattleStat.MaxHealth)
                     {
