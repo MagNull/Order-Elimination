@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using OrderElimination;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 namespace ItemsLibrary
 {
@@ -13,7 +14,7 @@ namespace ItemsLibrary
     {
         [SerializeField]
         private Dictionary<ItemType, List<ItemView>> _addedItems = new();
-        private readonly HashSet<string> _allItemsIds = new();
+        private readonly HashSet<Guid> _allItemsIds = new();
         public IReadOnlyList<ItemView> GetItems(ItemType type) => _addedItems[type];
 
         public Library()
@@ -57,11 +58,11 @@ namespace ItemsLibrary
             if (data == null)
                 Logging.LogException( new ArgumentException("Item data can't be null."));
             
-            if (!_allItemsIds.Contains(data.Id))
+            if (!_allItemsIds.Contains(data.AssetId))
             {
                 Logging.Log("Item added:" + data.View.Name);
                 _addedItems[data.Type].Add(data.View);
-                _allItemsIds.Add(data.Id);
+                _allItemsIds.Add(data.AssetId);
             }
         }
     }    

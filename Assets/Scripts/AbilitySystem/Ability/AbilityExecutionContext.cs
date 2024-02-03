@@ -5,6 +5,7 @@ namespace OrderElimination.AbilitySystem
 {
     //TODO Split AbilityExecutionContext and AbilityInstructionExecutionContext
     //Add Ability into InstructionContext
+    //Remove readonly?
     public readonly struct AbilityExecutionContext
     {
         public readonly ActionCallOrigin CallOrigin;

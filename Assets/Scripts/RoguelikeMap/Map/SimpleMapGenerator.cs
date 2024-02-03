@@ -1,10 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using OrderElimination;
+using OrderElimination.SavesManagement;
 using RoguelikeMap.Points;
 using RoguelikeMap.Points.Models;
+using Unity.VisualScripting;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
+using Random = UnityEngine.Random;
 
 namespace RoguelikeMap.Map
 {
@@ -15,14 +20,16 @@ namespace RoguelikeMap.Map
         private readonly IObjectResolver _resolver;
         private readonly List<Point> _points;
         private int _lastIndex = 0;
+        private IPlayerProgressManager _progressManager;
 
         [Inject]
         public SimpleMapGenerator(Point pointPrefab, Transform pointsParent,
-            IObjectResolver resolver)
+            IObjectResolver resolver, ScenesMediator mediator )
         {
             _pointPrefab = pointPrefab;
             _parent = pointsParent;
             _resolver = resolver;
+            _progressManager = mediator.Get<IPlayerProgressManager>("progress manager");
         }
 
         public List<Point> GenerateMap()
@@ -36,13 +43,19 @@ namespace RoguelikeMap.Map
 
         private List<Point> GeneratePoints(PointGraph map)
         {
-            return map.GetPoints().Select(CreatePoint).ToList();
+            var isInitialize = _progressManager.GetPlayerProgress().CurrentRunProgress.PassedPoints.Count == 0;
+            return map.GetPoints().Select(x => CreatePoint(x, isInitialize)).ToList();
         }
 
-        private Point CreatePoint(PointModel pointModel)
+        private Point CreatePoint(PointModel pointModel, bool isInitialize)
         {
             var point = _resolver.Instantiate(_pointPrefab, pointModel.position, Quaternion.identity, _parent);
             point.Initialize(pointModel, _lastIndex++);
+            point.name = point.Id.ToString();
+            if (isInitialize)
+            {
+                _progressManager.GetPlayerProgress().CurrentRunProgress.PassedPoints[point.Id] = pointModel is StartPointModel;
+            }
             return point;
         }
     }

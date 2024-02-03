@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using DG.Tweening;
 using OrderElimination;
 using OrderElimination.MacroGame;
+using OrderElimination.SavesManagement;
 using OrderElimination.UI;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
@@ -20,109 +22,99 @@ namespace StartSessionMenu.ChooseCharacter
         [SerializeField]
         private MoneyCounter _uiCounter;
         [SerializeField]
-        private List<CharacterTemplate> _characters;
-        [SerializeField]
         private List<DropZone> _selectedDropZones;
         [SerializeField]
-        private int MaxSquadSize = 3;
-        [SerializeField]
         private ScrollRect _scrollRect;
-        [SerializeField]
-        private int StartMoney = 1200;
-        
-        private Wallet _wallet;
-        private int _selectedCount = 0;
         private Tweener _tweener;
-        private ScenesMediator _mediator;
+        private HashSet<CharacterCardWithCost> _selectedCards;
+        private IPlayerProgressManager _playerProgressManager;
+
+        private IPlayerProgress PlayerProgress => _playerProgressManager.GetPlayerProgress();
+        private int MaxSquadSize => PlayerProgress.MetaProgress.MaxSquadSize;
+        private int HireCurrencyLimit => PlayerProgress.MetaProgress.HireCurrencyLimit;
+        private int SelectedCharactersTotalCost => _selectedCards.Sum(c => c.Cost);
+        private int LeftHireCurrency => HireCurrencyLimit - SelectedCharactersTotalCost;
+        private int SelectedCharactersCount => _selectedCards.Count;
 
         [Inject]
         private void Construct(ScenesMediator scenesMediator)
         {
-            _mediator = scenesMediator;
+            _playerProgressManager = scenesMediator
+                .Get<IPlayerProgressManager>("progress manager");
         }
-        
+
         private void Start()
         {
-            _wallet = new Wallet(StartMoney);
             InitializeCharactersCard();
             foreach (var zone in _selectedDropZones)
                 zone.OnTrySelect += TrySelectCard;
-            SetActiveStartButton();
+            OnUpdateSelection();
         }
 
         private void InitializeCharactersCard()
         {
-            _uiCounter.Initialize(_wallet);
-            var gameCharacters = GameCharactersFactory.CreateGameCharacters(_characters);
+            var availableCharacters = PlayerProgress.MetaProgress.UnlockedCharacters;
+            _selectedCards = new();
+            _uiCounter.UpdateValue(HireCurrencyLimit);
+            var gameCharacters = GameCharactersFactory.CreateGameCharacters(availableCharacters);
             Subscribe();
             InitializeCharactersCard(gameCharacters, _unselectedDropZone.transform);
             foreach (var card in _characterCards)
-                card.GetComponent<DraggableObject>().OnDestroy += AddMoneyByDestroy;
+                card.GetComponent<DraggableObject>().Dropped += DeselectCard;
         }
 
         protected override void TrySelectCard(DropZone dropZone, CharacterCard.CharacterCard card)
         {
-            if (card is CharacterCardWithCost characterCardWithCost)
-                TrySelectCard(dropZone, characterCardWithCost);
-            else
-                Logging.LogException(new ArgumentException());
+            if (card is not CharacterCardWithCost characterCardWithCost)
+                throw new ArgumentException("Card is invalid");
+            TrySelectCard(dropZone, characterCardWithCost);
         }
 
         private void TrySelectCard(DropZone dropZone, CharacterCardWithCost card)
         {
             if(!_selectedDropZones.Contains(dropZone))
                 return;
-            if (dropZone.IsEmpty)
+            if (!dropZone.IsEmpty)
             {
-                if (card.IsSelected
-                    || _wallet.Money - card.Cost < 0
-                    || _selectedCount >= MaxSquadSize) 
+                var existingCard = (CharacterCardWithCost)dropZone.CharacterCard;
+                if (LeftHireCurrency + existingCard.Cost < card.Cost)
                     return;
-                _wallet.SubtractMoney(card.Cost);
-                SelectCard(card, dropZone.transform);
-                _selectedCount++;
-                dropZone.Select(card);
+                _selectedCards.Remove(existingCard);
             }
-            else
-            {
-                var cost = dropZone.TryGetCost();
-                if (cost < 0 || _wallet.Money + cost < card.Cost)
-                    return;
-                SelectCard(card, dropZone.transform);
-                _wallet.SubtractMoney(card.Cost - cost);
-                dropZone.Select(card);
-            }
-            SetActiveStartButton();
-        }
-
-        private void SetActiveStartButton()
-        {
-            _startGameButton.DOInterectable(_selectedCount != 0);
-        }
-
-        private void AddMoneyByDestroy(CharacterCard.CharacterCard characterCard)
-        {
-            if (!characterCard.IsSelected)
+            if (card.IsSelected
+                || LeftHireCurrency < card.Cost
+                || SelectedCharactersCount >= MaxSquadSize)
                 return;
-            _wallet.AddMoney(characterCard.Character.CharacterData.Price);
-            _selectedCount--;
-            SetActiveStartButton();
+            SelectCard(card, dropZone.transform);
+            dropZone.Select(card);
+            _selectedCards.Add(card);
+            OnUpdateSelection();
         }
 
-        public bool SaveCharacters()
+        private void OnUpdateSelection()
         {
-            if (_selectedCount <= 0)
-                return false;
+            _uiCounter.UpdateValue(LeftHireCurrency);
+            _startGameButton.DOInterectable(SelectedCharactersCount > 0);
+        }
 
-            var characters = 
-                (from zone in _selectedDropZones 
-                where zone.CharacterCard != null 
-                select GameCharactersFactory.CreateGameCharacter(zone.CharacterCard.Character.CharacterData))
+        private void DeselectCard(CharacterCard.CharacterCard characterCard)
+        {
+            if (!characterCard.IsSelected
+                || characterCard is not CharacterCardWithCost cardWithCost)
+                return;
+            _selectedCards.Remove(cardWithCost);
+            OnUpdateSelection();
+        }
+
+        public GameCharacter[] GetSelectedCharacters()
+        {
+            if (SelectedCharactersCount <= 0)
+                return new GameCharacter[0];
+
+            return _selectedCards
+                .Select(card => GameCharactersFactory.CreateGameCharacter(
+                    card.Character.CharacterData))
                 .ToArray();
-            
-
-            _mediator.Register("player characters", characters);
-            return true;
         }
 
         public void ClickShift(float shift)
@@ -138,7 +130,7 @@ namespace StartSessionMenu.ChooseCharacter
             foreach (var zone in _selectedDropZones)
                 zone.OnTrySelect -= TrySelectCard;
             foreach (var card in _characterCards)
-                card.GetComponent<DraggableObject>().OnDestroy -= AddMoneyByDestroy;
+                card.GetComponent<DraggableObject>().Dropped -= DeselectCard;
             Unsubscribe();
         }
     }

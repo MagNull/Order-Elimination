@@ -57,7 +57,7 @@ namespace RoguelikeMap.UI.PointPanels
         {
             if (_currentItem.Cost >= _wallet.Money) 
                 return;
-            _wallet.SubtractMoney(_currentItem.Cost);
+            _wallet.Money -= _currentItem.Cost;
             _currentItem.Buy();
             var item = ItemFactory.Create(_currentItem.Data);
             _inventory.AddItem(item);
@@ -65,7 +65,7 @@ namespace RoguelikeMap.UI.PointPanels
 
         private void Return()
         {
-            _wallet.AddMoney(_currentItem.Cost);
+            _wallet.Money += _currentItem.Cost;
             _currentItem.Return();
             _inventory.RemoveItem(_currentItem.Data);
         }

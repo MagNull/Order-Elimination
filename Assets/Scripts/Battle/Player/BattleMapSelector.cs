@@ -183,11 +183,8 @@ public class BattleMapSelector : MonoBehaviour
                 }
                 else
                 {
-                    if (manualTargetingSystem.Select(cellPosition))
-                    {
-                        //_targetingSystemDisplay.ShowCrosshair(cellPosition);
-                    }
-                    else
+                    var selectSuccess = manualTargetingSystem.Select(cellPosition);
+                    if (!selectSuccess)
                     {
                         Logging.Log($"Wrong target at {cellPosition}");
                         var scenePos = _battleMapView.GameToWorldPosition(cellPosition);
@@ -211,11 +208,61 @@ public class BattleMapSelector : MonoBehaviour
             }
             if (_selectedAbility != null)
             {
-                _abilityPreviewDisplayer.DisplayPreview(
-                _selectedAbility.AbilityData,
-                _currentSelectedEntity,
-                _selectedAbility.AbilityData.TargetingSystem.ExtractCastTargetGroups());
+                ShowAbilityPreview();
             }
+        }
+    }
+
+    private void ShowAbilityPreview()
+    {
+        var context = new AbilityExecutionContext(
+            ActionCallOrigin.Unknown,
+            _battleContext,
+            _currentSelectedEntity,
+            _selectedAbility.AbilityData.TargetingSystem.ExtractCastTargetGroups());
+        _abilityPreviewDisplayer.DisplayPreview(_selectedAbility.AbilityData, context);
+    }
+    private void HighlightCells()
+    {
+        var abilityData = _selectedAbility.AbilityData;
+        var targetedCells = abilityData.TargetingSystem.ExtractCastTargetGroups();
+        _battleMapView.DelightCells();
+        if (abilityData.TargetingSystem is IRequireSelectionTargetingSystem)
+        {
+            foreach (var pos in _battleMap.CellRangeBorders.EnumerateCellPositions())
+            {
+                _battleMapView.HighlightCell(pos.x, pos.y, _forbidenCellsTint);
+            }
+            foreach (var pos in _availableCellsForTargeting)
+            {
+                _battleMapView.HighlightCell(pos.x, pos.y, _availableCellsTint);
+            }
+            var gameRepresentation = abilityData.GameRepresentation;
+            if (abilityData.View.ShowPatternRange
+                && gameRepresentation.TargetingSystem.TargetingPattern != null)//need to display range
+            {
+                var rangePattern = gameRepresentation.TargetingSystem.TargetingPattern;
+                foreach (var pos in rangePattern.GetAbsolutePositions(_currentSelectedEntity.Position)
+                    .Where(pos => _battleMap.ContainsPosition(pos)))
+                {
+                    _battleMapView.HighlightCell(pos.x, pos.y, _inRangeCellsTint);
+                }
+            }
+        }
+        var colors = _selectedAbility.AbilityData.View.TargetGroupsHighlightColors;
+        foreach (var group in targetedCells.ContainedCellGroups)
+        {
+            if (colors.ContainsKey(group))
+            {
+                foreach (var pos in targetedCells.GetGroup(group))
+                {
+                    var currentColor = _battleMapView.GetCell(pos.x, pos.y).CurrentColor;
+                    var newColor = Color.Lerp(currentColor, colors[group], colors[group].a);
+                    _battleMapView.HighlightCell(pos.x, pos.y, newColor);
+                }
+            }
+            else
+                Logging.LogError($"Cell Group color hasn't been assigned for \"{group}\" group.");
         }
     }
 
@@ -256,7 +303,7 @@ public class BattleMapSelector : MonoBehaviour
             var itemsDescriptions = string.Join(
                 ", ", 
                 inventoryItems.Select(e => $"[{e.Data.View.Name}({e.Data.UseTimes})]"));
-            inventoryInfo = $"\nInventory({inventoryItems.Count}): {itemsDescriptions}";
+            inventoryInfo = $"\nInventory({inventoryItems.Length}): {itemsDescriptions}";
         }
 
         Debug.Log(
@@ -292,59 +339,17 @@ public class BattleMapSelector : MonoBehaviour
         _characterBattleStatsPanel.HideInfo();
         _currentSelectedEntity = null;
     }
-    private void HighlightCells()
-    {
-        var abilityData = _selectedAbility.AbilityData;
-        var targetedCells = abilityData.TargetingSystem.ExtractCastTargetGroups();
-        _battleMapView.DelightCells();
-        if (abilityData.TargetingSystem is IRequireSelectionTargetingSystem)
-        {
-            foreach (var pos in _battleMap.CellRangeBorders.EnumerateCellPositions())
-            {
-                _battleMapView.HighlightCell(pos.x, pos.y, _forbidenCellsTint);
-            }
-            foreach (var pos in _availableCellsForTargeting)
-            {
-                _battleMapView.HighlightCell(pos.x, pos.y, _availableCellsTint);
-            }
-            var gameRepresentation = abilityData.GameRepresentation;
-            if (abilityData.View.ShowPatternRange 
-                && gameRepresentation.TargetingSystem.TargetingPattern != null)//need to display range
-            {
-                var rangePattern = gameRepresentation.TargetingSystem.TargetingPattern;
-                foreach (var pos in rangePattern.GetAbsolutePositions(_currentSelectedEntity.Position)
-                    .Where(pos => _battleMap.ContainsPosition(pos)))
-                {
-                    _battleMapView.HighlightCell(pos.x, pos.y, _inRangeCellsTint);
-                }
-            }
-        }
-        var colors = _selectedAbility.AbilityData.View.TargetGroupsHighlightColors;
-        foreach (var group in targetedCells.ContainedCellGroups)
-        {
-            if (colors.ContainsKey(group))
-            {
-                foreach (var pos in targetedCells.GetGroup(group))
-                {
-                    var currentColor = _battleMapView.GetCell(pos.x, pos.y).CurrentColor;
-                    var newColor = Color.Lerp(currentColor, colors[group], colors[group].a);
-                    _battleMapView.HighlightCell(pos.x, pos.y, newColor);
-                }
-            }
-            else
-                Logging.LogError($"Cell Group color hasn't been assigned for \"{group}\" group.");
-        }
-    }
     private void CastCurrentAbility()
     {
         if (_selectedAbility != null && _selectedAbility.AbilityData.TargetingSystem.IsConfirmAvailable)
         {
-            var abilityName = _selectedAbility.AbilityData.View.Name;
-            //Debug.Log($"Ability �{abilityName}� has been used." % Colorize.Cyan);
+            //var abilityName = _selectedAbility.AbilityData.View.Name;
+            //Logging.Log($"Ability �{abilityName}� has been used." % Colorize.Cyan);
             _selectedAbility.AbilityData.TargetingSystem.ConfirmTargeting();
         }
     }
 
+    #region EventHandlers
     private void OnNewTurnStarted(IBattleContext battleContext)
     {
         DeselectEntity();
@@ -379,10 +384,7 @@ public class BattleMapSelector : MonoBehaviour
         _mode = SelectorMode.SelectingTargets;
         _selectedAbility = abilityRunner;
         HighlightCells();
-        _abilityPreviewDisplayer.DisplayPreview(
-                _selectedAbility.AbilityData,
-                _currentSelectedEntity,
-                _selectedAbility.AbilityData.TargetingSystem.ExtractCastTargetGroups());
+        ShowAbilityPreview();
     }
     private void OnAbilityDeselect(ActiveAbilityRunner abilityRunner)
     {
@@ -447,6 +449,7 @@ public class BattleMapSelector : MonoBehaviour
     }
     private void OnConfirmationLocked(IRequireSelectionTargetingSystem multiTargetSystem)
         => Debug.Log("Ability use locked.");
+    #endregion
 
     private void OnEnable()
     {

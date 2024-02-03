@@ -24,7 +24,8 @@ namespace OrderElimination.Infrastructure
                 return value > min && value < max;
         }
 
-        public static float PerformBinaryOperation(float left, float right, BinaryMathOperation operation)
+        public static float PerformBinaryOperation(
+            float left, float right, BinaryMathOperation operation)
         {
             return operation switch
             {
@@ -39,7 +40,8 @@ namespace OrderElimination.Infrastructure
             };
         }
 
-        public static bool CompareValues(float left, float right, BinaryComparisonOperation operation)
+        public static bool CompareValues(
+            float left, float right, BinaryComparisonOperation operation)
         {
             return operation switch
             {

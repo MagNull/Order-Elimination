@@ -182,7 +182,7 @@ namespace OrderElimination.AbilitySystem.UI
                 else if (action is ModifyStatsAction modifyStatsAction)
                 {
                     var stat = modifyStatsAction.TargetBattleStat;
-                    var isPercentStat = stat == BattleStat.Accuracy || stat == BattleStat.Evasion;
+                    var isPercentStat = stat.IsPercentStat();
                     var statName = Localization.Localization.Current.GetBattleStatFullName(stat);
                     var statValue = "*";
                     if (modifyStatsAction.ValueModifier is MathValueGetter mathValue)

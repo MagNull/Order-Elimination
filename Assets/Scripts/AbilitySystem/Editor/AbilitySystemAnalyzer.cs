@@ -3,8 +3,10 @@ using OrderElimination.AbilitySystem;
 using OrderElimination.AbilitySystem.Animations;
 using OrderElimination.Battle;
 using OrderElimination.Editor;
+using OrderElimination.GameContent;
 using OrderElimination.Infrastructure;
 using OrderElimination.MacroGame;
+using OrderElimination.SavesManagement;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Serialization;
@@ -49,8 +51,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
                 //return changerInputType.IsAssignableFrom(instanceType);
             }
         }
-        private bool HasResults
-            => SearchResult != null && SearchResult.MenuItems.Count > 0;
+        private bool HasResults => SearchResult?.MenuItems.Count > 0;
 
         private ActiveAbilityBuilder[] _projectActiveAbilities;
         private PassiveAbilityBuilder[] _projectPassiveAbilities;
@@ -158,42 +159,12 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
 
         public AbilitySystemAnalyzerInfo()
         {
-            _projectActiveAbilities = AssetDatabase
-                .FindAssets($"t: {nameof(ActiveAbilityBuilder)}")
-                .Select(id => AssetDatabase.GUIDToAssetPath(id))
-                .Select(path => AssetDatabase.LoadAssetAtPath(path, typeof(ActiveAbilityBuilder)) as ActiveAbilityBuilder)
-                .Where(e => e != null)
-                .ToArray();
-            _projectPassiveAbilities = AssetDatabase
-                .FindAssets($"t: {nameof(PassiveAbilityBuilder)}")
-                .Select(id => AssetDatabase.GUIDToAssetPath(id))
-                .Select(path => AssetDatabase.LoadAssetAtPath(path, typeof(PassiveAbilityBuilder)) as PassiveAbilityBuilder)
-                .Where(e => e != null)
-                .ToArray();
-            _projectEffects = AssetDatabase
-                .FindAssets($"t: {nameof(EffectDataPreset)}")
-                .Select(id => AssetDatabase.GUIDToAssetPath(id))
-                .Select(path => AssetDatabase.LoadAssetAtPath(path, typeof(EffectDataPreset)) as EffectDataPreset)
-                .Where(e => e != null)
-                .ToArray();
-            _projectCharacters = AssetDatabase
-                .FindAssets($"t: {nameof(CharacterTemplate)}")
-                .Select(id => AssetDatabase.GUIDToAssetPath(id))
-                .Select(path => AssetDatabase.LoadAssetAtPath(path, typeof(CharacterTemplate)) as CharacterTemplate)
-                .Where(e => e != null)
-                .ToArray();
-            _projectStructures = AssetDatabase
-                .FindAssets($"t: {nameof(StructureTemplate)}")
-                .Select(id => AssetDatabase.GUIDToAssetPath(id))
-                .Select(path => AssetDatabase.LoadAssetAtPath(path, typeof(StructureTemplate)) as StructureTemplate)
-                .Where(e => e != null)
-                .ToArray();
-            _projectAnimationPresets = AssetDatabase
-                .FindAssets($"t: {nameof(AnimationPreset)}")
-                .Select(id => AssetDatabase.GUIDToAssetPath(id))
-                .Select(path => AssetDatabase.LoadAssetAtPath(path, typeof(AnimationPreset)) as AnimationPreset)
-                .Where(e => e != null)
-                .ToArray();
+            _projectActiveAbilities = AssetsUtility.GetAllAssetsOfType<ActiveAbilityBuilder>();
+            _projectPassiveAbilities = AssetsUtility.GetAllAssetsOfType<PassiveAbilityBuilder>();
+            _projectEffects = AssetsUtility.GetAllAssetsOfType<EffectDataPreset>();
+            _projectCharacters = AssetsUtility.GetAllAssetsOfType<CharacterTemplate>();
+            _projectStructures = AssetsUtility.GetAllAssetsOfType<StructureTemplate>();
+            _projectAnimationPresets = AssetsUtility.GetAllAssetsOfType<AnimationPreset>();
         }
 
         [VerticalGroup("Dependencies Search/Parameters")]
@@ -363,7 +334,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
             //var rootName = where is ScriptableObject whereSO ? whereSO.name : "<asset>";
             var rootMember = new SerializedMember("<asset>", where, null);
             var openedAssets = new HashSet<ScriptableObject>();
-            return ReflectionExtensions.GetAllSerializedMembersOfType(rootMember, desiredMemberType, StopAt);
+            return GetAllSerializedMembersOfType(rootMember, desiredMemberType, StopAt);
 
             bool StopAt(object e)
             {
@@ -483,6 +454,164 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
             Analyzer.ForceMenuTreeRebuild();
         }
     }
+
+    private class GuidExplorer
+    {
+        [TitleGroup("Guid Management")]
+        [ShowInInspector]
+        private bool _safeMode = true;
+
+        [TitleGroup("Guid Management")]
+        [GUIColor("@Color.yellow")]
+        [Button]
+        private void ReplaceEmptyGuidsWithRandom()
+        {
+            var searchResult = FindGuidAssets(a => a.AssetId == Guid.Empty);
+            AssignRandomGuids(searchResult.Values.SelectMany(a => a));
+            //Update search result
+            DisplaySearchResult(FindGuidAssets(a => true));
+        }
+
+        [TitleGroup("Guid Management")]
+        [GUIColor("@Color.red")]
+        [DisableIf("@" + nameof(_safeMode))]
+        [Button]
+        private void AssignAllAssetsRandomGuid()
+        {
+            var searchResult = FindGuidAssets(a => true);
+            AssignRandomGuids(searchResult.Values.SelectMany(a => a));
+            //Update search result
+            DisplaySearchResult(FindGuidAssets(a => true));
+        }
+
+        [TitleGroup("Guid Search")]
+        [Button]
+        private void FindAllGuidAssets()
+        {
+            DisplaySearchResult(FindGuidAssets(a => true));
+        }
+
+        [TitleGroup("Guid Search")]
+        [Button]
+        private void FindEmptyGuidAssets()
+        {
+            var emptyGuid = Guid.Empty;
+            DisplaySearchResult(FindGuidAssets(a => a.AssetId == emptyGuid));
+        }
+
+        [TitleGroup("Guid Search")]
+        [ValidateInput("@false", "Searches for " + nameof(IGuidAsset) + " assets")]
+        [PropertyOrder(1)]
+        [ShowInInspector, OdinSerialize]
+        private string _guidToSearch = string.Empty;
+
+        [TitleGroup("Guid Search")]
+        [PropertyOrder(2)]
+        [Button]
+        private void FindAssetsByGuid()
+        {
+            if (!Guid.TryParse(_guidToSearch, out var guid))
+            {
+                Logging.LogError("Wrong GUID format");
+                return;
+            }
+            DisplaySearchResult(FindAssetsByGuid(guid));
+        }
+
+        [TitleGroup("Guid Search")]
+        [ShowIf("@" + nameof(HasResults))]
+        [OnInspectorInit("@$property.State.Expanded = true")]
+        [PropertyOrder(3)]
+        [ShowInInspector]
+        private OdinMenuTree _searchResult;
+
+        private bool HasResults => _searchResult?.MenuItems.Count > 0;
+
+        private void AssignRandomGuids(IEnumerable<IGuidAsset> assets)
+        {
+            var unityAssets = assets
+                .Select(a => a as UnityEngine.Object)
+                .Where(a => a != null)
+                .ToArray();
+            Undo.RecordObjects(unityAssets, "Random GUIDs assigned");
+            foreach (var asset in unityAssets)
+            {
+                var isDirty = EditorUtility.IsDirty(asset);
+                EditorUtility.SetDirty(asset);
+                ((IGuidAsset)asset).UpdateId(Guid.NewGuid());
+                PrefabUtility.RecordPrefabInstancePropertyModifications(asset);
+                if (!isDirty)
+                    EditorUtility.ClearDirty(asset);
+            }
+        }
+
+        private void DisplaySearchResult(IReadOnlyDictionary<Type, IGuidAsset[]> searchResult)
+        {
+            if (_searchResult != null)
+            {
+                _searchResult.Selection.SelectionChanged -= OnSelectionChanged;
+                _searchResult.Selection.SelectionConfirmed -= OnSelectionConfirmed;
+            }
+            _searchResult = new();
+            _searchResult.Selection.SelectionChanged += OnSelectionChanged;
+            _searchResult.Selection.SelectionConfirmed += OnSelectionConfirmed;
+            foreach (var item in searchResult)
+            {
+                var type = item.Key;
+                var assets = item.Value;
+                foreach (var asset in assets)
+                {
+                    var assetName = asset is UnityEngine.Object unityAsset
+                        ? unityAsset.name
+                        : "???";
+                    _searchResult.Add($"{type.Name}/{assetName} ({asset.AssetId})", asset);
+                }
+            }
+            foreach (var upperSection in _searchResult.MenuItems)
+            {
+                upperSection.Name = $"{upperSection.Name} ({upperSection.ChildMenuItems.Count})";
+            }
+        }
+
+        private IReadOnlyDictionary<Type, IGuidAsset[]> FindAssetsByGuid(Guid guid)
+        {
+            return FindGuidAssets(a => a.AssetId == guid);
+        }
+
+        private IReadOnlyDictionary<Type, IGuidAsset[]> FindGuidAssets(Predicate<IGuidAsset> filter)
+        {
+            var guidTypes = GetAllInterfaceImplementationTypes<IGuidAsset>();
+            var resultsByType = new Dictionary<Type, IGuidAsset[]>();
+            foreach (var t in guidTypes)
+            {
+                var assetsOfType = AssetsUtility.GetAllAssetsByType(t)
+                    .Cast<IGuidAsset>()
+                    .Where(a => filter(a))
+                    .ToArray();
+                resultsByType.Add(t, assetsOfType);
+            }
+            return resultsByType;
+        }
+
+        private void OnSelectionChanged(SelectionChangedType changeType)
+        {
+            if (changeType == SelectionChangedType.ItemAdded)
+            {
+                if (_searchResult.Selection.SelectedValue != null
+                    && _searchResult.Selection.SelectedValue is UnityEngine.Object unityObject)
+                {
+                    Selection.activeObject = unityObject;
+                }
+            }
+        }
+
+        private void OnSelectionConfirmed(OdinMenuTreeSelection selection)
+        {
+            if (selection.SelectedValue != null
+            && selection.SelectedValue is UnityEngine.Object unityObject)
+                Selection.activeObject = unityObject;
+        }
+    }
     #endregion
 
     #region Assets Inspector
@@ -518,6 +647,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         tree.Add("Analyzer", new AbilitySystemAnalyzerInfo(), EditorIcons.SettingsCog);
         tree.Add("Presets", ExplorerParameters, EditorIcons.FileCabinet);
         tree.Add("Presets/Maps", null, EditorIcons.Globe);
+        tree.Add("GUID Explorer", new GuidExplorer(), EditorIcons.Ruler);
 
         DisplayAssets<ActiveAbilityBuilder>(
             abilitiesPath, "Presets/Active Abilities", EditorIcons.Crosshair, a => a.Icon);

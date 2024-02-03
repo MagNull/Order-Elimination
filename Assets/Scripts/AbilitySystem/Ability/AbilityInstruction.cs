@@ -220,9 +220,6 @@ namespace OrderElimination.AbilitySystem
 
         #endregion
 
-        public async UniTask Execute(AbilityExecutionContext executionContext)
-            => await ExecuteRecursive(executionContext);
-
         public async UniTask ExecuteRecursive(AbilityExecutionContext executionContext)
         {
             var battleContext = executionContext.BattleContext;

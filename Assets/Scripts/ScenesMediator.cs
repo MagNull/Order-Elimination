@@ -53,25 +53,22 @@ namespace OrderElimination
         
         public void Unregister(string name) => _data.Remove(name.ToLower());
         
-        public void Register(string name, object obj) => _data[name.ToLower()] = obj;
+        public void Register<T>(string name, T obj) => _data[name.ToLower()] = obj;
 
         public void InitTest()
         {
             var playerChars = "player characters";
             var enemyChars = "enemy characters";
             var scenario = "scenario";
-            var stats = "stats";//character meta-upgrades
             var rules = "rules";
-            if (!Contains<IEnumerable<GameCharacter>>(playerChars))
+            if (!Contains<GameCharacter[]>(playerChars))
                 Register(playerChars, GameCharactersFactory.CreateGameCharacters(_testPlayerCharacters));
-            if (!Contains<IEnumerable<GameCharacter>>(enemyChars))
+            if (!Contains<GameCharacter[]>(enemyChars) && _testEnemyCharacters != null)
                 Register(enemyChars, GameCharactersFactory.CreateGameCharacters(_testEnemyCharacters));
             if (!Contains<IBattleMapLayout>(scenario))
                 Register(scenario, _testScenario);
             if (!Contains<IBattleRules>(rules))
                 Register(rules, _testRules);
-            if (!Contains<StrategyStats>(stats))
-                Register(stats, new StrategyStats());
         }
 
         private void Awake()

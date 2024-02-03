@@ -11,8 +11,6 @@ namespace GameInventory
     [Serializable]
     public class Inventory
     {
-        public event Action<IReadOnlyCell> OnCellChanged;
-
         [ShowInInspector, SerializeField]
         private Cell[] _cells;
 
@@ -26,6 +24,9 @@ namespace GameInventory
         }
 
         public IReadOnlyList<IReadOnlyCell> Cells => _cells;
+        public int Size => _cells.Length;
+
+        public event Action<IReadOnlyCell> OnCellChanged;
 
         public void AddItem(Item item, int index = -1)
         {
@@ -56,9 +57,7 @@ namespace GameInventory
                 Logging.LogWarning("Not found item in inventory");
                 return;
             }
-
-            removeItemCell.SetItem(new EmptyItem());
-            OnCellChanged?.Invoke(removeItemCell);
+            RemoveItemAtCell(removeItemCell);
         }
 
         public void RemoveItem(ItemData itemData)
@@ -66,34 +65,26 @@ namespace GameInventory
             if(itemData == null)
                 Logging.LogException(new ArgumentException("Item data can't be null"));
             
-            var removeItemCell = _cells.FirstOrDefault(cell => cell.Item.Data.Id == itemData.Id);
+            var removeItemCell = _cells.FirstOrDefault(
+                cell => cell.Item.Data.AssetId == itemData.AssetId);
             if (removeItemCell == null)
             {
                 Logging.LogWarning("Not found item in inventory");
                 return;
             }
-            
-            removeItemCell.SetItem(new EmptyItem());
-            OnCellChanged?.Invoke(removeItemCell);
+            RemoveItemAtCell(removeItemCell);
         }
 
-        public List<Item> GetItems()
+        public Item[] GetItems()
         {
-            var result = new List<Item>();
-            foreach (var cell in _cells)
-            {
-                if (cell.Item is EmptyItem)
-                    continue;
-
-                result.Add(cell.Item);
-            }
-
-            return result;
+            return _cells
+                .Select(cell => cell.Item)
+                .Where(i => i != null && i is not EmptyItem).ToArray();
         }
 
         public bool Contains(ItemData itemData)
         {
-            return _cells.Any(cell => cell.Item.Data.Id == itemData.Id);
+            return _cells.Any(cell => cell.Item.Data.AssetId == itemData.AssetId);
         }
 
         public void InitConsumables()
@@ -111,6 +102,17 @@ namespace GameInventory
         {
             RemoveItem(item);
             other.AddItem(item, index);
+        }
+
+        private void RemoveItemAtCell(Cell cell)
+        {
+            if (cell == null)
+                throw new ArgumentNullException(nameof(cell));
+            var item = cell.Item;
+            cell.SetItem(new EmptyItem());
+            if (item is ConsumableItem consumableItem)
+                consumableItem.UseTimesOver -= OnConsumableItemOver;
+            OnCellChanged?.Invoke(cell);
         }
 
         private void OnConsumableItemOver(ConsumableItem item)

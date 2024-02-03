@@ -65,6 +65,7 @@ namespace OrderElimination.Battle
             }
 
 #if UNITY_EDITOR
+            //Draw Background
             if (BackgroundImage != null && _displayBackground)
             {
                 //draw image part
@@ -114,11 +115,13 @@ namespace OrderElimination.Battle
             foreach (var (item, side) in GetItemsFromLayersAt(_structureLayers, pos.x, pos.y))
             {
                 var texture = item.BattleIcon.texture;
+                texture = texture.CropTexture(item.BattleIcon.rect);
                 GUI.DrawTexture(rect, texture, ScaleMode.ScaleToFit, true, 0, structTint, 0, 0);
             }
             foreach (var (item, side) in GetItemsFromLayersAt(_characterLayers, pos.x, pos.y))
             {
                 var texture = item.BattleIcon.texture;
+                texture = texture.CropTexture(item.BattleIcon.rect);
                 GUI.DrawTexture(charRect, texture, ScaleMode.ScaleToFit, true, 0, charTint, 0, 0);
             }
 

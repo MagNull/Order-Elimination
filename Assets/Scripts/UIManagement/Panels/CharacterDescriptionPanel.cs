@@ -137,13 +137,13 @@ namespace UIManagement
         private void UpdateStat(BattleStat stat, float value)
         {
             var displayedStat = value;
-            if (stat == BattleStat.Accuracy || stat == BattleStat.Evasion)
+            if (stat.IsPercentStat())
                 displayedStat *= 100;
             if (_roundBattleStats)
                 displayedStat = MathExtensions.Round(displayedStat, _roundingMode);
             var item = _characterStats[_statsElementsIdMapping[stat]];
             item.Text = Localization.Current.GetBattleStatName(stat);
-            if (stat == BattleStat.Accuracy || stat == BattleStat.Evasion)
+            if (stat.IsPercentStat())
                 item.Value = $"{displayedStat}%";
             else
                 item.Value = $"{displayedStat}";

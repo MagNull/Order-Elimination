@@ -2,17 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OrderElimination.GameContent;
 using RoguelikeMap.Panels;
 using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 using XNode;
 
 namespace RoguelikeMap.Points.Models
 {
     [NodeWidth(300)]
-    public abstract class PointModel : Node
+    public abstract class PointModel : Node, IGuidAsset
     {
+        [PropertyOrder(-1)]
+        [OdinSerialize, DisplayAsString]
+        public Guid AssetId { get; private set; }
+        
         [SerializeField]
         protected string _name;
         
@@ -28,6 +35,8 @@ namespace RoguelikeMap.Points.Models
         public int Index { get; private set; }
         
         public event Action<bool> OnChangeActivity;
+        
+        public void UpdateId(Guid id) => AssetId = id;
 
         public virtual void ShowPreview(Squad squad)
         {
@@ -58,6 +67,11 @@ namespace RoguelikeMap.Points.Models
 
         public void SetActive(bool isActive) => OnChangeActivity?.Invoke(isActive);
 
-        private void OnValidate() => name = _name == "" ? GetType().Name : _name;
+        private void OnValidate()
+        {
+            name = _name == "" ? GetType().Name : _name;
+            if (AssetId == Guid.Empty)
+                AssetId = Guid.NewGuid();
+        }
     }
 }

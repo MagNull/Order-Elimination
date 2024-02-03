@@ -14,6 +14,7 @@ namespace OrderElimination.MacroGame
         private readonly List<IActiveAbilityData> _activeAbilities = new();
         private readonly List<IPassiveAbilityData> _passiveAbilities = new();
 
+
         public IGameCharacterTemplate CharacterData { get; }
         public IReadOnlyList<IActiveAbilityData> ActiveAbilities => _activeAbilities;
         public IReadOnlyList<IPassiveAbilityData> PassiveAbilities => _passiveAbilities;

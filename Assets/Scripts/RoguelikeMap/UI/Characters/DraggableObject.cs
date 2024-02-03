@@ -31,7 +31,7 @@ namespace RoguelikeMap.UI.Characters
             private set => _dragObject = value; 
         }
 
-        public event Action<CharacterCard> OnDestroy;
+        public event Action<CharacterCard> Dropped;
 
         private void Start()
         {
@@ -52,7 +52,7 @@ namespace RoguelikeMap.UI.Characters
         {
             var dragObjectCopy = Instantiate(this, transform.position, transform.rotation, _defaultParent);
             dragObjectCopy.IsCopy = true;
-            dragObjectCopy.OnDestroy += OnDestroy;
+            dragObjectCopy.Dropped += Dropped;
             var characterCardCopy = dragObjectCopy.GetComponent<CharacterCard>();
             characterCardCopy.InitializeCard(_characterCard.Character, false);
             _canvasGroup = characterCardCopy.GetComponent<CanvasGroup>();
@@ -79,7 +79,7 @@ namespace RoguelikeMap.UI.Characters
             {
                 if (IsCreateCopy)
                 {
-                    OnDestroy?.Invoke(DragObject);
+                    Dropped?.Invoke(DragObject);
                     Destroy(DragObject.gameObject);
                 }
                 else

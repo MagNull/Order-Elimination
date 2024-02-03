@@ -1,4 +1,5 @@
-﻿using OrderElimination.AbilitySystem;
+﻿using GameInventory;
+using OrderElimination.AbilitySystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,20 @@ namespace OrderElimination.MacroGame
         public static GameCharacter CreateGameCharacter(
             IGameCharacterTemplate template,
             IReadOnlyGameCharacterStats specifiedStats,
+            Inventory specifiedInventory)
+        {
+            var character = CreateGameCharacter(
+                template,
+                specifiedStats,
+                template.GetActiveAbilities(),
+                template.GetPassiveAbilities());
+            character.SetInventory(specifiedInventory);
+            return character;
+        }
+
+        public static GameCharacter CreateGameCharacter(
+            IGameCharacterTemplate template,
+            IReadOnlyGameCharacterStats specifiedStats,
             ActiveAbilityBuilder[] specifiedActiveAbilities,
             PassiveAbilityBuilder[] specifiedPassiveAbilities)
         {
@@ -39,8 +54,10 @@ namespace OrderElimination.MacroGame
             return character;
         }
 
-        public static IEnumerable<GameCharacter> CreateGameCharacters(
+        public static GameCharacter[] CreateGameCharacters(
             IEnumerable<IGameCharacterTemplate> characterTempaltes)
-            => characterTempaltes.Select(gameEntity => CreateGameCharacter(gameEntity));
+            => characterTempaltes
+            .Select(gameEntity => CreateGameCharacter(gameEntity))
+            .ToArray();
     }
 }

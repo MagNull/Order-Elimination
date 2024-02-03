@@ -43,7 +43,7 @@ namespace RoguelikeMap
             }
             _map.LoadPoints();
             var pointIndex = _saver.GetPointIndex();
-            var point = _map.GetPointByIndex(pointIndex);
+            var point = _map.GetPointById(pointIndex);
             if (CheckLoadAfterBattlePoint(point))
                 return;
             await _map.MoveToPoint(point);

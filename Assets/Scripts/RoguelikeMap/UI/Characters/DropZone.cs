@@ -32,7 +32,7 @@ namespace RoguelikeMap.UI.Characters
             if(CharacterCard is not null)
                 Unselect();
             CharacterCard = card;
-            _lastDragObject.OnDestroy += Unselect;
+            _lastDragObject.Dropped += Unselect;
         }
 
         private void Unselect(CharacterCard card = null)
@@ -42,12 +42,10 @@ namespace RoguelikeMap.UI.Characters
             CharacterCard = null;
         }
 
-        public int TryGetCost()
+        public int? GetCost()
         {
-            if (IsEmpty)
-                return -1;
-            if (CharacterCard is not CharacterCardWithCost characterCardWithCost)
-                return -1;
+            if (IsEmpty || CharacterCard is not CharacterCardWithCost characterCardWithCost)
+                return null;
             return characterCardWithCost.Cost;
         }
     }
