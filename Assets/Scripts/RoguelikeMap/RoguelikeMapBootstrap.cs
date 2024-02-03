@@ -10,9 +10,6 @@ using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 using VContainer;
@@ -53,9 +50,9 @@ namespace RoguelikeMap
         private CharacterCard _cardIcon;
         [SerializeField]
         private Map.Map _map;
-
-        private Wallet _wallet;
         private IPlayerProgressManager _progressManager;
+
+        private IPlayerProgress Progress => _progressManager.GetPlayerProgress();
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -68,13 +65,13 @@ namespace RoguelikeMap
 
             var progressManager = mediator.Get<IPlayerProgressManager>("progress manager");
             _progressManager = progressManager;
-            var progress = _progressManager.GetPlayerProgress();
-            var roguelikeMoney = progress.CurrentRunProgress.RunCurrency;
-            var playerInventory = progress.CurrentRunProgress.PlayerInventory;
-            Logging.Log($"Player money: {roguelikeMoney}");
+            var playerInventory = Progress.CurrentRunProgress.PlayerInventory;
+            var wallet = new Wallet(
+                () => Progress.CurrentRunProgress.RunCurrency,
+                value => Progress.CurrentRunProgress.RunCurrency = value);
+            Logging.Log($"Player money: {wallet.Money}");
 
-            _wallet = new Wallet(roguelikeMoney);
-            builder.RegisterComponent(_wallet);
+            builder.RegisterComponent(wallet);
             builder.RegisterComponent(playerInventory);
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_squad);
