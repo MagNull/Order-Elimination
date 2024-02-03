@@ -72,6 +72,8 @@ namespace OrderElimination.SavesManagement
             _progressStorage.SetProgress(_localPlayer, progress);
         }
 
+        //[DisableInPlayMode]
+        //[Button]
         public void ClearProgress()
         {
             _progressStorage.ClearProgress(_localPlayer);

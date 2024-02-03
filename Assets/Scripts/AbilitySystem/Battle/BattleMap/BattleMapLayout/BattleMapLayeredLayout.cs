@@ -114,14 +114,32 @@ namespace OrderElimination.Battle
             //Draw Entities
             foreach (var (item, side) in GetItemsFromLayersAt(_structureLayers, pos.x, pos.y))
             {
-                var texture = item.BattleIcon.texture;
-                texture = texture.CropTexture(item.BattleIcon.rect);
+                var sprite = item.BattleIcon;
+                var texture = sprite.texture;
+                if (true)//(sprite.packed)
+                {
+                    var textRect = item.BattleIcon.rect;
+                    var yMax = textRect.yMax;
+                    var yMin = textRect.yMin;
+                    textRect.yMax = texture.height - 1 - yMin;
+                    textRect.yMin = texture.height - 1 - yMax;
+                    texture = texture.CropTexture(textRect);
+                }
                 GUI.DrawTexture(rect, texture, ScaleMode.ScaleToFit, true, 0, structTint, 0, 0);
             }
             foreach (var (item, side) in GetItemsFromLayersAt(_characterLayers, pos.x, pos.y))
             {
-                var texture = item.BattleIcon.texture;
-                texture = texture.CropTexture(item.BattleIcon.rect);
+                var sprite = item.BattleIcon;
+                var texture = sprite.texture;
+                if (true)//(sprite.packed)
+                {
+                    var textRect = item.BattleIcon.rect;
+                    var yMax = textRect.yMax;
+                    var yMin = textRect.yMin;
+                    textRect.yMax = texture.height - 1 - yMin;
+                    textRect.yMin = texture.height - 1 - yMax;
+                    texture = texture.CropTexture(textRect);
+                }
                 GUI.DrawTexture(charRect, texture, ScaleMode.ScaleToFit, true, 0, charTint, 0, 0);
             }
 
