@@ -492,6 +492,14 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         }
 
         [TitleGroup("Guid Search")]
+        [Button]
+        private void FindEmptyGuidAssets()
+        {
+            var emptyGuid = Guid.Empty;
+            DisplaySearchResult(FindGuidAssets(a => a.AssetId == emptyGuid));
+        }
+
+        [TitleGroup("Guid Search")]
         [ValidateInput("@false", "Searches for " + nameof(IGuidAsset) + " assets")]
         [PropertyOrder(1)]
         [ShowInInspector, OdinSerialize]
