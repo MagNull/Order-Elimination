@@ -36,15 +36,7 @@ namespace OrderElimination.SavesManagement
             {
                 _defaultProgress = new PlayerProgress()
                 {
-                    MetaProgress = new()
-                    {
-                        StatUpgrades = new(),
-                        MetaCurrency = 1777,
-                        HireCurrencyLimit = 1111,
-                        MaxSquadSize = 3,
-                        UnlockedCharacters = AssetIdsMappings.CharactersMapping
-                        .GetEntries().TakeRandom(5).Select(kv => kv.data).ToList()
-                    },
+                    MetaProgress = PlayerProgressExtensions.GetDefaultMetaProgress()
                 };
             }
         }

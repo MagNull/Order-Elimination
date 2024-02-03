@@ -31,11 +31,12 @@ MonoBehaviour:
       Data: 0|OrderElimination.SavesManagement.PlayerMetaProgress, Assembly-CSharp
     - Name: StatUpgrades
       Entry: 7
-      Data: 1|OrderElimination.StatModifiers, Assembly-CSharp
+      Data: 1|OrderElimination.MacroGame.StatModifiers, Assembly-CSharp
     - Name: _statModifiers
       Entry: 7
       Data: 2|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.BattleStat,
-        Assembly-CSharp],[OrderElimination.ValueModifier, Assembly-CSharp]], mscorlib
+        Assembly-CSharp],[OrderElimination.Infrastructure.ValueModifier, Assembly-CSharp]],
+        mscorlib
     - Name: comparer
       Entry: 7
       Data: 3|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.BattleStat,
@@ -51,28 +52,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
       Data: 0
-    - Name: $v
-      Entry: 7
-      Data: OrderElimination.ValueModifier, Assembly-CSharp
-    - Name: Operation
-      Entry: 3
-      Data: 2
-    - Name: Operand
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -87,13 +67,16 @@ MonoBehaviour:
       Data: 2000
     - Name: StartRunCurrency
       Entry: 3
-      Data: 1337
-    - Name: HireCurrencyLimit
-      Entry: 3
-      Data: 1200
+      Data: 1000
     - Name: MaxSquadSize
       Entry: 3
       Data: 3
+    - Name: RunInventorySize
+      Entry: 3
+      Data: 100
+    - Name: HireCurrencyLimit
+      Entry: 3
+      Data: 1200
     - Name: UnlockedCharacters
       Entry: 7
       Data: 4|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,

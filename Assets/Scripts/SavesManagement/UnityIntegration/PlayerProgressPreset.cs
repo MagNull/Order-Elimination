@@ -12,5 +12,10 @@ namespace OrderElimination.SavesManagement
         public PlayerMetaProgress MetaProgress { get; set; }
         public PlayerRunProgress CurrentRunProgress { get; set; } = null;
         public DateTime SaveDate { get; set; } = DateTime.Now;
+
+        private void Reset()
+        {
+            MetaProgress = PlayerProgressExtensions.GetDefaultMetaProgress();
+        }
     }
 }

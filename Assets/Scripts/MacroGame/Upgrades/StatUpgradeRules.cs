@@ -18,6 +18,7 @@ namespace OrderElimination.MacroGame
 
         public StatUpgradeRules()
         {
+            //Default Settings
             MaxUpgradeLevel = 5;
             _costGrowth = new()
             {
@@ -45,6 +46,7 @@ namespace OrderElimination.MacroGame
             };
         }
 
+        [PropertyOrder(-1)]
         [ShowInInspector]
         public float MaxUpgradeLevel { get; private set; }
 

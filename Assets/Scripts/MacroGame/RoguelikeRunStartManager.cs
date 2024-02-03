@@ -37,14 +37,7 @@ namespace OrderElimination.MacroGame
         }
 
         public static PlayerRunProgress GetInitialProgress(PlayerMetaProgress metaProgress)
-        {
-            return new PlayerRunProgress()
-            {
-                PosessedCharacters = new(),
-                PlayerInventory = new(100),
-                RunCurrency = metaProgress.StartRunCurrency
-            };
-        }
+            => PlayerProgressExtensions.GetInitialRunProgress(metaProgress);
 
         private static void UpgradeCharacterStats(
             IEnumerable<GameCharacter> characters, StatModifiers upgradeStats)
