@@ -9,8 +9,6 @@ namespace OrderElimination.Battle
 
         public IBattleTracker VictoryTracker { get; }
         public IBattleTracker DefeatTracker { get; }
-        //VictoryConditions (All/Any-compound)
-        //DefeatConditions (Any)
 
         public int MovementPointsPerRound { get; }
         public int AttackPointsPerRound { get; }

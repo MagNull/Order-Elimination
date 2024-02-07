@@ -2,7 +2,6 @@
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
-using UnityEngine;
 
 namespace OrderElimination.Battle
 {
