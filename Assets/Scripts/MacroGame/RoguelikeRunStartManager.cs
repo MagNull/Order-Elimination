@@ -17,7 +17,7 @@ namespace OrderElimination.MacroGame
             {
                 throw new ArgumentException("Run is invalid");
             }
-            mediator.Register("progress", progress);
+            mediator.Register(MediatorRegistration.Progress, progress);
             var characters = progress.CurrentRunProgress.PosessedCharacters;
             UpgradeCharacterStats(
                 characters, progress.MetaProgress.StatUpgrades);

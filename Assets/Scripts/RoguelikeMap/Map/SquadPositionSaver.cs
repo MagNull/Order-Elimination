@@ -32,7 +32,7 @@ namespace RoguelikeMap.Map
             _shopPanel = panelManager.GetPanelByPointInfo(PointType.Shop) as ShopPanel;
             _eventPanel = panelManager.GetPanelByPointInfo(PointType.Event) as EventPanel;
             _safeZonePanel = panelManager.GetPanelByPointInfo(PointType.SafeZone) as SafeZonePanel;
-            _progressManager = mediator.Get<IPlayerProgressManager>("progress manager");
+            _progressManager = mediator.Get<IPlayerProgressManager>(MediatorRegistration.ProgressManager);
             Subscribe();
         }
 

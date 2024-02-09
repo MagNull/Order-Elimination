@@ -96,8 +96,8 @@ public class MenuWindow : MonoBehaviour
     private void StartNewRun()
     {
         Debug.Log("Button: Start");
-        if (_scenesMediator.Contains<int>("point index"))
-            _scenesMediator.Unregister("point index");
+        if (_scenesMediator.Contains<int>(MediatorRegistration.CurrentPoint))
+            _scenesMediator.Unregister(MediatorRegistration.CurrentPoint);
 
         var progress = _progressManager.GetPlayerProgress();
 

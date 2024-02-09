@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace OrderElimination.Utils
 {
@@ -25,8 +26,17 @@ namespace OrderElimination.Utils
 
         private float _lastEmitTime = 0;
 
+        public async UniTask Emit(string text)
+        {
+            Debug.Log("Emit Simple");
+            var context = _defaultTextStyle;
+            context.Text = text;
+            await Emit(context);
+        }
+
         public async UniTask Emit(string text, Vector3 position)
         {
+            Debug.Log("Emit Button");
             var context = _defaultTextStyle;
             context.Text = text;
             context.Origin = position;

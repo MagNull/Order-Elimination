@@ -40,7 +40,7 @@ namespace StartSessionMenu.ChooseCharacter
         private void Construct(ScenesMediator scenesMediator)
         {
             _playerProgressManager = scenesMediator
-                .Get<IPlayerProgressManager>("progress manager");
+                .Get<IPlayerProgressManager>(MediatorRegistration.ProgressManager);
         }
 
         private void Start()

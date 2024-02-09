@@ -29,7 +29,7 @@ namespace RoguelikeMap.Map
             _pointPrefab = pointPrefab;
             _parent = pointsParent;
             _resolver = resolver;
-            _progressManager = mediator.Get<IPlayerProgressManager>("progress manager");
+            _progressManager = mediator.Get<IPlayerProgressManager>(MediatorRegistration.ProgressManager);
         }
 
         public List<Point> GenerateMap()

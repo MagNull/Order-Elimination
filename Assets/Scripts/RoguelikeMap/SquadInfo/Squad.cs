@@ -52,7 +52,7 @@ namespace RoguelikeMap.SquadInfo
 
         public void Initialize()
         {
-            var progress = _mediator.Get<IPlayerProgress>("progress");
+            var progress = _mediator.Get<IPlayerProgress>(MediatorRegistration.Progress);
             List<GameCharacter> characters;//= default test characters
             if (progress != null && progress.CurrentRunProgress != null)
             {
@@ -101,7 +101,7 @@ namespace RoguelikeMap.SquadInfo
         private void SetSquadMembers(List<GameCharacter> squadMembers)
         {
             _model.SetSquadMembers(squadMembers);
-            _mediator.Register("player characters", Members.ToArray());
+            _mediator.Register(MediatorRegistration.PlayerCharacters, Members.ToArray());
             OnUpdateMembers?.Invoke(ActiveMembers);
         }
 

@@ -56,8 +56,8 @@ namespace RoguelikeMap
 
         private bool CheckLoadAfterBattlePoint(Point point)
         {
-            if (!_mediator.Contains<BattleResults>("battle results")
-                || _mediator.Get<BattleResults>("battle results").BattleOutcome is not BattleOutcome.Win)
+            if (!_mediator.Contains<BattleResults>(MediatorRegistration.BattleResults)
+                || _mediator.Get<BattleResults>(MediatorRegistration.BattleResults).BattleOutcome is not BattleOutcome.Win)
                 return false;
             if (point.Model is FinalBattlePointModel)
             {
@@ -65,7 +65,7 @@ namespace RoguelikeMap
                 return true;
             }
 
-            _mediator.Unregister("battle results");
+            _mediator.Unregister(MediatorRegistration.BattleResults);
             _saver.PassPoint();
             return false;
         }
@@ -75,7 +75,6 @@ namespace RoguelikeMap
             if (isVictory)
             {
                 _victoryPanel.Open();
-                PlayerPrefs.SetInt("MoneyAfterGameEnd", 1000);
             }
             else
                 _losePanel.Open();

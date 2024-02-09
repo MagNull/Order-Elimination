@@ -33,7 +33,7 @@ namespace StartSessionMenu
             builder.RegisterComponent(sceneTransition);
             builder.RegisterComponent(_characterInfoPanel);
             builder.RegisterComponent(_playerProgressManager).AsImplementedInterfaces();
-            mediator.Register<IPlayerProgressManager>("progress manager", _playerProgressManager);
+            mediator.Register<IPlayerProgressManager>(MediatorRegistration.ProgressManager, _playerProgressManager);
         }
     }
 }

@@ -92,15 +92,15 @@ namespace RoguelikeMap.SquadInfo
             var enemyCharacters = GameCharactersFactory.CreateGameCharacters(enemies);
             var mediator = _objectResolver.Resolve<ScenesMediator>();
             var activeMembers = _squad.ActiveMembers.Where(x => x.CurrentHealth > 0).ToArray();
-            mediator.Register("player characters", activeMembers);
-            mediator.Register("enemy characters", enemyCharacters);
-            mediator.Register("scenario", map);
+            mediator.Register(MediatorRegistration.PlayerCharacters, activeMembers);
+            mediator.Register(MediatorRegistration.EnemyCharacters, enemyCharacters);
+            mediator.Register(MediatorRegistration.BattleMap, map);
             var winItems =
                 items.Select(it => new KeyValuePair<Item, float>(ItemFactory.Create(it.Key), it.Value))
                     .ToDictionary(x => x.Key, x => x.Value);
-            mediator.Register("items", winItems);
-            mediator.Register("point index", _target.Index);
-            mediator.Register("battle rules", battleRules);
+            mediator.Register(MediatorRegistration.RewardItems, winItems);
+            mediator.Register(MediatorRegistration.CurrentPoint, _target.Index);
+            mediator.Register(MediatorRegistration.BattleRules, battleRules);
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();
         }

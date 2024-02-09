@@ -63,7 +63,7 @@ namespace RoguelikeMap
                 mediator.InitTest();
             }
 
-            var progressManager = mediator.Get<IPlayerProgressManager>("progress manager");
+            var progressManager = mediator.Get<IPlayerProgressManager>(MediatorRegistration.ProgressManager);
             _progressManager = progressManager;
             var playerInventory = Progress.CurrentRunProgress.PlayerInventory;
             var wallet = new Wallet(

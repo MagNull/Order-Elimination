@@ -50,7 +50,7 @@ namespace StartSessionMenu
         [Inject]
         private void Construct(ScenesMediator scenesMediator)
         {
-            _playerProgressManager = scenesMediator.Get<IPlayerProgressManager>("progress manager");
+            _playerProgressManager = scenesMediator.Get<IPlayerProgressManager>(MediatorRegistration.ProgressManager);
         }
 
         private void Start()

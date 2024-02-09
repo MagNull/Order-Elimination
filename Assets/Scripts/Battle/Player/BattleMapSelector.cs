@@ -295,7 +295,7 @@ public class BattleMapSelector : MonoBehaviour
         };
         view.Highlight(highlightColor);
 
-        var inventoryInfo = "\nInventory not awailable";
+        var inventoryInfo = "\nInventory not available";
         if (entity.EntityType == EntityType.Character)
         {
             var basedCharacter = entity.BattleContext.EntitiesBank.GetBasedCharacter(entity);
@@ -476,36 +476,4 @@ public class BattleMapSelector : MonoBehaviour
         }
         DeselectEntity();
     }
-    #region ToRemove
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            Time.timeScale = 1.0f;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            Time.timeScale = 0.5f;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            Time.timeScale = 0.25f;
-        }
-        if (Input.GetKeyDown(KeyCode.Equals))
-        {
-            Time.timeScale *= 2;
-        }
-        if (Input.GetKeyDown(KeyCode.Minus))
-        {
-            Time.timeScale /= 2;
-        }
-        #if !UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Debug.Log("We're cool" % Colorize.Blue);
-            Application.Quit();
-        }
-        #endif
-    }
-    #endregion
 }
