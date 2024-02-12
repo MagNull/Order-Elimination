@@ -18,7 +18,7 @@ namespace RoguelikeMap.UI.Characters
         
         private int _selectedCount = -1;
         
-        public event Action<List<GameCharacter>, int> OnSelected;
+        public event Action<List<GameCharacter>> OnSelected;
         public event Action OnAttack;
 
         public void SetActiveAttackButton(bool isActive)
@@ -76,12 +76,11 @@ namespace RoguelikeMap.UI.Characters
                 .Where(x => x.IsSelected)
                 .Select(x => x.Character)
                 .ToList();
-            var countActiveCharacters = characters.Count;
             characters
                 .AddRange(_characterCards
                     .Where(x => !x.IsSelected)
                     .Select(x => x.Character));
-            OnSelected?.Invoke(characters, countActiveCharacters);
+            OnSelected?.Invoke(characters);
         }
 
         private void ResetCharactersCard()

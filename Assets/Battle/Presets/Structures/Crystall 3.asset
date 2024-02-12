@@ -1,0 +1,129 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 087dea7e287b4bf6b474c4bd7769c1cb, type: 3}
+  m_Name: Crystall 3
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _obstacleSetup
+      Entry: 7
+      Data: 0|OrderElimination.AbilitySystem.BattleObstacleSetup, Assembly-CSharp
+    - Name: AllowsToStay
+      Entry: 5
+      Data: false
+    - Name: AllowsToWalkOn
+      Entry: 5
+      Data: false
+    - Name: _entityStayConditions
+      Entry: 7
+      Data: 1|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _entityWalkConditions
+      Entry: 7
+      Data: 2|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IEntityCondition,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _accuracyAffectors
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.BattleObstacleSetup+AccuracyAffectionRule,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: OrderElimination.AbilitySystem.BattleObstacleSetup+AccuracyAffectionRule,
+        Assembly-CSharp
+    - Name: AccuracyOperation
+      Entry: 3
+      Data: 1
+    - Name: ValueOperand
+      Entry: 7
+      Data: 4|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+    - Name: Value
+      Entry: 4
+      Data: 0.25
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _minAffectedSquare
+      Entry: 4
+      Data: 0.02
+    - Name: _maxAffectedSquare
+      Entry: 4
+      Data: 0.1875
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: OrderElimination.AbilitySystem.BattleObstacleSetup+AccuracyAffectionRule,
+        Assembly-CSharp
+    - Name: AccuracyOperation
+      Entry: 3
+      Data: 1
+    - Name: ValueOperand
+      Entry: 7
+      Data: 5|OrderElimination.AbilitySystem.ConstValueGetter, Assembly-CSharp
+    - Name: Value
+      Entry: 4
+      Data: 0.5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _minAffectedSquare
+      Entry: 4
+      Data: 0.1875
+    - Name: _maxAffectedSquare
+      Entry: 4
+      Data: 0.5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  _name: Crystall
+  _spriteView: {fileID: 21300000, guid: fab813281e0cf0e4b8c46a6b23fcce42, type: 3}
+  _visualModel: {fileID: 0}
+  _maxHealth: 3000
+  _posessedAbilities: []

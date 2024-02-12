@@ -21,6 +21,9 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: 17195f782cd34ac29d6a8a6512938776
     - Name: RoleFilter
       Entry: 7
       Data: 0|OrderElimination.Infrastructure.EnumMask`1[[AI.Role, Assembly-CSharp]],
@@ -114,6 +117,19 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: CharacterFilter
+      Entry: 7
+      Data: 3|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   <View>k__BackingField:
     _name: 
     _description: 
@@ -122,4 +138,9 @@ MonoBehaviour:
   <Rarity>k__BackingField: 0
   <UseAbility>k__BackingField: {fileID: 0}
   <UseTimes>k__BackingField: 0
+  <EquipType>k__BackingField: 0
   <EquipAbility>k__BackingField: {fileID: 0}
+  AbilitySwapTable:
+    m_Keys: []
+    m_Values: []
+  HideInInventory: 0

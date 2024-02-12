@@ -4,10 +4,12 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 using VContainer;
+using static UnityEditor.PlayerSettings;
 
 public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
 {
@@ -56,11 +58,11 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
             d => Destroy(d.gameObject));
     }
 
-    public void DisplayPreview(IActiveAbilityData ability, AbilitySystemActor caster, CellGroupsContainer targetedGroups)
+    public void DisplayPreview(IActiveAbilityData ability, AbilityExecutionContext executionContext)
     {
         HidePreview();
         foreach (var i in ability.Execution.ActionInstructions)
-            DisplayInstruction(i, caster, targetedGroups);
+            DescribeInstruction(i, executionContext);
     }
 
     public void HidePreview()
@@ -86,15 +88,18 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
         return display;
     }
 
-    private void DisplayInstruction(AbilityInstruction instruction, AbilitySystemActor caster, CellGroupsContainer targetedGroups)
+    private void DescribeInstruction(
+        AbilityInstruction instruction, AbilityExecutionContext executionContext)
     {
         //prev target affection?
-        var battleContext = caster.BattleContext;
+        var battleContext = executionContext.BattleContext;
+        var caster = executionContext.AbilityCaster;
+        var targetedGroups = executionContext.CellTargetGroups;
         var casterPos = caster.Position;
         var repSuffix = instruction.RepeatNumber > 1 ? $" x {instruction.RepeatNumber}" : "";
         foreach (var pos in targetedGroups
                 .ContainedCellGroups
-                .Where(gId => instruction.AffectedCellGroups.Contains(gId))
+                .Where(gId => instruction.AffectedCellGroups.Contains(gId))//ignores prev target instructions!!!
                 .SelectMany(gId => targetedGroups.GetGroup(gId)))
         {
             var visualPosition = battleContext.AnimationSceneContext.BattleMapView.GameToWorldPosition(pos);
@@ -104,100 +109,112 @@ public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
             {
                 var actionContext = new ActionContext(
                     battleContext, targetedGroups, caster, target, ActionCallOrigin.Unknown);
-                var valueContext = ValueCalculationContext.Full(actionContext);
-                if (instruction.Action is InflictDamageAction damageAction)
-                {
-                    var modifiedAction = damageAction.GetModifiedAction(actionContext);
-                    var display = GetDisplayForCell(pos);
-                    var accuracyValue = Mathf.Max(
-                        0, modifiedAction.Accuracy.GetValue(valueContext) * 100);
-                    var damage = modifiedAction.CalculateDamage(actionContext);
-                    var distributedDamage = IBattleLifeStats.DistributeDamage(target.BattleStats, damage);
-                    float damageValue = distributedDamage.TotalDamage;
-                    if (_roundFloatNumbers)
-                    {
-                        damageValue = MathExtensions.Round(damageValue, _roundingMode);
-                        accuracyValue = MathExtensions.Round(accuracyValue, _roundingMode);
-                    }
-                    display.AddParameter(_damageIcon, Color.red, $"{damageValue}{repSuffix}");
-                    display.AddParameter(_accuracyIcon, Color.red, $"{accuracyValue} %");
-                    if (modifiedAction.ObjectsBetweenAffectAccuracy 
-                        && caster != null)
-                    {
-                        var intersections = CellMath.GetIntersectionBetween(casterPos, pos);
-                        var modifiedAccuracy = damageAction.Accuracy.Clone();
-                        var previousCellValue = modifiedAccuracy.GetValue(valueContext);
-                        foreach (var intersection in intersections)
-                        {
-                            var intPos = intersection.CellPosition;
-                            var isModified = false;
-                            foreach (var obstacle in battleContext
-                                .GetVisibleEntitiesAt(intPos, caster.BattleSide)
-                                .Select(e => e.Obstacle))
-                            {
-                                var modification = obstacle.ModifyAccuracy(
-                                    modifiedAccuracy,
-                                    intersection.IntersectionAngle,
-                                    intersection.SmallestPartSquare,
-                                    caster);
-                                if (modification.IsModificationSuccessful)
-                                {
-                                    modifiedAccuracy = modification.ModifiedValueGetter;
-                                    battleContext.EntitiesBank
-                                        .GetViewByEntity(obstacle.ObstacleEntity)
-                                        .Highlight(Color.red);
-                                    isModified = true;
-                                }
-                            }
-                            if (isModified)
-                            {
-                                var accuracyDisplay = GetDisplayForCell(intPos);
-                                //var initialValue = damageAction.Accuracy.GetValue(actionContext);
-                                var modifiedValue = modifiedAccuracy.GetValue(valueContext);
-                                var affection = (modifiedValue - previousCellValue) * 100;
-                                if (_roundFloatNumbers)
-                                    affection = MathExtensions.Round(affection, _roundingMode);
-                                var displayedAffection = $"{(affection >= 0 ? "+" : "")}{affection}%";
-                                if (_accuracyAffectionAsFormulas)
-                                    displayedAffection = modifiedAccuracy.DisplayedFormula;
-                                accuracyDisplay.AddParameter(_accuracyIcon, Color.red, displayedAffection);
-                            }
-                            previousCellValue = modifiedAccuracy.GetValue(valueContext);
-                        }
-                    }
-                }
-                if (instruction.Action is HealAction healAction)
-                {
-                    healAction = healAction.GetModifiedAction(actionContext);
-                    var display = GetDisplayForCell(pos);
-                    var healInfo = new RecoveryInfo(
-                        healAction.HealSize.GetValue(valueContext),
-                        healAction.ArmorMultiplier,
-                        healAction.HealthMultiplier,
-                        healAction.HealPriority,
-                        caster);
-                    var availableHeal = IBattleLifeStats.DistributeRecovery(target.BattleStats, healInfo);
-                    display.AddParameter(
-                        _armorIcon,
-                        $"+{availableHeal.TotalArmorRecovery}{repSuffix}");
-                    display.AddParameter(
-                        _healthIcon,
-                        $"+{availableHeal.TotalHealthRecovery}{repSuffix}");
-                }
+                DescribeAction(instruction.Action, actionContext, repSuffix);
             }
         }
         //Next instructions
         foreach (var sucInstruction in instruction.InstructionsOnActionSuccess)
         {
-            DisplayInstruction(sucInstruction, caster, targetedGroups);
+            DescribeInstruction(sucInstruction, executionContext);
         }
         foreach (var failInstruction in instruction.InstructionsOnActionFail)
         {
-            DisplayInstruction(failInstruction, caster, targetedGroups);
+            DescribeInstruction(failInstruction, executionContext);
         }
         foreach (var followInstruction in instruction.FollowingInstructions)
         {
-            DisplayInstruction(followInstruction, caster, targetedGroups);
+            DescribeInstruction(followInstruction, executionContext);
+        }
+    }
+
+    private void DescribeAction(
+        IBattleAction action, ActionContext actionContext, string repSuffix)
+    {
+        var battleContext = actionContext.BattleContext;
+        var caster = actionContext.ActionMaker;
+        var target = actionContext.TargetEntity;
+        var casterPos = caster.Position;
+        var targetPos = target.Position;
+        var valueContext = ValueCalculationContext.Full(actionContext);
+
+        if (action is InflictDamageAction damageAction)
+        {
+            var modifiedAction = damageAction.GetModifiedAction(actionContext);
+            var display = GetDisplayForCell(targetPos);
+            var accuracyValue = Mathf.Max(
+                0, modifiedAction.Accuracy.GetValue(valueContext) * 100);
+            var damage = modifiedAction.CalculateDamage(actionContext);
+            var distributedDamage = IBattleLifeStats.DistributeDamage(target.BattleStats, damage);
+            float damageValue = distributedDamage.TotalDamage;
+            if (_roundFloatNumbers)
+            {
+                damageValue = MathExtensions.Round(damageValue, _roundingMode);
+                accuracyValue = MathExtensions.Round(accuracyValue, _roundingMode);
+            }
+            display.AddParameter(_damageIcon, Color.red, $"{damageValue}{repSuffix}");
+            display.AddParameter(_accuracyIcon, Color.red, $"{accuracyValue} %");
+            if (modifiedAction.ObjectsBetweenAffectAccuracy
+                && caster != null)
+            {
+                var intersections = CellMath.GetIntersectionBetween(casterPos, targetPos);
+                var modifiedAccuracy = damageAction.Accuracy.Clone();
+                var previousCellAccuracy = modifiedAccuracy.GetValue(valueContext);
+                foreach (var intersection in intersections)
+                {
+                    var intPos = intersection.CellPosition;
+                    var isModified = false;
+                    foreach (var obstacle in battleContext
+                        .GetVisibleEntitiesAt(intPos, caster.BattleSide)
+                        .Select(e => e.Obstacle))
+                    {
+                        var modification = obstacle.ModifyAccuracy(
+                            modifiedAccuracy,
+                            intersection.IntersectionAngle,
+                            intersection.SmallestPartSquare,
+                            caster);
+                        if (modification.IsModificationSuccessful)
+                        {
+                            modifiedAccuracy = modification.ModifiedValueGetter;
+                            battleContext.EntitiesBank
+                                .GetViewByEntity(obstacle.ObstacleEntity)
+                                .Highlight(Color.red);
+                            isModified = true;
+                        }
+                    }
+                    if (isModified)
+                    {
+                        var accuracyDisplay = GetDisplayForCell(intPos);
+                        //var initialValue = damageAction.Accuracy.GetValue(actionContext);
+                        var modifiedValue = modifiedAccuracy.GetValue(valueContext);
+                        var affection = (modifiedValue - previousCellAccuracy) * 100;
+                        if (_roundFloatNumbers)
+                            affection = MathExtensions.Round(affection, _roundingMode);
+                        var displayedAffection = $"{(affection >= 0 ? "+" : "")}{affection}%";
+                        if (_accuracyAffectionAsFormulas)
+                            displayedAffection = modifiedAccuracy.DisplayedFormula;
+                        accuracyDisplay.AddParameter(_accuracyIcon, Color.red, displayedAffection);
+                    }
+                    previousCellAccuracy = modifiedAccuracy.GetValue(valueContext);
+                }
+            }
+        }
+        if (action is HealAction healAction)
+        {
+            healAction = healAction.GetModifiedAction(actionContext);
+            var display = GetDisplayForCell(targetPos);
+            var healInfo = new RecoveryInfo(
+                healAction.HealSize.GetValue(valueContext),
+                healAction.ArmorMultiplier,
+                healAction.HealthMultiplier,
+                healAction.HealPriority,
+                caster);
+            var availableHeal = IBattleLifeStats.DistributeRecovery(target.BattleStats, healInfo);
+            display.AddParameter(
+                _armorIcon,
+                $"+{availableHeal.TotalArmorRecovery}{repSuffix}");
+            display.AddParameter(
+                _healthIcon,
+                $"+{availableHeal.TotalHealthRecovery}{repSuffix}");
         }
     }
 }

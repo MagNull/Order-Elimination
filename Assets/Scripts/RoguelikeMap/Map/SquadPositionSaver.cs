@@ -1,5 +1,6 @@
 ﻿using System;
 using OrderElimination;
+using OrderElimination.SavesManagement;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.UI;
@@ -17,11 +18,9 @@ namespace RoguelikeMap.Map
         private ShopPanel _shopPanel;
         private EventPanel _eventPanel;
         private SafeZonePanel _safeZonePanel;
-        private ScenesMediator _mediator;
+        private IPlayerProgressManager _progressManager;
 
-        private const string PassPointKey = "is point passed";
-
-        public event Action<int> OnSaveBeforeMove;
+        public event Action<Guid> OnSaveBeforeMove;
         public event Action OnPassPoint; 
 
         [Inject]
@@ -33,25 +32,24 @@ namespace RoguelikeMap.Map
             _shopPanel = panelManager.GetPanelByPointInfo(PointType.Shop) as ShopPanel;
             _eventPanel = panelManager.GetPanelByPointInfo(PointType.Event) as EventPanel;
             _safeZonePanel = panelManager.GetPanelByPointInfo(PointType.SafeZone) as SafeZonePanel;
-            _mediator = mediator;
+            _progressManager = mediator.Get<IPlayerProgressManager>(MediatorRegistration.ProgressManager);
             Subscribe();
         }
 
-        public void SavePosition(int pointIndex)
+        public void SavePosition(Guid pointId)
         {
-            _mediator.Register("point index", pointIndex);
-            
+            _progressManager.GetPlayerProgress().CurrentRunProgress.CurrentPointId = pointId;
         }
 
-        public int GetPointIndex()
+        public Guid GetPointIndex()
         {
-            return _mediator.Contains<int>("point index")
-                ? _mediator.Get<int>("point index") : -1;
+            return _progressManager.GetPlayerProgress().CurrentRunProgress.CurrentPointId;
         }
 
         public bool IsPassedPoint()
         {
-            return _mediator.Contains<bool>(PassPointKey) && _mediator.Get<bool>(PassPointKey);
+            var currentPointId = _progressManager.GetPlayerProgress().CurrentRunProgress.CurrentPointId;
+            return _progressManager.GetPlayerProgress().CurrentRunProgress.PassedPoints[currentPointId];
         }
 
         private void Subscribe()
@@ -74,27 +72,16 @@ namespace RoguelikeMap.Map
             _safeZonePanel.OnClose -= PassPoint;
         }
 
-        private void LeavePoint(int pointIndex)
+        private void LeavePoint(Guid pointId)
         {
-            SavePosition(pointIndex);
-            SwitchPoint();
-            OnSaveBeforeMove?.Invoke(pointIndex);
-        }
-        
-        public void SwitchPoint()
-        {
-            Debug.Log("Pass point false");
-            if(_mediator.Contains<bool>(PassPointKey))
-                _mediator.Unregister(PassPointKey);
-            _mediator.Register(PassPointKey, false);
+            SavePosition(pointId);
+            OnSaveBeforeMove?.Invoke(pointId);
         }
         
         public void PassPoint()
         {
-            Debug.Log("Pass point true");
-            if(_mediator.Contains<bool>(PassPointKey))
-                _mediator.Unregister(PassPointKey);
-            _mediator.Register(PassPointKey, true);
+            var currentPointId = _progressManager.GetPlayerProgress().CurrentRunProgress.CurrentPointId;
+            _progressManager.GetPlayerProgress().CurrentRunProgress.PassedPoints[currentPointId] = true;
             OnPassPoint?.Invoke();
         }
     }

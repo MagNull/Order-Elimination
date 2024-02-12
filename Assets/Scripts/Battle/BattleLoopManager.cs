@@ -48,7 +48,7 @@ public class BattleLoopManager : MonoBehaviour
         ScenesMediator scenesMediator, IBattleContext battleContext, BattleInitializer battleInitializer)
     {
         IUndoableBattleAction.ClearAllActionsUndoCache();
-        var mapLayout = scenesMediator.Get<IBattleMapLayout>("scenario");
+        var mapLayout = scenesMediator.Get<IBattleMapLayout>(MediatorRegistration.BattleMap);
         _battleContext = battleContext;
         battleInitializer.InitiateBattle(mapLayout.Width, mapLayout.Height);
         //battleInitializer.InitiateBattle(scenario.MapWidth, scenario.MapWidth);

@@ -1,7 +1,9 @@
 using GameInventory;
 using ItemsLibrary;
 using OrderElimination;
+using OrderElimination.SavesManagement;
 using RoguelikeMap.UI.Characters;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -19,6 +21,9 @@ namespace StartSessionMenu
         [SerializeField]
         private ScenesMediator _scenesMediatorPrefab;
 
+        [SerializeField]
+        private PlayerProgressManager _playerProgressManager;
+
         protected override void Configure(IContainerBuilder builder)
         {
             var sceneTransition = new SceneTransition();
@@ -27,6 +32,8 @@ namespace StartSessionMenu
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(sceneTransition);
             builder.RegisterComponent(_characterInfoPanel);
+            builder.RegisterComponent(_playerProgressManager).AsImplementedInterfaces();
+            mediator.Register<IPlayerProgressManager>(MediatorRegistration.ProgressManager, _playerProgressManager);
         }
     }
 }

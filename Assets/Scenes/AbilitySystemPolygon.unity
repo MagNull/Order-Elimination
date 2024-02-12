@@ -470,8 +470,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7332c91f7fe43264a937e9ffbe932608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 8
-  _height: 8
 --- !u!4 &246195460
 Transform:
   m_ObjectHideFlags: 0
@@ -2558,7 +2556,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78bb222200f03dd42a886e82d5c2a528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sideToKill: 1
+  _sideToKill: 2
+  _shortcutKey: 45
 --- !u!114 &1893120106
 MonoBehaviour:
   m_ObjectHideFlags: 0

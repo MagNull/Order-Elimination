@@ -1,6 +1,4 @@
 ﻿using OrderElimination.Infrastructure;
-using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using UnityEngine;
 
 namespace OrderElimination.Battle

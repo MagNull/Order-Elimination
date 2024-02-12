@@ -22,11 +22,11 @@ namespace RoguelikeMap
 
         public void Start()
         {
-            if (!_scenesMediator.Contains<BattleResults>("battle results"))
+            if (!_scenesMediator.Contains<BattleResults>(MediatorRegistration.BattleResults))
                 return;
-            var results = _scenesMediator.Get<BattleResults>("battle results");
+            var results = _scenesMediator.Get<BattleResults>(MediatorRegistration.BattleResults);
             
-            _wallet.AddMoney(results.MoneyReward);
+            _wallet.Money += results.MoneyReward;
             foreach (var item in results.ItemsReward)
             {
                 _inventory.AddItem(item);

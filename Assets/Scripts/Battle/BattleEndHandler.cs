@@ -12,7 +12,6 @@ using UIManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using VContainer;
-using OrderElimination.Utils;
 
 public class BattleEndHandler : MonoBehaviour
 {
@@ -118,20 +117,22 @@ public class BattleEndHandler : MonoBehaviour
         _battleContext.BattleRules.DefeatTracker.ConditionMet -= OnDefeatConditionMet;
         if (_playerControls != null)
             _playerControls.enabled = false;
-        var playerCharacters = _scenesMediator.Get<IEnumerable<GameCharacter>>("player characters").ToArray();
+        var playerCharacters = _scenesMediator.Get<GameCharacter[]>(MediatorRegistration.PlayerCharacters);
         Logging.Log($"Current squad [{playerCharacters.Length}]: {string.Join(", ", playerCharacters.Select(c => c.CharacterData.Name))}" % Colorize.Red);
         var battleResult = CalculateBattleResult(battleOutcome);
 
-        _scenesMediator.Register("player characters", BattleUnloader.UnloadCharacters(_battleContext, playerCharacters));
-        _scenesMediator.Register("battle results", battleResult);
+        _scenesMediator.Register(
+            MediatorRegistration.PlayerCharacters, 
+            BattleUnloader.UnloadCharacters(_battleContext, playerCharacters));
+        _scenesMediator.Register(MediatorRegistration.BattleResults, battleResult);
         //_textEmitter.Emit($"������� �Esc� ��� ������.", Color.white, new Vector3(0, -1, -1), Vector3.zero, 1.2f, 100, fontSize: 0.75f);
     }
 
     private async void OnPlayerVictory()
     {
         OnBattleEnded(BattleOutcome.Win);
-        var playerCharacters = _scenesMediator.Get<IEnumerable<GameCharacter>>("player characters").ToArray();
-        var battleResult = _scenesMediator.Get<BattleResults>("battle results");
+        var playerCharacters = _scenesMediator.Get<GameCharacter[]>(MediatorRegistration.PlayerCharacters).ToArray();
+        var battleResult = _scenesMediator.Get<BattleResults>(MediatorRegistration.BattleResults);
         await UniTask.Delay(Mathf.RoundToInt(BattleResultsDisplayDelay * 1000));
         var panel = (BattleVictoryPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleVictory);
         panel.UpdateBattleResult(
@@ -145,8 +146,8 @@ public class BattleEndHandler : MonoBehaviour
     private async void OnPlayerLose()
     {
         OnBattleEnded(BattleOutcome.Lose); 
-        var playerCharacters = _scenesMediator.Get<IEnumerable<GameCharacter>>("player characters").ToArray();
-        var battleResult = _scenesMediator.Get<BattleResults>("battle results");
+        var playerCharacters = _scenesMediator.Get<GameCharacter[]>(MediatorRegistration.PlayerCharacters).ToArray();
+        var battleResult = _scenesMediator.Get<BattleResults>(MediatorRegistration.BattleResults);
         await UniTask.Delay(Mathf.RoundToInt(BattleResultsDisplayDelay * 1000));
         var panel = (BattleDefeatPanel)UIController.SceneInstance.OpenPanel(PanelType.BattleDefeat);
         panel.UpdateBattleResult(
@@ -171,7 +172,7 @@ public class BattleEndHandler : MonoBehaviour
         if (battleOutcome == BattleOutcome.Lose)
             return battleResult;
 
-        var allItems = _scenesMediator.Get<Dictionary<Item, float>>("items");
+        var allItems = _scenesMediator.Get<Dictionary<Item, float>>(MediatorRegistration.RewardItems);
         var resultItems = new List<Item>();
         foreach (var itemProb in allItems)
         {

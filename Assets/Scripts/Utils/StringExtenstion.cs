@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace OrderElimination
 {
+    //#TOREMOVE
     public static class StringExtenstion
     {
         public static Vector3 GetVectorFromString(this string str)

@@ -6,35 +6,36 @@ namespace StartSessionMenu
 {
     public class Wallet
     {
-        private int _money;
+        private int? _localMoney;
+        private Func<int> _moneyGetter;
+        private Action<int> _moneySetter;
 
-        public int Money => _money;
-
-        public WalletEvent ChangeMoneyEvent;
         public Wallet(int money)
         {
-            _money = money;
-            PlayerPrefs.SetInt("Money", money);
-            ChangeMoneyEvent = new WalletEvent();
-        }
-        
-        public void AddMoney(int money)
-        {
-            _money += money;
-            PlayerPrefs.SetInt("Money", money);
-            ChangeMoneyEvent?.Invoke(_money);
+            _moneyGetter = () => _localMoney.Value;
+            _moneySetter = value => _localMoney = value;
+            _localMoney = money;
         }
 
-        public void SubtractMoney(int money)
+        public Wallet(Func<int> valueGetter, Action<int> valueSetter)
         {
-            if (money > _money)
-            {
-                return;
-            }
-            _money -= money;
-            PlayerPrefs.SetInt("Money", money);
-            ChangeMoneyEvent?.Invoke(_money);
+            _moneyGetter = valueGetter;
+            _moneySetter = valueSetter;
         }
+
+        public int Money
+        {
+            get => _moneyGetter();
+            set
+            {
+                if (value < 0)
+                    return;
+                _moneySetter(value);
+                MoneyChanged?.Invoke(Money);
+            }
+        }
+
+        public event Action<int> MoneyChanged; 
     }
     public class WalletEvent : UnityEvent<int> {}
 }

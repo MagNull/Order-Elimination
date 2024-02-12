@@ -5,6 +5,6 @@ namespace OrderElimination.AbilitySystem
     //Not utilized yet. Must replace AbilityInstructions
     public interface IAbilityInstruction
     {
-        public UniTask Execute(AbilityExecutionContext executionContext);
+        public UniTask ExecuteRecursive(AbilityExecutionContext executionContext);
     }
 }

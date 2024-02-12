@@ -6,13 +6,9 @@ namespace GameInventory.Items
 {
     public class HealItem : ConsumableItem, IUsable
     {
-        [SerializeField]
-        private int _healAmount;
-        
-        public HealItem(HealItemData itemData) : base(itemData)
-        {
-            _healAmount = itemData.HealAmount;
-        }
+        public HealItem(HealItemData itemData) : base(itemData) { }
+
+        public HealItem(HealItemData itemData, int consumesLeft) : base(itemData, consumesLeft) { }
 
         public void Use(GameCharacter gameCharacter)
         {
@@ -20,10 +16,10 @@ namespace GameInventory.Items
                 throw new ArgumentException("Character is already full health");
             
             Debug.Log(gameCharacter.CurrentHealth);
-            gameCharacter.CurrentHealth += _healAmount;
+            gameCharacter.CurrentHealth += ((HealItemData)Data).HealAmount;
             Debug.Log(gameCharacter.CurrentHealth);
 
-            UseTimes--;
+            ConsumesLeft--;
         }
 
         public bool CheckConditionToUse(GameCharacter gameCharacter)

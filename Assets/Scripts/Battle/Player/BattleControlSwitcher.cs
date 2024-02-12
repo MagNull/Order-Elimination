@@ -104,11 +104,4 @@ public class BattleControlSwitcher : MonoBehaviour
         PlayerSelector.AbilityExecutionStarted += OnAbilityStarted;
         PlayerSelector.AbilityExecutionCompleted += OnAbilityCompleted;
     }
-
-    //ToRemove
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-            _battleManager.StartNextTurn();
-    }
 }

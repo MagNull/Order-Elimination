@@ -65,6 +65,7 @@ namespace OrderElimination.Battle
             }
 
 #if UNITY_EDITOR
+            //Draw Background
             if (BackgroundImage != null && _displayBackground)
             {
                 //draw image part
@@ -113,12 +114,12 @@ namespace OrderElimination.Battle
             //Draw Entities
             foreach (var (item, side) in GetItemsFromLayersAt(_structureLayers, pos.x, pos.y))
             {
-                var texture = item.BattleIcon.texture;
+                var texture = GetCroppedTexture(item.BattleIcon);
                 GUI.DrawTexture(rect, texture, ScaleMode.ScaleToFit, true, 0, structTint, 0, 0);
             }
             foreach (var (item, side) in GetItemsFromLayersAt(_characterLayers, pos.x, pos.y))
             {
-                var texture = item.BattleIcon.texture;
+                var texture = GetCroppedTexture(item.BattleIcon);
                 GUI.DrawTexture(charRect, texture, ScaleMode.ScaleToFit, true, 0, charTint, 0, 0);
             }
 
@@ -126,6 +127,21 @@ namespace OrderElimination.Battle
             InspectorGUIExtensions.DrawLabel(rect, cellText.ToString(), cellColor.GetContrastColor());
 #endif
             return pos;
+        }
+
+        private Texture2D GetCroppedTexture(Sprite sprite)
+        {
+            if (sprite == null) return null;
+            var rect = sprite.rect;
+            var texture = sprite.texture;
+            if (rect.height == texture.height && rect.width == texture.width
+                && rect.x == 0 && rect.y == 0)
+                return texture;
+            var yMax = rect.yMax;
+            var yMin = rect.yMin;
+            rect.yMax = texture.height - 1 - yMin;
+            rect.yMin = texture.height - 1 - yMax;
+            return texture.CropTexture(rect);
         }
         #endregion
 

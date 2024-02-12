@@ -7,11 +7,9 @@ using RoguelikeMap.Map;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
 using RoguelikeMap.SquadInfo;
+using RoguelikeMap.UI;
 using RoguelikeMap.UI.Characters;
 using StartSessionMenu.ChooseCharacter.CharacterCard;
-using System.Collections.Generic;
-using System.Linq;
-using RoguelikeMap.UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 using VContainer;
@@ -23,8 +21,6 @@ namespace RoguelikeMap
 {
     public class RoguelikeMapBootstrap : LifetimeScope, IStartable
     {
-        [SerializeField] 
-        private int _startMoney = 1000;
         [FormerlySerializedAs("_charactersMediatorPrefab")]
         [SerializeField]
         private ScenesMediator _testMediator;
@@ -54,14 +50,9 @@ namespace RoguelikeMap
         private CharacterCard _cardIcon;
         [SerializeField]
         private Map.Map _map;
+        private IPlayerProgressManager _progressManager;
 
-        [Header("Saves Management")]
-        [SerializeField]
-        private CharacterTemplatesMapping _characterTemplatesMapping;
-        [SerializeField]
-        private bool _saveLocalData;
-        [SerializeField]
-        private bool _loadLocalData;
+        private IPlayerProgress Progress => _progressManager.GetPlayerProgress();
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -71,9 +62,17 @@ namespace RoguelikeMap
                 mediator = _testMediator;
                 mediator.InitTest();
             }
-            LoadLocalData(mediator, builder);
-            builder.Register<Wallet>(Lifetime.Singleton).WithParameter(
-                PlayerPrefs.GetInt("Wallet") == 0 ? _startMoney : PlayerPrefs.GetInt("Wallet"));
+
+            var progressManager = mediator.Get<IPlayerProgressManager>(MediatorRegistration.ProgressManager);
+            _progressManager = progressManager;
+            var playerInventory = Progress.CurrentRunProgress.PlayerInventory;
+            var wallet = new Wallet(
+                () => Progress.CurrentRunProgress.RunCurrency,
+                value => Progress.CurrentRunProgress.RunCurrency = value);
+            Logging.Log($"Player money: {wallet.Money}");
+
+            builder.RegisterComponent(wallet);
+            builder.RegisterComponent(playerInventory);
             builder.RegisterComponent(mediator);
             builder.RegisterComponent(_squad);
             builder.RegisterComponent(_pathPrefab);
@@ -102,55 +101,9 @@ namespace RoguelikeMap
             Container.Resolve<BattleRewardHandler>().Start();
         }
 
-        public void OnDisable()
+        private void OnDisable()
         {
-            var sceneMediator = Container.Resolve<ScenesMediator>();
-            var inventory = Container.Resolve<Inventory>();
-            var playerSquad = sceneMediator.Get<IEnumerable<GameCharacter>>("player characters");
-            var upgradeStats = sceneMediator.Get<StrategyStats>("stats");
-            SaveLocalData(playerSquad, inventory, upgradeStats);
-        }
-
-        protected void SaveLocalData(
-            IEnumerable<GameCharacter> playerSquad, 
-            Inventory inventory,
-            StrategyStats upgradeStats)
-        {
-            PlayerPrefs.SetInt("Wallet", Container.Resolve<Wallet>().Money);
-            InventorySerializer.Save(inventory);
-            if (!_saveLocalData) return;
-            LocalDataManager.SaveLocalData(
-                playerSquad.ToArray(), upgradeStats, _characterTemplatesMapping);
-        }
-
-        protected void LoadLocalData(ScenesMediator mediator, IContainerBuilder containerBuilder)
-        {
-            var inventory = InventorySerializer.Load();
-            containerBuilder.RegisterComponent(inventory);
-            
-            if (!_loadLocalData) return;
-            if (LocalDataManager.IsLocalDataExists)
-            {
-                var localData = LocalDataManager.LoadLocalData();
-                var playerCharacters = localData.PlayerSquadCharacters
-                    .Select(d => GameCharacterSerializer.SaveDataToCharacter(d, _characterTemplatesMapping))
-                    .ToArray();
-                if (playerCharacters.Length == 0)
-                {
-                    Logging.LogError(new LocalDataCorruptedException("Squad members count is 0"));
-                }
-                else
-                {
-                    mediator.Register("player characters", playerCharacters);
-                    //localData.PlayerInventory;
-                    mediator.Register("stats", localData.StatsUpgrades);
-                }
-            }
-        }
-
-        private void OnApplicationQuit()
-        {
-            InventorySerializer.Delete();
+            _progressManager?.SaveProgress();
         }
     }
 }

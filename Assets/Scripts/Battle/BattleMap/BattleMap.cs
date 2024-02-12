@@ -7,10 +7,6 @@ using OrderElimination.AbilitySystem;
 
 public class BattleMap : MonoBehaviour, IBattleMap
 {
-    [SerializeField]
-    private int _width;
-    [SerializeField]
-    private int _height;
     private Cell[,] _cellGrid;
     private Dictionary<AbilitySystemActor, Vector2Int> _containedEntitiesPositions;
     private Dictionary<AbilitySystemActor, Vector2Int> _lastEntitiesPositions;

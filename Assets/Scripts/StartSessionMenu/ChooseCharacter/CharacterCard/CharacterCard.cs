@@ -29,6 +29,7 @@ namespace StartSessionMenu.ChooseCharacter.CharacterCard
         private UnityEvent _specialClickEvent;
         public event Action<CharacterCard> OnClicked;
 
+        //TODO: Replace with CharacterTemplate or make separate initialization
         public virtual void InitializeCard(GameCharacter character, bool isSelected)
         {
             Character = character;

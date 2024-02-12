@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using Assets.AbilitySystem.PrototypeHelpers;
-using DefaultNamespace;
 using GameInventory;
 using OrderElimination.AbilitySystem;
 using OrderElimination.AbilitySystem.Animations;
@@ -67,7 +66,7 @@ namespace OrderElimination
         
         private void OnApplicationQuit()
         {
-            InventorySerializer.Delete();
+            //TODO-SAVE: Save player progress?
         }
     }
 }

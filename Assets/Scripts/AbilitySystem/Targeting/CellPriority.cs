@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace OrderElimination.AbilitySystem
+﻿namespace OrderElimination.AbilitySystem
 {
     public enum CellPriority
     {
@@ -9,6 +7,7 @@ namespace OrderElimination.AbilitySystem
         ClosestToCaster,
         FurthestFromCaster,
         ClosestToTarget,
-        FurthestFromTarget
+        FurthestFromTarget,
+        //Random
     }
 }

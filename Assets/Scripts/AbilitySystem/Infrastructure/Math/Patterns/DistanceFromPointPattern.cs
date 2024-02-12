@@ -24,6 +24,8 @@ namespace OrderElimination.Infrastructure
         public DistanceFromPointPattern(
             float minDistanceFromOrigin, float maxDistanceFromOrigin, bool useSquareDistance)
         {
+            if (minDistanceFromOrigin > maxDistanceFromOrigin)
+				throw new ArgumentException("Min range cannot be greater than Max range");
             _minDistanceFromOrigin = minDistanceFromOrigin;
             _maxDistanceFromOrigin = maxDistanceFromOrigin;
             UseSquareDistance = useSquareDistance;
@@ -112,7 +114,8 @@ namespace OrderElimination.Infrastructure
             maxRange = Mathf.Abs(maxRange);
 
             if (maxRange < minRange)
-                throw new ArgumentException();
+                throw new ArgumentException(
+                    $"Absolute maxRange ({maxRange}) is less than minRange ({minRange}).");
             //0 -max 1 -min 0 +min 1 +max 0
 
             return x <= maxRange && y <= maxRange

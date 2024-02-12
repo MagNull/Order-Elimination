@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GameInventory;
 using GameInventory.Items;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -11,13 +10,20 @@ namespace OrderElimination
     [Serializable, CreateAssetMenu(fileName = "ItemsPool", menuName = "Inventory/ItemsPool")]
     public class ItemsPool : SerializedScriptableObject
     {
+        private ItemData[] _allItemAssets;
+
         [SerializeField]
         private Dictionary<ItemRarity, float> _rarityProbability = new();
+
+        private void Awake()
+        {
+            _allItemAssets = Resources.FindObjectsOfTypeAll<ItemData>();
+        }
 
         public Item GetRandomItem()
         {
             var randomRarity = GetRandomRarity();
-            var items = ItemIdentifier.GetItems().Where(item => item.Rarity == randomRarity).ToList();
+            var items = _allItemAssets.Where(item => item.Rarity == randomRarity).ToList();
 
             var randomItemIndex = UnityEngine.Random.Range(0, items.Count);
             return ItemFactory.Create(items[randomItemIndex]);

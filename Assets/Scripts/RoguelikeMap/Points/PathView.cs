@@ -53,14 +53,21 @@ namespace RoguelikeMap.Points
 
         public void ClearPaths()
         {
-            foreach (var path in _paths)
-                Destroy(path.gameObject);
+            foreach(var path in _paths)
+            {
+                path.gameObject.SetActive(false);
+            }
             _paths.Clear();
         }
 
         private void OnDestroy()
         {
-            ClearPaths();
+            foreach (var path in _paths)
+            {
+                path.positionCount = 0;
+                Destroy(path.gameObject);
+            }
+            _paths.Clear();
         }
     }
 }

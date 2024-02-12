@@ -61,7 +61,7 @@ namespace OrderElimination.AbilitySystem
             _battleLoopManager = battleLoopManager;
             _battleRules = new(() => 
             {
-                return mediator.Get<IBattleRules>("rules"); 
+                return mediator.Get<IBattleRules>(MediatorRegistration.BattleRules); 
             });
             AnimationSceneContext = animationContext;
             EntitySpawner = entitySpawner;

@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using GameInventory;
 using OrderElimination;
 using OrderElimination.MacroGame;
+using OrderElimination.SavesManagement;
 using OrderElimination.UI;
 using RoguelikeMap.Map;
 using StartSessionMenu;
@@ -30,23 +32,30 @@ public class MenuWindow : MonoBehaviour
     
     private SceneTransition _sceneTransition;
     private ScenesMediator _scenesMediator;
+    private IPlayerProgressManager _progressManager;
     private Vector3 _startMenuPanelInitialPosition;
     
     [Inject]
-    public void Construct(SceneTransition sceneTransition, ScenesMediator scenesMediator)
+    public void Construct(
+        SceneTransition sceneTransition, 
+        ScenesMediator scenesMediator,
+        IPlayerProgressManager progressManager)
     {
         _sceneTransition = sceneTransition;
         _scenesMediator = scenesMediator;
+        _progressManager = progressManager;
     }
     
     private void Start()
     {
         _startMenuPanelInitialPosition = _startMenuPanel.transform.position;
-        _continueButton
-            .DOInterectable(_scenesMediator.Contains<IEnumerable<GameCharacter>>("player characters"));
+        var progress = _progressManager.GetPlayerProgress();
+        //Progress validation
+        _continueButton.DOInterectable(progress.CurrentRunProgress != null);
 
         _previousButton.onClick.AddListener(() =>
         {
+            Debug.Log("Button: Prev");
             _startMenuPanel.transform.DOMoveX(_startMenuPanelInitialPosition.x, 1.5f);
             _maskWallpaper.gameObject.SetActive(true);
             _maskWallpaper.DOFade(0.65f, 1.5f);
@@ -54,20 +63,15 @@ public class MenuWindow : MonoBehaviour
         
         _continueButton.onClick.AddListener(() =>
         {
-            _sceneTransition.LoadRoguelikeMap();
+            Debug.Log("Button: Continue");
+            if (progress.CurrentRunProgress == null)
+            {
+                throw new System.InvalidOperationException("Should not be allowed");
+            }
+            OnRunStart(progress, _scenesMediator);
         });
         
-        _startGameButton.onClick.AddListener(() =>
-        {
-            InventorySerializer.Delete();
-            _metaShopPanel.SaveStats();
-            if(_scenesMediator.Contains<GameCharacter[]>("player characters"))
-                _scenesMediator.Unregister("player characters");
-            if(_scenesMediator.Contains<int>("point index"))
-                _scenesMediator.Unregister("point index");
-            if(_choosingCharacterPanel.SaveCharacters())
-                _sceneTransition.LoadRoguelikeMap();
-        });
+        _startGameButton.onClick.AddListener(StartNewRun);
     }
 
     public void StartInMenuClick()
@@ -80,5 +84,31 @@ public class MenuWindow : MonoBehaviour
     public void ExitInMenuClick()
     {
         Application.Quit();
+    }
+
+    private void OnRunStart(IPlayerProgress progress, ScenesMediator mediator)
+    {
+        Logging.Log("Start/Continue run!" % Colorize.Red);
+        RoguelikeRunStartManager.StartRun(progress, mediator);
+        _sceneTransition.LoadRoguelikeMap();
+    }
+
+    private void StartNewRun()
+    {
+        Debug.Log("Button: Start");
+        if (_scenesMediator.Contains<int>(MediatorRegistration.CurrentPoint))
+            _scenesMediator.Unregister(MediatorRegistration.CurrentPoint);
+
+        var progress = _progressManager.GetPlayerProgress();
+
+        var stats = progress.MetaProgress.StatUpgrades;
+        var characters = _choosingCharacterPanel.GetSelectedCharacters();
+        if (characters.Length == 0)
+            return;
+        progress.CurrentRunProgress = RoguelikeRunStartManager
+            .GetInitialProgress(progress.MetaProgress);
+        progress.MetaProgress.StatUpgrades = stats;//TODO-SAVES: make dependency in upgrader
+        progress.CurrentRunProgress.PosessedCharacters = characters.ToList();
+        OnRunStart(progress, _scenesMediator);
     }
 }
