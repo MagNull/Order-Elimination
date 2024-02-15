@@ -2557,7 +2557,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sideToKill: 2
-  _shortcutKey: 45
+  _toggleSideShortcut: 61
+  _killShortcut: 45
 --- !u!114 &1893120106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2765,9 +2766,8 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 933b6206675ce6746a6d1d3e377dbe2d, type: 2}
     - {fileID: 11400000, guid: 10aef158ee07e7c49ab3817d6939d0ba, type: 2}
-    - {fileID: 11400000, guid: 13e72bcd21f82bc429dcf177e6cd1c97, type: 2}
     - {fileID: 11400000, guid: ec472f2644546894eb9e5b06302e43a6, type: 2}
-    - {fileID: 11400000, guid: aee135c44da6d4e549de1af6deae4721, type: 2}
+    - {fileID: 11400000, guid: e6cc73eb92b456d42a71a229bab1b8ab, type: 2}
     - {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
@@ -2779,16 +2779,13 @@ MonoBehaviour:
       Data: 0|OrderElimination.IGameCharacterTemplate[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 10
       Data: 0
     - Name: 
       Entry: 10
       Data: 1
-    - Name: 
-      Entry: 10
-      Data: 2
     - Name: 
       Entry: 13
       Data: 
@@ -2800,16 +2797,10 @@ MonoBehaviour:
       Data: 1|OrderElimination.IGameCharacterTemplate[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 1
     - Name: 
       Entry: 10
-      Data: 3
-    - Name: 
-      Entry: 10
-      Data: 3
-    - Name: 
-      Entry: 10
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 13
       Data: 
@@ -2818,10 +2809,10 @@ MonoBehaviour:
       Data: 
     - Name: _testScenario
       Entry: 10
-      Data: 4
+      Data: 3
     - Name: _testRules
       Entry: 10
-      Data: 5
+      Data: 4
   _test: 1
 --- !u!4 &1908500043
 Transform:

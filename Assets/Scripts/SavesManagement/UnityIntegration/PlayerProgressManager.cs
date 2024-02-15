@@ -21,6 +21,7 @@ namespace OrderElimination.SavesManagement
         private void Awake()
         {
             DontDestroyOnLoad(this);
+            //TODO-SAVES: load all assets
             AssetIdsMappings.RefreshMappings();
             _saveDataPacker = new(
                 AssetIdsMappings.CharactersMapping,

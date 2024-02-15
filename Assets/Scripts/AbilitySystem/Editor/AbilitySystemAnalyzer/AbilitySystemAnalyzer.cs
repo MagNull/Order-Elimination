@@ -6,7 +6,6 @@ using OrderElimination.Editor;
 using OrderElimination.GameContent;
 using OrderElimination.Infrastructure;
 using OrderElimination.MacroGame;
-using OrderElimination.SavesManagement;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Serialization;
@@ -432,27 +431,30 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         }
     }
 
-    private class PresetsExplorerDisplayParameters
+    [Serializable]
+    private class TemplatesExplorer
     {
-        public readonly AbilitySystemAnalyzer Analyzer;
-
-        public PresetsExplorerDisplayParameters(AbilitySystemAnalyzer analyzer)
-        {
-            Analyzer = analyzer;
-        }
+        private bool _flattenHierarchy;
 
         [TitleGroup("Presets Display Parameters")]
-        [OnValueChanged("@" + nameof(OnDisplayFlatChanged) + "()")]
         [HideLabel, Title("Flatten Hierarchy", HorizontalLine = false)]
-        [ShowInInspector, OdinSerialize]
-        public bool FlattenHierarchy { get; set; }
-
-        private void OnDisplayFlatChanged()
+        [ShowInInspector]
+        public bool FlattenHierarchy
         {
-            if (Analyzer == null)
-                return;
-            Analyzer.ForceMenuTreeRebuild();
+            get => _flattenHierarchy;
+            set
+            {
+                if (_flattenHierarchy == value) return;
+                _flattenHierarchy = value;
+                HierarchyDisplayParametersChanged?.Invoke(this);
+            }
         }
+
+        [DelayedProperty]
+        [ShowInInspector]
+        public string PresetsPath { get; set; } = @"Assets/Battle/Presets";
+
+        public event Action<TemplatesExplorer> HierarchyDisplayParametersChanged;
     }
 
     private class GuidExplorer
@@ -615,29 +617,33 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
     #endregion
 
     #region Assets Inspector
-    private const string PresetsPath = @"Assets/Battle/Presets";
-
     [OdinSerialize]
-    private PresetsExplorerDisplayParameters ExplorerParameters;
+    private TemplatesExplorer Explorer;
 
     [MenuItem("Tools/Order Elimination/Ability System Analyzer")]
     public static void OpenWindow()
     {
         var window = GetWindow<AbilitySystemAnalyzer>();
-        window.ExplorerParameters = new(window);
+        if (window.Explorer == null)
+        {
+            window.Explorer = new();
+            window.Explorer.HierarchyDisplayParametersChanged
+                += explorer => window.ForceMenuTreeRebuild();
+        }
         window.Show();
     }
 
     protected override OdinMenuTree BuildMenuTree()
     {
-        var abilitiesPath = $"{PresetsPath}/Abilities";
-        var effectsPath = $"{PresetsPath}/Effects";
-        var charactersPath = $"{PresetsPath}/Characters";
-        var structuresPath = $"{PresetsPath}/Structures";
-        var mapsPath = $"{PresetsPath}/Maps";
+        var path = Explorer.PresetsPath;
+        var abilitiesPath = $"{path}/Abilities";
+        var effectsPath = $"{path}/Effects";
+        var charactersPath = $"{path}/Characters";
+        var structuresPath = $"{path}/Structures";
+        var mapsPath = $"{path}/Maps";
 
         DrawMenuSearchBar = true;
-        var isFlat = ExplorerParameters.FlattenHierarchy;
+        var isFlat = Explorer.FlattenHierarchy;
         if (MenuTree != null)
         {
             MenuTree.Selection.SelectionConfirmed -= OnSelectionConfirmed;
@@ -645,7 +651,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
 
         var tree = new OdinMenuTree(false);
         tree.Add("Analyzer", new AbilitySystemAnalyzerInfo(), EditorIcons.SettingsCog);
-        tree.Add("Presets", ExplorerParameters, EditorIcons.FileCabinet);
+        tree.Add("Presets", Explorer, EditorIcons.FileCabinet);
         tree.Add("Presets/Maps", null, EditorIcons.Globe);
         tree.Add("GUID Explorer", new GuidExplorer(), EditorIcons.Ruler);
 

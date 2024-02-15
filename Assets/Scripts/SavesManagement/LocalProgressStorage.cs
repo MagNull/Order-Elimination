@@ -13,7 +13,6 @@ namespace OrderElimination.SavesManagement
 
         public LocalProgressStorage(SaveDataPacker saveDataPacker)
         {
-            AssetIdsMappings.RefreshMappings();
             _saveDataPacker = saveDataPacker;
         }
 
@@ -68,7 +67,7 @@ namespace OrderElimination.SavesManagement
             catch (Exception e)
             {
                 Logging.LogError("Error occured while attempting to load a saved progress");
-                Logging.LogError(e);
+                Debug.Log(e);
                 progress = null;
                 return false;
             }
