@@ -20,11 +20,11 @@ namespace RoguelikeMap.Points.Models
     {
         [Input] public PointModel entries;
         [Output] public PointModel exits;
-        
+
         [SerializeField]
         private List<CharacterTemplate> _enemies;
         [OdinSerialize]
-        [ShowInInspector]
+        [SerializeField]
         private IBattleMapLayout _mapLayout;
         [field: SerializeField]
         public BattleRulesPreset BattleRules { get; private set; }
@@ -47,9 +47,9 @@ namespace RoguelikeMap.Points.Models
             squad.OnUpdateMembers += Panel.UpdateAlliesOnMap;
             _enemiesGameCharacter = GameCharactersFactory.CreateGameCharacters(Enemies).ToList();
             Panel.Initialize(_name, _mapLayout, _enemiesGameCharacter, squad.ActiveMembers, AssetId); //TODO: Store GameCharacters
-            if(transferPanel.IsOpen)
+            if (transferPanel.IsOpen)
                 transferPanel.Close();
-            if(!Panel.IsOpen)
+            if (!Panel.IsOpen)
                 Panel.Open();
         }
 
