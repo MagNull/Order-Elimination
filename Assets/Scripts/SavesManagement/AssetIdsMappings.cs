@@ -15,18 +15,26 @@ namespace OrderElimination.SavesManagement
         private static DataMapping<Guid, ItemData> _itemsMapping;
 
         public static IDataMapping<Guid, IGameCharacterTemplate> CharactersMapping
-            => _charactersMapping;
-        public static IDataMapping<Guid, ItemData> ItemsMapping
-            => _itemsMapping;
-
-        public static bool IsValidationRequired
-            => true;
-            //=> _lastUpdateTime == default || (DateTime.Now -_lastUpdateTime).Seconds > 2;//mock
-
-        static AssetIdsMappings()
         {
-            RefreshMappings();
+            get
+            {
+                if (_charactersMapping == null)
+                    throw new InvalidOperationException();
+                return _charactersMapping;
+            }
         }
+        public static IDataMapping<Guid, ItemData> ItemsMapping
+        {
+            get
+            {
+                if (_itemsMapping == null)
+                    throw new InvalidOperationException();
+                return _itemsMapping;
+            }
+        }
+
+        public static bool IsValidationRequired => true;
+            //=> _lastUpdateTime == default || (DateTime.Now -_lastUpdateTime).Seconds > 2;//mock
 
         public static void RefreshMappings()
         {
@@ -52,7 +60,10 @@ namespace OrderElimination.SavesManagement
 
             foreach (var type in dataTypes)
             {
-                var dataObjects = Resources.FindObjectsOfTypeAll(type).Cast<TData>();
+                var dataObjects = Resources.FindObjectsOfTypeAll(type)
+                    .Cast<TData>()
+                    .ToArray();
+                Debug.Log($"Fucked-up Unity found {dataObjects.Length} objects of type \"{type}\"");
                 foreach (var obj in dataObjects)
                 {
                     if (!foundObjects.ContainsKey(obj))
@@ -66,6 +77,8 @@ namespace OrderElimination.SavesManagement
             {
                 result.Add(foundObjects[obj], obj);
             }
+
+            Logging.Log($"Mapping build for {foundObjects.Keys.Count} {dataType.Name}");
 
             return result;
         }
