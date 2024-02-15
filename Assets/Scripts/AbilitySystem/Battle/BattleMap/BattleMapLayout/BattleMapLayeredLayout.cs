@@ -141,7 +141,11 @@ namespace OrderElimination.Battle
             var yMin = rect.yMin;
             rect.yMax = texture.height - 1 - yMin;
             rect.yMin = texture.height - 1 - yMax;
+            #if UNITY_EDITOR
             return texture.CropTexture(rect);
+            #else
+            return texture;
+            #endif
         }
         #endregion
 
