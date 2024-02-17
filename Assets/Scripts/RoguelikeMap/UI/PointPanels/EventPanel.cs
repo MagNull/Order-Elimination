@@ -8,6 +8,7 @@ using OrderElimination;
 using OrderElimination.MacroGame;
 using OrderElimination.UI;
 using RoguelikeMap.SquadInfo;
+using StartSessionMenu;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,6 +33,7 @@ namespace RoguelikeMap.UI.PointPanels
 
         private Inventory _inventory;
         private Squad _squad;
+        private Wallet _wallet;
         private bool _isContainsBattle = false;
         private bool _isSwap = false;
 
@@ -41,10 +43,11 @@ namespace RoguelikeMap.UI.PointPanels
         public event Action<bool> OnBattleEventVisit;
 
         [Inject]
-        public void Construct(Inventory inventory, Squad squad)
+        public void Construct(Inventory inventory, Squad squad, Wallet wallet)
         {
             _inventory = inventory;
             _squad = squad;
+            _wallet = wallet;
         }
 
         private void SetActiveAnswers(bool isActive)
@@ -106,6 +109,11 @@ namespace RoguelikeMap.UI.PointPanels
         {
             var item = ItemFactory.Create(itemData);
             _inventory.AddItem(item);
+        }
+
+        public void AddMoney(int money)
+        {
+            _wallet.Money += money;
         }
 
         public void SetInteractableAnswer(int answerIndex, bool isInteractable)
