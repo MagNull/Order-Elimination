@@ -620,6 +620,67 @@ MonoBehaviour:
   entries: {fileID: 0}
   exits: {fileID: 0}
   _eventGraph: {fileID: 11400000, guid: f19343af8dc7a294587dcde4931038b0, type: 2}
+--- !u!114 &-764570298351889416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d158c0606814ff882c3a9e402e740b1, type: 3}
+  m_Name: Test nodes
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: c3b97f96c6cb42dbbe714f31f3990fde
+  graph: {fileID: 11400000}
+  position: {x: -3432, y: 72}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -764570298351889416}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 4432351363715130526}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -764570298351889416}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 1117184591647115074}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: Test nodes
+  <Sprite>k__BackingField: {fileID: 0}
+  <TransferText>k__BackingField: Chisto test
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _eventGraph: {fileID: 11400000, guid: 91680d701cfe36542af05464c4c03db7, type: 2}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -659,6 +720,7 @@ MonoBehaviour:
   - {fileID: -1920190981620807908}
   - {fileID: 7311260336322997142}
   - {fileID: 8607064956460635191}
+  - {fileID: -764570298351889416}
 --- !u!114 &1117184591647115074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,7 +762,7 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: exits
-        node: {fileID: 4432351363715130526}
+        node: {fileID: -764570298351889416}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -1035,7 +1097,7 @@ MonoBehaviour:
       Entry: 2
       Data: a00914dc4c184af185e0baac711aa05a
   graph: {fileID: 11400000}
-  position: {x: -3368, y: 56}
+  position: {x: -3880, y: 88}
   ports:
     keys:
     - exits
@@ -1046,7 +1108,7 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: entries
-        node: {fileID: 1117184591647115074}
+        node: {fileID: -764570298351889416}
         reroutePoints: []
       _direction: 1
       _connectionType: 0

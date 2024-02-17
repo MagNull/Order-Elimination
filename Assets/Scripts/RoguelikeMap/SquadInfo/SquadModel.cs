@@ -22,7 +22,7 @@ namespace OrderElimination
         public event Action<SquadModel> SquadUpdated;
         
         public SquadModel(
-            List<GameCharacter> posessedPlayerCharacters, SquadMembersPanel squadMembersPanel)
+            List<GameCharacter> posessedPlayerCharacters)
         {
             if (posessedPlayerCharacters.Count == 0)
                 Logging.LogError($"Attempt to create {nameof(SquadModel)} with 0 members.");

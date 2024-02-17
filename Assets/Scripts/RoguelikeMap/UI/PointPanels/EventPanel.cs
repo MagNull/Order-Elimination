@@ -12,7 +12,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using VContainer;
-using XNode.Examples.MathNodes;
 
 namespace RoguelikeMap.UI.PointPanels
 {
@@ -20,22 +19,22 @@ namespace RoguelikeMap.UI.PointPanels
     {
         [SerializeField]
         private TMP_Text _eventText;
-        [SerializeField] 
+        [SerializeField]
         private List<Button> _answerButtons;
-        [SerializeField] 
+        [SerializeField]
         private Button _skipButton;
-        [SerializeField] 
+        [SerializeField]
         private Image _sprite;
         [SerializeField]
         private Transform _skipButtonParent;
-        [SerializeField] 
+        [SerializeField]
         private Transform _buttonsParent;
-        
+
         private Inventory _inventory;
         private Squad _squad;
         private bool _isContainsBattle = false;
         private bool _isSwap = false;
-        
+
         public event Action<int> OnAnswerClick;
         public event Action<BattleNode> OnStartBattle;
         public event Action<bool> OnSafeEventVisit;
@@ -61,13 +60,13 @@ namespace RoguelikeMap.UI.PointPanels
         {
             return _inventory.Contains(itemData);
         }
-        
+
         public bool CheckCharacter(CharacterTemplate characterTemplate)
         {
             var characters = _squad.Members.Any(x => x.CharacterData == characterTemplate);
             return characters;
         }
-        
+
         public void SpendItems(IEnumerable<ItemData> itemsDatas)
         {
             foreach (var itemData in itemsDatas)
@@ -85,6 +84,16 @@ namespace RoguelikeMap.UI.PointPanels
             }
         }
 
+        public void HealCharacters(int percentage)
+        {
+            _squad.HealCharactersByPercentage(percentage);
+        }
+
+        public void DamageCharacters(int percentage)
+        {
+            _squad.DamageCharactersByPercentage(percentage);
+        }
+
         public void AddItems(IEnumerable<ItemData> itemsDatas)
         {
             foreach (var itemData in itemsDatas)
@@ -92,7 +101,7 @@ namespace RoguelikeMap.UI.PointPanels
                 AddItem(itemData);
             }
         }
-        
+
         public void AddItem(ItemData itemData)
         {
             var item = ItemFactory.Create(itemData);
@@ -111,7 +120,7 @@ namespace RoguelikeMap.UI.PointPanels
 
             while (answers.Count > _answerButtons.Count)
                 _answerButtons.Add(Instantiate(_answerButtons[0], _buttonsParent));
-            
+
             for (var i = 0; i < answers.Count; i++)
             {
                 _answerButtons[i].gameObject.SetActive(true);
@@ -149,12 +158,12 @@ namespace RoguelikeMap.UI.PointPanels
             _skipButton.gameObject.SetActive(isActive);
         }
 
-        public void FinishEvent(IEnumerable<ItemData> items = null, 
+        public void FinishEvent(IEnumerable<ItemData> items = null,
             IEnumerable<CharacterTemplate> characters = null)
         {
             if (items is not null)
                 AddItemsToInventory(items);
-            if(characters is not null)
+            if (characters is not null)
                 _squad.AddMembers(GameCharactersFactory.CreateGameCharacters(characters));
             Close();
         }
@@ -209,7 +218,7 @@ namespace RoguelikeMap.UI.PointPanels
             PlayEventMusic(false);
             base.Close();
         }
-        
+
         public void ResetEvent()
         {
             OnAnswerClick = null;
