@@ -13,6 +13,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using VContainer;
 
+
 public class BattleEndHandler : MonoBehaviour
 {
     [SerializeField]
@@ -190,7 +191,7 @@ public class BattleEndHandler : MonoBehaviour
         if (_isLoadingNextScene)
             return;
         _isLoadingNextScene = true;
-        await SceneManager.LoadSceneAsync(sceneId);
+        await SceneManager.LoadSceneAsync(sceneId).ToUniTask();
         _isLoadingNextScene = false;
     }
 }
