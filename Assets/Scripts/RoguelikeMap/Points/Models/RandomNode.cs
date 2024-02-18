@@ -11,20 +11,22 @@ namespace RoguelikeMap.Points.Models
         [Input] public PointModel entries;
         [Output] public PointModel exits;
 
+        public int SelectedIndex { get; private set; } = 0;
+
         public PointModel GetRandomNextPoint()
         {
-            int index = Random.Range(0, Outputs.First().ConnectionCount);
             var ports = GetPort("exits").GetConnections();
-            if (index > ports.Count)
-                Debug.LogError("Invalid port index");
-            var node = ports[index].node as PointModel;
-            return node;
+            SelectedIndex = Random.Range(0, ports.Count);
+            return GetSelectedNextPoint();
         }
 
-        public IEnumerable<PointModel> GetNextPoints()
+        public PointModel GetSelectedNextPoint()
         {
-            return !HasPort("exits") ? new List<PointModel>()
-                : GetPort("exits").GetConnections().Select(connection => connection.node as PointModel);
+            var ports = GetPort("exits").GetConnections();
+            if (SelectedIndex > ports.Count)
+                Debug.LogError("Invalid port index");
+            var node = ports[SelectedIndex].node as PointModel;
+            return node;
         }
     }
 }

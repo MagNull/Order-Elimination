@@ -14,18 +14,24 @@ namespace RoguelikeMap.Points
 
 		public PointModel CurrentPoint { get; private set; }
 
+		public void Initialize()
+		{
+			CurrentPoint = StartPoint;
+		}
+
 		public IEnumerable<PointModel> GetPoints()
 		{
-			return nodes.Cast<PointModel>();
+			List<PointModel> points = new();
+			foreach (var node in nodes)
+			{
+				if (node is PointModel pointModel)
+					points.Add(pointModel);
+			}
+			return points;
 		}
 
 		public PointModel GetNextPoint()
 		{
-			if (CurrentPoint == null)
-			{
-				CurrentPoint = StartPoint;
-			}
-
 			if (CurrentPoint is FinalBattlePointModel)
 			{
 				return null;
@@ -39,12 +45,20 @@ namespace RoguelikeMap.Points
 				return null;
 			}
 
+			SetNextPoint(exitPort);
+
+			return CurrentPoint;
+		}
+
+		private void SetNextPoint(NodePort exitPort)
+		{
 			if (exitPort.Connection.node is RandomNode randomNode)
 			{
-				return randomNode.GetRandomNextPoint();
+				CurrentPoint = randomNode.GetRandomNextPoint();
+				return;
 			}
 
-			return exitPort.Connection.node as PointModel;
+			CurrentPoint = exitPort.Connection.node as PointModel;
 		}
 	}
 }

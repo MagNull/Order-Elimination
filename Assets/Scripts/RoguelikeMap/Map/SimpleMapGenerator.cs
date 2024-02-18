@@ -37,34 +37,47 @@ namespace RoguelikeMap.Map
             var path = "Points\\RoguelikeMaps";
             var maps = Resources.LoadAll<PointGraph>(path);
             var mapIndex = Random.Range(0, maps.Length);
-            var points = GeneratePoints(maps[mapIndex]);
+            var points = LoadPoints(maps[mapIndex]);
             return points;
+        }
+
+        private List<Point> LoadPoints(PointGraph map)
+        {
+            var currentProgress = _progressManager.GetPlayerProgress().CurrentRunProgress;
+            var isInitialize = currentProgress.PassedPoints.Count > 0;
+            return isInitialize ? LoadSavedPoints(map) : GeneratePoints(map);
+        }
+
+        private List<Point> LoadSavedPoints(PointGraph map)
+        {
+            var savedPointsId = _progressManager.GetPlayerProgress().CurrentRunProgress.PassedPoints.Keys.ToList();
+            var savedPoint = map.GetPoints();
+            return savedPoint
+                            .Where(x => savedPointsId.Contains(x.AssetId))
+                            .Select(x => CreatePoint(x, false))
+                            .ToList();
         }
 
         private List<Point> GeneratePoints(PointGraph map)
         {
-            var isInitialize = _progressManager.GetPlayerProgress().CurrentRunProgress.PassedPoints.Count == 0;
             List<Point> points = new();
+            map.Initialize();
+            points.Add(CreatePoint(map.CurrentPoint, true));
             PointModel pointModel = map.GetNextPoint();
-            while (pointModel is not FinalBattlePointModel)
+            while (pointModel != null)
             {
-                if (pointModel == null)
-                {
-                    Debug.LogException(new Exception("PointModel isn't connected"));
-                    break;
-                }
-                points.Add(CreatePoint(pointModel, isInitialize));
+                points.Add(CreatePoint(pointModel, true));
                 pointModel = map.GetNextPoint();
             }
             return points;
         }
 
-        private Point CreatePoint(PointModel pointModel, bool isInitialize)
+        private Point CreatePoint(PointModel pointModel, bool isNeedInitialize)
         {
             var point = _resolver.Instantiate(_pointPrefab, pointModel.position, Quaternion.identity, _parent);
             point.Initialize(pointModel, _lastIndex++);
             point.name = point.Id.ToString();
-            if (isInitialize)
+            if (isNeedInitialize)
             {
                 _progressManager.GetPlayerProgress().CurrentRunProgress.PassedPoints[point.Id] = pointModel is StartPointModel;
             }
