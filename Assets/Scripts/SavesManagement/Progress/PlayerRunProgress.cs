@@ -19,7 +19,7 @@ namespace OrderElimination.SavesManagement
         //3.List ActiveCharactersIds
         public List<GameCharacter> PosessedCharacters { get; set; }
         public Inventory PlayerInventory { get; set; }
-        public Guid CurrentPointId { get; set; }//not used yet
-        public Dictionary<Guid, bool> PassedPoints { get; set; } = new ();//not used yet
+        public Guid CurrentPointId { get; set; }
+        public Dictionary<Guid, bool> PassedPoints { get; set; } = new ();
     }
 }

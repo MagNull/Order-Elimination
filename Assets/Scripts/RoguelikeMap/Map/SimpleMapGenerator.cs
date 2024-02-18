@@ -24,7 +24,7 @@ namespace RoguelikeMap.Map
 
         [Inject]
         public SimpleMapGenerator(Point pointPrefab, Transform pointsParent,
-            IObjectResolver resolver, ScenesMediator mediator )
+            IObjectResolver resolver, ScenesMediator mediator)
         {
             _pointPrefab = pointPrefab;
             _parent = pointsParent;
@@ -44,7 +44,19 @@ namespace RoguelikeMap.Map
         private List<Point> GeneratePoints(PointGraph map)
         {
             var isInitialize = _progressManager.GetPlayerProgress().CurrentRunProgress.PassedPoints.Count == 0;
-            return map.GetPoints().Select(x => CreatePoint(x, isInitialize)).ToList();
+            List<Point> points = new();
+            PointModel pointModel = map.GetNextPoint();
+            while (pointModel is not FinalBattlePointModel)
+            {
+                if (pointModel == null)
+                {
+                    Debug.LogException(new Exception("PointModel isn't connected"));
+                    break;
+                }
+                points.Add(CreatePoint(pointModel, isInitialize));
+                pointModel = map.GetNextPoint();
+            }
+            return points;
         }
 
         private Point CreatePoint(PointModel pointModel, bool isInitialize)
