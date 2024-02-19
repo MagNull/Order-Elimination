@@ -13,6 +13,7 @@ using UnityEngine;
 
 namespace OrderElimination.MacroGame
 {
+    //[Title("Battle Location Layout", "Battle Scenario", TitleAlignment = TitleAlignments.Centered)]
     //[Obsolete(nameof(BattleScenario) + " deprecated. Use " + nameof(BattleMapLayeredLayout) + " instead.")]
     //[CreateAssetMenu(fileName = "new BattleScenario", menuName = "OrderElimination/Battle/Battle Scenario")]
     public class BattleScenario : SerializedScriptableObject, IBattleMapLayout
