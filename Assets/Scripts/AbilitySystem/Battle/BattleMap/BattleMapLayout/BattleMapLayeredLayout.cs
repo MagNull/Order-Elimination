@@ -16,7 +16,8 @@ using UnityEngine;
 
 namespace OrderElimination.Battle
 {
-    [CreateAssetMenu(fileName = "new BattleMap Layout", menuName = "OrderElimination/Battle/BattleMap Layout")]
+    [Title("Battle Location Layout", "Layered Layout", TitleAlignment = TitleAlignments.Centered)]
+    [CreateAssetMenu(fileName = "new Battle Location Layout", menuName = "OrderElimination/Battle/Battle Location Layout")]
     public class BattleMapLayeredLayout : SerializedScriptableObject, IBattleMapLayout
     {
         #region OdinVisuals
@@ -141,7 +142,11 @@ namespace OrderElimination.Battle
             var yMin = rect.yMin;
             rect.yMax = texture.height - 1 - yMin;
             rect.yMin = texture.height - 1 - yMax;
+            #if UNITY_EDITOR
             return texture.CropTexture(rect);
+            #else
+            return texture;
+            #endif
         }
         #endregion
 

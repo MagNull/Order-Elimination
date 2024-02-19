@@ -4,12 +4,10 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 using VContainer;
-using static UnityEditor.PlayerSettings;
 
 public class AbilityPreviewDisplayer : MonoBehaviour//Only for active abilities
 {

@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
+    //[Title("Ability Template", "Active Ability", TitleAlignment = TitleAlignments.Centered)]
     [CreateAssetMenu(fileName = "new Active Ability", menuName = "OrderElimination/AbilitySystem/Active Ability")]
     public class ActiveAbilityBuilder : SerializedScriptableObject
     {

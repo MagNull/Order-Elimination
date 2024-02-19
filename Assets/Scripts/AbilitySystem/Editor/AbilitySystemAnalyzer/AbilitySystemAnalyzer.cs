@@ -434,12 +434,32 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
     [Serializable]
     private class TemplatesExplorer
     {
-        private bool _flattenHierarchy;
+        private bool _flattenHierarchy = true;
+        private bool _orderByName = true;
+        private string _gameContentPath = DefaultGameContentPath;
 
         [TitleGroup("Presets Display Parameters")]
-        [HideLabel, Title("Flatten Hierarchy", HorizontalLine = false)]
         [ShowInInspector]
-        public bool FlattenHierarchy
+        public const string DefaultGameContentPath = @"Assets/Resources/Battle/Presets";
+
+        [DelayedProperty]
+        [ShowInInspector]
+        public string GameContentPath
+        {
+            get => _gameContentPath;
+            set
+            {
+                var exists = UnityEngine.Windows.Directory.Exists(value);
+                if (!exists)
+                    return;
+                _gameContentPath = value;
+                HierarchyDisplayParametersChanged?.Invoke(this);
+            }
+        }
+
+        [TitleGroup("Presets Display Parameters")]
+        [ShowInInspector]
+        public bool UseFolderHierarchy
         {
             get => _flattenHierarchy;
             set
@@ -450,11 +470,72 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
             }
         }
 
-        [DelayedProperty]
+        [TitleGroup("Presets Display Parameters")]
         [ShowInInspector]
-        public string PresetsPath { get; set; } = @"Assets/Battle/Presets";
+        public bool OrderByName
+        {
+            get => _orderByName;
+            set
+            {
+                if (_orderByName == value) return;
+                _orderByName = value;
+                HierarchyDisplayParametersChanged?.Invoke(this);
+            }
+        }
 
         public event Action<TemplatesExplorer> HierarchyDisplayParametersChanged;
+
+        //public void FocusContentFolder()
+        //{
+
+        //}
+
+        public void DisplayGameAssets(OdinMenuTree menuTree)
+        {
+            var path = GameContentPath;
+            var abilitiesPath = $"{path}/Abilities";
+            var effectsPath = $"{path}/Effects";
+            var charactersPath = $"{path}/Characters";
+            var structuresPath = $"{path}/Structures";
+            var mapsPath = $"{path}/Maps";
+
+            DisplayAssets<ActiveAbilityBuilder>(
+            menuTree, path, "Presets/Active Abilities", EditorIcons.Crosshair, a => a.Icon);
+            DisplayAssets<PassiveAbilityBuilder>(
+                menuTree, path, "Presets/Passive Abilities", EditorIcons.Clouds, a => a.Icon);
+            DisplayAssets<EffectDataPreset>(
+                menuTree, path, "Presets/Effects", EditorIcons.StarPointer, a => a.View.Icon);
+            DisplayAssets<CharacterTemplate>(
+                menuTree, path, "Presets/Characters", EditorIcons.Male, a => a.BattleIcon);
+            DisplayAssets<StructureTemplate>(
+                menuTree, path, "Presets/Structures", EditorIcons.House, a => a.BattleIcon);
+            menuTree.Add("Presets/Maps", null, EditorIcons.Globe);
+            DisplayAssets<BattleScenario>(
+                menuTree, path, "Presets/Maps/BattleScenario", EditorIcons.GridBlocks, a => null);
+            DisplayAssets<BattleMapLayeredLayout>(
+                menuTree, path, "Presets/Maps/Layered Layout", EditorIcons.GridLayout, a => null);
+        }
+
+        //TODO: remove iconGetter, use "where TAsset : ITemplateAsset"
+        private IEnumerable<OdinMenuItem> DisplayAssets<TAsset>(
+            OdinMenuTree menuTree,
+            string assetsPath, string displayPath,
+            EditorIcon rootIcon, Func<TAsset, Sprite> iconGetter)
+            where TAsset : class
+        {
+            //var subElements = new List<TAsset>();
+            menuTree.Add(displayPath, null, rootIcon);
+            var createdMenuItems =
+                menuTree.AddAllAssetsAtPath(displayPath, assetsPath, typeof(TAsset), true, !UseFolderHierarchy)
+                .AddIcons<TAsset>(b => iconGetter(b));
+            if (OrderByName)
+                createdMenuItems.SortMenuItemsByName();
+            //foreach (var e in createdMenuItems.Select(i => i.Value as TAsset).Where(a => a != null))
+            //{
+            //    subElements.Add(e);
+            //}
+            return createdMenuItems;
+        }
     }
 
     private class GuidExplorer
@@ -635,15 +716,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
 
     protected override OdinMenuTree BuildMenuTree()
     {
-        var path = Explorer.PresetsPath;
-        var abilitiesPath = $"{path}/Abilities";
-        var effectsPath = $"{path}/Effects";
-        var charactersPath = $"{path}/Characters";
-        var structuresPath = $"{path}/Structures";
-        var mapsPath = $"{path}/Maps";
-
         DrawMenuSearchBar = true;
-        var isFlat = Explorer.FlattenHierarchy;
         if (MenuTree != null)
         {
             MenuTree.Selection.SelectionConfirmed -= OnSelectionConfirmed;
@@ -651,45 +724,13 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
 
         var tree = new OdinMenuTree(false);
         tree.Add("Analyzer", new AbilitySystemAnalyzerInfo(), EditorIcons.SettingsCog);
-        tree.Add("Presets", Explorer, EditorIcons.FileCabinet);
-        tree.Add("Presets/Maps", null, EditorIcons.Globe);
         tree.Add("GUID Explorer", new GuidExplorer(), EditorIcons.Ruler);
-
-        DisplayAssets<ActiveAbilityBuilder>(
-            abilitiesPath, "Presets/Active Abilities", EditorIcons.Crosshair, a => a.Icon);
-        DisplayAssets<PassiveAbilityBuilder>(
-            abilitiesPath, "Presets/Passive Abilities", EditorIcons.Clouds, a => a.Icon);
-        DisplayAssets<EffectDataPreset>(
-            effectsPath, "Presets/Effects", EditorIcons.StarPointer, a => a.View.Icon);
-        DisplayAssets<CharacterTemplate>(
-            charactersPath, "Presets/Characters", EditorIcons.Male, a => a.BattleIcon);
-        DisplayAssets<StructureTemplate>(
-            structuresPath, "Presets/Structures", EditorIcons.House, a => a.BattleIcon);
-        DisplayAssets<BattleScenario>(
-            mapsPath, "Presets/Maps/BattleScenario", EditorIcons.GridBlocks, a => null);
-        DisplayAssets<BattleMapLayeredLayout>(
-            mapsPath, "Presets/Maps/Layered Layout", EditorIcons.GridLayout, a => null);
+        tree.Add("Presets", Explorer, EditorIcons.FileCabinet);
+        Explorer.DisplayGameAssets(tree);
 
         tree.Selection.SelectionConfirmed += OnSelectionConfirmed;
 
         return tree;
-
-        IEnumerable<OdinMenuItem> DisplayAssets<TAsset>(
-            string assetsPath, string displayPath, EditorIcon rootIcon, Func<TAsset, Sprite> iconGetter)
-            where TAsset : class
-        {
-            //var subElements = new List<TAsset>();
-            tree.Add(displayPath, null, rootIcon);
-            var createdMenuItems = 
-                tree.AddAllAssetsAtPath(displayPath, assetsPath, typeof(TAsset), true, isFlat)
-                .SortMenuItemsByName()
-                .AddIcons<TAsset>(b => iconGetter(b));
-            //foreach (var e in createdMenuItems.Select(i => i.Value as TAsset).Where(a => a != null))
-            //{
-            //    subElements.Add(e);
-            //}
-            return createdMenuItems;
-        }
     }
 
     private void OnSelectionConfirmed(OdinMenuTreeSelection selection)

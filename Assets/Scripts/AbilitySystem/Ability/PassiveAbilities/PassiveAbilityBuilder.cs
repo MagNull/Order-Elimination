@@ -1,10 +1,10 @@
 ﻿using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
+    //[Title("Ability Template", "Passive Ability", TitleAlignment = TitleAlignments.Centered)]
     [CreateAssetMenu(fileName = "new Passive Ability", menuName = "OrderElimination/AbilitySystem/Passive Ability")]
     public class PassiveAbilityBuilder : SerializedScriptableObject
     {
