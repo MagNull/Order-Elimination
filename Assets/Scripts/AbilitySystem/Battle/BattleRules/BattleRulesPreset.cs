@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace OrderElimination.Battle
 {
+    //[Title("Battle Rules Template", "Battle Rules", TitleAlignment = TitleAlignments.Centered)]
     [CreateAssetMenu(fileName = "new BattleRulesPreset", menuName = "OrderElimination/Battle/Rules Preset")]
     public class BattleRulesPreset : SerializedScriptableObject, IBattleRules
     {

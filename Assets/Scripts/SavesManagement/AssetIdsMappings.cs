@@ -58,12 +58,13 @@ namespace OrderElimination.SavesManagement
             var result = new DataMapping<Guid, TData>();
             var foundObjects = new Dictionary<TData, Guid>();
 
+            Resources.LoadAll("Battle");
             foreach (var type in dataTypes)
             {
                 var dataObjects = Resources.FindObjectsOfTypeAll(type)
                     .Cast<TData>()
                     .ToArray();
-                Debug.Log($"Fucked-up Unity found {dataObjects.Length} objects of type \"{type}\"");
+                //Debug.LogError($"Fucked-up Unity found {dataObjects.Length} objects of type \"{type}\"");
                 foreach (var obj in dataObjects)
                 {
                     if (!foundObjects.ContainsKey(obj))
@@ -78,7 +79,7 @@ namespace OrderElimination.SavesManagement
                 result.Add(foundObjects[obj], obj);
             }
 
-            Logging.Log($"Mapping build for {foundObjects.Keys.Count} {dataType.Name}");
+            //Logging.LogError($"Mapping build for {foundObjects.Keys.Count} {dataType.Name}");
 
             return result;
         }

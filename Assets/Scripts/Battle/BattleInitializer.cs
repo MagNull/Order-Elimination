@@ -37,7 +37,7 @@ namespace Assets.AbilitySystem.PrototypeHelpers
             _entitiesBank.Clear();
         }
 
-        public void StartScenario(IBattleMapLayout mapLayout)
+        public void StartScenario(IBattleFieldLayout mapLayout)
         {
             var gameAllies = _sceneMediator
                 .Get<GameCharacter[]>(MediatorRegistration.PlayerCharacters)

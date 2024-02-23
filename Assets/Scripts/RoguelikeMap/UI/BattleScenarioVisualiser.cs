@@ -19,14 +19,14 @@ namespace RoguelikeMap.UI
         [SerializeField]
         private Transform _map;
 
-        private IBattleMapLayout _mapLayout;
+        private IBattleFieldLayout _mapLayout;
         private bool _isZoom = false;
 
         public float windowScaleCoef = 1.5f;
         public float windowOpeningTime = 0.3f;
         public Ease windowOpeningEase = Ease.Flash;
         
-        public void Initialize(IBattleMapLayout mapLayout,
+        public void Initialize(IBattleFieldLayout mapLayout,
             IReadOnlyList<GameCharacter> enemies, IReadOnlyList<GameCharacter> allies)
         {
             _mapLayout = mapLayout;

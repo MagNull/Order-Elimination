@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace OrderElimination.SavesManagement
 {
+    //[Title("Gameplay", "Progress Preset", TitleAlignment = TitleAlignments.Centered)]
     [CreateAssetMenu(fileName = "new PlayerProgressPreset", menuName = "OrderElimination/Game/ProgressPreset")]
     public class PlayerProgressPreset : SerializedScriptableObject, IPlayerProgress
     {

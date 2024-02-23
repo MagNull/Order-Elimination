@@ -8,7 +8,7 @@
         EnemyCharacters,
         BattleRules,
         BattleResults,
-        BattleMap,
+        BattleField,
         RewardItems,
         CurrentPoint
     }

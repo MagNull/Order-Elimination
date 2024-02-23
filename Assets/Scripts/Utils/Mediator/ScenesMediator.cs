@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OrderElimination.Battle;
+using OrderElimination.GameContent;
 using OrderElimination.MacroGame;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
@@ -18,7 +19,7 @@ namespace OrderElimination
         private IGameCharacterTemplate[] _testEnemyCharacters;
 
         [OdinSerialize]
-        private IBattleMapLayout _testScenario;
+        private BattleFieldLayout _testScenario;
 
         [OdinSerialize]
         private IBattleRules _testRules;
@@ -90,9 +91,9 @@ namespace OrderElimination
             if (!Contains<GameCharacter[]>(MediatorRegistration.EnemyCharacters) 
                 && _testEnemyCharacters != null)
                 Register(MediatorRegistration.EnemyCharacters, GameCharactersFactory.CreateGameCharacters(_testEnemyCharacters));
-            if (!Contains<IBattleMapLayout>(MediatorRegistration.BattleMap) 
+            if (!Contains<IBattleFieldLayout>(MediatorRegistration.BattleField) 
                 && _testScenario != null)
-                Register(MediatorRegistration.BattleMap, _testScenario);
+                Register(MediatorRegistration.BattleField, _testScenario);
             if (!Contains<IBattleRules>(MediatorRegistration.BattleRules)
                 && _testRules != null)
                 Register(MediatorRegistration.BattleRules, _testRules);

@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace OrderElimination
 {
+    //[Title("Battle Entity", "Structure", TitleAlignment = TitleAlignments.Centered)]
     [PropertyTooltip("@$value." + nameof(Name))]
     [CreateAssetMenu( fileName = "new StructureTemplate", menuName = "OrderElimination/Battle/Structure Template")]
     public class StructureTemplate : SerializedScriptableObject, IBattleStructureTemplate
