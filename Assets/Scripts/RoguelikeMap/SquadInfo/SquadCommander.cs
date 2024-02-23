@@ -67,7 +67,7 @@ namespace RoguelikeMap.SquadInfo
                 throw new ArgumentException("Is not valid point to attack");
             }
 
-            StartAttack(battlePointModel.Enemies, battlePointModel.MapLayout, 
+            StartAttack(battlePointModel.Enemies, battlePointModel.BattleFieldLayout, 
                 battlePointModel.BattleRules, battlePointModel.ItemsDropProbability);
         }
 
@@ -79,12 +79,12 @@ namespace RoguelikeMap.SquadInfo
                 throw new ArgumentException("Is not valid point to attack");
             }
 
-            StartAttack(battleNode.Enemies, battleNode.MapLayout, 
+            StartAttack(battleNode.Enemies, battleNode.BattleFieldLayout, 
                 battleNode.BattleRules ,battleNode.ItemsDropProbability);
         }
 
         private void StartAttack(
-            IEnumerable<IGameCharacterTemplate> enemies, IBattleMapLayout map, BattleRulesPreset battleRules, 
+            IEnumerable<IGameCharacterTemplate> enemies, IBattleFieldLayout map, BattleRulesPreset battleRules, 
             Dictionary<ItemData, float> items)
         {
             Debug.Log("StartAttack");
@@ -94,7 +94,7 @@ namespace RoguelikeMap.SquadInfo
             var activeMembers = _squad.ActiveMembers.Where(x => x.CurrentHealth > 0).ToArray();
             mediator.Register(MediatorRegistration.PlayerCharacters, activeMembers);
             mediator.Register(MediatorRegistration.EnemyCharacters, enemyCharacters);
-            mediator.Register(MediatorRegistration.BattleMap, map);
+            mediator.Register(MediatorRegistration.BattleField, map);
             var winItems =
                 items.Select(it => new KeyValuePair<Item, float>(ItemFactory.Create(it.Key), it.Value))
                     .ToDictionary(x => x.Key, x => x.Value);

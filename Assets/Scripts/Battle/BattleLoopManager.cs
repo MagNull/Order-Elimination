@@ -4,7 +4,6 @@ using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using System;
 using System.Linq;
-using OrderElimination.MacroGame;
 using UnityEngine;
 using VContainer;
 using OrderElimination.Battle;
@@ -48,7 +47,7 @@ public class BattleLoopManager : MonoBehaviour
         ScenesMediator scenesMediator, IBattleContext battleContext, BattleInitializer battleInitializer)
     {
         IUndoableBattleAction.ClearAllActionsUndoCache();
-        var mapLayout = scenesMediator.Get<IBattleMapLayout>(MediatorRegistration.BattleMap);
+        var mapLayout = scenesMediator.Get<IBattleFieldLayout>(MediatorRegistration.BattleField);
         _battleContext = battleContext;
         battleInitializer.InitiateBattle(mapLayout.Width, mapLayout.Height);
         //battleInitializer.InitiateBattle(scenario.MapWidth, scenario.MapWidth);

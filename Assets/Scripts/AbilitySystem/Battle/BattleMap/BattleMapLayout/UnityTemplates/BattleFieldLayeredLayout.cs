@@ -1,4 +1,5 @@
 ﻿using OrderElimination.Editor;
+using OrderElimination.GameContent;
 using OrderElimination.Infrastructure;
 using OrderElimination.Utils;
 using Sirenix.OdinInspector;
@@ -16,20 +17,21 @@ using UnityEngine;
 
 namespace OrderElimination.Battle
 {
-    [Title("Battle Location Layout", "Layered Layout", TitleAlignment = TitleAlignments.Centered)]
-    [CreateAssetMenu(fileName = "new Battle Location Layout", menuName = "OrderElimination/Battle/Battle Location Layout")]
-    public class BattleMapLayeredLayout : SerializedScriptableObject, IBattleMapLayout
+    //[Title("BattleField Layout", "Layered Layout", TitleAlignment = TitleAlignments.Centered)]
+    [CreateAssetMenu(fileName = "new BattleFieldLayeredLayout", menuName = "OrderElimination/Battle/BattleField Layered Layout")]
+    public class BattleFieldLayeredLayout : BattleFieldLayout
     {
         #region OdinVisuals
-        [ShowInInspector, PropertyOrder(-10)]
+        [TitleGroup("Preview", Alignment = TitleAlignments.Centered)]
+        [ShowInInspector]
         private static bool _displayCoordinates = true;
         //[ShowInInspector, PropertyOrder(-10)]
         private static bool _displayBackground = true;
 
+        [TitleGroup("Preview", Alignment = TitleAlignments.Centered)]
         [TableMatrix(
             DrawElementMethod = nameof(DrawPreviewCell),
             SquareCells = true, HideRowIndices = true, ResizableColumns = false)]
-        [Title("Preview", TitleAlignment = TitleAlignments.Centered)]
         [ShowInInspector, OdinSerialize]
         private Vector2Int[,] _preview;
 
@@ -153,7 +155,7 @@ namespace OrderElimination.Battle
         private int InverseY(int y) => Height - 1 - y;
         private Vector2Int InverseY(Vector2Int pos) => new(pos.x, InverseY(pos.y));
 
-        public BattleMapLayeredLayout()
+        public BattleFieldLayeredLayout()
         {
             var defaultSize = 8;
             _size = defaultSize;
@@ -161,10 +163,10 @@ namespace OrderElimination.Battle
             _preview = positions;
         }
 
-        [TitleGroup("Map Properties", Alignment = TitleAlignments.Centered)]
-        [PropertyOrder(-1)]
+        [TitleGroup("Properties", Alignment = TitleAlignments.Centered)]
+        [PropertyOrder(-2)]
         [ShowInInspector, OdinSerialize]
-        public string MapName { get; private set; }
+        private string _name;
 
         //[PropertyOrder(-1)]
         //[ShowInInspector, OdinSerialize]
@@ -173,6 +175,7 @@ namespace OrderElimination.Battle
         [HideInInspector, OdinSerialize]
         private int _size { get; set; } = 8;
 
+        [TitleGroup("Properties", Alignment = TitleAlignments.Centered)]
         [ShowInInspector, PropertyOrder(-1)]
         public int Size
         {
@@ -232,21 +235,22 @@ namespace OrderElimination.Battle
         [ShowInInspector, OdinSerialize]
         private List<BattleMapLayoutLayer<CharacterTemplate>> _characterLayers = new();
 
-        public int Width => Size;
-        public int Height => Size;
+        public override string Name => _name;
+        public override int Width => Size;
+        public override int Height => Size;
 
-        public BattleSpawnData[] GetSpawns()
+        public override BattleFieldSpawnData[] GetSpawns()
         {
             return _spawns
                 .Where(kv => kv.Key.x >= 0 && kv.Key.y >= 0 && kv.Key.x < Width && kv.Key.y < Height)
                 .OrderBy(kv => kv.Value.PriorityOrder)
-                .Select(kv => new BattleSpawnData(kv.Key, kv.Value.SpawningSides))
+                .Select(kv => new BattleFieldSpawnData(kv.Key, kv.Value.SpawningSides))
                 .ToArray();
         }
 
-        public CharacterSpawnData[] GetCharacters()
+        public override BattleFieldCharacterData[] GetCharacters()
         {
-            var characters = new List<CharacterSpawnData>();
+            var characters = new List<BattleFieldCharacterData>();
             //per-cell providing
             for (var x = 0; x < Width; x++)
             {
@@ -261,9 +265,9 @@ namespace OrderElimination.Battle
             return characters.ToArray();
         }
 
-        public StructureSpawnData[] GetStructures()
+        public override BattleFieldStructureData[] GetStructures()
         {
-            var structures = new List<StructureSpawnData>();
+            var structures = new List<BattleFieldStructureData>();
             //per-cell providing
             for (var x = 0; x < Width; x++)
             {

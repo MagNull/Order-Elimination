@@ -9,21 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7215e0b8125d26b4092ef66dc1be3c14, type: 3}
+  m_Script: {fileID: 11500000, guid: e3cfdf2c44d13a644acb37053a3d312d, type: 3}
   m_Name: Small map Big balls
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 891014d090512cf4a973922fa82b42a2, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: MapName
-      Entry: 6
-      Data: 
     - Name: _size
       Entry: 3
       Data: 8
@@ -810,6 +808,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+    - Name: _name
+      Entry: 6
+      Data: 
     - Name: _spawns
       Entry: 7
       Data: 1|System.Collections.Generic.Dictionary`2[[UnityEngine.Vector2Int, UnityEngine.CoreModule],[OrderElimination.Battle.BattleMapLayoutSpawn,
@@ -823,457 +824,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 4
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 7
-      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
-    - Name: 
-      Entry: 3
       Data: 0
-    - Name: 
-      Entry: 3
-      Data: 7
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: $v
-      Entry: 7
-      Data: 3|OrderElimination.Battle.BattleMapLayoutSpawn, Assembly-CSharp
-    - Name: PriorityOrder
-      Entry: 4
-      Data: 0
-    - Name: SpawningSides
-      Entry: 7
-      Data: 4|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.Infrastructure.BattleSide,
-        Assembly-CSharp]], Assembly-CSharp
-    - Name: _valueFlags
-      Entry: 7
-      Data: 5|System.Collections.Generic.Dictionary`2[[OrderElimination.Infrastructure.BattleSide,
-        Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 6|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.Infrastructure.BattleSide,
-        Assembly-CSharp]], mscorlib
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 5
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 0
-    - Name: $v
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 1
-    - Name: $v
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 2
-    - Name: $v
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 3
-    - Name: $v
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 4
-    - Name: $v
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 7
-      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
-    - Name: 
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 3
-      Data: 6
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: $v
-      Entry: 7
-      Data: 7|OrderElimination.Battle.BattleMapLayoutSpawn, Assembly-CSharp
-    - Name: PriorityOrder
-      Entry: 4
-      Data: 0
-    - Name: SpawningSides
-      Entry: 7
-      Data: 8|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.Infrastructure.BattleSide,
-        Assembly-CSharp]], Assembly-CSharp
-    - Name: _valueFlags
-      Entry: 7
-      Data: 9|System.Collections.Generic.Dictionary`2[[OrderElimination.Infrastructure.BattleSide,
-        Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 9
-      Data: 6
-    - Name: 
-      Entry: 12
-      Data: 5
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 0
-    - Name: $v
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 1
-    - Name: $v
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 2
-    - Name: $v
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 3
-    - Name: $v
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 4
-    - Name: $v
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 7
-      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
-    - Name: 
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 3
-      Data: 6
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: $v
-      Entry: 7
-      Data: 10|OrderElimination.Battle.BattleMapLayoutSpawn, Assembly-CSharp
-    - Name: PriorityOrder
-      Entry: 4
-      Data: 0
-    - Name: SpawningSides
-      Entry: 7
-      Data: 11|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.Infrastructure.BattleSide,
-        Assembly-CSharp]], Assembly-CSharp
-    - Name: _valueFlags
-      Entry: 7
-      Data: 12|System.Collections.Generic.Dictionary`2[[OrderElimination.Infrastructure.BattleSide,
-        Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 9
-      Data: 6
-    - Name: 
-      Entry: 12
-      Data: 5
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 0
-    - Name: $v
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 1
-    - Name: $v
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 2
-    - Name: $v
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 3
-    - Name: $v
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 4
-    - Name: $v
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 7
-      Data: UnityEngine.Vector2Int, UnityEngine.CoreModule
-    - Name: 
-      Entry: 3
-      Data: 1
-    - Name: 
-      Entry: 3
-      Data: 7
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: $v
-      Entry: 7
-      Data: 13|OrderElimination.Battle.BattleMapLayoutSpawn, Assembly-CSharp
-    - Name: PriorityOrder
-      Entry: 4
-      Data: 0
-    - Name: SpawningSides
-      Entry: 7
-      Data: 14|OrderElimination.Infrastructure.EnumMask`1[[OrderElimination.Infrastructure.BattleSide,
-        Assembly-CSharp]], Assembly-CSharp
-    - Name: _valueFlags
-      Entry: 7
-      Data: 15|System.Collections.Generic.Dictionary`2[[OrderElimination.Infrastructure.BattleSide,
-        Assembly-CSharp],[System.Boolean, mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 9
-      Data: 6
-    - Name: 
-      Entry: 12
-      Data: 5
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 0
-    - Name: $v
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 1
-    - Name: $v
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 2
-    - Name: $v
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 3
-    - Name: $v
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 4
-    - Name: $v
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -1282,11 +833,231 @@ MonoBehaviour:
       Data: 
     - Name: _structureLayers
       Entry: 7
-      Data: 16|System.Collections.Generic.List`1[[OrderElimination.Battle.BattleMapLayoutLayer`1[[OrderElimination.StructureTemplate,
+      Data: 3|System.Collections.Generic.List`1[[OrderElimination.Battle.BattleMapLayoutLayer`1[[OrderElimination.StructureTemplate,
         Assembly-CSharp]], Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 4|OrderElimination.Battle.BattleMapLayoutLayer`1[[OrderElimination.StructureTemplate,
+        Assembly-CSharp]], Assembly-CSharp
+    - Name: LayerName
+      Entry: 6
+      Data: 
+    - Name: Side
+      Entry: 3
       Data: 0
+    - Name: Items
+      Entry: 7
+      Data: 5|OrderElimination.StructureTemplate[,], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 64
+    - Name: ranks
+      Entry: 1
+      Data: 8|8
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -1295,7 +1066,7 @@ MonoBehaviour:
       Data: 
     - Name: _characterLayers
       Entry: 7
-      Data: 17|System.Collections.Generic.List`1[[OrderElimination.Battle.BattleMapLayoutLayer`1[[OrderElimination.CharacterTemplate,
+      Data: 6|System.Collections.Generic.List`1[[OrderElimination.Battle.BattleMapLayoutLayer`1[[OrderElimination.CharacterTemplate,
         Assembly-CSharp]], Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12

@@ -512,7 +512,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
             menuTree.Add("Presets/Maps", null, EditorIcons.Globe);
             DisplayAssets<BattleScenario>(
                 menuTree, path, "Presets/Maps/BattleScenario", EditorIcons.GridBlocks, a => null);
-            DisplayAssets<BattleMapLayeredLayout>(
+            DisplayAssets<BattleFieldLayeredLayout>(
                 menuTree, path, "Presets/Maps/Layered Layout", EditorIcons.GridLayout, a => null);
         }
 

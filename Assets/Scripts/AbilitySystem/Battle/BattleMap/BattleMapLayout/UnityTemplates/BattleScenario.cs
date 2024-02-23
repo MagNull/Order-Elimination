@@ -1,5 +1,6 @@
 ﻿using OrderElimination.Battle;
 using OrderElimination.Editor;
+using OrderElimination.GameContent;
 using OrderElimination.Infrastructure;
 using OrderElimination.Utils;
 using Sirenix.OdinInspector;
@@ -11,17 +12,13 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace OrderElimination.MacroGame
+namespace OrderElimination.GameContent
 {
-    //[Title("Battle Location Layout", "Battle Scenario", TitleAlignment = TitleAlignments.Centered)]
-    //[Obsolete(nameof(BattleScenario) + " deprecated. Use " + nameof(BattleMapLayeredLayout) + " instead.")]
+    //[Title("BattleField Layout", "Battle Scenario", TitleAlignment = TitleAlignments.Centered)]
+    //[Obsolete(nameof(BattleScenario) + " deprecated. Use " + nameof(BattleFieldLayeredLayout) + " instead.")]
     //[CreateAssetMenu(fileName = "new BattleScenario", menuName = "OrderElimination/Battle/Battle Scenario")]
-    public class BattleScenario : SerializedScriptableObject, IBattleMapLayout
+    public class BattleScenario : BattleFieldLayout
     {
-        public string MapName => $"Battle Scenario «{name}»";
-        public int Height => 8;
-        public int Width => 8;
-
         #region OdinVisuals
         private static Color GetSpawnTypeColor(SpawnType type)
         {
@@ -47,14 +44,14 @@ namespace OrderElimination.MacroGame
             }
         }
 
-        [TitleGroup("Editing character spawns", BoldTitle = true, Alignment = TitleAlignments.Centered)]
+        [TitleGroup("Character Spawns", BoldTitle = true, Alignment = TitleAlignments.Centered)]
         [TableMatrix(DrawElementMethod = nameof(DrawEntitySpawnCell), SquareCells = true, HideRowIndices = true,
             ResizableColumns = false)]
         [OnValueChanged(nameof(UpdateEntitySpawns))]
         [ShowInInspector]
         private SpawnInfo[,] _entitiesSpawnsLayout;
 
-        [TitleGroup("Editing structures spawns", BoldTitle = true, Alignment = TitleAlignments.Centered)]
+        [TitleGroup("Structures", BoldTitle = true, Alignment = TitleAlignments.Centered)]
         [TableMatrix(SquareCells = true, HideRowIndices = true, ResizableColumns = false)]
         [OnValueChanged(nameof(UpdateStructureSpawns))]
         [ShowInInspector]
@@ -165,7 +162,7 @@ namespace OrderElimination.MacroGame
 
         #endregion
 
-        [GUIColor("@BattleScenario.GetSpawnTypeColor($value)")]
+        [GUIColor("@" + nameof(BattleScenario) + ".GetSpawnTypeColor($value)")]
         public enum SpawnType
         {
             Allies,
@@ -173,11 +170,28 @@ namespace OrderElimination.MacroGame
             //Both
         }
 
+        [TitleGroup("Properties", Alignment = TitleAlignments.Centered)]
+        [PropertyOrder(-2)]
+        [ShowInInspector, OdinSerialize]
+        private string _name;
+
         [HideInInspector, OdinSerialize]
         private Dictionary<Vector2Int, SpawnType> _entitiesSpawns = new();
 
         [HideInInspector, OdinSerialize]
         private Dictionary<Vector2Int, StructureTemplate> _structureSpawns = new();
+
+        public override string Name => _name;
+
+        [TitleGroup("Properties", Alignment = TitleAlignments.Centered)]
+        [PropertyOrder(-1)]
+        [ShowInInspector]
+        public override int Height => 8;
+
+        [TitleGroup("Properties", Alignment = TitleAlignments.Centered)]
+        [PropertyOrder(-1)]
+        [ShowInInspector]
+        public override int Width => 8;
 
         public Vector2Int[] GetAlliesSpawnPositions()
         {
@@ -212,7 +226,7 @@ namespace OrderElimination.MacroGame
         public IReadOnlyDictionary<Vector2Int, IBattleStructureTemplate> GetStructureSpawns()
             => _structureSpawns.ToDictionary(kv => kv.Key, kv => (IBattleStructureTemplate)kv.Value);
 
-        public BattleSpawnData[] GetSpawns()
+        public override BattleFieldSpawnData[] GetSpawns()
         {
             var allyMask = EnumMask<BattleSide>.Empty;
             allyMask[BattleSide.Player] = true;
@@ -220,21 +234,21 @@ namespace OrderElimination.MacroGame
             var enemyMask = EnumMask<BattleSide>.Empty;
             enemyMask[BattleSide.Enemies] = true;
             enemyMask[BattleSide.Others] = true;
-            var allySpawns = GetAlliesSpawnPositions().Select(p => new BattleSpawnData(p, allyMask.Clone()));
-            var enemySpawns = GetEnemySpawnPositions().Select(p => new BattleSpawnData(p, enemyMask.Clone()));
+            var allySpawns = GetAlliesSpawnPositions().Select(p => new BattleFieldSpawnData(p, allyMask.Clone()));
+            var enemySpawns = GetEnemySpawnPositions().Select(p => new BattleFieldSpawnData(p, enemyMask.Clone()));
             return allySpawns.Concat(enemySpawns).ToArray();
         }
 
-        public StructureSpawnData[] GetStructures()
+        public override BattleFieldStructureData[] GetStructures()
         {
             return GetStructureSpawns()
-                .Select(kv => new StructureSpawnData(kv.Value, BattleSide.NoSide, kv.Key))
+                .Select(kv => new BattleFieldStructureData(kv.Value, BattleSide.NoSide, kv.Key))
                 .ToArray();
         }
 
-        public CharacterSpawnData[] GetCharacters()
+        public override BattleFieldCharacterData[] GetCharacters()
         {
-            return new CharacterSpawnData[0];
+            return new BattleFieldCharacterData[0];
         }
     }
 }
