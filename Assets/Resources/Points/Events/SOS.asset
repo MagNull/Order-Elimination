@@ -672,8 +672,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ec472f2644546894eb9e5b06302e43a6, type: 2}
   - {fileID: 11400000, guid: 4d83702453d81274b89c1876bee2dabb, type: 2}
   - {fileID: 11400000, guid: b1b0169abeb78e6428fb783d88fab5f5, type: 2}
-  _mapLayout:
-    rid: -2
+  _mapLayout: {fileID: 0}
   BattleRules: {fileID: 0}
   <ItemsDropProbability>k__BackingField:
     m_Keys:
@@ -682,11 +681,6 @@ MonoBehaviour:
     m_Values:
     - 90
     - 60
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -699,6 +693,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32ee2938fdcf041cabe277e0ee3949d3, type: 3}
   m_Name: SOS
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   nodes:
   - {fileID: 231944910786792773}
   - {fileID: -6520450267240910102}

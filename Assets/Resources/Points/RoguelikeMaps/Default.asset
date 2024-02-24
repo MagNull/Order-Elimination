@@ -90,9 +90,6 @@ MonoBehaviour:
     - Name: AssetId
       Entry: 2
       Data: 36bba7fa51ad41fe8a7a2b024f7a6a10
-    - Name: _mapLayout
-      Entry: 6
-      Data: 
   graph: {fileID: 11400000}
   position: {x: -392, y: -280}
   ports:
@@ -132,6 +129,7 @@ MonoBehaviour:
   _enemies:
   - {fileID: 11400000, guid: b1b0169abeb78e6428fb783d88fab5f5, type: 2}
   - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
+  _mapLayout: {fileID: 11400000, guid: 51f15a7a4052dfd448b6e20d53610712, type: 2}
   <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
   _itemsDropProbability:
     m_Keys: []
@@ -151,8 +149,7 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 51f15a7a4052dfd448b6e20d53610712, type: 2}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -161,9 +158,6 @@ MonoBehaviour:
     - Name: AssetId
       Entry: 2
       Data: 7a1ffe9891e1402ab0adb65a1eb0f850
-    - Name: _mapLayout
-      Entry: 10
-      Data: 0
   graph: {fileID: 11400000}
   position: {x: 120, y: 40}
   ports:
@@ -206,6 +200,7 @@ MonoBehaviour:
   _enemies:
   - {fileID: 11400000, guid: b1b0169abeb78e6428fb783d88fab5f5, type: 2}
   - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
+  _mapLayout: {fileID: 11400000, guid: 51f15a7a4052dfd448b6e20d53610712, type: 2}
   <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
   _itemsDropProbability:
     m_Keys: []
@@ -222,6 +217,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bdca33340a5e5048a98ce3744c2ea13, type: 3}
   m_Name: Default
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: <AssetId>k__BackingField
+      Entry: 2
+      Data: aaffb7030bdb40c7bfbfec96b4c69969
   nodes:
   - {fileID: 4432351363715130526}
   - {fileID: 1519928593266503690}
@@ -229,6 +236,9 @@ MonoBehaviour:
   - {fileID: 4945898077555144154}
   - {fileID: -9125091284452096348}
   - {fileID: -41767353405087771}
+  <IsFirstMap>k__BackingField: 1
+  _nextMaps:
+  - {fileID: 11400000, guid: 5344e04308e39164bb37e513d6f089e3, type: 2}
   <StartPoint>k__BackingField: {fileID: 4432351363715130526}
 --- !u!114 &1519928593266503690
 MonoBehaviour:

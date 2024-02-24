@@ -33,7 +33,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: entries
-        node: {fileID: 0}
+        node: {fileID: 8043979452787319189}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -64,7 +64,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   graph: {fileID: 11400000}
-  position: {x: 888, y: -56}
+  position: {x: 872, y: -56}
   ports:
     keys:
     - entries
@@ -80,6 +80,9 @@ MonoBehaviour:
         reroutePoints: []
       - fieldName: exits
         node: {fileID: 0}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: 1390135174203695661}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -118,6 +121,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32ee2938fdcf041cabe277e0ee3949d3, type: 3}
   m_Name: TestNewNodes
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   nodes:
   - {fileID: -8511882536313773787}
   - {fileID: -4597722963824256451}
@@ -125,9 +137,7 @@ MonoBehaviour:
   - {fileID: 3528060446756185019}
   - {fileID: 1968048128345276991}
   - {fileID: 1390135174203695661}
-  - {fileID: 5532905073288071213}
   - {fileID: 8043979452787319189}
-  - {fileID: 5305577889932836862}
   _startNode: {fileID: -8511882536313773787}
   <IsContainsBattle>k__BackingField: 0
   currentNode: {fileID: 1968048128345276991}
@@ -347,122 +357,6 @@ MonoBehaviour:
   _itemDatas:
   - {fileID: 11400000, guid: 1599a607de22cf74190de9909e181d7e, type: 2}
   - {fileID: 11400000, guid: 1599a607de22cf74190de9909e181d7e, type: 2}
---- !u!114 &5305577889932836862
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Hp -
-  m_EditorClassIdentifier: Assembly-CSharp:Events:HPRegulationNode
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  graph: {fileID: 11400000}
-  position: {x: 104, y: -56}
-  ports:
-    keys:
-    - entries
-    - exits
-    values:
-    - _fieldName: entries
-      _node: {fileID: 5305577889932836862}
-      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: exits
-        node: {fileID: -8511882536313773787}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: exits
-      _node: {fileID: 5305577889932836862}
-      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: entries
-        node: {fileID: 5532905073288071213}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  _name: Hp -
-  _image: {fileID: 0}
-  text: A, da? A chto s ebalom?
-  _regulationType: 1
-  _hpPercentage: 50
---- !u!114 &5532905073288071213
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Hp +
-  m_EditorClassIdentifier: Assembly-CSharp:Events:HPRegulationNode
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  graph: {fileID: 11400000}
-  position: {x: 472, y: -56}
-  ports:
-    keys:
-    - entries
-    - exits
-    values:
-    - _fieldName: entries
-      _node: {fileID: 5532905073288071213}
-      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: exits
-        node: {fileID: 5305577889932836862}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-    - _fieldName: exits
-      _node: {fileID: 5532905073288071213}
-      _typeQualifiedName: Events.Empty, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-      connections:
-      - fieldName: entries
-        node: {fileID: -4597722963824256451}
-        reroutePoints: []
-      _direction: 1
-      _connectionType: 0
-      _typeConstraint: 0
-      _dynamic: 0
-  _name: Hp +
-  _image: {fileID: 0}
-  text: 'Admin izvini, bil ne prav
-
-'
-  _regulationType: 0
-  _hpPercentage: 50
 --- !u!114 &8043979452787319189
 MonoBehaviour:
   m_ObjectHideFlags: 0

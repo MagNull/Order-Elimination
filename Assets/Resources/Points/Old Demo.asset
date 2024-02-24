@@ -15,8 +15,7 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 0fda38ed8146b474f8fd06a0f6ff1811, type: 2}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -25,9 +24,6 @@ MonoBehaviour:
     - Name: AssetId
       Entry: 2
       Data: 1dc2cadba6194e5f99cc2ec459f54c92
-    - Name: _mapLayout
-      Entry: 10
-      Data: 0
   graph: {fileID: 11400000}
   position: {x: -472, y: 376}
   ports:
@@ -70,6 +66,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
   - {fileID: 11400000, guid: 15236cc5304333d4b854e990389e5825, type: 2}
   - {fileID: 11400000, guid: ec472f2644546894eb9e5b06302e43a6, type: 2}
+  _mapLayout: {fileID: 11400000, guid: 0fda38ed8146b474f8fd06a0f6ff1811, type: 2}
   <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
   _itemsDropProbability:
     m_Keys:
@@ -97,8 +94,7 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: ad2d49922bd51924f90590674d97a53a, type: 2}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -107,9 +103,6 @@ MonoBehaviour:
     - Name: AssetId
       Entry: 2
       Data: a67217901b384d2dba5c636f2856f5c7
-    - Name: _mapLayout
-      Entry: 10
-      Data: 0
   graph: {fileID: 11400000}
   position: {x: 950, y: 50}
   ports:
@@ -156,6 +149,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ec472f2644546894eb9e5b06302e43a6, type: 2}
   - {fileID: 11400000, guid: 15236cc5304333d4b854e990389e5825, type: 2}
   - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
+  _mapLayout: {fileID: 11400000, guid: ad2d49922bd51924f90590674d97a53a, type: 2}
   <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
   _itemsDropProbability:
     m_Keys: []
@@ -233,6 +227,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bdca33340a5e5048a98ce3744c2ea13, type: 3}
   m_Name: Old Demo
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: <AssetId>k__BackingField
+      Entry: 2
+      Data: 9f3b78423dc749f586217e86ac2a7ce5
   nodes:
   - {fileID: -4693379266790818229}
   - {fileID: 5222218673885281431}
@@ -244,6 +250,9 @@ MonoBehaviour:
   - {fileID: 4410611699548734048}
   - {fileID: 2328170757395937923}
   - {fileID: -3607521732556223896}
+  <IsFirstMap>k__BackingField: 0
+  _nextMaps: []
+  <StartPoint>k__BackingField: {fileID: 0}
 --- !u!114 &2328170757395937923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,8 +268,7 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 9fc7f7043f1dea246b974161f8f25bed, type: 2}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -269,9 +277,6 @@ MonoBehaviour:
     - Name: AssetId
       Entry: 2
       Data: 46e196e4bcf740f1a2c7587253d23899
-    - Name: _mapLayout
-      Entry: 10
-      Data: 0
   graph: {fileID: 11400000}
   position: {x: 0, y: -280}
   ports:
@@ -313,6 +318,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e076fd51038a5ef4f9e567f9e64000e5, type: 2}
   - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
   - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+  _mapLayout: {fileID: 11400000, guid: 9fc7f7043f1dea246b974161f8f25bed, type: 2}
   <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
   _itemsDropProbability:
     m_Keys:
@@ -454,8 +460,7 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: ba893c36688264d48ac1eb8e05b864c4, type: 2}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -464,9 +469,6 @@ MonoBehaviour:
     - Name: AssetId
       Entry: 2
       Data: 57d0703f5d744190a05fc142d292bfd4
-    - Name: _mapLayout
-      Entry: 10
-      Data: 0
   graph: {fileID: 11400000}
   position: {x: -472, y: 50}
   ports:
@@ -509,6 +511,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8cf61d33b5cc8a442bce0e22ce05a8fc, type: 2}
   - {fileID: 11400000, guid: e076fd51038a5ef4f9e567f9e64000e5, type: 2}
   - {fileID: 11400000, guid: ec472f2644546894eb9e5b06302e43a6, type: 2}
+  _mapLayout: {fileID: 11400000, guid: ba893c36688264d48ac1eb8e05b864c4, type: 2}
   <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
   _itemsDropProbability:
     m_Keys:
@@ -532,8 +535,7 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 51f15a7a4052dfd448b6e20d53610712, type: 2}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -542,9 +544,6 @@ MonoBehaviour:
     - Name: AssetId
       Entry: 2
       Data: 16aabcc7048e46b29566fe8349bd0189
-    - Name: _mapLayout
-      Entry: 10
-      Data: 0
   graph: {fileID: 11400000}
   position: {x: -472, y: -280}
   ports:
@@ -588,6 +587,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e076fd51038a5ef4f9e567f9e64000e5, type: 2}
   - {fileID: 11400000, guid: 8cf61d33b5cc8a442bce0e22ce05a8fc, type: 2}
   - {fileID: 11400000, guid: b1b0169abeb78e6428fb783d88fab5f5, type: 2}
+  _mapLayout: {fileID: 11400000, guid: 51f15a7a4052dfd448b6e20d53610712, type: 2}
   <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
   _itemsDropProbability:
     m_Keys:

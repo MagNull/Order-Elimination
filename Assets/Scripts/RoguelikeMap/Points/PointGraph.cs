@@ -1,18 +1,33 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using RoguelikeMap.Points.Models;
 using UnityEngine;
 using XNode;
+using OrderElimination.GameContent;
+using Sirenix.OdinInspector;
+using System;
 
 namespace RoguelikeMap.Points
 {
 	[CreateAssetMenu]
-	public class PointGraph : NodeGraph
+	public class PointGraph : NodeGraph, IGuidAsset
 	{
+		[field: SerializeField, DisplayAsString]
+		public Guid AssetId { get; private set; }
+
+		[field: SerializeField]
+		public bool IsFirstMap { get; private set; }
+
+		[SerializeField]
+		private List<PointGraph> _nextMaps = new();
+
 		[field: SerializeField]
 		public StartPointModel StartPoint { get; private set; }
 
 		public PointModel CurrentPoint { get; private set; }
+
+		public IReadOnlyList<PointGraph> NextMaps => _nextMaps;
+
+		public void UpdateId(Guid id) => AssetId = id;
 
 		public void Initialize()
 		{

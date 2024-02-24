@@ -13,14 +13,14 @@ using Random = UnityEngine.Random;
 
 namespace RoguelikeMap.Map
 {
-    public class SimpleMapGenerator : IMapGenerator
+    public class SimpleMapGenerator
     {
         private readonly Transform _parent;
         private readonly Point _pointPrefab;
         private readonly IObjectResolver _resolver;
-        private readonly List<Point> _points;
         private int _lastIndex = 0;
         private IPlayerProgressManager _progressManager;
+        private const string MapPath = "Points\\RoguelikeMaps";
 
         [Inject]
         public SimpleMapGenerator(Point pointPrefab, Transform pointsParent,
@@ -32,13 +32,41 @@ namespace RoguelikeMap.Map
             _progressManager = mediator.Get<IPlayerProgressManager>(MediatorRegistration.ProgressManager);
         }
 
-        public List<Point> GenerateMap()
+        public Tuple<PointGraph, List<Point>> GenerateMap()
         {
-            var path = "Points\\RoguelikeMaps";
-            var maps = Resources.LoadAll<PointGraph>(path);
+            var map = LoadMap();
+            var points = LoadPoints(map);
+            return Tuple.Create(map, points);
+        }
+
+        private PointGraph LoadMap()
+        {
+            var maps = Resources.LoadAll<PointGraph>(MapPath);
+            var loadedMapGuid = _progressManager.GetPlayerProgress().CurrentRunProgress.CurrentMap;
+            if (loadedMapGuid != Guid.Empty)
+            {
+                return maps.First(x => x.AssetId == loadedMapGuid);
+            }
+
+            List<PointGraph> firstMaps = new();
+            foreach (var map in maps)
+            {
+                if (map.IsFirstMap)
+                {
+                    firstMaps.Add(map);
+                }
+            }
+
+            return firstMaps.Count == 0
+                ? GenerateRandomMap(maps)
+                : GenerateRandomMap(firstMaps.ToArray());
+        }
+
+        private PointGraph GenerateRandomMap(PointGraph[] maps)
+        {
             var mapIndex = Random.Range(0, maps.Length);
-            var points = LoadPoints(maps[mapIndex]);
-            return points;
+            _progressManager.GetPlayerProgress().CurrentRunProgress.CurrentMap = maps[mapIndex].AssetId;
+            return maps[mapIndex];
         }
 
         private List<Point> LoadPoints(PointGraph map)
