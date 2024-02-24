@@ -11,6 +11,9 @@ namespace OrderElimination.SavesManagement
     {
         [OdinSerialize, ShowInInspector]
         public PlayerMetaProgress MetaProgress { get; set; }
+
+        [ValidateInput("@" + nameof(CurrentRunProgress) + " == null", "Player will have started Run!")]
+        [OdinSerialize, ShowInInspector]
         public PlayerRunProgress CurrentRunProgress { get; set; } = null;
         public DateTime SaveDate { get; set; } = DateTime.Now;
 

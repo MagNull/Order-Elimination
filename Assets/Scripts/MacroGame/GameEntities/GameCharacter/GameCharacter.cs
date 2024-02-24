@@ -3,21 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using GameInventory;
 using OrderElimination.AbilitySystem;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
 namespace OrderElimination.MacroGame
 {
+    [LabelText("@$value?." + nameof(CharacterData) + "?." + nameof(IGameCharacterTemplate.Name))]
     public class GameCharacter
     {
+        [OdinSerialize]
         private GameCharacterStats _characterStats;
+        [HideInInspector, OdinSerialize]
         private float _currentHealth;
+        [HideInInspector, OdinSerialize]
         private readonly List<IActiveAbilityData> _activeAbilities = new();
+        [HideInInspector, OdinSerialize]
         private readonly List<IPassiveAbilityData> _passiveAbilities = new();
 
+        [OdinSerialize]
         public IGameCharacterTemplate CharacterData { get; }
+
         public IReadOnlyList<IActiveAbilityData> ActiveAbilities => _activeAbilities;
+
         public IReadOnlyList<IPassiveAbilityData> PassiveAbilities => _passiveAbilities;
+
         public IReadOnlyGameCharacterStats CharacterStats => _characterStats;
+
+        [ShowInInspector]
         public float CurrentHealth
         {
             get => _currentHealth;
@@ -29,7 +42,10 @@ namespace OrderElimination.MacroGame
                 StatsChanged?.Invoke(this);
             }
         }
-        //public bool CanBeEvacuated { get; private set; }
+
+        //public bool CanBeEvacuated { get; private set; }//IsOwnedByPlayer
+
+        [OdinSerialize]
         public Inventory Inventory { get; private set; } = new(4);
 
         public event Action<GameCharacter> StatsChanged;

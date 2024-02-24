@@ -13,9 +13,9 @@ namespace OrderElimination.MacroGame
         {
             if (progress == null)
                 throw new ArgumentNullException(nameof(progress));
-            if (!IsProgressValid(progress.CurrentRunProgress))
+            if (!IsProgressValid(progress.CurrentRunProgress, out var reason))
             {
-                throw new ArgumentException("Run is invalid");
+                throw new ArgumentException($"Run is invalid: {reason}");
             }
             mediator.Register(MediatorRegistration.Progress, progress);
             var characters = progress.CurrentRunProgress.PosessedCharacters;
@@ -24,15 +24,30 @@ namespace OrderElimination.MacroGame
             //Load roguelike scene
         }
 
-        private static bool IsProgressValid(PlayerRunProgress runProgress)
+        private static bool IsProgressValid(
+            PlayerRunProgress runProgress, out string invalidityReason)
         {
-            if (runProgress == null) 
+            if (runProgress == null)
+            {
+                invalidityReason = "Run progress is null";
                 return false;
-            if (runProgress.PosessedCharacters == null 
-                || runProgress.PosessedCharacters.Count == 0)
+            }
+            if (runProgress.PosessedCharacters == null)
+            {
+                invalidityReason = nameof(PlayerRunProgress.PosessedCharacters) + " is null";
                 return false;
-            if (runProgress.PlayerInventory == null) 
+            }
+            if (runProgress.PosessedCharacters.Count == 0)
+            {
+                invalidityReason = nameof(PlayerRunProgress.PosessedCharacters) + " count is 0";
                 return false;
+            }
+            if (runProgress.PlayerInventory == null)
+            {
+                invalidityReason = nameof(PlayerRunProgress.PlayerInventory) + " is null";
+                return false;
+            }
+            invalidityReason = null;
             return true;
         }
 

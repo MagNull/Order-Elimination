@@ -14,7 +14,7 @@ namespace OrderElimination.AbilitySystem
     /// Class which describes an instruction for active ability.
     /// </summary>
     [OnInspectorInit("@$property.State.Expanded = true")]
-    [LabelText("@$value." + nameof(InstructionName))]
+    [LabelText("@$value?." + nameof(InstructionName))]
     public class AbilityInstruction : IAbilityInstruction, ICloneable<AbilityInstruction>
     {
         #region OdinVisuals

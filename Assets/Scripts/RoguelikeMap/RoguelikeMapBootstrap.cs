@@ -103,6 +103,7 @@ namespace RoguelikeMap
 
         private void OnDisable()
         {
+            //On roguelike scene quit
             _progressManager?.SaveProgress();
         }
     }

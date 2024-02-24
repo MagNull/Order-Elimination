@@ -95,7 +95,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
 
         [TitleGroup("Dependencies Search")]
         [VerticalGroup("Dependencies Search/Parameters")]
-        [ValidateInput("@false", "Only searches for assigned serialized values")]
+        [InfoBox("Only searches for assigned serialized values")]
         [EnumToggleButtons]
         [ShowInInspector]
         private SearchForOption SearchFor { get; set; }
@@ -583,7 +583,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         }
 
         [TitleGroup("Guid Search")]
-        [ValidateInput("@false", "Searches for " + nameof(IGuidAsset) + " assets")]
+        [InfoBox("Searches for " + nameof(IGuidAsset) + " assets")]
         [PropertyOrder(1)]
         [ShowInInspector, OdinSerialize]
         private string _guidToSearch = string.Empty;

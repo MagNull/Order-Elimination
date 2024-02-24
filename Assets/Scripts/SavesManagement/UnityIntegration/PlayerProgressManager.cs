@@ -2,7 +2,7 @@
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
-using System.Linq;
+using UnityEngine;
 
 namespace OrderElimination.SavesManagement
 {
@@ -10,6 +10,10 @@ namespace OrderElimination.SavesManagement
     {
         [OdinSerialize]
         private IPlayerProgress _defaultProgress;
+        [SerializeField]
+        private bool _loadLocalProgress = true;
+        [SerializeField]
+        private bool _saveLocalProgress = true;
 
         private IPlayerProgress _lastLoadedProgress;
 
@@ -46,6 +50,10 @@ namespace OrderElimination.SavesManagement
         {
             if (_lastLoadedProgress != null)
                 return _lastLoadedProgress;
+            if (!_loadLocalProgress)
+            {
+                return AssignNewProgress(_defaultProgress);
+            }
             var savedProgress = LoadSavedProgress();
             if (savedProgress == null)
             {
@@ -67,6 +75,11 @@ namespace OrderElimination.SavesManagement
 
         public void SaveProgress()
         {
+            if (!_saveLocalProgress)
+            {
+                Logging.LogError($"Saving is disabled in {nameof(PlayerProgressManager)}");
+                return;
+            }
             var progress = _lastLoadedProgress ?? _defaultProgress;
             if (progress == null)
                 throw new ArgumentNullException();
