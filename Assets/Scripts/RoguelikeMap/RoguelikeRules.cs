@@ -102,7 +102,7 @@ namespace RoguelikeMap
 
             var currentRunProgress = _mediator.Get<IPlayerProgressManager>(MediatorRegistration.ProgressManager)
                     .GetPlayerProgress().CurrentRunProgress;
-            currentRunProgress.CurrentMap = nextMap.AssetId;
+            currentRunProgress.CurrentMapId = nextMap.AssetId;
             currentRunProgress.CurrentPointId = Guid.Empty;
             currentRunProgress.PassedPoints.Clear();
             return true;

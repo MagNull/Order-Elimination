@@ -32,6 +32,10 @@ namespace OrderElimination.SavesManagement
         [ShowInInspector, OdinSerialize]
         public Inventory PlayerInventory { get; set; } = new(100);
 
+        [PropertyTooltip("Текущая карта")]
+        [ShowInInspector, OdinSerialize]
+        public Guid CurrentMapId { get; set; }
+
         [PropertyTooltip("Текущая точка")]
         [ShowInInspector, OdinSerialize]
         public Guid CurrentPointId { get; set; }
