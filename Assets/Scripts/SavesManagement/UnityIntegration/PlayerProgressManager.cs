@@ -1,7 +1,10 @@
-﻿using OrderElimination.Infrastructure;
+﻿using OrderElimination.Debugging;
+using OrderElimination.Editor;
+using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace OrderElimination.SavesManagement
@@ -116,5 +119,9 @@ namespace OrderElimination.SavesManagement
         {
             SaveProgress();
         }
+
+        [MenuItem("Tools/Order Elimination/Progress Manager")]
+        private static void SelectInScene()
+            => EditorToolsExtensions.SelectFirstObjectInScene<PlayerProgressManager>();
     }
 }

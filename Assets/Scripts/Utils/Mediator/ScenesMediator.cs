@@ -2,10 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OrderElimination.Battle;
+using OrderElimination.Debugging;
+using OrderElimination.Editor;
 using OrderElimination.GameContent;
 using OrderElimination.MacroGame;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using UnityEditor;
 using UnityEngine;
 
 namespace OrderElimination
@@ -110,5 +113,9 @@ namespace OrderElimination
             if (_test)
                 InitTest();
         }
+
+        [MenuItem("Tools/Order Elimination/Mediator")]
+        private static void SelectInScene()
+            => EditorToolsExtensions.SelectFirstObjectInScene<ScenesMediator>();
     }
 }
