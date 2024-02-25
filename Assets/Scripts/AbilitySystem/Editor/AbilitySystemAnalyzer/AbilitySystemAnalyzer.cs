@@ -5,7 +5,6 @@ using OrderElimination.Battle;
 using OrderElimination.Editor;
 using OrderElimination.GameContent;
 using OrderElimination.Infrastructure;
-using OrderElimination.MacroGame;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Serialization;
@@ -437,6 +436,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         private bool _flattenHierarchy = true;
         private bool _orderByName = true;
         private string _gameContentPath = DefaultGameContentPath;
+        private int _elementSize = 30;
 
         [Title("Presets Display Parameters")]
         [PropertyOrder(-1)]
@@ -464,6 +464,25 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
                 HierarchyDisplayParametersChanged?.Invoke(this);
             }
         }
+
+        [PropertyRange(15, 100)]
+        [PropertyOrder(-1)]
+        [ShowInInspector]
+        public int ElementSize
+        {
+            get => _elementSize;
+            set
+            {
+                var prevValue = _elementSize;
+                if (value < 15) value = 15;
+                if (value > 100) value = 100;
+                if (prevValue == value) return;
+                _elementSize = value;
+                HierarchyDisplayParametersChanged?.Invoke(this);
+            }
+        }
+
+        public float ElementIconSize => ElementSize * 0.8f;
 
         [VerticalGroup("ContentPath")]
         [ShowInInspector]
@@ -511,6 +530,9 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
             var charactersPath = $"{path}/Characters";
             var structuresPath = $"{path}/Structures";
             var mapsPath = $"{path}/Maps";
+
+            menuTree.Config.DefaultMenuStyle.Height = ElementSize;
+            menuTree.Config.DefaultMenuStyle.IconSize = ElementIconSize;
 
             DisplayAssets<ActiveAbilityBuilder>(
             menuTree, path, "Presets/Active Abilities", EditorIcons.Crosshair, a => a.Icon);
@@ -739,6 +761,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         tree.Add("Analyzer", new AbilitySystemAnalyzerInfo(), EditorIcons.SettingsCog);
         tree.Add("GUID Explorer", new GuidExplorer(), EditorIcons.Ruler);
         tree.Add("Presets", Explorer, EditorIcons.FileCabinet);
+
         Explorer.DisplayGameAssets(tree);
 
         tree.Selection.SelectionConfirmed += OnSelectionConfirmed;
