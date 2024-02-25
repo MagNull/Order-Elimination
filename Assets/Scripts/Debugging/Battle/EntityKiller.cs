@@ -1,9 +1,11 @@
 using OrderElimination.AbilitySystem;
+using OrderElimination.Editor;
 using OrderElimination.Infrastructure;
 using OrderElimination.Utils;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using VContainer;
 
@@ -61,5 +63,9 @@ namespace OrderElimination.Debugging
                 _textEmitter.Emit($"{nameof(EntityKiller)} side set to {_sideToKill}");
             }
         }
+
+        [MenuItem("Tools/Order Elimination/Battle/Entity Killer")]
+        private static void SelectInScene()
+            => EditorToolsExtensions.SelectFirstObjectInScene<EntityKiller>();
     } 
 }

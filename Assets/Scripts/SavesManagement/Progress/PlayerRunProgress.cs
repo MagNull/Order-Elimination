@@ -1,5 +1,7 @@
 ﻿using GameInventory;
 using OrderElimination.MacroGame;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using System;
 using System.Collections.Generic;
 
@@ -12,15 +14,54 @@ namespace OrderElimination.SavesManagement
         // Map (points, locations, enemies)
 
         // - - - Dynamic (can change during run)
+        [PropertyTooltip("Валюта игрока в забеге")]
+        [MinValue(0)]
+        [ShowInInspector, OdinSerialize]
         public int RunCurrency { get; set; }
 
         //1.Replace with SquadCharacter wrapper
         //2.Characters metadata ? (id, isActiveInSquad, isHired, ...)
         //3.List ActiveCharactersIds
-        public List<GameCharacter> PosessedCharacters { get; set; }
-        public Inventory PlayerInventory { get; set; }
+        [VerticalGroup("PlayerCharacters")]
+        [PropertyTooltip("Персонажи игрока")]
+        [ListDrawerSettings(IsReadOnly = true, HideAddButton = true)]
+        [ShowInInspector, OdinSerialize]
+        public List<GameCharacter> PosessedCharacters { get; set; } = new();
+
+        [PropertyTooltip("Инвентарь игрока")]
+        [ShowInInspector, OdinSerialize]
+        public Inventory PlayerInventory { get; set; } = new(100);
+
+        [PropertyTooltip("Текущая точка")]
+        [ShowInInspector, OdinSerialize]
         public Guid CurrentPointId { get; set; }
-        public Dictionary<Guid, bool> PassedPoints { get; set; } = new();
-        public Guid CurrentMap { get; set; }
+
+        [PropertyTooltip("Пройденные точки")]
+        [ShowInInspector, OdinSerialize]
+        public Dictionary<Guid, bool> PassedPoints { get; set; } = new ();
+
+
+
+        #region InspectorOnly
+        [VerticalGroup("PlayerCharacters")]
+        [Button(parameterBtnStyle: ButtonStyle.Box)]
+        private void AddCharacter(CharacterTemplate template)
+        {
+            if (template == null)
+                return;
+            if (PosessedCharacters == null)
+                PosessedCharacters = new();
+            PosessedCharacters.Add(GameCharactersFactory.CreateGameCharacter(template));
+        }
+
+        [VerticalGroup("PlayerCharacters")]
+        [Button]
+        private void ClearCharacters()
+        {
+            if (PosessedCharacters == null)
+                PosessedCharacters = new();
+            PosessedCharacters.Clear();
+        }
+        #endregion
     }
 }
