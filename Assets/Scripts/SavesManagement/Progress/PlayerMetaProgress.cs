@@ -21,7 +21,7 @@ namespace OrderElimination.SavesManagement
         [PropertyTooltip("Кол-во валюты в начале забега")]
         [MinValue(0)]
         [OdinSerialize]
-        public int StartRunCurrency { get; set; }
+        public int RunStartCurrency { get; set; }
 
         [PropertyTooltip("Максимальное кол-во персонажей, которых игрок может взять в бой")]
         [DisableIf("@true")]
@@ -36,7 +36,7 @@ namespace OrderElimination.SavesManagement
         public int RunInventorySize { get; set; } = 100;
         //Characters inventory size / unlocked slots
 
-        [PropertyTooltip("Лимит валюты найма персонажей в начале забега")]
+        [PropertyTooltip("Лимит валюты найма персонажей для забега")]
         [MinValue(0)]
         [OdinSerialize]
         public int HireCurrencyLimit { get; set; }

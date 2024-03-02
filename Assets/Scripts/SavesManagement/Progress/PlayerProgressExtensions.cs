@@ -11,7 +11,7 @@ namespace OrderElimination.SavesManagement
             {
                 StatUpgrades = new(),
                 MetaCurrency = 2000,
-                StartRunCurrency = 1000,
+                RunStartCurrency = 1000,
                 HireCurrencyLimit = 1200,
                 MaxSquadSize = 3,
                 RunInventorySize = 100,
@@ -27,7 +27,7 @@ namespace OrderElimination.SavesManagement
             {
                 PosessedCharacters = new(),
                 PlayerInventory = new(metaProgress.RunInventorySize),
-                RunCurrency = metaProgress.StartRunCurrency
+                RunCurrency = metaProgress.RunStartCurrency
             };
         }
     }

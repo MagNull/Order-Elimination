@@ -13,6 +13,7 @@ namespace OrderElimination.SavesManagement
         private static DateTime _lastUpdateTime;
         private static DataMapping<Guid, IGameCharacterTemplate> _charactersMapping;
         private static DataMapping<Guid, ItemData> _itemsMapping;
+        //private static Dictionary<Type, object> _mappings;
 
         public static IDataMapping<Guid, IGameCharacterTemplate> CharactersMapping
         {
@@ -23,6 +24,7 @@ namespace OrderElimination.SavesManagement
                 return _charactersMapping;
             }
         }
+
         public static IDataMapping<Guid, ItemData> ItemsMapping
         {
             get
@@ -40,20 +42,37 @@ namespace OrderElimination.SavesManagement
         {
             if (!IsValidationRequired)
                 return;
+
+            ////Auto mapping generation
+            //_mappings = new();
+            //var guidUnityTypes = ReflectionExtensions.GetAllUnitySubTypes(typeof(IGuidAsset));
+            //foreach (var guidType in guidUnityTypes)
+            //{
+            //    //TODO: Create type-specific mapping
+            //}
+
             _charactersMapping = BuildGuidAssetMapping<IGameCharacterTemplate>(
                 c => ((IGuidAsset)c).AssetId);
             _itemsMapping = BuildGuidAssetMapping<ItemData>(d => d.AssetId);
+
             _lastUpdateTime = DateTime.Now;
         }
+
+        //public static IDataMapping<Guid, T> GetMapping<T>()
+        //    where T : IGuidAsset
+        //{
+        //    var type = typeof(T);
+        //    if (!_mappings.ContainsKey(type) 
+        //        || _mappings[type] is not IDataMapping<Guid, T> typeMapping)
+        //        return null;
+        //    return typeMapping;
+        //}
 
         private static DataMapping<Guid, TData> BuildGuidAssetMapping<TData>(
             Func<TData, Guid> guidGetter)
         {
             var dataType = typeof(TData);
-            var unityObjectType = typeof(UnityEngine.Object);
-            var dataTypes = ReflectionExtensions
-                .GetAllSubTypes(dataType)
-                .Where(t => unityObjectType.IsAssignableFrom(t));
+            var dataTypes = ReflectionExtensions.GetAllUnitySubTypes(dataType);
 
             var result = new DataMapping<Guid, TData>();
             var foundObjects = new Dictionary<TData, Guid>();

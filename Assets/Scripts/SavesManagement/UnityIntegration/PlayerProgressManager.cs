@@ -1,11 +1,11 @@
-﻿using OrderElimination.Debugging;
-using OrderElimination.Editor;
-using OrderElimination.Infrastructure;
+﻿using OrderElimination.Editor;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using Sirenix.Utilities.Editor;
 using System;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Windows;
 
 namespace OrderElimination.SavesManagement
 {
@@ -18,12 +18,33 @@ namespace OrderElimination.SavesManagement
         [SerializeField]
         private bool _saveLocalProgress = true;
 
-        private IPlayerProgress _lastLoadedProgress;
-
         private IPlayerProgressStorage _progressStorage;
         private SaveDataPacker _saveDataPacker;
 
+        private IPlayerProgress _lastLoadedProgress;
         private PlayerData _localPlayer = new PlayerData();
+
+#if UNITY_EDITOR
+        [VerticalGroup("Local Path")]
+        [ShowInInspector]
+        private string LocalProgressPath => LocalProgressStorage.LocalSavesPath;
+
+        [VerticalGroup("Local Path")]
+        [HorizontalGroup("Local Path/Buttons")]
+        [Button("Copy")]
+        private void CopyPathToClipboard()
+            => Clipboard.Copy(LocalProgressPath);
+
+        [VerticalGroup("Local Path")]
+        [HorizontalGroup("Local Path/Buttons")]
+        [Button("Open")]
+        private void OpenSavesPath()
+        {
+            if (!Directory.Exists(LocalProgressPath))
+                Directory.CreateDirectory(LocalProgressPath);
+            Application.OpenURL(LocalProgressPath);
+        }
+#endif
 
         private void Awake()
         {
@@ -115,7 +136,7 @@ namespace OrderElimination.SavesManagement
             return true;
         }
 
-        public void OnDisable()
+        private void OnDisable()
         {
             SaveProgress();
         }

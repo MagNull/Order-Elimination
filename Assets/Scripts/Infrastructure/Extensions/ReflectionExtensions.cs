@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.LightingExplorerTableColumn;
 
 namespace OrderElimination.Infrastructure
 {
@@ -77,6 +78,14 @@ namespace OrderElimination.Infrastructure
                 .GetExecutingAssembly()
                 .GetTypes()
                 .Where(t => type.IsAssignableFrom(t))
+                .ToArray();
+        }
+
+        public static Type[] GetAllUnitySubTypes(Type type)
+        {
+            var unityObjectType = typeof(UnityEngine.Object);
+            return GetAllSubTypes(type)
+                .Where(t => unityObjectType.IsAssignableFrom(t))
                 .ToArray();
         }
 
