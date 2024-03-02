@@ -37,7 +37,10 @@ namespace RoguelikeMap.Map
         {
             _saver.OnSaveBeforeMove += MoveToPoint;
             _saver.OnPassPoint += ShowPaths;
-            ShowPaths();
+            if (_saver.IsPassedPoint())
+            {
+                ShowPaths();
+            }
         }
 
         public void LoadPoints()
