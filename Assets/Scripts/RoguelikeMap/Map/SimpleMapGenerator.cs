@@ -42,7 +42,7 @@ namespace RoguelikeMap.Map
         private PointGraph LoadMap()
         {
             var maps = Resources.LoadAll<PointGraph>(MapPath);
-            var loadedMapGuid = _progressManager.GetPlayerProgress().CurrentRunProgress.CurrentMap;
+            var loadedMapGuid = _progressManager.GetPlayerProgress().CurrentRunProgress.CurrentMapId;
             if (loadedMapGuid != Guid.Empty)
             {
                 return maps.First(x => x.AssetId == loadedMapGuid);
@@ -65,7 +65,7 @@ namespace RoguelikeMap.Map
         private PointGraph GenerateRandomMap(PointGraph[] maps)
         {
             var mapIndex = Random.Range(0, maps.Length);
-            _progressManager.GetPlayerProgress().CurrentRunProgress.CurrentMap = maps[mapIndex].AssetId;
+            _progressManager.GetPlayerProgress().CurrentRunProgress.CurrentMapId = maps[mapIndex].AssetId;
             return maps[mapIndex];
         }
 

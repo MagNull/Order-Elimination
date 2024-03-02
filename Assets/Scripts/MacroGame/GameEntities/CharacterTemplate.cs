@@ -11,7 +11,7 @@ using System;
 namespace OrderElimination
 {
     //[Title("Battle Entity Template", "Character", TitleAlignment = TitleAlignments.Centered)]
-    [PropertyTooltip("@$value." + nameof(Name))]
+    [PropertyTooltip("@$value?." + nameof(Name))]
     [CreateAssetMenu(fileName = "new CharacterTemplate", menuName = "OrderElimination/Battle/Character Template")]
     [Serializable]
     public class CharacterTemplate : SerializedScriptableObject, IGameCharacterTemplate, ITemplateAsset

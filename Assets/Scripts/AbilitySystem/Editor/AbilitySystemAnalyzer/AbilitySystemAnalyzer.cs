@@ -95,7 +95,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
 
         [TitleGroup("Dependencies Search")]
         [VerticalGroup("Dependencies Search/Parameters")]
-        [ValidateInput("@false", "Only searches for assigned serialized values")]
+        [InfoBox("Only searches for assigned serialized values")]
         [EnumToggleButtons]
         [ShowInInspector]
         private SearchForOption SearchFor { get; set; }
@@ -438,10 +438,38 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         private bool _orderByName = true;
         private string _gameContentPath = DefaultGameContentPath;
 
-        [TitleGroup("Presets Display Parameters")]
+        [Title("Presets Display Parameters")]
+        [PropertyOrder(-1)]
+        [ShowInInspector]
+        public bool UseFolderHierarchy
+        {
+            get => _flattenHierarchy;
+            set
+            {
+                if (_flattenHierarchy == value) return;
+                _flattenHierarchy = value;
+                HierarchyDisplayParametersChanged?.Invoke(this);
+            }
+        }
+
+        [PropertyOrder(-1)]
+        [ShowInInspector]
+        public bool OrderByName
+        {
+            get => _orderByName;
+            set
+            {
+                if (_orderByName == value) return;
+                _orderByName = value;
+                HierarchyDisplayParametersChanged?.Invoke(this);
+            }
+        }
+
+        [VerticalGroup("ContentPath")]
         [ShowInInspector]
         public const string DefaultGameContentPath = @"Assets/Resources/Battle/Presets";
 
+        [VerticalGroup("ContentPath")]
         [DelayedProperty]
         [ShowInInspector]
         public string GameContentPath
@@ -457,38 +485,23 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
             }
         }
 
-        [TitleGroup("Presets Display Parameters")]
-        [ShowInInspector]
-        public bool UseFolderHierarchy
+        [HorizontalGroup("ContentPath/Buttons")]
+        [Button("Show in inspector")]
+        public void ShowFolderInInspector()
         {
-            get => _flattenHierarchy;
-            set
-            {
-                if (_flattenHierarchy == value) return;
-                _flattenHierarchy = value;
-                HierarchyDisplayParametersChanged?.Invoke(this);
-            }
+            var asset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(GameContentPath);
+            Selection.activeObject = asset;
+            EditorGUIUtility.PingObject(asset);
         }
 
-        [TitleGroup("Presets Display Parameters")]
-        [ShowInInspector]
-        public bool OrderByName
+        [HorizontalGroup("ContentPath/Buttons")]
+        [Button("Set to default")]
+        public void SetPathToDefault()
         {
-            get => _orderByName;
-            set
-            {
-                if (_orderByName == value) return;
-                _orderByName = value;
-                HierarchyDisplayParametersChanged?.Invoke(this);
-            }
+            GameContentPath = DefaultGameContentPath;
         }
 
         public event Action<TemplatesExplorer> HierarchyDisplayParametersChanged;
-
-        //public void FocusContentFolder()
-        //{
-
-        //}
 
         public void DisplayGameAssets(OdinMenuTree menuTree)
         {
@@ -583,7 +596,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
         }
 
         [TitleGroup("Guid Search")]
-        [ValidateInput("@false", "Searches for " + nameof(IGuidAsset) + " assets")]
+        [InfoBox("Searches for " + nameof(IGuidAsset) + " assets")]
         [PropertyOrder(1)]
         [ShowInInspector, OdinSerialize]
         private string _guidToSearch = string.Empty;
