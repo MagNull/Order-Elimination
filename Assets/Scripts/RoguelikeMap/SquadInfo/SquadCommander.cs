@@ -26,7 +26,6 @@ namespace RoguelikeMap.SquadInfo
         public BattleOutcome? BattleOutcome { get; private set; } = null;
         public PointModel Target => _target;
         public Squad Squad => _squad;
-        public event Action<List<GameCharacter>> OnSelected;
         public event Action<int> OnHealAccept;
 
         [Inject]
@@ -36,7 +35,6 @@ namespace RoguelikeMap.SquadInfo
             _objectResolver = objectResolver;
             SubscribeToEvents(panelManager);
             _squadMembersPanel = squadMembersPanel;
-            squadMembersPanel.OnSelected += WereSelectedMembers;
             squadMembersPanel.OnAttack += StartAttackByBattlePoint;
         }
 
@@ -88,7 +86,6 @@ namespace RoguelikeMap.SquadInfo
             Dictionary<ItemData, float> items)
         {
             Debug.Log("StartAttack");
-            _squadMembersPanel.OnSelected -= WereSelectedMembers;
             var enemyCharacters = GameCharactersFactory.CreateGameCharacters(enemies);
             var mediator = _objectResolver.Resolve<ScenesMediator>();
             var activeMembers = _squad.ActiveMembers.Where(x => x.CurrentHealth > 0).ToArray();
@@ -103,11 +100,6 @@ namespace RoguelikeMap.SquadInfo
             mediator.Register(MediatorRegistration.BattleRules, battleRules);
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadBattleMap();
-        }
-
-        private void WereSelectedMembers(List<GameCharacter> characters)
-        {
-            OnSelected?.Invoke(characters);
         }
 
         private void HealAccept(int amountHeal)

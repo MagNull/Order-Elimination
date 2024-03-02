@@ -11,21 +11,21 @@ namespace RoguelikeMap.UI.Characters
 {
     public class SquadMembersPanel : ChoosingSquadMembersPanel
     {
-        [SerializeField] 
+        [SerializeField]
         private Button _attackButton;
-        [SerializeField] 
+        [SerializeField]
         private int MaxSquadSize = 3;
-        
+
         private int _selectedCount = -1;
-        
-        public event Action<List<GameCharacter>> OnSelected;
+
+        public event Action<List<GameCharacter>, int> OnSelected;
         public event Action OnAttack;
 
         public void SetActiveAttackButton(bool isActive)
         {
             _attackButton.gameObject.SetActive(isActive);
         }
-        
+
         public void UpdateMembers(IReadOnlyList<GameCharacter> activeMembers, IReadOnlyList<GameCharacter> inactiveMembers)
         {
             if (_characterCards is not null)
@@ -44,7 +44,7 @@ namespace RoguelikeMap.UI.Characters
             if (card is CharacterCardWithHealthBar characterCardWithHealthBar)
                 TrySelectCard(dropZone, characterCardWithHealthBar);
             else
-                Logging.LogException( new ArgumentException());
+                Logging.LogException(new ArgumentException());
         }
 
         private void TrySelectCard(DropZone dropZone, CharacterCardWithHealthBar card)
@@ -76,11 +76,12 @@ namespace RoguelikeMap.UI.Characters
                 .Where(x => x.IsSelected)
                 .Select(x => x.Character)
                 .ToList();
+            int countActiveCharacters = characters.Count;
             characters
                 .AddRange(_characterCards
                     .Where(x => !x.IsSelected)
                     .Select(x => x.Character));
-            OnSelected?.Invoke(characters);
+            OnSelected?.Invoke(characters, countActiveCharacters);
         }
 
         private void ResetCharactersCard()
@@ -90,6 +91,10 @@ namespace RoguelikeMap.UI.Characters
             _characterCards.Clear();
         }
 
-        public void ClickAttack() => OnAttack?.Invoke();
+        public void ClickAttack()
+        {
+            SaveCharacters();
+            OnAttack?.Invoke();
+        }
     }
 }
