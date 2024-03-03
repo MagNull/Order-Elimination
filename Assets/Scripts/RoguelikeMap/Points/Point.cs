@@ -18,14 +18,13 @@ namespace RoguelikeMap.Points
         private SpriteRenderer _icon;
         [SerializeField]
         private PathView _pathPrefab;
-        
         private PathView _pathView;
         private TransferPanel _transferPanel;
         private PanelManager _panelManager;
-        private bool _isActive;
         private Squad _squad;
-        
+
         public PointModel Model { get; private set; }
+        public bool IsInteractable { get; private set; }
         public Guid Id => Model.AssetId;
 
         [Inject]
@@ -53,11 +52,16 @@ namespace RoguelikeMap.Points
 
         public void SetActive(bool isActive)
         {
-            _isActive = isActive;
+            SetInterectable(isActive);
             var color = isActive ? Color.white : Color.gray;
             _background.color = color;
             if (_icon is not null)
                 _icon.color = color;
+        }
+
+        public void SetInterectable(bool isInteractable)
+        {
+            IsInteractable = isInteractable;
         }
 
         public void ShowPaths() => SetActivePaths(true);
@@ -66,22 +70,21 @@ namespace RoguelikeMap.Points
 
         private void SetActivePaths(bool isActive)
         {
-            SetActive(Model is BattlePointModel || isActive);
-            _isActive = Model is BattlePointModel;
-            if(isActive)
+            SetActive(isActive);
+            if (isActive)
                 _pathView.UpdatePaths(this);
             else
                 _pathView.ClearPaths();
             var nextPoints = Model.GetNextPoints();
             if (nextPoints is null)
                 return;
-            foreach(var pointModel in nextPoints)
+            foreach (var pointModel in nextPoints)
                 pointModel.SetActive(isActive);
         }
 
         private void OnMouseDown()
         {
-            if (!EventSystem.current.IsPointerOverGameObject() && _isActive && Model is not StartPointModel)
+            if (!EventSystem.current.IsPointerOverGameObject() && IsInteractable && Model is not StartPointModel)
                 Model.ShowPreview(_squad);
         }
 
