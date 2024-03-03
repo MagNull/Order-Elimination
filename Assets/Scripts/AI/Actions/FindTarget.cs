@@ -1,17 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AI.Actions;
 using AI.Utils;
 using Cysharp.Threading.Tasks;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace AI.Conditions
 {
-    public class HasTargetsInRadius : BehaviorTreeTask
+    public class FindTarget : SequentialTask
     {
         [Title("Target Conditions")]
         [SerializeField]
@@ -50,29 +48,33 @@ namespace AI.Conditions
 
             targets = targets
                 .Where(e =>
-                !e.IsDisposedFromBattle && context.BattleMap.GetGameDistanceBetween(e.Position, caster.Position) <= _radius)
+                    !e.IsDisposedFromBattle &&
+                    context.BattleMap.GetGameDistanceBetween(e.Position, caster.Position) <= _radius)
                 .Where(enemy => _targetConditions.All(co => co.Check(enemy)));
-            blackboard.Register("targets", targets);
-            
+            var targetsCount = targets.Count();
+            Debug.Log("Targets count " + targetsCount);
+
             if (!targets.Any())
                 return false;
+            blackboard.Register("targets", targets);
 
             switch (_relation)
             {
                 case Relation.Equal:
-                    if (!(targets.Count() == _count))
+                    if (targetsCount != _count)
                         return false;
                     break;
                 case Relation.Greater:
-                    if (!(targets.Count() > _count))
+                    if (!(targetsCount > _count))
                         return false;
                     break;
                 case Relation.Less:
-                    if (!(targets.Count() < _count))
+                    if (!(targetsCount < _count))
                         return false;
                     break;
             }
-            
+            Debug.Log("Targets success");
+
             return true;
         }
     }

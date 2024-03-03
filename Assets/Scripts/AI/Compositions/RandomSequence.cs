@@ -7,12 +7,8 @@ using Random = UnityEngine.Random;
 namespace AI.Compositions
 {
     [Serializable]
-    public class RandomSequence : BehaviorTreeTask
+    public class RandomSequence : CompositionTask
     {
-        [Output]
-        [SerializeField]
-        private TaskPort ChildrenPort;
-        
         private BehaviorTreeTask[] _childrenTask;
 
         protected override async UniTask<bool> Run(Blackboard blackboard)

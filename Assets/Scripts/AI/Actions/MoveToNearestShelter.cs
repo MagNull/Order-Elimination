@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace AI.Actions
 {
-    public class MoveToNearestShelter : BehaviorTreeTask
+    public class MoveToNearestShelter : SequentialTask
     {
         [SerializeField]
         private PassiveAbilityBuilder[] _needPassiveEffects;

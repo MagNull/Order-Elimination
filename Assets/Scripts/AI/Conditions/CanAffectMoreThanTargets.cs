@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace AI.Conditions
 {
-    public class CanAffectMoreThanTargets : BehaviorTreeTask
+    public class CanAffectMoreThanTargets : SequentialTask
     {
         [SerializeField]
         private ActiveAbilityBuilder _abilityBuilder;

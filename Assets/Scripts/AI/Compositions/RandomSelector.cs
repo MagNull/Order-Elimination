@@ -5,12 +5,8 @@ using Random = UnityEngine.Random;
 
 namespace AI.Compositions
 {
-    public class RandomSelector : BehaviorTreeTask
+    public class RandomSelector : CompositionTask
     {
-        [Output]
-        [SerializeField]
-        private TaskPort ChildrenPort;
-        
         private BehaviorTreeTask[] _childrenTask;
 
         protected override async UniTask<bool> Run(Blackboard blackboard)

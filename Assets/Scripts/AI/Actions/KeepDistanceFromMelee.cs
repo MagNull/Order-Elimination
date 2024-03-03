@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 
 namespace AI.Actions
 {
-    public class KeepDistanceFromMelee : BehaviorTreeTask
+    public class KeepDistanceFromMelee : SequentialTask
     {
         [SerializeField]
         private int _distance;

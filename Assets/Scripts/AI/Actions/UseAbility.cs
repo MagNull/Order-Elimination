@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace AI.Actions
 {
-    public class UseAbility : BehaviorTreeTask
+    public class UseAbility : SequentialTask
     {
         [SerializeField]
         private ActiveAbilityBuilder _ability;

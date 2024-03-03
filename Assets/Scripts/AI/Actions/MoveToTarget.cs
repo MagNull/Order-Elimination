@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AI.Utils;
 using Cysharp.Threading.Tasks;
+using OrderElimination;
 using OrderElimination.AbilitySystem;
 using OrderElimination.Infrastructure;
 using UnityEngine;
@@ -16,24 +17,27 @@ namespace AI.Actions
         Heal
     }
     
-    public class MoveToTarget : BehaviorTreeTask
+    public class MoveToTarget : SequentialTask
     {
         [SerializeField]
         private Purpose _purpose; 
         protected override async UniTask<bool> Run(Blackboard blackboard)
         {
             var targets = blackboard.Get<IEnumerable<AbilitySystemActor>>("targets");
+            Logging.Log("Targets da");
             if (!targets.Any())
                 return false;
             
             var context = blackboard.Get<IBattleContext>("context");
             var caster = blackboard.Get<AbilitySystemActor>("caster");
-
+            
+            Logging.Log("Start Move");
             foreach (var target in targets)
             {
                 if (await TryExecuteTo(context, caster, target))
                     return true;
             }
+            Logging.Log("Fail Move");
 
             return false;
         }

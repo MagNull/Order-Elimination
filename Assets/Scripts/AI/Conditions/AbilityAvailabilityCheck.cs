@@ -6,12 +6,13 @@ using UnityEngine.Serialization;
 
 namespace AI.Conditions
 {
-    public class HasAvailableAbilities : BehaviorTreeTask
+    public class AbilityAvailabilityCheck : SequentialTask
     {
         [SerializeField]
         private ActiveAbilityBuilder[] _abilitiesToCheck;
+        [FormerlySerializedAs("_available")]
         [SerializeField]
-        private bool _available;
+        private bool _availabilityToCheck;
 
         protected override async UniTask<bool> Run(Blackboard blackboard)
         {
@@ -22,7 +23,7 @@ namespace AI.Conditions
                 if (!_abilitiesToCheck.Contains(ability.AbilityData.BasedBuilder) || ability.Cooldown <= 0)
                     continue;
                 
-                if(_available)
+                if(_availabilityToCheck)
                     return false;
             }
 

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace AI.Actions
 {
-    public class HealTarget : BehaviorTreeTask
+    public class HealTarget : SequentialTask
     {
         protected override async UniTask<bool> Run(Blackboard blackboard)
         {
