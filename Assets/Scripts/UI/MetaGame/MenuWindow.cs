@@ -7,6 +7,7 @@ using OrderElimination.MacroGame;
 using OrderElimination.SavesManagement;
 using OrderElimination.UI;
 using RoguelikeMap.Map;
+using RoguelikeMap.UI.PointPanels;
 using StartSessionMenu;
 using StartSessionMenu.ChooseCharacter;
 using UnityEngine;
@@ -15,29 +16,29 @@ using VContainer;
 
 public class MenuWindow : MonoBehaviour
 {
-    [SerializeField] 
+    [SerializeField]
     private Button _previousButton;
     [SerializeField]
     private Button _startGameButton;
     [SerializeField]
     private Button _continueButton;
-    [SerializeField] 
+    [SerializeField]
     private ChoosingCharacter _choosingCharacterPanel;
     [SerializeField]
     private MetaShop _metaShopPanel;
-    [SerializeField] 
+    [SerializeField]
     private GameObject _startMenuPanel;
-    [SerializeField] 
+    [SerializeField]
     private Image _maskWallpaper;
-    
+
     private SceneTransition _sceneTransition;
     private ScenesMediator _scenesMediator;
     private IPlayerProgressManager _progressManager;
     private Vector3 _startMenuPanelInitialPosition;
-    
+
     [Inject]
     public void Construct(
-        SceneTransition sceneTransition, 
+        SceneTransition sceneTransition,
         ScenesMediator scenesMediator,
         IPlayerProgressManager progressManager)
     {
@@ -45,7 +46,7 @@ public class MenuWindow : MonoBehaviour
         _scenesMediator = scenesMediator;
         _progressManager = progressManager;
     }
-    
+
     private void Start()
     {
         _startMenuPanelInitialPosition = _startMenuPanel.transform.position;
@@ -60,7 +61,7 @@ public class MenuWindow : MonoBehaviour
             _maskWallpaper.gameObject.SetActive(true);
             _maskWallpaper.DOFade(0.65f, 1.5f);
         });
-        
+
         _continueButton.onClick.AddListener(() =>
         {
             Debug.Log("Button: Continue");
@@ -70,7 +71,7 @@ public class MenuWindow : MonoBehaviour
             }
             OnRunStart(progress, _scenesMediator);
         });
-        
+
         _startGameButton.onClick.AddListener(StartNewRun);
     }
 
@@ -98,6 +99,11 @@ public class MenuWindow : MonoBehaviour
         Debug.Log("Button: Start");
         if (_scenesMediator.Contains<int>(MediatorRegistration.CurrentPoint))
             _scenesMediator.Unregister(MediatorRegistration.CurrentPoint);
+
+        if (PlayerPrefs.HasKey(ShopPanel.BuyedItemsKey))
+        {
+            PlayerPrefs.DeleteKey(ShopPanel.BuyedItemsKey);
+        }
 
         var progress = _progressManager.GetPlayerProgress();
 
