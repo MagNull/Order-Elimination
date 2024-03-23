@@ -220,17 +220,20 @@ namespace OrderElimination.Battle
         }
 
         [TitleGroup("Spawns", Alignment = TitleAlignments.Centered)]
+        [GUIColor(1, 0.8f, 0.8f)]
         [DictionaryDrawerSettings(KeyLabel = "Position", ValueLabel = "Spawn")]
         [ShowInInspector, OdinSerialize]
         private Dictionary<Vector2Int, BattleMapLayoutSpawn> _spawns = new();
 
         [TitleGroup("Entities", Alignment = TitleAlignments.Centered)]
         [ListDrawerSettings(CustomAddFunction = nameof(AddStructureLayer))]
+        [GUIColor(0.8f, 1, 0.8f)]
         [ShowInInspector, OdinSerialize]
         private List<BattleMapLayoutLayer<StructureTemplate>> _structureLayers = new();
 
-        [PropertySpace(SpaceBefore = 10, SpaceAfter = 0)]
         [TitleGroup("Entities", Alignment = TitleAlignments.Centered)]
+        [PropertySpace(SpaceBefore = 10, SpaceAfter = 0)]
+        [GUIColor(0.8f, 0.8f, 1)]
         [ListDrawerSettings(CustomAddFunction = nameof(AddSpawnLayer))]
         [ShowInInspector, OdinSerialize]
         private List<BattleMapLayoutLayer<CharacterTemplate>> _characterLayers = new();

@@ -24,6 +24,14 @@ namespace OrderElimination.Editor
 #endif
             return sceneInstance;
         }
+
+        public static void ShowPath(string path)
+        {
+            var asset = AssetDatabase.LoadAssetAtPath<Object>(path);
+            Selection.activeObject = asset;
+            EditorGUIUtility.PingObject(asset);
+        }
+
         [MenuItem("Tools/Order Elimination/Ability System Analyzer")]
         private static void OpenAnalyzer() => AbilitySystemAnalyzer.OpenWindow();
 
