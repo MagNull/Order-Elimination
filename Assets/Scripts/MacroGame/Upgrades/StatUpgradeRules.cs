@@ -47,7 +47,7 @@ namespace OrderElimination.MacroGame
         }
 
         [PropertyOrder(-1)]
-        [ShowInInspector]
+        [ShowInInspector, OdinSerialize]
         public float MaxUpgradeLevel { get; private set; }
 
         public float GetUpgradeToLevelCost(BattleStat stat, float upgradeLevel)
