@@ -31,11 +31,13 @@ namespace OrderElimination
         [SerializeField]
         private string _name;
 
+        [TitleGroup("Visuals")]
         [PreviewField(Alignment = ObjectFieldAlignment.Left, Height = 80)]
         [PropertyOrder(0.1f)]
         [SerializeField]
         private Sprite _viewIcon;
 
+        [TitleGroup("Visuals")]
         [PreviewField(Alignment = ObjectFieldAlignment.Left, Height = 200)]
         [PropertyOrder(0.2f)]
         [SerializeField]
@@ -46,22 +48,27 @@ namespace OrderElimination
         [PropertyOrder(1.0f)]
         [SerializeField]
         private float _maxHealth;
+        [TitleGroup("Character Stats")]
         [Min(0f)]
         [PropertyOrder(1.1f)]
         [SerializeField]
         private float _maxArmor;
+        [TitleGroup("Character Stats")]
         [Min(0f)]
         [PropertyOrder(1.2f)]
         [SerializeField]
         private float _attackDamage;
+        [TitleGroup("Character Stats")]
         [Range(0, 1)]
         [PropertyOrder(1.3f)]
         [SerializeField]
         private float _accuracy;
+        [TitleGroup("Character Stats")]
         [Range(0, 1)]
         [PropertyOrder(1.4f)]
         [SerializeField]
         private float _evasion;
+        [TitleGroup("Character Stats")]
         [Min(0f)]
         [PropertyOrder(1.5f)]
         [SerializeField]
@@ -72,10 +79,14 @@ namespace OrderElimination
         [SerializeReference]
         private ActiveAbilityBuilder[] _activeAbilitiesData;
 
+        [TitleGroup("Abilities")]
         [PropertyOrder(2.1f)]
         [SerializeReference]
         private PassiveAbilityBuilder[] _passiveAbilitiesData;
-        
+
+        [SerializeField]
+        private int _price;
+
         [field: SerializeField] 
         public int Price { get; private set; }
         

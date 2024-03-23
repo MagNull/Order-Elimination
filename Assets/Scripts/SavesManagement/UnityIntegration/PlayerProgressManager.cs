@@ -140,9 +140,5 @@ namespace OrderElimination.SavesManagement
         {
             SaveProgress();
         }
-
-        [MenuItem("Tools/Order Elimination/Progress Manager")]
-        private static void SelectInScene()
-            => EditorToolsExtensions.SelectFirstObjectInScene<PlayerProgressManager>();
     }
 }

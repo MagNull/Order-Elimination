@@ -167,7 +167,8 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
 
         [VerticalGroup("Dependencies Search/Parameters")]
         [PropertyTooltip(
-            "Cascaded search for serialized value entries of seeking type.")]
+            "Recursive search for value entries of seeking type that are serialized by attributes: \n" +
+            "[SerializeField, SerializeReference, OdinSerialize, Serializable]")]
         [Button, GUIColor("@Color.cyan")]
         public void FindAssignedDependencies()
         {
@@ -736,7 +737,7 @@ public class AbilitySystemAnalyzer : OdinMenuEditorWindow
     [OdinSerialize]
     private TemplatesExplorer Explorer;
 
-    [MenuItem("Tools/Order Elimination/Ability System Analyzer")]
+    //[MenuItem("Tools/Order Elimination/Ability System Analyzer")]
     public static void OpenWindow()
     {
         var window = GetWindow<AbilitySystemAnalyzer>();

@@ -1,7 +1,7 @@
 ﻿using OrderElimination.Infrastructure;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities.Editor;
 using System;
-using Unity.VisualScripting;
 
 namespace OrderElimination.Editor
 {
@@ -14,10 +14,10 @@ namespace OrderElimination.Editor
         }
 
         [ShowInInspector]
-        public string MemberName { get; set; }
+        public string MemberName { get; set; } = string.Empty;
 
         [ShowInInspector]
-        public CompareOption ValueComapsion { get; set; }
+        public CompareOption ValueComparison { get; set; }
 
         [ShowInInspector]
         public object Value { get; set; }
@@ -30,12 +30,26 @@ namespace OrderElimination.Editor
                 return false;
             if (!entry.MemberValue.HasFieldOrPropertySequence(MemberName, out var memberType, out var value))
                 throw new ArgumentException($"Field or Property with name {MemberName} was not found.");
-            return ValueComapsion switch
+            return ValueComparison switch
             {
                 CompareOption.Equals => value.Equals(Value),
                 CompareOption.NotEquals => !value.Equals(Value),
                 _ => throw new NotImplementedException(),
             };
+        }
+
+        [Button(Style = ButtonStyle.Box)]
+        private void TryCreateNewInstance(Type objectType)
+        {
+            try
+            {
+                var obj = Activator.CreateInstance(objectType);
+                Value = obj;
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }
