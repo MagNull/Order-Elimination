@@ -113,9 +113,5 @@ namespace OrderElimination
             if (_test)
                 InitTest();
         }
-
-        [MenuItem("Tools/Order Elimination/Mediator")]
-        private static void SelectInScene()
-            => EditorToolsExtensions.SelectFirstObjectInScene<ScenesMediator>();
     }
 }

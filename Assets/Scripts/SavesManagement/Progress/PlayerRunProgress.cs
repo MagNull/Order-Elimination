@@ -32,10 +32,12 @@ namespace OrderElimination.SavesManagement
         [ShowInInspector, OdinSerialize]
         public Inventory PlayerInventory { get; set; } = new(100);
 
+        //TODO-SAVES: replace with Unity-object / interface. Deserialize by mapping
         [PropertyTooltip("Текущая карта")]
         [ShowInInspector, OdinSerialize]
         public Guid CurrentMapId { get; set; }
 
+        //TODO-SAVES: replace with Unity-object / interface. Deserialize by mapping
         [PropertyTooltip("Текущая точка")]
         [ShowInInspector, OdinSerialize]
         public Guid CurrentPointId { get; set; }
@@ -47,6 +49,7 @@ namespace OrderElimination.SavesManagement
 
 
         #region InspectorOnly
+        #if UNITY_EDITOR
         [VerticalGroup("PlayerCharacters")]
         [Button(parameterBtnStyle: ButtonStyle.Box)]
         private void AddCharacter(CharacterTemplate template)
@@ -59,6 +62,8 @@ namespace OrderElimination.SavesManagement
         }
 
         [VerticalGroup("PlayerCharacters")]
+        [EnableIf("@" + nameof(PosessedCharacters) + " != null && " 
+            + nameof(PosessedCharacters) + ".Count > 0")]
         [Button]
         private void ClearCharacters()
         {
@@ -66,6 +71,7 @@ namespace OrderElimination.SavesManagement
                 PosessedCharacters = new();
             PosessedCharacters.Clear();
         }
+        #endif
         #endregion
     }
 }

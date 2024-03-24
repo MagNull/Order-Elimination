@@ -1,14 +1,14 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using OrderElimination.GameContent;
 using OrderElimination.Infrastructure;
-using OrderElimination.MacroGame;
 using System;
 
 namespace OrderElimination.SavesManagement
 {
     public class CharacterTemplateJsonConverter : JsonConverter<IGameCharacterTemplate>
     {
-        private readonly string _templateToken = "TemplateId";
+        private readonly string _templateToken = nameof(IGuidAsset.AssetId);
         private readonly IDataMapping<Guid, IGameCharacterTemplate> _templatesMap;
 
         public CharacterTemplateJsonConverter(

@@ -2,6 +2,7 @@
 using Sirenix.OdinInspector.Editor.Drawers;
 using Sirenix.Utilities.Editor;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 namespace OrderElimination.Editor
@@ -23,12 +24,16 @@ namespace OrderElimination.Editor
         protected override StructureTemplate DrawElement(
             Rect rect, StructureTemplate value)
         {
-            var texture = value != null 
-                ? TemplateAssetsDrawing.GetCroppedTexture(value.BattleIcon) 
-                : null;
-            var obj = SirenixEditorFields.UnityPreviewObjectField(
-                rect, value, texture, typeof(StructureTemplate));
-            return (StructureTemplate)obj;
+            Texture2D texture = null;
+            if (value != null)
+            {
+                texture = value.BattleIcon != null
+                    ? TemplateAssetsDrawing.GetCroppedTexture(value.BattleIcon) 
+                    : AssetPreview.GetMiniThumbnail(value);
+            }
+            var fieldObj = SirenixEditorFields.UnityPreviewObjectField(
+                    rect, value, texture, typeof(StructureTemplate));
+            return (StructureTemplate)fieldObj;
         }
     }
 }

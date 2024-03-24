@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace RoguelikeMap.UI
 {
-    public class Panel : MonoBehaviour
+    public class Panel : SerializedMonoBehaviour
     {
         [SerializeField]
         protected float _windowOpeningTime = 0.3f;

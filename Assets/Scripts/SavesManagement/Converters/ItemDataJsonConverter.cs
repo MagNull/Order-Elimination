@@ -1,6 +1,7 @@
 ﻿using GameInventory.Items;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using OrderElimination.GameContent;
 using OrderElimination.Infrastructure;
 using System;
 
@@ -8,7 +9,7 @@ namespace OrderElimination.SavesManagement
 {
     public class ItemDataJsonConverter : JsonConverter<ItemData>
     {
-        private readonly string _templateToken = "TemplateId";
+        private readonly string _templateToken = nameof(IGuidAsset.AssetId);
         private readonly IDataMapping<Guid, ItemData> _templatesMap;
 
         public ItemDataJsonConverter(IDataMapping<Guid, ItemData> templatesMap)

@@ -80,6 +80,14 @@ namespace OrderElimination.Infrastructure
                 .ToArray();
         }
 
+        public static Type[] GetAllUnitySubTypes(Type type)
+        {
+            var unityObjectType = typeof(UnityEngine.Object);
+            return GetAllSubTypes(type)
+                .Where(t => unityObjectType.IsAssignableFrom(t))
+                .ToArray();
+        }
+
         public static bool IsImplementingAllInterfaces(this Type type, params string[] names)
         {
             return names.All(n => type.GetInterface(n) != null);
