@@ -1,5 +1,6 @@
 ﻿using OrderElimination.Debugging;
 using OrderElimination.SavesManagement;
+using RoguelikeMap.Map;
 using StartSessionMenu;
 using UnityEditor;
 using UnityEngine;
@@ -8,10 +9,13 @@ namespace OrderElimination.Editor
 {
     public static class EditorToolsExtensions
     {
+        public static string EventsContentPath = "Assets/Resources/Events";
+        public static string RogulikeMapsContentPath = "Assets/Resources/" + SimpleMapGenerator.MapsPath;
+
         public static T SelectFirstObjectInScene<T>() where T : Object
         {
-            var sceneInstance = 
-                Object.FindFirstObjectByType<T>(FindObjectsInactive.Exclude) 
+            var sceneInstance =
+                Object.FindFirstObjectByType<T>(FindObjectsInactive.Exclude)
                 ?? Object.FindFirstObjectByType<T>(FindObjectsInactive.Include);
             if (sceneInstance == null)
             {
@@ -54,5 +58,18 @@ namespace OrderElimination.Editor
         [MenuItem("Tools/Order Elimination/Progress Manager")]
         private static void SelectProgressManager()
             => EditorToolsExtensions.SelectFirstObjectInScene<PlayerProgressManager>();
+
+        [MenuItem("Tools/Order Elimination/Events")]
+        private static void SelectEvents() => SelectFolder(EventsContentPath);
+
+        [MenuItem("Tools/Order Elimination/Roguelike Maps")]
+        private static void SelectMaps() => SelectFolder(RogulikeMapsContentPath);
+
+        private static void SelectFolder(string path)
+        {
+            var asset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
+            Selection.activeObject = asset;
+            EditorGUIUtility.PingObject(asset);
+        }
     }
 }
