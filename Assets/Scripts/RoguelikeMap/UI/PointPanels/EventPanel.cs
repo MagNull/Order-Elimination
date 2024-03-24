@@ -11,6 +11,7 @@ using RoguelikeMap.SquadInfo;
 using StartSessionMenu;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 using VContainer;
 
@@ -41,6 +42,7 @@ namespace RoguelikeMap.UI.PointPanels
         public event Action<BattleNode> OnStartBattle;
         public event Action<bool> OnSafeEventVisit;
         public event Action<bool> OnBattleEventVisit;
+        public event Action<AudioResource> OnPlaySound;
 
         [Inject]
         public void Construct(Inventory inventory, Squad squad, Wallet wallet)
@@ -115,6 +117,8 @@ namespace RoguelikeMap.UI.PointPanels
         {
             _wallet.Money += money;
         }
+
+        public void PlaySound(AudioResource source) => OnPlaySound?.Invoke(source);
 
         public void SetInteractableAnswer(int answerIndex, bool isInteractable)
         {
