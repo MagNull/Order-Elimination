@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using System.Linq;
 using RoguelikeMap.Panels;
 using RoguelikeMap.Points;
+using RoguelikeMap.UI;
 using RoguelikeMap.UI.PointPanels;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -13,8 +13,15 @@ namespace RoguelikeMap
     public class MusicController : MonoBehaviour
     {
         [SerializeField]
-        private List<AudioSource> musicList = new();
-        private int activeMusicIndex = -1;
+        private AudioSource _musicSource;
+
+        [SerializeField]
+        private AudioSource _soundSource;
+
+        [SerializeField]
+        private List<AudioResource> _soundsList = new();
+
+        private int _activeMusicIndex = -1;
 
         [ShowInInspector]
         private const int FirstMapSoundIndex = 0;
@@ -28,8 +35,6 @@ namespace RoguelikeMap
         private const int SafeZoneSoundIndex = 4;
         [ShowInInspector]
         private const int ShopSoundIndex = 5;
-        [ShowInInspector]
-        private const int EventEffectsSound = 6;
 
         [Inject]
         public void Construct(PanelManager panelManager)
@@ -39,7 +44,15 @@ namespace RoguelikeMap
 
         private void Start()
         {
+            SettingsPanel.OnMusicVolumeChanged += ChangeMusicVolume;
+            SettingsPanel.OnSoundVolumeChanged += ChangeSoundVolume;
             PlayMapSound();
+        }
+
+        private void OnDestroy()
+        {
+            SettingsPanel.OnMusicVolumeChanged -= ChangeMusicVolume;
+            SettingsPanel.OnSoundVolumeChanged -= ChangeSoundVolume;
         }
 
         private void SubscribeToPanelEvents(PanelManager panelManager)
@@ -69,22 +82,34 @@ namespace RoguelikeMap
 
         private void SetActiveMusic(int index)
         {
-            foreach (var audioSource in musicList.Where(audioSource => audioSource != musicList[index]))
-            {
-                audioSource.Stop();
-            }
+            if (index < 0 || index >= _soundsList.Count) return;
 
-            if (index < 0 || index >= musicList.Count) return;
+            _activeMusicIndex = index;
+            PlayMusic(_soundsList[_activeMusicIndex]);
+        }
 
-            activeMusicIndex = index;
-            musicList[activeMusicIndex].Play();
+        private void PlayMusic(AudioResource music)
+        {
+            _musicSource.resource = music;
+            _musicSource.Play();
         }
 
         private void PlaySound(AudioResource sound)
         {
-            var eventEffectSource = musicList[EventEffectsSound];
-            eventEffectSource.resource = sound;
-            eventEffectSource.Play();
+            _soundSource.resource = sound;
+            _soundSource.Play();
+        }
+
+        private void ChangeMusicVolume() => ChangeMusicVolume(PlayerPrefs.GetInt(SettingsPanel.MusicVolumeKey, 100));
+
+        private void ChangeMusicVolume(int volume)
+        {
+            _musicSource.volume = volume / 100f;
+        }
+
+        private void ChangeSoundVolume(int volume)
+        {
+            _soundSource.volume = volume / 100f;
         }
     }
 }

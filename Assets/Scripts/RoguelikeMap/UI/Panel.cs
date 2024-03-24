@@ -144,7 +144,7 @@ namespace RoguelikeMap.UI
                 : Screen.height / canvasHeight;
         }
 
-        private void CloseWithoutAnimation()
+        protected void CloseWithoutAnimation()
         {
             gameObject.SetActive(false);
             IsOpen = false;
