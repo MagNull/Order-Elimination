@@ -46,8 +46,8 @@ namespace RoguelikeMap.SquadInfo
             _mediator = scenesMediator;
 
             _commander.SetSquad(this);
-            _commander.OnSelected += SetSquadMembers;
             _commander.OnHealAccept += HealCharacters;
+            _squadMembersPanel.OnSelected += SetSquadMembers;
         }
 
         public void Initialize()
@@ -120,9 +120,9 @@ namespace RoguelikeMap.SquadInfo
                 card.UpdateColor();
         }
 
-        private void SetSquadMembers(List<GameCharacter> squadMembers)
+        private void SetSquadMembers(List<GameCharacter> squadMembers, int countActiveCharacters)
         {
-            _model.SetSquadMembers(squadMembers);
+            _model.SetSquadMembers(squadMembers, countActiveCharacters);
             _mediator.Register(MediatorRegistration.PlayerCharacters, Members.ToArray());
             OnUpdateMembers?.Invoke(ActiveMembers);
         }

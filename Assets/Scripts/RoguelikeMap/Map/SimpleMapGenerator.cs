@@ -15,12 +15,13 @@ namespace RoguelikeMap.Map
 {
     public class SimpleMapGenerator
     {
+        public static string MapsPath = "RoguelikeMaps";
+
         private readonly Transform _parent;
         private readonly Point _pointPrefab;
         private readonly IObjectResolver _resolver;
         private int _lastIndex = 0;
         private IPlayerProgressManager _progressManager;
-        private const string MapPath = "Points\\RoguelikeMaps";
 
         [Inject]
         public SimpleMapGenerator(Point pointPrefab, Transform pointsParent,
@@ -41,7 +42,7 @@ namespace RoguelikeMap.Map
 
         private PointGraph LoadMap()
         {
-            var maps = Resources.LoadAll<PointGraph>(MapPath);
+            var maps = Resources.LoadAll<PointGraph>(MapsPath);
             var loadedMapGuid = _progressManager.GetPlayerProgress().CurrentRunProgress.CurrentMapId;
             if (loadedMapGuid != Guid.Empty)
             {

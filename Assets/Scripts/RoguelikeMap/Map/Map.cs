@@ -37,7 +37,6 @@ namespace RoguelikeMap.Map
         {
             _saver.OnSaveBeforeMove += MoveToPoint;
             _saver.OnPassPoint += ShowPaths;
-            ShowPaths();
         }
 
         public void LoadPoints()
@@ -69,7 +68,11 @@ namespace RoguelikeMap.Map
                 ReloadMap();
             if (!_saver.IsPassedPoint())
             {
-                _currentPoint.HidePaths();
+                HidePaths();
+            }
+            else
+            {
+                ShowPaths();
             }
         }
 
@@ -81,7 +84,11 @@ namespace RoguelikeMap.Map
                 ReloadMap();
             if (!_saver.IsPassedPoint())
             {
-                _currentPoint.HidePaths();
+                HidePaths();
+            }
+            else
+            {
+                ShowPaths();
             }
         }
 
@@ -110,9 +117,19 @@ namespace RoguelikeMap.Map
             if (_currentPoint != null)
             {
                 _currentPoint.ShowPaths();
+                _currentPoint.SetInterectable(!_saver.IsPassedPoint());
             }
 
             _squadMembersPanel.SetActiveAttackButton(false);
+        }
+
+        private void HidePaths()
+        {
+            if (_currentPoint != null)
+            {
+                _currentPoint.HidePaths();
+                _currentPoint.SetActive(!_saver.IsPassedPoint());
+            }
         }
 
         private void HidePointIcons()

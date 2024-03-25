@@ -1,3 +1,5 @@
+using RoguelikeMap.UI;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace StartSessionMenu
@@ -10,6 +12,17 @@ namespace StartSessionMenu
         private void Start()
         {
             _audioSource.Play();
+            SettingsPanel.OnMusicVolumeChanged += ChangeVolume;
+        }
+
+        private void ChangeVolume(int volume)
+        {
+            _audioSource.volume = volume / 100f;
+        }
+
+        void OnDestroy()
+        {
+            SettingsPanel.OnMusicVolumeChanged -= ChangeVolume;
         }
     }
 }

@@ -14,6 +14,8 @@ namespace RoguelikeMap.UI.PointPanels
 {
     public class ShopPanel : Panel
     {
+        public static readonly string BuyedItemsKey = "BuyedItems";
+
         [SerializeField]
         private MoneyCounter _counter;
         [SerializeField]
@@ -24,14 +26,14 @@ namespace RoguelikeMap.UI.PointPanels
         private ItemInfoPanel _itemInfoPanel;
 
         private Inventory _inventory;
-        
-        private readonly List<ShopItem> _items = new ();
+
+        private readonly List<ShopItem> _items = new();
         private Wallet _wallet;
         private ShopItem _currentItem;
 
         public event Action<IReadOnlyList<ItemData>> OnBuyItems;
         public event Action<bool> OnShopVisit;
-        
+
         [Inject]
         public void Construct(Wallet wallet, Inventory inventory)
         {
@@ -39,7 +41,7 @@ namespace RoguelikeMap.UI.PointPanels
             _inventory = inventory;
             _counter.Initialize(_wallet);
         }
-        
+
         public void InitializeItems(IReadOnlyList<ShopItemData> items)
         {
             _itemInfoPanel.OnBuy += Buy;
@@ -51,16 +53,47 @@ namespace RoguelikeMap.UI.PointPanels
                 itemObject.OnSelected += ShowItemInfo;
                 _items.Add(itemObject);
             }
+            UpdateItemState();
+        }
+
+        private void UpdateItemState()
+        {
+            if (!PlayerPrefs.HasKey(BuyedItemsKey))
+            {
+                return;
+            }
+            var buyedItems = PlayerPrefs.GetString(BuyedItemsKey);
+            foreach (var itemId in buyedItems.Split())
+            {
+                foreach (var item in _items)
+                {
+                    if (item.Data.AssetId.ToString() == itemId)
+                    {
+                        item.Buy();
+                    }
+                }
+            }
         }
 
         private void Buy()
         {
-            if (_currentItem.Cost >= _wallet.Money) 
+            if (_currentItem.Cost >= _wallet.Money)
                 return;
             _wallet.Money -= _currentItem.Cost;
             _currentItem.Buy();
             var item = ItemFactory.Create(_currentItem.Data);
             _inventory.AddItem(item);
+            AddBuyedItem();
+        }
+
+        private void AddBuyedItem()
+        {
+            string buyedItems = string.Empty;
+            if (PlayerPrefs.HasKey(BuyedItemsKey))
+            {
+                buyedItems = PlayerPrefs.GetString(BuyedItemsKey) + ' ';
+            }
+            PlayerPrefs.SetString(BuyedItemsKey, buyedItems + _currentItem.Data.AssetId);
         }
 
         private void Return()
@@ -68,6 +101,20 @@ namespace RoguelikeMap.UI.PointPanels
             _wallet.Money += _currentItem.Cost;
             _currentItem.Return();
             _inventory.RemoveItem(_currentItem.Data);
+            ReturnBuyedItem();
+        }
+
+        private void ReturnBuyedItem()
+        {
+            if (!PlayerPrefs.HasKey(BuyedItemsKey))
+            {
+                return;
+            }
+            var buyedItems = PlayerPrefs.GetString(BuyedItemsKey);
+            var itemToRemove = _currentItem.Data.AssetId.ToString();
+            int index = buyedItems.IndexOf(itemToRemove);
+            string newBuyedItems = index < 0 ? buyedItems : buyedItems.Remove(index, itemToRemove.Length);
+            PlayerPrefs.SetString(BuyedItemsKey, newBuyedItems);
         }
 
         private void ShowItemInfo(ShopItem item)
@@ -87,6 +134,7 @@ namespace RoguelikeMap.UI.PointPanels
         {
             OnBuyItems?.Invoke(_items.Where(x => x.IsBuy).Select(x => x.Data).ToList());
             OnShopVisit?.Invoke(false);
+            PlayerPrefs.DeleteKey(BuyedItemsKey);
             base.Close();
         }
 
