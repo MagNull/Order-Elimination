@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using OrderElimination;
 using OrderElimination.Battle;
+using OrderElimination.SavesManagement;
 using RoguelikeMap.Map;
 using RoguelikeMap.Points;
 using RoguelikeMap.Points.Models;
@@ -38,7 +40,7 @@ namespace RoguelikeMap
             _squad.Initialize();
             if (CheckSquadMembers())
             {
-                GameEnd(false);
+                LevelComplete(false);
                 return;
             }
             _map.LoadPoints();
@@ -61,7 +63,8 @@ namespace RoguelikeMap
                 return false;
             if (point.Model is FinalBattlePointModel)
             {
-                GameEnd(true);
+                LevelComplete(true);
+                _mediator.Unregister(MediatorRegistration.BattleResults);
                 return true;
             }
 
@@ -70,22 +73,51 @@ namespace RoguelikeMap
             return false;
         }
 
-        private void GameEnd(bool isVictory)
+        private void LevelComplete(bool isVictory)
         {
-            if (isVictory)
+            if (!isVictory)
             {
-                _victoryPanel.Open();
-            }
-            else
                 _losePanel.Open();
+                Destroy(_mediator.gameObject);
+                return;
+            }
 
+            if (CheckNextMap())
+            {
+                ReloadScene();
+                return;
+            }
+
+            _victoryPanel.Open();
             Destroy(_mediator.gameObject);
+        }
+
+        private bool CheckNextMap()
+        {
+            if (_map.CurrentMap.NextMaps.Count == 0)
+                return false;
+
+            var nextMapIndex = UnityEngine.Random.Range(0, _map.CurrentMap.NextMaps.Count);
+            var nextMap = _map.CurrentMap.NextMaps[nextMapIndex];
+
+            var currentRunProgress = _mediator.Get<IPlayerProgressManager>(MediatorRegistration.ProgressManager)
+                    .GetPlayerProgress().CurrentRunProgress;
+            currentRunProgress.CurrentMapId = nextMap.AssetId;
+            currentRunProgress.CurrentPointId = Guid.Empty;
+            currentRunProgress.PassedPoints.Clear();
+            return true;
         }
 
         public void LoadStartScene()
         {
             var sceneTransition = _objectResolver.Resolve<SceneTransition>();
             sceneTransition.LoadStartSessionMenu();
+        }
+
+        private void ReloadScene()
+        {
+            var sceneTransition = _objectResolver.Resolve<SceneTransition>();
+            sceneTransition.LoadRoguelikeMap();
         }
     }
 }

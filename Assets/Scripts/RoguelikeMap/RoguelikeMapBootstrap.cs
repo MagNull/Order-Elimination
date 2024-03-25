@@ -92,7 +92,7 @@ namespace RoguelikeMap
             builder.Register<SquadPositionSaver>(Lifetime.Singleton);
             builder.Register<SquadCommander>(Lifetime.Singleton);
             builder.Register<SceneTransition>(Lifetime.Singleton);
-            builder.Register<SimpleMapGenerator>(Lifetime.Singleton).As<IMapGenerator>();
+            builder.Register<SimpleMapGenerator>(Lifetime.Singleton);
             builder.Register<CharacterCardGenerator>(Lifetime.Singleton);
         }
 
@@ -103,6 +103,7 @@ namespace RoguelikeMap
 
         private void OnDisable()
         {
+            //On roguelike scene quit
             _progressManager?.SaveProgress();
         }
     }

@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem
 {
+    //[Title("Effect Template", "Effect", TitleAlignment = TitleAlignments.Centered)]
     [CreateAssetMenu(fileName = "EffectPreset", menuName = "OrderElimination/AbilitySystem/Effect")]
     public sealed class EffectDataPreset : SerializedScriptableObject, IEffectData
     {

@@ -38,6 +38,7 @@ namespace OrderElimination.Debugging
 
         private void KillEntities(BattleSide side)
         {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
             var killDamage = new DamageInfo(
                 999999999, 1, 1, DamageType.Magic, LifeStatPriority.HealthFirst, null, false);
             var targetsToKill = _battleContext.EntitiesBank.GetActiveEntities(side);
@@ -45,10 +46,12 @@ namespace OrderElimination.Debugging
             {
                 entity.TakeDamage(killDamage);
             }
+#endif
         }
 
         private void Update()
         {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
             if (Input.GetKeyDown(_killShortcut))
             {
                 KillAllEntities();
@@ -60,6 +63,7 @@ namespace OrderElimination.Debugging
                 _sideToKill = _allSides[nextId];
                 _textEmitter.Emit($"{nameof(EntityKiller)} side set to {_sideToKill}");
             }
+#endif
         }
     } 
 }

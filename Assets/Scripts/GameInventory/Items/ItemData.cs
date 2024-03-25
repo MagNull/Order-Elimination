@@ -32,6 +32,7 @@ namespace GameInventory.Items
         Epic,
     }
 
+    //[Title("Item", "Item Data", TitleAlignment = TitleAlignments.Centered)]
     [CreateAssetMenu(fileName = "Item", menuName = "Inventory/Item")]
     public class ItemData : SerializedScriptableObject, IGuidAsset
     {

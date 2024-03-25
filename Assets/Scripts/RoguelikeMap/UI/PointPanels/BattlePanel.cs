@@ -38,7 +38,7 @@ namespace RoguelikeMap.UI.PointPanels
         }
 
         public void Initialize(string pointName,
-            IBattleMapLayout mapLayout, IReadOnlyList<GameCharacter> enemies,
+            IBattleFieldLayout mapLayout, IReadOnlyList<GameCharacter> enemies,
             IReadOnlyList<GameCharacter> allies, Guid pointId)
         {
             _text.text = pointName;

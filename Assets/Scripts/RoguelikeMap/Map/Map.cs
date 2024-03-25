@@ -13,7 +13,7 @@ namespace RoguelikeMap.Map
 {
     public class Map : MonoBehaviour
     {
-        private IMapGenerator _mapGenerator;
+        private SimpleMapGenerator _mapGenerator;
         private Squad _squad;
         private List<Point> _points;
         [ShowInInspector]
@@ -21,8 +21,10 @@ namespace RoguelikeMap.Map
         private SquadPositionSaver _saver;
         private SquadMembersPanel _squadMembersPanel;
 
+        public PointGraph CurrentMap { get; private set; }
+
         [Inject]
-        private void Construct(IMapGenerator mapGenerator, Squad squad,
+        private void Construct(SimpleMapGenerator mapGenerator, Squad squad,
             SquadMembersPanel squadMembersPanel, SquadPositionSaver saver)
         {
             _mapGenerator = mapGenerator;
@@ -37,10 +39,10 @@ namespace RoguelikeMap.Map
             _saver.OnPassPoint += ShowPaths;
             ShowPaths();
         }
-        
+
         public void LoadPoints()
         {
-            _points = _mapGenerator.GenerateMap();
+            (CurrentMap, _points) = _mapGenerator.GenerateMap();
             HidePointIcons();
         }
 
@@ -67,7 +69,7 @@ namespace RoguelikeMap.Map
                 ReloadMap();
             if (!_saver.IsPassedPoint())
             {
-                _currentPoint.HidePaths();   
+                _currentPoint.HidePaths();
             }
         }
 
@@ -79,7 +81,7 @@ namespace RoguelikeMap.Map
                 ReloadMap();
             if (!_saver.IsPassedPoint())
             {
-                _currentPoint.HidePaths();   
+                _currentPoint.HidePaths();
             }
         }
 
@@ -105,10 +107,14 @@ namespace RoguelikeMap.Map
 
         private void ShowPaths()
         {
-            _currentPoint.ShowPaths();
+            if (_currentPoint != null)
+            {
+                _currentPoint.ShowPaths();
+            }
+
             _squadMembersPanel.SetActiveAttackButton(false);
         }
-        
+
         private void HidePointIcons()
         {
             foreach (var point in _points)

@@ -1,0 +1,1886 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8792124488796992311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e55984f4b8f1451d9f330bfc28c4a613, type: 3}
+  m_Name: BattlePointModel
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: c5f6dcf5fc42460ca9497c39ec75eecf
+  graph: {fileID: 11400000}
+  position: {x: 2744, y: 56}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -8792124488796992311}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 1958484931068685568}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -8792124488796992311}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 8946382383763177925}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  <Sprite>k__BackingField: {fileID: 0}
+  <TransferText>k__BackingField: 
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _enemies: []
+  _mapLayout: {fileID: 0}
+  <BattleRules>k__BackingField: {fileID: 0}
+  _itemsDropProbability:
+    m_Keys: []
+    m_Values: []
+--- !u!114 &-5943339464930386095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e55984f4b8f1451d9f330bfc28c4a613, type: 3}
+  m_Name: BattlePointModel
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: 5490c9cb9f354d6d98bc99805ebfab59
+  graph: {fileID: 11400000}
+  position: {x: 1784, y: 392}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -5943339464930386095}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 3984897625812305621}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -5943339464930386095}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 1958484931068685568}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  <Sprite>k__BackingField: {fileID: 0}
+  <TransferText>k__BackingField: 
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _enemies: []
+  _mapLayout: {fileID: 0}
+  <BattleRules>k__BackingField: {fileID: 0}
+  _itemsDropProbability:
+    m_Keys: []
+    m_Values: []
+--- !u!114 &-4693379266790818229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e55984f4b8f1451d9f330bfc28c4a613, type: 3}
+  m_Name: "\u0413\u043E\u0440\u044F\u0449\u0438\u0439 \u043B\u0435\u0441"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: 69b08b9caf0640cba9bd45826292e8f6
+  graph: {fileID: 11400000}
+  position: {x: -472, y: 376}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -4693379266790818229}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 7781964032571505764}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -4693379266790818229}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 7014045015190683125}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0413\u043E\u0440\u044F\u0449\u0438\u0439 \u043B\u0435\u0441"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: aa3734ee59be40d41a2ff119c1f4190d, type: 3}
+  <TransferText>k__BackingField: "\u0413\u043E\u0440\u044F\u0449\u0438\u0439 \u043B\u0435\u0441"
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _enemies:
+  - {fileID: 11400000, guid: b1b0169abeb78e6428fb783d88fab5f5, type: 2}
+  - {fileID: 11400000, guid: 85c060ecda844cb43bd4fe84c712bdd5, type: 2}
+  - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
+  - {fileID: 11400000, guid: 15236cc5304333d4b854e990389e5825, type: 2}
+  - {fileID: 11400000, guid: ec472f2644546894eb9e5b06302e43a6, type: 2}
+  _mapLayout: {fileID: 0}
+  <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
+  _itemsDropProbability:
+    m_Keys:
+    - {fileID: 11400000, guid: bda2ccd058bcb574ab0af4407f6695f4, type: 2}
+    - {fileID: 11400000, guid: 297c86b3b3bd4d54ab55eb3bb88058f0, type: 2}
+    - {fileID: 11400000, guid: 021d679a32ff2ba4d9c622e32da53be1, type: 2}
+    - {fileID: 11400000, guid: 59c1e2e91998f9848b8773cce80fd914, type: 2}
+    m_Values:
+    - 100
+    - 50
+    - 70
+    - 30
+--- !u!114 &-3607521732556223896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4591b39d70e4318bbd78ebb21f91afa, type: 3}
+  m_Name: "\u0428\u0442\u0443\u0440\u043C"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: 06575833235d421690e6625aa2f823cd
+  graph: {fileID: 11400000}
+  position: {x: 4184, y: 56}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -3607521732556223896}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 8607064956460635191}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -3607521732556223896}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0428\u0442\u0443\u0440\u043C"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: aa3734ee59be40d41a2ff119c1f4190d, type: 3}
+  <TransferText>k__BackingField: "\u0424\u0438\u043D\u0430\u043B\u044C\u043D\u0430\u044F
+    \u0442\u043E\u0447\u043A\u0430"
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _enemies:
+  - {fileID: 11400000, guid: 85c060ecda844cb43bd4fe84c712bdd5, type: 2}
+  - {fileID: 11400000, guid: 15236cc5304333d4b854e990389e5825, type: 2}
+  - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
+  - {fileID: 11400000, guid: 4d83702453d81274b89c1876bee2dabb, type: 2}
+  - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
+  - {fileID: 11400000, guid: ec472f2644546894eb9e5b06302e43a6, type: 2}
+  - {fileID: 11400000, guid: 15236cc5304333d4b854e990389e5825, type: 2}
+  - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
+  _mapLayout: {fileID: 0}
+  <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
+  _itemsDropProbability:
+    m_Keys: []
+    m_Values: []
+--- !u!114 &-3274242020253464552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d158c0606814ff882c3a9e402e740b1, type: 3}
+  m_Name: "\u041F\u0430\u0442\u0440\u0443\u043B\u044C"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: b2645a5b427c4697a3a714c13805fc4f
+  graph: {fileID: 11400000}
+  position: {x: -1448, y: 56}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -3274242020253464552}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -1181160651334273950}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: 9028833142744207539}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -3274242020253464552}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 7781964032571505764}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u041F\u0430\u0442\u0440\u0443\u043B\u044C"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 4b06fb76ce79fc8409d043830c5a08a6, type: 3}
+  <TransferText>k__BackingField: "\u041F\u0440\u043E\u0434\u043E\u043B\u0436\u0430\u0435\u043C
+    \u043F\u0430\u0442\u0440\u0443\u043B\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435."
+  entries: {fileID: -1893905200378054075}
+  exits: {fileID: 0}
+  _eventGraph: {fileID: 11400000, guid: 771dc447bec62354d9842311fff1139d, type: 2}
+--- !u!114 &-1920190981620807908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e55984f4b8f1451d9f330bfc28c4a613, type: 3}
+  m_Name: BattlePointModel
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: c21d69af681f4329a0a399c2b177668d
+  graph: {fileID: 11400000}
+  position: {x: 2744, y: 392}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -1920190981620807908}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 1958484931068685568}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -1920190981620807908}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 8946382383763177925}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  <Sprite>k__BackingField: {fileID: 0}
+  <TransferText>k__BackingField: 
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _enemies: []
+  _mapLayout: {fileID: 0}
+  <BattleRules>k__BackingField: {fileID: 0}
+  _itemsDropProbability:
+    m_Keys: []
+    m_Values: []
+--- !u!114 &-1893905200378054075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d158c0606814ff882c3a9e402e740b1, type: 3}
+  m_Name: "\u041F\u0430\u0442\u0440\u0443\u043B\u044C"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: 21d3b1ca5ac54fdaa8b0e1bd74559a9a
+  graph: {fileID: 11400000}
+  position: {x: -2408, y: 56}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -1893905200378054075}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 1117184591647115074}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -1893905200378054075}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -1181160651334273950}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: 9028833142744207539}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u041F\u0430\u0442\u0440\u0443\u043B\u044C"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 4b06fb76ce79fc8409d043830c5a08a6, type: 3}
+  <TransferText>k__BackingField: "\u041F\u0430\u0442\u0440\u0443\u043B\u044C"
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _eventGraph: {fileID: 11400000, guid: e6e6c933a7d6982448fbada27e94763f, type: 2}
+--- !u!114 &-1181160651334273950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e55984f4b8f1451d9f330bfc28c4a613, type: 3}
+  m_Name: "\u0421\u0442\u044B\u0447\u043A\u0430 \u043D\u0430 \u043F\u0435\u0440\u0435\u043A\u0440\u0435\u0441\u0442\u043A\u0435"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: 3075d40b071d4e90b6ebd8c8869cc20b
+  graph: {fileID: 11400000}
+  position: {x: -1928, y: 56}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -1181160651334273950}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -1893905200378054075}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -1181160651334273950}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -3274242020253464552}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0421\u0442\u044B\u0447\u043A\u0430 \u043D\u0430 \u043F\u0435\u0440\u0435\u043A\u0440\u0435\u0441\u0442\u043A\u0435"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: aa3734ee59be40d41a2ff119c1f4190d, type: 3}
+  <TransferText>k__BackingField: "\u0421\u0442\u044B\u0447\u043A\u0430 \u043D\u0430
+    \u043F\u0435\u0440\u0435\u043A\u0440\u0435\u0441\u0442\u043A\u0435"
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _enemies:
+  - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+  - {fileID: 11400000, guid: 8cf61d33b5cc8a442bce0e22ce05a8fc, type: 2}
+  _mapLayout: {fileID: 0}
+  <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
+  _itemsDropProbability:
+    m_Keys: []
+    m_Values: []
+--- !u!114 &-883900420392352776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d158c0606814ff882c3a9e402e740b1, type: 3}
+  m_Name: "\u0414\u0432\u0435\u0440\u044C \u0431\u0443\u043D\u043A\u0435\u0440\u0430"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: 37501d10788b4a7bbd8f998da0043c04
+  graph: {fileID: 11400000}
+  position: {x: 472, y: 392}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -883900420392352776}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 7014045015190683125}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -883900420392352776}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 5037450381226937261}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0414\u0432\u0435\u0440\u044C \u0431\u0443\u043D\u043A\u0435\u0440\u0430"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 4b06fb76ce79fc8409d043830c5a08a6, type: 3}
+  <TransferText>k__BackingField: "\u0421\u043E\u0431\u044B\u0442\u0438\u0435"
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _eventGraph: {fileID: 11400000, guid: f19343af8dc7a294587dcde4931038b0, type: 2}
+--- !u!114 &-764570298351889416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d158c0606814ff882c3a9e402e740b1, type: 3}
+  m_Name: Test nodes
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: c3b97f96c6cb42dbbe714f31f3990fde
+  graph: {fileID: 11400000}
+  position: {x: -3432, y: 72}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -764570298351889416}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 4432351363715130526}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -764570298351889416}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 1117184591647115074}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: Test nodes
+  <Sprite>k__BackingField: {fileID: 0}
+  <TransferText>k__BackingField: Chisto test
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _eventGraph: {fileID: 11400000, guid: 91680d701cfe36542af05464c4c03db7, type: 2}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bdca33340a5e5048a98ce3744c2ea13, type: 3}
+  m_Name: Demo
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: <AssetId>k__BackingField
+      Entry: 2
+      Data: 0326ce5ec57c4475825e694292eb2f8a
+  nodes:
+  - {fileID: -4693379266790818229}
+  - {fileID: 6584293399872262759}
+  - {fileID: 4432351363715130526}
+  - {fileID: -883900420392352776}
+  - {fileID: 8946382383763177925}
+  - {fileID: 8951012714100875131}
+  - {fileID: 4410611699548734048}
+  - {fileID: 2328170757395937923}
+  - {fileID: -3607521732556223896}
+  - {fileID: -1893905200378054075}
+  - {fileID: 7781964032571505764}
+  - {fileID: 8502120140212648424}
+  - {fileID: -3274242020253464552}
+  - {fileID: 1117184591647115074}
+  - {fileID: 7014045015190683125}
+  - {fileID: 5037450381226937261}
+  - {fileID: 9028833142744207539}
+  - {fileID: -1181160651334273950}
+  - {fileID: 3984897625812305621}
+  - {fileID: 7730480222360012568}
+  - {fileID: -5943339464930386095}
+  - {fileID: 1958484931068685568}
+  - {fileID: -8792124488796992311}
+  - {fileID: -1920190981620807908}
+  - {fileID: 7311260336322997142}
+  - {fileID: 8607064956460635191}
+  - {fileID: -764570298351889416}
+  <IsFirstMap>k__BackingField: 0
+  _nextMaps: []
+  <StartPoint>k__BackingField: {fileID: 0}
+--- !u!114 &1117184591647115074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e55984f4b8f1451d9f330bfc28c4a613, type: 3}
+  m_Name: "\u041E\u0447\u0435\u0440\u0435\u0434\u043D\u0430\u044F \u0441\u0442\u044B\u0447\u043A\u0430"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: 9615107d205649569222f8679952772f
+  graph: {fileID: 11400000}
+  position: {x: -2888, y: 56}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 1117184591647115074}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -764570298351889416}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 1117184591647115074}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -1893905200378054075}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u041E\u0447\u0435\u0440\u0435\u0434\u043D\u0430\u044F \u0441\u0442\u044B\u0447\u043A\u0430"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: aa3734ee59be40d41a2ff119c1f4190d, type: 3}
+  <TransferText>k__BackingField: "\u041E\u0447\u0435\u0440\u0435\u0434\u043D\u0430\u044F
+    \u0441\u0442\u044B\u0447\u043A\u0430"
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _enemies:
+  - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+  - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+  _mapLayout: {fileID: 11400000, guid: 645568020c6734a33b31a508f38bbbe3, type: 2}
+  <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
+  _itemsDropProbability:
+    m_Keys: []
+    m_Values: []
+--- !u!114 &1958484931068685568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d158c0606814ff882c3a9e402e740b1, type: 3}
+  m_Name: "\u0421\u0438\u0433\u043D\u0430\u043B \u0443\u0447\u0435\u043D\u044B\u0445"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: f44c790da9b143eb84d77f4c5fc139e4
+  graph: {fileID: 11400000}
+  position: {x: 2264, y: 56}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 1958484931068685568}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 7730480222360012568}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: -5943339464930386095}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 1958484931068685568}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 7311260336322997142}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: -8792124488796992311}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: -1920190981620807908}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0421\u0438\u0433\u043D\u0430\u043B \u0443\u0447\u0435\u043D\u044B\u0445"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 4b06fb76ce79fc8409d043830c5a08a6, type: 3}
+  <TransferText>k__BackingField: "\u0421\u0438\u0433\u043D\u0430\u043B \u0443\u0447\u0435\u043D\u044B\u0445"
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _eventGraph: {fileID: 0}
+--- !u!114 &2328170757395937923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e55984f4b8f1451d9f330bfc28c4a613, type: 3}
+  m_Name: "\u0426\u0430\u0440\u044C \u0433\u043E\u0440\u044B"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: 368748339e2a4770adec78d71a05f1ef
+  graph: {fileID: 11400000}
+  position: {x: 472, y: -280}
+  ports:
+    keys:
+    - exits
+    - entries
+    values:
+    - _fieldName: exits
+      _node: {fileID: 2328170757395937923}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 4410611699548734048}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: entries
+      _node: {fileID: 2328170757395937923}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 7014045015190683125}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0426\u0430\u0440\u044C \u0433\u043E\u0440\u044B"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: aa3734ee59be40d41a2ff119c1f4190d, type: 3}
+  <TransferText>k__BackingField: "\u0426\u0430\u0440\u044C \u0433\u043E\u0440\u044B"
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _enemies:
+  - {fileID: 11400000, guid: 85c060ecda844cb43bd4fe84c712bdd5, type: 2}
+  - {fileID: 11400000, guid: e076fd51038a5ef4f9e567f9e64000e5, type: 2}
+  - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
+  - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+  _mapLayout: {fileID: 0}
+  <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
+  _itemsDropProbability:
+    m_Keys:
+    - {fileID: 11400000, guid: 1599a607de22cf74190de9909e181d7e, type: 2}
+    - {fileID: 11400000, guid: 7a168eb7991a62c44962343ca7e820e5, type: 2}
+    - {fileID: 11400000, guid: 801d2f03441613446812b4f26f37e94b, type: 2}
+    m_Values:
+    - 80
+    - 49
+    - 80
+--- !u!114 &3984897625812305621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d158c0606814ff882c3a9e402e740b1, type: 3}
+  m_Name: "\u0420\u0430\u0437\u0432\u0438\u043B\u043A\u0430"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: 18314559840e44e89daddad16fc0c493
+  graph: {fileID: 11400000}
+  position: {x: 1304, y: 56}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 3984897625812305621}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 5037450381226937261}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: 4410611699548734048}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 3984897625812305621}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 7730480222360012568}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: -5943339464930386095}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0420\u0430\u0437\u0432\u0438\u043B\u043A\u0430"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 4b06fb76ce79fc8409d043830c5a08a6, type: 3}
+  <TransferText>k__BackingField: "\u0420\u0430\u0437\u0432\u0438\u043B\u043A\u0430"
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _eventGraph: {fileID: 0}
+--- !u!114 &4410611699548734048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d158c0606814ff882c3a9e402e740b1, type: 3}
+  m_Name: "\u0421\u0438\u0433\u043D\u0430\u043B S.O.S."
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: 229ec7c7df624757af71767ea8aafc08
+  graph: {fileID: 11400000}
+  position: {x: 888, y: -280}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 4410611699548734048}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 8951012714100875131}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: 2328170757395937923}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 4410611699548734048}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 3984897625812305621}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0421\u0438\u0433\u043D\u0430\u043B S.O.S."
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 4b06fb76ce79fc8409d043830c5a08a6, type: 3}
+  <TransferText>k__BackingField: "\u0421\u043E\u0431\u044B\u0442\u0438\u0435"
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _eventGraph: {fileID: 11400000, guid: df96482c7abd247cf983c93cc6403d28, type: 2}
+--- !u!114 &4432351363715130526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ffe96fed6795ad4690892f2f394ed33, type: 3}
+  m_Name: StartPointModel
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: a00914dc4c184af185e0baac711aa05a
+  graph: {fileID: 11400000}
+  position: {x: -3880, y: 88}
+  ports:
+    keys:
+    - exits
+    values:
+    - _fieldName: exits
+      _node: {fileID: 4432351363715130526}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -764570298351889416}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 4b06fb76ce79fc8409d043830c5a08a6, type: 3}
+  <TransferText>k__BackingField: 
+  exits: {fileID: 0}
+--- !u!114 &5037450381226937261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e55984f4b8f1451d9f330bfc28c4a613, type: 3}
+  m_Name: "\u041F\u0435\u0440\u0435\u0441\u0442\u0440\u0435\u043B\u043A\u0430  \u0432
+    \u043C\u0430\u0433\u0430\u0437\u0438\u043D\u0435"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: 675432f0825144a7963ada2295a4aea1
+  graph: {fileID: 11400000}
+  position: {x: 888, y: 56}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 5037450381226937261}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -883900420392352776}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: 8951012714100875131}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 5037450381226937261}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 3984897625812305621}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u041F\u0435\u0440\u0435\u0441\u0442\u0440\u0435\u043B\u043A\u0430  \u0432
+    \u043C\u0430\u0433\u0430\u0437\u0438\u043D\u0435"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: aa3734ee59be40d41a2ff119c1f4190d, type: 3}
+  <TransferText>k__BackingField: "\u041F\u0435\u0440\u0435\u0441\u0442\u0440\u0435\u043B\u043A\u0430 
+    \u0432 \u043C\u0430\u0433\u0430\u0437\u0438\u043D\u0435"
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _enemies:
+  - {fileID: 11400000, guid: 85c060ecda844cb43bd4fe84c712bdd5, type: 2}
+  - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
+  - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+  - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+  _mapLayout: {fileID: 0}
+  <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
+  _itemsDropProbability:
+    m_Keys: []
+    m_Values: []
+--- !u!114 &6584293399872262759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e55984f4b8f1451d9f330bfc28c4a613, type: 3}
+  m_Name: "\u0411\u0440\u043E\u0448\u0435\u043D\u043D\u044B\u0439 \u0430\u0432\u0430\u043D\u043F\u043E\u0441\u0442"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: df365d3e21f34ca28859b6a75829496c
+  graph: {fileID: 11400000}
+  position: {x: -472, y: -280}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 6584293399872262759}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 7781964032571505764}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 6584293399872262759}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 7014045015190683125}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0411\u0440\u043E\u0448\u0435\u043D\u043D\u044B\u0439 \u0430\u0432\u0430\u043D\u043F\u043E\u0441\u0442"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: aa3734ee59be40d41a2ff119c1f4190d, type: 3}
+  <TransferText>k__BackingField: "\u0411\u0440\u043E\u0448\u0435\u043D\u043D\u044B\u0439
+    \u0430\u0432\u0430\u043D\u043F\u043E\u0441\u0442"
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _enemies:
+  - {fileID: 11400000, guid: 85c060ecda844cb43bd4fe84c712bdd5, type: 2}
+  - {fileID: 11400000, guid: ec472f2644546894eb9e5b06302e43a6, type: 2}
+  - {fileID: 11400000, guid: e076fd51038a5ef4f9e567f9e64000e5, type: 2}
+  - {fileID: 11400000, guid: 8cf61d33b5cc8a442bce0e22ce05a8fc, type: 2}
+  - {fileID: 11400000, guid: b1b0169abeb78e6428fb783d88fab5f5, type: 2}
+  _mapLayout: {fileID: 0}
+  <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
+  _itemsDropProbability:
+    m_Keys:
+    - {fileID: 11400000, guid: ebb7cc05ab8f4fb45ba8aca48a344ee8, type: 2}
+    - {fileID: 11400000, guid: 63b39f66984483c4086841dff676d0c3, type: 2}
+    - {fileID: 11400000, guid: 1599a607de22cf74190de9909e181d7e, type: 2}
+    m_Values:
+    - 10
+    - 123
+    - 31
+--- !u!114 &7014045015190683125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d158c0606814ff882c3a9e402e740b1, type: 3}
+  m_Name: "\u0420\u0430\u0437\u0432\u0438\u043B\u043A\u0430"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: 5f48bac9f3df4d1eab77b2756d291221
+  graph: {fileID: 11400000}
+  position: {x: -8, y: 56}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 7014045015190683125}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 8502120140212648424}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: -4693379266790818229}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: 6584293399872262759}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 7014045015190683125}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -883900420392352776}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: 2328170757395937923}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: 8951012714100875131}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0420\u0430\u0437\u0432\u0438\u043B\u043A\u0430"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 4b06fb76ce79fc8409d043830c5a08a6, type: 3}
+  <TransferText>k__BackingField: "\u0420\u0430\u0437\u0432\u0438\u043B\u043A\u0430"
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _eventGraph: {fileID: 11400000, guid: c52d20d03048f894ebc568fc7e4f88a3, type: 2}
+--- !u!114 &7311260336322997142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14acdc3765e44829b3fed4c94468ecc8, type: 3}
+  m_Name: SafeZonePointModel
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: 07fc612c17ca417ab074948405138941
+  graph: {fileID: 11400000}
+  position: {x: 2744, y: -264}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 7311260336322997142}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 1958484931068685568}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 7311260336322997142}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 8946382383763177925}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  <Sprite>k__BackingField: {fileID: 0}
+  <TransferText>k__BackingField: 
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _sprite: {fileID: 0}
+  _text: 
+  _amountHeal: 0
+  _items: []
+--- !u!114 &7730480222360012568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e55984f4b8f1451d9f330bfc28c4a613, type: 3}
+  m_Name: BattlePointModel
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: 4d934b21e3af476ea738e001b51566ac
+  graph: {fileID: 11400000}
+  position: {x: 1784, y: 56}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 7730480222360012568}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 3984897625812305621}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 7730480222360012568}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 1958484931068685568}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: 
+  <Sprite>k__BackingField: {fileID: 0}
+  <TransferText>k__BackingField: 
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _enemies: []
+  _mapLayout: {fileID: 0}
+  <BattleRules>k__BackingField: {fileID: 0}
+  _itemsDropProbability:
+    m_Keys: []
+    m_Values: []
+--- !u!114 &7781964032571505764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d158c0606814ff882c3a9e402e740b1, type: 3}
+  m_Name: "\u0411\u0430\u0448\u043D\u044F \u0441\u0432\u044F\u0437\u0438"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: 31b6c87c55b34b0ba1eefe1b5fce57ff
+  graph: {fileID: 11400000}
+  position: {x: -968, y: 56}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 7781964032571505764}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -3274242020253464552}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 7781964032571505764}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 8502120140212648424}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: -4693379266790818229}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: 6584293399872262759}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0411\u0430\u0448\u043D\u044F \u0441\u0432\u044F\u0437\u0438"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 4b06fb76ce79fc8409d043830c5a08a6, type: 3}
+  <TransferText>k__BackingField: "\u0421\u043E\u0431\u044B\u0442\u0438\u0435"
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _eventGraph: {fileID: 11400000, guid: 35e8ddd27fa910d4e851428f384516e6, type: 2}
+--- !u!114 &8502120140212648424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d158c0606814ff882c3a9e402e740b1, type: 3}
+  m_Name: "\u0418\u0441\u0442\u043E\u0447\u043D\u0438\u043A \u0441\u0442\u0440\u0435\u043B\u044C\u0431\u044B"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: 2c856676ebdf476ca608aaea045995b9
+  graph: {fileID: 11400000}
+  position: {x: -472, y: 56}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 8502120140212648424}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 7781964032571505764}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 8502120140212648424}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 7014045015190683125}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0418\u0441\u0442\u043E\u0447\u043D\u0438\u043A \u0441\u0442\u0440\u0435\u043B\u044C\u0431\u044B"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 4b06fb76ce79fc8409d043830c5a08a6, type: 3}
+  <TransferText>k__BackingField: "\u0421\u043E\u0431\u044B\u0442\u0438\u0435"
+  entries: {fileID: 8502120140212648424}
+  exits: {fileID: 0}
+  _eventGraph: {fileID: 11400000, guid: 8fd5be910a009dc45a56d388b7790c58, type: 2}
+--- !u!114 &8607064956460635191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d158c0606814ff882c3a9e402e740b1, type: 3}
+  m_Name: "\u0421\u0442\u043E\u043B\u043F \u0441\u0432\u0435\u0442\u0430"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: ab4566936d554c9e87ad76664c334523
+  graph: {fileID: 11400000}
+  position: {x: 3704, y: 56}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 8607064956460635191}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 8946382383763177925}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 8607064956460635191}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -3607521732556223896}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0421\u0442\u043E\u043B\u043F \u0441\u0432\u0435\u0442\u0430"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 4b06fb76ce79fc8409d043830c5a08a6, type: 3}
+  <TransferText>k__BackingField: "\u0421\u0442\u043E\u043B\u043F \u0441\u0432\u0435\u0442\u0430"
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _eventGraph: {fileID: 0}
+--- !u!114 &8946382383763177925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 493990a401df4d709d4b53f002703d9a, type: 3}
+  m_Name: "\u0417\u0430\u0433\u0430\u0434\u043E\u0447\u043D\u0430\u044F \u043B\u0430\u0432\u043A\u0430"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: df463701ae42440597f363d5566568f5
+  graph: {fileID: 11400000}
+  position: {x: 3224, y: 56}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 8946382383763177925}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -8792124488796992311}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: 7311260336322997142}
+        reroutePoints: []
+      - fieldName: exits
+        node: {fileID: -1920190981620807908}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 8946382383763177925}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 8607064956460635191}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0417\u0430\u0433\u0430\u0434\u043E\u0447\u043D\u0430\u044F \u043B\u0430\u0432\u043A\u0430"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 3a1bf616a0f6e074296b37d59df65a6a, type: 3}
+  <TransferText>k__BackingField: "\u0422\u043E\u0440\u0433\u043E\u0432\u0435\u0446"
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _shopItems:
+  - Data: {fileID: 11400000, guid: ebb7cc05ab8f4fb45ba8aca48a344ee8, type: 2}
+    Cost: 100
+    DropProbability: 100
+  - Data: {fileID: 11400000, guid: 54ea70d67b8f45943954bf13f51246c9, type: 2}
+    Cost: 150
+    DropProbability: 80
+  - Data: {fileID: 11400000, guid: 5134df50ce9e2734197d641a17870913, type: 2}
+    Cost: 50
+    DropProbability: 100
+  - Data: {fileID: 11400000, guid: 63b39f66984483c4086841dff676d0c3, type: 2}
+    Cost: 75
+    DropProbability: 95
+  - Data: {fileID: 11400000, guid: 3068a40ad22e37f4ca1df6d33a24cd6a, type: 2}
+    Cost: 200
+    DropProbability: 100
+--- !u!114 &8951012714100875131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14acdc3765e44829b3fed4c94468ecc8, type: 3}
+  m_Name: "\u0411\u0435\u0437\u043E\u043F\u0430\u0441\u043D\u0430\u044F \u0437\u043E\u043D\u0430"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: f6aa5fc01b7e4b5eb3bbd3c4f2884486
+  graph: {fileID: 11400000}
+  position: {x: 472, y: 56}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 8951012714100875131}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 7014045015190683125}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 8951012714100875131}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 4410611699548734048}
+        reroutePoints: []
+      - fieldName: entries
+        node: {fileID: 5037450381226937261}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0411\u0435\u0437\u043E\u043F\u0430\u0441\u043D\u0430\u044F \u0437\u043E\u043D\u0430"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: de535d6d385a90e4ba453c01e8f3e280, type: 3}
+  <TransferText>k__BackingField: "\u0411\u0435\u0437\u043E\u043F\u0430\u0441\u043D\u0430\u044F
+    \u0437\u043E\u043D\u0430"
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _sprite: {fileID: 21300000, guid: bd68d16ed85ccf3419e7589e39ca5073, type: 3}
+  _text: "\u0412\u044B \u043D\u0430\u0448\u043B\u0438 \u043F\u043E\u0434\u0445\u043E\u0434\u044F\u0449\u0435\u0435
+    \u0434\u043B\u044F \u043E\u0442\u0434\u044B\u0445\u0430 \u0443\u043A\u0440\u044B\u0442\u0438\u0435."
+  _amountHeal: 100
+  _items:
+  - {fileID: 11400000, guid: 3068a40ad22e37f4ca1df6d33a24cd6a, type: 2}
+  - {fileID: 11400000, guid: e17e2f38046df2b4cbf2076ea46f5ff5, type: 2}
+--- !u!114 &9028833142744207539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e55984f4b8f1451d9f330bfc28c4a613, type: 3}
+  m_Name: "\u0421\u0442\u044B\u0447\u043A\u0430 \u0432 \u0437\u0430\u043A\u043E\u0443\u043B\u043A\u0435"
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: a0e9224f505b4e7b99a5970a42fa2420
+  graph: {fileID: 11400000}
+  position: {x: -1928, y: -280}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: 9028833142744207539}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: -1893905200378054075}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: 9028833142744207539}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: -3274242020253464552}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: "\u0421\u0442\u044B\u0447\u043A\u0430 \u0432 \u0437\u0430\u043A\u043E\u0443\u043B\u043A\u0435"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: aa3734ee59be40d41a2ff119c1f4190d, type: 3}
+  <TransferText>k__BackingField: "\u0421\u0442\u044B\u0447\u043A\u0430 \u0432 \u0437\u0430\u043A\u043E\u0443\u043B\u043A\u0435"
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _enemies:
+  - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+  - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+  - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+  _mapLayout: {fileID: 0}
+  <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
+  _itemsDropProbability:
+    m_Keys: []
+    m_Values: []

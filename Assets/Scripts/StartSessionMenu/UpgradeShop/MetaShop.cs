@@ -8,6 +8,7 @@ using OrderElimination.MacroGame;
 using OrderElimination.SavesManagement;
 using RoguelikeMap.UI;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 using VContainer;
 
@@ -19,7 +20,7 @@ namespace StartSessionMenu
         private MoneyCounter _uiCounter;
         [SerializeField]
         private List<UpgradeCategory> _progressCategories;
-        [ShowInInspector]
+        [ShowInInspector, OdinSerialize]
         private IStatUpgradeRules _upgradeRules;
         private Wallet _wallet;
         private Dictionary<BattleStat, UpgradeCategory> _categoriesByStats;

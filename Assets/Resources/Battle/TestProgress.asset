@@ -1,0 +1,1837 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a14aca6eba9ad2a4489ceb4fd7434023, type: 3}
+  m_Name: TestProgress
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 8cf61d33b5cc8a442bce0e22ce05a8fc, type: 2}
+    - {fileID: 11400000, guid: 1bc32b514d8ef454f86e7b0a691bd92e, type: 2}
+    - {fileID: 11400000, guid: 15236cc5304333d4b854e990389e5825, type: 2}
+    - {fileID: 11400000, guid: 063b511b1740b9d4393c5e49f693aa0c, type: 2}
+    - {fileID: 11400000, guid: 1ffaf4fdb7b43744abcf693f1e10836c, type: 2}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: MetaProgress
+      Entry: 7
+      Data: 0|OrderElimination.SavesManagement.PlayerMetaProgress, Assembly-CSharp
+    - Name: StatUpgrades
+      Entry: 7
+      Data: 1|OrderElimination.MacroGame.StatModifiers, Assembly-CSharp
+    - Name: _statModifiers
+      Entry: 7
+      Data: 2|System.Collections.Generic.Dictionary`2[[OrderElimination.AbilitySystem.BattleStat,
+        Assembly-CSharp],[OrderElimination.Infrastructure.ValueModifier, Assembly-CSharp]],
+        mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 3|System.Collections.Generic.EnumEqualityComparer`1[[OrderElimination.AbilitySystem.BattleStat,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: MetaCurrency
+      Entry: 3
+      Data: 2000
+    - Name: RunStartCurrency
+      Entry: 3
+      Data: 1000
+    - Name: MaxSquadSize
+      Entry: 3
+      Data: 3
+    - Name: RunInventorySize
+      Entry: 3
+      Data: 100
+    - Name: HireCurrencyLimit
+      Entry: 3
+      Data: 1200
+    - Name: UnlockedCharacters
+      Entry: 7
+      Data: 4|System.Collections.Generic.List`1[[OrderElimination.IGameCharacterTemplate,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 5
+    - Name: 
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: CurrentRunProgress
+      Entry: 7
+      Data: 5|OrderElimination.SavesManagement.PlayerRunProgress, Assembly-CSharp
+    - Name: RunCurrency
+      Entry: 3
+      Data: 1
+    - Name: PosessedCharacters
+      Entry: 7
+      Data: 6|System.Collections.Generic.List`1[[OrderElimination.MacroGame.GameCharacter,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 7|OrderElimination.MacroGame.GameCharacter, Assembly-CSharp
+    - Name: Inventory
+      Entry: 7
+      Data: 8|GameInventory.Inventory, Assembly-CSharp
+    - Name: _cells
+      Entry: 7
+      Data: 9|GameInventory.Cell[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: 10|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 11|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 12|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 13|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 14|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 15|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 16|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 17|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _characterStats
+      Entry: 7
+      Data: OrderElimination.MacroGame.GameCharacterStats, Assembly-CSharp
+    - Name: _maxHealth
+      Entry: 4
+      Data: 100
+    - Name: _maxArmor
+      Entry: 4
+      Data: 150
+    - Name: _attackDamage
+      Entry: 4
+      Data: 40
+    - Name: _accuracy
+      Entry: 4
+      Data: 0.9
+    - Name: _evasion
+      Entry: 4
+      Data: 0.1
+    - Name: _maxMovementDistance
+      Entry: 4
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _currentHealth
+      Entry: 4
+      Data: 100
+    - Name: _activeAbilities
+      Entry: 7
+      Data: 18|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IActiveAbilityData,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: 19|OrderElimination.AbilitySystem.ActiveAbilityData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 20|OrderElimination.AbilitySystem.ActiveAbilityData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 21|OrderElimination.AbilitySystem.ActiveAbilityData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 22|OrderElimination.AbilitySystem.ActiveAbilityData, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: _passiveAbilities
+      Entry: 7
+      Data: 23|System.Collections.Generic.List`1[[OrderElimination.AbilitySystem.IPassiveAbilityData,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: PlayerInventory
+      Entry: 7
+      Data: 24|GameInventory.Inventory, Assembly-CSharp
+    - Name: _cells
+      Entry: 7
+      Data: 25|GameInventory.Cell[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 100
+    - Name: 
+      Entry: 7
+      Data: 26|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 27|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 28|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 29|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 30|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 31|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 32|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 33|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 34|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 35|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 36|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 37|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 38|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 39|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 40|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 41|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 42|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 43|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 44|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 45|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 46|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 47|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 48|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 49|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 50|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 51|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 52|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 53|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 54|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 55|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 56|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 57|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 58|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 59|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 60|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 61|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 62|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 63|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 64|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 65|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 66|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 67|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 68|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 69|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 70|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 71|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 72|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 73|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 74|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 75|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 76|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 77|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 78|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 79|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 80|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 81|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 82|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 83|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 84|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 85|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 86|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 87|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 88|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 89|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 90|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 91|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 92|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 93|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 94|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 95|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 96|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 97|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 98|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 99|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 100|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 101|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 102|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 103|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 104|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 105|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 106|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 107|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 108|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 109|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 110|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 111|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 112|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 113|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 114|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 115|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 116|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 117|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 118|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 119|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 120|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 121|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 122|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 123|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 124|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 125|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 126|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 127|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 128|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 129|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 130|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 131|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 132|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 133|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 134|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 135|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 136|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 137|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 138|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 139|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 140|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 141|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 142|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 143|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 144|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 145|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 146|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 147|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 148|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 149|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 150|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 151|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 152|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 153|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 154|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 155|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 156|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 157|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 158|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 159|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 160|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 161|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 162|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 163|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 164|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 165|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 166|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 167|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 168|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 169|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 170|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 171|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 172|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 173|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 174|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 175|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 176|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 177|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 178|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 179|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 180|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 181|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 182|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 183|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 184|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 185|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 186|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 187|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 188|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 189|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 190|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 191|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 192|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 193|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 194|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 195|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 196|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 197|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 198|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 199|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 200|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 201|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 202|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 203|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 204|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 205|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 206|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 207|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 208|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 209|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 210|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 211|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 212|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 213|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 214|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 215|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 216|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 217|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 218|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 219|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 220|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 221|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 222|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 223|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 224|GameInventory.Cell, Assembly-CSharp
+    - Name: _item
+      Entry: 7
+      Data: 225|GameInventory.Items.EmptyItem, Assembly-CSharp
+    - Name: _itemData
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: CurrentMapId
+      Entry: 2
+      Data: 00000000000000000000000000000000
+    - Name: CurrentPointId
+      Entry: 2
+      Data: 46d0e11ec3d64509890ad3445c06a73e
+    - Name: PassedPoints
+      Entry: 7
+      Data: 226|System.Collections.Generic.Dictionary`2[[System.Guid, mscorlib],[System.Boolean,
+        mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 227|System.Collections.Generic.GenericEqualityComparer`1[[System.Guid,
+        mscorlib]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 

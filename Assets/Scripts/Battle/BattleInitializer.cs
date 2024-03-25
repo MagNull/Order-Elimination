@@ -8,6 +8,7 @@ using VContainer;
 using OrderElimination.Battle;
 using static UnityEngine.EventSystems.EventTrigger;
 using UnityEngine.UIElements;
+using System;
 
 namespace Assets.AbilitySystem.PrototypeHelpers
 {
@@ -37,7 +38,7 @@ namespace Assets.AbilitySystem.PrototypeHelpers
             _entitiesBank.Clear();
         }
 
-        public void StartScenario(IBattleMapLayout mapLayout)
+        public void StartScenario(IBattleFieldLayout mapLayout)
         {
             var gameAllies = _sceneMediator
                 .Get<GameCharacter[]>(MediatorRegistration.PlayerCharacters)
@@ -56,6 +57,8 @@ namespace Assets.AbilitySystem.PrototypeHelpers
             var spawns = mapLayout.GetSpawns();
             var allySpawns = spawns.Where(s => s.SpawningSides[BattleSide.Player]).ToArray();
             var enemySpawns = spawns.Except(allySpawns).Where(s => s.SpawningSides[BattleSide.Enemies]).ToArray();
+            if (allySpawns.Length < gameAllies.Length || enemySpawns.Length < gameEnemies.Length)
+                throw new InvalidOperationException("Not enough spawns");
             for (var i = 0; i < gameAllies.Length; i++)
             {
                 var entity = gameAllies[i];

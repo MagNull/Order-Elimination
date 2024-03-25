@@ -10,8 +10,8 @@ using RoguelikeMap.SquadInfo;
 using RoguelikeMap.UI.PointPanels;
 using UnityEngine;
 using UnityEngine.Rendering;
-using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using OrderElimination.GameContent;
 
 namespace RoguelikeMap.Points.Models
 {
@@ -20,12 +20,12 @@ namespace RoguelikeMap.Points.Models
     {
         [Input] public PointModel entries;
         [Output] public PointModel exits;
-        
+
         [SerializeField]
         private List<CharacterTemplate> _enemies;
-        [OdinSerialize]
-        [ShowInInspector]
-        private IBattleMapLayout _mapLayout;
+        //TODO: BattleField
+        [SerializeField]
+        private BattleFieldLayout _mapLayout;
         [field: SerializeField]
         public BattleRulesPreset BattleRules { get; private set; }
 
@@ -38,7 +38,7 @@ namespace RoguelikeMap.Points.Models
 
         public override PointType Type => PointType.Battle;
         public IReadOnlyList<IGameCharacterTemplate> Enemies => _enemies;
-        public IBattleMapLayout MapLayout => _mapLayout;
+        public IBattleFieldLayout BattleFieldLayout => _mapLayout;
         public Dictionary<ItemData, float> ItemsDropProbability => _itemsDropProbability;
 
         public override void ShowPreview(Squad squad)
@@ -47,9 +47,9 @@ namespace RoguelikeMap.Points.Models
             squad.OnUpdateMembers += Panel.UpdateAlliesOnMap;
             _enemiesGameCharacter = GameCharactersFactory.CreateGameCharacters(Enemies).ToList();
             Panel.Initialize(_name, _mapLayout, _enemiesGameCharacter, squad.ActiveMembers, AssetId); //TODO: Store GameCharacters
-            if(transferPanel.IsOpen)
+            if (transferPanel.IsOpen)
                 transferPanel.Close();
-            if(!Panel.IsOpen)
+            if (!Panel.IsOpen)
                 Panel.Open();
         }
 

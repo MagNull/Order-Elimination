@@ -1,8 +1,11 @@
-﻿using OrderElimination.Infrastructure;
+﻿using OrderElimination.Editor;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using Sirenix.Utilities.Editor;
 using System;
-using System.Linq;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.Windows;
 
 namespace OrderElimination.SavesManagement
 {
@@ -10,13 +13,38 @@ namespace OrderElimination.SavesManagement
     {
         [OdinSerialize]
         private IPlayerProgress _defaultProgress;
-
-        private IPlayerProgress _lastLoadedProgress;
+        [SerializeField]
+        private bool _loadLocalProgress = true;
+        [SerializeField]
+        private bool _saveLocalProgress = true;
 
         private IPlayerProgressStorage _progressStorage;
         private SaveDataPacker _saveDataPacker;
 
+        private IPlayerProgress _lastLoadedProgress;
         private PlayerData _localPlayer = new PlayerData();
+
+#if UNITY_EDITOR
+        [VerticalGroup("Local Path")]
+        [ShowInInspector]
+        private string LocalProgressPath => LocalProgressStorage.LocalSavesPath;
+
+        [VerticalGroup("Local Path")]
+        [HorizontalGroup("Local Path/Buttons")]
+        [Button("Copy")]
+        private void CopyPathToClipboard()
+            => Clipboard.Copy(LocalProgressPath);
+
+        [VerticalGroup("Local Path")]
+        [HorizontalGroup("Local Path/Buttons")]
+        [Button("Open")]
+        private void OpenSavesPath()
+        {
+            if (!Directory.Exists(LocalProgressPath))
+                Directory.CreateDirectory(LocalProgressPath);
+            Application.OpenURL(LocalProgressPath);
+        }
+#endif
 
         private void Awake()
         {
@@ -46,6 +74,10 @@ namespace OrderElimination.SavesManagement
         {
             if (_lastLoadedProgress != null)
                 return _lastLoadedProgress;
+            if (!_loadLocalProgress)
+            {
+                return AssignNewProgress(_defaultProgress);
+            }
             var savedProgress = LoadSavedProgress();
             if (savedProgress == null)
             {
@@ -67,6 +99,11 @@ namespace OrderElimination.SavesManagement
 
         public void SaveProgress()
         {
+            if (!_saveLocalProgress)
+            {
+                Logging.LogError($"Saving is disabled in {nameof(PlayerProgressManager)}");
+                return;
+            }
             var progress = _lastLoadedProgress ?? _defaultProgress;
             if (progress == null)
                 throw new ArgumentNullException();
@@ -99,7 +136,7 @@ namespace OrderElimination.SavesManagement
             return true;
         }
 
-        public void OnDisable()
+        private void OnDisable()
         {
             SaveProgress();
         }

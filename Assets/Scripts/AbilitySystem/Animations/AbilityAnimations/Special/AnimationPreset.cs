@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace OrderElimination.AbilitySystem.Animations
 {
+    //[Title("Visuals", "Animation Preset", TitleAlignment = TitleAlignments.Centered)]
     [CreateAssetMenu(fileName = "AbilityAnimationPreset", menuName = "OrderElimination/AbilitySystem/Animations/Animation Preset")]
     public class AnimationPreset : SerializedScriptableObject
     {

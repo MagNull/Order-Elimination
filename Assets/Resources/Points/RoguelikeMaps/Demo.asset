@@ -24,9 +24,6 @@ MonoBehaviour:
     - Name: AssetId
       Entry: 2
       Data: c5f6dcf5fc42460ca9497c39ec75eecf
-    - Name: _mapLayout
-      Entry: 6
-      Data: 
   graph: {fileID: 11400000}
   position: {x: 2744, y: 56}
   ports:
@@ -64,6 +61,7 @@ MonoBehaviour:
   entries: {fileID: 0}
   exits: {fileID: 0}
   _enemies: []
+  _mapLayout: {fileID: 0}
   <BattleRules>k__BackingField: {fileID: 0}
   _itemsDropProbability:
     m_Keys: []
@@ -92,9 +90,6 @@ MonoBehaviour:
     - Name: AssetId
       Entry: 2
       Data: 5490c9cb9f354d6d98bc99805ebfab59
-    - Name: _mapLayout
-      Entry: 6
-      Data: 
   graph: {fileID: 11400000}
   position: {x: 1784, y: 392}
   ports:
@@ -132,6 +127,7 @@ MonoBehaviour:
   entries: {fileID: 0}
   exits: {fileID: 0}
   _enemies: []
+  _mapLayout: {fileID: 0}
   <BattleRules>k__BackingField: {fileID: 0}
   _itemsDropProbability:
     m_Keys: []
@@ -160,9 +156,6 @@ MonoBehaviour:
     - Name: AssetId
       Entry: 2
       Data: 69b08b9caf0640cba9bd45826292e8f6
-    - Name: _mapLayout
-      Entry: 6
-      Data: 
   graph: {fileID: 11400000}
   position: {x: -472, y: 376}
   ports:
@@ -205,6 +198,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
   - {fileID: 11400000, guid: 15236cc5304333d4b854e990389e5825, type: 2}
   - {fileID: 11400000, guid: ec472f2644546894eb9e5b06302e43a6, type: 2}
+  _mapLayout: {fileID: 0}
   <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
   _itemsDropProbability:
     m_Keys:
@@ -241,9 +235,6 @@ MonoBehaviour:
     - Name: AssetId
       Entry: 2
       Data: 06575833235d421690e6625aa2f823cd
-    - Name: _mapLayout
-      Entry: 6
-      Data: 
   graph: {fileID: 11400000}
   position: {x: 4184, y: 56}
   ports:
@@ -287,6 +278,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ec472f2644546894eb9e5b06302e43a6, type: 2}
   - {fileID: 11400000, guid: 15236cc5304333d4b854e990389e5825, type: 2}
   - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
+  _mapLayout: {fileID: 0}
   <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
   _itemsDropProbability:
     m_Keys: []
@@ -380,9 +372,6 @@ MonoBehaviour:
     - Name: AssetId
       Entry: 2
       Data: c21d69af681f4329a0a399c2b177668d
-    - Name: _mapLayout
-      Entry: 6
-      Data: 
   graph: {fileID: 11400000}
   position: {x: 2744, y: 392}
   ports:
@@ -420,6 +409,7 @@ MonoBehaviour:
   entries: {fileID: 0}
   exits: {fileID: 0}
   _enemies: []
+  _mapLayout: {fileID: 0}
   <BattleRules>k__BackingField: {fileID: 0}
   _itemsDropProbability:
     m_Keys: []
@@ -512,9 +502,6 @@ MonoBehaviour:
     - Name: AssetId
       Entry: 2
       Data: 3075d40b071d4e90b6ebd8c8869cc20b
-    - Name: _mapLayout
-      Entry: 6
-      Data: 
   graph: {fileID: 11400000}
   position: {x: -1928, y: 56}
   ports:
@@ -555,6 +542,7 @@ MonoBehaviour:
   _enemies:
   - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
   - {fileID: 11400000, guid: 8cf61d33b5cc8a442bce0e22ce05a8fc, type: 2}
+  _mapLayout: {fileID: 0}
   <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
   _itemsDropProbability:
     m_Keys: []
@@ -620,6 +608,67 @@ MonoBehaviour:
   entries: {fileID: 0}
   exits: {fileID: 0}
   _eventGraph: {fileID: 11400000, guid: f19343af8dc7a294587dcde4931038b0, type: 2}
+--- !u!114 &-764570298351889416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d158c0606814ff882c3a9e402e740b1, type: 3}
+  m_Name: Test nodes
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: AssetId
+      Entry: 2
+      Data: c3b97f96c6cb42dbbe714f31f3990fde
+  graph: {fileID: 11400000}
+  position: {x: -3432, y: 72}
+  ports:
+    keys:
+    - entries
+    - exits
+    values:
+    - _fieldName: entries
+      _node: {fileID: -764570298351889416}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: exits
+        node: {fileID: 4432351363715130526}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exits
+      _node: {fileID: -764570298351889416}
+      _typeQualifiedName: RoguelikeMap.Points.Models.PointModel, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entries
+        node: {fileID: 1117184591647115074}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  _name: Test nodes
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 4b06fb76ce79fc8409d043830c5a08a6, type: 3}
+  <TransferText>k__BackingField: Chisto test
+  entries: {fileID: 0}
+  exits: {fileID: 0}
+  _eventGraph: {fileID: 11400000, guid: 91680d701cfe36542af05464c4c03db7, type: 2}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -632,6 +681,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bdca33340a5e5048a98ce3744c2ea13, type: 3}
   m_Name: Demo
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: <AssetId>k__BackingField
+      Entry: 2
+      Data: 0326ce5ec57c4475825e694292eb2f8a
   nodes:
   - {fileID: -4693379266790818229}
   - {fileID: 6584293399872262759}
@@ -659,6 +720,10 @@ MonoBehaviour:
   - {fileID: -1920190981620807908}
   - {fileID: 7311260336322997142}
   - {fileID: 8607064956460635191}
+  - {fileID: -764570298351889416}
+  <IsFirstMap>k__BackingField: 0
+  _nextMaps: []
+  <StartPoint>k__BackingField: {fileID: 4432351363715130526}
 --- !u!114 &1117184591647115074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -674,8 +739,7 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: 645568020c6734a33b31a508f38bbbe3, type: 2}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -684,9 +748,6 @@ MonoBehaviour:
     - Name: AssetId
       Entry: 2
       Data: 9615107d205649569222f8679952772f
-    - Name: _mapLayout
-      Entry: 10
-      Data: 0
   graph: {fileID: 11400000}
   position: {x: -2888, y: 56}
   ports:
@@ -700,7 +761,7 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: exits
-        node: {fileID: 4432351363715130526}
+        node: {fileID: -764570298351889416}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -727,6 +788,7 @@ MonoBehaviour:
   _enemies:
   - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
   - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+  _mapLayout: {fileID: 11400000, guid: 645568020c6734a33b31a508f38bbbe3, type: 2}
   <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
   _itemsDropProbability:
     m_Keys: []
@@ -825,9 +887,6 @@ MonoBehaviour:
     - Name: AssetId
       Entry: 2
       Data: 368748339e2a4770adec78d71a05f1ef
-    - Name: _mapLayout
-      Entry: 6
-      Data: 
   graph: {fileID: 11400000}
   position: {x: 472, y: -280}
   ports:
@@ -869,6 +928,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e076fd51038a5ef4f9e567f9e64000e5, type: 2}
   - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
   - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+  _mapLayout: {fileID: 0}
   <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
   _itemsDropProbability:
     m_Keys:
@@ -1035,7 +1095,7 @@ MonoBehaviour:
       Entry: 2
       Data: a00914dc4c184af185e0baac711aa05a
   graph: {fileID: 11400000}
-  position: {x: -3368, y: 56}
+  position: {x: -3880, y: 88}
   ports:
     keys:
     - exits
@@ -1046,14 +1106,14 @@ MonoBehaviour:
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: entries
-        node: {fileID: 1117184591647115074}
+        node: {fileID: -764570298351889416}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 0
       _dynamic: 0
   _name: 
-  <Sprite>k__BackingField: {fileID: 21300000, guid: 4b06fb76ce79fc8409d043830c5a08a6, type: 3}
+  <Sprite>k__BackingField: {fileID: 0}
   <TransferText>k__BackingField: 
   exits: {fileID: 0}
 --- !u!114 &5037450381226937261
@@ -1081,9 +1141,6 @@ MonoBehaviour:
     - Name: AssetId
       Entry: 2
       Data: 675432f0825144a7963ada2295a4aea1
-    - Name: _mapLayout
-      Entry: 6
-      Data: 
   graph: {fileID: 11400000}
   position: {x: 888, y: 56}
   ports:
@@ -1130,6 +1187,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6c28d2231e468cb41af1ff668ecd8d21, type: 2}
   - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
   - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+  _mapLayout: {fileID: 0}
   <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
   _itemsDropProbability:
     m_Keys: []
@@ -1158,9 +1216,6 @@ MonoBehaviour:
     - Name: AssetId
       Entry: 2
       Data: df365d3e21f34ca28859b6a75829496c
-    - Name: _mapLayout
-      Entry: 6
-      Data: 
   graph: {fileID: 11400000}
   position: {x: -472, y: -280}
   ports:
@@ -1204,6 +1259,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e076fd51038a5ef4f9e567f9e64000e5, type: 2}
   - {fileID: 11400000, guid: 8cf61d33b5cc8a442bce0e22ce05a8fc, type: 2}
   - {fileID: 11400000, guid: b1b0169abeb78e6428fb783d88fab5f5, type: 2}
+  _mapLayout: {fileID: 0}
   <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
   _itemsDropProbability:
     m_Keys:
@@ -1375,9 +1431,6 @@ MonoBehaviour:
     - Name: AssetId
       Entry: 2
       Data: 4d934b21e3af476ea738e001b51566ac
-    - Name: _mapLayout
-      Entry: 6
-      Data: 
   graph: {fileID: 11400000}
   position: {x: 1784, y: 56}
   ports:
@@ -1415,6 +1468,7 @@ MonoBehaviour:
   entries: {fileID: 0}
   exits: {fileID: 0}
   _enemies: []
+  _mapLayout: {fileID: 0}
   <BattleRules>k__BackingField: {fileID: 0}
   _itemsDropProbability:
     m_Keys: []
@@ -1785,9 +1839,6 @@ MonoBehaviour:
     - Name: AssetId
       Entry: 2
       Data: a0e9224f505b4e7b99a5970a42fa2420
-    - Name: _mapLayout
-      Entry: 6
-      Data: 
   graph: {fileID: 11400000}
   position: {x: -1928, y: -280}
   ports:
@@ -1828,6 +1879,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
   - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
   - {fileID: 11400000, guid: 5f92994dcbdd6604191b47500f0bf179, type: 2}
+  _mapLayout: {fileID: 0}
   <BattleRules>k__BackingField: {fileID: 11400000, guid: 7891fbd0f5258764c83cc467a7d81014, type: 2}
   _itemsDropProbability:
     m_Keys: []

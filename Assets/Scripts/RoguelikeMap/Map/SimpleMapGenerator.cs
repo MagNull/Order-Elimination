@@ -13,18 +13,18 @@ using Random = UnityEngine.Random;
 
 namespace RoguelikeMap.Map
 {
-    public class SimpleMapGenerator : IMapGenerator
+    public class SimpleMapGenerator
     {
         private readonly Transform _parent;
         private readonly Point _pointPrefab;
         private readonly IObjectResolver _resolver;
-        private readonly List<Point> _points;
         private int _lastIndex = 0;
         private IPlayerProgressManager _progressManager;
+        private const string MapPath = "Points\\RoguelikeMaps";
 
         [Inject]
         public SimpleMapGenerator(Point pointPrefab, Transform pointsParent,
-            IObjectResolver resolver, ScenesMediator mediator )
+            IObjectResolver resolver, ScenesMediator mediator)
         {
             _pointPrefab = pointPrefab;
             _parent = pointsParent;
@@ -32,27 +32,80 @@ namespace RoguelikeMap.Map
             _progressManager = mediator.Get<IPlayerProgressManager>(MediatorRegistration.ProgressManager);
         }
 
-        public List<Point> GenerateMap()
+        public Tuple<PointGraph, List<Point>> GenerateMap()
         {
-            var path = "Points\\RoguelikeMaps";
-            var maps = Resources.LoadAll<PointGraph>(path);
+            var map = LoadMap();
+            var points = LoadPoints(map);
+            return Tuple.Create(map, points);
+        }
+
+        private PointGraph LoadMap()
+        {
+            var maps = Resources.LoadAll<PointGraph>(MapPath);
+            var loadedMapGuid = _progressManager.GetPlayerProgress().CurrentRunProgress.CurrentMapId;
+            if (loadedMapGuid != Guid.Empty)
+            {
+                return maps.First(x => x.AssetId == loadedMapGuid);
+            }
+
+            List<PointGraph> firstMaps = new();
+            foreach (var map in maps)
+            {
+                if (map.IsFirstMap)
+                {
+                    firstMaps.Add(map);
+                }
+            }
+
+            return firstMaps.Count == 0
+                ? GenerateRandomMap(maps)
+                : GenerateRandomMap(firstMaps.ToArray());
+        }
+
+        private PointGraph GenerateRandomMap(PointGraph[] maps)
+        {
             var mapIndex = Random.Range(0, maps.Length);
-            var points = GeneratePoints(maps[mapIndex]);
-            return points;
+            _progressManager.GetPlayerProgress().CurrentRunProgress.CurrentMapId = maps[mapIndex].AssetId;
+            return maps[mapIndex];
+        }
+
+        private List<Point> LoadPoints(PointGraph map)
+        {
+            var currentProgress = _progressManager.GetPlayerProgress().CurrentRunProgress;
+            var isInitialize = currentProgress.PassedPoints.Count > 0;
+            return isInitialize ? LoadSavedPoints(map) : GeneratePoints(map);
+        }
+
+        private List<Point> LoadSavedPoints(PointGraph map)
+        {
+            var savedPointsId = _progressManager.GetPlayerProgress().CurrentRunProgress.PassedPoints.Keys.ToList();
+            var savedPoint = map.GetPoints();
+            return savedPoint
+                            .Where(x => savedPointsId.Contains(x.AssetId))
+                            .Select(x => CreatePoint(x, false))
+                            .ToList();
         }
 
         private List<Point> GeneratePoints(PointGraph map)
         {
-            var isInitialize = _progressManager.GetPlayerProgress().CurrentRunProgress.PassedPoints.Count == 0;
-            return map.GetPoints().Select(x => CreatePoint(x, isInitialize)).ToList();
+            List<Point> points = new();
+            map.Initialize();
+            points.Add(CreatePoint(map.CurrentPoint, true));
+            PointModel pointModel = map.GetNextPoint();
+            while (pointModel != null)
+            {
+                points.Add(CreatePoint(pointModel, true));
+                pointModel = map.GetNextPoint();
+            }
+            return points;
         }
 
-        private Point CreatePoint(PointModel pointModel, bool isInitialize)
+        private Point CreatePoint(PointModel pointModel, bool isNeedInitialize)
         {
             var point = _resolver.Instantiate(_pointPrefab, pointModel.position, Quaternion.identity, _parent);
             point.Initialize(pointModel, _lastIndex++);
             point.name = point.Id.ToString();
-            if (isInitialize)
+            if (isNeedInitialize)
             {
                 _progressManager.GetPlayerProgress().CurrentRunProgress.PassedPoints[point.Id] = pointModel is StartPointModel;
             }

@@ -4,7 +4,7 @@ using System;
 
 namespace OrderElimination.AbilitySystem
 {
-    [PropertyTooltip("@$value." + nameof(CallbackDescription))]
+    [PropertyTooltip("@$value?." + nameof(CallbackDescription))]
     public interface ICallbackingBattleAction : IBattleAction
     {
         public string CallbackDescription { get; }
